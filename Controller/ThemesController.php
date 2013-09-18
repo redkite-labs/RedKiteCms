@@ -25,9 +25,6 @@ use Symfony\Component\Yaml\Yaml;
 
 class ThemesController extends Base\BaseController
 {
-    //protected $translator;
-    
-    
     public function showAction()
     {
         return $this->renderThemesPanel();
@@ -103,7 +100,7 @@ class ThemesController extends Base\BaseController
         $targetSlotName = $request->get('targetSlotName');
         
         $themeChanger = $this->container->get('red_kite_cms.theme_changer');
-        $message = $themeChanger->changeSlot($sourceSlotName, $targetSlotName);
+        $themeChanger->changeSlot($sourceSlotName, $targetSlotName);
         
         $templateSlots = new AlTemplateSlots($this->container);
         $slots = $templateSlots
@@ -114,7 +111,7 @@ class ThemesController extends Base\BaseController
         $values = array(                       
             array(
                 'key' => 'message',
-                'value' => $message,
+                'value' => $this->translate('themes_controller_slot_changed'),
             ),
             array(
                 'key' => 'slots',
@@ -290,17 +287,4 @@ class ThemesController extends Base\BaseController
 
         return $info;
     }
-    /*
-    protected function translate($message, array $params = array(), $catalogue = "RedKiteCmsBundle")
-    {
-        if (null === $this->translator) {
-            $this->translator = $this->container->get('red_kite_cms.translator');
-        }
-        
-        return $this->translator->translate(
-            $message, 
-            $params, 
-            $catalogue
-        );
-    }*/
 }

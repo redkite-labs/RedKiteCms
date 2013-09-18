@@ -334,6 +334,10 @@
             <source>exception_resource_was_free_but_someone_locked_it</source>
             <target>Non posso bloccare la risorsa richiesta, in quanto era libera ma un altro utente l'ha bloccata prima di te. Questo accade quando due utenti tentano di richiedere la stessa risorsa allo stesso momento</target>
         </trans-unit>
+        <trans-unit id="exceptions-85">
+            <source>exception_slot_not_changed</source>
+            <target>Lo slot non è stato cambiato a causa di un errore di salvataggio nel database</target>
+        </trans-unit>
         
         <!-- COMMON -->
         
@@ -888,7 +892,11 @@
         <trans-unit id="themes-controller-21">
             <source>themes_controller_some_templates_not_mapped</source>
             <target>Sembra che il template "%template_name%" non sia stato mappato. Per cambiare un tema ogni template deve essere mappato con un template del nuovo tema</target>
-        </trans-unit> 
+        </trans-unit>        
+        <trans-unit id="themes-controller-22">
+            <source>themes_controller_slot_changed</source>
+            <target>Lo slot è stato cambiato</target>
+        </trans-unit>  
         
         <!-- WELCOME -->
         

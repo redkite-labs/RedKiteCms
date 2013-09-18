@@ -334,8 +334,10 @@
             <source>exception_resource_was_free_but_someone_locked_it</source>
             <target>The resource is not lockable because it was free but someone has locked it before you. This happens when two users tries to get a resource at the same time</target>
         </trans-unit>
-        
-        
+        <trans-unit id="exceptions-85">
+            <source>exception_slot_not_changed</source>
+            <target>The slot has not been changed due to an error occoured when saving to database</target>
+        </trans-unit>
                 
         <!-- COMMON -->
         
@@ -890,7 +892,12 @@
         <trans-unit id="themes-controller-21">
             <source>themes_controller_some_templates_not_mapped</source>
             <target>It seems you have not mapped the "%template_name%" template. To change a theme each template must be mapped with a template from the new theme</target>
+        </trans-unit>          
+        <trans-unit id="themes-controller-22">
+            <source>themes_controller_slot_changed</source>
+            <target>The slot has been changed</target>
         </trans-unit>  
+        
         
         <!-- WELCOME -->
         
