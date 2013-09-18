@@ -27,7 +27,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlUserRepositoryPropel;
  */
 class AlUserRepositoryTest extends TestCase
 {
-    private $roleRepository;
+    private $userRepository;
     private $pdo;
 
     protected function setUp()
@@ -35,12 +35,12 @@ class AlUserRepositoryTest extends TestCase
         parent::setUp();
 
         $this->pdo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
-        $this->roleRepository = new AlUserRepositoryPropel($this->pdo);
+        $this->userRepository = new AlUserRepositoryPropel($this->pdo);
     }
 
     public function testGetRepositoryObjectClassName()
     {
-        $this->assertEquals('\RedKiteLabs\RedKiteCmsBundle\Model\AlUser', $this->roleRepository->getRepositoryObjectClassName());
+        $this->assertEquals('\RedKiteLabs\RedKiteCmsBundle\Model\AlUser', $this->userRepository->getRepositoryObjectClassName());
     }
     
     /**
@@ -50,13 +50,13 @@ class AlUserRepositoryTest extends TestCase
     public function testModelObjectInjectedBySettersIsInvalid()
     {
         $modelObject = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
-        $this->roleRepository->setRepositoryObject($modelObject);
+        $this->userRepository->setRepositoryObject($modelObject);
     }
 
     public function testModelObjectInjectedBySetters()
     {
         $modelObject = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlUser');
-        $this->assertEquals($this->roleRepository, $this->roleRepository->setRepositoryObject($modelObject));
-        $this->assertEquals($modelObject, $this->roleRepository->getModelObject());
+        $this->assertEquals($this->userRepository, $this->userRepository->setRepositoryObject($modelObject));
+        $this->assertEquals($modelObject, $this->userRepository->getModelObject());
     }
 }
