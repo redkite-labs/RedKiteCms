@@ -50,6 +50,11 @@ abstract class AlTwigTemplateWriter
      * Generates the template's subsections and the full template itself
      */
     abstract public function generateTemplate();
+    
+    /**
+     * Generates the template extension section
+     */
+    abstract protected function generateTemplateSection();
 
     /**
      * Constructor
@@ -169,14 +174,6 @@ abstract class AlTwigTemplateWriter
         }
 
         return @file_put_contents($fileDir . '/' . $this->pageTree->getAlPage()->getPageName() . '.html.twig', $this->twigTemplate);
-    }
-
-    /**
-     * Generates the template extension section
-     */
-    protected function generateTemplateSection()
-    {
-        $this->templateSection = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $this->template->getThemeName(), $this->pageTree->getAlPage()->getTemplateName());
     }
 
     /**
@@ -343,7 +340,7 @@ abstract class AlTwigTemplateWriter
             $url = $matches[2];
             
             if (preg_match('/route:(.*)/i', $url, $route)) {
-                $url = sprintf("{{ path(%s) }}", html_entity_decode($route[1], ENT_QUOTES));
+                $url = sprintf("{{ path('%s') }}", html_entity_decode($route[1], ENT_QUOTES));
                 
                 return $matches[1] . $url . $matches[3];
             }
