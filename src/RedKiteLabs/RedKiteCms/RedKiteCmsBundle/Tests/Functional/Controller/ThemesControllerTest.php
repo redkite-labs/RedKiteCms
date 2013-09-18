@@ -124,7 +124,10 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);
         $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertEquals("themes_controller_slot_changed", $json[0]["value"]);
+        $this->assertRegExp(
+            '/themes_controller_slot_changed|The slot has been changed/si',
+            $json[0]["value"]
+        );
         
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("slots", $json[1]["key"]);
