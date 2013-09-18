@@ -74,7 +74,7 @@ class ResourceFreeListener
                 try {
                     $this->resourcesLocker->unlockExpiredResources();
                     $this->resourcesLocker->unlockUserResource($userId);
-                } catch (\Exception $ex) {
+                } catch (\PropelException $ex) {
                     $errorMessage = $ex->getMessage();
                 }
 

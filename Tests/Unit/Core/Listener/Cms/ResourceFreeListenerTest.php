@@ -155,6 +155,54 @@ class ResourceFreeListenerTest extends TestCase
     }
     
     /**
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException
+     * @expectedExceptionMessage exception_resource_was_free_but_someone_locked_it
+     */
+    public function testSomethingGoesWrongLockingTheExpiredResources()
+    {
+        $user = $this->initUser();
+        $token = $this->initToken($user);        
+        $this->initSecurityContext($token);
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('unlockExpiredResources')
+        ;
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('unlockUserResource')
+        ;
+        
+        $lockedParam = 'idBlock';
+        $lockedValue = 12;
+        $getUriTimes = 0;
+        
+        $request = $this->initRequest($lockedParam, $lockedValue);
+        $request
+            ->expects($this->exactly($getUriTimes))
+            ->method('getUri')
+        ;
+        
+        $this->event
+             ->expects($this->once())
+             ->method('getRequest')
+             ->will($this->returnValue($request))
+        ;  
+        
+        $this->initEvent(0);
+        
+        $this->resourcesLocker
+             ->expects($this->once())
+             ->method('lockResource')
+             ->will($this->throwException(new \PropelException('Unknown propel error')))
+        ; 
+        
+        $testListener = $this->initTestListener();
+        $testListener->onKernelRequest($this->event);
+    }
+    
+    /**
      * @dataProvider lockedValueProvider
      */
     public function testResourceIsLocked($lockedParam, $lockedValue, $getUriTimes)
