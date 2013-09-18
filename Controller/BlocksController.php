@@ -21,10 +21,8 @@ use Symfony\Component\HttpFoundation\Response;
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\BlockEvents;
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block;
 use Symfony\Component\HttpFoundation\Request;
-use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidOperationException;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * Implements the actions to manage the blocks on a slot's page
@@ -49,8 +47,7 @@ class BlocksController extends Base\BaseController
         $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $blockRepository = $factoryRepository->createRepository('Block');
         
-        if(null !== $request->get('included') && count($blockRepository->retrieveContentsBySlotName($slotName)) > 0 && filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN))
-        {
+        if (null !== $request->get('included') && count($blockRepository->retrieveContentsBySlotName($slotName)) > 0 && filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)) {
             throw new InvalidOperationException('blocks_controller_included_blocks_accept_only_a_block');
         }
 
@@ -86,14 +83,15 @@ class BlocksController extends Base\BaseController
             $blockManager->save($values);
         }
 
-        $cmsLanguage = $this->container->get('red_kite_cms.configuration')->read('language');
-        $message = $this->translate('blocks_controller_block_added'); 
-
-        $idBlock = (null !== $request->get('idBlock')) ? $request->get('idBlock') : 0;
+        $idBlock = 0;
+        if (null !== $request->get('idBlock')) {
+            $idBlock = $request->get('idBlock');
+        }
+        
         $values = array(
             array(
                 "key" => "message",
-                "value" => $message
+                "value" => $this->translate('blocks_controller_block_added')
             ),
             array(
                 "key" => "add-block",
@@ -103,9 +101,9 @@ class BlocksController extends Base\BaseController
                 "value" => $this->container->get('templating')->render(
                         $template,
                         array("blockManager" => $blockManager, 'add' => true)
-                    )
                 )
-            );
+            )
+        );
 
         return $this->buildJSonResponse($values);
     }
@@ -119,16 +117,18 @@ class BlocksController extends Base\BaseController
 
         $value = urldecode($request->get('value'));
         $values = array($request->get('key') => $value);
+        // @codeCoverageIgnoreStart
         if (null !== $request->get('options') && is_array($request->get('options'))) {
             $values = array_merge($values, $request->get('options'));
         }
+        // @codeCoverageIgnoreEnd
 
         $result = $slotManager->editBlock($request->get('idBlock'), $values);
-        if (false === $result) {
-            // @codeCoverageIgnoreStart
-            throw new RuntimeException('blocks_controller_block_editing_error');
-            // @codeCoverageIgnoreEnd
+        // @codeCoverageIgnoreStart
+        if (false === $result) {            
+            throw new RuntimeException('blocks_controller_block_editing_error');            
         }
+        // @codeCoverageIgnoreEnd
 
         if (null === $result) {
             throw new RuntimeException('blocks_controller_nothing_changed_with_these_values');
@@ -169,35 +169,37 @@ class BlocksController extends Base\BaseController
         $slotManager = $this->fetchSlotManager($request);
         $res = $slotManager->deleteBlock($request->get('idBlock'));
         if (null !== $res) {
-            $cmsLanguage = $this->container->get('red_kite_cms.configuration')->read('language');
-            $message = ($res) 
-            ? 
-                $this->translate('blocks_controller_block_removed')
-            : 
-                $this->translate('blocks_controller_block_not_removed')
-            ;
+            $message = 'blocks_controller_block_removed';
+            // @codeCoverageIgnoreStart
+            if ( ! $res) {
+                'blocks_controller_block_not_removed';
+            }
+            // @codeCoverageIgnoreEnd
 
-            $values = array();
-            if($message != null) $values[] = array("key" => "message", "value" => $message);
-
+            $values = array(
+                array("key" => "message", "value" => $this->translate($message))
+            );
+            
             if ($slotManager->length() > 0) {
                 $values[] = array(
                     "key" => "remove-block",
                     "blockName" => "block_" . $request->get('idBlock')
                 );
-            } else {
-                $values[] = array(
-                    "key" => "redraw-slot",
-                    "slotName" => $request->get('slotName'),
-                    "blockId" => 'block_' . $request->get('idBlock'),
-                    "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'), "included" => filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)))
-                );
+                
+                return $this->buildJSonResponse($values);
             }
-
+            
+            $values[] = array(
+                "key" => "redraw-slot",
+                "slotName" => $request->get('slotName'),
+                "blockId" => 'block_' . $request->get('idBlock'),
+                "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'), "included" => filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)))
+            );
+            
             return $this->buildJSonResponse($values);
-        } else {
-            throw new RuntimeException('blocks_controller_block_does_not_exists');
         }
+        
+        throw new RuntimeException('blocks_controller_block_does_not_exists');
     }
     
     protected function buildJSonResponse($values)
@@ -216,23 +218,14 @@ class BlocksController extends Base\BaseController
         }
     }
 
-    private function fetchSlotManager(Request $request = null, $throwExceptionWhenNull = true)
+    private function fetchSlotManager(Request $request, $throwExceptionWhenNull = true)
     {
-        if (null === $request) {
-            $request = $this->container->get('request');
-        }
-        
         $slotManager = $this->container->get('red_kite_cms.template_manager')->getSlotManager($request->get('slotName'));
         if ($throwExceptionWhenNull && null === $slotManager) {
             throw new RuntimeException("blocks_controller_invalid_or_empty_slot");
         }
 
         return $slotManager;
-    }
-
-    private function getSectionFromKeyParam()
-    {
-        return str_replace('External', '', $this->container->get('request')->get('field'));
     }
     
     
@@ -280,8 +273,6 @@ class BlocksController extends Base\BaseController
 
                 return $response;
             } else {
-                $cmsLanguage = $this->container->get('red_kite_cms.configuration')->read('language');
-                
                 throw new RuntimeException('blocks_controller_block_not_found');
             }
         } catch (\Exception $e) {
