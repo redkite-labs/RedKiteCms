@@ -933,7 +933,7 @@
         </trans-unit>   
         <trans-unit id="twig-extension-3">
             <source>twig_extension_script_not_rendered</source>
-            <target>Un blocco "Script" non viene inserito quando l'editor è attivo</target>
+            <target>Un blocco "Script" non viene attivato quando l'editor è attivo</target>
         </trans-unit>
         <trans-unit id="twig-extension-4">
             <source>twig_extension_valid_block_manager_required</source>
