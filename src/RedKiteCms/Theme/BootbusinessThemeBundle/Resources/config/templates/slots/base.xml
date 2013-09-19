@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="bootbusiness_theme.theme.template.base.slots.navbar" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.navbar" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">navbar</argument>
             <argument type="collection" >
                 <argument key="repeated">site</argument>
@@ -12,7 +12,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_1" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_title_1</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -22,7 +22,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_1" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_body_1</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -32,7 +32,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_2" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_title_2</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -42,7 +42,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_2" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_body_2</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -52,7 +52,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_3" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_title_3</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -62,7 +62,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_3" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_body_3</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -72,7 +72,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_4" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_title_4</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -82,7 +82,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_4" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_body_4</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -92,7 +92,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_5" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_title_5</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -102,7 +102,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_5" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_body_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_body_5</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -112,7 +112,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_6" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_title_6" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_title_6</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -122,7 +122,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_social_1" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_social_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_social_1</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -132,7 +132,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_social_2" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_social_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_social_2</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -142,7 +142,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.footer_social_3" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.footer_social_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">footer_social_3</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -152,7 +152,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.contacts_title_1" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.contacts_title_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">contacts_title_1</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -162,7 +162,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.contacts_body_1" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.contacts_body_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">contacts_body_1</argument>
             <argument type="collection" >
                 <argument key="repeated">language</argument>
@@ -172,7 +172,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.coopyright" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.coopyright" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">coopyright</argument>
             <argument type="collection" >
                 <argument key="repeated">site</argument>
@@ -182,7 +182,7 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.base.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.base.slots.alphalemon_love" class="%red_kite_labs_theme_engine.slot.class%">
+        <service id="bootbusiness_theme.theme.template.base.slots.alphalemon_love" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">alphalemon_love</argument>
             <argument type="collection" >
                 <argument key="repeated">site</argument>
