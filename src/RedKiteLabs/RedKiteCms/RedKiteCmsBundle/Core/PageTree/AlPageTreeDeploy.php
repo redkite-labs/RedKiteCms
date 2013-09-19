@@ -36,7 +36,7 @@ class AlPageTreeDeploy extends AlPageTree
         // merges assets from installed apps
         $availableBlocks = $this->blockManagerFactory->getAvailableBlocks();
         foreach ($availableBlocks as $className) {
-            if ( !in_array($className, $blockTypes)) {
+            if ( ! in_array($className, $blockTypes)) {
                 continue;
             }
 
