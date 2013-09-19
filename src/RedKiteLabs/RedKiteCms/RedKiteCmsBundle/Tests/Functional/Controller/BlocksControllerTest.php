@@ -43,22 +43,6 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
         $this->blockRepository->fromPK(2);
     }
-    
-    public function testShowAvailableBlocks()
-    {
-        $crawler = $this->client->request('POST', '/backend/en/showAvailableBlocks');
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $content = $response->getContent();
-        $this->assertRegExp('/File block/s', $content);        
-        $this->assertRegExp('/Image block/s', $content);       
-        $this->assertRegExp('/Link/s', $content);  
-        $this->assertRegExp('/Menu/s', $content);  
-        $this->assertRegExp('/Badge/s', $content);  
-        $this->assertRegExp('/Button/s', $content);  
-        $this->assertRegExp('/Carousel/s', $content);
-        $this->assertRegExp('/Bootbusiness product/s', $content);
-    }
 
     public function testAddBlockFailsWhenAnyValidParameterIsGiven()
     {

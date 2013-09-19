@@ -29,20 +29,6 @@ class ThemesController extends Base\BaseController
     {
         return $this->renderThemesPanel();
     }
-
-    public function activateThemeAction($themeName)
-    {
-        try
-        {
-            $this->getActiveTheme()->writeActiveTheme($themeName);
-
-            return $this->renderThemesPanel();
-        }
-        catch(Exception $e)
-        {
-            throw new NotFoundHttpException($e->getMessage());
-        }
-    }
     
     public function showThemeChangerAction()
     {

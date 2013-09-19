@@ -31,13 +31,6 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
  */
 class BlocksController extends Base\BaseController
 {
-    public function showAvailableBlocksAction()
-    {
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig', array(
-            'blocks' => $this->container->get('red_kite_cms.block_manager_factory')->getBlocks()
-        ));
-    }
-
     public function addBlockAction()
     {
         $this->checkPageIsValid();
