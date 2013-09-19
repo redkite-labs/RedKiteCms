@@ -18,14 +18,11 @@
     $(document).on("cmsStarted", function(event, block)
     {
         var tinymceContainer = document.createElement("div");
-        $(tinymceContainer).attr('id', 'rk-tinymce-container');
         $(tinymceContainer)
+            .attr('id', 'rk-tinymce-container')
             .css('position', 'absolute')
             .css('z-index', '60000')
-            .css('width', '715px')
-            .css('height', '69px')
         ;
-        $(tinymceContainer).show();
         $('body').append(tinymceContainer);
         
         initTinyMCE();        
@@ -43,12 +40,28 @@
         }
         
         block.highligther('deactivate');
-        $('#rk-tinymce-container').position({
-            my: "left bottom",
-            at: "left top",
-            of: block,
-            collision: "flipfit flipfit"
-        });
+        $('#rk-tinymce-container')
+            .css('width', '715px')
+            .css('height', '69px')
+            .position({
+                my: "left bottom",
+                at: "left top",
+                of: block,
+                collision: "flipfit flipfit"
+            })
+            .show()
+        ;
+    });
+    
+    $(document).on("blockStopEditing", function(event, block){
+        if (block.attr('data-type') != 'Text') {
+            return;
+        }
+        
+        $('#rk-tinymce-container')
+            .css('width', '0')
+            .css('height', '0')
+        ;
     });
 });
 
