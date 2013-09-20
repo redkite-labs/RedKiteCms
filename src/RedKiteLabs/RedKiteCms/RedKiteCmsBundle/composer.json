@@ -28,7 +28,7 @@
     "redkite-labs/redkite-labs-elfinder-bundle": "dev-master"
   },
   "require-dev": {    
-    "symfony/symfony": "2.3.*",
+    "symfony/symfony": "2.3.4",
     "doctrine/orm": ">=2.2.3,<2.4-dev",
     "doctrine/doctrine-bundle": "1.2.*",
     "twig/extensions": "1.0.*",
