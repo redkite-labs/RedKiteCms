@@ -732,6 +732,15 @@
             <source>pages_controller_label_site_map</source>
             <target>Site map</target>
         </trans-unit>
+        <trans-unit id="pages-controller-33">
+            <source>pages_controller_page_saved</source>
+            <target>The page has been successfully saved</target>
+        </trans-unit>        
+        <trans-unit id="pages-controller-34">
+            <source>pages_controller_page_removed</source>
+            <target>The page has been successfully removed</target>
+        </trans-unit>
+        
         
         <!-- PREVIEW CONTROLLER -->
         
