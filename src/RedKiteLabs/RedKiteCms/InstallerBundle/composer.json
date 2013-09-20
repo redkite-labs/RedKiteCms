@@ -1,6 +1,6 @@
 {
   "name": "redkite-cms/installer-bundle",
-  "description": "Provides a web interface and CLI commands to install RedKiteCmsCMS Bundle",
+  "description": "Provides a web interface and CLI commands to install RedKite CMS Bundle",
   "keywords": ["redkite", "cms", "installer"],
   "homepage": "http://redkite-labs.com",
   "type": "symfony-bundle",

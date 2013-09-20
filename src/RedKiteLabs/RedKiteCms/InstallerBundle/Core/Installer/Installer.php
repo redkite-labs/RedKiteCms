@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the RedKiteCmsCMS InstallerBundle and it is distributed
+ * This file is part of the RedKite CMS InstallerBundle and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *
