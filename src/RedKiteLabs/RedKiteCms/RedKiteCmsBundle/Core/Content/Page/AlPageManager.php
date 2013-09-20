@@ -409,7 +409,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                                 ->save($values);
                 }
 
-                if (false !== $result) {
+                if (false !== $result) { 
                     $eventName = PageEvents::BEFORE_EDIT_PAGE_COMMIT;
                     $result = !$this->eventsHandler
                                         ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent', array($this, $values))

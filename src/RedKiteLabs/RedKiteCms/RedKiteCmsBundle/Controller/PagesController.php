@@ -137,7 +137,7 @@ class PagesController extends Base\BaseController
         
         $page = $pageManager->getPageRepository()->fromPageName($request->get('page'));
             
-        return $this->buildJSonHeader('The page has been successfully saved', $page);
+        return $this->buildJSonHeader($this->translate('pages_controller_page_saved'), $page);
     }
 
     public function deletePageAction()
@@ -168,7 +168,7 @@ class PagesController extends Base\BaseController
             // @codeCoverageIgnoreEnd 
         }
         
-        return $this->buildJSonHeader($this->translate('The page has been successfully removed'), $pageManager->get());
+        return $this->buildJSonHeader($this->translate('pages_controller_page_removed'), $pageManager->get());
     }
     
     /**

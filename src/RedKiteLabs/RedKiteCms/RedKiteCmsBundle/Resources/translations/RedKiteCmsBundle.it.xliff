@@ -44,7 +44,7 @@
         </trans-unit>
         <trans-unit id="exceptions-11">
             <source>exception_wrong_json_format</source>
-            <target>exception_wrong_json_format</target>
+            <target>Il formato del contenuto %blockTypeInfo%èsbagliato. Dovresti rimuovee quel blocco ed aggiungerlo nuovamente.</target>
         </trans-unit>
         <trans-unit id="exceptions-12">
             <source>exception_item_not_exists</source>
@@ -64,11 +64,11 @@
         </trans-unit>
         <trans-unit id="exceptions-16">
             <source>exception_language_deleting_aborted</source>
-            <target>exception_language_deleting_aborted</target>
+            <target>La rimozione della lingua è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-17">
             <source>exception_language_adding_aborted</source>
-            <target>L'operazione per la rimozione della lingua è stata annullata</target>
+            <target>L'operazione per l'aggiunta della lingua è stata annullata</target>
         </trans-unit>
         <trans-unit id="exceptions-18">
             <source>exception_language_already_exists</source>
@@ -264,7 +264,7 @@
         </trans-unit>
         <trans-unit id="exceptions-67">
             <source>exception_only_propel_page_objects_are_accepted</source>
-            <target>AlPageRepositoryPropelpuò accettare solamenti oggetti di tipo AlPage</target>
+            <target>AlPageRepositoryPropel può accettare solamenti oggetti di tipo AlPage</target>
         </trans-unit>
         <trans-unit id="exceptions-68">
             <source>exception_invalid_value_for_fromPageName_method</source>
@@ -666,7 +666,7 @@
         </trans-unit>
         <trans-unit id="pages-controller-16">
             <source>pages_controller_meta_title</source>
-            <target>pages_controller_meta_title</target>
+            <target>Titolo</target>
         </trans-unit>
         <trans-unit id="pages-controller-17">
             <source>pages_controller_meta_title_explanation</source>
@@ -674,7 +674,7 @@
         </trans-unit>
         <trans-unit id="pages-controller-18">
             <source>pages_controller_meta_description</source>
-            <target>pages_controller_meta_description</target>
+            <target>Descrizione</target>
         </trans-unit>
         <trans-unit id="pages-controller-19">
             <source>pages_controller_meta_description_explanation</source>
@@ -682,7 +682,7 @@
         </trans-unit>
         <trans-unit id="pages-controller-20">
             <source>pages_controller_meta_keywords</source>
-            <target>pages_controller_meta_keywords</target>
+            <target>Parole chiave</target>
         </trans-unit>
         <trans-unit id="pages-controller-21">
             <source>pages_controller_meta_keywords_explanation</source>
@@ -731,6 +731,14 @@
         <trans-unit id="pages-controller-32">
             <source>pages_controller_label_site_map</source>
             <target>Site map</target>
+        </trans-unit>
+        <trans-unit id="pages-controller-33">
+            <source>pages_controller_page_saved</source>
+            <target>La pagina è stata salvata con successo</target>
+        </trans-unit>       
+        <trans-unit id="pages-controller-34">
+            <source>pages_controller_page_removed</source>
+            <target>La pagina è stata rimossa con successo</target>
         </trans-unit>
         
         <!-- PREVIEW CONTROLLER -->
