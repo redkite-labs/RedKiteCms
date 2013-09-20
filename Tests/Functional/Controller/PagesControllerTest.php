@@ -141,9 +141,12 @@ class PagesControllerTest extends WebTestCaseFunctional
         $json = json_decode($response->getContent(), true);
         $this->assertEquals(4, count($json));
         $this->assertTrue(array_key_exists("key", $json[0]));
-        $this->assertEquals("message", $json[0]["key"]);
-        $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertEquals("The page has been successfully saved", $json[0]["value"]);
+        $this->assertEquals("message", $json[0]["key"]);       
+        $this->assertTrue(array_key_exists("value", $json[0])); 
+         $this->assertRegExp(
+            '/pages_controller_page_saved|The page has been successfully saved/si',
+            $json[0]["value"]
+        );
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("pages_list", $json[1]["key"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
@@ -451,7 +454,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);
         $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertEquals("The page has been successfully removed", $json[0]["value"]);
+        $this->assertRegExp(
+            '/pages_controller_page_removed|The page has been successfully removed/si',
+            $json[0]["value"]
+        );
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("pages_list", $json[1]["key"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
@@ -498,7 +504,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
         $json = json_decode($response->getContent(), true);
-        $this->assertEquals("The page has been successfully saved", $json[0]["value"]);
+        $this->assertRegExp(
+            '/pages_controller_page_saved|The page has been successfully saved/si',
+            $json[0]["value"]
+        );
 
         $params = array(
             'page' => 'index',
@@ -519,7 +528,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
         $json = json_decode($response->getContent(), true);
-        $this->assertEquals("The page has been successfully saved", $json[0]["value"]);
+        $this->assertRegExp(
+            '/pages_controller_page_saved|The page has been successfully saved/si',
+            $json[0]["value"]
+        );
 
         $page = $this->pageRepository->fromPk(6);
         $this->assertNotNull($page);
