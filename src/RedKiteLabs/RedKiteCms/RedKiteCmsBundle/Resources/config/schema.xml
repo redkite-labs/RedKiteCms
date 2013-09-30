@@ -117,7 +117,7 @@
       <index-column name="language_id" />
       <index-column name="page_id" />
     </index>
-    <unique name="I_PAGE">
+    <unique name="I_SEO">
       <unique-column name="id" />
     </unique>
 
@@ -143,7 +143,7 @@
     <unique name="I_USERNAME">
       <unique-column name="username" />
     </unique>
-    <index name="I_ROLE">
+    <index name="I_USER_ROLE">
       <index-column name="role_id" />
     </index>
     <foreign-key foreignTable="al_role" onDelete="CASCADE">
