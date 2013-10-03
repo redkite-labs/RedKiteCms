@@ -584,10 +584,11 @@ class AlPageTree
         if (null !== $this->alSeo) {
             return $this->alSeo->getAlPage();
         }
-
-        $this->alSeo= $this->seoRepository->fromPageAndLanguage($this->pageName, $this->alLanguage->getId());
+        
+        $pageId = $this->getRequest()->get('pageId');
+        $this->alSeo= $this->seoRepository->fromPageAndLanguage($this->alLanguage->getId(), $pageId);
         if (null === $this->alSeo) {
-            $pageId = $this->getRequest()->get('pageId');
+            
             $alPage = (null === $pageId) ? $this->pageRepository->fromPageName($this->pageName) : $this->pageRepository->fromPK($pageId);
         } else {
             $alPage = $this->alSeo->getAlPage();
