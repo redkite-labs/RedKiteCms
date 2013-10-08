@@ -1,17 +1,17 @@
 <?php
 /*
  * This file is part of the RedKite CMS InstallerBundle and it is distributed
- * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * under the MIT LICENSE. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
  *
- * @license    GPL LICENSE Version 2.0
+ * @license    MIT LICENSE
  *
  */
 
@@ -23,7 +23,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 /**
  * RedKiteCms Form Type.
  *
- * @author alphalemon <webmaster@alphalemoncms.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class RedKiteCmsParametersType extends AbstractType
 {
@@ -32,7 +32,7 @@ class RedKiteCmsParametersType extends AbstractType
         $builder
             ->add('company', 'text')
             ->add('bundle', 'text')
-            ->add('driver', 'choice', array('choices' => array('mysql' => 'mysql', 'pgsql' => 'postgres', 'other' => 'other')))
+            ->add('driver', 'choice', array('choices' => array('mysql' => 'mysql', 'pgsql' => 'postgres', 'sqlite' => 'sqlite')))
             ->add('host', 'text')
             ->add('database', 'text')
             ->add('port', 'text', array('required' => false))
@@ -44,13 +44,12 @@ class RedKiteCmsParametersType extends AbstractType
                 'second_name'     => 'password_again',
                 'invalid_message' => 'The password fields must match.',
             ))
-            ->add('dsn', 'text', array('required' => false, 'attr' => array('class' => 'input-xxlarge')))
-            ->add('url', 'text')
+            ->add('website-url', 'text', array('label' => 'Website Url'))
         ;
     }
 
     public function getName()
     {
-        return 'red_kite_cms_parameters';
+        return 'installer_parameters';
     }
 }

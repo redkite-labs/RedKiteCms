@@ -10,15 +10,18 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
-namespace RedKiteCms\InstallerBundle;
+namespace RedKiteCms\InstallerBundle\Core\Installer\DbBootstrapper;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-class RedKiteCmsInstallerBundle extends Bundle
+/**
+ * Implements the generic object to bootstrap the database
+ *
+ * @author RedKite Labs <webmaster@redkite-labs.com>
+ */
+class GenericDbBootstrapper extends Base\BaseDbBootstrapper
 {
 }

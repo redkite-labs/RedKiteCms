@@ -10,15 +10,18 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
-namespace RedKiteCms\InstallerBundle;
+namespace RedKiteCms\InstallerBundle\Core\DsnBuilder;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
-
-class RedKiteCmsInstallerBundle extends Bundle
+/**
+ * Implements the object to generate a generic dsn
+ *
+ * @author RedKite Labs <webmaster@redkite-labs.com>
+ */
+class GenericDsnBuilder extends Base\MySqlDsnBuilder
 {
 }
