@@ -1,16 +1,16 @@
 {#
    This file is part of the RedKite CMS InstallerBundle and it is distributed
-   under the GPL LICENSE Version 2.0. To use this application you must leave
+   under the MIT LICENSE. To use this application you must leave
    intact this copyright notice.
 
-   Copyright (c) RedKiteCms <webmaster@alphalemon.com>
+   Copyright (c) RedKiteCms <webmaster@redkite-labs.com>
 
    For the full copyright and license information, please view the LICENSE
    file that was distributed with this source code.
 
    For extra documentation and help please visit http://www.redkite-labs.com
 
-   @license    GPL LICENSE Version 2.0
+   @license    MIT LICENSE
 #}
 
 {% extends 'RedKiteCmsInstallerBundle:Installer:main.html.twig' %}
@@ -26,8 +26,8 @@
     <script>
     $(document).ready(function(){
 
-        setByDriver($('#red_kite_cms_parameters_driver').val());
-        $('#red_kite_cms_parameters_driver').change(function(){
+        setByDriver($('#installer_parameters_driver').val());
+        $('#installer_parameters_driver').change(function(){
 
             setByDriver($(this).val());
             return false;
@@ -36,12 +36,17 @@
         function setByDriver(driver) {
             switch(driver) {
                 case 'mysql':
-                    showStandardDbParams();
-                    $('#red_kite_cms_parameters_port').val('3306');
+                    showAllParams();
+                    $('#installer_parameters_port').val('3306');
+                    $('#installer_parameters_user').val('root');
                     break;
                 case 'pgsql':
-                    showStandardDbParams();
-                    $('#red_kite_cms_parameters_port').val('5432');
+                    showAllParams();
+                    $('#installer_parameters_port').val('5432');
+                    $('#installer_parameters_user').val('postgres');
+                    break;
+                case 'sqlite':
+                    hideSqliteUnusedParams();
                     break;
                 default:
                     showDsnDbParams();
@@ -49,15 +54,12 @@
             }
         }
 
-        function showDsnDbParams() {
-            $('#al_db_standard_section').hide();
-            $('#al_db_dsn_section').show();
+        function hideSqliteUnusedParams() {
+            $('#sqlite-unused').hide();
         }
 
-        function showStandardDbParams() {
-            $('#red_kite_cms_parameters_dsn').val('');
-            $('#al_db_standard_section').show();
-            $('#al_db_dsn_section').hide();
+        function showAllParams() {
+            $('#sqlite-unused').show();
         }
         
         $('.rk-popover').popover();
@@ -70,7 +72,10 @@
 <img src="/bundles/redkitecmsinstaller/images/rklogo-64.png" width="32" height="32" class="rklogo pull-left"/>
 <h1>RedKite CMS Web-Installer interface</h1>
 <div>  
-    Welcome to RedKiteCms CMS installer. Please fill the form below to install RedKiteCms CMS.
+    Welcome to RedKite CMS installer. Please fill the form below to install RedKite CMS.
+</div>
+<div>  
+    Please notice that the installation could take some time. 
 </div>
 <div>
     <form action="{{ path('_install') }}" method="POST" class="form-horizontal">
@@ -89,7 +94,7 @@
                 <h2>Bundle data</h2>
             </div>
             <div class="pull-left rkinfo-img">
-                <a href="#" class="rk-popover" data-content="<p>A new Symfony2 project always requires a new bundle where your application will live: RedKiteCms CMS requires that is the bundle too.</p><p><a href='http://symfony.com/doc/current/book/page_creation.html#before-you-begin-create-the-bundle'>Learn more about this topic</a></p>" data-placement="bottom" rel="popover" data-title="Bundle" data-html="true">
+                <a href="#" class="rk-popover" data-content="<p>Before you begin, you'll need to create a bundle. In Symfony2, a bundle is nothing more than a directory that houses everything related to a specific feature: in this case it will house your website.</p><p><a href='http://symfony.com/doc/current/book/page_creation.html#before-you-begin-create-the-bundle'>Learn more about this topic</a></p>" data-placement="bottom" rel="popover" data-title="Bundle" data-html="true">
                     <i class="icon-info-sign"></i>
                 </a>
             </div>
@@ -113,39 +118,21 @@
         <div>
             {{ form_row(form.driver) }}
         </div>
-        <div id="al_db_standard_section">
+        <div>
             {{ form_row(form.host) }}
             {{ form_row(form.database) }}
+        </div>
+        <div id="sqlite-unused">
             {{ form_row(form.port) }}
             {{ form_row(form.user) }}
             {{ form_row(form.password) }}
         </div>
-        <div id="al_db_dsn_section" style="display:none">
-            {{ form_row(form.dsn) }}
-        </div>
-        <div id="al_dsn_section">
-            {# form_row(form.url) #}
-            <div class="control-group">
-                <div class="pull-left">
-                {{ form_label(form.url) }}
-                {{ form_errors(form.url) }}
-                {{ form_widget(form.url) }}
-                </div>
-                <div class="pull-left rkinfo-img">
-                    <a href="#" class="rk-popover" data-content="<p>This is the url where your website will live and it is required to generate the website sitemap.</p><p>You must provide this information using the following format: <strong>http://[Website Url]/</strong></p><p>Do not forget the slash at the end of the url and keep in mind that you can change this value at any time</p>" data-placement="top" rel="popover" data-title="Url" data-html="true">
-                        <i class="icon-info-sign"></i>
-                    </a>
-                </div>
-            </div>
-                
-                
-            {{ form_rest(form) }}
-        </div>
+        <div>{{ form_rest(form) }}</div>
         <div class="control-group">
             <div class="controls">
-                <button type="submit" class="btn btn-primary btn-large">Install</button>
+                <button type="submit" class="btn btn-primary btn-large">Install</button>                
             </div>
-        <div>
+        </div>
     </form>
-</div>
+</div>      
 {% endblock %}

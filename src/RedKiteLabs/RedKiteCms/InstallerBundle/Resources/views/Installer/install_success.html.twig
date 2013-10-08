@@ -1,16 +1,16 @@
 {#
    This file is part of the RedKite CMS InstallerBundle and it is distributed
-   under the GPL LICENSE Version 2.0. To use this application you must leave
+   under the MIT LICENSE. To use this application you must leave
    intact this copyright notice.
 
-   Copyright (c) RedKiteCms <webmaster@alphalemon.com>
+   Copyright (c) RedKiteCms <webmaster@redkite-labs.com>
 
    For the full copyright and license information, please view the LICENSE
    file that was distributed with this source code.
 
    For extra documentation and help please visit http://www.redkite-labs.com
 
-   @license    GPL LICENSE Version 2.0
+   @license    MIT LICENSE
 #}
 
 {% extends 'RedKiteCmsInstallerBundle:Installer:main.html.twig' %}
@@ -24,15 +24,23 @@
 </div>
 <div>
     <h2>What to do now</h2>
-    <p><b>Start RedKiteCms CMS</b></p>
+    <p><b>Start RedKite CMS</b></p>
     <p><a href="/rkcms.php/backend/en/index">{{ scheme }}/rkcms.php/backend/en/index</a></p>
-    <p><b>Start RedKiteCms CMS in debug mode</b></p>
+    <p><b>Start RedKite CMS in debug mode</b></p>
     <p><a href="/rkcms_dev.php/backend/en/index">{{ scheme }}/rkcms_dev.php/backend/en/index</a></p>
+</div>
+<div>
+    <h2>Installation log</h2>
+    <p>For your convenience, here is reported the log created during the installation process:</p>
+    
+    <div class="code">
+        <pre>{{ log }}</pre>
+    </div>
 </div>
 <div>
     <h2>Troubleshoting</h2>
     <p>
-        If something goes wrong when you try to start working with RedKiteCms CMS, open a terminal and move to your install folder,
+        If something goes wrong when you try to start working with RedKite CMS, open a terminal and move to your install folder,
         then run the following commands:
     </p>
     <ol>

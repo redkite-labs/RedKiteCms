@@ -9,18 +9,24 @@ body {
   background-color: white;
   margin: 20px auto;
 }
-
 #al_contents h1, #al_contents h2 {
   padding: 0;
   margin: 6px 0;
 }
-
 #al_contents h1 {
   font: bold 26px/28px Arial, Verdana, Helvetica, sans-serif;
 }
-
 #al_contents h2 {
   font: bold 22px/24px Arial, Verdana, Helvetica, sans-serif;
+}
+#al_contents .code {
+  background-color: black;
+  color: white;
+  padding: 6px;
+  width: auto;
+  max-height: 250px;
+  font: normal 12px/16px "Bitstream Vera Sans Mono", monospace;
+  overflow: auto;
 }
 
 .rklogo {

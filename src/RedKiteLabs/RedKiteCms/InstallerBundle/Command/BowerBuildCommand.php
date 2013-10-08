@@ -1,17 +1,17 @@
 <?php
 /**
- * This file is part of the RedKiteCms CMS Application and it is distributed
- * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * This file is part of the RedKite CMS Application and it is distributed
+ * under the MIT LICENSE. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
  *
- * @license    GPL LICENSE Version 2.0
+ * @license    MIT LICENSE
  *
  */
 
@@ -27,7 +27,7 @@ use RedKiteCms\InstallerBundle\Core\BowerBuilder\AlBowerBuilder;
 /**
  * Builds the bower component.json file
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author alphalemon <webmaster@redkite-labs.com>
  */
 class BowerBuildCommand extends ContainerAwareCommand
 {
