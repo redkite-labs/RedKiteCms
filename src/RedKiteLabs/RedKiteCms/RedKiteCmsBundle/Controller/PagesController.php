@@ -86,7 +86,7 @@ class PagesController extends Base\BaseController
         $pageBlocks = null;
         $pageManager = $this->container->get('red_kite_cms.page_manager');
         $pageTree = $this->container->get('red_kite_cms.page_tree');
-        if ($request->get('pageId') != 'none') {
+        if ($request->get('pageId') != 'none' && $request->get('languageId') != 'none') {
             $pageRepository = $this->createRepository('Page');
             $alPage = $pageRepository->fromPk($request->get('pageId'));
 
