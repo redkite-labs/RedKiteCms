@@ -347,7 +347,7 @@ class AlPageTree
 
             $request = $this->getRequest();
             $this->pageName = $request->get('page');
-            if (! $this->pageName || $this->pageName == "" || $this->pageName == "backend") {
+            if ( ! $this->pageName || $this->pageName == "" || $this->pageName == "backend") {
                 return null;
             }
 
