@@ -52,7 +52,7 @@ class ConfigurationGenerator extends Generator
     {
         $this->setSkeletonDirs($this->skeletonDir);
 
-        $this->renderFile('routing_rkcms.yml', $this->kernelDir.'/config/routing_rkcms.yml', array());
+        $this->renderFile('routing_rkcms.yml', $this->kernelDir.'/config/routing_rkcms.yml', $this->options);
         $this->renderFile('routing_rkcms_dev.yml', $this->kernelDir.'/config/routing_rkcms_dev.yml', array());
         $this->renderFile('routing_rkcms_test.yml', $this->kernelDir.'/config/routing_rkcms_test.yml', array());
         $this->renderFile('routing_stage.yml', $this->kernelDir.'/config/routing_stage.yml', $this->options);
