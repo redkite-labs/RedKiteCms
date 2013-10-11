@@ -1,0 +1,21 @@
+imports:
+    - { resource: config_rkcms_dev.yml }
+    - { resource: "@RedKiteCmsBundle/Resources/config/config_rkcms_test.yml" }
+
+red_kite_labs_theme_engine:
+    deploy_bundle: {{ company ~ bundle }}
+
+propel:
+    path:       "%kernel.root_dir%/../vendor/propel/propel1"
+    phing_path: "%kernel.root_dir%/../vendor/phing/phing"
+
+    dbal:
+        driver:               {{ driver }}
+{% if (user is defined and user != "") %}
+        user:                 {{ user }}
+        password:             {{ password }}
+{% endif %}
+        dsn:                  {{ dsn }}
+        options:              {}
+        attributes:           {}
+        default_connection:   default

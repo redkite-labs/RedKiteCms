@@ -38,7 +38,7 @@ class CommandsAgent
      */
     public static function executeConfig($container, array $options)
     {
-        $configuration = new Configurator($container->getParameter('kernel.root_dir') . '/../vendor', $options);
+        $configuration = new Configurator($container->getParameter('kernel.root_dir'), $options);
         $configuration->configure();
     }
     
@@ -50,7 +50,7 @@ class CommandsAgent
      */
     public static function executeSetupCmsEnvironmentsCommand(ContainerInterface $container, array $options)
     {
-        $installer = new Environments($container->getParameter('kernel.root_dir') . '/../vendor', $options);
+        $installer = new Environments($container->getParameter('kernel.root_dir'), $options);
         $installer->setUp();
     }
     
@@ -71,7 +71,7 @@ class CommandsAgent
         }
         
         $kernelRootDir = $container->get('kernel')->getRootDir();
-        $dbBoootstrapper = new $className($container, $container->getParameter('kernel.root_dir') . '/../vendor', $options);
+        $dbBoootstrapper = new $className($container, $container->getParameter('kernel.root_dir'), $options);
         $dbBoootstrapper->createDatabase();
         
         $in = new \Symfony\Component\Console\Input\ArrayInput(array(

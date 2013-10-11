@@ -28,7 +28,9 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 abstract class BaseOptions
 {
+    protected $kernelDir;
     protected $vendorDir;
+    protected $options;
     protected $bundleName;
     protected $database;
     protected $driver;
@@ -44,33 +46,34 @@ abstract class BaseOptions
      * 
      * @param array $options
      */
-    public function __construct($vendorDir, array $options = array())
+    public function __construct($kernelDir, array $options = array())
     {
         $resolver = new OptionsResolver();
         $this->setDefaultOptions($resolver);
-        $options = $resolver->resolve($options);
+        $this->options = $resolver->resolve($options);
         
-        $this->vendorDir = $this->normalizePath($vendorDir);
-        $this->companyName = $options["company"];
-        $this->bundleName = $options["bundle"];        
+        $this->kernelDir = $this->normalizePath($kernelDir);
+        $this->vendorDir = $this->kernelDir . '/../vendor';
+        $this->companyName = $this->options["company"];
+        $this->bundleName = $this->options["bundle"];        
         $this->deployBundle = $this->companyName . $this->bundleName;
         if (empty($this->deployBundle) || !preg_match('/.*?Bundle$/', $this->deployBundle)) { 
             throw new \InvalidArgumentException("Something was wrong with the values you entered to define the deploy bundle. Please refer to http://redkite-labs.com/how-to-install-redkite-cms#the-deploy-bundle to learn more about this topic.");
         }
-        $this->driver = $options["driver"];
-        $this->host = $options["host"];
-        $this->port = (int)$options["port"];
-        $this->database = $options["database"];
-        $this->user = $options["user"];
-        $this->password = $options["password"];
-        $this->websiteUrl = $options["website-url"];
+        $this->driver = $this->options["driver"];
+        $this->host = $this->options["host"];
+        $this->port = (int)$this->options["port"];
+        $this->database = $this->options["database"];
+        $this->user = $this->options["user"];
+        $this->password = $this->options["password"];
+        $this->websiteUrl = $this->options["website-url"];
         
         $dsnBuilderClassName = '\RedKiteCms\InstallerBundle\Core\DsnBuilder\GenericDsnBuilder';
         $specificDsnBuilderClassName = '\RedKiteCms\InstallerBundle\Core\DsnBuilder\\' . ucfirst($this->driver) . 'DsnBuilder';
         if (class_exists($specificDsnBuilderClassName)) {
             $dsnBuilderClassName = $specificDsnBuilderClassName;
         }
-        $this->dsnBuilder = new $dsnBuilderClassName($options);
+        $this->dsnBuilder = new $dsnBuilderClassName($this->options);
         
         $this->filesystem = new Filesystem();
     }
@@ -94,7 +97,7 @@ abstract class BaseOptions
         $this->checkClass('ElFinderBundle', 'RedKiteLabs\ElFinderBundle\RedKiteLabsElFinderBundle');
         $this->checkClass('ThemeEngineBundle', 'RedKiteLabs\ThemeEngineBundle\RedKiteLabsThemeEngineBundle');
         
-        $appKernelFile = $this->vendorDir . '/../app/AppKernel.php';
+        $appKernelFile = $this->kernelDir . '//AppKernel.php';
         $this->checkFile($appKernelFile);
 
         $contents = file_get_contents($appKernelFile);

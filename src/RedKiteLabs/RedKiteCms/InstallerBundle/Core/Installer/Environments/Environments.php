@@ -18,6 +18,7 @@
 namespace RedKiteCms\InstallerBundle\Core\Installer\Environments;
 
 use RedKiteCms\InstallerBundle\Core\Installer\Base\BaseOptions;
+use RedKiteCms\InstallerBundle\Core\Generator\EnvironmentsGenerator;
 
 /**
  * Implements the base object to prepare RedKite CMS environments
@@ -39,7 +40,7 @@ class Environments extends BaseOptions
     private function manipulateAppKernel()
     {
         $updateFile = false;
-        $kernelFile = $this->vendorDir . '/../app/AppKernel.php';
+        $kernelFile = $this->kernelDir . '/AppKernel.php';
         $this->backUpFile($kernelFile);
         $contents = file_get_contents($kernelFile);
 
@@ -100,15 +101,13 @@ class Environments extends BaseOptions
 
     private function setUpEnvironments()
     {
-        $this->filesystem ->copy($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/environments/frontcontrollers/rkcms.php', $this->vendorDir . '/../web/rkcms.php', true);
-        $this->filesystem ->copy($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/environments/frontcontrollers/rkcms_dev.php', $this->vendorDir . '/../web/rkcms_dev.php', true);
-        $this->filesystem ->copy($this->vendorDir . '/redkite-labs/redkite-labs-theme-engine-bundle/RedKiteLabs/ThemeEngineBundle/Resources/environments/frontcontrollers/stage.php', $this->vendorDir . '/../web/stage.php', true);
-        $this->filesystem ->copy($this->vendorDir . '/redkite-labs/redkite-labs-theme-engine-bundle/RedKiteLabs/ThemeEngineBundle/Resources/environments/frontcontrollers/stage_dev.php', $this->vendorDir . '/../web/stage_dev.php', true);
+        $environmentsGenerator = new EnvironmentsGenerator($this->kernelDir);
+        $environmentsGenerator->generateFrontcontrollers();
+        
         $this->filesystem ->mkdir($this->vendorDir . '/../web/uploads/assets');
         $this->filesystem ->mkdir($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/public/uploads/assets/media');
         $this->filesystem ->mkdir($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/public/uploads/assets/js');
         $this->filesystem ->mkdir($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/public/uploads/assets/css');
-
-        $this->filesystem ->mkdir($this->vendorDir . '/../app/propel/sql');
+        $this->filesystem ->mkdir($this->kernelDir . '/propel/sql');
     }
 }

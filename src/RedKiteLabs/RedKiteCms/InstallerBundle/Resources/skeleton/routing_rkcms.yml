@@ -1,0 +1,5 @@
+_rkcms:
+    resource: "@RedKiteCmsBundle/Resources/config/routing_rkcms.yml"
+    
+_production:
+    resource: "@RedKiteLabsWebSiteBundle/Resources/config/routing.yml"
