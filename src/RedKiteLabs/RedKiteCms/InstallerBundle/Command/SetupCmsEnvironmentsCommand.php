@@ -45,9 +45,22 @@ class SetupCmsEnvironmentsCommand extends Base\CommandBase
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        CommandsAgent::executeSetupCmsEnvironmentsCommand($this->getContainer(), $this->inputOptionsToArray($input));
+        $messages = CommandsAgent::executeSetupCmsEnvironmentsCommand($this->getContainer(), $this->inputOptionsToArray($input));
         
-        $output->writeln("<info>The environment has been set up</info>");
+        $this->writeMessages($output, $messages, true);
+        
+        $output->writeln("<info>The RedKite CMS environments have been set up</info>");
+        /*
+        $messages = array(
+            "<info>The RedKite CMS environments have been set up</info>",
+        );
+        
+        $executionMessages = CommandsAgent::executeSetupCmsEnvironmentsCommand($this->getContainer(), $this->inputOptionsToArray($input));    
+        if ( null !== $messages && ! empty($messages)) {
+            $messages = $executionMessages;
+        }
+        
+        $this->writeMessages($output, $messages);*/
     }
     
     /**

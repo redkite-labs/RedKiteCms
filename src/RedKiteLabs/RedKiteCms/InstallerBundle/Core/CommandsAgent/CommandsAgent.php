@@ -39,7 +39,8 @@ class CommandsAgent
     public static function executeConfig($container, array $options)
     {
         $configuration = new Configurator($container->getParameter('kernel.root_dir'), $options);
-        $configuration->configure();
+        
+        return $configuration->configure();
     }
     
     /**
@@ -51,7 +52,8 @@ class CommandsAgent
     public static function executeSetupCmsEnvironmentsCommand(ContainerInterface $container, array $options)
     {
         $installer = new Environments($container->getParameter('kernel.root_dir'), $options);
-        $installer->setUp();
+        
+        return $installer->setUp();
     }
     
     /**

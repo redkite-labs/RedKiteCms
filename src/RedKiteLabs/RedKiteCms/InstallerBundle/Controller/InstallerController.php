@@ -51,18 +51,25 @@ class InstallerController extends Controller
             if ($form->isValid()) {
                 $options = $form->getData();
                 
-                ob_start();
-                CommandsAgent::executeConfig($this->container, $options);
-                CommandsAgent::executeSetupCmsEnvironmentsCommand($this->container, $options);                
-                CommandsAgent::populateAndClean($this->container, $options);
-                $log = ob_get_contents();
-                ob_end_clean();
+                $messages = CommandsAgent::executeConfig($this->container, $options);
+                if (null === $messages) {
+                    CommandsAgent::executeSetupCmsEnvironmentsCommand($this->container, $options);   
+                    
+                    ob_start();
+                    CommandsAgent::populateAndClean($this->container, $options);
+                    $log = ob_get_contents();
+                    ob_end_clean();
+                    
+                    $scheme = $request->getScheme().'://'.$request->getHttpHost();
+                    return $this->render('RedKiteCmsInstallerBundle:Installer:install_success.html.twig', array(
+                        'scheme'    => $scheme,
+                        'log' => urldecode($log),
+                    ));
+                }
                 
-                $scheme = $request->getScheme().'://'.$request->getHttpHost();
-                return $this->render('RedKiteCmsInstallerBundle:Installer:install_success.html.twig', array(
-                    'scheme'    => $scheme,
-                    'log' => urldecode($log),
-                ));
+                foreach ($messages as $message) {
+                    $this->container->get('session')->getFlashBag()->add('error', strip_tags($message));
+                }
             }
         }
 

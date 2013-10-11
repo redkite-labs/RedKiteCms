@@ -78,6 +78,30 @@ abstract class BaseOptions
         $this->filesystem = new Filesystem();
     }
     
+    protected function checkWritePermissions()
+    {
+        $files = array(
+            $this->kernelDir . '/../' => 'folder',
+            $this->kernelDir . '/cache' => 'folder',
+            $this->kernelDir . '/logs' => 'folder',
+            $this->kernelDir . '/config' => 'folder',            
+            $this->kernelDir . '/config/bundles' => 'folder',
+            $this->kernelDir . '/../web' => 'folder',
+            $this->kernelDir . '/AppKernel.php' => 'file',                
+            $this->kernelDir . '/config/config.yml' => 'file',           
+            $this->kernelDir . '/config/routing.yml' => 'file',       
+            $this->kernelDir . '/config/parameters.yml' => 'file',    
+        );
+        
+        $messages = array();
+        foreach($files as $filename => $type) {
+            if (file_exists($filename) && ! is_writeable($filename)) {
+                $messages[] = '<comment>' . realpath($filename) . '</comment> is not writeable. Please fix permissions on this ' . $type;
+            }
+        }
+        
+        return $messages;
+    }
     
     /**
      * Checks that RedKite CMS prerequisites are satisfied
@@ -97,10 +121,7 @@ abstract class BaseOptions
         $this->checkClass('ElFinderBundle', 'RedKiteLabs\ElFinderBundle\RedKiteLabsElFinderBundle');
         $this->checkClass('ThemeEngineBundle', 'RedKiteLabs\ThemeEngineBundle\RedKiteLabsThemeEngineBundle');
         
-        $appKernelFile = $this->kernelDir . '//AppKernel.php';
-        $this->checkFile($appKernelFile);
-
-        $contents = file_get_contents($appKernelFile);
+        $contents = file_get_contents($this->kernelDir . '/AppKernel.php');
         preg_match("/[\s|\t]+new " . $this->companyName . "\\\\" . $this->bundleName . "/s", $contents, $match);
         if(empty ($match))
         {
@@ -156,16 +177,6 @@ abstract class BaseOptions
         if(!is_dir($dirName))
         {
             $message = "\nAn error occoured. RedKite CMS requires " . basename($dirName) . " installed into " . dirname($dirName) . " folder. Please install the required library then run the script again.\n";
-
-            throw new \RuntimeException($message);
-        }
-    }
-
-    private function checkFile($fileName, $message = null)
-    {
-        if( ! is_file($fileName))
-        {
-            $message = (null === $message) ? PHP_EOL . 'The required ' . $fileName . ' file has not been found' : $message;
 
             throw new \RuntimeException($message);
         }

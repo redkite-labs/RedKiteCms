@@ -42,6 +42,11 @@ class Configurator extends BaseOptions
      */
     public function configure()
     {
+        $messages = $this->checkWritePermissions();
+        if ( ! empty($messages)) {
+            return $messages;
+        }
+        
         $this->checkPrerequisites();
         $this->writeConfigurationParameters();
         $this->writeConfigurationFiles();
@@ -125,7 +130,7 @@ class Configurator extends BaseOptions
 
     private function writeRoutes()
     {
-        $configFile = $this->kernelDir . '//config/routing.yml';
+        $configFile = $this->kernelDir . '/config/routing.yml';
         $this->checkFile($configFile);
         $this->backUpFile($configFile);
 

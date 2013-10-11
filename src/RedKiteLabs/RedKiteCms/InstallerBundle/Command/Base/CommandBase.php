@@ -155,4 +155,17 @@ abstract class CommandBase extends ContainerAwareCommand
 
         return $value;
     }
+    
+    protected function writeMessages(OutputInterface $output, array $messages = null, $stopExecution = false)
+    {
+        if ( null !== $messages && ! empty($messages)) { 
+            foreach ($messages as $message) {
+                $output->writeln($message);
+            }
+            
+            if ($stopExecution) {
+                exit;
+            }
+        }
+    }
 }

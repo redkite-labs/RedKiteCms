@@ -41,14 +41,16 @@ class ConfigureCmsCommand extends Base\CommandBase
 
     /**
      * @see Command
-     *
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-       CommandsAgent::executeConfig($this->getContainer(), $this->inputOptionsToArray($input));
+        $messages = CommandsAgent::executeConfig($this->getContainer(), $this->inputOptionsToArray($input));
+        
+        $this->writeMessages($output, $messages, true);
         
         $output->writeln("<info>The configuration has been written</info>");
     }
+    
     /**
      * @see Command
      */

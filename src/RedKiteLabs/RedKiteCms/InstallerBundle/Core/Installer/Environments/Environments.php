@@ -32,6 +32,11 @@ class Environments extends BaseOptions
      */
     public function setUp()
     {
+        $messages = $this->checkWritePermissions();
+        if ( ! empty($messages)) {
+            return $messages;
+        }
+        
         $this->checkPrerequisites();
         $this->setUpEnvironments();
         $this->manipulateAppKernel();

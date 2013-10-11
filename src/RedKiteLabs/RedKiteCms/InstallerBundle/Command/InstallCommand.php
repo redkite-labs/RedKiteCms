@@ -43,9 +43,11 @@ class InstallCommand extends Base\CommandBase
      *
      */
     protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    {        
         $options = $this->inputOptionsToArray($input);
-        CommandsAgent::executeConfig($this->getContainer(), $options);
+        $messages = CommandsAgent::executeConfig($this->getContainer(), $options);
+        $this->writeMessages($output, $messages, true);
+        
         CommandsAgent::executeSetupCmsEnvironmentsCommand($this->getContainer(), $options);
         CommandsAgent::populateAndClean($this->getContainer(), $options);
     }
