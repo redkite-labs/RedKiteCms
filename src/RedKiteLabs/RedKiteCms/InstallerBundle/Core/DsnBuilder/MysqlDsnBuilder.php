@@ -22,29 +22,6 @@ namespace RedKiteCms\InstallerBundle\Core\DsnBuilder;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class MysqlDsnBuilder extends Base\BaseDsnBuilder
+class MysqlDsnBuilder extends Base\GenericDsnBuilder
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function configureDsn()
-    {
-        return $this->configureBaseDsn() . ';dbname=' . $this->options["database"];
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function configureBaseDsn()
-    {
-        return sprintf("%s:host=%s", $this->options["driver"], $this->options["host"]);        
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function configureParametrizedDsn()
-    {
-        return '%rkcms_database_driver%:host=%rkcms_database_host%;dbname=%rkcms_database_name%';        
-    }
 }
