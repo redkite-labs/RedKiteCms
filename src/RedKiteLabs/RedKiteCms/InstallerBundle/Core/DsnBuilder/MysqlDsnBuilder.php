@@ -22,6 +22,6 @@ namespace RedKiteCms\InstallerBundle\Core\DsnBuilder;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class MysqlDsnBuilder extends Base\GenericDsnBuilder
+class MysqlDsnBuilder extends GenericDsnBuilder
 {
 }
