@@ -214,7 +214,7 @@
         ;
         $('#al_block_menu_toolbar').hide();
 
-        $(document).trigger("blockEditing", [ element ]);
+        $(document).trigger("startEditingBlocks", [ element ]);
     }
     
     function stopEditElement(element)
