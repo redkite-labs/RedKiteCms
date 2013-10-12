@@ -228,7 +228,7 @@
         });
         $('body').data('activeBlock', null); 
 
-        $(document).trigger("blockStopEditing", [ element ]);
+        $(document).trigger("stopEditingBlocks", [ element ]);
     }
     
     function showPopover(element)
