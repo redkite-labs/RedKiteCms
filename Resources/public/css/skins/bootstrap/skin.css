@@ -472,6 +472,7 @@
 .al-add-item-list, .al-delete-item-list {
   position: absolute;
   width: 24px;
+  z-index: 5250;
 }
 
 .collapsed-list {

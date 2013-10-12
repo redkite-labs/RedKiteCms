@@ -32,6 +32,7 @@
         {
             $('.al-add-item-list').unbind().remove();        
             $('.al-delete-item-list').unbind().remove();
+            $('.inline-list-commands-container').remove();
             $('body').data('al-active-inline-list', null);
             
             return this;
@@ -43,58 +44,99 @@
         var addButton = document.createElement("div");
         $(addButton)
             .addClass("al-add-item-list")
-            .css("position", "static")
-            .css("float", "left")
             .attr('data-item', '-1')
-            //.append('<a class="btn btn-mini btn-primary"><i class="icon-plus"></i></a>')       
-            
-            .append('<button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>')            
+            //.append('<a class="btn btn-mini btn-primary"><i class="icon-plus"></i></a>')
+            .append('<button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>')
+            .position({
+                my: "left top",
+                at: "left top",
+                of: element,
+                collision: 'fit fit'
+            })
+            .appendTo('body')
             .show()
         ;
-        console.log(settings.target, $(settings.target).length);
+        
         element
-        .before(addButton)
-        .find(settings.target).each(function(){
-            var $this = $(this); 
-            if ($this.hasClass('al-empty')) { 
-                return;
-            }
-            
-            if ( ! $this.is(':visible')) {
-                return;
-            }
-            
-            var addButton = document.createElement("div");
-            $(addButton)
-                .addClass("al-add-item-list")
-                .attr('data-item', $this.attr('data-item'))
-                //.append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white"></i></a>')
-                .append('<a class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></a>')             
-                .appendTo($this)
-                .position({
-                    my: "left+10 top",
+            .find(settings.target).each(function(){
+                var $this = $(this); 
+                if ($this.hasClass('al-empty')) { 
+                    return;
+                }
+
+                if ( ! $this.is(':visible')) {
+                    return;
+                }
+
+                var containerDiv = $(document.createElement("div"));
+                var addButton = document.createElement("div");
+                $(addButton)
+                    .addClass("al-add-item-list")
+                    .attr('data-item', $this.attr('data-item'))
+                    //.append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white"></i></a>')
+                    .append('<button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>')             
+                    .appendTo(containerDiv)
+                    .css('left', '0')
+                    .show()
+                ;
+
+                var removeButton = document.createElement("div");
+                $(removeButton)
+                    .addClass("al-delete-item-list")
+                    .attr('data-item', $this.attr('data-item'))
+                    .attr('data-slot-name', $this.attr('data-slot-name'))
+                    //.append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white"></i></a>')
+                    .append('<button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>')             
+                    .appendTo(containerDiv) 
+                    .css('left', '26px')
+                    .show()
+                ;
+                
+                containerDiv.position({
+                    my: "center top",
                     at: "left bottom",
-                    of: $this
-                }) 
-                .show()
-            ;
-            
-            var removeButton = document.createElement("div");
-            $(removeButton)
-                .addClass("al-delete-item-list")
-                .attr('data-item', $this.attr('data-item'))
-                .attr('data-slot-name', $this.attr('data-slot-name'))
-                //.append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white"></i></a>')
-                .append('<button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>')             
-                .appendTo($this) 
-                .position({
-                    my: "left+38 top",
-                    at: "left bottom",
-                    of: $this
-                })       
-                .show()
-            ;
-        });
+                    of: $this,
+                    collision: 'fit fit'
+                })
+                .addClass('inline-list-commands-container')
+                .css('position', 'absolute')
+                .appendTo('body') ;
+                
+                
+
+                /*
+                var addButton = document.createElement("div");
+                $(addButton)
+                    .addClass("al-add-item-list")
+                    .attr('data-item', $this.attr('data-item'))
+                    //.append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white"></i></a>')
+                    .append('<a class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></a>')             
+                    .appendTo($this)
+                    .position({
+                        my: "left+10 top",
+                        at: "left bottom",
+                        of: $this
+                    }) 
+                    .show()
+                ;
+
+                var removeButton = document.createElement("div");
+                $(removeButton)
+                    .addClass("al-delete-item-list")
+                    .attr('data-item', $this.attr('data-item'))
+                    .attr('data-slot-name', $this.attr('data-slot-name'))
+                    //.append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white"></i></a>')
+                    .append('<button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>')             
+                    .appendTo($this) 
+                    .position({
+                        my: "left+38 top",
+                        at: "left bottom",
+                        of: $this
+                    })       
+                    .show()
+                ;*/
+            })
+        ;
         
         $('.al-add-item-list').show();
         if (settings.addValue == null) {
