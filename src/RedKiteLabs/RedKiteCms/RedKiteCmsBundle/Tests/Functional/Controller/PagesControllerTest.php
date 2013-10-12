@@ -63,57 +63,56 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(2, $crawler->filter('#al_pages_list .al_element_selector')->count());
         $this->assertEquals(1, $crawler->filter('#al_pages_remover')->count());
     }
-
-    public function testAddPageFailsWhenPagenameContainsInvalidPrefix()
+    
+    /**
+     * @dataProvider addFailsProvider
+     */
+    public function testAddPageFails($params, $message)
     {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        "pageName" => "al_temp");
-
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertRegExp(
-            '/pages_controller_al_prefix_not_permitted|The prefix \[ al_ \] is not permitted to avoid conflicts with the application internal routes/si',
+            $message,
             $response->getContent()
         );
     }
-
-    public function testAddPageFailsWhenPageNameParamIsMissing()
+    
+    public function addFailsProvider()
     {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'templateName' => "home",
-                        'permalink' => "page 1",
-                        'title' => 'A title',
-                        'description' => 'A description',
-                        'keywords' => 'Some keywords');
-
-        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
-        $this->assertRegExp(
-            '/exception_invalid_page_name|The name to assign to the page cannot be null. Please provide a valid page name to add your page/si',
-            $response->getContent()
-        );
-    }
-
-    public function testAddPageFailsWhenTemplateNameParamIsMissing()
-    {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'pageName' => "page1",
-                        'permalink' => "page 1",
-                        'title' => 'A title',
-                        'description' => 'A description',
-                        'keywords' => 'Some keywords');
-
-        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
-        $this->assertRegExp(
-            '/exception_page_template_param_missing|The page requires at least a template. Please provide the template name to add your page/si',
-            $response->getContent()
+        return array(
+            array(
+                array(
+                    'page' => 'index',
+                    'language' => 'en',
+                    "pageName" => "al_temp"
+                ),
+                '/pages_controller_al_prefix_not_permitted|The prefix \[ al_ \] is not permitted to avoid conflicts with the application internal routes/si',
+            ),
+            array(
+                array(
+                    'page' => 'index',
+                    'language' => 'en',
+                    'templateName' => "home",
+                    'permalink' => "page 1",
+                    'title' => 'A title',
+                    'description' => 'A description',
+                    'keywords' => 'Some keywords'
+                ),
+                '/exception_invalid_page_name|The name to assign to the page cannot be null. Please provide a valid page name to add your page/si',
+            ),
+            array(
+                array(
+                    'page' => 'index',
+                    'language' => 'en',
+                    'pageName' => "page1",
+                    'permalink' => "page 1",
+                    'title' => 'A title',
+                    'description' => 'A description',
+                    'keywords' => 'Some keywords'
+                ),
+                '/exception_page_template_param_missing|The page requires at least a template. Please provide the template name to add your page/si',
+            ),
         );
     }
 
@@ -378,52 +377,50 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals('empty', $page->getTemplateName());
     }
 
-    public function testDeletePageFailsBecauseAnyPageIdIsGiven()
+    /**
+     * @dataProvider deleteFailsProvider
+     */
+    public function testDeletePageFails($params, $message)
     {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'pageId' => 'none',
-                        'languageId' => 2,);
-
         $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertRegExp(
-            '/pages_controller_any_page_selected|Any page has been selected for removing/si',
+            $message,
             $response->getContent()
         );
     }
-
-    public function testDeletePageFailsBecauseAnInvalidPageIdIsGiven()
+    
+    public function deleteFailsProvider()
     {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'pageId' => 999,
-                        'languageId' => 2,);
-
-        $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
-        $this->assertRegExp(
-            '/pages_controller_any_page_selected|Any page has been selected for removing/si',
-            $response->getContent()
-        );
-    }
-
-    public function testDeleteTheHomePageIsForbidden()
-    {
-        $page = $this->pageRepository->homePage();
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'pageId' => $page->getId(),
-                        'languageId' => 2);
-        
-        $crawler = $this->client->request('POST', '/backend/en/al_deletePage', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(404, $response->getStatusCode());
-        $this->assertRegExp(
-            '/exception_home_page_cannot_be_removed|It is not allowed to remove the website\'s home page. Promote another page as the home of your website, then remove this one/si',
-            $response->getContent()
+        return array(
+            array(
+                array(
+                    'page' => 'index',
+                    'language' => 'en',
+                    'pageId' => 'none',
+                    'languageId' => 2,
+                ),
+                '/pages_controller_any_page_selected|Any page has been selected for removing/si',
+            ),
+            array(
+                array(
+                    'page' => 'index',
+                    'language' => 'en',
+                    'pageId' => 999,
+                    'languageId' => 2,
+                ),
+                '/pages_controller_any_page_selected|Any page has been selected for removing/si',
+            ),
+            array(
+                array(
+                    'page' => 'index',
+                    'language' => 'en',
+                    'pageId' => 4,
+                    'languageId' => 2
+                ),
+                '/exception_home_page_cannot_be_removed|It is not allowed to remove the website\'s home page. Promote another page as the home of your website, then remove this one/si',
+            ),
         );
     }
 
@@ -532,20 +529,9 @@ class PagesControllerTest extends WebTestCaseFunctional
             '/pages_controller_page_saved|The page has been successfully saved/si',
             $json[0]["value"]
         );
-
-        $page = $this->pageRepository->fromPk(6);
-        $this->assertNotNull($page);
-        $this->assertEquals('another-page-1', $page->getPageName());
-        $this->assertEquals('empty', $page->getTemplateName());
-        $this->assertEquals(0, $page->getIsHome());
-        $this->assertEquals(0, $page->getIsPublished());
-
-        $page = $this->pageRepository->fromPk(7);
-        $this->assertNotNull($page);
-        $this->assertEquals('another-page-2', $page->getPageName());
-        $this->assertEquals('empty', $page->getTemplateName());
-        $this->assertEquals(0, $page->getIsHome());
-        $this->assertEquals(0, $page->getIsPublished());
+        
+        $this->doPageFromDbTest(6, 'another-page-1', 'empty', 0, 0);
+        $this->doPageFromDbTest(7, 'another-page-2', 'empty', 0, 0);
     }
 
     public function testAddAPagePublishedByDefault()
@@ -555,7 +541,7 @@ class PagesControllerTest extends WebTestCaseFunctional
             'language' => 'en',
             'pageName' => "another-page-3",
             'templateName' => "home",
-            'permalink' => "page 1",
+            'permalink' => "page 3",
             'isPublished' => "1",
             'title' => 'A title',
             'description' => 'A description',
@@ -569,12 +555,38 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
 
-        $page = $this->pageRepository->fromPk(8);
-        $this->assertNotNull($page);
-        $this->assertEquals('another-page-3', $page->getPageName());
-        $this->assertEquals('home', $page->getTemplateName());
-        $this->assertEquals(0, $page->getIsHome());
-        $this->assertEquals(1, $page->getIsPublished());
+        $this->doPageFromDbTest(8, 'another-page-3', 'home', 0, 1);
+    }
+    
+    public function testAddPageSuccededWhenPageIdIsGiven()
+    {
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '8',
+            'pageName' => "another-page-4",
+            'templateName' => "home",
+            'permalink' => "page 4",
+            'isPublished' => "0",
+            'title' => 'A title',
+            'description' => 'A description',
+            'keywords' => 'Some keywords',
+            'sitemapChangeFreq' => '',
+            'sitemapPriority' => '',
+        );
+
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
+        
+        $json = json_decode($response->getContent(), true);
+        $this->assertRegExp(
+            '/pages_controller_page_saved|The page has been successfully saved/si',
+            $json[0]["value"]
+        );
+        
+        $this->doPageFromDbTest(9, 'another-page-4', 'home', 0, 0);
     }
 
     private function retrievePageSlots()
@@ -584,5 +596,15 @@ class PagesControllerTest extends WebTestCaseFunctional
         $slots = $templateSlots->toArray();
 
         return $slots['page'];
+    }
+    
+    private function doPageFromDbTest($id, $pageName, $template, $isHome, $isPublished)
+    {
+        $page = $this->pageRepository->fromPk($id);
+        $this->assertNotNull($page);
+        $this->assertEquals($pageName, $page->getPageName());
+        $this->assertEquals($template, $page->getTemplateName());
+        $this->assertEquals($isHome, $page->getIsHome());
+        $this->assertEquals($isPublished, $page->getIsPublished());
     }
 }

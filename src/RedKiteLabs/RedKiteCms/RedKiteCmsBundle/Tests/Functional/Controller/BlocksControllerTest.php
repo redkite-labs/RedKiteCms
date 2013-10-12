@@ -43,20 +43,17 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
         $this->blockRepository->fromPK(2);
     }
-
-    public function testAddBlockFailsWhenAnyValidParameterIsGiven()
+    
+    /**
+     * @dataProvider addFailsProvider
+     */
+    public function testAddBlockFails($params, $message)
     {
-        $this->anyValidParameterIsGiven('/backend/en/addBlock');
-    }
-
-    public function testAddBlockFailsWhenAnyValidPageIsRetrievedWithGivenParameters()
-    {
-        $this->anyValidPageIsRetrievedWithGivenParameters('/backend/en/addBlock');
-    }
-
-    public function testAddBlockFailsWhenTheSlotNameIsInvalid()
-    {
-        $this->slotNameIsInvalid('/backend/en/addBlock');
+        $crawler = $this->browse('/backend/en/addBlock', $params);
+        $this->assertRegExp(
+            $message,
+            $this->client->getResponse()->getContent()
+        );
     }
 
     public function testAddNewBlock()
@@ -141,36 +138,14 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertCount(1, $blocks);
     }
 
-    public function testEditBlockFailsWhenAnyValidParameterIsGiven()
+    /**
+     * @dataProvider editFailsProvider
+     */
+    public function testEditBlockFails($params, $message)
     {
-        $this->anyValidParameterIsGiven('/backend/en/editBlock');
-    }
-
-    public function testEditBlockFailsWhenAnyValidPageIsRetrievedWithGivenParameters()
-    {
-        $this->anyValidPageIsRetrievedWithGivenParameters('/backend/en/editBlock');
-    }
-
-    public function testEditBlockFailsWhenTheSlotNameIsInvalid()
-    {
-        $this->slotNameIsInvalid('/backend/en/editBlock');
-    }
-
-    public function testEditBlockFailsWhenTheRequiredBlockIdIsNull()
-    {
-        $crawler = $this->blockIdIsNull('/backend/en/editBlock');
+        $crawler = $this->browse('/backend/en/editBlock', $params);
         $this->assertRegExp(
-            '/blocks_controller_nothing_changed_with_these_values|It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made/si',
-            $this->client->getResponse()->getContent()
-        );
-    }
-
-    public function testEditBlockFailsWhenTheRequiredBlockDoesNotExist()
-    {
-        $crawler = $this->blockIdDoesNotExist('/backend/en/editBlock');
-
-        $this->assertRegExp(
-            '/blocks_controller_nothing_changed_with_these_values|It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made/si',
+            $message,
             $this->client->getResponse()->getContent()
         );
     }
@@ -257,38 +232,15 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $blocks = $this->blockRepository->retrieveContents(2, 2, "content_title_1");
         $this->assertEquals(1, $blocks[count($blocks) - 1]->getContentPosition());
     }
-
-    public function testDeleteBlockFailsWhenAnyValidParameterIsGiven()
+    
+    /**
+     * @dataProvider deleteFailsProvider
+     */
+    public function testDeleteBlockFails($params, $message)
     {
-        $this->anyValidParameterIsGiven('/backend/en/deleteBlock');
-    }
-
-    public function testDeleteBlockFailsWhenAnyValidPageIsRetrievedWithGivenParameters()
-    {
-        $this->anyValidPageIsRetrievedWithGivenParameters('/backend/en/deleteBlock');
-    }
-
-    public function testDeleteBlockFailsWhenTheSlotNameIsInvalid()
-    {
-        $this->slotNameIsInvalid('/backend/en/deleteBlock');
-    }
-
-    public function testDeleteBlockFailsWhenTheRequiredBlockIdIsNull()
-    {
-        $crawler = $this->blockIdIsNull('/backend/en/deleteBlock');
-        
+        $crawler = $this->browse('/backend/en/deleteBlock', $params);
         $this->assertRegExp(
-            '/blocks_controller_block_does_not_exists|The block you tried to remove does not exist anymore in the website/si',
-            $this->client->getResponse()->getContent()
-        );
-    }
-
-    public function testDeleteBlockFailsWhenTheRequiredBlockDoesNotExist()
-    {
-        $crawler = $this->blockIdDoesNotExist('/backend/en/deleteBlock');
-
-        $this->assertRegExp(
-            '/blocks_controller_block_does_not_exists|The block you tried to remove does not exist anymore in the website/si',
+            $message,
             $this->client->getResponse()->getContent()
         );
     }
@@ -472,6 +424,106 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $blocks = $this->blockRepository->retrieveContents(2, 2, $slotName);
         $this->assertCount(1, $blocks);
     }
+    
+    public function addFailsProvider()
+    {
+        return array(
+            array(
+                array(),
+                '/blocks_controller_page_does_not_exists|The page you are trying to edit does not exist/si',
+            ),
+            array(
+                array(                   
+                    'languageId' => '2',   
+                ),
+                '/blocks_controller_page_does_not_exists|The page you are trying to edit does not exist/si',
+            ),
+            array(
+                array(
+                    'pageId' => '4',                    
+                    'languageId' => '2',   
+                    'page' => 'index', 
+                    'language' => 'en', 
+                ),
+                '/blocks_controller_page_does_not_exists|The page you are trying to edit does not exist/si',
+            ),
+            array(
+                array(
+                    'pageId' => '2',                    
+                    'languageId' => '2',   
+                    'page' => 'backend', 
+                    'language' => 'en', 
+                ),
+                '/blocks_controller_page_does_not_exists|The page you are trying to edit does not exist/si',
+            ),
+            array(
+                array(
+                    'pageId' => '2',                    
+                    'languageId' => '2',   
+                    'page' => 'index', 
+                    'language' => 'en', 
+                    'slotName' => 'fake',
+                ),
+                '/blocks_controller_invalid_or_empty_slot|You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty/si',
+            ),
+            
+            
+        );
+    }
+    
+    public function editFailsProvider()
+    {
+        return array_merge($this->addFailsProvider(), array(
+            array(
+                array(
+                    "pageId" => "2",
+                    "languageId" => "2",
+                    'page' => 'index',
+                    'language' => 'en',
+                    'slotName' => 'content_title_1', 
+                ),
+                '/blocks_controller_nothing_changed_with_these_values|It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made/si',
+            ),
+            array(
+                array(
+                    "pageId" => "2",
+                    "languageId" => "2",
+                    'page' => 'index',
+                    'language' => 'en',
+                    'slotName' => 'content_title_1', 
+                    'blockId' => 99999,
+                ),
+                '/blocks_controller_nothing_changed_with_these_values|It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made/si',
+            ),
+        ));
+    }
+    
+    public function deleteFailsProvider()
+    {
+        return array_merge($this->addFailsProvider(), array(
+            array(
+                array(
+                    "pageId" => "2",
+                    "languageId" => "2",
+                    'page' => 'index',
+                    'language' => 'en',
+                    'slotName' => 'content_title_1', 
+                ),
+                '/blocks_controller_block_does_not_exists|The block you tried to remove does not exist anymore in the website/si',
+            ),
+            array(
+                array(
+                    "pageId" => "2",
+                    "languageId" => "2",
+                    'page' => 'index',
+                    'language' => 'en',
+                    'slotName' => 'content_title_1', 
+                    'blockId' => 99999,
+                ),
+                '/blocks_controller_block_does_not_exists|The block you tried to remove does not exist anymore in the website/si',
+            ),
+        ));
+    }
 
     private function getSlotBlocks($slotName)
     {
@@ -493,55 +545,4 @@ class BlocksControllerTest extends WebTestCaseFunctional
 
         return $crawler;
     }
-
-    private function anyValidParameterIsGiven($route)
-    {
-        $crawler = $this->browse($route);
-        $this->assertRegExp(
-            '/blocks_controller_page_does_not_exists|The page you are trying to edit does not exist/si',
-            $this->client->getResponse()->getContent()
-        );
-    }
-
-    private function anyValidPageIsRetrievedWithGivenParameters($route)
-    {
-        $params = array('pageId' => '4',
-                        'language' => 'en');
-        $crawler = $this->browse($route, $params);
-        $this->assertRegExp(
-            '/blocks_controller_page_does_not_exists|The page you are trying to edit does not exist/si',
-            $this->client->getResponse()->getContent()
-        );
-    }
-
-    private function slotNameIsInvalid($route, $params = null)
-    {
-        $params = (null === $params) ? array('page' => 'index', 'language' => 'en', 'slotName' => 'fake') : $params;
-
-        $crawler = $this->browse($route, $params);
-        $this->assertRegExp(
-            '/blocks_controller_invalid_or_empty_slot|You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty/si',
-            $this->client->getResponse()->getContent()
-        );
-    }
-
-    private function blockIdIsNull($route)
-    {
-        $params = array("page" => "2",
-                        "language" => "2",
-                        'slotName' => 'content_title_1');
-
-        return $this->browse($route, $params);
-    }
-
-    private function blockIdDoesNotExist($route)
-    {
-        $params = array("page" => "2",
-                        "language" => "2",
-                        'slotName' => 'content_title_1',
-                        'idBlock' => 9999);
-
-        return $this->browse($route, $params);
-    }
-
 }

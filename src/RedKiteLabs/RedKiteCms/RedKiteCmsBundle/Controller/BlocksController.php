@@ -110,6 +110,7 @@ class BlocksController extends Base\BaseController
 
         $value = urldecode($request->get('value'));
         $values = array($request->get('key') => $value);
+        
         // @codeCoverageIgnoreStart
         if (null !== $request->get('options') && is_array($request->get('options'))) {
             $values = array_merge($values, $request->get('options'));
@@ -206,7 +207,7 @@ class BlocksController extends Base\BaseController
     private function checkPageIsValid()
     {
         $pageTree = $this->container->get('red_kite_cms.page_tree');
-        if (!$pageTree->isValid()) {
+        if ( ! $pageTree->isValid()) {
             throw new RuntimeException("blocks_controller_page_does_not_exists");
         }
     }
