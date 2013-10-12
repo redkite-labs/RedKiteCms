@@ -62,6 +62,8 @@
                     if (successCallback != null) {
                         successCallback();
                     }
+                    
+                    $(document).trigger("blockAdded", []);
                 },
                 error: function(err)
                 {
@@ -109,6 +111,8 @@
                     if (successCallback != null) {
                         successCallback(activeBlock);
                     }
+                    
+                    $(document).trigger("blockEdited", [ activeBlock ]);
                 },
                 error: function(err)
                 {
@@ -160,6 +164,8 @@
                 success: function(response)
                 {
                     updateContentsJSon(response);
+                    
+                    $(document).trigger("blockDeleted", []);
                 },
                 error: function(err)
                 {
