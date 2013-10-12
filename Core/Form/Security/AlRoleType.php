@@ -17,15 +17,16 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Security;
 
-use Symfony\Component\Form\AbstractType;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Implements the form to manage the website roles
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlRoleType extends AbstractType
+class AlRoleType extends BaseBlockType
 {
     /**
      * {@inheritdoc}
@@ -39,12 +40,14 @@ class AlRoleType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
+        parent::setDefaultOptions($resolver);
+        
+        $resolver->setDefaults(array(
             'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Model\AlRole',
             'csrf_protection' => false,
-        );
+        ));
     }
 
     /**

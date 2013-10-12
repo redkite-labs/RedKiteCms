@@ -38,15 +38,18 @@ class SecurityController extends Base\BaseController
 
     public function loginAction()
     {
+        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion(); 
+        $this->container->get('twig')->addGlobal('bootstrap_version', $bootstrapVersion);
+        
         $request = $this->container->get('request');
         $params = $this->checkRequestError();
-
+        
         $response = null;
-        $template = 'RedKiteCmsBundle:Security:graphical-login.html.twig';
+        $template = 'RedKiteCmsBundle:Security:Login/login-form.html.twig';
         if ($request->isXmlHttpRequest()) {
             $response = new Response();
             $response->setStatusCode('403');
-            $template = 'RedKiteCmsBundle:Security:login.html.twig';
+            $template = sprintf('RedKiteCmsBundle:Bootstrap:%s/Security/Login/login-form-ajax.html.twig', $bootstrapVersion);
         }
 
         $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
@@ -56,6 +59,7 @@ class SecurityController extends Base\BaseController
         $alPage = $pageReporitory->homePage();
         $alLanguage = $languageReporitory->mainLanguage();
         $params['target'] = '/backend/' . $alLanguage->getLanguageName() . '/' . $alPage->getPageName();
+        //$params['bootstrap_version'] = $bootstrapVersion;
         
         return $this->container->get('templating')->renderResponse($template, $params, $response);
     }
@@ -92,7 +96,7 @@ class SecurityController extends Base\BaseController
         $isNewUser = (null !== $request->get('id') && 0 != $request->get('id')) ? false : true;
         $user = (!$isNewUser) ? $this->userRepository()->fromPk($request->get('id')) : new AlUser();
         $form = $this->container->get('form.factory')->create(new AlUserType(), $user);
-
+        
         $message = '';
         $errors = array();
         if ('POST' === $request->getMethod()) { 
@@ -132,11 +136,11 @@ class SecurityController extends Base\BaseController
             }
         }
 
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:user.html.twig', array(
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/user.html.twig', array(
             'form' => $form->createView(),
             'errors' => $errors,
             'message' => $message,
-            'configuration' => $this->container->get('red_kite_cms.configuration'),
+            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
         ));
     }
 
@@ -169,12 +173,12 @@ class SecurityController extends Base\BaseController
                 if (!$isNewRole) $form = $this->container->get('form.factory')->create(new AlRoleType(), $role);
             }
         }
-
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:role.html.twig', array(
+        
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/role.html.twig', array(
             'form' => $form->createView(),
             'errors' => $errors,
             'message' => $message,
-            'configuration' => $this->container->get('red_kite_cms.configuration'),
+            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
         ));
     }
 
@@ -229,18 +233,18 @@ class SecurityController extends Base\BaseController
     }
 
     private function loadUsers()
-    {
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:users_list.html.twig', array(
+    {  
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/users_list.html.twig', array(
             'users' => $this->userRepository()->activeUsers(),
-            'configuration' => $this->container->get('red_kite_cms.configuration'),
+            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
         ));
     }
 
     private function loadRoles()
     {
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:roles_list.html.twig', array(
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/roles_list.html.twig', array(
             'roles' => $this->roleRepository()->activeRoles(),
-            'configuration' => $this->container->get('red_kite_cms.configuration'),
+            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
         ));
     }
 

@@ -130,7 +130,7 @@ class ThemesControllerTest extends TestCase
          
         $sequence = 4;
         if ($result) {
-            $activeTheme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+            $activeTheme = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
             $activeTheme
                  ->expects($this->once())
                  ->method('writeActiveTheme')
@@ -140,7 +140,7 @@ class ThemesControllerTest extends TestCase
             $this->container
                  ->expects($this->at($sequence))
                  ->method('get')
-                 ->with('red_kite_labs_theme_engine.active_theme')
+                 ->with('red_kite_cms.active_theme')
                  ->will($this->returnValue($activeTheme));
             $sequence++;
             

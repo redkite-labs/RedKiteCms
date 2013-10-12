@@ -113,7 +113,7 @@ class SlotRendererExtension extends \Twig_Extension
                 $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'true' : 'false';
                 $editorParameters = $blockManager->editorParameters();
                 
-                $cmsAttributes = $templating->render('RedKiteCmsBundle:Slot:editable_block_attributes.html.twig', array(
+                $cmsAttributes = $templating->render('RedKiteCmsBundle:Block:Editor/_editable_block_attributes.html.twig', array(
                     'block_id' => $block['Block']["Id"],
                     'hide_in_edit_mode' => $hideInEditMode,
                     'slot_name' => $slotName,
@@ -133,7 +133,7 @@ class SlotRendererExtension extends \Twig_Extension
                 $content = preg_replace('/data\-editor="true"/', $cmsAttributes . ' data-editor="enabled"', $content);
             }
             
-            return $templating->render('RedKiteCmsBundle:Slot:' . $template, array(
+            return $templating->render('RedKiteCmsBundle:Slot:Page/' . $template, array(
                 'block_id' => $block['Block']["Id"],
                 'slot_name' => $slotName,
                 'type' => $block['Block']['Type'],

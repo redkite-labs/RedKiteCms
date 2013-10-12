@@ -28,15 +28,38 @@
                     attributes += 'data-' + field + '="" '; 
                 }); 
                 
-                var imageMarkup = 
-                    '<li class="' + settings.span + '">' + 
-                    '<a href="#" ' + attributes + 'class="thumbnail al_img">' +
-                    '<img src="holder.js/' + settings.imageDimension + '" title="" alt=""/>' +
-                    '</a>' +
-                    '</li>'
-                ;
-                $('.images_contents .thumbnails:last').append(imageMarkup);
-                
+                var imageMarkup;
+                if ($('.images_contents .thumbnails').length > 0) { 
+                    // Twitter Bootstrap 2.x
+                    if ($('.images_contents .thumbnails:last li').length == 3) {
+                        $('.images_contents').append('<ul class="thumbnails"></ul>');
+                    }
+                    
+                    imageMarkup = 
+                        '<li class="' + settings.span + '">' + 
+                        '<a href="#" ' + attributes + 'class="thumbnail al_img">' +
+                        '<img data-src="holder.js/' + settings.imageDimension + '" title="" alt=""/>' +
+                        '</a>' +
+                        '</li>'
+                    ;
+                    $('.images_contents .thumbnails:last').append(imageMarkup);
+                }
+                else {
+                    // Twitter Bootstrap 3.x
+                    if ($('.images_contents .row:last .col-sm-6').length == 3) {
+                        $('.images_contents').append('<div class="row"></div>');
+                    }
+
+                    imageMarkup = 
+                        '<div class="col-sm-6 col-md-4">' + 
+                        '<a href="#" ' + attributes + 'class="thumbnail al_img">' +
+                        '<img data-src="holder.js/' + settings.imageDimension + '" title="" alt=""/>' +
+                        '</a>' +
+                        '</div>'
+                    ;
+                    $('.images_contents .row:last').append(imageMarkup);
+                }
+            
                 var element = $('.al_img:last');
                 editItem(element);
                 Holder.run();
@@ -70,6 +93,7 @@
                             value = " ";
                         }
                         imageValues[field] = encodeURIComponent(value);
+                        //imageValues[field] = value;
                     });
                     
                     values[c] = imageValues;
@@ -112,8 +136,24 @@
     
     function deleteItem(element) {
         element.click(function(){  
-            if(confirm(translate("Are you sure you want to remove the selected image"))) { 
-                $('.al_img_selected').parent().remove();
+            if(confirm(translate("Are you sure you want to remove the selected image"))) {
+                var imageThumbnail = $('.al_img_selected').parent();
+                imageThumbnail.remove();
+                
+                if ($('.images_contents .thumbnails').length > 0) { 
+                    // Twitter Bootstrap 2.x
+                    if ($('.images_contents .thumbnails:last li').length == 0) {
+                        $('.images_contents .thumbnails:last').remove();
+                    }
+                }
+                else {
+                    // Twitter Bootstrap 3.x
+                    if ($('.images_contents .row:last .col-sm-6').length == 0) {
+                        $('.images_contents .row:last').remove();
+                    }
+                }
+                
+                
                 $(".al_form_item").val('');
             }
 
@@ -130,7 +170,7 @@
 
     $.fn.imagesList = function( method, options ) {    
         settings = $.extend( {
-          imageDimension  : '140x60',
+          imageDimension  : '400x280',
           span: 'span2'
         }, options);
         

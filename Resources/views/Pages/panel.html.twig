@@ -1,0 +1,94 @@
+{#
+   This file is part of the RedKiteCmsBunde Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'RedKiteCmsBundle:Panels:base.html.twig' %}
+
+{% form_theme pagesForm 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/FormTheme/forms.html.twig' %}
+{% form_theme pageAttributesForm 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/FormTheme/forms.html.twig' %}
+
+{% set cms_language = configuration.read('language') %}
+{% set panel_class = 'al_panel_contents_width' %}
+
+{% block al_sidebar_middle_inside %}
+<div id="al_pages">
+
+    {{ form_errors(pagesForm) }}
+    {{ form_errors(pageAttributesForm) }}
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#page" data-toggle="tab">{{ "pages_controller_label_page"|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
+        <li><a href="#seo" data-toggle="tab">{{ "pages_controller_label_seo"|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
+        <li><a href="#sitemap" data-toggle="tab">{{ "pages_controller_label_sitemap"|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
+    </ul>
+    
+    <div class="tab-content">
+        <div class="tab-pane active tab-height-page" id="page">
+            <div id="al_pages_attributes_section">
+                {# <h2>{{ "pages_controller_label_page"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2> #}
+                <form id="al_page_form">
+                {{ form(pagesForm) }}
+                </form>
+            </div>
+        </div>
+    
+        <div class="tab-pane tab-height-page" id="seo">
+            <div id="al_pages_seo_attributes_section">
+                <form id="al_attributes_form">
+                {{ form_row(pageAttributesForm.permalink) }}
+                {{ form_row(pageAttributesForm.title) }}
+                {{ form_row(pageAttributesForm.description) }}
+                {{ form_row(pageAttributesForm.keywords) }}
+                </form>
+                {#<h2>{{ "pages_controller_seo"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>#}                
+            </div>
+        </div>
+    
+        <div class="tab-pane tab-height-page" id="sitemap">
+            <div id="al_pages_site_map_section">
+                <form id="al_sitemp_form">
+                {{ form_row(pageAttributesForm.sitemapChangeFreq) }}
+                {{ form_row(pageAttributesForm.sitemapPriority) }}
+                </form>
+                {#<h2>{{ "pages_controller_label_site_map"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>#}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="pull-right">
+    <input id="al_page_saver" type="submit" value="{{ "common_label_save"|trans({}, 'RedKiteCmsBundle', cms_language) }}" class="btn btn-primary" />
+</div>
+{% endblock %}
+
+{% block al_sidebar_right_inside %}
+    <h2>{{ "pages_controller_label_pages_selector"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
+    <div>
+        {{ form_label(pageAttributesForm.idLanguage, "pages_controller_label_languages"|trans({}, 'RedKiteCmsBundle', cms_language)) }}
+        {{ form_errors(pageAttributesForm.idLanguage) }} {{ form_widget(pageAttributesForm.idLanguage) }}
+        {{ form_rest(pageAttributesForm) }}
+    </div>
+
+    <div id="al_pages_box" class="al_panel_box">
+        <div class="al_panel_box_header">
+            <span class="al_panel_box_header_title white-text-shadow">{{ "pages_controller_label_site_pages"|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
+        </div>
+        <div id="al_pages_list" class="al_panel_list">
+            {% include 'RedKiteCmsBundle:Pages:pages_list.html.twig' %}
+        </div>
+    </div>
+
+    <input id="al_pages_remover" class="btn btn-danger pull-right" type="submit" value="{{ "common_label_delete"|trans({}, 'RedKiteCmsBundle', cms_language) }}" />
+
+    <div id="al_select_languages_reminder">{{ "pages_controller_next_step"|trans({}, 'RedKiteCmsBundle', cms_language) }}</div>
+{% endblock %}

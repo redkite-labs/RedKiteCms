@@ -46,9 +46,10 @@ class AlCmsController extends BaseFrontendController
         $this->pageRepository = $this->factoryRepository->createRepository('Page');        
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
         $this->configuration = $this->container->get('red_kite_cms.configuration');
+        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
         
         $params = array(
-            'template' => 'RedKiteCmsBundle:Cms:welcome.html.twig',
+            'template' => 'RedKiteCmsBundle:Cms:Welcome/welcome.html.twig',
             'enable_yui_compressor' => $this->container->getParameter('red_kite_cms.enable_yui_compressor'),
             'templateStylesheets' => null,
             'templateJavascripts' => null,
@@ -121,7 +122,7 @@ class AlCmsController extends BaseFrontendController
             $this->container->get('session')->getFlashBag()->add('notice', $message);
         }
         
-        $response = $this->render('RedKiteCmsBundle:Cms:index.html.twig', $params);
+        $response = $this->render(sprintf('RedKiteCmsBundle:Bootstrap:%s/Template/Cms/template.html.twig', $bootstrapVersion), $params);
 
         return $this->dispatchEvents($request, $response);
     }
@@ -147,7 +148,7 @@ class AlCmsController extends BaseFrontendController
 
     protected function findTemplate($pageTree)
     {
-        $templateTwig = 'RedKiteCmsBundle:Cms:welcome.html.twig';
+        $templateTwig = 'RedKiteCmsBundle:Cms:Welcome/welcome.html.twig';
         if (null !== $template = $pageTree->getTemplate()) {
             $themeName = $template->getThemeName();
             $templateName = $template->getTemplateName();

@@ -665,7 +665,7 @@
             <target>This is a permanent link that identifies uniquely the page</target>
         </trans-unit>
         <trans-unit id="pages-controller-16">
-            <source>pages_controller_meta_title</source>
+            <source>pages_controller_label_meta_title</source>
             <target>Meta-Title</target>
         </trans-unit>
         <trans-unit id="pages-controller-17">
@@ -673,7 +673,7 @@
             <target>The page title. It should be congruent with the page's text, it should always be compiled and is should be length 60 chars max</target>
         </trans-unit>
         <trans-unit id="pages-controller-18">
-            <source>pages_controller_meta_description</source>
+            <source>pages_controller_label_meta_description</source>
             <target>Meta-Description</target>
         </trans-unit>
         <trans-unit id="pages-controller-19">
@@ -681,7 +681,7 @@
             <target>Provide here a brief description of the page. This attribute should always be compiled</target>
         </trans-unit>
         <trans-unit id="pages-controller-20">
-            <source>pages_controller_meta_keywords</source>
+            <source>pages_controller_label_meta_keywords</source>
             <target>Meta-Keywords</target>
         </trans-unit>
         <trans-unit id="pages-controller-21">

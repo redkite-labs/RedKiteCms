@@ -99,7 +99,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->method('createBlockManager')
             ->will($this->returnValue($blockManager));
 
-        $activeTheme = $this->getMock('\RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+        $activeTheme = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
         $activeTheme->expects($this->any())
             ->method('getActiveTheme')
             ->will($this->returnValue('BootbusinessTheme'));
@@ -135,7 +135,7 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
         while ($i < $numberOfCalls + 2) {
             $this->container->expects($this->at($i))
                 ->method('get')
-                ->with('red_kite_labs_theme_engine.active_theme')
+                ->with('red_kite_cms.active_theme')
                 ->will($this->returnValue($activeTheme));
             $i = $i + 3;
         }
@@ -496,14 +496,14 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->with('red_kite_cms.love')
             ->will($this->returnValue('yes'));
         
-        $activeTheme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
         $activeTheme->expects($this->once())
             ->method('getActiveTheme')
             ->will($this->returnValue('BootbusinessThemeBundle'));
             
         $this->container->expects($this->at(14))
             ->method('get')
-            ->with('red_kite_labs_theme_engine.active_theme')
+            ->with('red_kite_cms.active_theme')
             ->will($this->returnValue($activeTheme));
     }
     

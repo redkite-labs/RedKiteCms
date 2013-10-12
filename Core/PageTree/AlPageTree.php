@@ -84,7 +84,7 @@ class AlPageTree
         $this->blockManagerFactory = $container->get('red_kite_cms.block_manager_factory');
         
         $this->container = $container;
-        $this->activeTheme = $this->container->get('red_kite_labs_theme_engine.active_theme');
+        $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
     }
 
     /**

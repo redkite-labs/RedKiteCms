@@ -79,7 +79,7 @@ abstract class BaseImagesBlockEditedListener
                 array("key" => "message", "value" => "The content has been successfully edited"),
                 array("key" => "edit-block",
                         "blockName" => "block_" . $blockManager->get()->getId(),
-                        "value" => $this->templateEngine->render('RedKiteCmsBundle:Cms:render_block.html.twig', array("block" => $blockManager->toArray()))
+                        "value" => $this->templateEngine->render('RedKiteCmsBundle:Slot:Render/_block.html.twig', array("block" => $blockManager->toArray()))
                     )
                 );
 

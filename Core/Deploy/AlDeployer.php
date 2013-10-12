@@ -111,7 +111,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->webFolderPath = $this->container->getParameter('red_kite_cms.web_folder_full_path');
         $this->dispatcher = $this->container->get('event_dispatcher');
         $this->credits = ($this->container->getParameter('red_kite_cms.love') == 'no') ? false : true;
-        $this->activeTheme = $this->container->get('red_kite_labs_theme_engine.active_theme');
+        $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
         $this->themesCollectionWrapper = $this->container->get('red_kite_cms.themes_collection_wrapper');
         $this->websiteUrl = $this->container->getParameter('red_kite_cms.website_url');
         

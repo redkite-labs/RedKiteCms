@@ -1,0 +1,50 @@
+{#
+   This file is part of the RedKiteCmsBunde Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'RedKiteCmsBundle:Themes:Base/base.html.twig' %}
+
+{% block theme_panel %}
+<h2>{{ theme_values.theme_title }}</h2>
+<table>
+{% if theme_values.info is defined %}
+<tr><td rowspan="{{theme_values.info|length + 1}}" width="120"><img src="{{ theme_values.screenshot }}" width="100" height="100" /></td></tr>
+{% for key, value in theme_values.info %}
+<tr><th>{{ key|trans({}, "RedKiteCmsBundle", cms_language) }}</th><td>{{ value }}</td></tr>
+{% endfor %}
+{% else %}
+  {% if theme_values.theme_error is defined %}
+  <tr><td colspan="2">{{ theme_values.theme_error }}</td></tr>
+  {% else %}
+  <tr><td colspan="2"><b>{{ "Any information available for this theme" | trans([], domain) }}</b></td></tr>
+  {% endif %}
+{% endif %}
+
+  <tr>
+    <td colspan="3">
+        {% block theme_commands %}
+        <table>
+            <tr>
+                {% if theme_values.buttons is defined %}            
+                    <td><a id="al_theme_selector" rel="tooltip" title="{{ 'themes_controller_preview_theme'|trans({}, "RedKiteCmsBundle", cms_language) }}" href="{{ path('red_kite_cms_preview_theme', {'languageName': app.request.get('language'), 'pageName': app.request.get('page'), 'themeName' : theme_values.theme_title}) }}" class="btn btn-default">{{ "theme_controller_label_preview"|trans({}, "RedKiteCmsBundle", cms_language) }}</a></td>
+                    <td><a href="#" rel="tooltip" title="{{ 'themes_controller_activate_theme'|trans({}, "RedKiteCmsBundle", cms_language) }}" class="btn btn-default al_themes_changer" data-theme-name="{{ theme_values.theme_title }}">{{ "theme_controller_label_activate"|trans({}, "RedKiteCmsBundle", cms_language) }}</a></td>
+                    <td><a href="#" rel="tooltip" title="{{ 'themes_controller_start_from_theme_explanation'|trans({}, "RedKiteCmsBundle", cms_language) }}" class="btn btn-danger al_start_from_theme" data-theme-name="{{ theme_values.theme_title }}">{{ "themes_controller_start_from_this_theme"|trans({}, "RedKiteCmsBundle", cms_language) }}</a></td>
+                {% endif %}
+            </tr>
+        </table>
+        {% endblock %}
+    </td>
+  </tr>
+</table>
+{% endblock %}

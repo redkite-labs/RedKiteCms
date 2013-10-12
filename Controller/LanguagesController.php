@@ -36,16 +36,16 @@ class LanguagesController extends Base\BaseController
         
         $languagesForm = new LanguagesForm();
         $form = $this->container->get('form.factory')->create($languagesForm);
-
+        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
+        
         $params = array(
-            'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
             'languages' => ChoiceValues::getLanguages($this->createLanguageRepository()),
             'active_language' => $request->get('language'),
             'form' => $form->createView(),
             'configuration' => $this->container->get('red_kite_cms.configuration'),
         );
 
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Languages:index.html.twig', $params);
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Languages:panel.html.twig', $params);
     }
 
     public function saveLanguageAction()
@@ -123,7 +123,7 @@ class LanguagesController extends Base\BaseController
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
         $values[] = array("key" => "languages", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Languages:languages_list.html.twig', array('languages' => $languagesList, 'active_language' => $request->get('language'),)));
-        $values[] = array("key" => "languages_menu", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Cms:menu_dropdown.html.twig', array('id' => 'al_languages_navigator', 'type' => 'al_language_item', 'value' => (null !== $language) ? $language->getId() : 0, 'text' => $request->get('language'), 'items' => $languages)));
+        $values[] = array("key" => "languages_menu", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_dropdown_menu.html.twig', array('id' => 'al_languages_navigator', 'type' => 'al_language_item', 'value' => (null !== $language) ? $language->getId() : 0, 'text' => $request->get('language'), 'items' => $languages)));
         
         $response = new Response(json_encode($values));
         $response->headers->set('Content-Type', 'application/json');

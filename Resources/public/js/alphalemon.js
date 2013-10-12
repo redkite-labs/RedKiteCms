@@ -124,7 +124,7 @@
                 },
                 trigger: 'manual',
                 content: decodedContent,
-                template: '<div class="popover al-popover"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"></div></div></div>'
+                template: '<div class="popover al-popover"><div class="arrow"></div><div class="popover-inner"><div class="popover-title"></div><div class="popover-content"></div></div></div>'
             }
             
             var hasPopover = ($this.attr('rel') == 'popover');            
@@ -263,31 +263,6 @@
                 of: element
             });
         });
-        /* OLD METHOD: WAIT BEFORE REMOVE IT 
-        $('.al-popover:visible').each(function(){
-            var pos = element.offset();
-            var popover = $(this);
-            
-            // prevents to close editor when interacting with the included elements 
-            // like inputs, textarea and so on
-            popover
-                .mouseenter(function(){
-                    isCursorOverEditor = true;
-                })
-                .mouseleave(function(){
-                    isCursorOverEditor = false;
-                })
-            ;
-
-            var actualWidth = popover.width();
-            var actualLeft = pos.left;
-
-            if (actualLeft + actualWidth < $('#al_cms_contents').width()) {
-                popover.offset({left: actualLeft}).find('.arrow').css('left', '10%');
-            } else {
-                popover.offset({left: actualLeft + (actualWidth / 5) - actualWidth}).find('.arrow').css('left', '90%');
-            }
-        });*/
         
         $('.al_editor_save').each(function(){ 
             var $this = $(this);

@@ -1,0 +1,5 @@
+{% extends 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/base.html.twig' %}
+
+{% block body %}
+{% include "RedKiteCmsBundle:Partials:_select.html.twig" with { 'id': 'al_page_name', 'items': items, 'classes': 'al_hidden ' ~ small_input } %}
+{% endblock %}

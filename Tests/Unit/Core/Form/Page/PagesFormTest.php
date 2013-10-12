@@ -40,7 +40,7 @@ class PagesFormTest extends AlBaseType
     protected function getForm()
     {
         $activeTheme = 
-            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;

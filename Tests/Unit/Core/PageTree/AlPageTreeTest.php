@@ -69,7 +69,7 @@ class AlPageTreeTest extends TestCase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->activeTheme = $this->getMock('\RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+        $this->activeTheme = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
 
         $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
@@ -1537,7 +1537,7 @@ class AlPageTreeTest extends TestCase
         
         $this->container->expects($this->at(2))
             ->method('get')
-            ->with('red_kite_labs_theme_engine.active_theme')
+            ->with('red_kite_cms.active_theme')
             ->will($this->returnValue($this->activeTheme));
         
         if (null !== $request) {

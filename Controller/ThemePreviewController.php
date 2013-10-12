@@ -35,8 +35,9 @@ class ThemePreviewController extends AlCmsController
         $this->themes = $this->container->get('red_kite_labs_theme_engine.themes');
         $this->factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $this->blocksFactory = $this->container->get('red_kite_cms.block_manager_factory');
-        $this->activeTheme = $this->container->get('red_kite_labs_theme_engine.active_theme');
-        $this->blocksRepository = $this->factoryRepository->createRepository('Block');
+        $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
+        $this->blocksRepository = $this->factoryRepository->createRepository('Block');        
+        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion($themeName);   
         
         $theme = $this->themes->getTheme($themeName);
         $template = ($templateName == 'none') ? $theme->getHomeTemplate() : $theme->getTemplate($templateName);
@@ -71,7 +72,7 @@ class ThemePreviewController extends AlCmsController
             'configuration' => $this->container->get('red_kite_cms.configuration'),
         );
         
-        return $this->render('RedKiteCmsBundle:Preview:index.html.twig', $baseParams);
+        return $this->render(sprintf('RedKiteCmsBundle:Bootstrap:%s/Template/Preview/template.html.twig', $bootstrapVersion), $baseParams);
     }
 
     protected function fetchSlotContents(AlTemplate $template)
