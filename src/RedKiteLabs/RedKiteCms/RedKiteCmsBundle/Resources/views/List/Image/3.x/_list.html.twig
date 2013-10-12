@@ -1,0 +1,21 @@
+{% block body %}
+<div class="container">
+{% for imagesRow in images %}
+    <div class="row">
+    {% for image in imagesRow %}
+        <div class="col-sm-6 col-md-4">
+            {% set attributes = "" %}
+            {% for name, value in image %}
+            {% set attributeName = 'data-' ~ form_name ~ '_' ~name %}
+            {% set attributes = attributes ~ attributeName ~ '=' ~ value|escape('url') ~ ' ' %}
+            {% endfor %}
+
+            <a href="#" class="thumbnail al_img" {{ attributes }}>
+                {% include "RedKiteCmsBaseBlocksBundle:Content:Image/image.html.twig" with {"image" : image } %}
+            </a>
+        </div>  
+    {% endfor %}
+    </div>
+{% endfor %}
+</div>
+{% endblock %}

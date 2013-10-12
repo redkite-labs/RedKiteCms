@@ -207,7 +207,7 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
     {     
         $this->setUpLanguagesAndPages($languages, $pages);
 
-        $activeTheme = $this->getMock('\RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveThemeInterface');
+        $activeTheme = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
         $activeTheme->expects($this->any())
             ->method('getActiveTheme')
             ->will($this->returnValue('BusinessWebsiteTheme'));
@@ -244,7 +244,7 @@ class AlPageTreeCollectionTest extends AlPageTreeCollectionBootstrapper
         while ($i < $numberOfCalls + 2) {
             $this->container->expects($this->at($i))
                 ->method('get')
-                ->with('red_kite_labs_theme_engine.active_theme')
+                ->with('red_kite_cms.active_theme')
                 ->will($this->returnValue($activeTheme));  
         
             $i = $i + 3; 

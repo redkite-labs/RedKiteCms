@@ -54,24 +54,24 @@ class BlocksController extends Base\BaseController
                 // @codeCoverageIgnoreEnd
             }
 
-            $template = 'RedKiteCmsBundle:Cms:render_block.html.twig';
+            $template = 'RedKiteCmsBundle:Slot:Render/_block.html.twig';
             $blockManager = $slotManager->lastAdded();
         } else {
             if ( ! $request->get('included')) {
                 throw new RuntimeException('blocks_controller_invalid_or_empty_slot');
             }
-            $template = 'RedKiteCmsBundle:Cms:render_included_block.html.twig';
+            $template = 'RedKiteCmsBundle:Slot:Render/_included_block.html.twig';
 
             $blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
             $blockManager = $blockManagerFactory->createBlockManager($contentType);
 
             $values = array(
-              "PageId"          => $request->get('pageId'),
-              "LanguageId"      => $request->get('languageId'),
-              "SlotName"        => $slotName,
-              "Type"            => $contentType,
-              "ContentPosition" => 1,
-              'CreatedAt'       => date("Y-m-d H:i:s")
+                "PageId"          => $request->get('pageId'),
+                "LanguageId"      => $request->get('languageId'),
+                "SlotName"        => $slotName,
+                "Type"            => $contentType,
+                "ContentPosition" => 1,
+                'CreatedAt'       => date("Y-m-d H:i:s")
             );            
             $blockManager->save($values);
         }
@@ -92,8 +92,8 @@ class BlocksController extends Base\BaseController
                 "blockId" => "block_" . $blockManager->get()->getId(), 
                 "slotName" => $blockManager->get()->getSlotName(), 
                 "value" => $this->container->get('templating')->render(
-                        $template,
-                        array("blockManager" => $blockManager, 'add' => true)
+                    $template,
+                    array("blockManager" => $blockManager, 'add' => true)
                 )
             )
         );
@@ -139,7 +139,7 @@ class BlocksController extends Base\BaseController
         }
 
         if (null === $response) {
-            $template = ($request->get('included')) ? 'RedKiteCmsBundle:Cms:render_included_block.html.twig' :  'RedKiteCmsBundle:Cms:render_block.html.twig';
+            $template = ($request->get('included')) ? 'RedKiteCmsBundle:Slot:Render/_included_block.html.twig' :  'RedKiteCmsBundle:Slot:Render/_block.html.twig';
             $values = array(
                 array("key" => "message", "value" => $this->translate("blocks_controller_block_edited")),
                 array("key" => "edit-block",
@@ -186,7 +186,7 @@ class BlocksController extends Base\BaseController
                 "key" => "redraw-slot",
                 "slotName" => $request->get('slotName'),
                 "blockId" => 'block_' . $request->get('idBlock'),
-                "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Cms:slot_contents.html.twig', array("slotName" => $request->get('slotName'), "included" => filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)))
+                "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Slot:Render/_slot.html.twig', array("slotName" => $request->get('slotName'), "included" => filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)))
             );
             
             return $this->buildJSonResponse($values);

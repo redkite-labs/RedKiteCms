@@ -17,11 +17,12 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Page;
 
-use Symfony\Component\Form\AbstractType;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme;
+use RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Implements the form to manage the website pages
@@ -30,7 +31,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme;
  *
  * @api
  */
-class PagesForm extends AbstractType
+class PagesForm extends BaseBlockType
 {
     private $activeTheme;
     private $themes;
@@ -38,10 +39,10 @@ class PagesForm extends AbstractType
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme                 $activeTheme
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface   $activeTheme
      * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themes
      */
-    public function __construct(AlActiveTheme $activeTheme, AlThemesCollection $themes)
+    public function __construct(AlActiveThemeInterface $activeTheme, AlThemesCollection $themes)
     {
         $this->activeTheme = $activeTheme;
         $this->themes = $themes;
@@ -52,20 +53,34 @@ class PagesForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('pageName');
-        $builder->add('template', 'choice', array('choices' => ChoiceValues::getTemplates($this->activeTheme, $this->themes)));
-        $builder->add('isHome', 'checkbox');
-        $builder->add('isPublished', 'checkbox');
+        $builder->add('pageName', null, array(
+            'label' => 'pages_controller_label_page_name',
+        ));
+        $builder->add('template', 'choice', array(
+            'choices' => ChoiceValues::getTemplates($this->activeTheme, $this->themes),
+            'label' => 'pages_controller_label_template',
+        ));
+        $builder->add('isHome', 'checkbox', array(
+            'label' => 'pages_controller_label_home_page',
+            'attr' => array(
+                'title' => 'pages_controller_home_page_explanation',
+            ),
+        ));
+        $builder->add('isPublished', 'checkbox', array(
+            'label' => 'pages_controller_label_published',
+        ));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
+        parent::setDefaultOptions($resolver);
+        
+        $resolver->setDefaults(array(
             'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\Page',
-        );
+        ));
     }
 
     /**

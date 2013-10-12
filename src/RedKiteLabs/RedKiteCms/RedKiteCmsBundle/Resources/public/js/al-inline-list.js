@@ -46,10 +46,12 @@
             .css("position", "static")
             .css("float", "left")
             .attr('data-item', '-1')
-            .append('<a class="btn btn-mini btn-primary"><i class="icon-plus"></i></a>')            
+            //.append('<a class="btn btn-mini btn-primary"><i class="icon-plus"></i></a>')       
+            
+            .append('<button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>')            
             .show()
         ;
-        
+        console.log(settings.target, $(settings.target).length);
         element
         .before(addButton)
         .find(settings.target).each(function(){
@@ -66,7 +68,8 @@
             $(addButton)
                 .addClass("al-add-item-list")
                 .attr('data-item', $this.attr('data-item'))
-                .append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white"></i></a>')                
+                //.append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white"></i></a>')
+                .append('<a class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></a>')             
                 .appendTo($this)
                 .position({
                     my: "left+10 top",
@@ -81,7 +84,8 @@
                 .addClass("al-delete-item-list")
                 .attr('data-item', $this.attr('data-item'))
                 .attr('data-slot-name', $this.attr('data-slot-name'))
-                .append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white"></i></a>')
+                //.append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white"></i></a>')
+                .append('<button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>')             
                 .appendTo($this) 
                 .position({
                     my: "left+38 top",

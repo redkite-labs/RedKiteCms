@@ -13,7 +13,7 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% extends base_template %}
+{% extends 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/base.html.twig' %}
 
 {% if values.al_sidebar_left is defined and values.al_sidebar_right is defined %}
   {% set both_sidebars_defined = true %}

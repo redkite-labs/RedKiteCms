@@ -1,0 +1,11 @@
+{% if widget_class is not defined %}
+{% set widget_class = 'al_form_item' %}
+{% endif %}
+
+{% block form %}
+<form id="al_item_attributes_form" action="#" method="post" {{ form_enctype(form) }}>
+    <table class="al_editor_table">
+        {% include "RedKiteCmsBundle:Block:Editor/Form/_form_renderer.html.twig" with {'widget_class': widget_class } %}
+    </table>
+</form>
+{% endblock %}

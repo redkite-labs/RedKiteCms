@@ -101,7 +101,7 @@ class ThemesController extends Base\BaseController
             ),
             array(
                 'key' => 'slots',
-                'value' => $this->container->get('templating')->render('RedKiteCmsBundle:Themes:template_slots_panel.html.twig', array(
+                'value' => $this->container->get('templating')->render('RedKiteCmsBundle:Themes:Slots/template_slots_panel.html.twig', array(
                     'slots' => $slots, 
                     'configuration' => $this->container->get('red_kite_cms.configuration')
                 )),            
@@ -116,7 +116,7 @@ class ThemesController extends Base\BaseController
     
     public function showThemesFinalizerAction()
     {
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Themes:show_theme_finalizer.html.twig',
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Themes:Finalizer/theme_finalizer.html.twig',
             array(
                 'configuration' => $this->container->get('red_kite_cms.configuration'),
             )
@@ -203,7 +203,7 @@ class ThemesController extends Base\BaseController
         }
 
         $status = null === $error ? 200 : 404;
-        $output = $this->container->get('templating')->render('RedKiteCmsBundle:Themes:show_theme_changer.html.twig', array(
+        $output = $this->container->get('templating')->render('RedKiteCmsBundle:Themes:Changer/theme_changer.html.twig', array(
             'templates' => $templates, 
             'current_templates' => $currentTemplates, 
             'themeName' => $themeName, 
@@ -230,8 +230,7 @@ class ThemesController extends Base\BaseController
             $values['available_themes']["themes"][] = $this->retrieveThemeInfo($theme);
         }
 
-        $responseContent = $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Themes:index.html.twig', array(
-            'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
+        $responseContent = $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Themes:Panel/index.html.twig', array(
             'values' => $values,
             'configuration' => $this->container->get('red_kite_cms.configuration'),
         ));
@@ -249,7 +248,7 @@ class ThemesController extends Base\BaseController
     
     protected function getActiveTheme()
     {
-        return $this->container->get('red_kite_labs_theme_engine.active_theme');
+        return $this->container->get('red_kite_cms.active_theme');
     }
     
     protected function retrieveThemeInfo($theme, $buttons = true)

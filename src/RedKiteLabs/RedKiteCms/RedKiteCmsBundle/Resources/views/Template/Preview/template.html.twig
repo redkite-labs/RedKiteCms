@@ -1,0 +1,66 @@
+{#
+   This file is part of the RedKiteCmsBunde Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'RedKiteCmsBundle:Template:Cms/template.html.twig' %}
+
+
+{% block internal_header_javascripts %}
+{{ parent() }}
+<script>
+    function cmsStartInternalJavascripts(){
+        try
+        {
+            {{ internal_javascripts|raw }}
+        }
+        catch(e)
+        {
+            alert(e);
+        }
+    }
+
+    $(document).ready(function()
+    {
+        frontController = '{{ frontController }}';        
+        cmsStartInternalJavascripts();
+        $('.al-template').click(function(){
+            $(this).template('load');
+        });
+    });
+</script>
+{% endblock %}
+        
+{% block editor %}
+<div id="al_main_commands">
+    <div>
+        <div id="al_toggle_nav_button" class="pull-left">        
+            {% include 'RedKiteCmsBundle:Partials:_dropdown_menu.html.twig' with {'id': 'al_templates_navigator', 'items' : templates, 'text' : template_name, 'type' : 'al-template'}  %}
+            <input id="al-language" type="hidden" value="{{ language_name}}" />
+            <input id="al-page" type="hidden" value="{{ page_name}}" />
+            <input id="al-theme" type="hidden" value="{{ theme_name}}" />
+        </div>
+        <div class="pull-left">
+            <a href="#" id="al_show_navigation">
+                <span class="al_img_nav pull-left al_tab_text"><p>{{ "preview_controller_label_nav"|trans({}, "RedKiteCmsBundle", cms_language) }}</p></span>
+            </a>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div>
+        <a href="{{ path('red_kite_cms_navigation', {'_locale': language_name, 'page': page_name }) }}" id="al-back">
+            <span class="al_img_back pull-left"><p>{{ "preview_controller_label_back"|trans({}, "RedKiteCmsBundle", cms_language) }}</p></span>
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{#
+   This file is part of the RedKiteCmsBunde Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'RedKiteCmsBundle:Template:Preview/template.html.twig' %}
+
+{% block external_stylesheets %}
+    {% if enable_yui_compressor is defined and enable_yui_compressor %}
+        {% stylesheets filter='?yui_css,cssrewrite' 'components/redkitecms/jquery-ui/themes/smoothness/*'
+                                                    'components/redkitecms/twitter-bootstrap/css/bootstrap.min.css'
+                                                    'components/redkitecms/twitter-bootstrap/css/bootstrap-responsive.min.css'
+                                                    'bundles/redkitecms/css/skins/bootstrap/skin.css'
+                                                    'bundles/redkitelabselfinder/vendor/ElFinder/vendor/jquery-ui.css'
+                                                    'bundles/redkitelabselfinder/vendor/ElFinder/css/elfinder.min.css'
+                                                    'bundles/redkitelabselfinder/vendor/ElFinder/css/theme.css'
+        %} 
+        <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
+        {% endstylesheets %}
+    {% else %}
+        {% stylesheets filter='?cssrewrite' 'components/redkitecms/jquery-ui/themes/smoothness/*'
+                                            'components/redkitecms/twitter-bootstrap/css/bootstrap.min.css'
+                                            'components/redkitecms/twitter-bootstrap/css/bootstrap-responsive.min.css'
+                                            'bundles/redkitecms/vendor/vendor-adapter.css' 
+                                            'bundles/redkitecms/css/skins/bootstrap/skin.css'
+                                            'bundles/redkitelabselfinder/vendor/ElFinder/vendor/jquery-ui.css'
+                                            'bundles/redkitelabselfinder/vendor/ElFinder/css/elfinder.min.css'
+                                            'bundles/redkitelabselfinder/vendor/ElFinder/css/theme.css'
+        %}
+        <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="screen" />
+        {% endstylesheets %}
+    {% endif %}
+    
+    {% for value in templateStylesheets %} 
+    <link href="{{ asset(value) }}" rel="stylesheet" type="text/css" media="all" />
+    {% endfor %}    
+{% endblock %}
+
+{% block external_javascripts %}
+    <script src="{{ asset('bundles/redkitecms/js/lang/' ~ cms_language ~ '.js') }}"></script>
+    
+    {% if enable_yui_compressor is defined and enable_yui_compressor %}
+    {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js'
+                                     'components/redkitecms/jquery-ui/js/jquery-ui.min.js'
+                                     'components/redkitecms/twitter-bootstrap/js/bootstrap.js'
+                                     'components/jquery-easing/jquery.easing.min.js'
+                                     'components/holderjs/holder.js'
+                                     'bundles/redkitelabselfinder/vendor/ElFinder/js/elfinder.min.js'
+                                     'bundles/redkitecms/js/*' 
+    %} 
+    
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% else %}
+    {% javascripts  'components/jquery/jquery.min.js'
+                    'components/redkitecms/jquery-ui/js/jquery-ui.min.js'
+                    'components/redkitecms/twitter-bootstrap/js/bootstrap.min.js'
+                    'components/jquery-easing/jquery.easing.min.js'
+                    'components/holderjs/holder.js'
+                    'bundles/redkitelabselfinder/vendor/ElFinder/js/elfinder.min.js'
+                    'bundles/redkitecms/js/*' 
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    {% endif %}
+    
+    {% for value in templateJavascripts %}
+    <script src="{{ asset(value) }}"></script>
+    {% endfor %}
+{% endblock %}

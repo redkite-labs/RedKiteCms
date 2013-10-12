@@ -1,0 +1,7 @@
+{% set editor = 'data-editor="true"' %}
+{% if (enabled is defined and enabled == false) or (block_manager is defined and block_manager.getEditorDisabled == true) %}
+    {% set editor = '' %}
+{% endif %}
+
+{% block body %}
+{% endblock %}

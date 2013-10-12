@@ -17,10 +17,11 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo;
 
-use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Defines the page attributes form
@@ -29,7 +30,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryProp
  *
  * @api
  */
-class SeoForm extends AbstractType
+class SeoForm extends BaseBlockType
 {
     private $languageRepository;
 
@@ -48,12 +49,28 @@ class SeoForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('idPage', 'hidden');
+        $builder->add('idPage', 'hidden', array('label' => 'pages_controller_label_permalink'));
         $builder->add('idLanguage', 'choice', array('choices' => ChoiceValues::getLanguages($this->languageRepository)));
-        $builder->add('permalink', 'textarea');
-        $builder->add('title', 'textarea');
-        $builder->add('description', 'textarea');
-        $builder->add('keywords', 'textarea');
+        $builder->add('permalink', 'textarea', array('label' => 'pages_controller_label_permalink'));
+        $builder->add('title', 'textarea', array(
+            'label' => 'pages_controller_label_meta_title',
+            'attr' => array(
+                'title' => 'pages_controller_meta_title_explanation',
+                'row' => '5', 
+            ),
+        ));
+        $builder->add('description', 'textarea', array(
+            'label' => 'pages_controller_label_meta_description',
+            'attr' => array(
+                'title' => 'pages_controller_meta_description_explanation',
+            ),
+        ));
+        $builder->add('keywords', 'textarea', array(
+            'label' => 'pages_controller_label_meta_keywords',
+            'attr' => array(
+                'title' => 'pages_controller_meta_keywords_explanation',
+            ),
+        ));
         $builder->add('sitemapChangeFreq', 'choice', array(
             'choices' => array(
                 '' => '-',
@@ -64,7 +81,8 @@ class SeoForm extends AbstractType
                 'monthly' => 'monthly',
                 'yearly' => 'yearly',
                 'never' => 'never',
-            )
+            ),
+            'label' => 'pages_controller_label_change frequency',
         ));
         $builder->add('sitemapPriority', 'choice', array(
             'choices' => array(
@@ -80,18 +98,22 @@ class SeoForm extends AbstractType
                 '0.9' => '0.9',
                 '1.0' => '1.0',
             ),
-            'data' => '0.5'
+            'data' => '0.5',
+            'label' => 'pages_controller_label_priority',
         ));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
+        parent::setDefaultOptions($resolver);
+        
+        $resolver->setDefaults(array(
             'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\Seo',
-        );
+            'csrf_protection' => false,
+        ));
     }
 
     /**

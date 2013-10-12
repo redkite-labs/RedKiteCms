@@ -29,7 +29,7 @@ class PagesController extends Base\BaseController
 {
     public function indexAction()
     {
-        $pagesForm = $this->container->get('form.factory')->create(new PagesForm($this->container->get('red_kite_labs_theme_engine.active_theme'), $this->container->get('red_kite_labs_theme_engine.themes')));
+        $pagesForm = $this->container->get('form.factory')->create(new PagesForm($this->container->get('red_kite_cms.active_theme'), $this->container->get('red_kite_labs_theme_engine.themes')));
         $seoForm = $this->container->get('form.factory')->create(new SeoForm($this->createRepository('Language')));
 
         $request = $this->container->get('request');
@@ -42,7 +42,7 @@ class PagesController extends Base\BaseController
             'configuration' => $this->container->get('red_kite_cms.configuration'),
         );
 
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Pages:index.html.twig', $params);
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Pages:panel.html.twig', $params);
     }
 
     public function loadSeoAttributesAction()
@@ -97,7 +97,7 @@ class PagesController extends Base\BaseController
             }
         }
 
-        $activeTheme = $this->container->get('red_kite_labs_theme_engine.active_theme');
+        $activeTheme = $this->container->get('red_kite_cms.active_theme');
         $template = $this->container->get('red_kite_cms.themes_collection_wrapper')->getTemplate(
             $activeTheme->getActiveTheme(),
             $request->get('templateName')
@@ -214,10 +214,10 @@ class PagesController extends Base\BaseController
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
         $values[] = array("key" => "pages_list", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Pages:pages_list.html.twig', array('pages' => $pagesList, 'active_page' => $request->get('page'),)));
-        $values[] = array("key" => "permalinks", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Pages:permalink_select.html.twig', array('pages' => $permalinks)));
+        $values[] = array("key" => "permalinks", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_permalink_select.html.twig', array('items' => $permalinks,)));
         $values[] = array(
             "key" => "pages", 
-            "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Cms:menu_dropdown.html.twig', array(
+            "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_dropdown_menu.html.twig', array(
                 'id' => 'al_pages_navigator', 
                 'type' => 'al_page_item', 
                 'value' => (null !== $page) ? $page->getId() : 0, 

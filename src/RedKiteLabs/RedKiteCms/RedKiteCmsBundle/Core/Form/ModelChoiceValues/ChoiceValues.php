@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme;
+use RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
 
 /**
@@ -56,7 +56,7 @@ class ChoiceValues
         return $result;
     }
 
-    public static function getTemplates(AlActiveTheme $activeTheme, AlThemesCollection $themes)
+    public static function getTemplates(AlActiveThemeInterface $activeTheme, AlThemesCollection $themes)
     {
         $theme = $themes->getTheme($activeTheme->getActiveTheme());
 

@@ -665,7 +665,7 @@
             <target>Questo e' un link permanente che identifica univocamente la pagina</target>
         </trans-unit>
         <trans-unit id="pages-controller-16">
-            <source>pages_controller_meta_title</source>
+            <source>pages_controller_label_meta_title</source>
             <target>Titolo</target>
         </trans-unit>
         <trans-unit id="pages-controller-17">
@@ -673,7 +673,7 @@
             <target>Il titolo della pagina. Dovrebbe essere congruente con in testo scritto nella pagina, dovrebbe essere sempre compilato e avere una lunghezza massima di 60 caratteri</target>
         </trans-unit>
         <trans-unit id="pages-controller-18">
-            <source>pages_controller_meta_description</source>
+            <source>pages_controller_label_meta_description</source>
             <target>Descrizione</target>
         </trans-unit>
         <trans-unit id="pages-controller-19">
@@ -681,7 +681,7 @@
             <target>Inserisci una breve descrizione della pagina. Questo attributo dovrebbe essere sempre compilato</target>
         </trans-unit>
         <trans-unit id="pages-controller-20">
-            <source>pages_controller_meta_keywords</source>
+            <source>pages_controller_label_meta_keywords</source>
             <target>Parole chiave</target>
         </trans-unit>
         <trans-unit id="pages-controller-21">

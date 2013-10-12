@@ -1,0 +1,27 @@
+{#
+   This file is part of the BusinessSliderBundle and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'RedKiteCmsBundle:Block:Editor/Translation/_translation.html.twig' %}
+
+{% form_theme form 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/FormTheme/forms.html.twig' %}
+
+{% block content %} 
+
+{% if form_id is not defined %}
+{% set form_id = 'al_form' %}
+{% endif %}
+
+{{ form(form, { 'attr': {'id' : form_id} }) }}
+{% endblock %}

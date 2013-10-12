@@ -37,6 +37,7 @@
         <parameter key="el_finder.media_connector">RedKiteLabs\RedKiteCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
         <parameter key="el_finder.css_connector">RedKiteLabs\RedKiteCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
         <parameter key="el_finder.js_connector">RedKiteLabs\RedKiteCmsBundle\Core\ElFinder\ElFinderJavascriptsConnector</parameter>
+        <parameter key="red_kite_cms.active_theme.class">RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme</parameter>
     </parameters>
 
     <services>
@@ -192,6 +193,10 @@
         
         <service id="red_kite_cms.template_slots" class="%red_kite_cms.template_slots.class%">
             <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="red_kite_cms.active_theme" class="%red_kite_cms.active_theme.class%">
+            <argument type="service" id="service_container"></argument>
         </service>
     </services>
 </container>

@@ -17,33 +17,43 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Language;
 
-use Symfony\Component\Form\AbstractType;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Implements the form to manage the website languages
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class LanguagesForm extends AbstractType
+class LanguagesForm extends BaseBlockType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('language', 'language');
-        $builder->add('isMain', 'checkbox');
+        $builder->add('language', 'language', array(
+            'label' => 'languages_controller_label_language',
+        ));
+        $builder->add('isMain', 'checkbox', array(
+            'label' => 'languages_controller_is_main_language',
+            'attr' => array(
+                'title' => 'languages_controller_is_main_language_explanation',
+            ),      
+        ));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
+        parent::setDefaultOptions($resolver);
+        
+        $resolver->setDefaults(array(
             'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Language\Language',
-        );
+        ));
     }
 
     /**

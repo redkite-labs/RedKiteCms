@@ -200,7 +200,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         
         $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/views/Editor/fakeblock.html.twig');
         $this->assertFileExists($file);
-        $this->assertEquals('{% include "RedKiteCmsBundle:Editor:base_editor_form.html.twig" %}', file_get_contents($file));
+        $this->assertEquals('{% include "RedKiteCmsBundle:Block:Editor/_editor_form.html.twig" %}', file_get_contents($file));
         
         $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/DependencyInjection/FakeBlockExtension.php');
         $this->assertFileExists($file);

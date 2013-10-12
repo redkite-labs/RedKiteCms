@@ -79,7 +79,7 @@ class ThemePreviewControllerTest extends TestCase
         ;
         
         $this->activeTheme = 
-            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -288,7 +288,7 @@ class ThemePreviewControllerTest extends TestCase
         $this->container
              ->expects($this->at(4))
              ->method('get')
-             ->with('red_kite_labs_theme_engine.active_theme')
+             ->with('red_kite_cms.active_theme')
              ->will($this->returnValue($this->activeTheme));
         
         $templateManager =

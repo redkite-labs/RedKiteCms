@@ -1,7 +1,3 @@
-{% set editor = 'data-editor="true"' %}
-{% if (enabled is defined and enabled == false) or (block_manager is defined and block_manager.getEditorDisabled == true) %}
-    {% set editor = '' %}
-{% endif %}
+{# This file exists only for backward compatibility #}
 
-{% block body %}
-{% endblock %}
+{% extends 'RedKiteCmsBundle:Block:Editor/_editor.html.twig' %}

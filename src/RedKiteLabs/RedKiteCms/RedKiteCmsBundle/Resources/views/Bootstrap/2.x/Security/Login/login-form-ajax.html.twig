@@ -1,0 +1,26 @@
+{#
+   This file is part of the RedKiteCmsBunde Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/base.html.twig' %}
+
+{% block body %}
+    {% stylesheets  filter='?yui_css,cssrewrite' 'components/redkitecms/twitter-bootstrap/css/bootstrap.min.css'
+                                                 'components/redkitecms/twitter-bootstrap/css/bootstrap-responsive.min.css'
+                                                 'bundles/redkitecms/css/skins/bootstrap/skin.css' %}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
+    {% endstylesheets %}
+    
+    {% include('RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/Security/Login/login-form-base.html.twig') %}
+{% endblock %}

@@ -1,16 +1,3 @@
-{% include "RedKiteCmsBundle:Item:_languages_support.html.twig" %}
+{# This file exists only for backward compatibility #}
 
-{% block editor %} 
-<form id="al_item_form">
-    <table>
-        {% include "RedKiteCmsBundle:Item:_form_renderer.html.twig" %}
-        {% block commands %}
-        <tr>
-            <td colspan="2" style="text-align: right">
-                <a class="al_editor_save btn btn-primary" href="#" >{{ 'common_label_save'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a>
-            </td>
-        </tr>
-        {% endblock %}
-    </table>
-</form>
-{% endblock %}
+{% extends 'RedKiteCmsBundle:Block:Editor/_editor_form.html.twig' %}
