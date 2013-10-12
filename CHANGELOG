@@ -1,4 +1,10 @@
-RedKite CMS 1.1.Beta (Shortly)
+RedKite CMS 1.1.Beta 1 (2013/10/12)
+eb08161 fixed control to check when page must be edited instead of added
+ca5a716 fixed a bug that stops the page saving when a user tries to add a page but has selected another page on pages list but has not selected the language
+dc1b844 fixed schema indexes names
+f7700c2 fixed arguments for AlSeoRepository fromPageAndLanguage method
+
+RedKite CMS 1.1.Beta (2013/09/20)
 1e7935c added parent call to metatag section
 a83a95e added translation capabilities to SlotRendererExtension and translated messages
 0e41e0c added document that explains how to migrate App-Blocks from AlphaLemon to RedKite CMS
