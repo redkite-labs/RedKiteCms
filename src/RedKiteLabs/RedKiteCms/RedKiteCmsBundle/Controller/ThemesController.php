@@ -191,9 +191,9 @@ class ThemesController extends Base\BaseController
         $pagesRepository = $factoryRepository->createRepository('Page');
         
         $currentTemplates = array();
-        $pages = $pagesRepository->templatesInUse();
-        foreach ($pages as $page) {
-            $currentTemplates[] = $page->getTemplateName();
+        $templatesInUse = $pagesRepository->templatesInUse();
+        foreach ($templatesInUse as $templateInUse) {
+            $currentTemplates[] = $templateInUse;
         }
         
         $theme = $themes->getTheme($themeName);
