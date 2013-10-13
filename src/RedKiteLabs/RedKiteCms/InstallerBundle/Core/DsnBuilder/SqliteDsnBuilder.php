@@ -47,4 +47,12 @@ class SqliteDsnBuilder extends Base\BaseDsnBuilder
     {
         return '%rkcms_database_driver%:%kernel.root_dir%/../%rkcms_database_name%';        
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function configureParametrizedDsnForTestEnv()
+    {
+        return '%rkcms_database_driver%:%kernel.root_dir%/../%rkcms_database_name%_test';
+    }
 }

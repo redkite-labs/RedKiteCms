@@ -15,7 +15,7 @@ propel:
         user:                 {{ user }}
         password:             {{ password }}
 {% endif %}
-        dsn:                  {{ dsn }}
+        dsn:                  {{ dsn_test }}
         options:              {}
         attributes:           {}
         default_connection:   default

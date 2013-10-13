@@ -47,4 +47,12 @@ class PgsqlDsnBuilder extends Base\BaseDsnBuilder
     {
         return '%rkcms_database_driver%:host=%rkcms_database_host%;dbname=%rkcms_database_name%;user=%rkcms_database_user%;password=%rkcms_database_password%';        
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function configureParametrizedDsnForTestEnv()
+    {
+        return '%rkcms_database_driver%:host=%rkcms_database_host%;dbname=%rkcms_database_name%_test;user=%rkcms_database_user%;password=%rkcms_database_password%';
+    }
 }

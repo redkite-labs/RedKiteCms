@@ -47,4 +47,12 @@ class GenericDsnBuilder extends Base\BaseDsnBuilder
     {
         return '%rkcms_database_driver%:host=%rkcms_database_host%;dbname=%rkcms_database_name%';        
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function configureParametrizedDsnForTestEnv()
+    {
+        return '%rkcms_database_driver%:host=%rkcms_database_host%;dbname=%rkcms_database_name%_test';        
+    }
 }

@@ -44,4 +44,11 @@ interface DsnBuilderInterface
      * @return string
      */
     function configureParametrizedDsn();
+    
+    /**
+     * Configures the parametrized dsn for test environment
+     * 
+     * @return string
+     */
+    function configureParametrizedDsnForTestEnv();
 }

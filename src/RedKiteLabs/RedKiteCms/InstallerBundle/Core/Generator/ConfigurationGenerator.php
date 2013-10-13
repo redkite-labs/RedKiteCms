@@ -31,7 +31,8 @@ class ConfigurationGenerator extends Generator
             $dsnBuilderClassName = $specificDsnBuilderClassName;
         }
         $this->dsnBuilder = new $dsnBuilderClassName($options);
-        $options['dsn'] = $this->dsnBuilder->configureParametrizedDsn();
+        $options['dsn'] = $this->dsnBuilder->configureParametrizedDsn();        
+        $options['dsn_test'] = $this->dsnBuilder->configureParametrizedDsnForTestEnv();
         $options['website_url'] = $options['website-url'];
         
         $this->options = $options;
