@@ -567,7 +567,7 @@ class AlPageTree
             return $this->alSeo->getAlLanguage();
         }
 
-        return (null === $languageId) ? $this->languageRepository->fromLanguageName($request->get('_locale')) : $this->languageRepository->fromPK($languageId);
+        return (null === $languageId || (int)$languageId == 0) ? $this->languageRepository->fromLanguageName($request->get('_locale')) : $this->languageRepository->fromPK($languageId);
     }
 
     /**
@@ -585,21 +585,16 @@ class AlPageTree
             return $this->alSeo->getAlPage();
         }
         
-        $pageId = $this->getRequest()->get('pageId');
+        $pageId = (int)$this->getRequest()->get('pageId');
         $this->alSeo= $this->seoRepository->fromPageAndLanguage($this->alLanguage->getId(), $pageId);
-        if (null === $this->alSeo) {
-            
-            $alPage = (null === $pageId) ? $this->pageRepository->fromPageName($this->pageName) : $this->pageRepository->fromPK($pageId);
-        } else {
-            $alPage = $this->alSeo->getAlPage();
-            $this->setUpMetaTags();
-        }
-
-        if (null !== $alPage) {
-            return $alPage;
-        }
-
-        return null;
+        if (null === $this->alSeo) {            
+            return ($pageId == 0) ? $this->pageRepository->fromPageName($this->pageName) : $this->pageRepository->fromPK($pageId);
+        } 
+        
+        $alPage = $this->alSeo->getAlPage();
+        $this->setUpMetaTags();
+        
+        return $alPage;
     }
 
     /**
