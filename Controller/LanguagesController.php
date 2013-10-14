@@ -75,8 +75,13 @@ class LanguagesController extends Base\BaseController
     public function deleteLanguageAction()
     {
         $request = $this->container->get('request');
+        $languageId = $request->get('languageId');
+        if ((int)$languageId == 0) {    
+            throw new RuntimeException('languages_controller_any_language_selected_for_removing');
+        }
+        
         $languageManager = $this->container->get('red_kite_cms.language_manager');
-        $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
+        $alLanguage = $this->fetchLanguage($languageId, $languageManager);
         if (null === $alLanguage) {    
             throw new RuntimeException('languages_controller_any_language_selected_for_removing');
         }
