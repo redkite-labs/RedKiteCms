@@ -77,19 +77,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
         );
 
         $activeThemeManager = $this->client->getContainer()->get('red_kite_cms.active_theme');
-        $activeThemeManager->writeActiveTheme('BootbusinessThemeBundle'); //BusinessWebsiteThemeBundle
-        /*
-        $this->client->getContainer()->get('translator')->addLoader(new \Symfony\Component\Translation\Loader\XliffFileLoader());
-        echo "G";exit;
-        $this->client->getContainer()->get('translator')->addResource('xliff', __DIR__ . '/../Resources/translations/RedKiteCmsBundle.en.xliff', 'en');
-        
-        $t = new \Symfony\Component\Translation\Translator('en');
-        $t->addLoader('xliff', new \Symfony\Component\Translation\Loader\XliffFileLoader());        
-        $t->addResource('xliff', __DIR__ . '/../Resources/translations/RedKiteCmsBundle.en.xliff', 'en');
-        $t1 = $this->client->getContainer()->get('red_kite_cms.translator');
-        $t1->setTranslator($t);
-        $this->client->getContainer()->set('red_kite_cms.translator', $t1);
-        */
+        $activeThemeManager->writeActiveTheme('BootbusinessThemeBundle'); //BusinessWebsiteThemeBundle        
     }
 
     protected static function populateDb()
@@ -100,20 +88,59 @@ abstract class WebTestCaseFunctional extends WebTestCase
         ));
             
         $connection = \Propel::getConnection();
-        $queries = array(
-            'DELETE FROM al_block;',
-            'DELETE FROM al_configuration;',
-            'DELETE FROM al_language;',
-            'DELETE FROM al_locked_resource;',
-            'DELETE FROM al_page;',
-            'DELETE FROM al_seo;',
-            'DELETE FROM al_role;',
-            'DELETE FROM al_user;',
-            'INSERT INTO al_language (language_name) VALUES(\'-\');',
-            'INSERT INTO al_page (page_name) VALUES(\'-\');',
-            'INSERT INTO al_configuration (parameter, value) VALUES(\'language\', \'en\');',
-        );
-
+        $connection->getConfiguration();
+        $adapter = $connection->getConfiguration()->getParameter('datasources.default.adapter');
+        switch ($adapter)
+        {
+            case "mysql":
+                $queries = array(
+                    'SET FOREIGN_KEY_CHECKS=0;',
+                    'TRUNCATE al_block;',
+                    'TRUNCATE al_configuration;',
+                    'TRUNCATE al_language;',
+                    'TRUNCATE al_locked_resource;',
+                    'TRUNCATE al_page;',
+                    'TRUNCATE al_seo;',
+                    'TRUNCATE al_role;',
+                    'TRUNCATE al_user;',
+                    'INSERT INTO al_language (language_name) VALUES(\'-\');',
+                    'INSERT INTO al_page (page_name) VALUES(\'-\');',
+                    'INSERT INTO al_configuration (parameter, value) VALUES(\'language\', \'en\');',
+                    'SET FOREIGN_KEY_CHECKS=1;',
+                );
+                break;
+            case "pgsql":
+                $queries = array(
+                    'TRUNCATE al_configuration RESTART IDENTITY;',
+                    'TRUNCATE al_page RESTART IDENTITY CASCADE;',
+                    'TRUNCATE al_language RESTART IDENTITY CASCADE;',
+                    'TRUNCATE al_block RESTART IDENTITY CASCADE;',
+                    'TRUNCATE al_locked_resource RESTART IDENTITY;',                    
+                    'TRUNCATE al_seo RESTART IDENTITY CASCADE;',
+                    'TRUNCATE al_user RESTART IDENTITY CASCADE;',
+                    'TRUNCATE al_role RESTART IDENTITY CASCADE;',
+                    'INSERT INTO al_language (language_name) VALUES(\'-\');',
+                    'INSERT INTO al_page (page_name) VALUES(\'-\');',
+                    'INSERT INTO al_configuration (parameter, value) VALUES(\'language\', \'en\');',
+                );
+                break;
+            case "sqlite":
+                $queries = array(
+                    'DELETE FROM al_block;',
+                    'DELETE FROM al_configuration;',
+                    'DELETE FROM al_language;',
+                    'DELETE FROM al_locked_resource;',
+                    'DELETE FROM al_page;',
+                    'DELETE FROM al_seo;',
+                    'DELETE FROM al_role;',
+                    'DELETE FROM al_user;',
+                    'INSERT INTO al_language (language_name) VALUES(\'-\');',
+                    'INSERT INTO al_page (page_name) VALUES(\'-\');',
+                    'INSERT INTO al_configuration (parameter, value) VALUES(\'language\', \'en\');',
+                );
+                break;
+        }
+        
         foreach ($queries as $query) {
             $statement = $connection->prepare($query);
             $statement->execute();
@@ -130,16 +157,6 @@ abstract class WebTestCaseFunctional extends WebTestCase
         $templateManager = new AlTemplateManager($eventsHandler, $factoryRepository, $template, $pageContentsContainer, $client->getContainer()->get('red_kite_cms.block_manager_factory'));
         $templateManager->refresh();
 
-        $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
-        foreach ($roles as $role) {
-            $alRole = new AlRole();
-            $alRole->setRole($role);
-            $alRole->save();
-
-            self::$roles[$role] = $alRole->getId();
-        }
-
-        self::addUser('admin', 'admin', self::$roles['ROLE_ADMIN']);
         
         $alLanguageManager = new AlLanguageManager($eventsHandler, $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
         foreach (self::$languages as $language) {
@@ -156,6 +173,18 @@ abstract class WebTestCaseFunctional extends WebTestCase
             }
             $alPageManager->set(null)->save($page);
         }
+        
+        $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
+        foreach ($roles as $role) {
+            $alRole = new AlRole();
+            $alRole->setRole($role);
+            $alRole->save();
+
+            self::$roles[$role] = $alRole->getId();
+        }
+
+        self::addUser('admin', 'admin', self::$roles['ROLE_ADMIN']);
+        
     }
     
     protected static function addUser($username, $password, $adminRoleId)

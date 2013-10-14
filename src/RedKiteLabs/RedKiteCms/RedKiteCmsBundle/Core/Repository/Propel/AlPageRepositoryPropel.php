@@ -119,6 +119,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
     {
         return AlPageQuery::create('a')
                     ->groupByTemplateName()
+                    ->select('TemplateName')
                     ->where('a.Id > ?', 1)
                     ->filterByToDelete(0)
                     ->find()
