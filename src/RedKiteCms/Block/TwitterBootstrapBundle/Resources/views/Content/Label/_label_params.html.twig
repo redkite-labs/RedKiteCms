@@ -1,9 +1,9 @@
-{% extends "RedKiteCmsBundle:Editor:base_editor.html.twig" %}
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
 
 {% if data.label_type is defined and data.label_type != "" %}
 {% set label_type = " " ~ data.label_type %}
 {% else %}
-{% set label_type = "" %}
+{% set label_type = " label-default" %}
 {% endif %}
 
 {% if data.label_text is defined and data.label_text != "" %}

@@ -1,0 +1,6 @@
+.dropdown-menu-items-container { 
+    min-width: 700px;
+    max-height: 270px;
+    overflow: auto;
+}
+

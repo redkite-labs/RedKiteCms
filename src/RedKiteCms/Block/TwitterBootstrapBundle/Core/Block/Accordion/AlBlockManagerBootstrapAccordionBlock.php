@@ -50,9 +50,11 @@ class AlBlockManagerBootstrapAccordionBlock extends AlBlockManagerJsonBlockColle
     protected function renderHtml()
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
+        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();   
+        $template = sprintf('TwitterBootstrapBundle:Content:Accordion/%s/accordion.html.twig', $bootstrapVersion);
         
         return array('RenderView' => array(
-            'view' => 'TwitterBootstrapBundle:Content:Accordion/accordion.html.twig',
+            'view' => $template,
             'options' => array('items' => $items),
         ));
     }

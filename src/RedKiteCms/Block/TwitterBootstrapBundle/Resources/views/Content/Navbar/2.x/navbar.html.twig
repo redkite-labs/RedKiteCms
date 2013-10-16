@@ -1,10 +1,10 @@
-{% extends "RedKiteCmsBundle:Editor:base_editor.html.twig" %}
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
 
 {% block body %}
 <div class="navbar navbar-fixed-top" {{ editor|raw }}>
     <div class="navbar-inner">
-        {% set baseKey = block_manager.get.getId ~ "-brand" %}    
-        {{ renderIncludedBlock(baseKey, block_manager, 'Text', true, '<a class="brand brand-bootbus" href="#">Bootbusiness</a>') }}
+        {% set baseKey = block_manager.get.getId ~ "-brand" %}   
+        <a class="brand brand-bootbus" href="#">{{ renderIncludedBlock(baseKey, block_manager, 'Text', true, 'Brand') }}</a>
         <ul class="nav al-navbar-list">
         {% if items|length > 0 %}
         {% for key, item in items %}

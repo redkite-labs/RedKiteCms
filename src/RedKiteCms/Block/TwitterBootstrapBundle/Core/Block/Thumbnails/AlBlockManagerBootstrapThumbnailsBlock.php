@@ -24,7 +24,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapThumbnailsBlock extends AlBlockManagerJsonBlockCollection
+class AlBlockManagerBootstrapThumbnailsBlock extends AlBlockManagerBootstrapSimpleThumbnailsBlock
 {
     /**
      * {@inheritdoc}
@@ -46,16 +46,16 @@ class AlBlockManagerBootstrapThumbnailsBlock extends AlBlockManagerJsonBlockColl
 
     /**
      * {@inheritdoc}
-     */
+     
     protected function renderHtml()
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         
         return array('RenderView' => array(
-            'view' => 'TwitterBootstrapBundle:Content:Thumbnails/thumbnails.html.twig',
+            'view' => 'TwitterBootstrapBundle:Content:Thumbnails/3.x/thumbnails.html.twig',
             'options' => array(
                 'values' => $items,
             ),
         ));
-    }
+    }*/
 }

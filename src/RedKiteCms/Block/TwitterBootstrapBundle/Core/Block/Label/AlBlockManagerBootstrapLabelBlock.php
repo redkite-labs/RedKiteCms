@@ -69,8 +69,8 @@ class AlBlockManagerBootstrapLabelBlock extends AlBlockManagerJsonBlockContainer
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         $item = $items[0];
         
-        $formClass = $this->container->get($this->formParam);
-        $form = $this->container->get('form.factory')->create($formClass, $item);
+        $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
+        $form = $bootstrapFormFactory->createForm('Label', 'AlLabelType', $item);
         
         return array(
             "template" => $this->editorTemplate,

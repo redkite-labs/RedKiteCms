@@ -52,7 +52,7 @@
         <parameter key="bootstrap_dropdown_button_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\AlBlockManagerBootstrapDropdownButtonBlock</parameter>
         
         <parameter key="bootstrapdropdownbuttonblock.external_stylesheets.cms" type="collection">
-            <parameter>@JstreeBundle/Resources/public/css/alphalemon_jstree.css</parameter>
+            <parameter>@TwitterBootstrapBundle/Resources/public/dropdown_menu/css/dropdown_menu_editor.css</parameter>
         </parameter>
         
         <parameter key="bootstrapdropdownbuttonblock.external_javascripts.cms" type="collection">
@@ -74,8 +74,9 @@
             <parameter>@TwitterBootstrapBundle/Resources/public/thumbnail/js/thumbnail_editor.js</parameter>
         </parameter>
         
-        <parameter key="bootstrap_thumbnail.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Thumbnail\AlThumbnailType</parameter>
+        <parameter key="bootstrap_simple_thumbnail.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail\AlBlockManagerBootstrapSimpleThumbnailBlock</parameter>        
         <parameter key="bootstrap_thumbnail.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail\AlBlockManagerBootstrapThumbnailBlock</parameter>        
+        <parameter key="bootstrap_simple_thumbnails.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\AlBlockManagerBootstrapSimpleThumbnailsBlock</parameter>      
         <parameter key="bootstrap_thumbnails.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\AlBlockManagerBootstrapThumbnailsBlock</parameter>
         
         
@@ -96,9 +97,6 @@
             <tag name="red_kite_cms.blocks_factory.block" description="Label" type="BootstrapLabelBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
-                
-        <service id="bootstrap_label_block.form" class="%bootstrap_label_block.form.class%">
-        </service>
         
         <!-- BADGE --> 
         <service id="bootstrap_badge_block.block" class="%bootstrap_badge_block.block.class%">
@@ -111,7 +109,7 @@
         
         <!-- ACORDION -->
         <service id="bootstrap_accordion_block.block" class="%bootstrap_accordion_block.block.class%">
-            <tag name="red_kite_cms.blocks_factory.block" description="Accordion" type="BootstrapAccordionBlock" group="bootstrap,Twitter Bootstrap" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Collapse (Accordion)" type="BootstrapAccordionBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
@@ -130,8 +128,6 @@
         </service>
         
         <!-- BUTTON -->
-        <service id="bootstrap_button_block.form" class="%bootstrap_button_block.form.class%">
-        </service>
         
         <service id="bootstrap_button_block.block" class="%bootstrap_button_block.block.class%">
             <tag name="red_kite_cms.blocks_factory.block" description="Button" type="BootstrapButtonBlock" group="bootstrap,Twitter Bootstrap" />
@@ -157,17 +153,24 @@
         </service>
         
         <!-- THUMBNAIL --> 
+        <service id="bootstrap_simple_thumbnail.block" class="%bootstrap_simple_thumbnail.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Thumbnail" type="BootstrapSimpleThumbnailBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
         <service id="bootstrap_thumbnail.block" class="%bootstrap_thumbnail.block.class%">
             <tag name="red_kite_cms.blocks_factory.block" description="Thumbnail" type="BootstrapThumbnailBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
-        <service id="bootstrap_thumbnails.block" class="%bootstrap_thumbnails.block.class%">
-            <tag name="red_kite_cms.blocks_factory.block" description="Thumbnails list" type="BootstrapThumbnailsBlock" group="bootstrap,Twitter Bootstrap" />
+        <service id="bootstrap_simple_thumbnails.block" class="%bootstrap_simple_thumbnails.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Thumbnails list" type="BootstrapSimpleThumbnailsBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
-        <service id="bootstrap_thumbnail.form" class="%bootstrap_thumbnail.form.class%">
+        <service id="bootstrap_thumbnails.block" class="%bootstrap_thumbnails.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Rich thumbnails list" type="BootstrapThumbnailsBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
         </service>
     </services>
 </container>

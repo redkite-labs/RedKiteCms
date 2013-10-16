@@ -17,72 +17,30 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * Defines the Block Manager to handle the Bootstrap Thumbnail
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapThumbnailBlock extends AlBlockManagerJsonBlockContainer
+class AlBlockManagerBootstrapThumbnailBlock extends AlBlockManagerBootstrapSimpleThumbnailBlock
 {
-    protected $blockTemplate = 'TwitterBootstrapBundle:Content:Thumbnail/thumbnail.html.twig';
-    protected $editorTemplate = 'TwitterBootstrapBundle:Editor:Thumbnail/editor.html.twig';
-    
     /**
-     * {@inheritdoc}
+     * Constructor
+     *
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface                             $container
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     *
+     * @api
      */
-    public function getDefaultValue()
+    public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
-        $value = '
-            {
-                "0" : {
-                    "width": "span3"
-                }
-            }';
+        parent::__construct($container, $validator);
         
-        return array('Content' => $value);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function renderHtml()
-    {
-        $items = $this->decodeJsonContent($this->alBlock->getContent());
-        $item = $items[0];
+        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();   
         
-        return array('RenderView' => array(
-            'view' => $this->blockTemplate,
-            'options' => array(
-                'thumbnail' => $item,
-            ),
-        ));
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function editorParameters()
-    {
-        $items = $this->decodeJsonContent($this->alBlock->getContent());
-        $item = $items[0];
-        
-        $formClass = $this->container->get('bootstrap_thumbnail.form');
-        $form = $this->container->get('form.factory')->create($formClass, $item);
-        
-        return array(
-            "template" => $this->editorTemplate,
-            "title" => "Thumbnail editor",
-            "form" => $form->createView(),
-        );
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function getIsInternalBlock()
-    {
-        return true;
+        $this->blockTemplate = sprintf('TwitterBootstrapBundle:Content:Thumbnail/%s/thumbnail.html.twig', $bootstrapVersion);        
     }
 }

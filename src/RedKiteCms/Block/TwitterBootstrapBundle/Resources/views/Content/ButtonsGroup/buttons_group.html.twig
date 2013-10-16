@@ -1,7 +1,7 @@
-{% extends "RedKiteCmsBundle:Editor:base_editor.html.twig" %}
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
 
 {% block body %}
-<div class="btn-group collapsed-list" {{ editor|raw }}>
+<div class="btn-group inline-list" {{ editor|raw }}>
     {% for key, button in buttons %}
         {% set blockSlotName = block_manager.get.getId ~ "-" ~ key %} 
         {% set attributes = 'data-item=' ~ key ~ ' data-hide-blocks-menu=true' %} 

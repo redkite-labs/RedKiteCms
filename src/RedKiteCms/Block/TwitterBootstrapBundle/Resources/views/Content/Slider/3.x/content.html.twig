@@ -1,4 +1,4 @@
-{% extends "RedKiteCmsBundle:Editor:base_editor.html.twig" %}
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
 
 {% if carousel_id is not defined or carousel_id == "" %}
 {% set carousel_id = "alphalemon-carousel" %}
@@ -6,6 +6,11 @@
 
 {% block body %}
 <div id="{{ carousel_id }}" class="carousel slide" {{ editor|raw }}>
+    <ol class="carousel-indicators">
+        {% for item in items %}
+        <li data-target="#{{ carousel_id }}" data-slide-to="{{ loop.index }}" class="{% if(loop.first)%}active{% endif %}"></li>
+        {% endfor %}
+    </ol>
     <!-- Carousel items -->
     <div class="carousel-inner">
         {% set active = " active" %}
@@ -23,7 +28,11 @@
         {% endfor %}
     </div>
     <!-- Carousel nav -->
-    <a class="carousel-control left" href="#{{ carousel_id }}" data-slide="prev">&lsaquo;</a>
-    <a class="carousel-control right" href="#{{ carousel_id }}" data-slide="next">&rsaquo;</a>
+    <a class="carousel-control left" href="#{{ carousel_id }}" data-slide="prev">
+        <span class="icon-prev"></span>
+    </a>
+    <a class="carousel-control right" href="#{{ carousel_id }}" data-slide="next">
+        <span class="icon-next"></span>
+    </a>
 </div>
 {% endblock %}

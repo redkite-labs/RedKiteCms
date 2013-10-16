@@ -25,6 +25,7 @@
         $('.al_img').imagesList('editItem');
         $('#al_delete_item').imagesList('deleteItem');
         $('.al_form_item').imagesList('saveAttributes');
+        $('#al_item_attributes_form .form-control').imagesList('saveAttributes');
         $('#al_save_item').imagesList('save');
         
         $('#al_json_block_src').click(function(){

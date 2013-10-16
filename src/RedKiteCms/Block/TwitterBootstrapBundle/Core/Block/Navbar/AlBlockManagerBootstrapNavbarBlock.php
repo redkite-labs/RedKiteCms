@@ -26,9 +26,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
  * @author RedKite Labs <info@redkite-labs.com>
  */
 class AlBlockManagerBootstrapNavbarBlock extends AlBlockManagerMenu
-{
-    protected $blocksTemplate = 'TwitterBootstrapBundle:Content:Navbar/navbar.html.twig';    
-    
+{    
     /**
      * {@inheritdoc}
      */
@@ -54,8 +52,11 @@ class AlBlockManagerBootstrapNavbarBlock extends AlBlockManagerMenu
     {
         $items = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock->getContent());
         
+        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion(); 
+        $template = sprintf('TwitterBootstrapBundle:Content:Navbar/%s/navbar.html.twig', $bootstrapVersion);
+        
         return array('RenderView' => array(
-            'view' => $this->blocksTemplate,
+            'view' => $template,
             'options' => array(
                 'items' => $items, 
             ),

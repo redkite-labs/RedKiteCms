@@ -57,6 +57,22 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
                 "alt" : "Sample alt",
                 "caption_title" : "Third Thumbnail label",
                 "caption_body" : "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus."
+            },
+            "3" : {
+                "src": "",
+                "data_src" : "holder.js/400x280",
+                "title" : "Sample title",
+                "alt" : "Sample alt",
+                "caption_title" : "Second Thumbnail label",
+                "caption_body" : "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus."
+            },
+            "4" : {
+                "src": "",
+                "data_src" : "holder.js/400x280",
+                "title" : "Sample title",
+                "alt" : "Sample alt",
+                "caption_title" : "Third Thumbnail label",
+                "caption_body" : "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus."
             }
         }';
 
@@ -70,7 +86,11 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
      */
     public function editorParameters()
     {        
-        $items = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
+        $items = array();
+        $values = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
+        while( ! empty($values)) {
+            $items[] = array_splice($values, 0, 3);
+        }
         
         $formClass = $this->container->get('bootstrapsliderblock.form');
         $form = $this->container->get('form.factory')->create($formClass);
@@ -96,9 +116,12 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
         
         $images = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock);
         
+        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion(); 
+        $template = sprintf('TwitterBootstrapBundle:Content:Slider/%s/content.html.twig', $bootstrapVersion);
+        
         return array(
             "RenderView" => array(
-                "view" => "TwitterBootstrapBundle:Content:Slider/content.html.twig",
+                "view" => $template,
                 "options" => array(
                     "items" => $images,
                 )

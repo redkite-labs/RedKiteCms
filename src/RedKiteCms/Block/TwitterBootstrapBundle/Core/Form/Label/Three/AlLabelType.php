@@ -15,7 +15,7 @@
  * 
  */
  
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Label;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Label\Three;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -35,6 +35,7 @@ class AlLabelType extends JsonBlockType
         parent::buildForm($builder, $options);
         
         $builder->add('label_text');
-        $builder->add('label_type', 'choice', array('choices' => array('' => 'base', 'label-info' => 'info', 'label-success' => 'success', 'label-warning' => 'warning', 'label-important' => 'important', 'label-inverse' => 'inverse')));
+        $builder->add('label_type', 'choice', array('choices' => array('label-default' => 'base', 'label-info' => 'info', 'label-success' => 'success', 'label-warning' => 'warning', 'label-important' => 'important', 'label-inverse' => 'inverse')));        
+        $builder->add('save', 'submit', array('attr' => array('class' => 'al_editor_save btn btn-primary')));
     }
 }

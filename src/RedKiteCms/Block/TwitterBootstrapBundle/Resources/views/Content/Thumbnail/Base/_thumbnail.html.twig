@@ -1,8 +1,10 @@
 <div class="thumbnail">
     {% set blockSlotName = baseSlotName ~ "-0" %}  
     {{ renderIncludedBlock(blockSlotName, block_manager, "Image", true) }}
+    {% if rich is defined and rich %}
     <div class="caption">
         {% set blockSlotName = baseSlotName ~ "-1" %} 
         {{ renderIncludedBlock(blockSlotName, block_manager, "Text", true) }}
     </div>
+    {% endif %}
 </div>

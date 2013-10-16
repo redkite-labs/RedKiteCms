@@ -15,16 +15,28 @@
  */
  
  $(document).ready(function() {
-    $(document).on("blockEditing", function(event, element){
-        if (element.attr('data-type') != 'BootstrapThumbnailsBlock') {
+    $(document).on("startEditingBlocks", function(event, element){
+        var type = element.attr('data-type');
+        if (type != 'BootstrapThumbnailsBlock' && type != 'BootstrapSimpleThumbnailsBlock') {
             return;
         }
         
-        element.inlinelist('start', { addValue: '{"operation": "add", "value": { "type": "BootstrapThumbnailBlock" }}'});
+        var block = '';
+        switch(type) {
+            case 'BootstrapSimpleThumbnailsBlock':
+                block = 'BootstrapSimpleThumbnailBlock';
+                break;
+            case 'BootstrapThumbnailsBlock':
+                block = 'BootstrapThumbnailBlock';
+                break;
+        }
+        
+        element.inlinelist('start', { target: ".col-sm-6", addValue: '{"operation": "add", "value": { "type": "' + block + '" }}'});
     });
     
-    $(document).on("blockStopEditing", function(event, element){ 
-        if (element.attr('data-type') != 'BootstrapThumbnailsBlock') {
+    $(document).on("stopEditingBlocks", function(event, element){ 
+        var type = element.attr('data-type');
+        if (type != 'BootstrapThumbnailsBlock' && type != 'BootstrapSimpleThumbnailsBlock') {
             return;
         }
                 

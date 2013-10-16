@@ -16,7 +16,7 @@
  
 $(document).ready(function() 
 {
-    $(document).on("blockEditing", function(event, element){
+    $(document).on("startEditingBlocks", function(event, element){
         if (element.attr('data-type') != 'BootstrapButtonsGroupBlock') {
             return;
         }
@@ -27,7 +27,7 @@ $(document).ready(function()
         });
     });
     
-    $(document).on("blockStopEditing", function(event, element){ 
+    $(document).on("stopEditingBlocks", function(event, element){ 
         if (element.attr('data-type') != 'BootstrapButtonsGroupBlock') {
             return;
         }

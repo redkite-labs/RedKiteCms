@@ -47,24 +47,21 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
                             "data" : "Item 1", 
                             "metadata" : {  
                                 "type": "link",
-                                "href": "#",
-                                "attributes": {}
+                                "href": "#"
                             }
                         },
                         { 
                             "data" : "Item 2", 
                             "metadata" : {  
                                 "type": "link",
-                                "href": "#",
-                                "attributes": {}
+                                "href": "#"
                             }
                         },
                         { 
                             "data" : "Item 3", 
                             "metadata" : {  
                                 "type": "link",
-                                "href": "#",
-                                "attributes": {}
+                                "href": "#"
                             }
                         }
                     ]
@@ -95,17 +92,22 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
     {
         $items = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
         $item = $items[0];
-        $attributes = $item["items"];  
+        $items = $item["items"];  
         unset($item["items"]);
         
-        $formClass = $this->container->get('bootstrapbuttonblock.form');
-        $buttonForm = $this->container->get('form.factory')->create($formClass, $item);
+        $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
+        $form = $bootstrapFormFactory->createForm('DropdownButton', 'AlDropdownButtonType', $item);
+        
+        
+        $seoRepository = $this->factoryRepository->createRepository('Seo');        
+        $request = $this->container->get('request');
         
         return array(
             "template" => $this->editorTemplate,
-            "title" => "Button editor",
-            "form" => $buttonForm->createView(),
-            'attributes' => $attributes,  
+            "title" => "Dropdown button editor",
+            "form" => $form->createView(),
+            'items' => $items,  
+            'permalinks' => \RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues::getPermalinks($seoRepository, $request->get('_locale')),
         );
     }
     
@@ -132,17 +134,12 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
             $serializedData = $values['Content'];
             parse_str($serializedData, $unserializedData);
             
-            $v = $unserializedData["al_json_block"];          
-            if (array_key_exists("items", $unserializedData)) {
-                unset($unserializedData["al_json_block"]);
-                $menuItems = json_decode($unserializedData["items"], true);
-                $v += array('items' => $menuItems[0]["children"]); // Excludes the root node "Menu"
-            } else {
-                $items = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
-                $v += array('items' => $items[0]["items"]);
+            $buttonValues = $unserializedData["al_json_block"];
+            if (array_key_exists("dropdown_items_form", $unserializedData)) {
+                $buttonValues += array('items' => $unserializedData["dropdown_items_form"]);
             }
             
-            $values['Content'] = json_encode(array($v));
+            $values['Content'] = json_encode(array($buttonValues));
         }
         
         return $values;

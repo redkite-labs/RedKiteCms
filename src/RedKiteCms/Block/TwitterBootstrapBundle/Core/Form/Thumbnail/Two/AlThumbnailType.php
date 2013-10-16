@@ -15,7 +15,7 @@
  * 
  */
  
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Thumbnail;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Thumbnail\Two;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -53,5 +53,6 @@ class AlThumbnailType extends JsonBlockType
                 )
             )
         );     
+        $builder->add('save', 'submit', array('attr' => array('class' => 'al_editor_save btn btn-primary')));
     }
 }

@@ -1,4 +1,4 @@
-{% extends "RedKiteCmsBundle:Editor:base_editor.html.twig" %}
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
 
 {% block body %}
 {% if key is not defined %}
@@ -6,6 +6,6 @@
 {% endif %}
 {% set baseSlotName = block_manager.get.getId ~ "-" ~ key %} 
 <li{% if thumbnail.width is defined and thumbnail.width != "none" %} class="{{ thumbnail.width }}"{% endif %} {{ editor|raw }}>
-    {% include "TwitterBootstrapBundle:Content:Thumbnail/_thumbnail.html.twig" %}
+    {% include "TwitterBootstrapBundle:Content:Thumbnail/Base/_thumbnail.html.twig" %}
 </li>
 {% endblock %}

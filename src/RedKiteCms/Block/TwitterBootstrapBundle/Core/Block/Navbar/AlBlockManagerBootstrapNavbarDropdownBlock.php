@@ -46,24 +46,21 @@ class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrap
                             "data" : "Item 1", 
                             "metadata" : {  
                                 "type": "link",
-                                "href": "#",
-                                "attributes": {}
+                                "href": "#"
                             }
                         },
                         { 
                             "data" : "Item 2", 
                             "metadata" : {  
                                 "type": "link",
-                                "href": "#",
-                                "attributes": {}
+                                "href": "#"
                             }
                         },
                         { 
                             "data" : "Item 3", 
                             "metadata" : {  
                                 "type": "link",
-                                "href": "#",
-                                "attributes": {}
+                                "href": "#"
                             }
                         }
                     ]
@@ -78,9 +75,9 @@ class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrap
      */
     public function editorParameters()
     {
-        $items = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock->getContent());
-        $item = $items[0];
-        $attributes = $item["items"];  
+        $dropdown = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock->getContent());
+        $item = $dropdown[0];
+        $items = $item["items"];  
         unset($item["items"]);
         
         $formClass = $this->container->get('bootstrap_navbar_dropbown.form');
@@ -90,7 +87,7 @@ class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrap
             "template" => $this->editorTemplate,
             "title" => "Button editor",
             "form" => $buttonForm->createView(),
-            'attributes' => $attributes,  
+            'items' => $items,  
         );
     }
 }

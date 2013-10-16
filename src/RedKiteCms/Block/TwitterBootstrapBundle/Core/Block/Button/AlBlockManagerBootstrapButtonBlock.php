@@ -67,13 +67,13 @@ class AlBlockManagerBootstrapButtonBlock extends AlBlockManagerJsonBlockContaine
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         $item = $items[0];
         
-        $formClass = $this->container->get('bootstrap_button_block.form');
-        $buttonForm = $this->container->get('form.factory')->create($formClass, $item);
+        $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
+        $form = $bootstrapFormFactory->createForm('Button', 'AlButtonType', $item);
         
         return array(
             "template" => "TwitterBootstrapBundle:Editor:Button/button_editor.html.twig",
             "title" => "Button editor",
-            "form" => $buttonForm->createView(),
+            "form" => $form->createView(),
         );
     }
 }

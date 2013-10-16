@@ -28,7 +28,7 @@ $(document).ready(function()
         $("#al-accordion").find('.collapse').removeClass('in');
     });
     
-    $(document).on("blockEditing", function(event, element){
+    $(document).on("startEditingBlocks", function(event, element){
         if (element.attr('data-type') != 'BootstrapAccordionBlock') {
             return;
         }
@@ -41,7 +41,7 @@ $(document).ready(function()
         }); 
     });
     
-    $(document).on("blockStopEditing", function(event, element){ 
+    $(document).on("stopEditingBlocks", function(event, element){ 
         if (element.attr('data-type') != 'BootstrapAccordionBlock') {
             return;
         }
