@@ -63,7 +63,7 @@
 
 #al_panel_closer {
   width: 100%;
-  height: 16px;
+  height: auto;
   background-color: #cccccc;
   padding: 2px 0 6px 0;
   font: bold 16px/20px Arial, Verdana, Helvetica, sans-serif;
@@ -120,6 +120,13 @@
 }
 #al_sidebar_middle .al_slot_name {
   cursor: pointer;
+}
+#al_sidebar_middle table {
+  width: 100%;
+  margin-top: 10px;
+}
+#al_sidebar_middle table td {
+  padding: 4px;
 }
 
 #al_sidebar_right {

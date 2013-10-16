@@ -51,24 +51,30 @@ class SeoForm extends BaseBlockType
     {
         $builder->add('idPage', 'hidden', array('label' => 'pages_controller_label_permalink'));
         $builder->add('idLanguage', 'choice', array('choices' => ChoiceValues::getLanguages($this->languageRepository)));
-        $builder->add('permalink', 'textarea', array('label' => 'pages_controller_label_permalink'));
+        $builder->add('permalink', 'textarea', array(
+            'label' => 'pages_controller_label_permalink',
+            'attr' => array(
+                'rows' => '3', 
+            ),));
         $builder->add('title', 'textarea', array(
             'label' => 'pages_controller_label_meta_title',
             'attr' => array(
                 'title' => 'pages_controller_meta_title_explanation',
-                'row' => '5', 
+                'rows' => '3', 
             ),
         ));
         $builder->add('description', 'textarea', array(
             'label' => 'pages_controller_label_meta_description',
             'attr' => array(
                 'title' => 'pages_controller_meta_description_explanation',
+                'rows' => '3', 
             ),
         ));
         $builder->add('keywords', 'textarea', array(
             'label' => 'pages_controller_label_meta_keywords',
             'attr' => array(
                 'title' => 'pages_controller_meta_keywords_explanation',
+                'rows' => '2', 
             ),
         ));
         $builder->add('sitemapChangeFreq', 'choice', array(

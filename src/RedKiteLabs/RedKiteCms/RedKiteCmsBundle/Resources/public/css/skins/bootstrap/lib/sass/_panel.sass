@@ -76,7 +76,7 @@ $panel-shadow-gray: #ccc
 
 #al_panel_closer
   :width 100%
-  :height 16px
+  :height auto
   :background-color $panelCloserBackgroundColor
   :padding 2px 0 6px 0
   :font $panelFontH3
@@ -89,12 +89,6 @@ $panel-shadow-gray: #ccc
 
 #al_panel_header
   :width 100%
-
-//#al_sidebar_left
-//  :width $panelLeftSidebarWidth
-//  :min-height 400px
-//  :padding 0 10px
-//  :float left
 
 #al_sidebar_right
   a
@@ -133,6 +127,13 @@ $panel-shadow-gray: #ccc
 
   .al_slot_name
     :cursor pointer
+
+  table
+    :width 100%
+    :margin-top 10px
+
+    td
+      :padding 4px
 
 #al_sidebar_right
   :width $panelRightSidebarWidth

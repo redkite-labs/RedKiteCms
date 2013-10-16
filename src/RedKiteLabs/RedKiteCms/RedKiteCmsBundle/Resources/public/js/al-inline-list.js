@@ -41,12 +41,18 @@
     
     function initList(element)
     {
+        var buttonAddMarkup = '<button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>';
+        var buttonDeleteMarkup = '<button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>';
+        if (bootstrapVersion == "2.x") {
+            buttonAddMarkup = '<a class="btn btn-mini btn-primary"><i class="icon-plus"></i></a>';
+            buttonDeleteMarkup = '<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white"></i></a>';
+        }
+        
         var addButton = document.createElement("div");
         $(addButton)
             .addClass("al-add-item-list")
             .attr('data-item', '-1')
-            //.append('<a class="btn btn-mini btn-primary"><i class="icon-plus"></i></a>')
-            .append('<button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>')
+            .append(buttonAddMarkup)
             .position({
                 my: "left top",
                 at: "left top",
@@ -73,8 +79,7 @@
                 $(addButton)
                     .addClass("al-add-item-list")
                     .attr('data-item', $this.attr('data-item'))
-                    //.append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white"></i></a>')
-                    .append('<button class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></button>')             
+                    .append(buttonAddMarkup)             
                     .appendTo(containerDiv)
                     .css('left', '0')
                     .show()
@@ -85,8 +90,7 @@
                     .addClass("al-delete-item-list")
                     .attr('data-item', $this.attr('data-item'))
                     .attr('data-slot-name', $this.attr('data-slot-name'))
-                    //.append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white"></i></a>')
-                    .append('<button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>')             
+                    .append(buttonDeleteMarkup)             
                     .appendTo(containerDiv) 
                     .css('left', '26px')
                     .show()
@@ -94,47 +98,13 @@
                 
                 containerDiv.position({
                     my: "center top",
-                    at: "left bottom",
+                    at: settings.position,
                     of: $this,
                     collision: 'fit fit'
                 })
                 .addClass('inline-list-commands-container')
                 .css('position', 'absolute')
                 .appendTo('body') ;
-                
-                
-
-                /*
-                var addButton = document.createElement("div");
-                $(addButton)
-                    .addClass("al-add-item-list")
-                    .attr('data-item', $this.attr('data-item'))
-                    //.append('<a class="btn btn-mini btn-primary"><i class="icon-plus icon-white"></i></a>')
-                    .append('<a class="btn btn-xs btn-primary"><span class="glyphicon glyphicon-plus"></span></a>')             
-                    .appendTo($this)
-                    .position({
-                        my: "left+10 top",
-                        at: "left bottom",
-                        of: $this
-                    }) 
-                    .show()
-                ;
-
-                var removeButton = document.createElement("div");
-                $(removeButton)
-                    .addClass("al-delete-item-list")
-                    .attr('data-item', $this.attr('data-item'))
-                    .attr('data-slot-name', $this.attr('data-slot-name'))
-                    //.append('<a class="btn btn-mini btn-danger"><i class="icon-trash icon-white"></i></a>')
-                    .append('<button class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span></button>')             
-                    .appendTo($this) 
-                    .position({
-                        my: "left+38 top",
-                        at: "left bottom",
-                        of: $this
-                    })       
-                    .show()
-                ;*/
             })
         ;
         
@@ -156,7 +126,8 @@
                     $('body').EditBlock("Content", value, null, function()
                     {
                         Holder.run();                    
-                        addItemCallback();  
+                        addItemCallback();
+                        $('.inline-list').addClass('collapsed-list');
                     }); 
                                     
                     $('#al_close_block_menu').click();
@@ -180,7 +151,8 @@
                 $('body').EditBlock("Content", value, null, function()
                 {
                     Holder.run();                    
-                    addItemCallback();                    
+                    addItemCallback();
+                    $('.inline-list').addClass('collapsed-list');
                 });            
             });
         }
@@ -188,11 +160,13 @@
         $('.al-delete-item-list').click(function(event){
             event.stopPropagation(); 
             if (confirm(translate('Are you sure to remove the active item'))) {   
-                var deleteItemCallback = settings.deleteItemCallback;  
-                $('body').EditBlock("Content", '{"operation": "remove", "item": "' + $(this).attr('data-item') + '", "slotName": "' + $(this).attr('data-slot-name') + '"}', null, function()
+                var $this = $(this);
+                var deleteItemCallback = settings.deleteItemCallback;
+                $('body').EditBlock("Content", '{"operation": "remove", "item": "' + $this.attr('data-item') + '", "slotName": "' + $this.attr('data-slot-name') + '"}', null, function()
                 {
                     Holder.run();                    
                     deleteItemCallback(); 
+                    $('.inline-list').addClass('collapsed-list');
                 });
             }
         });
@@ -203,6 +177,7 @@
         settings = $.extend( {
           target            : '> li',
           addValue          : null,
+          position          : 'left bottom',
           addItemCallback       : function(){},          
           deleteItemCallback    : function(){}
         }, options);

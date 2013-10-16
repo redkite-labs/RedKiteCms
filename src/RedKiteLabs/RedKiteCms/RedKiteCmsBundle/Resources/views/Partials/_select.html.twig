@@ -21,8 +21,13 @@
 {% set classes = small_input %}
 {% endif %}
 
-<select{% if (id is defined) %} id="{{ id }}"{% endif %} class="{{ classes }}">
-    {% for id, name in items %}
+{% set rel_value = '' %}
+{% if rel is defined %}
+{% set rel_value = ' rel=' ~ rel %}
+{% endif %}
+
+<select{% if (id is defined) %} id="{{ id }}"{% endif %} class="{{ classes }}"{{ rel_value }}>
+    {% for id, name in select_options %}
     <option value="{{ id }}" rel="{{ name }}" {% if(selected is defined and (selected == id or selected == name)) %} selected="selected" {% endif %}>{{ name }}</option>
     {% endfor %}
 </select>

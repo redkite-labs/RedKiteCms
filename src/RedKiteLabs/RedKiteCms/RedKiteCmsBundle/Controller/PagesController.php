@@ -214,7 +214,7 @@ class PagesController extends Base\BaseController
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
         $values[] = array("key" => "pages_list", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Pages:pages_list.html.twig', array('pages' => $pagesList, 'active_page' => $request->get('page'),)));
-        $values[] = array("key" => "permalinks", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_permalink_select.html.twig', array('items' => $permalinks,)));
+        $values[] = array("key" => "permalinks", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_permalink_select.html.twig', array('permalinks' => $permalinks,)));
         $values[] = array(
             "key" => "pages", 
             "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_dropdown_menu.html.twig', array(

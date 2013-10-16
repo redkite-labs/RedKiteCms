@@ -23,6 +23,7 @@
         {
             $('body').addClass('cms_started');
             doStartEdit($(this));
+            $('.inline-list').addClass('collapsed-list');
             
             $(document).trigger("cmsStarted");
             
@@ -50,6 +51,7 @@
 
                 cmsStartInternalJavascripts();
                 $('body').removeClass('cms_started');
+                $('.inline-list').removeClass('collapsed-list');
                 
                 stopBlocksMenu = false;
                 
