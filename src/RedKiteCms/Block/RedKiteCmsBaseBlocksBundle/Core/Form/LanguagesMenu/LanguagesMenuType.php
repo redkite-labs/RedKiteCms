@@ -40,8 +40,6 @@ class LanguagesMenuType extends JsonBlockType
     
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-        
         $builder->add('flags_directories', 'choice', array(
             'choices' => $this->flagsDirectories, 
             'label' => 'Flags',
@@ -56,5 +54,7 @@ class LanguagesMenuType extends JsonBlockType
                 'data' => $country
             ));
         }
+        
+        $builder->add('save', 'submit', array('attr' => array('class' => 'al_editor_save btn btn-primary')));
     }
 }

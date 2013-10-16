@@ -83,10 +83,11 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $form = $this->container->get('form.factory')->create($formClass, $item); 
         
         return array(
-            'template' => 'RedKiteCmsBundle:Editor:base_editor_form.html.twig',
+            'template' => 'RedKiteCmsBundle:Block:Editor/_editor_form.html.twig',
             'title' => $this->translator->translate('Files editor'),
             'form' => $form->createView(),
             'configuration' => $this->container->get('red_kite_cms.configuration'),
+            'bootstrap_version' => $this->container->get('red_kite_cms.configuration'),
         );
     }
     

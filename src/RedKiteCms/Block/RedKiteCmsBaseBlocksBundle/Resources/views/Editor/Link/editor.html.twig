@@ -1,6 +1,6 @@
-{% extends 'RedKiteCmsBundle:Item:_languages_support.html.twig' %}
+{% extends 'RedKiteCmsBundle:Block:Editor/Translation/_translation.html.twig' %}
 
-{% form_theme form 'RedKiteCmsBundle:Item:_form_label.html.twig'  %}
+{% form_theme form 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/FormTheme/forms.html.twig' %}
 
 {% block content %}
 <form id="al_item_form">
@@ -19,7 +19,7 @@
         {{ form_rest(form) }}
         <tr>
             <td colspan="3" style="text-align: right">
-                <a class="al_editor_save btn btn-primary" href="#" >{{ 'Save'|trans({}, 'AlphaLemonCmsBundle', cms_language) }}</a>
+                <a class="al_editor_save btn btn-primary" href="#" >{{ 'Save'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a>
             </td>
         </tr>
     </table>

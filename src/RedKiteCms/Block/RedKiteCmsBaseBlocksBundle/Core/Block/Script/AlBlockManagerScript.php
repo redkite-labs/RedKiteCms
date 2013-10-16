@@ -52,10 +52,14 @@ class AlBlockManagerScript extends AlBlockManagerContainer
     
     public function editorParameters()
     {
+        $formClass = $this->container->get('script.form');
+        $form = $this->container->get('form.factory')->create($formClass, $this->alBlock);
+        
         return array(
             "template" => "RedKiteCmsBaseBlocksBundle:Editor:Script/editor.html.twig",
             "title" => "Script editor",
             "blockManager" => $this,
+            "form" => $form->createView(),
             "jsFiles" => explode(",", $this->alBlock->getExternalJavascript()),
             "cssFiles" => explode(",", $this->alBlock->getExternalStylesheet()),
             'configuration' => $this->container->get('red_kite_cms.configuration'),

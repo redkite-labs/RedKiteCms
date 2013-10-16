@@ -47,6 +47,9 @@
         
         <!-- LANGUAGES MENU -->
         <parameter key="languages_menu.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\LanguagesMenu\AlBlockManagerLanguagesMenu</parameter>
+        
+        <!-- SCRIPT -->
+        <parameter key="bootstrap_script.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Script\AlScriptType</parameter>
     </parameters>
 
     <services>        
@@ -102,6 +105,10 @@
         <service id="languages_menu.block" class="%languages_menu.block.class%">
             <argument type="service" id="service_container" />
             <tag name="red_kite_cms.blocks_factory.block" description="Languages navigation menu" type="LanguagesMenu" group="redkitecms_internals" />
+        </service>
+        
+        <!-- SCRIPT -->
+        <service id="script.form" class="%bootstrap_script.form.class%">
         </service>
     </services>
 </container>

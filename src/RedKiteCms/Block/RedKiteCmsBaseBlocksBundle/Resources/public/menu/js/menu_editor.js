@@ -1,16 +1,21 @@
 $(document).ready(function() {
-    $(document).on("blockEditing", function(event, element){
+    $(document).on("startEditingBlocks", function(event, element){
         if (element.attr('data-type') != 'Menu' && element.attr('data-type') != 'MenuVertical') {
             return;
         }
         
+        var position = 'left bottom'
+        if (element.attr('data-type') == 'MenuVertical') {
+            position = "right";
+        }
+        
         $(element)
             .find('.al-menu-list')
-            .inlinelist('start')
+            .inlinelist('start', { 'position': position})
         ;
     });
     
-    $(document).on("blockStopEditing", function(event, element){ 
+    $(document).on("stopEditingBlocks", function(event, element){ 
         if (element.attr('data-type') != 'Menu' && element.attr('data-type') != 'MenuVertical') {
             return;
         }

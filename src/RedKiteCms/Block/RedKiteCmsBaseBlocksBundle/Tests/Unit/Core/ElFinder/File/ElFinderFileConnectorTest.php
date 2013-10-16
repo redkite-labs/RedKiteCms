@@ -52,7 +52,7 @@ class ElFinderFileConnectorTest extends TestCase
         $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
         $bundle->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue('AlphaLemonCmsBundle'));
+            ->will($this->returnValue('RedKiteCmsBundle'));
 
         $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
 

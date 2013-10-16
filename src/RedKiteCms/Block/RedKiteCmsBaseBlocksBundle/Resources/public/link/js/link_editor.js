@@ -28,7 +28,7 @@ $(document).ready(function() {
         });
     });
     
-    $(document).on("blockStopEditing", function(event, element){
+    $(document).on("stopEditingBlocks", function(event, element){
         $('#al_page_name')
             .appendTo('body')
             .val(0)

@@ -29,11 +29,10 @@ class AlImageType extends JsonBlockType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-        
         $builder->add('src');
         $builder->add('data_src', 'hidden');
         $builder->add('title');
-        $builder->add('alt');
+        $builder->add('alt');        
+        $builder->add('save', 'submit', array('attr' => array('class' => 'al_editor_save btn btn-primary')));
     }
 }
