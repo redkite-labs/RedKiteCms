@@ -97,6 +97,7 @@
                        'key'        : key,
                        'value'      : value,
                        'included'   : $('body').data('included'),
+                       'item'       : $('body').data('activeBlock').attr('data-item'),
                        'options'    : options
                 },
                 beforeSend: function()

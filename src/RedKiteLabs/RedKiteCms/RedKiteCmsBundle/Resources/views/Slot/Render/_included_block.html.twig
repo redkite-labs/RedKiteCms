@@ -13,4 +13,8 @@
    @license    GPL LICENSE Version 2.0
 #}
 
+{% if (item is null) %}
 {{ renderIncludedBlock(blockManager.get.SlotName, blockManager) }}
+{% else %}
+{{ renderIncludedBlock(blockManager.get.SlotName, blockManager, "Text", false,  "", "data-item=" ~ item) }}
+{% endif %}
