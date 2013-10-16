@@ -145,7 +145,7 @@ class BlocksController extends Base\BaseController
                 array("key" => "message", "value" => $this->translate("blocks_controller_block_edited")),
                 array("key" => "edit-block",
                       "blockName" => "block_" . $blockManager->get()->getId(),
-                      "value" => $this->container->get('templating')->render($template, array("blockManager" => $blockManager)),
+                      "value" => $this->container->get('templating')->render($template, array("blockManager" => $blockManager, 'item' => $request->get('item'))),
                 ),
             );
 
