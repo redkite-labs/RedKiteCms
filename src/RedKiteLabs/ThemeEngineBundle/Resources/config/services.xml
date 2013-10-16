@@ -6,7 +6,6 @@
 
     <parameters>
         <parameter key="red_kite_labs_theme_engine.base_template">RedKiteLabsThemeEngineBundle:Frontend:base.html.twig</parameter>
-        <parameter key="red_kite_labs_theme_engine.active_theme_file">%kernel.root_dir%/Resources/.active_theme</parameter>
         <parameter key="red_kite_labs_theme_engine.deploy.templates_folder">RedKiteCms</parameter>
         <parameter key="red_kite_labs_theme_engine.deploy.stage_templates_folder">RedKiteCmsStage</parameter>
         <parameter key="red_kite_labs_theme_engine.info_valid_entries" type="collection">
@@ -19,7 +18,6 @@
             <parameter>version</parameter>
         </parameter>
 
-        <parameter key="red_kite_labs_theme_engine.active_theme.class">RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme</parameter>
         <parameter key="red_kite_labs_theme_engine.themes.class">RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection</parameter>
         <parameter key="red_kite_labs_theme_engine.theme.class">RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme</parameter>
         <parameter key="red_kite_labs_theme_engine.slot.class">RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot</parameter>
@@ -34,10 +32,6 @@
         </service>
         
         <service id="red_kite_labs_theme_engine.themes" class="%red_kite_labs_theme_engine.themes.class%">
-        </service>
-
-        <service id="red_kite_labs_theme_engine.active_theme" class="%red_kite_labs_theme_engine.active_theme.class%">
-            <argument type="service" id="service_container"></argument>
         </service>
     </services>
 </container>
