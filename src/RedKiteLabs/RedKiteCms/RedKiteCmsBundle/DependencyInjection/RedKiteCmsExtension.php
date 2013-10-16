@@ -59,17 +59,6 @@ class RedKiteCmsExtension extends Extension
             $container->setParameter('red_kite_cms.active_theme_file', $config['active_theme_file']);
         }
         
-        if (isset($config['bootstrap'])) {
-            $bootstrapThemes = array();
-            foreach($config['bootstrap'] as $themes) {
-                foreach($themes as $theme) {
-                    $bootstrapThemes[$theme['theme']] = $theme['version'];
-                }
-            }
-            
-            $container->setParameter('red_kite_cms.bootstrap_themes', $bootstrapThemes);
-        }
-        
         if (isset($config['deploy_bundle'])) {
             $container->setParameter('red_kite_cms.deploy_bundle.resources_dir', $config['deploy_bundle']['resources_dir']);
             $container->setParameter('red_kite_cms.deploy_bundle.assets_base_dir', $config['deploy_bundle']['assets_base_dir']);
