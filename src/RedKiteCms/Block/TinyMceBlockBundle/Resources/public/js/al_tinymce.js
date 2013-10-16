@@ -34,7 +34,7 @@
         $('#rk-tinymce-container').remove();
     });
     
-    $(document).on("blockEditing", function(event, block){
+    $(document).on("startEditingBlocks", function(event, block){
         if (block.attr('data-type') != 'Text') {
             return;
         }
@@ -53,7 +53,7 @@
         ;
     });
     
-    $(document).on("blockStopEditing", function(event, block){
+    $(document).on("stopEditingBlocks", function(event, block){
         if (block.attr('data-type') != 'Text') {
             return;
         }
@@ -63,6 +63,22 @@
             .css('height', '0')
         ;
     });
+    
+    $(document).on("blockEdited", function(event)
+    {
+        reinitTinyMce();
+    });
+    
+    $(document).on("blockDeleted", function(event)
+    {
+        reinitTinyMce();
+    });
+    
+    function reinitTinyMce()
+    {
+        tinymce.remove();
+        initTinyMCE();
+    }
 });
 
 function initTinyMCE()
