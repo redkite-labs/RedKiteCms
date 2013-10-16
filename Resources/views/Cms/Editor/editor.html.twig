@@ -24,7 +24,7 @@
             </ul>
         </div>
         <div id="al_languages" class="pull-right"> 
-            {% include 'RedKiteCmsBundle:Partials:_select.html.twig' with {'id': 'al_available_languages', 'items' : available_languages, 'selected' : cms_language}  %}
+            {% include 'RedKiteCmsBundle:Partials:_select.html.twig' with {'id': 'al_available_languages', 'select_options' : available_languages, 'selected' : cms_language}  %}
         </div>
     </div>
     <div class="clearfix"></div>    
@@ -135,7 +135,7 @@
 
 {% block block_permalink_select %}
 {% if permalinks is defined %}
-{% include "RedKiteCmsBundle:Partials:_permalink_select.html.twig" with { items: permalinks } %}
+{% include "RedKiteCmsBundle:Partials:_permalink_select.html.twig" with { 'permalinks': permalinks } %}
 
 {% endif %}
 {% endblock %}

@@ -36,7 +36,6 @@
     <div class="tab-content">
         <div class="tab-pane active tab-height-page" id="page">
             <div id="al_pages_attributes_section">
-                {# <h2>{{ "pages_controller_label_page"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2> #}
                 <form id="al_page_form">
                 {{ form(pagesForm) }}
                 </form>
@@ -46,22 +45,25 @@
         <div class="tab-pane tab-height-page" id="seo">
             <div id="al_pages_seo_attributes_section">
                 <form id="al_attributes_form">
-                {{ form_row(pageAttributesForm.permalink) }}
-                {{ form_row(pageAttributesForm.title) }}
-                {{ form_row(pageAttributesForm.description) }}
-                {{ form_row(pageAttributesForm.keywords) }}
+                    <table>
+                        {{ form_row(pageAttributesForm.permalink) }}
+                        {{ form_row(pageAttributesForm.title) }}
+                        {{ form_row(pageAttributesForm.description) }}
+                        {{ form_row(pageAttributesForm.keywords) }}
+                    </table>                
                 </form>
-                {#<h2>{{ "pages_controller_seo"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>#}                
+                {##}                
             </div>
         </div>
     
         <div class="tab-pane tab-height-page" id="sitemap">
             <div id="al_pages_site_map_section">
                 <form id="al_sitemp_form">
-                {{ form_row(pageAttributesForm.sitemapChangeFreq) }}
-                {{ form_row(pageAttributesForm.sitemapPriority) }}
+                    <table>
+                        {{ form_row(pageAttributesForm.sitemapChangeFreq) }}
+                        {{ form_row(pageAttributesForm.sitemapPriority) }}
+                    </table>                
                 </form>
-                {#<h2>{{ "pages_controller_label_site_map"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>#}
             </div>
         </div>
     </div>

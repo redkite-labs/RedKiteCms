@@ -150,7 +150,7 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
     
     protected function deleteItem($data, $savedValues)
     {
-        $item = $data["item"]; 
+        $item = $data["item"];
         unset($savedValues[$item]);
 
         $result = null;
@@ -160,7 +160,14 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
         $this->blocksRepository->startTransaction();
 
         foreach($blocks as $block) {
-            $itemProgressive = str_replace($blockKey, '', $block->getSlotName()); 
+            $remainingKeyToken = "";
+            $itemProgressive = str_replace($blockKey, '', $block->getSlotName());
+            preg_match('/([^-]+)(-.*)/', $itemProgressive, $matches);
+            if ( ! empty($matches)) {
+                $itemProgressive = $matches[1];
+                $remainingKeyToken = $matches[2];
+            }
+            
             if ($item == $itemProgressive) { 
                 $nextItem = $item + 1;
                 
@@ -173,14 +180,14 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBase
 
             if (null !== $nextItem && $itemProgressive >= $nextItem) { 
                 $itemProgressive--; 
-                $block->setSlotName($blockKey . $itemProgressive);
+                $block->setSlotName($blockKey . $itemProgressive . $remainingKeyToken);
                 $result = $block->save();
                 if (! $result) {
                     break;
                 }
             }
         }
-
+        
         if (false === $result) {
             $this->blocksRepository->rollback();
 

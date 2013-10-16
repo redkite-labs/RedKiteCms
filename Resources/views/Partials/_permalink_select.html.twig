@@ -1,5 +1,27 @@
 {% extends 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/base.html.twig' %}
 
 {% block body %}
-{% include "RedKiteCmsBundle:Partials:_select.html.twig" with { 'id': 'al_page_name', 'items': items, 'classes': 'al_hidden ' ~ small_input } %}
+
+{% set hidden_class = 'al_hidden ' %}
+{% if visible is defined and visible %}
+{% set hidden_class = '' %}
+{% endif %}
+
+{% set id_value = 'al_page_name' %}
+{% if id is defined %}
+{% set id_value = id %}
+{% endif %}
+
+{% set classes_value = '' %}
+{% if classes is defined %}
+{% set classes_value = classes %}
+{% endif %}
+
+{% set rel_value = '' %}
+{% if rel is defined %}
+{% set rel_value = rel %}
+{% endif %}
+
+{% include "RedKiteCmsBundle:Partials:_select.html.twig" with { 'id': id_value, 'rel': rel_value, 'select_options': permalinks, 'classes': hidden_class ~ small_input ~ " " ~ classes_value } %}
+
 {% endblock %}
