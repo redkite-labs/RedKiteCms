@@ -73,7 +73,7 @@ class SecurityControllerTest extends BaseSecured
         $this->assertTrue($crawler->filter('html:contains("Password")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("Email")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("Role")')->count() == 1);
-        $this->assertCount(7, $crawler->filter('input'));
+        $this->assertGreaterThan(5, count($crawler->filter('input')));
         $this->assertCount(1, $crawler->filter('select'));
     }
 
@@ -231,8 +231,8 @@ class SecurityControllerTest extends BaseSecured
         $this->assertCount(1, $crawler->filter('html:contains("Password")'));
         $this->assertCount(1, $crawler->filter('html:contains("Email")'));
         $this->assertCount(1, $crawler->filter('#al_user_email')->filter('[value="text@example.com"]'));
-        $this->assertCount(1, $crawler->filter('html:contains("Role")'));
-        $this->assertCount(7, $crawler->filter('input'));
+        $this->assertCount(1, $crawler->filter('html:contains("Role")'));        
+        $this->assertGreaterThan(5, count($crawler->filter('input')));
         $this->assertCount(1, $crawler->filter('select'));
     }
 
