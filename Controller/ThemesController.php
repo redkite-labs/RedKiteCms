@@ -103,7 +103,7 @@ class ThemesController extends Base\BaseController
                 'key' => 'slots',
                 'value' => $this->container->get('templating')->render('RedKiteCmsBundle:Themes:Slots/template_slots_panel.html.twig', array(
                     'slots' => $slots, 
-                    'configuration' => $this->container->get('red_kite_cms.configuration')
+                    'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
                 )),            
             ), 
         );
