@@ -423,6 +423,67 @@ class BlocksControllerTest extends WebTestCaseFunctional
         
         $blocks = $this->blockRepository->retrieveContents(2, 2, $slotName);
         $this->assertCount(1, $blocks);
+        
+        return $blocks[0];
+    }
+    
+    /**
+     * @depends testAddNewIncludedBlock
+     */
+    public function testEditIncludedBlockWithoutItem($block)
+    {
+        $params = array(
+            'idBlock' => $block->getId(),
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            'slotName' => $block->getSlotName(),
+            "key" => "Content",
+            "value" => "New content",
+            'included' => 'true',
+        );
+        
+        $crawler = $this->client->request('POST', '/backend/en/editBlock', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        
+        $json = json_decode($response->getContent(), true);
+        $this->assertNotRegExp(
+            '/data-item=2/si',
+            $json[1]["value"]
+        );
+        
+        return $block;
+    }
+    
+    /**
+     * @depends testEditIncludedBlockWithoutItem
+     */
+    public function testEditIncludedBlockWithItem($block)
+    {
+        $params = array(
+            'idBlock' => $block->getId(),
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => '2',
+            'languageId' => '2',
+            'slotName' => $block->getSlotName(),
+            "key" => "Content",
+            "value" => "Edited content",
+            'included' => 'true',
+            'item' => '2',
+        );
+        
+        $crawler = $this->client->request('POST', '/backend/en/editBlock', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        
+        $json = json_decode($response->getContent(), true);
+        $this->assertRegExp(
+            '/data-item=2/si',
+            $json[1]["value"]
+        );
     }
     
     public function addFailsProvider()
