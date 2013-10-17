@@ -156,8 +156,8 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals("permalinks", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));
         $this->assertRegExp("/\<select id=\"al_page_name\"[^\>]+\>/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option value=\"page-1\"\>page-1/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option value=\"this-is-a-website-fake-page\"\>this-is-a-website-fake-page/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"1\" rel=\"page-1\"[\s]+?\>page-1/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"2\" rel=\"this-is-a-website-fake-page\"[\s]+?\>this-is-a-website-fake-page/s", $json[2]["value"]);
         $this->assertEquals("pages", $json[3]["key"]);
         $this->assertTrue(array_key_exists("value", $json[3])); //<ul class="dropdown-menu dropdown-height dropdown-zindex">
         $this->assertRegExp("/\<ul class=\"dropdown-menu[^\>]+\>/s", $json[3]["value"]);
@@ -300,8 +300,8 @@ class PagesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertCount(0, $crawler->filter('#block_1'));
-        $this->assertCount(1, $crawler->filter('#block_57'));
-        $this->assertCount(1, $crawler->filter('#block_57')->filter('[data-name="block_57"]'));
+        $this->assertCount(1, $crawler->filter('#block_30'));
+        $this->assertCount(1, $crawler->filter('#block_30')->filter('[data-name="block_30"]'));
         $this->assertCount(0, $crawler->filter('#block_31'));
         $this->assertCount(1, $crawler->filter('[data-name="block_31"]'));
     }
@@ -432,7 +432,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $seo = $this->seoRepository->fromPageAndLanguage(2, 2);
         $this->assertNotNull($seo);
         
-        $this->assertCount(21, $this->blockRepository->retrieveContents(2, 2));
+        $this->assertCount(17, $this->blockRepository->retrieveContents(2, 2));
         
         $params = array('page' => 'page-2-edited',
                         'language' => 'en',
@@ -463,8 +463,8 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("permalinks", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));
-        $this->assertRegExp("/\<option value=\"another-page\"\>another-page/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option value=\"page-2-edited\"\>page-2-edited/s", $json[2]["value"]);$this->assertEquals("pages", $json[3]["key"]);
+        $this->assertRegExp("/\<option value=\"1\" rel=\"another-page\"[\s]+?\>another-page/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"2\" rel=\"page-2-edited\"[\s]+?\>page-2-edited/s", $json[2]["value"]);$this->assertEquals("pages", $json[3]["key"]);
         $this->assertTrue(array_key_exists("value", $json[3])); 
         $this->assertRegExp("/\<li id=\"none\"[^\>]+\>\<a href=\"#\"\> \<\/a\>/s", $json[3]["value"]);
         $this->assertRegExp("/\<li id=\"5\"[^\>]+\>\<a href=\"#\"\>another-page\<\/a\>/s", $json[3]["value"]);
