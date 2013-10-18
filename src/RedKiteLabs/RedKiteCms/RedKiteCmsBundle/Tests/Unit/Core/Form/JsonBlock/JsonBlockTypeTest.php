@@ -45,11 +45,9 @@ class JsonBlockTypeTest extends AlBaseType
     
     public function testDefaultOptions()
     {
-        $expectedResult = array(
-            'csrf_protection' => false,
-        );
-        
-        $this->assertEquals($expectedResult, $this->getForm()->getDefaultOptions(array()));
+        $this->setBaseResolver();
+
+        $this->getForm()->setDefaultOptions($this->resolver);
     }
     
     public function testGetName()

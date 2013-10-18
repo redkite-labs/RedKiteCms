@@ -18,7 +18,6 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * JsonBlockType is the abstract Type that should be used to implement an App-Block which
@@ -26,16 +25,6 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  */
 abstract class JsonBlockType extends BaseBlockType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        return array(
-            'csrf_protection' => false,
-        );
-    }
-
     /**
      * {@inheritdoc}
      */

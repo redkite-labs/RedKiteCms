@@ -104,6 +104,25 @@ class CmsBootstrapListenerTest extends TestCase
             ->with('red_kite_cms.repeated_slots_aligner')
             ->will($this->returnValue($this->aligner));
 
+        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+        $activeTheme->expects($this->once())
+            ->method('getThemeBootstrapVersion')
+            ->will($this->returnValue('2.x'));
+        $this->container->expects($this->at(12))
+            ->method('get')
+            ->with('red_kite_cms.active_theme')
+            ->will($this->returnValue($activeTheme));
+
+
+        $twig = $this->getMock('\Twig_Environment');
+        $twig->expects($this->once())
+            ->method('addGlobal')
+            ->with('bootstrap_version', '2.x');
+        $this->container->expects($this->at(13))
+            ->method('get')
+            ->with('twig')
+            ->will($this->returnValue($twig));
+
         $this->setupFolders();
 
         $this->kernel->expects($this->once())

@@ -54,7 +54,6 @@ class AlUserType extends BaseBlockType
         
         $resolver->setDefaults(array(
             'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Model\AlUser',
-            'csrf_protection' => false,
         ));
     }
 

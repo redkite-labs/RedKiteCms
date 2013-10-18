@@ -35,4 +35,11 @@ interface AlActiveThemeInterface
      * @param string $themeName
      */
     public function writeActiveTheme($themeName);
+
+    /**
+     * Returns the bootstrap version used by the requested theme
+     *
+     * @param string $themeName
+     */
+    public function getThemeBootstrapVersion($themeName = null);
 }

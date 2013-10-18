@@ -118,7 +118,6 @@ class SeoForm extends BaseBlockType
         
         $resolver->setDefaults(array(
             'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\Seo',
-            'csrf_protection' => false,
         ));
     }
 

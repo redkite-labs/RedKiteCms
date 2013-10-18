@@ -60,11 +60,18 @@ class SeoFormTest extends AlBaseType
     
     public function testDefaultOptions()
     {
-        $expectedResult = array(
+        $this->setBaseResolver();
+
+        $options = array(
             'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\Seo',
         );
-        
-        $this->assertEquals($expectedResult, $this->getForm()->getDefaultOptions(array()));
+        $this->resolver
+            ->expects($this->at(1))
+            ->method('setDefaults')
+            ->with($options)
+        ;
+
+        $this->getForm()->setDefaultOptions($this->resolver);
     }
     
     public function testGetName()

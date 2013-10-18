@@ -46,7 +46,6 @@ class AlRoleType extends BaseBlockType
         
         $resolver->setDefaults(array(
             'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Model\AlRole',
-            'csrf_protection' => false,
         ));
     }
 
