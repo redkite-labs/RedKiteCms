@@ -79,9 +79,38 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
         ;
         $this->blockManager->set($block);        
         
+        
+        
+        $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
+        $this->container->expects($this->at(0))
+                        ->method('get')
+                        ->with('script.form')
+                        ->will($this->returnValue($formType))
+        ;
+        
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')
+                    ->disableOriginalConstructor()
+                    ->getMock();
+        $form->expects($this->once())
+            ->method('createView')
+            ->will($this->returnValue('the-form'))
+        ;
+        
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->once())
+                    ->method('create')
+                    ->will($this->returnValue($form))
+        ;
+        $this->container->expects($this->at(1))
+                        ->method('get')
+                        ->with('form.factory')
+                        ->will($this->returnValue($formFactory))
+        ;
+
+
         $this->configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');        
         $this->container
-            ->expects($this->at(0))
+            ->expects($this->at(2))
             ->method('get')
             ->with('red_kite_cms.configuration')
             ->will($this->returnValue($this->configuration))
@@ -91,6 +120,7 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
             "template" => "RedKiteCmsBaseBlocksBundle:Editor:Script/editor.html.twig",
             "title" => "Script editor",
             "blockManager" => $this->blockManager,
+            'form' => 'the-form',
             "jsFiles" => array(
                 "javascript-1.js",
                 "javascript-2.js",
