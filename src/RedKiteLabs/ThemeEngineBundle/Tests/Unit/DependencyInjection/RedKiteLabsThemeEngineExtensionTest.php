@@ -33,7 +33,6 @@ class RedKiteLabsThemeEngineExtensionTest extends TestCase
         $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle')), $this->container);
         $this->assertEquals('RedKiteLabsThemeEngineBundle:Frontend:base.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.base_template'));
         $this->assertEquals('RedKiteCms', $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder'));
-        $this->assertEquals('%kernel.root_dir%/Resources/.active_theme', $this->container->getParameter('red_kite_labs_theme_engine.active_theme_file'));
         $this->assertEquals(
             array(
                 'title',
@@ -44,7 +43,7 @@ class RedKiteLabsThemeEngineExtensionTest extends TestCase
                 'email',
                 'version',
             ), $this->container->getParameter('red_kite_labs_theme_engine.info_valid_entries'));
-        $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlActiveTheme', $this->container->getParameter('red_kite_labs_theme_engine.active_theme.class'));
+        
         $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection', $this->container->getParameter('red_kite_labs_theme_engine.themes.class'));
         $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme', $this->container->getParameter('red_kite_labs_theme_engine.theme.class'));
         $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot', $this->container->getParameter('red_kite_labs_theme_engine.slot.class'));
@@ -56,11 +55,6 @@ class RedKiteLabsThemeEngineExtensionTest extends TestCase
     public function testBaseTemplate()
     {
         $this->scalarNodeParameter('red_kite_labs_theme_engine.base_template', 'base_template', 'RedKiteCmsBundle:Theme:base.html.twig');
-    }
-
-    public function testAtiveThemeFile()
-    {
-        $this->scalarNodeParameter('red_kite_labs_theme_engine.active_theme_file', 'active_theme_file', '%kernel.root_dir%/new/path');
     }
     
     public function testRenderSlotClass()
