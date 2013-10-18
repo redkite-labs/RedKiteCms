@@ -15,34 +15,40 @@
  * 
  */
 
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Label;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Badge\Three;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Label\AlLabelType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Badge\Three\AlBadgeType;
 
 /**
- * AlLabelTypeTest
+ * AlBadgeTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlLabelTypeTest extends AlBaseType
+class AlBadgeTypeTest extends AlBaseType
 {
     protected function configureFields()
     {
         return array(
-            'label_text',
-            'label_type',
+            'badge_text',
+            array(
+                'name' => 'save',
+                'type' => 'submit',
+                'options' => array('attr' => array('class' => 'al_editor_save btn btn-primary')),
+            ),
         );
     }
     
     protected function getForm()
     {
-        return new AlLabelType();
+        return new AlBadgeType();
     }
     
     public function testDefaultOptions()
     {
-        $this->assertEquals(array('csrf_protection' =>false), $this->getForm()->getDefaultOptions(array()));
+        $this->setBaseResolver();
+
+        $this->getForm()->setDefaultOptions($this->resolver);
     }
     
     public function testGetName()

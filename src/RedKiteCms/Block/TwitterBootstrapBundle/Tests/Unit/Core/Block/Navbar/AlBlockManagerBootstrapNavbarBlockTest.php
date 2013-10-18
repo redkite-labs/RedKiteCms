@@ -46,8 +46,11 @@ class AlBlockManagerBootstrapNavbarBlockTest extends AlBlockManagerContainerBase
         $blockManager = new AlBlockManagerBootstrapNavbarBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
-    
-    public function testGetHtml()
+
+    /**
+     * @dataProvider bootstrapVersionsProvider
+     */
+    public function testGetHtml($bootstrapVersion)
     {
         $value = '
         {
@@ -61,12 +64,13 @@ class AlBlockManagerBootstrapNavbarBlockTest extends AlBlockManagerContainerBase
             
         $block = $this->initBlock($value);
         $this->initContainer();
+        $this->initBootstrapversion($bootstrapVersion);
         
         $blockManager = new AlBlockManagerBootstrapNavbarBlock($this->container, $this->validator);
         $blockManager->set($block);
-        
+
         $expectedResult = array('RenderView' => array(
-            'view' => 'TwitterBootstrapBundle:Content:Navbar/navbar.html.twig',
+            'view' => 'TwitterBootstrapBundle:Content:Navbar/' .$bootstrapVersion . '/navbar.html.twig',
             'options' => array(
                 'items' => array(
                     array(

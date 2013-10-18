@@ -47,4 +47,22 @@ class AlBlockManagerBootstrapBadgeBlock extends AlBlockManagerBootstrapLabelBloc
         
         return array('Content' => $value);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function editorParameters()
+    {
+        $items = $this->decodeJsonContent($this->alBlock->getContent());
+        $item = $items[0];
+
+        $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
+        $form = $bootstrapFormFactory->createForm('Badge', 'AlBadgeType', $item);
+
+        return array(
+            "template" => $this->editorTemplate,
+            "title" => "Bootstrap badge editor",
+            "form" => $form->createView(),
+        );
+    }
 }

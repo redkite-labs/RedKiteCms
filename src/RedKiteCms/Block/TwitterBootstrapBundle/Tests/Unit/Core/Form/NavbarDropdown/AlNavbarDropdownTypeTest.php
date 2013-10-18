@@ -42,7 +42,9 @@ class AlNavbarDropdownTypeTest extends AlBaseType
     
     public function testDefaultOptions()
     {
-        $this->assertEquals(array('csrf_protection' =>false), $this->getForm()->getDefaultOptions(array()));
+        $this->setBaseResolver();
+
+        $this->getForm()->setDefaultOptions($this->resolver);
     }
     
     public function testGetName()

@@ -37,6 +37,28 @@ abstract class AlBlockManagerBootstrapDropdownTestBase extends AlBlockManagerCon
 {  
     abstract protected function getBlockManager();
     
+    protected function setUp()
+    {
+        parent::setUp();
+
+        $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
+
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+
+        $seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->any())
+            ->method('createRepository')
+            ->will($this->returnValue($seoRepository));
+
+        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+    }
+    
     protected function defaultValueTest($expectedValue)
     {    
         $this->initContainer(); 
@@ -73,24 +95,34 @@ abstract class AlBlockManagerBootstrapDropdownTestBase extends AlBlockManagerCon
     {
         $block = $this->initBlock($value);
         $this->initContainer();
-        
-        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
-        $formFactory->expects($this->at(0))
-                    ->method('create')
-                    ->will($this->returnValue($this->initForm()))
+
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')
+                    ->disableOriginalConstructor()
+                    ->getMock();
+        $form->expects($this->once())
+            ->method('createView')
+            ->will($this->returnValue('the-form'))
         ;
-        
-        $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
+
+        $formFactory = $this->getMockBuilder('RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Factory\BootstrapFormFactory')
+                    ->disableOriginalConstructor()
+                    ->getMock();
+        $formFactory->expects($this->once())
+                    ->method('createForm')
+                    ->with('DropdownButton', 'AlDropdownButtonType')
+                    ->will($this->returnValue($form))
+        ;
         $this->container->expects($this->at(2))
                         ->method('get')
-                        ->with('bootstrapbuttonblock.form')
-                        ->will($this->returnValue($formType))
+                        ->with('twitter_bootstrap.bootstrap_form_factory')
+                        ->will($this->returnValue($formFactory))
         ;
-        
+
+        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
         $this->container->expects($this->at(3))
                         ->method('get')
-                        ->with('form.factory')
-                        ->will($this->returnValue($formFactory))
+                        ->with('request')
+                        ->will($this->returnValue($request))
         ;
         
         $blockManager = $this->getBlockManager();
@@ -102,8 +134,6 @@ abstract class AlBlockManagerBootstrapDropdownTestBase extends AlBlockManagerCon
     
     public function testManageJsonCollection()
     {
-        //$this->markTestSkipped('TODO');
-        
         $value = '{
             "0": {
                 "button_text": "Dropdown Button 1",
@@ -115,23 +145,21 @@ abstract class AlBlockManagerBootstrapDropdownTestBase extends AlBlockManagerCon
                         "data" : "Item 1", 
                         "metadata" : {  
                             "type": "link",
-                            "href": "#",
-                            "attributes": {}
+                            "href": "#"
                         }
                     }
                 ]
             }
         }';
         
-        
-        $values["Content"] = 'al_json_block%5Bbutton_text%5D=Dropdown+Button+1&al_json_block%5Bbutton_type%5D=&al_json_block%5Bbutton_attribute%5D=&al_json_block%5Bbutton_block%5D=&al_json_block%5Bbutton_enabled%5D=&items=[{"data":"Menu","attr":{"id":"menu","class":""},"state":"open","metadata":{},"children":[{"data":"Item 1","attr":{},"metadata":{"type":"link","href":"add-a-custom-theme-to-alphalemon-cms","attributes":[]}},{"data":"Item 2","attr":{},"metadata":{"type":"link","href":"#","attributes":[]}},{"data":"Item 3","attr":{"class":""},"metadata":{"type":"link","href":"#","attributes":[]}}]}]';
-                
+        $values["Content"] = 'al_json_block[button_text]=Dropdown Button 1&al_json_block[button_type]=btn-default&al_json_block[button_attribute]=&al_json_block[button_block]=&al_json_block[button_enabled]=&al_json_block[button_href]=&dropdown_items_form[0][metadata][type]=link&dropdown_items_form[0][data]=Item 1&dropdown_items_form[0][metadata][href]=#&dropdown_items_form[1][metadata][type]=link&dropdown_items_form[1][data]=Item 21&dropdown_items_form[1][metadata][href]=#&dropdown_items_form[2][metadata][type]=link&dropdown_items_form[2][data]=Item 3&dropdown_items_form[2][metadata][href]=#';
+             
         $blockManager = new AlBlockManagerBootstrapDropdownButtonBlockTester($this->container, $this->validator);
         $block = $this->initBlock($value);        
         $blockManager->set($block); 
         
         $result = $blockManager->saveDropdownItemsTester($values);
-        $expectedResult = array('Content' => '[{"button_text":"Dropdown Button 1","button_type":"","button_attribute":"","button_block":"","button_enabled":"","items":[{"data":"Item 1","attr":[],"metadata":{"type":"link","href":"add-a-custom-theme-to-alphalemon-cms","attributes":[]}},{"data":"Item 2","attr":[],"metadata":{"type":"link","href":"#","attributes":[]}},{"data":"Item 3","attr":{"class":""},"metadata":{"type":"link","href":"#","attributes":[]}}]}]');
+        $expectedResult = array('Content' => '[{"button_text":"Dropdown Button 1","button_type":"btn-default","button_attribute":"","button_block":"","button_enabled":"","button_href":"","items":[{"metadata":{"type":"link","href":"#"},"data":"Item 1"},{"metadata":{"type":"link","href":"#"},"data":"Item 21"},{"metadata":{"type":"link","href":"#"},"data":"Item 3"}]}]');
         $this->assertEquals($expectedResult, $result);
     }
     

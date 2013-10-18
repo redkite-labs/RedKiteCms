@@ -19,6 +19,7 @@ namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerContainer;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBase;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 
 /**
  * Defines the Block Manager to handle a Bootstrap Dropdown Button
@@ -98,7 +99,6 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
         $form = $bootstrapFormFactory->createForm('DropdownButton', 'AlDropdownButtonType', $item);
         
-        
         $seoRepository = $this->factoryRepository->createRepository('Seo');        
         $request = $this->container->get('request');
         
@@ -107,7 +107,7 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
             "title" => "Dropdown button editor",
             "form" => $form->createView(),
             'items' => $items,  
-            'permalinks' => \RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues::getPermalinks($seoRepository, $request->get('_locale')),
+            'permalinks' => ChoiceValues::getPermalinks($seoRepository, $request->get('_locale')),
         );
     }
     
@@ -128,7 +128,7 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
      * @return array
      */
     protected function saveDropdownItems(array $values)
-    {
+    { 
         if (array_key_exists('Content', $values)) {
             $unserializedData = array();
             $serializedData = $values['Content'];

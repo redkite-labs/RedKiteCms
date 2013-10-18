@@ -35,7 +35,7 @@ class AlDropdownButtonType extends JsonBlockType
         parent::buildForm($builder, $options);
         
         $builder->add('button_text');
-        $builder->add('button_type', 'choice', array('choices' => array('btn-default' => 'base', 'btn-primary' => 'primary', 'btn-info' => 'info', 'btn-success' => 'success', 'btn-warning' => 'warning', 'btn-danger' => 'danger', 'btn-inverse' => 'inverse')));
+        $builder->add('button_type', 'choice', array('choices' => array('' => 'base', 'btn-primary' => 'primary', 'btn-info' => 'info', 'btn-success' => 'success', 'btn-warning' => 'warning', 'btn-danger' => 'danger', 'btn-inverse' => 'inverse')));
         $builder->add('button_attribute', 'choice', array('choices' => array("" => "normal", "btn-mini" => "mini", "btn-small" => "small", "btn-large" => "large")));
         $builder->add('button_block', 'choice', array('choices' => array("" => "normal", "btn-block" => "block")));
         $builder->add('button_enabled', 'choice', array('choices' => array("" => "enabled", "disabled" => "disabled")));        

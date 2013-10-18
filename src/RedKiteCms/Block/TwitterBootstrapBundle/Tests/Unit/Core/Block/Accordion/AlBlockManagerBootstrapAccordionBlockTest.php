@@ -46,8 +46,11 @@ class AlBlockManagerBootstrapAccordionBlockTest extends AlBlockManagerContainerB
         $blockManager = new AlBlockManagerBootstrapAccordionBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
-    
-    public function testGetHtml()
+
+    /**
+     * @dataProvider bootstrapVersionsProvider
+     */
+    public function testGetHtml($bootstrapVersion)
     {
         $value = '
         {
@@ -61,12 +64,13 @@ class AlBlockManagerBootstrapAccordionBlockTest extends AlBlockManagerContainerB
             
         $block = $this->initBlock($value);
         $this->initContainer();
+        $this->initBootstrapversion($bootstrapVersion);
         
         $blockManager = new AlBlockManagerBootstrapAccordionBlock($this->container, $this->validator);
         $blockManager->set($block);
         
         $expectedResult = array('RenderView' => array(
-            'view' => 'TwitterBootstrapBundle:Content:Accordion/accordion.html.twig',
+            'view' => 'TwitterBootstrapBundle:Content:Accordion/' . $bootstrapVersion . '/accordion.html.twig',
             'options' => array(
                 'items' => array(
                     array(

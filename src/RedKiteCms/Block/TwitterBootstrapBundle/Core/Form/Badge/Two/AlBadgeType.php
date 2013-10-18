@@ -15,7 +15,7 @@
  * 
  */
 
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Badge;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Badge\Two;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,5 +36,6 @@ class AlBadgeType extends JsonBlockType
         
         $builder->add('badge_text');
         $builder->add('badge_type', 'choice', array('choices' => array('' => 'base', 'badge-info' => 'info', 'badge-success' => 'success', 'badge-warning' => 'warning', 'badge-important' => 'important', 'badge-inverse' => 'inverse')));
+        $builder->add('save', 'submit', array('attr' => array('class' => 'al_editor_save btn btn-primary')));
     }
 }

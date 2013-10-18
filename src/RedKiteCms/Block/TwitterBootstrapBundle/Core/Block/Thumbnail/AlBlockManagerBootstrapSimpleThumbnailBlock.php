@@ -28,8 +28,9 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
  */
 class AlBlockManagerBootstrapSimpleThumbnailBlock extends AlBlockManagerJsonBlockContainer
 {
-    protected $blockTemplate;// = 'TwitterBootstrapBundle:Content:Thumbnail/3.x/simple_thumbnail.html.twig';
+    protected $blockTemplate;
     protected $editorTemplate = 'TwitterBootstrapBundle:Editor:Thumbnail/editor.html.twig';
+    protected $bootstrapVersion;
     
     /**
      * Constructor
@@ -43,20 +44,22 @@ class AlBlockManagerBootstrapSimpleThumbnailBlock extends AlBlockManagerJsonBloc
     {
         parent::__construct($container, $validator);
         
-        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();   
+        $this->bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();   
         
-        $this->blockTemplate = sprintf('TwitterBootstrapBundle:Content:Thumbnail/%s/simple_thumbnail.html.twig', $bootstrapVersion);        
+        $this->blockTemplate = sprintf('TwitterBootstrapBundle:Content:Thumbnail/%s/simple_thumbnail.html.twig', $this->bootstrapVersion);        
     }
     
     /**
      * {@inheritdoc}
      */
     public function getDefaultValue()
-    {//span
+    {
+        $columnValue = ($this->bootstrapVersion == '2.x') ? "span3" : "col-md-3";
+        
         $value = '
             {
                 "0" : {
-                    "width": "col-md-3"
+                    "width": "' . $columnValue . '"
                 }
             }';
         

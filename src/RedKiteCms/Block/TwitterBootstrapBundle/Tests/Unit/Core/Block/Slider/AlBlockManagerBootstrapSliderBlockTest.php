@@ -79,8 +79,11 @@ class AlBlockManagerBootstrapSliderBlockTest extends AlBlockManagerContainerBase
                 
         $this->assertEquals("", $blockManager->getHtml());
     }
-    
-    public function testGetHtml()
+
+    /**
+     * @dataProvider bootstrapVersionsProvider
+     */
+    public function testGetHtml($bootstrapVersion)
     {
         $value = '{
             "0" : {
@@ -95,12 +98,13 @@ class AlBlockManagerBootstrapSliderBlockTest extends AlBlockManagerContainerBase
         
         $block = $this->initBlock($value);
         $this->initContainer();
+        $this->initBootstrapversion($bootstrapVersion);
         
         $blockManager = new AlBlockManagerBootstrapSliderBlock($this->container, $this->validator);
         $blockManager->set($block);
         
         $expectedResult = array('RenderView' => array(
-            'view' => 'TwitterBootstrapBundle:Content:Slider/content.html.twig',
+            'view' => 'TwitterBootstrapBundle:Content:Slider/' . $bootstrapVersion . '/content.html.twig',
             'options' => array(
                 'items' => array(
                     array(

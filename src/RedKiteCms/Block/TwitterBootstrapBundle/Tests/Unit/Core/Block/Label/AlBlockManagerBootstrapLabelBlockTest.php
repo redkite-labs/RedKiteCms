@@ -58,7 +58,7 @@ class AlBlockManagerBootstrapLabelBlockTest extends AlBlockManagerLabelTestBase
             }
         }';
         
-        $this->editorParameters($value, 'bootstraplabelblock.form');
+        $this->editorParameters($value, 'bootstraplabelblock.form', 'Label', 'AlLabelType');
     }
     
     public function testGetHtml()

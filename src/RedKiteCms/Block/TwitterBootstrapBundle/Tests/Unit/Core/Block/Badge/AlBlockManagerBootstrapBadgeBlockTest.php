@@ -58,7 +58,7 @@ class AlBlockManagerBootstrapBadgeBlockTest extends AlBlockManagerBootstrapLabel
             }
         }';
         
-        $this->editorParameters($value, 'bootstrapbadgeblock.form');
+        $this->editorParameters($value, 'bootstrapbadgeblock.form', 'Badge', 'AlBadgeType');
     }
     
     public function testGetHtml()

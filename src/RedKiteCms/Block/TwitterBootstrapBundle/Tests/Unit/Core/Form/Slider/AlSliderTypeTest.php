@@ -31,11 +31,11 @@ class AlSliderTypeTest extends AlBaseType
     {
         return array(
             'src',
-            'data_src',
+            array('name' => 'data_src', 'type' => 'hidden'),
             'title',
             'alt',
             'caption_title',
-            'caption_body',
+            array('name' => 'caption_body', 'type' => 'textarea'),
         );
     }
     
@@ -46,7 +46,9 @@ class AlSliderTypeTest extends AlBaseType
     
     public function testDefaultOptions()
     {
-        $this->assertEquals(array('csrf_protection' =>false), $this->getForm()->getDefaultOptions(array()));
+        $this->setBaseResolver();
+
+        $this->getForm()->setDefaultOptions($this->resolver);
     }
     
     public function testGetName()

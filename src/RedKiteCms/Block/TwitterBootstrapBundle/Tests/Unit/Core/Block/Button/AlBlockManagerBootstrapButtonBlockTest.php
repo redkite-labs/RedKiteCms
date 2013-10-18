@@ -99,23 +99,26 @@ class AlBlockManagerBootstrapButtonBlockTest extends AlBlockManagerContainerBase
         
         $block = $this->initBlock($value);
         $this->initContainer();
-        
-        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
-        $formFactory->expects($this->at(0))
-                    ->method('create')
-                    ->will($this->returnValue($this->initForm()))
+
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')
+                    ->disableOriginalConstructor()
+                    ->getMock();
+        $form->expects($this->once())
+            ->method('createView')
+            ->will($this->returnValue('the-form'))
         ;
-        
-        $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
+
+        $formFactory = $this->getMockBuilder('RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Factory\BootstrapFormFactory')
+                    ->disableOriginalConstructor()
+                    ->getMock();
+        $formFactory->expects($this->once())
+                    ->method('createForm')
+                    ->with('Button', 'AlButtonType')
+                    ->will($this->returnValue($form))
+        ;
         $this->container->expects($this->at(2))
                         ->method('get')
-                        ->with('bootstrap_button_block.form')
-                        ->will($this->returnValue($formType))
-        ;
-        
-        $this->container->expects($this->at(3))
-                        ->method('get')
-                        ->with('form.factory')
+                        ->with('twitter_bootstrap.bootstrap_form_factory')
                         ->will($this->returnValue($formFactory))
         ;
         

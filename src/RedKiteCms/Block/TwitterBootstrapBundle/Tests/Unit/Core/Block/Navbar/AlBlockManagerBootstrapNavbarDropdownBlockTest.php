@@ -43,24 +43,21 @@ class AlBlockManagerBootstrapNavbarDropdownBlockTest extends AlBlockManagerConta
                             "data" : "Item 1", 
                             "metadata" : {  
                                 "type": "link",
-                                "href": "#",
-                                "attributes": {}
+                                "href": "#"
                             }
                         },
                         { 
                             "data" : "Item 2", 
                             "metadata" : {  
                                 "type": "link",
-                                "href": "#",
-                                "attributes": {}
+                                "href": "#"
                             }
                         },
                         { 
                             "data" : "Item 3", 
                             "metadata" : {  
                                 "type": "link",
-                                "href": "#",
-                                "attributes": {}
+                                "href": "#"
                             }
                         }
                     ]
@@ -87,24 +84,21 @@ class AlBlockManagerBootstrapNavbarDropdownBlockTest extends AlBlockManagerConta
                             "data" : "Item 1", 
                             "metadata" : {  
                                 "type": "link",
-                                "href": "#",
-                                "attributes": {}
+                                "href": "#"
                             }
                         },
                         { 
                             "data" : "Item 2", 
                             "metadata" : {  
                                 "type": "link",
-                                "href": "#",
-                                "attributes": {}
+                                "href": "#"
                             }
                         },
                         { 
                             "data" : "Item 3", 
                             "metadata" : {  
                                 "type": "link",
-                                "href": "#",
-                                "attributes": {}
+                                "href": "#"
                             }
                         }
                     ]

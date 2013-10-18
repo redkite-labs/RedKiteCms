@@ -57,22 +57,6 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
                 "alt" : "Sample alt",
                 "caption_title" : "Third Thumbnail label",
                 "caption_body" : "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus."
-            },
-            "3" : {
-                "src": "",
-                "data_src" : "holder.js/400x280",
-                "title" : "Sample title",
-                "alt" : "Sample alt",
-                "caption_title" : "Second Thumbnail label",
-                "caption_body" : "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus."
-            },
-            "4" : {
-                "src": "",
-                "data_src" : "holder.js/400x280",
-                "title" : "Sample title",
-                "alt" : "Sample alt",
-                "caption_title" : "Third Thumbnail label",
-                "caption_body" : "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus."
             }
         }';
 

@@ -9,31 +9,53 @@ namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Factory;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use Symfony\Component\Form\FormFactoryInterface;
 
 /**
- * Description of FormFactory
+ * Creates a form for a specific Twitter Bootstrap version
  *
- * @author alphalemon
+ * @author RedKite Labs <info@redkite-labs.com>
  */
 class BootstrapFormFactory
 {
     private $activeTheme;
     private $formFactory;
-    
-    public function __construct(AlActiveThemeInterface $activeTheme, \Symfony\Component\Form\FormFactoryInterface $formFactory)
+
+    /**
+     * Comnstructor
+     *
+     * @param AlActiveThemeInterface $activeTheme
+     * @param \Symfony\Component\Form\FormFactoryInterface $formFactory
+     */
+    public function __construct(AlActiveThemeInterface $activeTheme, FormFactoryInterface $formFactory)
     {
         $this->activeTheme = $activeTheme;
         $this->formFactory = $formFactory;
     }
-    
-    public function createForm($type, $formName, $data = null)
+
+    /**
+     * Creates the form
+     *
+     * @param string $type
+     * @param string $formName
+     * @param array $data
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    public function createForm($type, $formName, array $data = null)
     {
         $formClass = $this->getFormClass($type, $formName);
         $form = $this->formFactory->create(new $formClass(), $data);
         
         return $form;
     }
-    
+
+    /**
+     * Returns the form class name
+     *
+     * @param string $type
+     * @param string $formName
+     * @return string
+     */
     protected function getFormClass($type, $formName)
     {
         $bootstrapToken = null;

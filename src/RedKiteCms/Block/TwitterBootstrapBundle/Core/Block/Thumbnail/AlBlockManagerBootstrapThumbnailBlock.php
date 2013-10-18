@@ -39,8 +39,6 @@ class AlBlockManagerBootstrapThumbnailBlock extends AlBlockManagerBootstrapSimpl
     {
         parent::__construct($container, $validator);
         
-        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();   
-        
-        $this->blockTemplate = sprintf('TwitterBootstrapBundle:Content:Thumbnail/%s/thumbnail.html.twig', $bootstrapVersion);        
+        $this->blockTemplate = sprintf('TwitterBootstrapBundle:Content:Thumbnail/%s/thumbnail.html.twig', $this->bootstrapVersion);        
     }
 }
