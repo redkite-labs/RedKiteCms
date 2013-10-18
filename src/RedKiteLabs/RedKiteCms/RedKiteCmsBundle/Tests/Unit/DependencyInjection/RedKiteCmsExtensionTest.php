@@ -45,6 +45,8 @@ class RedKiteCmsExtensionTest extends TestCase
         $this->assertEquals('css', $this->container->getParameter('red_kite_cms.deploy_bundle.css_dir'));
         $this->assertEquals('WebSite', $this->container->getParameter('red_kite_cms.deploy_bundle.controller'));
         $this->assertEquals('', $this->container->getParameter('red_kite_cms.website_url'));
+        $this->assertEquals('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme', $this->container->getParameter('red_kite_cms.active_theme.class'));
+        $this->assertEquals('%kernel.root_dir%/Resources/.active_theme', $this->container->getParameter('red_kite_cms.active_theme_file'));
     }
 
     public function testOrm()
@@ -136,6 +138,11 @@ class RedKiteCmsExtensionTest extends TestCase
     public function testWebsiteUrl()
     {
         $this->scalarNodeParameter('red_kite_cms.website_url', 'website_url', 'http://redkite-labs.com');
+    }
+    
+    public function testAtiveThemeFile()
+    {
+        $this->scalarNodeParameter('red_kite_cms.active_theme_file', 'active_theme_file', '%kernel.root_dir%/new/path');
     }
 
     private function scalarNodeParameter($parameter, $configKey, $configValue)
