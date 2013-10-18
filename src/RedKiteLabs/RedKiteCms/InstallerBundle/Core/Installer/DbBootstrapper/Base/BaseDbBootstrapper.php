@@ -64,7 +64,7 @@ abstract class BaseDbBootstrapper extends BaseOptions
         $this->eventsHandler = $this->container->get('red_kite_cms.events_handler');
         $this->blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
         $this->siteBootstrap = $this->container->get('red_kite_cms.site_bootstrap');
-        $this->activeTheme = $this->container->get('red_kite_labs_theme_engine.active_theme');
+        $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
         
         $language = new \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage();
         $language->setLanguageName('-');
