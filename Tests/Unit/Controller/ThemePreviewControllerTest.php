@@ -83,6 +83,9 @@ class ThemePreviewControllerTest extends TestCase
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
+        $this->activeTheme->expects($this->once())
+            ->method('getThemeBootstrapVersion')
+            ->will($this->returnValue('2.x'));
         
         $this->templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
         $this->templating

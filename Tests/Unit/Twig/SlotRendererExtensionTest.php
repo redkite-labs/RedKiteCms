@@ -184,14 +184,14 @@ class SlotRendererExtensionTest extends TestCase
         
         $engine = $this->getMock('Symfony\Component\Templating\EngineInterface');
         $engine->expects($this->at(0))
-                        ->method('render')
-                        ->with('RedKiteCmsBundle:Slot:editable_block_attributes.html.twig', $editorParameters)
-                        ->will($this->returnValue('data-foo="bar"'))
+            ->method('render')
+            ->with('RedKiteCmsBundle:Block:Editor/_editable_block_attributes.html.twig', $editorParameters)
+            ->will($this->returnValue('data-foo="bar"'))
         ;
         
         $engine->expects($this->at(1))
-                        ->method('render')
-                        ->with('RedKiteCmsBundle:Slot:_block.html.twig', $contentParameters)
+            ->method('render')
+            ->with('RedKiteCmsBundle:Slot:Page/_block.html.twig', $contentParameters)
         ;
 
         $this->setUpContainer();
@@ -217,11 +217,11 @@ class SlotRendererExtensionTest extends TestCase
         $engine = $this->getMock('Symfony\Component\Templating\EngineInterface');
         $engine->expects($this->at(0))
                         ->method('render')
-                        ->with('RedKiteCmsBundle:Slot:editable_block_attributes.html.twig', $editorParameters)
+                        ->with('RedKiteCmsBundle:Block:Editor/_editable_block_attributes.html.twig', $editorParameters)
                         ->will($this->returnValue($extraAttributes))
         ;
         
-        $templateView = (null === $template) ? 'RedKiteCmsBundle:Slot:_block.html.twig' : 'RedKiteCmsBundle:Slot:' . $template;
+        $templateView = (null === $template) ? 'RedKiteCmsBundle:Slot:Page/_block.html.twig' : 'RedKiteCmsBundle:Slot:Page/' . $template;
         
         $engine->expects($this->at(1))
                         ->method('render')
@@ -274,9 +274,8 @@ class SlotRendererExtensionTest extends TestCase
         $templating = $this->getMock('Symfony\Component\Templating\EngineInterface');
         $templating->expects($this->once())
                    ->method('render')
-                   ->with("RedKiteCmsBundle:Slot:_block.html.twig", $expected)
+                   ->with("RedKiteCmsBundle:Slot:Page/_block.html.twig", $expected)
         ;
-        
         
         $viewRenderer = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRenderer')
                              ->disableOriginalConstructor()

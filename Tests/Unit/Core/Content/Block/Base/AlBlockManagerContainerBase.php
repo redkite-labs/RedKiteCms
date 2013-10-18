@@ -54,6 +54,18 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
     }
 
+    public function bootstrapVersionsProvider()
+    {
+        return array(
+            array(
+                "2.x"
+            ),
+            array(
+                "3.x"
+            ),
+        );
+    }
+
     protected function initContainer()
     {
         $this->container->expects($this->at(0))
@@ -65,6 +77,18 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
                         ->method('get')
                         ->with('red_kite_cms.factory_repository')
                         ->will($this->returnValue($this->factoryRepository));
+    }
+
+    protected function initBootstrapversion($bootstrapVersion)
+    {
+        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+        $activeTheme->expects($this->once())
+            ->method('getThemeBootstrapVersion')
+            ->will($this->returnValue($bootstrapVersion));
+        $this->container->expects($this->at(2))
+            ->method('get')
+            ->with('red_kite_cms.active_theme')
+            ->will($this->returnValue($activeTheme));
     }
 
     protected function doSave($block, array $params)

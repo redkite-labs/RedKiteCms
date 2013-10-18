@@ -37,7 +37,7 @@ class ThemePreviewController extends AlCmsController
         $this->blocksFactory = $this->container->get('red_kite_cms.block_manager_factory');
         $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
         $this->blocksRepository = $this->factoryRepository->createRepository('Block');        
-        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion($themeName);   
+        $bootstrapVersion = $this->activeTheme->getThemeBootstrapVersion($themeName);
         
         $theme = $this->themes->getTheme($themeName);
         $template = ($templateName == 'none') ? $theme->getHomeTemplate() : $theme->getTemplate($templateName);

@@ -26,10 +26,17 @@ use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
  */
 abstract class AlBaseType extends TestCase
 {
+    protected $resolver;
+
     abstract protected function configureFields();
     
     abstract protected function getForm();
-            
+
+    public function __construct()
+    {
+        $this->resolver = $this->getMock('Symfony\Component\OptionsResolver\OptionsResolverInterface');
+    }
+
     public function testForm()
     {
         $builder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')
@@ -39,15 +46,38 @@ abstract class AlBaseType extends TestCase
         $i = 0;
         $fields = $this->configureFields();        
         foreach ($fields as $field) { 
-            $builder->expects($this->at($i))
-                ->method('add')
-                ->with($field)
-            ;
+            if (is_array($field)) {
+                $type = array_key_exists("type", $field) ? $field["type"] : "Text";
+                $options = array_key_exists("options", $field) ? $field["options"] : array();
+
+                $builder->expects($this->at($i))
+                    ->method('add')
+                    ->with($field["name"], $type, $options)
+                ;
+            } else {
+                $builder->expects($this->at($i))
+                    ->method('add')
+                    ->with($field)
+                ;
+            }
             
             $i++;
         }
         
         $form = $this->getForm();
         $form->buildForm($builder, array());
+    }
+
+    protected function setBaseResolver()
+    {
+        $options = array(
+            'translation_domain' => 'RedKiteCmsBundle',
+            'csrf_protection' => false,
+        );
+        $this->resolver
+            ->expects($this->at(0))
+            ->method('setDefaults')
+            ->with($options)
+        ;
     }
 }
