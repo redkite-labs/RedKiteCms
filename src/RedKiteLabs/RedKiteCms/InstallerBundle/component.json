@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "alphalemoncms": "https://github.com/alphalemon/alphalemoncms-component.git"
+    "redkitecms": "https://github.com/redkite-labs/redkitecms-component.git"
   }
 }
