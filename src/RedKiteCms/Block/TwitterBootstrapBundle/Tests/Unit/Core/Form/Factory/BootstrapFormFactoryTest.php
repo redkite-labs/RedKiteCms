@@ -28,7 +28,7 @@ class BootstrapFormFactoryTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException
-     * @expectedExceptionMessage Something went wrong: I cannot find any valid form for %s Twitter Bootstrap version
+     * @expectedExceptionMessage Something went wrong: I cannot find any valid form for 1.x Twitter Bootstrap version
      */
     public function testAnExceptionIsThrownWhenAnyValidBootstrapVersionExists()
     {

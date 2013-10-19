@@ -70,7 +70,7 @@ class BootstrapFormFactory
         }
         
         if (null === $bootstrapToken) {
-            throw new RuntimeException("Something went wrong: I cannot find any valid form for %s Twitter Bootstrap version", $bootstrapVersion);
+            throw new RuntimeException(sprintf("Something went wrong: I cannot find any valid form for %s Twitter Bootstrap version", $bootstrapVersion));
         }
         
         $formClass = sprintf("RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\%s\%s\%s", $type, $bootstrapToken, $formName);
