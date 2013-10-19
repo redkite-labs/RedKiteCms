@@ -18,8 +18,8 @@
 {% block external_stylesheets %}
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
         {% stylesheets filter='?yui_css,cssrewrite' 'components/redkitecms/jquery-ui/themes/smoothness/*'
-                                                    'components/redkitecms/twitter-bootstrap/css/bootstrap.min.css'
-                                                    'components/redkitecms/twitter-bootstrap/css/bootstrap-responsive.min.css'
+                                                    'components/redkitecms/twitter-bootstrap/2.x/css/bootstrap.min.css'
+                                                    'components/redkitecms/twitter-bootstrap/2.x/css/bootstrap-responsive.min.css'
                                                     'bundles/redkitecms/css/skins/bootstrap/skin.css'
                                                     'bundles/redkitelabselfinder/vendor/ElFinder/vendor/jquery-ui.css'
                                                     'bundles/redkitelabselfinder/vendor/ElFinder/css/elfinder.min.css'
@@ -29,8 +29,8 @@
         {% endstylesheets %}
     {% else %}
         {% stylesheets filter='?cssrewrite' 'components/redkitecms/jquery-ui/themes/smoothness/*'
-                                            'components/redkitecms/twitter-bootstrap/css/bootstrap.min.css'
-                                            'components/redkitecms/twitter-bootstrap/css/bootstrap-responsive.min.css'
+                                            'components/redkitecms/twitter-bootstrap/2.x/css/bootstrap.min.css'
+                                            'components/redkitecms/twitter-bootstrap/2.x/css/bootstrap-responsive.min.css'
                                             'bundles/redkitecms/vendor/vendor-adapter.css' 
                                             'bundles/redkitecms/css/skins/bootstrap/skin.css'
                                             'bundles/redkitelabselfinder/vendor/ElFinder/vendor/jquery-ui.css'
@@ -52,7 +52,7 @@
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
     {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js'
                                      'components/redkitecms/jquery-ui/js/jquery-ui.min.js'
-                                     'components/redkitecms/twitter-bootstrap/js/bootstrap.js'
+                                     'components/redkitecms/twitter-bootstrap/2.x/js/bootstrap.js'
                                      'components/jquery-easing/jquery.easing.min.js'
                                      'components/holderjs/holder.js'
                                      'bundles/redkitelabselfinder/vendor/ElFinder/js/elfinder.min.js'
@@ -64,7 +64,7 @@
     {% else %}
     {% javascripts  'components/jquery/jquery.min.js'
                     'components/redkitecms/jquery-ui/js/jquery-ui.min.js'
-                    'components/redkitecms/twitter-bootstrap/js/bootstrap.min.js'
+                    'components/redkitecms/twitter-bootstrap/2.x/js/bootstrap.min.js'
                     'components/jquery-easing/jquery.easing.min.js'
                     'components/holderjs/holder.js'
                     'bundles/redkitelabselfinder/vendor/ElFinder/js/elfinder.min.js'
