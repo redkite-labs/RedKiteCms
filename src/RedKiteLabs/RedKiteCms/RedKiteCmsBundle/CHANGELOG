@@ -1,3 +1,24 @@
+RedKite CMS 1.1.Beta 2 (2013/10/20)
+00f34fc Twitter Bootstrap 3 integration completed
+d7476d6 fixed navigation menu markup to work with Twitter Bootstrap 2 and 3
+ea4e7c8 fixed wrong label to activate a theme
+bb6909e added events handler for ajax transaction to avoid blocking the application when an unespected error occours
+ca71468 verified that data('activeBlock') exists and added error handling
+cefa1a7 login form will only work with Twitter Bootstrap 3 release
+91888c1 updated Twitter Bootstrap paths
+df7a310 the RedKiteCmsBundle:Themes:Slots/template_slots_panel.html.twig template requires the cms_language instead of the configuration
+e519e16 updated and fixed inline list and permalinks select
+bf838fb item is now passed to BlocksController action for included blocks
+e30195c changed the behaviour of templatesInUse method which now returns only the template names
+cbbc063 added a control to check the language id value is an integer
+c0a13db refactored setupPage method
+3fd77a6 fixed inline list commands z-index
+2eddced improved inline list commands positioning
+a87e5d7 triggered an even when a block is added, edited or deleted
+1e5c4ee renamed blockStopEditing event to stopEditingBlocks
+e649897 renamed blockEditing event to startEditingBlocks
+1b02e99 started the implementation of the features to make the cms compatible to work with bootstrap 2.x and 3.x
+
 RedKite CMS 1.1.Beta 1 (2013/10/12)
 eb08161 fixed control to check when page must be edited instead of added
 ca5a716 fixed a bug that stops the page saving when a user tries to add a page but has selected another page on pages list but has not selected the language
