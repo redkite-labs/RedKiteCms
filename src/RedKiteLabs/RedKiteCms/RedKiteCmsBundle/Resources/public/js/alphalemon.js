@@ -350,30 +350,35 @@ $(document).ready(function(){
     try
     {   
         $('#al_finalize_theme').click(function() {  
-            $.ajax({
-                type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemesFinalizer',
-                data: {
-                    'page' :  $('#al_pages_navigator').html(),
-                    'language' : $('#al_languages_navigator').html()
-                },
-                beforeSend: function()
-                {
-                    $('body').AddAjaxLoader();
-                },
-                success: function(html)
-                {
-                    $('body').showDialog(html, {buttons: null});
-                },
-                error: function(err)
-                {
-                    $('body').showDialog(err.responseText);
-                },
-                complete: function()
-                {
-                    $('body').RemoveAjaxLoader();
-                }
-            });
+            try{
+                $.ajax({
+                    type: 'POST',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemesFinalizer',
+                    data: {
+                        'page' :  $('#al_pages_navigator').html(),
+                        'language' : $('#al_languages_navigator').html()
+                    },
+                    beforeSend: function()
+                    {
+                        $('body').AddAjaxLoader();
+                    },
+                    success: function(html)
+                    {
+                        $('body').showDialog(html, {buttons: null});
+                    },
+                    error: function(err)
+                    {
+                        $('body').showDialog(err.responseText);
+                    },
+                    complete: function()
+                    {
+                        $('body').RemoveAjaxLoader();
+                    }
+                });
+            }
+            catch(e){
+                $('body').showAlert('An unespected error occoured in alphalemon file while finalizing the theme. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+            }
 
             return false;
         });
@@ -512,90 +517,105 @@ $(document).ready(function(){
         
         $('#al_open_pages_panel').click(function()
         {
-            $.ajax({
-                type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showPages',
-                data: {
-                    'page' :  $('#al_pages_navigator').html(),
-                    'language' : $('#al_languages_navigator').html()
-                },
-                beforeSend: function()
-                {
-                    $('body').AddAjaxLoader();
-                },
-                success: function(html)
-                {
-                    $('#al_panel').OpenPanel(html, function(){InitPagesCommands();ObservePages();});
-                },
-                error: function(err)
-                {
-                    $('body').showDialog(err.responseText);
-                },
-                complete: function()
-                {
-                    $('body').RemoveAjaxLoader();
-                }
-            });
+            try{
+                $.ajax({
+                    type: 'POST',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showPages',
+                    data: {
+                        'page' :  $('#al_pages_navigator').html(),
+                        'language' : $('#al_languages_navigator').html()
+                    },
+                    beforeSend: function()
+                    {
+                        $('body').AddAjaxLoader();
+                    },
+                    success: function(html)
+                    {
+                        $('#al_panel').OpenPanel(html, function(){InitPagesCommands();ObservePages();});
+                    },
+                    error: function(err)
+                    {
+                        $('body').showDialog(err.responseText);
+                    },
+                    complete: function()
+                    {
+                        $('body').RemoveAjaxLoader();
+                    }
+                });
+            }
+            catch(e){
+                $('body').showAlert('An unespected error occoured in alphalemon file while opening the pages panel. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+            }
 
             return false;
         });
 
         $('#al_open_languages_panel').click(function()
         {
-            $.ajax({
-                type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showLanguages',
-                data: {
-                    'page' :  $('#al_pages_navigator').html(),
-                    'language' : $('#al_languages_navigator').html()
-                },
-                beforeSend: function()
-                {
-                    $('body').AddAjaxLoader();
-                },
-                success: function(html)
-                {
-                    $('#al_panel').OpenPanel(html, function(){InitLanguagesCommands();ObserveLanguages();});
-                },
-                error: function(err)
-                {
-                    $('body').showDialog(err.responseText);
-                },
-                complete: function()
-                {
-                    $('body').RemoveAjaxLoader();
-                }
-            });
+            try{
+                $.ajax({
+                    type: 'POST',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showLanguages',
+                    data: {
+                        'page' :  $('#al_pages_navigator').html(),
+                        'language' : $('#al_languages_navigator').html()
+                    },
+                    beforeSend: function()
+                    {
+                        $('body').AddAjaxLoader();
+                    },
+                    success: function(html)
+                    {
+                        $('#al_panel').OpenPanel(html, function(){InitLanguagesCommands();ObserveLanguages();});
+                    },
+                    error: function(err)
+                    {
+                        $('body').showDialog(err.responseText);
+                    },
+                    complete: function()
+                    {
+                        $('body').RemoveAjaxLoader();
+                    }
+                });
+            }
+            catch(e){
+                $('body').showAlert('An unespected error occoured in alphalemon file while opening the languages panel. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+            }
 
             return false;
         });
 
         $('#al_open_themes_panel').click(function()
         {
-            $.ajax({
-                type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemesPanel',
-                data: {
-                    'page' :  $('#al_pages_navigator').html(),
-                    'language' : $('#al_languages_navigator').html()
-                },
-                beforeSend: function()
-                {
-                    $('body').AddAjaxLoader();
-                },
-                success: function(html)
-                {
-                    $('#al_panel').OpenPanel(html, function(){ObserveThemeCommands();});
-                },
-                error: function(err)
-                {
-                    $('body').showDialog(err.responseText);
-                },
-                complete: function()
-                {
-                    $('body').RemoveAjaxLoader();
-                }
-            });
+            try{
+                $.ajax({
+                    type: 'POST',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemesPanel',
+                    data: {
+                        'page' :  $('#al_pages_navigator').html(),
+                        'language' : $('#al_languages_navigator').html()
+                    },
+                    beforeSend: function()
+                    {
+                        $('body').AddAjaxLoader();
+                    },
+                    success: function(html)
+                    {
+                        $('#al_panel').OpenPanel(html, function(){ObserveThemeCommands();});
+                    },
+                    error: function(err)
+                    {
+                        $('body').showDialog(err.responseText);
+                    },
+                    complete: function()
+                    {
+                        $('body').RemoveAjaxLoader();
+                    }
+                });
+            }
+            catch(e){
+                $('body').showAlert('An unespected error occoured in alphalemon file while opening the themes panel. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+            }
 
             return false;
         });
@@ -619,62 +639,71 @@ $(document).ready(function(){
                 return;
             }
             
-            $.ajax({
-                type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_' + env + 'Deploy',
-                data: {'page' :  $('#al_pages_navigator').attr('rel'),
-                    'language' : $('#al_languages_navigator').attr('rel')},
-                beforeSend: function()
-                {
-                    $('body').AddAjaxLoader();
-                },
-                success: function(html)
-                {
-                    $('body').showAlert(html);
-                },
-                error: function(err)
-                {
-                    $('body').showDialog(err.responseText);
-                },
-                complete: function()
-                {
-                    $('body').RemoveAjaxLoader();
-                }
-            });
+            try{
+                $.ajax({
+                    type: 'POST',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_' + env + 'Deploy',
+                    data: {'page' :  $('#al_pages_navigator').attr('rel'),
+                        'language' : $('#al_languages_navigator').attr('rel')},
+                    beforeSend: function()
+                    {
+                        $('body').AddAjaxLoader();
+                    },
+                    success: function(html)
+                    {
+                        $('body').showAlert(html);
+                    },
+                    error: function(err)
+                    {
+                        $('body').showDialog(err.responseText);
+                    },
+                    complete: function()
+                    {
+                        $('body').RemoveAjaxLoader();
+                    }
+                });
+            }
+            catch(e){
+                $('body').showAlert('An unespected error occoured in alphalemon file while deploying the website. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+            }
 
             return false;
         });
         
         $('#al_available_languages').change(function()
         {
-            var languageName = $('#al_available_languages option:selected').val();
-            
-            $.ajax({
-                type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_changeCmsLanguage',
-                data: {'page' :  $('#al_pages_navigator').attr('rel'),
-                    'language' : $('#al_languages_navigator').attr('rel'),
-                    'languageName' : languageName
-                },
-                beforeSend: function()
-                {
-                    $('body').AddAjaxLoader();
-                },
-                success: function(html)
-                {
-                    $('body').showAlert(html);
-                    
-                    Navigate($('#al_languages_navigator').html(), $('#al_pages_navigator').html());
-                },
-                error: function(err)
-                {
-                    $('body').showDialog(err.responseText);
-                },
-                complete: function()
-                {
-                    $('body').RemoveAjaxLoader();
-                }
-            });
+            try{
+                var languageName = $('#al_available_languages option:selected').val();            
+                $.ajax({
+                    type: 'POST',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_changeCmsLanguage',
+                    data: {'page' :  $('#al_pages_navigator').attr('rel'),
+                        'language' : $('#al_languages_navigator').attr('rel'),
+                        'languageName' : languageName
+                    },
+                    beforeSend: function()
+                    {
+                        $('body').AddAjaxLoader();
+                    },
+                    success: function(html)
+                    {
+                        $('body').showAlert(html);
+
+                        Navigate($('#al_languages_navigator').html(), $('#al_pages_navigator').html());
+                    },
+                    error: function(err)
+                    {
+                        $('body').showDialog(err.responseText);
+                    },
+                    complete: function()
+                    {
+                        $('body').RemoveAjaxLoader();
+                    }
+                });
+            }
+            catch(e){
+                $('body').showAlert('An unespected error occoured in alphalemon file while changing RedKite CMS language. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+            }
 
             return false;
         });

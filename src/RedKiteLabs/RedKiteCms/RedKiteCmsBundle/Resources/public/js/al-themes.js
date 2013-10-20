@@ -108,49 +108,54 @@
         });
         
         $('#al-save-slot-assignment').click(function(){
-            var $this = $(this);
-            $.ajax({
-                type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_changeSlot',
-                data: {
-                    'pageId' :  $('#al_pages_navigator').attr('rel'),
-                    'languageId' : $('#al_languages_navigator').attr('rel'),
-                    'sourceSlotName' : $this.data('slot'),
-                    'targetSlotName' : $('#al_old_slots').data('parent').attr('data-slot-name')
-                },
-                beforeSend: function()
-                {
-                    $('body').AddAjaxLoader();
-                },
-                success: function(response)
-                {
-                    $(response).each(function(key, item)
+            try{
+                var $this = $(this);
+                $.ajax({
+                    type: 'POST',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_changeSlot',
+                    data: {
+                        'pageId' :  $('#al_pages_navigator').attr('rel'),
+                        'languageId' : $('#al_languages_navigator').attr('rel'),
+                        'sourceSlotName' : $this.data('slot'),
+                        'targetSlotName' : $('#al_old_slots').data('parent').attr('data-slot-name')
+                    },
+                    beforeSend: function()
                     {
-                        switch(item.key)
+                        $('body').AddAjaxLoader();
+                    },
+                    success: function(response)
+                    {
+                        $(response).each(function(key, item)
                         {
-                            case "message":
-                                $('body').showAlert(item.value);
-                                
-                                break;
-                            case "slots": 
-                                $('#al_old_slots').html(item.value);
-                                initCommands();
-                                
-                                break;
-                        }
-                    });
-                    
-                    close();
-                },
-                error: function(err)
-                {
-                    $('body').showDialog(err.responseText);
-                },
-                complete: function()
-                {
-                    $('body').RemoveAjaxLoader();
-                }
-            });
+                            switch(item.key)
+                            {
+                                case "message":
+                                    $('body').showAlert(item.value);
+
+                                    break;
+                                case "slots": 
+                                    $('#al_old_slots').html(item.value);
+                                    initCommands();
+
+                                    break;
+                            }
+                        });
+
+                        close();
+                    },
+                    error: function(err)
+                    {
+                        $('body').showDialog(err.responseText);
+                    },
+                    complete: function()
+                    {
+                        $('body').RemoveAjaxLoader();
+                    }
+                });
+            }
+            catch(e){
+                $('body').showAlert('An unespected error occoured in al-theme file while saving slots. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+            }
 
             return false;
         });
@@ -176,29 +181,34 @@
             {
                 $(this).click(function()
                 {
-                    $.ajax({
-                      type: 'POST',
-                      url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemeChanger',
-                      data: {
-                          'themeName' : $(this).attr('data-theme-name')
-                      },
-                      beforeSend: function()
-                      {
-                        $('body').AddAjaxLoader();
-                      },
-                      success: function(html)
-                      {
-                        $('body').showDialog(html, {width:300, buttons: null});
-                      },
-                      error: function(err)
-                      {
-                        $('body').showDialog(err);
-                      },
-                      complete: function()
-                      {
-                        $('body').RemoveAjaxLoader();
-                      }
-                    });
+                    try{
+                        $.ajax({
+                            type: 'POST',
+                            url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemeChanger',
+                            data: {
+                                'themeName' : $(this).attr('data-theme-name')
+                            },
+                            beforeSend: function()
+                            {
+                                $('body').AddAjaxLoader();
+                            },
+                            success: function(html)
+                            {
+                                $('body').showDialog(html, {width:300, buttons: null});
+                            },
+                            error: function(err)
+                            {
+                                $('body').showDialog(err);
+                            },
+                            complete: function()
+                            {
+                                $('body').RemoveAjaxLoader();
+                            }
+                        });
+                    }
+                    catch(e){
+                        $('body').showAlert('An unespected error occoured in al-theme file method change. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                    }
 
                     return false;
                 });
@@ -214,32 +224,37 @@
                         return false;
                     }
                     
-                    var themeName = $(this).attr('data-theme-name');
-                    
-                    $.ajax({
-                      type: 'POST',
-                      url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/startFromTheme',
-                      data: {
-                          'themeName' : themeName
-                      },
-                      beforeSend: function()
-                      {
-                        $('body').AddAjaxLoader();
-                      },
-                      success: function(html)
-                      {
-                        $('body').showAlert(html);
-                        Navigate($('#al_languages_navigator').html(), $('#al_pages_navigator').html());
-                      },
-                      error: function(err)
-                      {
-                        $('body').showDialog(err.responseText);
-                      },
-                      complete: function()
-                      {
-                        $('body').RemoveAjaxLoader();
-                      }
-                    });
+                    try {
+                        var themeName = $(this).attr('data-theme-name');
+
+                        $.ajax({
+                            type: 'POST',
+                            url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/startFromTheme',
+                            data: {
+                                'themeName' : themeName
+                            },
+                            beforeSend: function()
+                            {
+                                $('body').AddAjaxLoader();
+                            },
+                            success: function(html)
+                            {
+                                $('body').showAlert(html);
+                                Navigate($('#al_languages_navigator').html(), $('#al_pages_navigator').html());
+                            },
+                            error: function(err)
+                            {
+                                $('body').showDialog(err.responseText);
+                            },
+                            complete: function()
+                            {
+                                $('body').RemoveAjaxLoader();
+                            }
+                        });
+                    }
+                    catch(e){
+                        $('body').showAlert('An unespected error occoured in al-theme file method scratch. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                    }
 
                     return false;
                 });

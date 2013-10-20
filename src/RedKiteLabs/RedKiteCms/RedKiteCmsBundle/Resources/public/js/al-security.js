@@ -97,44 +97,48 @@
         {
             $(this).click(function()
             {
-                $.ajax({
-                    type: 'POST',
-                    url: frontController + 'backend/users/' + $('#al_available_languages option:selected').val() + '/' + route,
-                    data: {
-                        'page' :  $('#al_pages_navigator').html(),
-                        'language' : $('#al_languages_navigator').html()
-                    },
-                    beforeSend: function()
-                    {
-                        $('body').AddAjaxLoader();
-                    },
-                    success: function(html)
-                    {
-                        if ( ! $('#al_panel').is(":visible")) {
-                            html = '<div id="al_panel_contents">' + html  + '</div>';
-                            $('#al_panel').OpenPanel(html, function(){
+                try{
+                    $.ajax({
+                        type: 'POST',
+                        url: frontController + 'backend/users/' + $('#al_available_languages option:selected').val() + '/' + route,
+                        data: {
+                            'page' :  $('#al_pages_navigator').html(),
+                            'language' : $('#al_languages_navigator').html()
+                        },
+                        beforeSend: function()
+                        {
+                            $('body').AddAjaxLoader();
+                        },
+                        success: function(html)
+                        {
+                            if ( ! $('#al_panel').is(":visible")) {
+                                html = '<div id="al_panel_contents">' + html  + '</div>';
+                                $('#al_panel').OpenPanel(html, function(){
+                                    ObserveSecurity();
+                                });
+                            } else {
+                                $('#al_panel_contents').html(html);
                                 ObserveSecurity();
-                            });
-                        } else {
-                            $('#al_panel_contents').html(html);
-                            ObserveSecurity();
+                            }
+                        },
+                        error: function(err)
+                        {
+                            $('body').showDialog(err.responseText);
+                        },
+                        complete: function()
+                        {
+                            $('body').RemoveAjaxLoader();
                         }
-                    },
-                    error: function(err)
-                    {
-                        $('body').showDialog(err.responseText);
-                    },
-                    complete: function()
-                    {
-                        $('body').RemoveAjaxLoader();
-                    }
-                });
+                    });
+                }
+                catch(e){
+                    $('body').showAlert('An unespected error occoured in al-security file method list. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                }
 
                 return false;
             });
         });
     }
-
 })($);
 
 function showUser(id)
@@ -175,53 +179,63 @@ function deleteRole(id)
 
 function show(route, id)
 {
-    $.ajax({
-      type: 'GET',
-      url: frontController + 'backend/users/' + $('#al_available_languages option:selected').val() + '/' + route,
-      data: {'id' : id },
-      beforeSend: function()
-      {
-        $('body').AddAjaxLoader();
-      },
-      success: function(html)
-      {// al_user_panel
-        $('#al_panel_contents').html(html);
-      },
-      error: function(err)
-      {
-        $('body').showDialog(err.responseText);
-      },
-      complete: function()
-      {
-        $('body').RemoveAjaxLoader();
-      }
-    });
+    try {
+        $.ajax({
+            type: 'GET',
+            url: frontController + 'backend/users/' + $('#al_available_languages option:selected').val() + '/' + route,
+            data: {'id' : id },
+            beforeSend: function()
+            {
+                $('body').AddAjaxLoader();
+            },
+            success: function(html)
+            {
+                $('#al_panel_contents').html(html);
+            },
+            error: function(err)
+            {
+                $('body').showDialog(err.responseText);
+            },
+            complete: function()
+            {
+                $('body').RemoveAjaxLoader();
+            }
+        });
+    }
+    catch(e){
+        $('body').showAlert('An unespected error occoured in al-security file method show. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+    }
 }
 
 function remove(route, id)
 {
-    $.ajax({
-      type: 'GET',
-      url: frontController + 'backend/users/' + $('#al_available_languages option:selected').val() + '/' + route,
-      data: {'id' : id },
-      beforeSend: function()
-      {
-        $('body').AddAjaxLoader();
-      },
-      success: function(html)
-      {
-        $('#al_panel_contents').html(html);
-        ObserveSecurity();
-      },
-      error: function(err)
-      {
-        $('body').showDialog(err.responseText);
-      },
-      complete: function()
-      {
-        $('body').RemoveAjaxLoader();
-      }
-    });
+    try{
+        $.ajax({
+            type: 'GET',
+            url: frontController + 'backend/users/' + $('#al_available_languages option:selected').val() + '/' + route,
+            data: {'id' : id },
+            beforeSend: function()
+            {
+                $('body').AddAjaxLoader();
+            },
+            success: function(html)
+            {
+                $('#al_panel_contents').html(html);
+                ObserveSecurity();
+            },
+            error: function(err)
+            {
+                $('body').showDialog(err.responseText);
+            },
+            complete: function()
+            {
+                $('body').RemoveAjaxLoader();
+            }
+        });
+    }
+    catch(e){
+        $('body').showAlert('An unespected error occoured in al-security file method remove. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+    }
 }
 
 function ObserveSecurity()
