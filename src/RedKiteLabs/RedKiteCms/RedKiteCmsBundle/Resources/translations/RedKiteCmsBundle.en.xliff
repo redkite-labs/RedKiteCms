@@ -852,7 +852,7 @@
         </trans-unit>
         <trans-unit id="themes-controller-9">
             <source>theme_controller_label_activate</source>
-            <target>Theme</target>
+            <target>Activate</target>
         </trans-unit>
         <trans-unit id="themes-controller-10">
             <source>themes_controller_preview_theme</source>
