@@ -81,53 +81,58 @@
 
     $.fn.EditBlock =function(key, value, options, successCallback)
     {
-        this.each(function()
-        {
-            value = (value == null) ? encodeURIComponent($(this).val()) : value;
-            
-            $.ajax({
-                type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/editBlock',
-                data: {'page' :  $('#al_pages_navigator').html(),
-                       'language' : $('#al_languages_navigator').html(),
-                       'pageId' :  $('#al_pages_navigator').attr('rel'),
-                       'languageId' : $('#al_languages_navigator').attr('rel'),
-                       'idBlock'    : $('body').data('idBlock'),
-                       'slotName'   : $('body').data("slotName"),
-                       'key'        : key,
-                       'value'      : value,
-                       'included'   : $('body').data('included'),
-                       'item'       : $('body').data('activeBlock').attr('data-item'),
-                       'options'    : options
-                },
-                beforeSend: function()
-                {
-                    $('body').AddAjaxLoader();
-                },
-                success: function(response)
-                {
-                    var activeBlock = $('body').data('activeBlock');
-                    updateContentsJSon(response);
-                    Holder.run();
-                    if (successCallback != null) {
-                        successCallback(activeBlock);
-                    }
-                    
-                    $(document).trigger("blockEdited", [ activeBlock ]);
-                },
-                error: function(err)
-                {
-                    $('body').showAlert(err.responseText, 0, 'alert-error');
-                },
-                complete: function()
-                {
-                    $(document).blocksEditor('stopCursorOverEditor');
-                    $('body').RemoveAjaxLoader();
-                }
-            });
+        try {
+            this.each(function()
+            {
+                value = (value == null) ? encodeURIComponent($(this).val()) : value;$('body').data('ccc').attr('data-item')
+                var item = ($('body').data('activeBlock') != null) ? $('body').data('activeBlock').attr('data-item') : null;
+                $.ajax({
+                    type: 'POST',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/editBlock',
+                    data: {'page' :  $('#al_pages_navigator').html(),
+                           'language' : $('#al_languages_navigator').html(),
+                           'pageId' :  $('#al_pages_navigator').attr('rel'),
+                           'languageId' : $('#al_languages_navigator').attr('rel'),
+                           'idBlock'    : $('body').data('idBlock'),
+                           'slotName'   : $('body').data("slotName"),
+                           'key'        : key,
+                           'value'      : value,
+                           'included'   : $('body').data('included'),
+                           'item'       : item,
+                           'options'    : options
+                    },
+                    beforeSend: function()
+                    {
+                        $('body').AddAjaxLoader();
+                    },
+                    success: function(response)
+                    {
+                        var activeBlock = $('body').data('activeBlock');
+                        updateContentsJSon(response);
+                        Holder.run();
+                        if (successCallback != null) {
+                            successCallback(activeBlock);
+                        }
 
-            return false;
-        });
+                        $(document).trigger("blockEdited", [ activeBlock ]);
+                    },
+                    error: function(err)
+                    {
+                        $('body').showAlert(err.responseText, 0, 'alert-error');
+                    },
+                    complete: function()
+                    {
+                        $(document).blocksEditor('stopCursorOverEditor');
+                        $('body').RemoveAjaxLoader();
+                    }
+                });
+
+                return false;
+            });
+        }
+        catch(e){
+            $('body').showAlert(e, 0, 'alert-error');
+        }
     };
 
     $.fn.Delete =function()
