@@ -26,7 +26,7 @@
 {% set rel_value = ' rel=' ~ rel %}
 {% endif %}
 
-<select{% if (id is defined) %} id="{{ id }}"{% endif %} class="{{ classes }}"{{ rel_value }}>
+<select {% if (id is defined) %}id="{{ id }}" {% endif %}{% if (name is defined) %} name="{{ name }}" {% endif %}class="{{ classes }}"{{ rel_value }}>
     {% for id, name in select_options %}
     <option value="{{ id }}" rel="{{ name }}" {% if(selected is defined and (selected == id or selected == name)) %} selected="selected" {% endif %}>{{ name }}</option>
     {% endfor %}
