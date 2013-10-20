@@ -29,16 +29,13 @@
                     <input id="al-template" name="al-template" type="hidden" value="{{ current_template }}" />
                 </td>
                 <td>
-                    {% include 'RedKiteCmsBundle:Partials:_select.html.twig' with {'id': 'al-mapped-template', 'select_options': templates, 'selected': current_template}  %}
-                    {#
                     <select id="al-mapped-template" name="al-mapped-template" class="input-medium"> 
                         <option value="">-</option>  
                         {% for template in templates %} 
                         {% set selected = (current_template == template) ? " selected" : "" %}
                         <option value="{{ template }}"{{ selected}}>{{ template }}</option>
                         {% endfor %}
-                    </select>
-                    #}
+                    </select>                    
                 </td>
             </tr>
         {% endfor %}
