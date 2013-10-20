@@ -36,47 +36,52 @@
 
     $.fn.AddBlock =function(type, options, successCallback)
     {
-        this.each(function()
-        {
-            var contentType = (type == null) ? $(this).attr('data-type') : type;
-            var included = $(this).attr('data-included') == "1" ? true : false;
-            $.ajax({
-                type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/addBlock',
-                data: {'page' :  $('#al_pages_navigator').html(),
-                       'language' : $('#al_languages_navigator').html(),
-                       'pageId' :  $('#al_pages_navigator').attr('rel'),
-                       'languageId' : $('#al_languages_navigator').attr('rel'),
-                       'idBlock' : $(this).attr('data-block-id'),
-                       'slotName' : $(this).attr('data-slot-name'),
-                       'contentType': contentType,
-                       'included': included,
-                       'options': options},
-                beforeSend: function()
-                {
-                    $('body').AddAjaxLoader();
-                },
-                success: function(response)
-                {
-                    updateContentsJSon(response);
-                    if (successCallback != null) {
-                        successCallback();
-                    }
-                    
-                    $(document).trigger("blockAdded", []);
-                },
-                error: function(err)
-                {
-                    $('body').showAlert(err.responseText, 0, 'alert-error');
-                },
-                complete: function()
-                {
-                    $('body').RemoveAjaxLoader();
-                }
-            });
+        try {
+            this.each(function()
+            {
+                var contentType = (type == null) ? $(this).attr('data-type') : type;
+                var included = $(this).attr('data-included') == "1" ? true : false;
+                $.ajax({
+                    type: 'POST',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/addBlock',
+                    data: {'page' :  $('#al_pages_navigator').html(),
+                           'language' : $('#al_languages_navigator').html(),
+                           'pageId' :  $('#al_pages_navigator').attr('rel'),
+                           'languageId' : $('#al_languages_navigator').attr('rel'),
+                           'idBlock' : $(this).attr('data-block-id'),
+                           'slotName' : $(this).attr('data-slot-name'),
+                           'contentType': contentType,
+                           'included': included,
+                           'options': options},
+                    beforeSend: function()
+                    {
+                        $('body').AddAjaxLoader();
+                    },
+                    success: function(response)
+                    {
+                        updateContentsJSon(response);
+                        if (successCallback != null) {
+                            successCallback();
+                        }
 
-            return false;
-        });
+                        $(document).trigger("blockAdded", []);
+                    },
+                    error: function(err)
+                    {
+                        $('body').showAlert(err.responseText, 0, 'alert-error');
+                    },
+                    complete: function()
+                    {
+                        $('body').RemoveAjaxLoader();
+                    }
+                });
+
+                return false;
+            });        
+        }
+        catch(e){
+            $('body').showAlert('An unespected error occoured in al-blocks file, method AddBlock. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+        }
     };
 
     $.fn.EditBlock =function(key, value, options, successCallback)
@@ -84,7 +89,7 @@
         try {
             this.each(function()
             {
-                value = (value == null) ? encodeURIComponent($(this).val()) : value;$('body').data('ccc').attr('data-item')
+                value = (value == null) ? encodeURIComponent($(this).val()) : value;
                 var item = ($('body').data('activeBlock') != null) ? $('body').data('activeBlock').attr('data-item') : null;
                 $.ajax({
                     type: 'POST',
@@ -131,7 +136,7 @@
             });
         }
         catch(e){
-            $('body').showAlert(e, 0, 'alert-error');
+            $('body').showAlert('An unespected error occoured in al-blocks file, method EditBlock. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
         }
     };
 
@@ -151,37 +156,42 @@
     $.fn.DeleteBlock =function()
     {
         if (confirm(translate('Are you sure to remove the active block'))) {
-            var included = $(this).attr('data-included') == "1" ? true : false;
-            $.ajax({
-                type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/deleteBlock',
-                data: {'page' :  $('#al_pages_navigator').html(),
-                       'language' : $('#al_languages_navigator').html(),
-                       'pageId' :  $('#al_pages_navigator').attr('rel'),
-                       'languageId' : $('#al_languages_navigator').attr('rel'),                       
-                       'idBlock' : $(this).attr('data-block-id'),
-                       'slotName' : $(this).attr('data-slot-name'),
-                       'included': included
-                },
-                beforeSend: function()
-                {
-                    $('body').AddAjaxLoader();
-                },
-                success: function(response)
-                {
-                    updateContentsJSon(response);
-                    
-                    $(document).trigger("blockDeleted", []);
-                },
-                error: function(err)
-                {
-                    $('body').showAlert(err.responseText, 0, 'alert-error');
-                },
-                complete: function()
-                {
-                    $('body').RemoveAjaxLoader();
-                }
-            });
+            try {
+                var included = $(this).attr('data-included') == "1" ? true : false;
+                $.ajax({
+                    type: 'POST',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/deleteBlock',
+                    data: {'page' :  $('#al_pages_navigator').html(),
+                           'language' : $('#al_languages_navigator').html(),
+                           'pageId' :  $('#al_pages_navigator').attr('rel'),
+                           'languageId' : $('#al_languages_navigator').attr('rel'),                       
+                           'idBlock' : $(this).attr('data-block-id'),
+                           'slotName' : $(this).attr('data-slot-name'),
+                           'included': included
+                    },
+                    beforeSend: function()
+                    {
+                        $('body').AddAjaxLoader();
+                    },
+                    success: function(response)
+                    {
+                        updateContentsJSon(response);
+
+                        $(document).trigger("blockDeleted", []);
+                    },
+                    error: function(err)
+                    {
+                        $('body').showAlert(err.responseText, 0, 'alert-error');
+                    },
+                    complete: function()
+                    {
+                        $('body').RemoveAjaxLoader();
+                    }
+                });
+            }
+            catch(e){
+                $('body').showAlert('An unespected error occoured in al-blocks file, method DeleteBlock. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+            }
         }        
     };
 })($);

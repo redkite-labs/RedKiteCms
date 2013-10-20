@@ -62,59 +62,27 @@ function InitPagesCommands()
 {
     $("#al_page_saver").click(function()
     {
-        var isHome = ($('#pages_isHome').is(':checked')) ? 1 : 0;
-        var isPublished = ($('#pages_isPublished').is(':checked')) ? 1 : 0;
-        $.ajax({
-            type: 'POST',
-            url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_savePage',
-            data: {'language' : $('#al_languages_navigator').html(),
-                   'page' : $('#al_pages_navigator').html(),
-                   'pageId' : $('#seo_attributes_idPage').val(),
-                   'languageId' : $('#seo_attributes_idLanguage option:selected').val(),
-                   'pageName' : $('#pages_pageName').val(),
-                   'templateName' : $('#pages_template').val(),
-                   'permalink' : $('#seo_attributes_permalink').val(),
-                   'isHome' : isHome,
-                   'isPublished' : isPublished,
-                   'title' : $('#seo_attributes_title').val(),
-                   'description' : $('#seo_attributes_description').val(),
-                   'keywords' : $('#seo_attributes_keywords').val(),
-                   'sitemapChangeFreq' : $('#seo_attributes_sitemapChangeFreq').val(),
-                   'sitemapPriority' : $('#seo_attributes_sitemapPriority').val()                   
-               },
-            beforeSend: function()
-            {
-                $('body').AddAjaxLoader();
-            },
-            success: function(response)
-            {
-                if ($('#seo_attributes_idPage').val() == '') {
-                    ResetWholeForm();
-                }
-                UpdatePagesJSon(response);
-            },
-            error: function(err)
-            {
-                $('body').showAlert(err.responseText, 0, 'alert-error');
-            },
-            complete: function()
-            {
-                $('body').RemoveAjaxLoader();
-            }
-          });
-    });
-
-    $("#al_pages_remover").click(function()
-    {
-        if(confirm(translate("Are you sure to remove the page and its attributes")))
-        {
+        var languageId = $('#seo_attributes_idLanguage option:selected').val();
+        try{ 
+            var isHome = ($('#pages_isHome').is(':checked')) ? 1 : 0;
+            var isPublished = ($('#pages_isPublished').is(':checked')) ? 1 : 0;
             $.ajax({
                 type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_deletePage',
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_savePage',
                 data: {'language' : $('#al_languages_navigator').html(),
                        'page' : $('#al_pages_navigator').html(),
-                       'languageId' : $('#seo_attributes_idLanguage option:selected').val(),
-                       'pageId' : $('#seo_attributes_idPage').val()
+                       'pageId' : $('#seo_attributes_idPage').val(),
+                       'languageId' : languageId,
+                       'pageName' : $('#pages_pageName').val(),
+                       'templateName' : $('#pages_template').val(),
+                       'permalink' : $('#seo_attributes_permalink').val(),
+                       'isHome' : isHome,
+                       'isPublished' : isPublished,
+                       'title' : $('#seo_attributes_title').val(),
+                       'description' : $('#seo_attributes_description').val(),
+                       'keywords' : $('#seo_attributes_keywords').val(),
+                       'sitemapChangeFreq' : $('#seo_attributes_sitemapChangeFreq').val(),
+                       'sitemapPriority' : $('#seo_attributes_sitemapPriority').val()                   
                    },
                 beforeSend: function()
                 {
@@ -122,11 +90,10 @@ function InitPagesCommands()
                 },
                 success: function(response)
                 {
+                    if ($('#seo_attributes_idPage').val() == '') {
+                        ResetWholeForm();
+                    }
                     UpdatePagesJSon(response);
-                    
-                    ResetWholeForm();
-                    $('#seo_attributes_idPage').val('');                    
-                    $('#al_select_languages_reminder').hide();
                 },
                 error: function(err)
                 {
@@ -136,8 +103,57 @@ function InitPagesCommands()
                 {
                     $('body').RemoveAjaxLoader();
                 }
-              });
+            });
         }
+        catch(e){
+            var operation = (languageId == null || languageId == 'none') ? 'adding' : 'editing';
+            $('body').showAlert('An unespected error occoured in al-pages file while ' + operation + ' a page. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+        }
+        
+        return false;
+    });
+
+    $("#al_pages_remover").click(function()
+    {
+        if(confirm(translate("Are you sure to remove the page and its attributes")))
+        {
+            try{
+                $.ajax({
+                    type: 'POST',
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_deletePage',
+                    data: {'language' : $('#al_languages_navigator').html(),
+                           'page' : $('#al_pages_navigator').html(),
+                           'languageId' : $('#seo_attributes_idLanguage option:selected').val(),
+                           'pageId' : $('#seo_attributes_idPage').val()
+                       },
+                    beforeSend: function()
+                    {
+                        $('body').AddAjaxLoader();
+                    },
+                    success: function(response)
+                    {
+                        UpdatePagesJSon(response);
+
+                        ResetWholeForm();
+                        $('#seo_attributes_idPage').val('');                    
+                        $('#al_select_languages_reminder').hide();
+                    },
+                    error: function(err)
+                    {
+                        $('body').showAlert(err.responseText, 0, 'alert-error');
+                    },
+                    complete: function()
+                    {
+                        $('body').RemoveAjaxLoader();
+                    }
+                });
+            }
+            catch(e){
+                $('body').showAlert('An unespected error occoured in al-pages file while removing a page. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+            }
+        }
+        
+        return false;
     });
 
     $("#seo_attributes_idLanguage").change(function()
@@ -157,6 +173,8 @@ function InitPagesCommands()
         }
 
         $('#al_select_languages_reminder').hide();
+    
+        return false;  
     });
 }
 
@@ -212,51 +230,54 @@ function ObservePages()
 
 function LoadSeoAttributes(idPage)
 {
-    ResetWholeForm();
-    $('#seo_attributes_idPage').val(idPage);
-    $.ajax({
-        type: 'POST',
-        url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_loadSeoAttributes',
-        data: {'language' : $('#al_languages_navigator').html(),
-               'page' : $('#al_pages_navigator').html(),
-               'languageId' : $('#seo_attributes_idLanguage option:selected').val(),
-               'pageId' : idPage},
-        beforeSend: function()
-        {
-            $('body').AddAjaxLoader();
-        },
-        success: function(response)
-        {
-            $(response).each(function(key, el)
+    try{
+        ResetWholeForm();
+        $('#seo_attributes_idPage').val(idPage);
+        $.ajax({
+            type: 'POST',
+            url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_loadSeoAttributes',
+            data: {'language' : $('#al_languages_navigator').html(),
+                   'page' : $('#al_pages_navigator').html(),
+                   'languageId' : $('#seo_attributes_idLanguage option:selected').val(),
+                   'pageId' : idPage},
+            beforeSend: function()
             {
-                switch(el.name)
+                $('body').AddAjaxLoader();
+            },
+            success: function(response)
+            {
+                $(response).each(function(key, el)
                 {
-                    case '#pages_isHome':
-                    case '#pages_isPublished': 
-                        if(el.value == 1)
-                        {
-                            $(el.name).attr('checked', 'checked');
-                        }
-                        else
-                        {
-                            $(el.name).removeAttr("checked");
-                        }
-                        break;
-                    default:
-                        $(el.name).val(el.value);
-                        break;
-                }
-            });
-        },
-        error: function(err)
-        {
-            $('body').showDialog(err.responseText);
-        },
-        complete: function()
-        {
-            $('body').RemoveAjaxLoader();
-        }
-    });
-
-    return false;
+                    switch(el.name)
+                    {
+                        case '#pages_isHome':
+                        case '#pages_isPublished': 
+                            if(el.value == 1)
+                            {
+                                $(el.name).attr('checked', 'checked');
+                            }
+                            else
+                            {
+                                $(el.name).removeAttr("checked");
+                            }
+                            break;
+                        default:
+                            $(el.name).val(el.value);
+                            break;
+                    }
+                });
+            },
+            error: function(err)
+            {
+                $('body').showDialog(err.responseText);
+            },
+            complete: function()
+            {
+                $('body').RemoveAjaxLoader();
+            }
+        });  
+    }
+    catch(e){
+        $('body').showAlert('An unespected error occoured in al-pages file while loading page\'s attributes. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+    }
 }
