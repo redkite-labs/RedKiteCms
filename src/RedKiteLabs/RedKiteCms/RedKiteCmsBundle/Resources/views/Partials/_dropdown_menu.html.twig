@@ -16,9 +16,9 @@
 
 {% block body %}
 <div class="btn-group dropdown-zindex">
-    <button id="{{ id }}" class="btn {{ small_button }} {{ button_type is defined ? button_type : '' }} input-auto" {% if value is defined %}rel="{{ value }}"{% endif %}>{{ text }}</button>
-    <button class="btn {{ small_button }} {{ button_type is defined ? button_type : '' }} dropdown-toggle" data-toggle="dropdown">
-    <span class="caret"></span>
+    <button id="{{ id }}" class="btn {{ button_type is defined ? button_type : 'btn-default' }} input-auto btn-sm" {% if value is defined %}rel="{{ value }}"{% endif %}>{{ text }}</button>
+    <button class="btn {{ button_type is defined ? button_type : 'btn-default' }} dropdown-toggle btn-sm" data-toggle="dropdown">
+        <span class="caret"></span>
     </button>
     <ul class="dropdown-menu dropdown-height dropdown-zindex">
     {% for id, name in items %}
