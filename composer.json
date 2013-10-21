@@ -23,9 +23,9 @@
     "propel/propel-bundle": "1.2.*",
     "propel/propel1": "1.6.*",
     "phing/phing": "2.4.12",
-    "redkite-labs/redkite-labs-bootstrap-bundle": "1.1.0-beta*",
-    "redkite-labs/redkite-labs-theme-engine-bundle": "1.1.0-beta*",
-    "redkite-labs/redkite-labs-elfinder-bundle": "1.1.0-beta*"
+    "redkite-labs/redkite-labs-bootstrap-bundle": "~1.1.0-beta",
+    "redkite-labs/redkite-labs-theme-engine-bundle": "~1.1.0-beta",
+    "redkite-labs/redkite-labs-elfinder-bundle": "~1.1.0-beta"
   },
   "require-dev": {    
     "symfony/symfony": "2.3.4",
