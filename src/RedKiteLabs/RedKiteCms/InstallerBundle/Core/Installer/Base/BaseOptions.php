@@ -63,10 +63,12 @@ abstract class BaseOptions
         }
         $this->driver = Validator::validateDriver($this->options["driver"]);
         $this->host = Validator::validateHost($this->options["host"]);
-        $this->port = Validator::validatePort((int)$this->options["port"]);
         $this->database = Validator::validateDatabaseName($this->options["database"]);
-        $this->user = Validator::validateUser($this->options["user"]);
-        $this->password = $this->options["password"];
+        if ($this->driver != 'sqlite') {
+            $this->port = Validator::validatePort((int)$this->options["port"]);
+            $this->user = Validator::validateUser($this->options["user"]);
+            $this->password = $this->options["password"];
+        }
         $this->websiteUrl = Validator::validateUrl($this->options["website-url"]);
         
         $dsnBuilderClassName = '\RedKiteCms\InstallerBundle\Core\DsnBuilder\GenericDsnBuilder';
