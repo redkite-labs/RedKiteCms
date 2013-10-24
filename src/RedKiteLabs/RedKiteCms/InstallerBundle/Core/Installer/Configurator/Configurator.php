@@ -47,11 +47,11 @@ class Configurator extends BaseOptions
             return $messages;
         }
         
-        $this->checkPrerequisites();
+        $this->checkPrerequisites();        
+        $this->dsnBuilder->testConnection();
         $this->writeConfigurationParameters();
         $this->writeConfigurationFiles();
         $this->writeRoutes();
-        $this->dsnBuilder->testConnection();
     }
     
     private function backUpFile($fileName)
