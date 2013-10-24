@@ -55,4 +55,14 @@ class GenericDsnBuilder extends Base\BaseDsnBuilder
     {
         return '%rkcms_database_driver%:host=%rkcms_database_host%;dbname=%rkcms_database_name%_test';        
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function testConnection()
+    {
+        if( ! @mysql_connect($this->configureBaseDsn(), $this->options["user"], $this->options["password"])) {
+            throw new \RuntimeException("I cannot connect to the database using the given parameters");
+        }
+    }
 }

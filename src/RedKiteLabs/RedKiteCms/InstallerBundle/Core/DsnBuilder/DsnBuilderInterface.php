@@ -51,4 +51,11 @@ interface DsnBuilderInterface
      * @return string
      */
     function configureParametrizedDsnForTestEnv();
+    
+    /**
+     * Test the database connection with the given parameters
+     * 
+     * @return boolean
+     */
+    public function testConnection();
 }

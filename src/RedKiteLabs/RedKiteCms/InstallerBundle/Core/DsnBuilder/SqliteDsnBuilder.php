@@ -55,4 +55,12 @@ class SqliteDsnBuilder extends Base\BaseDsnBuilder
     {
         return '%rkcms_database_driver%:%kernel.root_dir%/../%rkcms_database_name%_test';
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function testConnection()
+    {
+        return true;
+    }
 }

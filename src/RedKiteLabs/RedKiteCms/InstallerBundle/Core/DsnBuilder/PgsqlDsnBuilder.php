@@ -55,4 +55,14 @@ class PgsqlDsnBuilder extends Base\BaseDsnBuilder
     {
         return '%rkcms_database_driver%:host=%rkcms_database_host%;dbname=%rkcms_database_name%_test;user=%rkcms_database_user%;password=%rkcms_database_password%';
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function testConnection()
+    {
+        if ( ! @pg_connect(sprintf("host=%s port=%s user=%s password=%s", $this->options["host"], $this->options["port"], $this->options["user"], $this->options["password"]))) {
+            throw new \RuntimeException("I cannot connect to the database using the given parameters");
+        }
+    }
 }

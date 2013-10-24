@@ -51,6 +51,7 @@ class Configurator extends BaseOptions
         $this->writeConfigurationParameters();
         $this->writeConfigurationFiles();
         $this->writeRoutes();
+        $this->dsnBuilder->testConnection();
     }
     
     private function backUpFile($fileName)
