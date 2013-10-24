@@ -28,28 +28,49 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlTwigDeployerProduction;
-use RedKiteCms\InstallerBundle\Core\Installer\Base\BaseOptions;
 
 /**
  * Implements the object deputated to boostrap the database
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-abstract class BaseDbBootstrapper extends BaseOptions
+abstract class BaseDbBootstrapper 
 {
-    
     /**
      * Contructor
      * 
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param array $options
      */
-    public function __construct(ContainerInterface $container, $vendorDir, array $options = array())
+    public function __construct(ContainerInterface $container, $vendorDir)
     {
-        
-        parent::__construct($vendorDir, $options);
-        
         $this->container = $container;
+        if ( ! $this->container->hasParameter('rkcms_database_driver')) {
+            throw new \InvalidArgument('It seems that your environment is not configured. Please run the <info>redkitecms:configure</info> command to properly setup your environment.');
+        }
+        
+        $this->host = $this->container->getParameter('rkcms_database_host');
+        $this->driver =  $this->container->getParameter('rkcms_database_driver');
+        $this->port =  $this->container->getParameter('rkcms_database_port');
+        $this->database =  $this->container->getParameter('rkcms_database_name');
+        $this->user =  $this->container->getParameter('rkcms_database_user');
+        $this->password =  $this->container->getParameter('rkcms_database_password');
+        
+        $options = array(
+            'host' =>  $this->host,
+            'driver' =>  $this->driver,
+            'port' =>  $this->port,
+            'database' =>  $this->database,
+            'user' =>  $this->user,
+            'password' =>  $this->password,
+        );
+        
+        $dsnBuilderClassName = '\RedKiteCms\InstallerBundle\Core\DsnBuilder\GenericDsnBuilder';
+        $specificDsnBuilderClassName = '\RedKiteCms\InstallerBundle\Core\DsnBuilder\\' . ucfirst($this->driver) . 'DsnBuilder';
+        if (class_exists($specificDsnBuilderClassName)) {
+            $dsnBuilderClassName = $specificDsnBuilderClassName;
+        }
+        $this->dsnBuilder = new $dsnBuilderClassName($options);
     }
     
     /**
@@ -57,8 +78,6 @@ abstract class BaseDbBootstrapper extends BaseOptions
      */
     public function bootstrap()
     {
-        $this->checkPrerequisites();
-        
         $this->factoryReporsitory = $this->container->get('red_kite_cms.factory_repository');
         $this->themes = $this->container->get('red_kite_labs_theme_engine.themes');
         $this->eventsHandler = $this->container->get('red_kite_cms.events_handler');
@@ -120,8 +139,7 @@ abstract class BaseDbBootstrapper extends BaseOptions
                     ->bootstrap();
         
         if ( ! $result) {
-            $output->writeln("Something went wrong during the site bootstrapping process. The installation has been aborted");
-            die;
+            return $siteBootstrap->getErrorMessage();
         }
         
         $this->activeTheme->writeActiveTheme($themeName);
@@ -135,6 +153,8 @@ abstract class BaseDbBootstrapper extends BaseOptions
         {
             echo $ex->getMessage();
         }
+        
+        return true;
     }
 
     /**
@@ -142,37 +162,23 @@ abstract class BaseDbBootstrapper extends BaseOptions
      */
     public function createDatabase()
     {
-        try
-        {
-            $orm = $this->setUpOrm($this->dsnBuilder->getBaseDsn());
-            
-            $query = 'DROP DATABASE IF EXISTS ' . $this->database;
-            $result = $orm->executeQuery($query);
-            
-            $query = 'CREATE DATABASE ' . $this->database;
-            $result = $orm->executeQuery($query);
-            
-            if ( ! $result) {
-                throw new \RuntimeException(sprintf("I'm not able to create the %s database. Please create it manually or choose another one.", $this->database));
-            }
-        }
-        catch(\Exception $ex)
-        {
-            throw $ex;
+        $orm = $this->setUpOrm($this->dsnBuilder->getBaseDsn());
+
+        $query = 'DROP DATABASE IF EXISTS ' . $this->database;
+        $result = $orm->executeQuery($query);
+
+        $query = 'CREATE DATABASE ' . $this->database;
+        $result = $orm->executeQuery($query);
+
+        if ( ! $result) {
+            throw new \RuntimeException(sprintf("I'm not able to create the %s database. Please create it manually or choose another one.", $this->database));
         }
     }
     
     protected function setUpOrm($dsn)
     {
-        try
-        {
-            $connection = new \PropelPDO($dsn, $this->user, $this->password);            
+        $connection = new \PropelPDO($dsn, $this->user, $this->password);            
             
-            return new AlPropelOrm($connection);
-        }
-        catch(\Exception $ex)
-        {
-            throw $ex;
-        }
+        return new AlPropelOrm($connection);
     }
 }

@@ -1,0 +1,30 @@
+{#
+   This file is part of the RedKite CMS InstallerBundle and it is distributed
+   under the MIT LICENSE. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKiteCms <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    MIT LICENSE
+#}
+
+{% extends 'RedKiteCmsInstallerBundle:Installer:main.html.twig' %}
+
+{% block contents %}
+<div>
+    <h1>Ops, something went wrong</h1>
+    <p>Here is reported the log created during the installation process:</p>
+    <div class="code">
+        <pre>{{ log }}</pre>
+    </div>
+    <p>
+        Please fix the reported problems and try to install RedKite CMS again.<br /><br />
+        <a href="/app.php/install">Install page</a>
+    </p>
+</div>
+{% endblock %}

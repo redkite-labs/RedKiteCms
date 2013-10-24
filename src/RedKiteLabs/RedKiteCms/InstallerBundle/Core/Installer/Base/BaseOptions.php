@@ -20,6 +20,7 @@ namespace RedKiteCms\InstallerBundle\Core\Installer\Base;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use RedKiteCms\InstallerBundle\Core\Validator\Validator;
 
 /**
  * Implements a base class to define the base options required to install RedKite Cms
@@ -54,19 +55,19 @@ abstract class BaseOptions
         
         $this->kernelDir = $this->normalizePath($kernelDir);
         $this->vendorDir = $this->kernelDir . '/../vendor';
-        $this->companyName = $this->options["company"];
-        $this->bundleName = $this->options["bundle"];        
-        $this->deployBundle = $this->companyName . $this->bundleName;
+        $this->companyName = Validator::validateCompanyName($this->options["company"]);
+        $this->bundleName = Validator::validateBundleName($this->options["bundle"]);        
+        $this->deployBundle = $this->companyName . $this->bundleName;        
         if (empty($this->deployBundle) || !preg_match('/.*?Bundle$/', $this->deployBundle)) { 
             throw new \InvalidArgumentException("Something was wrong with the values you entered to define the deploy bundle. Please refer to http://redkite-labs.com/how-to-install-redkite-cms#the-deploy-bundle to learn more about this topic.");
         }
-        $this->driver = $this->options["driver"];
-        $this->host = $this->options["host"];
-        $this->port = (int)$this->options["port"];
-        $this->database = $this->options["database"];
-        $this->user = $this->options["user"];
+        $this->driver = Validator::validateDriver($this->options["driver"]);
+        $this->host = Validator::validateHost($this->options["host"]);
+        $this->port = Validator::validatePort((int)$this->options["port"]);
+        $this->database = Validator::validateDatabaseName($this->options["database"]);
+        $this->user = Validator::validateUser($this->options["user"]);
         $this->password = $this->options["password"];
-        $this->websiteUrl = $this->options["website-url"];
+        $this->websiteUrl = Validator::validateUrl($this->options["website-url"]);
         
         $dsnBuilderClassName = '\RedKiteCms\InstallerBundle\Core\DsnBuilder\GenericDsnBuilder';
         $specificDsnBuilderClassName = '\RedKiteCms\InstallerBundle\Core\DsnBuilder\\' . ucfirst($this->driver) . 'DsnBuilder';
@@ -121,17 +122,12 @@ abstract class BaseOptions
         $this->checkClass('ElFinderBundle', 'RedKiteLabs\ElFinderBundle\RedKiteLabsElFinderBundle');
         $this->checkClass('ThemeEngineBundle', 'RedKiteLabs\ThemeEngineBundle\RedKiteLabsThemeEngineBundle');
         
-        $contents = file_get_contents($this->kernelDir . '/AppKernel.php');
-        preg_match("/[\s|\t]+new " . $this->companyName . "\\\\" . $this->bundleName . "/s", $contents, $match);
-        if(empty ($match))
-        {
-            $message = "\nRedKite CMS requires an existing bundle to work with. You enter as working bundle the following: $this->companyName\\$this->bundleName but, the bundle is not enable in AppKernel.php file. Please add the bundle or enable it ther run the script again.\n";
-
-            throw new \RuntimeException($message);
-        }
+        Validator::validateDeployBundle($this->kernelDir, $this->companyName, $this->bundleName);
         
         $this->prerequisitesVerified = true;
     }
+    
+    
     
     /**
      * Defines the required/optional options

@@ -25,6 +25,9 @@ use RedKiteCms\InstallerBundle\Core\Installer\Installer;
 
 use RedKiteCms\InstallerBundle\Core\CommandsAgent\CommandsAgent;
 
+use Symfony\Component\HttpFoundation\Request;
+
+
 /**
  * Implements the controller to install RedKite CMS
  *
@@ -32,44 +35,60 @@ use RedKiteCms\InstallerBundle\Core\CommandsAgent\CommandsAgent;
  */
 class InstallerController extends Controller
 {
-    public function installAction()
+    public function installAction(\Symfony\Component\HttpFoundation\Request $request)
     {
         $type = new RedKiteCmsParametersType();
-        $form = $this->container->get('form.factory')->create(
-            $type, array('company' => 'Acme',
-                        'bundle' => 'WebSiteBundle',
-                        'host' => 'localhost',
-                        'database' => 'redkite',
-                        'user' => 'root',
-                        'driver' => 'mysql',
-                        'port' => '3306',
+        $form = $this->container->get('form.factory')->create($type, array(
+            'company' => 'Acme',
+            'bundle' => 'WebSiteBundle',
+            'host' => 'localhost',
+            'database' => 'redkite',
+            'user' => 'root',
+            'driver' => 'mysql',
+            'port' => '3306',
         ));
 
-        $request = $this->container->get('request');
         if ('POST' === $request->getMethod()) {
             $form->bind($request);
             if ($form->isValid()) {
                 $options = $form->getData();
                 
-                $messages = CommandsAgent::executeConfig($this->container, $options);
-                if (null === $messages) {
-                    CommandsAgent::executeSetupCmsEnvironmentsCommand($this->container, $options);   
-                    
-                    ob_start();
-                    CommandsAgent::populateAndClean($this->container, $options);
-                    $log = ob_get_contents();
-                    ob_end_clean();
-                    
-                    $scheme = $request->getScheme().'://'.$request->getHttpHost();
-                    return $this->render('RedKiteCmsInstallerBundle:Installer:install_success.html.twig', array(
-                        'scheme'    => $scheme,
-                        'log' => urldecode($log),
-                    ));
+                array_walk($options, function(&$value, $key){ if (null !== $value) $value = '--' . $key . '=' . $value; });
+
+                $cleanCache = false;
+                $writeInstalledFile = true;
+                $kernelRootDir = $this->container->get('kernel')->getRootDir();
+                $installedFile = $kernelRootDir . '/Resources/.cms_installed';
+                if (file_exists($installedFile)) {
+                    $cleanCache = true;
+                    $writeInstalledFile = false;
                 }
                 
-                foreach ($messages as $message) {
-                    $this->container->get('session')->getFlashBag()->add('error', strip_tags($message));
+                $commands = array(
+                    'redkitecms:configure --no-interaction ' . implode(" ", $options) => null,
+                    'redkitecms:install --env=rkcms --skip-cache-clean=' . $cleanCache => null,
+                );
+
+                ob_start();
+                $commandsProcessor = new \RedKiteLabs\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessor($kernelRootDir);
+                $result = $commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });                
+                $log = ob_get_contents();
+                ob_end_clean();
+                
+                $template = 'RedKiteCmsInstallerBundle:Installer:install_failed.html.twig';
+                if ($result) {
+                    $template = 'RedKiteCmsInstallerBundle:Installer:install_success.html.twig';
+                    
+                    if ($writeInstalledFile) {
+                        touch($installedFile);
+                    }
                 }
+
+                $scheme = $request->getScheme().'://'.$request->getHttpHost();
+                return $this->render($template, array(
+                    'scheme'    => $scheme,
+                    'log' => urldecode($log),
+                ));
             }
         }
 
@@ -78,4 +97,3 @@ class InstallerController extends Controller
         ));
     }
 }
-
