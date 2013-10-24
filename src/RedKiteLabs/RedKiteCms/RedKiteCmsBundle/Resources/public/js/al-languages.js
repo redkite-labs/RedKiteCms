@@ -76,7 +76,7 @@ function InitLanguagesCommands()
                 },
                 error: function(err)
                 {
-                    $('body').showAlert(err.responseText, 0, 'alert-error');
+                    $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                 },
                 complete: function()
                 {
@@ -86,7 +86,7 @@ function InitLanguagesCommands()
         }
         catch(e){
             var operation = (languageId == 0) ? 'adding' : 'editing';
-            $('body').showAlert('An unespected error occoured in al-languages file while ' + operation + ' a language. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+            $('body').showAlert('An unespected error occoured in al-languages file while ' + operation + ' a language. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
         }
     });
 
@@ -114,7 +114,7 @@ function InitLanguagesCommands()
                     },
                     error: function(err)
                     {
-                        $('body').showAlert(err.responseText, 0, 'alert-error');
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -124,7 +124,7 @@ function InitLanguagesCommands()
                   });
             }
             catch(e){
-                $('body').showAlert('An unespected error occoured in al-languages file while removing a language. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                $('body').showAlert('An unespected error occoured in al-languages file while removing a language. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
             }
         }
     });
@@ -202,7 +202,7 @@ function LoadLanguageAttributes(idLanguage)
             },
             error: function(err)
             {
-                $('body').showAlert(err.responseText, 0, 'alert-error');
+                $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
             },
             complete: function()
             {
@@ -211,7 +211,7 @@ function LoadLanguageAttributes(idLanguage)
           });
     }
     catch(e){
-        $('body').showAlert('An unespected error occoured in al-languages file while retrieving language\'s attributes. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+        $('body').showAlert('An unespected error occoured in al-languages file while retrieving language\'s attributes. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
     }
 }
 
