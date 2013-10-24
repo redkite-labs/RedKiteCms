@@ -45,10 +45,6 @@ abstract class BaseDbBootstrapper
     public function __construct(ContainerInterface $container, $vendorDir)
     {
         $this->container = $container;
-        if ( ! $this->container->hasParameter('rkcms_database_driver')) {
-            throw new \InvalidArgument('It seems that your environment is not configured. Please run the <info>redkitecms:configure</info> command to properly setup your environment.');
-        }
-        
         $this->host = $this->container->getParameter('rkcms_database_host');
         $this->driver =  $this->container->getParameter('rkcms_database_driver');
         $this->port =  $this->container->getParameter('rkcms_database_port');

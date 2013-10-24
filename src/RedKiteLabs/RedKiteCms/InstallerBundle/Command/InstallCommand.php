@@ -50,7 +50,14 @@ class InstallCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getContainer(); 
-        $application = $this->getApplication();
+        if ( ! $container->hasParameter('rkcms_database_driver')) {
+            throw new \RuntimeException('It seems that you have not configured the RedKite CMS environments. Please run the redkitecms:configure command to properly setup those environments.');
+        }
+        
+        $kernel = $container->get('kernel');
+        if (strpos($kernel->getEnvironment(), 'rkcms') === false) {
+            throw new \RuntimeException('This command must run in rkcms environment. Please run it again adding the --env=rkcms switch');
+        }
         
         $className = '\RedKiteCms\InstallerBundle\Core\Installer\DbBootstrapper\GenericDbBootstrapper';        
         $specificClassName = sprintf('\RedKiteCms\InstallerBundle\Core\Installer\DbBootstrapper\%sDbBootstrapper', ucfirst($container->getParameter('rkcms_database_driver')));
@@ -58,7 +65,7 @@ class InstallCommand extends ContainerAwareCommand
             $className = $specificClassName;
         }
         
-        $kernelRootDir = $container->get('kernel')->getRootDir();
+        $kernelRootDir = $kernel->getRootDir();
         $dbBoootstrapper = new $className($container, $container->getParameter('kernel.root_dir'));
         
         if ( ! $input->getOption('skip-db-creation')) {
@@ -67,6 +74,7 @@ class InstallCommand extends ContainerAwareCommand
             $output->writeln("<info>Database has been created</info>");
         }
         
+        $application = $this->getApplication();
         $in = new ArrayInput(array(
             'command'        => 'propel:build',
             '--insert-sql'       => true,
