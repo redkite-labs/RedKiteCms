@@ -63,7 +63,7 @@ class ConfigureCmsCommand extends ContainerAwareCommand
         catch(\Exception $ex) {
             $output->writeln("<error>" . $ex ->getMessage() . "</error>");
             
-            return 0;
+            return -1;
         }
         
         return 1;
