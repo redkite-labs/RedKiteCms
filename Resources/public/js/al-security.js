@@ -15,6 +15,128 @@
  */
 
 ;(function($){
+    var methods = {
+        init: function()
+        {
+            $('.al_delete_user').unbind().security('user_delete');
+            /*
+            $('.al_list_roles').unbind().ListRoles();
+            $('.al_list_users').unbind().ListUsers();
+
+            $('.al_add_user').unbind().AddUser();
+            $('.al_edit_user').unbind().EditUser();
+            $('.al_delete_user').unbind().DeleteUser();
+
+            $('.al_add_role').unbind().AddRole();
+            $('.al_edit_role').unbind().EditRole();
+            $('.al_delete_role').unbind().DeleteRole();
+            */
+
+        },
+        user_list: function()
+        {
+            list($(this), 'al_userList');            
+        },        
+        user_delete: function()
+        {
+            remove($(this), 'al_deleteUser');
+        }
+    }
+
+    function list(element, route)
+    {
+        element.click(function()
+        {
+            try{
+                $.ajax({
+                    type: 'POST',
+                    url: frontController + 'backend/users/' + $('#al_available_languages option:selected').val() + '/' + route,
+                    data: {
+                        'page' :  $('#al_pages_navigator').html(),
+                        'language' : $('#al_languages_navigator').html()
+                    },
+                    beforeSend: function()
+                    {
+                        $('body').AddAjaxLoader();
+                    },
+                    success: function(html)
+                    {
+                        if ( ! $('#al_panel').is(":visible")) {
+                            html = '<div id="al_panel_contents">' + html  + '</div>';
+                            $('#al_panel').OpenPanel(html, function(){
+                                $('body').security('init');
+                            });
+                        } else {
+                            $('#al_panel_contents').html(html);
+                            $('body').security('init');
+                        }
+                    },
+                    error: function(err)
+                    {
+                        $('body').showDialog(err.responseText);
+                    },
+                    complete: function()
+                    {
+                        $('body').RemoveAjaxLoader();
+                    }
+                });
+            }
+            catch(e){
+                $('body').showAlert('An unespected error occoured in al-security file method list. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
+            }
+
+            return false;
+        });
+    }
+
+    function remove(element, route)
+    {
+        element.click(function()
+        {
+            if(confirm(translate("Are you sure you want to remove the user")))
+            {
+                try{
+                    $.ajax({
+                        type: 'GET',
+                        url: frontController + 'backend/users/' + $('#al_available_languages option:selected').val() + '/' + route,
+                        data: {'id' : element.attr('rel') },
+                        beforeSend: function()
+                        {
+                            $('body').AddAjaxLoader();
+                        },
+                        success: function(html)
+                        {
+                            $('#al_panel_contents').html(html);
+                            $('body').security('init');
+                        },
+                        error: function(err)
+                        {
+                            $('body').showDialog(err.responseText);
+                        },
+                        complete: function()
+                        {
+                            $('body').RemoveAjaxLoader();
+                        }
+                    });
+                }
+                catch(e){
+                    $('body').showAlert('An unespected error occoured in al-security file method remove. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
+                }
+            }
+        });
+    }
+    
+    $.fn.security = function( method ) {    
+        if ( methods[method] ) {
+            return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof method === 'object' || ! method ) {
+            return methods.init.apply( this, arguments );
+        } else {
+            $.error( 'Method ' +  method + ' does not exist on jQuery.inlinelist' );
+        }   
+    };
+})($);
+    /*
     $.fn.AddUser = function()
     {
         this.each(function()
@@ -251,3 +373,4 @@ function ObserveSecurity()
     $('.al_edit_role').unbind().EditRole();
     $('.al_delete_role').unbind().DeleteRole();
 }
+*/

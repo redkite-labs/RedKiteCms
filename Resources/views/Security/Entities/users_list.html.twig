@@ -15,16 +15,27 @@
                 </thead>
             {% for user in users %}
                 <tr>
-                    <td width="50%">{{ user.username }}</td>
-                    <td width="30%">{{ user.email }}</td>
-                    <td><a href="#" rel="{{ user.id }}" class="al_edit_user">{{ "common_label_edit"|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></td>
-
+                    <td width="60%">{{ user.username }}</td>
+                    <td width="40%">{{ user.email }}</td>
                     <td>
+                        <a href="#" rel="{{ user.id }}" class="al_edit_user">
+                            <button class="btn btn-xs btn-primary" data-user-id="{{ user.id }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </a>
+                    </td>
+                    <td>
+                        {% set disabled = ' disabled' %}
+                        {% set deletable = '' %}
                         {% if(user.id != app.security.getToken().getUser().getPrimaryKey()) %}
-                        <a href="#" class="al_delete_user" rel="{{ user.id }}">{{ "common_label_delete"|trans({}, 'RedKiteCmsBundle', cms_language) }}</a>
-                        {% else %}
-                        -
+                        {% set disabled = '' %}
+                        {% set deletable = 'class=al_delete_user ' %}
                         {% endif %}
+                        <a href="#" {{ deletable }}rel="{{ user.id }}">
+                            <button class="btn btn-xs btn-danger {{ disabled }}" data-user-id="{{ user.id }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </button>
+                        </a>
                     </td>
                 </tr>
             {% endfor %}
