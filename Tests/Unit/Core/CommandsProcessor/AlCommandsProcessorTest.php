@@ -59,10 +59,6 @@ class AlCommandsProcessorTest extends TestCase
         $this->assertEquals(1, $this->commandsProcessor->executeCommand('my:command'));
     }
 
-    /**
-     * @expectedException \RuntimeException
-     * @expectedExceptionMessage An error has occoured executing the "my:other:command" command
-     */
     public function testWhenACommandFailsAnExceptionIsThrown()
     {
         $process = $this->getMockBuilder('Symfony\Component\Process\Process')
@@ -77,7 +73,7 @@ class AlCommandsProcessorTest extends TestCase
             'my:other:command' => null,
         );
 
-        $this->commandsProcessor->executeCommands($commands, null, $process);
+        $this->assertFalse($this->commandsProcessor->executeCommands($commands, null, $process));
     }
 
     public function testExecuteCommandsAreExecuted()

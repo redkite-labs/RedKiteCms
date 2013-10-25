@@ -132,7 +132,7 @@
                     });
                 }
                 catch(e){
-                    $('body').showAlert('An unespected error occoured in al-security file method list. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                    $('body').showAlert('An unespected error occoured in al-security file method list. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
                 }
 
                 return false;
@@ -203,7 +203,7 @@ function show(route, id)
         });
     }
     catch(e){
-        $('body').showAlert('An unespected error occoured in al-security file method show. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+        $('body').showAlert('An unespected error occoured in al-security file method show. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
     }
 }
 
@@ -234,7 +234,7 @@ function remove(route, id)
         });
     }
     catch(e){
-        $('body').showAlert('An unespected error occoured in al-security file method remove. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+        $('body').showAlert('An unespected error occoured in al-security file method remove. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
     }
 }
 

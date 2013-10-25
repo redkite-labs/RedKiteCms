@@ -27,7 +27,7 @@
   {% if theme_values.theme_error is defined %}
   <tr><td colspan="2">{{ theme_values.theme_error }}</td></tr>
   {% else %}
-  <tr><td colspan="2"><b>{{ "Any information available for this theme" | trans([], domain) }}</b></td></tr>
+  <tr><td colspan="2"><b>{{ "Any information available for this theme" | trans({}, "RedKiteCmsBundle", cms_language) }}</b></td></tr>
   {% endif %}
 {% endif %}
 

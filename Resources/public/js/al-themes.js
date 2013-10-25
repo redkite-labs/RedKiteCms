@@ -154,7 +154,7 @@
                 });
             }
             catch(e){
-                $('body').showAlert('An unespected error occoured in al-theme file while saving slots. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                $('body').showAlert('An unespected error occoured in al-theme file while saving slots. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
             }
 
             return false;
@@ -207,7 +207,7 @@
                         });
                     }
                     catch(e){
-                        $('body').showAlert('An unespected error occoured in al-theme file method change. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                        $('body').showAlert('An unespected error occoured in al-theme file method change. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
                     }
 
                     return false;
@@ -253,7 +253,7 @@
                         });
                     }
                     catch(e){
-                        $('body').showAlert('An unespected error occoured in al-theme file method scratch. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                        $('body').showAlert('An unespected error occoured in al-theme file method scratch. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
                     }
 
                     return false;

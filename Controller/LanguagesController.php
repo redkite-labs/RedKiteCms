@@ -36,7 +36,6 @@ class LanguagesController extends Base\BaseController
         
         $languagesForm = new LanguagesForm();
         $form = $this->container->get('form.factory')->create($languagesForm);
-        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
         
         $params = array(
             'languages' => ChoiceValues::getLanguages($this->createLanguageRepository()),

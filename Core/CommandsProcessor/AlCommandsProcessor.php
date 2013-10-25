@@ -102,7 +102,7 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
             $currentClosure = (null !== $commandClosure) ? $commandClosure : $closure;
             $processResult = $this->executeCommand($command, $currentClosure, $process);
             if (-1 === $processResult) {
-                throw new \RuntimeException(sprintf('An error has occoured executing the "%s" command', $command));
+                return false;
             }
         }
 
