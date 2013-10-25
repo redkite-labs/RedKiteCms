@@ -377,7 +377,7 @@ $(document).ready(function(){
                 });
             }
             catch(e){
-                $('body').showAlert('An unespected error occoured in alphalemon file while finalizing the theme. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                $('body').showAlert('An unespected error occoured in alphalemon file while finalizing the theme. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
             }
 
             return false;
@@ -544,7 +544,7 @@ $(document).ready(function(){
                 });
             }
             catch(e){
-                $('body').showAlert('An unespected error occoured in alphalemon file while opening the pages panel. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                $('body').showAlert('An unespected error occoured in alphalemon file while opening the pages panel. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
             }
 
             return false;
@@ -579,7 +579,7 @@ $(document).ready(function(){
                 });
             }
             catch(e){
-                $('body').showAlert('An unespected error occoured in alphalemon file while opening the languages panel. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                $('body').showAlert('An unespected error occoured in alphalemon file while opening the languages panel. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
             }
 
             return false;
@@ -614,7 +614,7 @@ $(document).ready(function(){
                 });
             }
             catch(e){
-                $('body').showAlert('An unespected error occoured in alphalemon file while opening the themes panel. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                $('body').showAlert('An unespected error occoured in alphalemon file while opening the themes panel. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
             }
 
             return false;
@@ -664,7 +664,7 @@ $(document).ready(function(){
                 });
             }
             catch(e){
-                $('body').showAlert('An unespected error occoured in alphalemon file while deploying the website. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                $('body').showAlert('An unespected error occoured in alphalemon file while deploying the website. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
             }
 
             return false;
@@ -702,7 +702,7 @@ $(document).ready(function(){
                 });
             }
             catch(e){
-                $('body').showAlert('An unespected error occoured in alphalemon file while changing RedKite CMS language. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                $('body').showAlert('An unespected error occoured in alphalemon file while changing RedKite CMS language. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
             }
 
             return false;

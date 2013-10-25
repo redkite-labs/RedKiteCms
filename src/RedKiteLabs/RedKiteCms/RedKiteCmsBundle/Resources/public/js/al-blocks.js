@@ -68,7 +68,7 @@
                     },
                     error: function(err)
                     {
-                        $('body').showAlert(err.responseText, 0, 'alert-error');
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -80,7 +80,7 @@
             });        
         }
         catch(e){
-            $('body').showAlert('An unespected error occoured in al-blocks file, method AddBlock. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+            $('body').showAlert('An unespected error occoured in al-blocks file, method AddBlock. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
         }
     };
 
@@ -123,7 +123,7 @@
                     },
                     error: function(err)
                     {
-                        $('body').showAlert(err.responseText, 0, 'alert-error');
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -136,7 +136,7 @@
             });
         }
         catch(e){
-            $('body').showAlert('An unespected error occoured in al-blocks file, method EditBlock. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+            $('body').showAlert('An unespected error occoured in al-blocks file, method EditBlock. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
         }
     };
 
@@ -181,7 +181,7 @@
                     },
                     error: function(err)
                     {
-                        $('body').showAlert(err.responseText, 0, 'alert-error');
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -190,7 +190,7 @@
                 });
             }
             catch(e){
-                $('body').showAlert('An unespected error occoured in al-blocks file, method DeleteBlock. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                $('body').showAlert('An unespected error occoured in al-blocks file, method DeleteBlock. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
             }
         }        
     };

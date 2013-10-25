@@ -97,7 +97,7 @@ function InitPagesCommands()
                 },
                 error: function(err)
                 {
-                    $('body').showAlert(err.responseText, 0, 'alert-error');
+                    $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                 },
                 complete: function()
                 {
@@ -107,7 +107,7 @@ function InitPagesCommands()
         }
         catch(e){
             var operation = (languageId == null || languageId == 'none') ? 'adding' : 'editing';
-            $('body').showAlert('An unespected error occoured in al-pages file while ' + operation + ' a page. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+            $('body').showAlert('An unespected error occoured in al-pages file while ' + operation + ' a page. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
         }
         
         return false;
@@ -140,7 +140,7 @@ function InitPagesCommands()
                     },
                     error: function(err)
                     {
-                        $('body').showAlert(err.responseText, 0, 'alert-error');
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -149,7 +149,7 @@ function InitPagesCommands()
                 });
             }
             catch(e){
-                $('body').showAlert('An unespected error occoured in al-pages file while removing a page. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+                $('body').showAlert('An unespected error occoured in al-pages file while removing a page. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
             }
         }
         
@@ -278,6 +278,6 @@ function LoadSeoAttributes(idPage)
         });  
     }
     catch(e){
-        $('body').showAlert('An unespected error occoured in al-pages file while loading page\'s attributes. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error');
+        $('body').showAlert('An unespected error occoured in al-pages file while loading page\'s attributes. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
     }
 }
