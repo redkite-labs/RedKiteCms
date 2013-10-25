@@ -11,9 +11,26 @@
 //
 // @license    GPL LICENSE Version 2.0
 
+.panel-container
+  :width 1000px
+  :max-width 1000px
+  :margin-top 30px
+  :height 500px
 
-$panel-shadow-white: $white
-$panel-shadow-gray: #ccc
+  a
+    :color $panelElementSelectorColor
+
+.panel-column
+  :padding 0 20px
+  :height 400px
+  :max-height 400px
+
+select.input-xxs
+  :height 24px
+  :line-height 24px
+  :padding 2px
+
+
 
 #al_panel
   :width 100%
@@ -48,7 +65,6 @@ $panel-shadow-gray: #ccc
     :padding 0
     :margin 0 0 10px 0
     :color $darkGray
-    +text-shadow(rgba($panel-shadow-gray, .2) 1px 1px 0, rgba($panel-shadow-gray, .2) 1px 1px 0, rgba($panel-shadow-gray, .2) 1px 1px 0)
 
   h1
     :font $panelFontH1
@@ -87,24 +103,8 @@ $panel-shadow-gray: #ccc
   :border-bottom $panelCloserBorderBottom  
   +background-image(linear-gradient(#ccc, #888))
 
-#al_panel_header
-  :width 100%
 
-#al_sidebar_right
-  a
-    :text-decoration none
-
-  .al_element_selector
-    :font-weight normal
-    :color $panelElementSelectorColor
-
-  .al_element_selected
-    :font-weight bold
-    :color $panelElementSelectedColor
-
-#al_sidebar_middle
-  :width $panelMiddleSidebarWidth
-  :min-height 400px
+#al_sidebar_left
   :overflow auto
   :padding 0 10px
   :float left
@@ -135,41 +135,19 @@ $panel-shadow-gray: #ccc
     td
       :padding 4px
 
+  a
+    :text-decoration none
+
+  .al_element_selector
+    :font-weight normal
+    :color $panelElementSelectorColor
+
+  .al_element_selected
+    :font-weight bold
+    :color $panelElementSelectedColor
+
 #al_sidebar_right
   :width $panelRightSidebarWidth
   :min-height 400px
   :padding 0 10px
   :float right
-
-.al_panel_box
-  :border 1px solid $panelBoxBorderColor
-  +box-shadow(#999 3px 3px 3px)
-  +border-radius(8px)
-  :margin 20px 0
-
-.al_panel_box_header
-  :border-bottom 1px solid #cfcfcf
-  +background-image(linear-gradient(#eee, #999))
-  +border-radius(8px 8px 0 0)
-  :padding 4px 8px
-
-.al_panel_box_header_title
-  :font $panelFontBoxHeaderTitle
-
-.al_panel_list
-  :max-height 304px
-  :overflow auto
-  :padding 2px
-  :margin-bottom 10px
-  :border-top 1px solid $panelBoxBorderColor
-
-#al_select_languages_reminder
-  :display none
-  :font-weight bold
-  :color $panelLanguagesReminderColor
-
-.white-text-shadow
-  +text-shadow(rgba($panel-shadow-white, .2) 1px 1px 0, rgba($panel-shadow-white, .2) 1px 1px 0, rgba($panel-shadow-white, .2) 1px 1px 0)
-
-.bootstrap-form-item-margin-fixer
-  :margin-bottom 8px !important

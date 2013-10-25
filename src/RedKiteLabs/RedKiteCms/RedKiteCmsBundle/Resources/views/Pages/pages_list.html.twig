@@ -13,7 +13,32 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% for key, page in pages %}
+<div id="al_pages_list">
+    <h2>{{ "cms_controller_label_pages"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
+    <table class="table">
+    {% for key, page in pages %}
+    {% if selected_page is defined and key == selected_page %}
+        {% set class = "al_element_selected" %}
+    {% else %}
+        {% set class = "" %}
+    {% endif %}
+    <tr>
+        <td><span class="glyphicon glyphicon-pushpin"></span></td>
+        {% if active_page is defined and page == active_page %}
+        <td><a href="#" class="al_element_selector active-page {{ class }}" id="rk_page_{{ key }}" data-page-id="{{ key }}">{{ page }}</a></td>
+        {% else %}
+        <td><a href="#" class="al_element_selector {{ class }}" id="rk_page_{{ key }}" data-page-id="{{ key }}">{{ page }}</a></td>
+        {% endif %}
+        <td>
+            {% include 'RedKiteCmsBundle:Partials:_select.html.twig' with {'id' : 'rk_language_' ~ key, 'classes': 'form-control input-xxs rk-page-language', 'select_options' : languages, 'rel': key}  %}
+        </td>
+        <td><button class="btn btn-xs btn-danger rk-page-remover" data-page-id="{{ key }}"><span class="glyphicon glyphicon-trash"></span></button></td>
+    </tr>
+    {% endfor %}
+    </table>
+</div>
+
+{# for key, page in pages %}
 {% if selected_page is defined and key == selected_page %}
     {% set class = "al_element_selected" %}
 {% else %}
@@ -27,4 +52,4 @@
     {% endif %}
       
   </div>
-{% endfor %}
+{% endfor #}
