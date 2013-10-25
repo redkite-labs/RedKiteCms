@@ -531,7 +531,9 @@ $(document).ready(function(){
                     },
                     success: function(html)
                     {
-                        $('#al_panel').OpenPanel(html, function(){InitPagesCommands();ObservePages();});
+                        $('#al_panel').OpenPanel(html, function(){
+                            $('body').pages('init');                          
+                        });
                     },
                     error: function(err)
                     {

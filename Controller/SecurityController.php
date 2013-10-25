@@ -24,6 +24,7 @@ use RedKiteLabs\RedKiteCmsBundle\Model\AlRole;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\Security\AlUserType;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\Security\AlRoleType;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Implements the authentication action to grant the use of the CMS.
@@ -80,14 +81,14 @@ class SecurityController extends Base\BaseController
         // The security layer will intercept this request
     }
 
-    public function listUsersAction()
+    public function listUsersAction(Request $request)
     {
-        return $this->loadUsers();
+        return $this->loadUsers($request);
     }
 
-    public function listRolesAction()
+    public function listRolesAction(Request $request)
     {
-        return $this->loadRoles();
+        return $this->loadRoles($request);
     }
 
     public function showUserAction()
@@ -232,15 +233,20 @@ class SecurityController extends Base\BaseController
         );
     }
 
-    private function loadUsers()
+    private function loadUsers(Request $request)
     {  
+        $isNewUser = true;
+        $user = (!$isNewUser) ? $this->userRepository()->fromPk($request->get('id')) : new AlUser();
+        $form = $this->container->get('form.factory')->create(new AlUserType(), $user);
+        
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/users_list.html.twig', array(
             'users' => $this->userRepository()->activeUsers(),
+            'form' => $form->createView(),
             'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
         ));
     }
 
-    private function loadRoles()
+    private function loadRoles(Request $request)
     {
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/roles_list.html.twig', array(
             'roles' => $this->roleRepository()->activeRoles(),

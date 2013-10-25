@@ -36,6 +36,7 @@ class PagesController extends Base\BaseController
         $params = array(
             'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
             'pages' => $this->getPages(),
+            'languages' => ChoiceValues::getLanguages($this->createRepository('Language'), false),
             'pagesForm' => $pagesForm->createView(),
             'pageAttributesForm' => $seoForm->createView(),
             'active_page' => $request->get('page'),
@@ -213,8 +214,15 @@ class PagesController extends Base\BaseController
         
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
-        $values[] = array("key" => "pages_list", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Pages:pages_list.html.twig', array('pages' => $pagesList, 'active_page' => $request->get('page'),)));
-        $values[] = array("key" => "permalinks", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_permalink_select.html.twig', array('permalinks' => $permalinks,)));
+        $values[] = array("key" => "pages_list", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Pages:pages_list.html.twig', array(
+            'pages' => $pagesList, 
+            'active_page' => $request->get('page'),
+            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
+            'languages' => ChoiceValues::getLanguages($this->createRepository('Language'), false),
+        )));
+        $values[] = array("key" => "permalinks", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_permalink_select.html.twig', array(
+            'permalinks' => $permalinks,)
+        ));
         $values[] = array(
             "key" => "pages", 
             "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_dropdown_menu.html.twig', array(
@@ -234,7 +242,7 @@ class PagesController extends Base\BaseController
 
     protected function getPages()
     {
-        return ChoiceValues::getPages($this->createRepository('Page'));
+        return ChoiceValues::getPages($this->createRepository('Page'), false);
     }
 
     private function createRepository($repository)
