@@ -1,0 +1,88 @@
+{#
+   This file is part of the RedKiteCmsBunde Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/base.html.twig' %}
+
+{% if values.al_sidebar_left is defined and values.al_sidebar_right is defined %}
+  {% set both_sidebars_defined = true %}
+{% else %}
+  {% set both_sidebars_defined = false %}
+{% endif %}
+
+{% if panel_class is defined %}
+  {% set panel_class = 'class=' ~ panel_class %}
+{% else %}
+  {% set panel_class = '' %}
+{% endif %}
+
+{% block body %}
+    {% block al_panels_contents_outside %}
+    <div id="al_panels_contents" {{ panel_class }}>
+      {% block al_panels_contents_inside %}
+
+        {% block al_panel_header_outside %}
+        <div id="al_panel_header">
+          {% block al_panel_header_inside %}
+            {% if values.al_panel_header_left is defined %}
+              {{ values.al_panel_header_left }}
+            {% endif %}
+          {% endblock %}
+        </div>
+        {% endblock %}
+
+        {% block al_sidebar_left_outside %}
+        <div id="al_sidebar_left" {% if both_sidebars_defined %}class="div-left"{% endif %}>
+          {% block al_sidebar_left_inside %}
+            {% if values.al_sidebar_left is defined %}
+              {{ values.al_sidebar_left }}
+            {% endif %}
+          {% endblock %}
+        </div>
+        {% endblock %}
+
+        {% block al_sidebar_middle_outside %}
+        <div id="al_sidebar_middle" {% if both_sidebars_defined %}class="div-left"{% endif %}>
+          {% block al_sidebar_middle_inside %}
+            {% if values.al_sidebar_middle is defined %}
+              {{ values.al_sidebar_middle }}
+            {% endif %}
+          {% endblock %}
+        </div>
+        {% endblock %}
+
+        {% block al_sidebar_right_outside %}
+        <div id="al_sidebar_right" {% if both_sidebars_defined %}class="div-right"{% endif %}>
+          {% block al_sidebar_right_inside %}
+            {% if values.al_sidebar_right is defined %}
+              {{ values.al_sidebar_right }}
+            {% endif %}
+          {% endblock %}
+        </div>
+        {% endblock %}
+
+        <div style="clear:both;"></div>
+      {% endblock %}
+    </div>
+    {% endblock %}
+
+    {% block al_footer_outside %}
+    <div id="al_footer">
+      {% block al_footer_inside %}
+        <div id="al_contents_adder_panel"></div>
+      {% endblock %}
+    </div>
+    {% endblock %}
+
+{% endblock %}
