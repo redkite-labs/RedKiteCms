@@ -65,8 +65,6 @@ class ConfigureCmsCommand extends ContainerAwareCommand
             
             return -1;
         }
-        
-        return 1;
     }
     
     /**

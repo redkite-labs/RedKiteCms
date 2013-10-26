@@ -110,7 +110,5 @@ class InstallCommand extends ContainerAwareCommand
             $buildCommand = $application->find('ca:c');
             $buildCommand->run($in, $output);
         }
-        
-        return 1;
     }
 }
