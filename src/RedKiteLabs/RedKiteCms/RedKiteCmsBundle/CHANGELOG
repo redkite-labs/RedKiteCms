@@ -1,3 +1,9 @@
+RedKite CMS 1.1.Beta 3 (2013/10/26)
+c8269ce added a control to check when the red_kite_cms.bootstrap_themes is defined
+ec232c6 added a workaround to correctly display alerts in Twitter Bootstrap 2.x and 3.x
+d615973 fixed domain to use for the translation
+8ae77b5 AlCommandsProcessor returns false when a process fails instead of throwing an exception
+
 RedKite CMS 1.1.Beta 2 (2013/10/20)
 00f34fc Twitter Bootstrap 3 integration completed
 d7476d6 fixed navigation menu markup to work with Twitter Bootstrap 2 and 3
