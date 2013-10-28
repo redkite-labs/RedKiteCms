@@ -53,28 +53,17 @@ class SecurityControllerTest extends BaseSecured
     {
         $client = $this->setUpClient();
 
-        $crawler = $client->request('POST', '/backend/users/en/al_userList');
+        $crawler = $client->request('POST', '/backend/users/en/al_usersList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('.al_security_list')->count() == 1);
         $this->assertTrue($crawler->filter('.al_edit_user')->count() == 1);
         $this->assertTrue($crawler->filter('.al_delete_user')->count() == 0);
         $this->assertTrue($crawler->filter('html:contains("admin")')->count() == 1);
-    }
-
-    public function testShowAddUserForm()
-    {
-        $client = $this->setUpClient();
-
-        $crawler = $client->request('POST', '/backend/users/en/al_showUser');
-        $response = $client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Username")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("Password")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("Email")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("Role")')->count() == 1);
-        $this->assertGreaterThan(5, count($crawler->filter('input')));
-        $this->assertCount(1, $crawler->filter('select'));
     }
 
     public function testAddUserFailsBecauseUsernameIsBlank()
@@ -83,15 +72,16 @@ class SecurityControllerTest extends BaseSecured
 
         $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
-            "id" => 0,
-            "al_email" => "text@example.com",
-            "al_username" => "",
-            "al_password" => "password",
-            "al_role_id" => $role->getId(),
+            "userId" => 0,
+            "email" => "text@example.com",
+            "username" => "",
+            "password" => "password",
+            "roleId" => $role->getId(),
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveUser', $params);
         $response = $client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(404, $response->getStatusCode()); 
+        $this->assertTrue($crawler->filter('html:contains("Some values are not valid")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("Username field can not be empty")')->count() == 1);
     }
 
@@ -101,15 +91,15 @@ class SecurityControllerTest extends BaseSecured
 
         $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
-            "id" => 0,
-            "al_email" => "text@example.com",
-            "al_username" => "aa",
-            "al_password" => "password",
-            "al_role_id" => $role->getId(),
+            "userId" => 0,
+            "email" => "text@example.com",
+            "username" => "jo",
+            "password" => "password",
+            "roleId" => $role->getId(),
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveUser', $params);
         $response = $client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Username field is too short. It should have 3 characters or more")')->count() == 1);
     }
 
@@ -119,15 +109,15 @@ class SecurityControllerTest extends BaseSecured
 
         $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
-            "id" => 0,
-            "al_email" => "",
-            "al_username" => "username",
-            "al_password" => "password",
-            "al_role_id" => $role->getId(),
+            "userId" => 0,
+            "email" => "",
+            "username" => "username",
+            "password" => "password",
+            "roleId" => $role->getId(),
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveUser', $params);
         $response = $client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Email field can not be empty")')->count() == 1);
     }
 
@@ -137,15 +127,15 @@ class SecurityControllerTest extends BaseSecured
 
         $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
-            "id" => 0,
-            "al_email" => "text@example",
-            "al_username" => "username",
-            "al_password" => "password",
-            "al_role_id" => $role->getId(),
+            "userId" => 0,
+            "email" => "text@example",
+            "username" => "username",
+            "password" => "password",
+            "roleId" => $role->getId(),
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveUser', $params);
         $response = $client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("The email you entered is not valid")')->count() == 1);
     }
 
@@ -155,15 +145,15 @@ class SecurityControllerTest extends BaseSecured
 
         $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
-            "id" => 0,
-            "al_email" => "text@example.com",
-            "al_username" => "username",
-            "al_password" => "",
-            "al_role_id" => $role->getId(),
+            "userId" => 0,
+            "email" => "text@example.com",
+            "username" => "username",
+            "password" => "",
+            "roleId" => $role->getId(),
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveUser', $params);
         $response = $client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Password field can not be empty")')->count() == 1);
     }
 
@@ -173,15 +163,15 @@ class SecurityControllerTest extends BaseSecured
 
         $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
-            "id" => 0,
-            "al_email" => "text@example.com",
-            "al_username" => "username",
-            "al_password" => "pwd",
-            "al_role_id" => $role->getId(),
+            "userId" => 0,
+            "email" => "text@example.com",
+            "username" => "username",
+            "password" => "pwd",
+            "roleId" => $role->getId(),
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveUser', $params);
         $response = $client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Password field is too short. It should have 6 characters or more")')->count() == 1);
     }
 
@@ -191,13 +181,13 @@ class SecurityControllerTest extends BaseSecured
 
         $role = $this->fetchRole($client, 'ROLE_USER');
         $params = array(
-            "id" => 0,
-            "al_email" => "text@example.com",
-            "al_username" => "username",
-            "al_password" => "password",
-            "al_role_id" => $role->getId(),
+            "userId" => 0,
+            "email" => "text@example.com",
+            "username" => "username",
+            "password" => "password",
+            "roleId" => $role->getId(),
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveUser', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp(
@@ -205,35 +195,14 @@ class SecurityControllerTest extends BaseSecured
             $response->getContent()
         );
         
-        $crawler = $client->request('POST', '/backend/users/en/al_userList');
+        $crawler = $client->request('POST', '/backend/users/en/al_usersList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('.al_edit_user')->count() == 2);
         $this->assertTrue($crawler->filter('.al_delete_user')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("admin")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("username")')->count() == 1);
-    }
-
-    public function testShowEditUserForm()
-    {
-        $client = $this->setUpClient();
-
-        $user = $this->fetchUser($client, 'username');
-        $params = array(
-            "id" => $user->getId(),
-        );
-
-        $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
-        $response = $client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('html:contains("Username")'));
-        $this->assertCount(1, $crawler->filter('html:contains("username")'));
-        $this->assertCount(1, $crawler->filter('html:contains("Password")'));
-        $this->assertCount(1, $crawler->filter('html:contains("Email")'));
-        $this->assertCount(1, $crawler->filter('#al_user_email')->filter('[value="text@example.com"]'));
-        $this->assertCount(1, $crawler->filter('html:contains("Role")'));        
-        $this->assertGreaterThan(5, count($crawler->filter('input')));
-        $this->assertCount(1, $crawler->filter('select'));
+        $this->assertTrue($crawler->filter('html:contains("ROLE_USER")')->count() == 1);
     }
 
     public function testUserHasBeenEdited()
@@ -243,13 +212,13 @@ class SecurityControllerTest extends BaseSecured
         $user = $this->fetchUser($client, 'username');
         $role = $this->fetchRole($client, 'ROLE_ADMIN');
         $params = array(
-            "id" => $user->getId(),
-            "al_email" => "edited@example.com",
-            "al_username" => "john_doe",
-            "al_password" => "secret",
-            "al_role_id" => $role->getId(),
+            "userId" => $user->getId(),
+            "email" => "edited@example.com",
+            "username" => "john_doe",
+            "password" => "secret",
+            "roleId" => $role->getId(),
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveUser', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp(
@@ -257,14 +226,14 @@ class SecurityControllerTest extends BaseSecured
             $response->getContent()
         );
 
-        $crawler = $client->request('POST', '/backend/users/en/al_userList');
+        $crawler = $client->request('POST', '/backend/users/en/al_usersList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('.al_edit_user')->count() == 2);
         $this->assertTrue($crawler->filter('.al_delete_user')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("admin")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("john_doe")')->count() == 1);
-        $this->assertTrue($crawler->filter('html:contains("edited@example.com")')->count() == 1);
+        $this->assertTrue($crawler->filter('html:contains("ROLE_ADMIN")')->count() == 1);
 
         $user = $this->fetchUser($client, 'john_doe');
         $this->assertEquals(2, $user->getRoleId());
@@ -283,7 +252,7 @@ class SecurityControllerTest extends BaseSecured
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
-        $crawler = $client->request('POST', '/backend/users/en/al_userList');
+        $crawler = $client->request('POST', '/backend/users/en/al_usersList');
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('.al_edit_user')->count() == 1);
@@ -304,18 +273,9 @@ class SecurityControllerTest extends BaseSecured
         $this->assertTrue($crawler->filter('html:contains("ROLE_USER")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("ROLE_ADMIN")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("ROLE_SUPER_ADMIN")')->count() == 1);
+        $this->assertTrue($crawler->filter('html:contains("Role")')->count() == 1);
         $this->assertEquals(3, $crawler->filter('.al_edit_role')->count());
         $this->assertEquals(3, $crawler->filter('.al_delete_role')->count());
-    }
-
-    public function testShowAddRoleForm()
-    {
-        $client = $this->setUpClient();
-
-        $crawler = $client->request('POST', '/backend/users/en/al_showRole');
-        $response = $client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertTrue($crawler->filter('html:contains("Role")')->count() == 1);
     }
 
     public function testAddRoleFailsBecauseRoleIsBlank()
@@ -324,11 +284,11 @@ class SecurityControllerTest extends BaseSecured
 
         $params = array(
             "id" => 0,
-            "al_role" => "",
+            "role" => "",
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_showRole', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveRole', $params);
         $response = $client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("Role field can not be empty")')->count() == 1);
     }
 
@@ -337,12 +297,12 @@ class SecurityControllerTest extends BaseSecured
         $client = $this->setUpClient();
 
         $params = array(
-            "id" => 0,
-            "al_rolename" => "FAKE",
+            "roleId" => 0,
+            "role" => "FAKE",
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_showRole', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveRole', $params);
         $response = $client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(404, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("A valid role must start with the ROLE_ prefix")')->count() == 1);
     }
 
@@ -351,10 +311,10 @@ class SecurityControllerTest extends BaseSecured
         $client = $this->setUpClient();
 
         $params = array(
-            "id" => 0,
-            "al_rolename" => "ROLE_BOSS",
+            "roleId" => 0,
+            "role" => "ROLE_BOSS",
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_showRole', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveRole', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp(
@@ -374,10 +334,10 @@ class SecurityControllerTest extends BaseSecured
 
         $role = $this->fetchRole($client, 'ROLE_BOSS');
         $params = array(
-            "id" => $role->getId(),
-            "al_rolename" => "ROLE_GOD",
+            "roleId" => $role->getId(),
+            "role" => "ROLE_GOD",
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_showRole', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveRole', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertRegExp(
@@ -417,31 +377,31 @@ class SecurityControllerTest extends BaseSecured
 
         $params = array(
             "id" => 0,
-            "al_email" => "text@example.com",
-            "al_username" => "username",
-            "al_password" => "password",
-            "al_role_id" => $role->getId(),
+            "email" => "text@example.com",
+            "username" => "username",
+            "password" => "password",
+            "roleId" => $role->getId(),
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_showUser', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveUser', $params);
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-
+        
         $credentials = array(
                 'PHP_AUTH_USER' => 'username',
                 'PHP_AUTH_PW' => 'password',
             );
-        $client = $this->setUpClient($credentials);
+        $authClient = $this->setUpClient($credentials);
 
-        $crawler = $client->request('GET', '/backend/en/index');
-        $response = $client->getResponse();
+        $crawler = $authClient->request('GET', '/backend/en/index');
+        $response = $authClient->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
-        $crawler = $client->request('POST', '/backend/users/en/al_userList');
-        $response = $client->getResponse();
+        $crawler = $authClient->request('POST', '/backend/users/en/al_usersList');
+        $response = $authClient->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
 
-        $crawler = $client->request('GET', '/backend/en/al_productionDeploy');
-        $response = $client->getResponse();
+        $crawler = $authClient->request('GET', '/backend/en/al_productionDeploy');
+        $response = $authClient->getResponse();
         $this->assertEquals(403, $response->getStatusCode());
     }
 
@@ -453,11 +413,11 @@ class SecurityControllerTest extends BaseSecured
         return $repository->fromUserName($username);
     }
 
-    private function fetchRole($client, $rolename)
+    private function fetchRole($client, $role)
     {
         $factoryRepository = $client->getContainer()->get('red_kite_cms.factory_repository');
         $repository = $factoryRepository->createRepository('Role');
 
-        return $repository->fromRoleName($rolename);
+        return $repository->fromRoleName($role);
     }
 }

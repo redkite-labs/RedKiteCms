@@ -508,7 +508,7 @@ $(document).ready(function(){
             return false;
 	    });
         
-        $('#al_open_users_manager').security('user_list');
+        $('#al_open_users_manager').security('users_list');
 
         $('#al_logout').click(function()
         {
@@ -568,7 +568,9 @@ $(document).ready(function(){
                     },
                     success: function(html)
                     {
-                        $('#al_panel').OpenPanel(html, function(){InitLanguagesCommands();ObserveLanguages();});
+                        $('#al_panel').OpenPanel(html, function(){
+                            $('body').languages('init');
+                        });
                     },
                     error: function(err)
                     {

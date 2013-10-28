@@ -63,4 +63,18 @@ class AlUserRepositoryPropelTest extends Base\BaseModelPropel
         $users = $this->userRepository->activeUsers();
         $this->assertEquals(1, count($users));
     }
+    
+    public function testRetrieveUsersByRole()
+    {
+        $users = $this->userRepository->usersByRole(1);
+        $this->assertEquals(0, count($users));
+        
+        $users = $this->userRepository->usersByRole(2);
+        $this->assertEquals(1, count($users));
+        
+        $users = $this->userRepository->usersByRole(3);
+        $this->assertEquals(0, count($users));
+    }
+    
+    
 }

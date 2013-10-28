@@ -23,14 +23,8 @@
     <div id="al_sidebar_left" class="pull-left pages-left panel-column">
         {% include 'RedKiteCmsBundle:Pages:pages_list.html.twig' %}
     </div>
-    <div class="pull-right pages-right panel-column">
+    <div id="al_sidebar_right" class="pull-right pages-right panel-column">
         <h2>{{ "pages_controller_label_pages_selector"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
-        {#<div class="row">
-            <div class="col-lg-4">
-            {{ form_label(pageAttributesForm.idLanguage, "pages_controller_label_languages"|trans({}, 'RedKiteCmsBundle', cms_language)) }}
-            {{ form_errors(pageAttributesForm.idLanguage) }} {{ form_widget(pageAttributesForm.idLanguage) }}
-            </div>
-        </div>#}
         <div id="al_pages">
 
             {{ form_errors(pagesForm) }}
@@ -60,8 +54,7 @@
                                 {{ form_row(pageAttributesForm.description) }}
                                 {{ form_row(pageAttributesForm.keywords) }}
                             </table>                
-                        </form>
-                        {##}                
+                        </form>         
                     </div>
                 </div>
 
@@ -80,11 +73,8 @@
         
         <div>
             <input id="al_page_saver" type="submit" value="{{ "common_label_save"|trans({}, 'RedKiteCmsBundle', cms_language) }}" class="btn btn-primary" />
+            <input id="al_page_save_as_new" type="submit" value="{{ "common_label_save_as_new"|trans({}, 'RedKiteCmsBundle', cms_language) }}" class="btn btn-default" />
         </div>
-        {#
-        <input id="al_pages_remover" class="btn btn-danger pull-right" type="submit" value="{{ "common_label_delete"|trans({}, 'RedKiteCmsBundle', cms_language) }}" />
-        
-        <div id="al_select_languages_reminder">{{ "pages_controller_next_step"|trans({}, 'RedKiteCmsBundle', cms_language) }}</div>#}
     </div>
     <div class="clearfix"></div>
 </div>
