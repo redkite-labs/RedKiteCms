@@ -1,3 +1,21 @@
+{#
+   This file is part of the RedKiteCmsBunde Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/base.html.twig' %}
+
+{% block body %}
 <div class="al_security_list">
     <h2>{{ "security_controller_label_users_management"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
     <table class="table table-condensed table-hover">
@@ -9,7 +27,7 @@
             </thead>
             {% for user in users %}
             <tr>
-                <td><span class="glyphicon glyphicon-pushpin"></span></td>
+                <td>{{ page_icon|raw }}</td>
                 <td width="60%">
                     <a href="#" data-entity-id="{{ user.id }}" class="al_edit_user">{{ user.username }}</a>
                 </td>
@@ -22,8 +40,8 @@
                     {% set deletable = 'class=al_delete_user ' %}
                     {% endif %}
                     <a href="#" {{ deletable }} data-entity-id="{{ user.id }}">
-                        <button class="btn btn-xs btn-danger {{ disabled }}">
-                            <span class="glyphicon glyphicon-trash"></span>
+                        <button class="btn btn-xs btn-danger btn-mini {{ disabled }}">
+                            {{ trash_icon|raw }}
                         </button>
                     </a>
                 </td>
@@ -32,3 +50,4 @@
         </tbody>
     </table>
 </div>
+{% endblock %}
