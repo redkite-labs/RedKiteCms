@@ -13,7 +13,40 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% for key, language in languages %}
+<div id="al_languages_list">
+    <h2>{{ "cms_controller_label_languages"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
+    <table  class="table table-condensed table-hover">
+        <tbody>
+            <thead>
+                <th></th>
+                <th>{{ "languages_controller_label_language"|trans({}, 'RedKiteCmsBundle', cms_language) }}</th>
+                <th colspan="2"></th>
+            </thead>
+            {% for key, language in languages %}
+            {% if selected_page is defined and key == selected_page %}
+                {% set class = "al_element_selected" %}
+            {% else %}
+                {% set class = "" %}
+            {% endif %}
+            <tr>
+                <td><span class="glyphicon glyphicon-pushpin"></span></td>
+                {% if active_page is defined and page == active_page %}
+                <td width="100%"><a href="#" class="al_element_selector active-language {{ class }}" data-language-id="{{ key }}">{{ language }}</a></td>
+                {% else %}
+                <td width="100%"><a href="#" class="al_element_selector {{ class }}" data-language-id="{{ key }}">{{ language }}</a></td>
+                {% endif %}
+                <td>
+                    <button class="btn btn-xs btn-danger rk-language-remover" data-language-id="{{ key }}">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>    
+    </table>
+</div>
+
+{# for key, language in languages %}
     <div>
     {% if active_language is defined and language == active_language %}
         {{ language }}
@@ -21,4 +54,4 @@
         <a href="#" class="al_element_selector" ref="{{ key }}">{{ language }}</a>
     {% endif %}  
     </div>
-{% endfor %}
+{% endfor #}

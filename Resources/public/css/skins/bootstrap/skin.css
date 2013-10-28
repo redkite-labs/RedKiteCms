@@ -1,3 +1,26 @@
+.panel-container {
+  width: 1000px;
+  max-width: 1000px;
+  margin-top: 20px;
+  height: 500px;
+}
+.panel-container a {
+  color: #525252;
+}
+
+.panel-column {
+  padding: 0 20px;
+  height: 400px;
+  max-height: 400px;
+}
+
+select.input-xxs {
+  height: 24px;
+  line-height: 24px;
+  padding: 2px;
+  margin: 0;
+}
+
 #al_panel {
   width: 100%;
   position: fixed;
@@ -24,16 +47,11 @@
   width: 1000px;
   font: normal 14px/18px Arial, Verdana, Helvetica, sans-serif;
   color: #525252;
-  margin-bottom: 10px;
-}
-#al_panel_contents td {
-  vertical-align: top;
 }
 #al_panel_contents h1, #al_panel_contents h2, #al_panel_contents h3, #al_panel_contents h4 {
   padding: 0;
   margin: 0 0 10px 0;
   color: #525252;
-  text-shadow: rgba(204, 204, 204, 0.2) 1px 1px 0, rgba(204, 204, 204, 0.2) 1px 1px 0, rgba(204, 204, 204, 0.2) 1px 1px 0;
 }
 #al_panel_contents h1 {
   font: bold 24px/28px Arial, Verdana, Helvetica, sans-serif;
@@ -79,115 +97,39 @@
   background-image: linear-gradient(#cccccc, #888888);
 }
 
-#al_panel_header {
-  width: 100%;
-}
-
-#al_sidebar_right a {
-  text-decoration: none;
-}
-#al_sidebar_right .al_element_selector {
-  font-weight: normal;
-  color: #000099;
-}
-#al_sidebar_right .al_element_selected {
-  font-weight: bold;
-  color: #ff9900;
-}
-
-#al_sidebar_middle {
-  width: 400px;
-  min-height: 400px;
+#al_sidebar_left {
   overflow: auto;
   padding: 0 10px;
-  float: left;
 }
-#al_sidebar_middle h3 {
+#al_sidebar_left h3 {
   padding: 0;
   margin: 0;
   float: left;
 }
-#al_sidebar_middle .al_btn_add_content {
+#al_sidebar_left .al_btn_add_content {
   float: right;
 }
-#al_sidebar_middle .al_contents_separator {
+#al_sidebar_left .al_contents_separator {
   text-align: right;
   border-bottom: 1px dotted #525252;
   margin-bottom: 6px;
 }
-#al_sidebar_middle .al_content_body {
+#al_sidebar_left .al_content_body {
   display: none;
 }
-#al_sidebar_middle .al_slot_name {
+#al_sidebar_left .al_slot_name {
   cursor: pointer;
 }
-#al_sidebar_middle table {
-  width: 100%;
-  margin-top: 10px;
+#al_sidebar_left a {
+  text-decoration: none;
 }
-#al_sidebar_middle table td {
-  padding: 4px;
+#al_sidebar_left .al_element_selector {
+  font-weight: normal;
+  color: #525252;
 }
-
-#al_sidebar_right {
-  width: 250px;
-  min-height: 400px;
-  padding: 0 10px;
-  float: right;
-}
-
-.al_panel_box {
-  border: 1px solid #525252;
-  -webkit-box-shadow: #999999 3px 3px 3px;
-  -moz-box-shadow: #999999 3px 3px 3px;
-  box-shadow: #999999 3px 3px 3px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  -ms-border-radius: 8px;
-  -o-border-radius: 8px;
-  border-radius: 8px;
-  margin: 20px 0;
-}
-
-.al_panel_box_header {
-  border-bottom: 1px solid #cfcfcf;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #eeeeee), color-stop(100%, #999999));
-  background-image: -webkit-linear-gradient(#eeeeee, #999999);
-  background-image: -moz-linear-gradient(#eeeeee, #999999);
-  background-image: -o-linear-gradient(#eeeeee, #999999);
-  background-image: linear-gradient(#eeeeee, #999999);
-  -webkit-border-radius: 8px 8px 0 0;
-  -moz-border-radius: 8px 8px 0 0;
-  -ms-border-radius: 8px 8px 0 0;
-  -o-border-radius: 8px 8px 0 0;
-  border-radius: 8px 8px 0 0;
-  padding: 4px 8px;
-}
-
-.al_panel_box_header_title {
-  font: normal 16px/20px Arial, Verdana, Helvetica, sans-serif;
-}
-
-.al_panel_list {
-  max-height: 304px;
-  overflow: auto;
-  padding: 2px;
-  margin-bottom: 10px;
-  border-top: 1px solid #525252;
-}
-
-#al_select_languages_reminder {
-  display: none;
+#al_sidebar_left .al_element_selected {
   font-weight: bold;
-  color: #990000;
-}
-
-.white-text-shadow {
-  text-shadow: rgba(255, 255, 255, 0.2) 1px 1px 0, rgba(255, 255, 255, 0.2) 1px 1px 0, rgba(255, 255, 255, 0.2) 1px 1px 0;
-}
-
-.bootstrap-form-item-margin-fixer {
-  margin-bottom: 8px !important;
+  color: #c20000;
 }
 
 .ajax_loader {
@@ -517,6 +459,14 @@
   height: 390px;
 }
 
+.pages-left {
+  width: 500px;
+}
+
+.pages-right {
+  width: 500px;
+}
+
 #al_user_panel {
   width: 700px;
   min-height: 300px;
@@ -530,9 +480,6 @@
 
 .al_security_list .security_row {
   border-bottom: 1px dotted #525252;
-}
-.al_security_list td {
-  padding: 12px;
 }
 
 .al_security_commands_box {

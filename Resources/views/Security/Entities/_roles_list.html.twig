@@ -1,0 +1,27 @@
+<div class="al_security_list">
+    <h2>{{ "security_controller_label_roles_management"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
+    <table class="table table-condensed table-hover">
+        <tbody>
+            <thead>
+                <th></th>
+                <th>{{ "security_controller_label_rolename"|trans({}, 'RedKiteCmsBundle', cms_language) }}</th>
+                <th></th>
+            </thead>
+            {% for role in roles %}
+            <tr>
+                <td><span class="glyphicon glyphicon-pushpin"></span></td>
+                <td width="100%">
+                    <a href="#" data-entity-id="{{ role.id }}" rel="{{ role.id }}" class="al_edit_role">{{ role.role }}</a>
+                </td>
+                <td>
+                    <a href="#">
+                        <button class="btn btn-xs btn-danger al_delete_role" data-entity-id="{{ role.id }}">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
