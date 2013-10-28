@@ -15,64 +15,156 @@
  */
 
 ;(function($){
-    $.fn.SelectLanguage =function()
-    {
-        this.each(function()
+    var methods = {
+        init: function()
+        {
+            $('.al_element_selector').unbind().languages('select');
+            $("#al_language_saver").unbind().languages('save');
+            $(".rk-language-remover").unbind().languages('remove');
+        },
+        select: function()
+        {
+            this.each(function()
+            {
+                $(this).click(function()
+                {
+                    // Deselects the current selected page and selects the new one
+                    if(!$(this).hasClass('al_element_selected'))
+                    {
+                        $('#al_languages_list .al_element_selected').removeClass('al_element_selected');
+                        $(this).addClass('al_element_selected');
+                        LoadLanguageAttributes();
+                    }
+                    else
+                    {
+                        $(this).removeClass('al_element_selected');
+                        $("#al_languages_form").ResetFormElements();
+                    }
+
+                    return false;
+                });
+            });
+        },
+        save: function()
         {
             $(this).click(function()
             {
-                // Deselects the current selected page and selects the new one
-                if(!$(this).hasClass('al_element_selected'))
-                {
-                    $('#al_languages_list .al_element_selected').removeClass('al_element_selected');
-                    $(this).addClass('al_element_selected');
-                    LoadLanguageAttributes();
+                var languageId = retrieveIdLanguage();
+                try {
+                    var isMain = ($('#languages_isMain').is(':checked')) ? 1 : 0;
+                    $.ajax({
+                        type: 'POST',
+                        url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_saveLanguage',
+                        data: {
+                            'languageId' : languageId,
+                            'newLanguage' : $('#languages_language  option:selected').val(),
+                            'page' :  $('#al_pages_navigator').html(),
+                            'language' : $('#al_languages_navigator').html(),
+                            'isMain' : isMain
+                        },
+                        beforeSend: function()
+                        {
+                            $('body').AddAjaxLoader();
+                        },
+                        success: function(response)
+                        {
+                            renderResponse(response);
+                            $("#al_languages_form").ResetFormElements();
+                        },
+                        error: function(err)
+                        {
+                            $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
+                        },
+                        complete: function()
+                        {
+                            $('body').RemoveAjaxLoader();
+                        }
+                      });
                 }
-                else
-                {
-                    $(this).removeClass('al_element_selected');
-                    $("#al_attributes_form").ResetFormElements();
+                catch(e){
+                    var operation = (languageId == 0) ? 'adding' : 'editing';
+                    $('body').showAlert('An unespected error occoured in al-languages file while ' + operation + ' a language. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
                 }
-
-                return false;
             });
-        });
+        },
+        remove: function()
+        {
+            $(this).click(function()
+            {
+                if(confirm(translate("Are you sure to remove the selected language")))
+                {
+                    try{
+                        $.ajax({
+                            type: 'POST',
+                            url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_deleteLanguage',
+                            data: {
+                                'languageId' : $(this).attr('data-language-id'),
+                                'page' :  $('#al_pages_navigator').html(),
+                                'language' : $('#al_languages_navigator').html()
+                            },
+                            beforeSend: function()
+                            {
+                                $('body').AddAjaxLoader();
+                            },
+                            success: function(response)
+                            {
+                                renderResponse(response);
+                                $("#al_languages_form").ResetFormElements();
+                            },
+                            error: function(err)
+                            {
+                                $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
+                            },
+                            complete: function()
+                            {
+                                $('#al_dialog').dialog('open');
+                                $('body').RemoveAjaxLoader();
+                            }
+                          });
+                    }
+                    catch(e){
+                        $('body').showAlert('An unespected error occoured in al-languages file while removing a language. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
+                    }
+                }
+            });
+        },
+        change: function()
+        {
+            $("#languages_idLanguage").change(function()
+            {
+                LoadLanguageAttributes();
+            });
+        }
     }
-})($);
-
-function retrieveIdLanguage()
-{
-    var idLanguage = $('#al_languages_list .al_element_selected').attr('ref');
-    if(idLanguage == null) idLanguage = 0;
-
-    return idLanguage;
-}
-
-function InitLanguagesCommands()
-{
-    $("#al_language_saver").click(function()
+    
+    function LoadLanguageAttributes(idLanguage)
     {
-        var languageId = retrieveIdLanguage();
-        try {
-            var isMain = ($('#languages_isMain').is(':checked')) ? 1 : 0;
+        try{
             $.ajax({
                 type: 'POST',
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_saveLanguage',
-                data: {
-                    'languageId' : languageId,
-                    'newLanguage' : $('#languages_language  option:selected').val(),
-                    'page' :  $('#al_pages_navigator').html(),
-                    'language' : $('#al_languages_navigator').html(),
-                    'isMain' : isMain
-                },
+                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_loadLanguageAttributes',
+                data: {'languageId' : retrieveIdLanguage()},
                 beforeSend: function()
                 {
                     $('body').AddAjaxLoader();
                 },
                 success: function(response)
                 {
-                    UpdateLanguagesJSon(response);
-                    if(!$('#al_languages_list .al_element_selected').attr('ref')) $("#al_attributes_form").ResetFormElements();
+                    $(response).each(function(key, el) {
+                        switch(el.name) {
+                            case '#languages_isMain':
+                                if (el.value == 1) {
+                                    $(el.name).attr('checked', 'checked');
+                                }
+                                else {
+                                    $(el.name).removeAttr("checked");
+                                }
+                                break;
+                            default:
+                                $(el.name).val(el.value);
+                                break;
+                        }
+                    });
                 },
                 error: function(err)
                 {
@@ -85,137 +177,63 @@ function InitLanguagesCommands()
               });
         }
         catch(e){
-            var operation = (languageId == 0) ? 'adding' : 'editing';
-            $('body').showAlert('An unespected error occoured in al-languages file while ' + operation + ' a language. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
+            $('body').showAlert('An unespected error occoured in al-languages file while retrieving language\'s attributes. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
         }
-    });
-
-    $("#al_languages_remover").click(function()
-    {
-        if(confirm(translate("Are you sure to remove the selected language")))
-        {
-            try{
-                $.ajax({
-                    type: 'POST',
-                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_deleteLanguage',
-                    data: {
-                        'languageId' : retrieveIdLanguage(),
-                        'page' :  $('#al_pages_navigator').html(),
-                        'language' : $('#al_languages_navigator').html()
-                    },
-                    beforeSend: function()
-                    {
-                        $('body').AddAjaxLoader();
-                    },
-                    success: function(response)
-                    {
-                        UpdateLanguagesJSon(response);
-                        $("#al_attributes_form").ResetFormElements();
-                    },
-                    error: function(err)
-                    {
-                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
-                    },
-                    complete: function()
-                    {
-                        $('#al_dialog').dialog('open');
-                        $('body').RemoveAjaxLoader();
-                    }
-                  });
-            }
-            catch(e){
-                $('body').showAlert('An unespected error occoured in al-languages file while removing a language. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
-            }
-        }
-    });
-
-    $("#languages_idLanguage").change(function()
-    {
-        LoadLanguageAttributes();
-    });
-}
-
-function UpdateLanguagesJSon(response)
-{
-    $(response).each(function(key, item)
-    {
-        switch(item.key)
-        {
-            case "message":
-                $('body').showAlert(item.value);
-                break;
-            case "languages":
-                var idSelectedLanguage = $('#al_languages_list .al_element_selected').attr('ref');
-                $('#al_languages_list').html(item.value);
-                $('#al_languages_list .al_element_selector').each(function(key, item)
-                {
-                    if(idSelectedLanguage == $(item).attr('ref'))
-                    {
-                        $(item).addClass('al_element_selected');
-                        return;
-                    }
-                });
-                break;
-            case "languages_menu":
-                $('#al_languages_navigator_box').html(item.value);
-                $('.al_language_item').click(function()
-                {
-                    Navigate($(this).attr('rel'), $('#al_pages_navigator').html());
-                    
-                    return false;
-                });
-                break;
-        }
-    });
-
-    ObserveLanguages();
-}
-
-function LoadLanguageAttributes(idLanguage)
-{
-    try{
-        $.ajax({
-            type: 'POST',
-            url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_loadLanguageAttributes',
-            data: {'languageId' : retrieveIdLanguage()},
-            beforeSend: function()
-            {
-                $('body').AddAjaxLoader();
-            },
-            success: function(response)
-            {
-                $(response).each(function(key, el) {
-                    switch(el.name) {
-                        case '#languages_isMain':
-                            if (el.value == 1) {
-                                $(el.name).attr('checked', 'checked');
-                            }
-                            else {
-                                $(el.name).removeAttr("checked");
-                            }
-                            break;
-                        default:
-                            $(el.name).val(el.value);
-                            break;
-                    }
-                });
-            },
-            error: function(err)
-            {
-                $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
-            },
-            complete: function()
-            {
-                $('body').RemoveAjaxLoader();
-            }
-          });
     }
-    catch(e){
-        $('body').showAlert('An unespected error occoured in al-languages file while retrieving language\'s attributes. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
-    }
-}
+    
+    function renderResponse(response)
+    {
+        $(response).each(function(key, item)
+        {
+            switch(item.key)
+            {
+                case "message":
+                    $('body').showAlert(item.value);
+                    break;
+                case "languages":
+                    var idSelectedLanguage = retrieveIdLanguage();
+                    $('#al_languages_list').html(item.value);
+                    $('#al_languages_list .al_element_selector').each(function(key, item)
+                    {
+                        if(idSelectedLanguage == $(item).attr('data-language-id'))
+                        {
+                            $(item).addClass('al_element_selected');
+                            return;
+                        }
+                    });
+                    break;
+                case "languages_menu":
+                    $('#al_languages_navigator_box').html(item.value);
+                    $('.al_language_item').click(function()
+                    {
+                        Navigate($(this).attr('rel'), $('#al_pages_navigator').html());
 
-function ObserveLanguages()
-{
-    $('.al_element_selector').unbind().SelectLanguage();
-}
+                        return false;
+                    });
+                    break;
+            }
+        });
+
+        $('body').languages('init');
+    }
+    
+    function retrieveIdLanguage()
+    {
+        var idLanguage = $('#al_languages_list .al_element_selected').attr('data-language-id');
+        if (idLanguage == null) {
+            idLanguage = 0;
+        }
+
+        return idLanguage;
+    }
+    
+    $.fn.languages = function( method ) {    
+        if ( methods[method] ) {
+            return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
+        } else if ( typeof method === 'object' || ! method ) {
+            return methods.init.apply( this, arguments );
+        } else {
+            $.error( 'Method ' +  method + ' does not exist on jQuery.inlinelist' );
+        }   
+    };
+})($);

@@ -1,0 +1,17 @@
+#al_panel_contents {
+  margin-bottom: 10px;
+}
+
+#al_sidebar_left table, #al_sidebar_right table {
+  width: 100%;
+  margin-top: 10px;
+}
+#al_sidebar_left table td, #al_sidebar_right table td {
+  padding: 4px;
+}
+
+.elfinder-button, .elfinder-button:before, .elfinder-button:after {
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}

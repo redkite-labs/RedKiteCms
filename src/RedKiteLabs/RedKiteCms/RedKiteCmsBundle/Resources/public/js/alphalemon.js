@@ -508,7 +508,7 @@ $(document).ready(function(){
             return false;
 	    });
         
-        $('#al_open_users_manager').ListUsers();
+        $('#al_open_users_manager').security('users_list');
 
         $('#al_logout').click(function()
         {
@@ -531,7 +531,9 @@ $(document).ready(function(){
                     },
                     success: function(html)
                     {
-                        $('#al_panel').OpenPanel(html, function(){InitPagesCommands();ObservePages();});
+                        $('#al_panel').OpenPanel(html, function(){
+                            $('body').pages('init');                          
+                        });
                     },
                     error: function(err)
                     {
@@ -566,7 +568,9 @@ $(document).ready(function(){
                     },
                     success: function(html)
                     {
-                        $('#al_panel').OpenPanel(html, function(){InitLanguagesCommands();ObserveLanguages();});
+                        $('#al_panel').OpenPanel(html, function(){
+                            $('body').languages('init');
+                        });
                     },
                     error: function(err)
                     {

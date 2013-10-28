@@ -1,0 +1,35 @@
+{% extends 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/base.html.twig' %}
+
+{% form_theme form 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/FormTheme/forms.html.twig' %}
+
+{% block body %}
+<div class="panel-container">
+    <div id="al_sidebar_left" class="pull-left pages-left panel-column">
+        {% include 'RedKiteCmsBundle:Security:Entities/_roles_list.html.twig' %}
+    </div>
+    <div id="al_sidebar_right" class="pull-right pages-right panel-column">
+        <div class="al_security_item pull-left">    
+            <h2>{{ "security_controller_label_manage_role"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
+            <form class="al_security_form">
+                <div id="al_role_data">
+                    {{ form(form) }}
+                </div>
+            </form>
+
+            {% if message is defined %}
+            <div id="al_message" class="text-info">
+                {{ message }}
+            </div>
+            {% endif %}
+        </div>
+        <div class="clearfix"></div>
+        <div class="al_security_commands_box">
+            <ul class="{{ list_inline }}">
+                <li><input type="submit" id="al_save_role" value="{{ "common_label_save"|trans({}, 'RedKiteCmsBundle', cms_language) }}" class="input btn btn-primary" /></li>
+                <li><input type="submit" value="{{ "security_controller_label_users"|trans({}, 'RedKiteCmsBundle', cms_language) }}" class="al_list_users btn btn-default" /></li>
+            </ul>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

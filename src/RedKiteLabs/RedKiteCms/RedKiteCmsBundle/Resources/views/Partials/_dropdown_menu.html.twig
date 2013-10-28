@@ -12,17 +12,18 @@
 
    @license    GPL LICENSE Version 2.0
 #}
+
 {% extends 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/base.html.twig' %}
 
 {% block body %}
 <div class="btn-group dropdown-zindex">
-    <button id="{{ id }}" class="btn {{ button_type is defined ? button_type : 'btn-default' }} input-auto btn-sm" {% if value is defined %}rel="{{ value }}"{% endif %}>{{ text }}</button>
+    <button id="{{ id }}" class="btn {{ button_type is defined ? button_type : 'btn-default' }} input-auto btn-sm" {% if value is defined %}rel="{{ value }}"{% endif %}>{% if text is defined %}{{ text }}{% else %}{{ items|first }}{% endif %}</button>
     <button class="btn {{ button_type is defined ? button_type : 'btn-default' }} dropdown-toggle btn-sm" data-toggle="dropdown">
         <span class="caret"></span>
     </button>
     <ul class="dropdown-menu dropdown-height dropdown-zindex">
     {% for id, name in items %}
-        <li id="{{ id }}" class="{{ type }} dropdown-zindex" rel="{{ name }}"><a href="#">{{ name }}</a></li>
+        <li id="{{ id }}" class="{% if type is defined %}{{ type }} {% endif %}dropdown-zindex" rel="{{ name }}"><a href="#">{{ name }}</a></li>
     {% endfor %}
     </ul>
 </div>
