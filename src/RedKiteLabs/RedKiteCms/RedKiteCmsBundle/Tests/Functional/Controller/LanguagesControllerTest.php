@@ -50,6 +50,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('#languages_language')->count());
         $this->assertEquals(1, $crawler->filter('#languages_isMain')->count());
         $this->assertEquals(1, $crawler->filter('#al_language_saver')->count());
+        $this->assertEquals(1, $crawler->filter('.rk-language-remover')->count());
     }
 
     public function testAddLanguageFailsWhenPageNameParamIsMissing()
@@ -91,9 +92,9 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("languages", $json[1]["key"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertNotRegExp("/\<a[^\>]+ref=\"2\"\>en\<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/\<a[^\>]+data-language-id=\"2\"\>en\<\/a\>/s", $json[1]["value"]);
         $this->assertRegExp("/en/s", $json[1]["value"]);
-        $this->assertRegExp("/\<a[^\>]+ref=\"3\"\>fr\<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/\<a[^\>]+data-language-id=\"3\"\>fr\<\/a\>/s", $json[1]["value"]);
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("languages_menu", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));        
@@ -277,8 +278,8 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("languages", $json[1]["key"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertRegExp("/\<a[^\>]+ref=\"3\"\>it<\/a\>/s", $json[1]["value"]);
-        $this->assertRegExp("/\<a[^\>]+ref=\"4\"\>es\<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/\<a[^\>]+data-language-id=\"3\"\>it<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/\<a[^\>]+data-language-id=\"4\"\>es\<\/a\>/s", $json[1]["value"]);
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("languages_menu", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));    

@@ -46,4 +46,11 @@ interface UserRepositoryInterface
      * @return object The fetched objects
      */
     public function activeUsers();
+    
+    /**
+     * Fetches the users by a role
+     *
+     * @return object The fetched objects
+     */
+    public function usersByRole($roleId);
 }

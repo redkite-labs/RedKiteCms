@@ -1,0 +1,11 @@
+.panel-container {
+  height: 512px;
+}
+
+#al_sidebar_right {
+  width: 350px;
+}
+
+#al_sidebar_left {
+  width: 550px;
+}

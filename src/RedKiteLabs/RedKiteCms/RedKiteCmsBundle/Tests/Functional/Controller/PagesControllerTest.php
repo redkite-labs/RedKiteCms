@@ -57,11 +57,10 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('#seo_attributes_keywords')->count());
         $this->assertEquals(1, $crawler->filter('#seo_attributes_sitemapChangeFreq')->count());
         $this->assertEquals(1, $crawler->filter('#seo_attributes_sitemapPriority')->count());
-        $this->assertEquals(1, $crawler->filter('#seo_attributes_idLanguage')->count());
         $this->assertEquals(1, $crawler->filter('#al_page_saver')->count());
         $this->assertEquals(1, $crawler->filter('#al_pages_list')->count());
-        $this->assertEquals(2, $crawler->filter('#al_pages_list .al_element_selector')->count());
-        $this->assertEquals(1, $crawler->filter('#al_pages_remover')->count());
+        $this->assertEquals(1, $crawler->filter('#al_pages_list .al_element_selector')->count());
+        $this->assertEquals(1, $crawler->filter('.rk-page-remover')->count());
     }
     
     /**
@@ -149,9 +148,9 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("pages_list", $json[1]["key"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertNotRegExp("/\<a[^\>]+ref=\"2\"\>index\<\/a\>/s", $json[1]["value"]);        
+        $this->assertRegExp("/\<a[^\>]+data-page-id=\"2\"\>index\<\/a\>/s", $json[1]["value"]);        
         $this->assertRegExp("/\index/s", $json[1]["value"]);
-        $this->assertRegExp("/\<a[^\>]+ref=\"3\"\>page1\<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/\<a[^\>]+data-page-id=\"3\"\>page1\<\/a\>/s", $json[1]["value"]);
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("permalinks", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));
@@ -159,9 +158,8 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertRegExp("/\<option value=\"1\" rel=\"page-1\"[\s]+?\>page-1/s", $json[2]["value"]);
         $this->assertRegExp("/\<option value=\"2\" rel=\"this-is-a-website-fake-page\"[\s]+?\>this-is-a-website-fake-page/s", $json[2]["value"]);
         $this->assertEquals("pages", $json[3]["key"]);
-        $this->assertTrue(array_key_exists("value", $json[3])); //<ul class="dropdown-menu dropdown-height dropdown-zindex">
+        $this->assertTrue(array_key_exists("value", $json[3])); 
         $this->assertRegExp("/\<ul class=\"dropdown-menu[^\>]+\>/s", $json[3]["value"]);
-        $this->assertRegExp("/\<li id=\"none\"[^\>]+\>\<a href=\"#\"\> \<\/a\>/s", $json[3]["value"]);
         $this->assertRegExp("/\<li id=\"2\"[^\>]+\>\<a href=\"#\"\>index\<\/a\>/s", $json[3]["value"]);
         $this->assertRegExp("/\<li id=\"3\"[^\>]+\>\<a href=\"#\"\>page1\<\/a\>/s", $json[3]["value"]);
 
@@ -458,15 +456,14 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("pages_list", $json[1]["key"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertRegExp("/\<a[^\>]+ref=\"3\"\>page1\<\/a\>/s", $json[1]["value"]);
-        $this->assertRegExp("/\<a[^\>]+ref=\"4\"\>page2-edited\<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/\<a[^\>]+data-page-id=\"3\"\>page1\<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/\<a[^\>]+data-page-id=\"4\"\>page2-edited\<\/a\>/s", $json[1]["value"]);
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("permalinks", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));
         $this->assertRegExp("/\<option value=\"1\" rel=\"another-page\"[\s]+?\>another-page/s", $json[2]["value"]);
         $this->assertRegExp("/\<option value=\"2\" rel=\"page-2-edited\"[\s]+?\>page-2-edited/s", $json[2]["value"]);$this->assertEquals("pages", $json[3]["key"]);
         $this->assertTrue(array_key_exists("value", $json[3])); 
-        $this->assertRegExp("/\<li id=\"none\"[^\>]+\>\<a href=\"#\"\> \<\/a\>/s", $json[3]["value"]);
         $this->assertRegExp("/\<li id=\"5\"[^\>]+\>\<a href=\"#\"\>another-page\<\/a\>/s", $json[3]["value"]);
         $this->assertRegExp("/\<li id=\"3\"[^\>]+\>\<a href=\"#\"\>page1\<\/a\>/s", $json[3]["value"]);
         $this->assertRegExp("/\<li id=\"4\"[^\>]+\>\<a href=\"#\"\>page2-edited\<\/a\>/s", $json[3]["value"]);

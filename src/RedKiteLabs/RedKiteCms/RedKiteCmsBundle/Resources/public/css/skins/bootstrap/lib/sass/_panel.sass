@@ -14,7 +14,7 @@
 .panel-container
   :width 1000px
   :max-width 1000px
-  :margin-top 30px
+  :margin-top 20px
   :height 500px
 
   a
@@ -29,8 +29,7 @@ select.input-xxs
   :height 24px
   :line-height 24px
   :padding 2px
-
-
+  :margin 0
 
 #al_panel
   :width 100%
@@ -56,10 +55,6 @@ select.input-xxs
   :width 1000px
   :font $panelFont
   :color $panelTextColor
-  :margin-bottom 10px
-
-  td
-    :vertical-align top
 
   h1, h2, h3, h4
     :padding 0
@@ -103,11 +98,9 @@ select.input-xxs
   :border-bottom $panelCloserBorderBottom  
   +background-image(linear-gradient(#ccc, #888))
 
-
 #al_sidebar_left
   :overflow auto
   :padding 0 10px
-  :float left
 
   h3
     :padding 0
@@ -128,13 +121,6 @@ select.input-xxs
   .al_slot_name
     :cursor pointer
 
-  table
-    :width 100%
-    :margin-top 10px
-
-    td
-      :padding 4px
-
   a
     :text-decoration none
 
@@ -145,9 +131,3 @@ select.input-xxs
   .al_element_selected
     :font-weight bold
     :color $panelElementSelectedColor
-
-#al_sidebar_right
-  :width $panelRightSidebarWidth
-  :min-height 400px
-  :padding 0 10px
-  :float right

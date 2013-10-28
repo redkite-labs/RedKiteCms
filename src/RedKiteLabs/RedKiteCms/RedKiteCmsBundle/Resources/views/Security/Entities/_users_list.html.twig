@@ -1,0 +1,34 @@
+<div class="al_security_list">
+    <h2>{{ "security_controller_label_users_management"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
+    <table class="table table-condensed table-hover">
+        <tbody>
+            <thead>
+                <th></th>
+                <th>{{ "security_controller_label_username"|trans({}, 'RedKiteCmsBundle', cms_language) }}</th>
+                <th>{{ "security_controller_label_role"|trans({}, 'RedKiteCmsBundle', cms_language) }}</th>
+            </thead>
+            {% for user in users %}
+            <tr>
+                <td><span class="glyphicon glyphicon-pushpin"></span></td>
+                <td width="60%">
+                    <a href="#" data-entity-id="{{ user.id }}" class="al_edit_user">{{ user.username }}</a>
+                </td>
+                <td width="40%">{{ user.AlRole.role }}</td>
+                <td>
+                    {% set disabled = ' disabled' %}
+                    {% set deletable = '' %}
+                    {% if(user.id != app.security.getToken().getUser().getPrimaryKey()) %}
+                    {% set disabled = '' %}
+                    {% set deletable = 'class=al_delete_user ' %}
+                    {% endif %}
+                    <a href="#" {{ deletable }} data-entity-id="{{ user.id }}">
+                        <button class="btn btn-xs btn-danger {{ disabled }}">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

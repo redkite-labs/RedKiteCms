@@ -24,14 +24,15 @@
     <div id="al_sidebar_left" class="pull-left pages-left panel-column">
         {% include 'RedKiteCmsBundle:Languages:languages_list.html.twig' %}
     </div>
-    <div class="pull-right pages-right panel-column">
+    <div id="al_sidebar_right" class="pull-right pages-right panel-column">
         <div>        
             <h2>{{ "languages_controller_language_attribute" | trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
             <form id="al_languages_form">
                 {{ form(form) }}
             </form>
-
-            <input id="al_language_saver" type="submit" value="{{ "common_label_save"|trans({}, 'RedKiteCmsBundle', cms_language) }}" class="btn btn-primary pull-right" />       
+        </div>
+        <div>
+            <input id="al_language_saver" type="submit" value="{{ "common_label_save"|trans({}, 'RedKiteCmsBundle', cms_language) }}" class="btn btn-primary" />       
         </div>
     </div>
     <div class="clearfix"></div>
