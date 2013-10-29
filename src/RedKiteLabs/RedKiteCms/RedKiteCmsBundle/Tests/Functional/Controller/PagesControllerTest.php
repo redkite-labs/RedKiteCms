@@ -141,7 +141,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[0]));
         $this->assertEquals("message", $json[0]["key"]);       
         $this->assertTrue(array_key_exists("value", $json[0])); 
-         $this->assertRegExp(
+        $this->assertRegExp(
             '/pages_controller_page_saved|The page has been successfully saved/si',
             $json[0]["value"]
         );

@@ -60,10 +60,10 @@ class SecurityControllerTest extends BaseSecured
         $this->assertTrue($crawler->filter('.al_edit_user')->count() == 1);
         $this->assertTrue($crawler->filter('.al_delete_user')->count() == 0);
         $this->assertTrue($crawler->filter('html:contains("admin")')->count() == 1);
-        $this->assertTrue($crawler->filter('html:contains("Username")')->count() == 1);
-        $this->assertTrue($crawler->filter('html:contains("Password")')->count() == 1);
-        $this->assertTrue($crawler->filter('html:contains("Email")')->count() == 1);
-        $this->assertTrue($crawler->filter('html:contains("Role")')->count() == 1);
+        $this->assertTrue($crawler->filter('#al_user_username')->count() == 1);
+        $this->assertTrue($crawler->filter('#al_user_password')->count() == 1);
+        $this->assertTrue($crawler->filter('#al_user_email')->count() == 1);
+        $this->assertTrue($crawler->filter('#al_user_AlRole')->count() == 1);
     }
 
     public function testAddUserFailsBecauseUsernameIsBlank()
@@ -78,10 +78,14 @@ class SecurityControllerTest extends BaseSecured
             "password" => "password",
             "roleId" => $role->getId(),
         );
-        $crawler = $client->request('POST', '/backend/users/en/al_saveUser', $params);
+        $crawler = $client->request('POST', '/backend/users/en/al_saveUser', $params); 
         $response = $client->getResponse();
         $this->assertEquals(404, $response->getStatusCode()); 
-        $this->assertTrue($crawler->filter('html:contains("Some values are not valid")')->count() == 1);
+        $this->assertRegExp(
+            '/security_controller_values_not_valid|Some values are not valid/si',
+            $crawler->text()
+        );
+        //$this->assertTrue($crawler->filter('html:contains("Some values are not valid")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("Username field can not be empty")')->count() == 1);
     }
 
