@@ -61,8 +61,7 @@ class GenericDsnBuilder extends Base\BaseDsnBuilder
      */
     public function testConnection()
     {
-        return true;
-        if( ! mysql_connect($this->configureBaseDsn(), $this->options["user"], $this->options["password"])) {
+        if( ! @mysql_connect($this->options["host"], $this->options["user"], $this->options["password"])) {
             throw new \RuntimeException("I cannot connect to the database using the given parameters");
         }
     }
