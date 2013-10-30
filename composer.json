@@ -21,8 +21,7 @@
     "php": ">=5.3.3",
     "imagine/Imagine": ">=0.4.1",
     "propel/propel-bundle": "1.2.*",
-    "propel/propel1": "1.6.*",
-    "phing/phing": "2.4.12",
+    "propel/propel1": "1.7.*",
     "redkite-labs/redkite-labs-bootstrap-bundle": "dev-master",
     "redkite-labs/redkite-labs-theme-engine-bundle": "dev-master",
     "redkite-labs/redkite-labs-elfinder-bundle": "dev-master"
