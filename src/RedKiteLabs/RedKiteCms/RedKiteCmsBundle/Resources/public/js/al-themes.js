@@ -145,7 +145,7 @@
                     },
                     error: function(err)
                     {
-                        $('body').showDialog(err.responseText);
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -244,7 +244,7 @@
                             },
                             error: function(err)
                             {
-                                $('body').showDialog(err.responseText);
+                                $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                             },
                             complete: function()
                             {
