@@ -835,6 +835,14 @@
             <source>security_controller_nothing_made</source>
             <target>Nothing has been made with the given data</target>
         </trans-unit>
+        <trans-unit id="security-controller-21">
+            <source>security_controller_reauthentication_title</source>
+            <target>Session expired</target>
+        </trans-unit>
+        <trans-unit id="security-controller-22">
+            <source>security_controller_reauthentication_body</source>
+            <target>Your session has expired. You need to re-authenticate yourself to continue</target>
+        </trans-unit>
         
         
         <!-- THEMES CONTROLLER -->

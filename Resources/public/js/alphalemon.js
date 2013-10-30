@@ -368,7 +368,7 @@ $(document).ready(function(){
                     },
                     error: function(err)
                     {
-                        $('body').showDialog(err.responseText);
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -506,7 +506,7 @@ $(document).ready(function(){
             $("#al_toggle_nav_button").toggle();
                 
             return false;
-	    });
+        });
         
         $('#al_open_users_manager').security('users_list');
 
@@ -537,7 +537,7 @@ $(document).ready(function(){
                     },
                     error: function(err)
                     {
-                        $('body').showDialog(err.responseText);
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -574,7 +574,7 @@ $(document).ready(function(){
                     },
                     error: function(err)
                     {
-                        $('body').showDialog(err.responseText);
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -609,7 +609,7 @@ $(document).ready(function(){
                     },
                     error: function(err)
                     {
-                        $('body').showDialog(err.responseText);
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -659,7 +659,7 @@ $(document).ready(function(){
                     },
                     error: function(err)
                     {
-                        $('body').showDialog(err.responseText);
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -697,7 +697,7 @@ $(document).ready(function(){
                     },
                     error: function(err)
                     {
-                        $('body').showDialog(err.responseText);
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {

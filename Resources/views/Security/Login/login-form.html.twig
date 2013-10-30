@@ -21,7 +21,18 @@
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
     {% endstylesheets %}
 {% endblock %}
+    
+{% block body_tag %}<body class="black-bg">{% endblock %}
 
 {% block body %}
-    {% include('RedKiteCmsBundle:Bootstrap:3.x/Security/Login/login-form-base.html.twig') %}
+    <div id="rk-container" class="box-centered"> 
+        <img src="/bundles/redkitecms/css/skins/bootstrap/images/login-logo.png"  />
+
+        <div id="rk-signin-form">
+            {% include('RedKiteCmsBundle:Bootstrap:3.x/Security/Login/login-form-base.html.twig') %}
+        </div>
+        {% if error %}
+            <div class="text-error">{{ error }}</div>
+        {% endif %}
+    </div>
 {% endblock %}
