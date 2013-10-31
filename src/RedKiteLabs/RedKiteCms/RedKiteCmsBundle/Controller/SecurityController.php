@@ -60,7 +60,7 @@ class SecurityController extends Base\BaseController
         $alPage = $pageReporitory->homePage();
         $alLanguage = $languageReporitory->mainLanguage();
         $params['target'] = '/backend/' . $alLanguage->getLanguageName() . '/' . $alPage->getPageName();
-        //$params['bootstrap_version'] = $bootstrapVersion;
+        $params['cms_language'] = $this->container->get('red_kite_cms.configuration')->read('language');
         
         return $this->container->get('templating')->renderResponse($template, $params, $response);
     }

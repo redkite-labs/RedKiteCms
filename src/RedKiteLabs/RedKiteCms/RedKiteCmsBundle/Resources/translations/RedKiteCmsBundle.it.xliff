@@ -838,6 +838,14 @@
             <source>security_controller_nothing_made</source>
             <target>Nessuna operazione effettuata con i dati forniti</target>
         </trans-unit>
+        <trans-unit id="security-controller-21">
+            <source>security_controller_reauthentication_title</source>
+            <target>Sessione scaduta</target>
+        </trans-unit>
+        <trans-unit id="security-controller-22">
+            <source>security_controller_reauthentication_body</source>
+            <target>La sessione è scaduta. E' necessario autentificarsi nuovamente per proseguire</target>
+        </trans-unit>
         
         
         

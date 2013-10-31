@@ -13,47 +13,29 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-
-
-{% set form_title = title is defined ? title : "RedKite CMS Login" %} 
-{% set form_body= body is defined ? body : "Please authenticate yourself to start with RedKite CMS" %} 
-
-{% if error %}
-    <div class="text-error">{{ error }}</div>
-{% endif %}
-
 {% set login_route = route is defined ? route : "_login_check" %}  
-    
-<div id="rk-signin-form" class="box-centered">
-    <div id="rk-container"> 
-    <img src="/bundles/redkitecms/css/skins/bootstrap/images/rklogo-64.png" width="32" height="32" class="pull-left"/>
-    <h1>{{ form_title }}</h1>
-    <p>{{ form_body }}</p>
+
+
+<form action="{{ path(login_route) }}" method="post" id="login" class="form-horizontal" role="form">
+    <div class="control-group">
+        <label class="control-label" for="username">Username</label>
+        <div class="controls">
+            <input type="text" id="username" name="_username" value="{{ last_username }}"  placeholder="Username">
+        </div>
     </div>
-    <form action="{{ path(login_route) }}" method="post" id="login" class="form-horizontal">
-
-        <div class="control-group">
-            <label class="control-label" for="username">Username</label>
-            <div class="controls">
-                <input type="text" id="username" name="_username" value="{{ last_username }}">
-            </div>
+    <div class="control-group">
+        <label class="control-label" for="password">Password</label>
+        <div class="controls">
+            <input type="password" id="password" name="_password"  placeholder="Password">
         </div>
+        </div>
+    <div class="control-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-default">Sign in</button>
+        </div>
+    </div>
         
-        <div class="control-group">
-            <label class="control-label" for="password">Password</label>
-            <div class="controls">
-                <input type="password" id="password" name="_password">
-            </div>
-        </div>
-        
-        <div class="control-group">
-            <div class="controls">
-                <button type="submit" class="btn">Sign in</button>
-            </div>
-        </div>
-
-        {% if target is defined %}
-        <input type="hidden" name="_target_path" value="{{ target }}" />
-        {% endif %}
-    </form>
-</div>
+    {% if target is defined %}
+    <input type="hidden" name="_target_path" value="{{ target }}" />
+    {% endif %}
+</form>
