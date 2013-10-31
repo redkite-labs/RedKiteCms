@@ -54,10 +54,17 @@ class LanguagesController extends Base\BaseController
         $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
         $languageManager->set($alLanguage);
 
-        $parameters = array(
-            'MainLanguage' => $request->get('isMain'),
-            'LanguageName' => $request->get('newLanguage'),
-        );
+        $parameters = array();
+        $isMain = $request->get('isMain');
+        if (null !== $isMain) {
+            $parameters['MainLanguage'] =  $isMain;
+        }
+        
+        $newLanguage = $request->get('newLanguage');
+        if (null !== $newLanguage) {
+            $parameters['LanguageName'] =  $newLanguage;
+        }    
+        
         if ($languageManager->save($parameters)) {
             $language = $languageManager->getLanguageRepository()->fromLanguageName($request->get('language'));
             
