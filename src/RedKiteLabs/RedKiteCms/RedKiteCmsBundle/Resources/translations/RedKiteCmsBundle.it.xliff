@@ -338,6 +338,10 @@
             <source>exception_slot_not_changed</source>
             <target>Lo slot non è stato cambiato a causa di un errore di salvataggio nel database</target>
         </trans-unit>
+        <trans-unit id="exceptions-86">
+            <source>exception_main_language_cannot_be_degraded</source>
+            <target>Il linguaggio corrente non può essere degradato. Per cambiare la lingua devi promuoverne un'altra come lingua principale e questa verrà automaticamente degradata</target>
+        </trans-unit>
         
         <!-- COMMON -->
         

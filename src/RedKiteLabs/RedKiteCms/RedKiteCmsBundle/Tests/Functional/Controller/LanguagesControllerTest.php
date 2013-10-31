@@ -53,7 +53,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('.rk-language-remover')->count());
     }
 
-    public function testAddLanguageFailsWhenPageNameParamIsMissing()
+    public function testAddLanguageFailsWhenLanguageNameParamIsMissing()
     {
         $params = array('page' => 'index',
                         'language' => 'en',
@@ -63,7 +63,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertRegExp(
-            '/exception_null_language_name|A language cannot be null. Please provide a valid language name to add the language/si',
+            '/exception_some_required_options_are_not_provided|The following options are required: %required%. The options you gave are %values%/si',
             $this->client->getResponse()->getContent()
         );
     }
@@ -173,10 +173,12 @@ class LanguagesControllerTest extends WebTestCaseFunctional
 
     public function testAddANewMainLanguage()
     {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'newLanguage' => 'es',
-                        'isMain' => '1',);
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'newLanguage' => 'es',
+            'isMain' => '1',
+        );
         $crawler = $this->client->request('POST', '/backend/en/al_saveLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -205,6 +207,48 @@ class LanguagesControllerTest extends WebTestCaseFunctional
 
         $language = $this->languageRepository->fromPk(3);
         $this->assertEquals('it', $language->getLanguageName());
+    }
+    
+    public function testDegradingMainLanguageFails()
+    {
+        $languageId = $this->languageRepository->mainLanguage()->getId();
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'languageId' => $languageId,
+            'isMain' => 0,
+        );
+
+        $crawler = $this->client->request('POST', '/backend/en/al_saveLanguage', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(404, $response->getStatusCode());
+
+        $this->assertRegExp(
+            '/exception_main_language_cannot_be_degraded|Current main language cannot be degraded. To change the main language you must promote another language as main and this one will be automatically degraded/si',
+            $response->getContent()
+        );
+    }
+    
+    public function testLanguageHasBeenPromotedToMainLanguage()
+    {
+        $mainLanguageId = $this->languageRepository->mainLanguage()->getId();
+        
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'languageId' => 3,
+            'isMain' => 1,
+        );
+
+        $crawler = $this->client->request('POST', '/backend/en/al_saveLanguage', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $language = $this->languageRepository->fromPk(3);
+        $this->assertEquals(1, $language->getMainLanguage());
+        
+        $language = $this->languageRepository->fromPk($mainLanguageId);
+        $this->assertEquals(0, $language->getMainLanguage());
     }
 
     public function testDeleteLanguageFailsBecauseAnyLanguageIdIsGiven()
