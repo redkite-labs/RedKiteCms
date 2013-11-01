@@ -585,6 +585,49 @@ class PagesControllerTest extends WebTestCaseFunctional
         
         $this->doPageFromDbTest(9, 'another-page-4', 'home', 0, 0);
     }
+    
+    public function testHomePageIsNotDegraded()
+    {
+        $homePage = $this->pageRepository->homePage();
+        
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => $homePage->getId(),
+            'languageId' => 2,
+            'isHome' => 0,
+        );
+
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(404, $response->getStatusCode());
+
+        $this->assertRegExp(
+            '/exception_home_page_cannot_be_degraded|Current home page cannot be degraded. To change the website home page you must promote another page as main and this one will be automatically degraded/si',
+            $response->getContent()
+        );
+    }
+    
+    public function testPageIsPromotedAsHomePage()
+    {
+        $homePage = $this->pageRepository->homePage();
+        
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'pageId' => 5,
+            'languageId' => 2,
+            'isHome' => 1,
+        );
+
+        $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $page = $this->pageRepository->fromPk(5);
+        $this->assertEquals(1, $page->getIsHome());
+        $this->assertEquals(0, $homePage->getIsHome());
+    }
 
     private function retrievePageSlots()
     {
