@@ -231,7 +231,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
     
     public function testLanguageHasBeenPromotedToMainLanguage()
     {
-        $mainLanguageId = $this->languageRepository->mainLanguage()->getId();
+        $mainLanguage = $this->languageRepository->mainLanguage();
         
         $params = array(
             'page' => 'index',
@@ -247,8 +247,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $language = $this->languageRepository->fromPk(3);
         $this->assertEquals(1, $language->getMainLanguage());
         
-        $language = $this->languageRepository->fromPk($mainLanguageId);
-        $this->assertEquals(0, $language->getMainLanguage());
+        $this->assertEquals(0, $mainLanguage->getMainLanguage());
     }
 
     public function testDeleteLanguageFailsBecauseAnyLanguageIdIsGiven()
