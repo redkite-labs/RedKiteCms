@@ -342,6 +342,10 @@
             <source>exception_main_language_cannot_be_degraded</source>
             <target>Current main language cannot be degraded. To change the main language you must promote another language as main and this one will be automatically degraded</target>
         </trans-unit>
+        <trans-unit id="exceptions-87">
+            <source>exception_home_page_cannot_be_degraded</source>
+            <target>Current home page cannot be degraded. To change the website home page you must promote another page as main and this one will be automatically degraded</target>
+        </trans-unit>
                 
         <!-- COMMON -->
         
