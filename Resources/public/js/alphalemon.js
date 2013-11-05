@@ -135,7 +135,8 @@
             }
             
             activateEditableInlineContents();
-            hideContentsForEditMode($this);                
+            hideContentsForEditMode($this);     
+            
             $this
                 .unbind()
                 .addClass('al_edit_on')
@@ -145,15 +146,14 @@
                     if (stopBlocksMenu) {
                         return;
                     }
-                    
+
                     $this.highligther('highlight');
                     $(this).css('cursor', 'pointer');
-                    
-                    
+
                     $('#al_block_menu_toolbar').show();
                     if ($(this).is('[data-hide-blocks-menu="true"]')) {
                         $('#al_block_menu_toolbar').hide();
-                        
+
                         return;
                     }
 
@@ -168,39 +168,39 @@
                 .click(function(event)
                 {   
                     event.stopPropagation();
-                    
+
                     if (isCursorOverEditor && $('.al-popover:visible').length > 0) {
                         return false;
                     }
-                    
+
                     var $this = $(this);
-                    
+
                     if ($this.hasClass('al-empty-slot-placeholer')) {
                         alert(translate('You are trying to edit a placeholder for a slot which does not contain blocks: please do not edit this placeholder but simply add a new block to this slot'));
 
                         return false;
                     }
-                    
+
                     if ($('body').data('activeBlock') != null) {
                         stopEditElement($('body').data('activeBlock'));
-                        
+
                         if ($this.attr('data-name') == 'block_' + $('body').data('idBlock')) {
                             return false;
                         }
                     }
-                    
+
                     startEdit($this);
                     if (hasPopover) {
                         showPopover($this);
                     }
-                    
+
                     return false;
                 })
             ;
-
-            $(this).find("a").unbind().click(function(event) {
+            
+            $this.find("a").unbind().click(function(event) {
                 event.preventDefault();
-            });            
+            });
         });
     }
     
@@ -215,7 +215,7 @@
             .data('activeBlock', element)
         ;
         $('#al_block_menu_toolbar').hide();
-
+        
         $(document).trigger("startEditingBlocks", [ element ]);
     }
     
@@ -238,7 +238,6 @@
         element.popover('show');
 
         $('.al-popover:visible').each(function(){
-            //var pos = element.offset();
             var popover = $(this);
             
             // prevents to close editor when interacting with the included elements 
@@ -444,7 +443,7 @@ $(document).ready(function(){
             $('[data-editor="enabled"]').trigger("editorStopping").blocksEditor('stop');
             $('.al_block_menu').hide();
             $('#al_block_menu_toolbar').hide();
-            $('#al_blocks_list').hide();
+            $('.al_blocks_list').hide();
 
             return false;
         });

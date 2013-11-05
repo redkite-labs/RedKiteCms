@@ -2,12 +2,15 @@
   margin-bottom: 10px;
 }
 
-#al_sidebar_left table, #al_sidebar_right table {
+#al_sidebar_left table, #al_sidebar_right table, .popover table {
   width: 100%;
-  margin-top: 10px;
 }
-#al_sidebar_left table td, #al_sidebar_right table td {
+#al_sidebar_left table td, #al_sidebar_right table td, .popover table td {
   padding: 4px;
+}
+
+#al_sidebar_left table, #al_sidebar_right table {
+  margin-top: 10px;
 }
 
 .elfinder-button, .elfinder-button:before, .elfinder-button:after {

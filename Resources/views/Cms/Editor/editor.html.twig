@@ -3,11 +3,12 @@
 {% block body %}
 
 {% block toolbar %} 
+
+<nav class="navbar navbar-default" role="navigation">
 <div id="al_control_panel">
     <div id="al_control_panel_body">
         <div id="al_commands" class="pull-left">
             <ul class="{{ list_inline }} al-brand pull-left">
-                
                 <li><img src="/bundles/redkitecms/css/skins/bootstrap/images/tb-logo.png" class="pull-left" /></li>
             </ul>
             <ul class="{{ list_inline }} al-commands pull-left">
@@ -130,7 +131,8 @@
 {% endblock %}
 
 {% block block_available_blocks_panel %}
-{% include "RedKiteCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig" with {'blocks': available_blocks} %}
+{% include "RedKiteCmsBundle:Cms:BlocksMenu/blocks_menu.html.twig" with {'blocks': available_blocks} %}
+{% include "RedKiteCmsBundle:Cms:BlocksMenu/available_blocks.html.twig" %}
 {% endblock %}
 
 {% block block_permalink_select %}
