@@ -352,10 +352,10 @@ select.input-xxs {
   line-height: 20px;
 }
 
-#al_blocks_list {
+.al_blocks_list {
   font: normal 14px/16px Arial, Verdana, Helvetica, sans-serif;
 }
-#al_blocks_list ul li {
+.al_blocks_list ul li {
   margin: 4px 0;
 }
 
@@ -793,6 +793,10 @@ select.input-xxs {
 }
 .popover label {
   font: normal 14px/16px Arial, Verdana, Helvetica, sans-serif;
+}
+.popover .al-edit-item {
+  font: normal 16px/20px Arial, Verdana, Helvetica, sans-serif;
+  color: #c20000;
 }
 
 #rk-welcome {

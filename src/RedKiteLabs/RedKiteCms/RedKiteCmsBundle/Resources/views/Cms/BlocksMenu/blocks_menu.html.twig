@@ -1,9 +1,9 @@
-<div id="al_blocks_list" class="al_floating_panel">
+<div class="al-blocks-menu al_blocks_list al_floating_panel">
     <div class="column pull-left">
     {% set number_of_items = 11 %}
     {% set counter = 0 %}
     {% for block_name, block_value in blocks %}
-        <ul>
+        <ul class="blocks-list">
         {% if block_value|keys  %} 
             {% if counter == number_of_items - 1 %}
                 </ul>
@@ -25,7 +25,7 @@
                 {% set counter = 0 %}
             {% endif %}
 
-            <li><a href="#" rel="{{ block_type }}" class="al_block_adder">{{ value }}</a></li>
+            <li><a href="#" rel="{{ block_type }}" class="al_block_adder" data-filter="{{ value.filter }}">{{ value.description }}</a></li>
             {% set counter = counter + 1 %}
             {% endfor %}
         {% endif %}
@@ -34,6 +34,6 @@
     </div>
     <div class="clearfix"></div>
     <div>
-        <a id="al_close_block_menu" class="btn btn-default pull-right">{{ 'common_label_close'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a>
+        <a class="al_close_block_menu btn btn-default pull-right">{{ 'common_label_close'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a>
     </div>    
 </div>

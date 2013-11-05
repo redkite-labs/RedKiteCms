@@ -173,7 +173,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
                 $groups = array('none');
             }
 
-            $blockGroup = array($blockManagerItem->getType() => $blockManagerItem->getDescription());
+            $blockGroup = array($blockManagerItem->getType() => array('description' => $blockManagerItem->getDescription(), 'filter' => $blockManagerItem->getFilter()));
             foreach (array_reverse($groups) as $key) {
                $blockGroup = array(trim($key) => $blockGroup);
             }
@@ -200,7 +200,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         // Merges blocks
         $blocks = array_merge($alphaLemonBlocks, $blocks);
         $blocks = array_merge($blocks, $notGrouped);
-
+        
         return $blocks;
     }
 

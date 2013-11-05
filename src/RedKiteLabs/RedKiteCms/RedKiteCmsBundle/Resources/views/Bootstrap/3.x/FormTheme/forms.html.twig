@@ -6,13 +6,6 @@
     {% set has_class = false %}{% for attrname, attrvalue in attr %}{% if attrname in ['placeholder', 'title'] %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain) }}" {% else %}{% if attrname == 'class' %}{{ attrname }}="{{ attrvalue }} form-control"{% set has_class = true %}{% else %}{{ attrname }}="{{ attrvalue }}"{% endif %}{% endif %}{% endfor %}{% if has_class == false %}class="form-control"{% endif %}
 {% endspaceless %}
 {% endblock widget_attributes %}
-    
-{# block form_widget_simple %}
-{% spaceless %}
-    {% set type = type|default('text') %}    
-    <input type="{{ type }}" {{ block('widget_attributes') }} {% if value is not empty %}value="{{ value }}" {% endif %}/>
-{% endspaceless %}
-{% endblock form_widget_simple #}
         
 {% block form_label %}
 {% spaceless %}
