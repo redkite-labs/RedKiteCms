@@ -81,7 +81,7 @@
         
         <!-- LINK -->
         <service id="link.block" class="%link.block.class%">
-            <tag name="red_kite_cms.blocks_factory.block" description="Link" type="Link" group="redkitecms_internals" />
+            <tag name="red_kite_cms.blocks_factory.block" description="Link" type="Link" group="redkitecms_internals" filter="none menu-navbar" />
             <argument type="service" id="service_container" />
         </service>
         
