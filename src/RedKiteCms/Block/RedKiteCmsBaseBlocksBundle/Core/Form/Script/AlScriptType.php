@@ -29,7 +29,8 @@ class AlScriptType extends JsonBlockType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('content', 'textarea', array('label' => false, 'attr' => array('class' => 'editor-textarea', 'rows' => '12')));        
-        $builder->add('save', 'submit', array('attr' => array('class' => 'al_editor_save btn btn-primary')));
+        $builder->add('content', 'textarea', array('label' => false, 'attr' => array('class' => 'editor-textarea', 'rows' => '12'))); 
+        
+        parent::buildForm($builder, $options);
     }
 }

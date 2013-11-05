@@ -38,6 +38,7 @@ class AlFileType extends JsonBlockType
             'label' => 'Show opened',
             )
         );
-        $builder->add('save', 'submit', array('attr' => array('class' => 'al_editor_save btn btn-primary')));
+        
+        parent::buildForm($builder, $options);
     }
 }
