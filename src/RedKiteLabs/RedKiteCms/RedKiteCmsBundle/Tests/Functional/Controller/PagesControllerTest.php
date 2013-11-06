@@ -272,7 +272,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertNotNull($seo);
 
         // Repeated contents have not been added
-        $this->assertCount(8, $this->blockRepository->retrieveContents(2, 4));
+        $this->assertCount(9, $this->blockRepository->retrieveContents(2, 4));
     }
 
     public function testAddNewPageWithATemplateDifferentThanTheOneOfCurrentPage()
@@ -308,25 +308,25 @@ class PagesControllerTest extends WebTestCaseFunctional
     {
         // Saves a link that contains the permalink we are going to change
         $block = $this->blockRepository->fromPK(15);
-        $block->setContent('<a href="page-2">Go to page 2</a>');
+        $block->setContent('<a href="page-1">Go to page 1</a>');
         $block->save();
 
         $params = array('page' => 'index',
                         'language' => 'en',
-                        'pageId' => 4,
+                        'pageId' => 3,
                         'languageId' => 2,
-                        'pageName' => "page2 edited",
-                        'permalink' => "page-2 edited",);
+                        'pageName' => "page1 edited",
+                        'permalink' => "page-1 edited",);
 
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
-        $page = $this->pageRepository->fromPk(4);
-        $this->assertEquals('page2-edited', $page->getPageName());
+        $page = $this->pageRepository->fromPk(3);
+        $this->assertEquals('page1-edited', $page->getPageName());
 
-        $page = $this->seoRepository->fromPk(3);
-        $this->assertEquals('page-2-edited', $page->getPermalink());
+        $seo = $this->seoRepository->fromPk(2);
+        $this->assertEquals('page-1-edited', $seo->getPermalink());
     }
 
     public function testPermalinksHaveBeenChanged()
@@ -335,8 +335,8 @@ class PagesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
-        $link = $crawler->selectLink('Go to page 2')->link();
-        $this->assertEquals('http://localhost/backend/en/page-2-edited', $link->getUri());
+        $link = $crawler->selectLink('Go to page 1')->link();
+        $this->assertEquals('http://localhost/backend/en/page-1-edited', $link->getUri());
     }
 
     public function testEditPageToBePublishable()
@@ -347,7 +347,6 @@ class PagesControllerTest extends WebTestCaseFunctional
             'pageId' => 3,
             'languageId' => 2,
             'isPublished' => 1,
-            'permalink' => "page-2 edited",
         );
 
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
@@ -362,16 +361,15 @@ class PagesControllerTest extends WebTestCaseFunctional
     {
         $params = array('page' => 'index',
                         'language' => 'en',
-                        'pageId' => 4,
+                        'pageId' => 3,
                         'languageId' => 2,
-                        'templateName' => 'empty',
-                        'permalink' => "page-2 edited",);
+                        'templateName' => 'empty',);
 
         $crawler = $this->client->request('POST', '/backend/en/al_savePage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
 
-        $page = $this->pageRepository->fromPK(4);
+        $page = $this->pageRepository->fromPK(3);
         $this->assertEquals('empty', $page->getTemplateName());
     }
 
@@ -456,17 +454,18 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("pages_list", $json[1]["key"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertRegExp("/\<a[^\>]+data-page-id=\"3\"\>page1\<\/a\>/s", $json[1]["value"]);
-        $this->assertRegExp("/\<a[^\>]+data-page-id=\"4\"\>page2-edited\<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/\<a[^\>]+data-page-id=\"3\"\>page1-edited\<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/\<a[^\>]+data-page-id=\"4\"\>page2\<\/a\>/s", $json[1]["value"]);
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("permalinks", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));
-        $this->assertRegExp("/\<option value=\"1\" rel=\"another-page\"[\s]+?\>another-page/s", $json[2]["value"]);
-        $this->assertRegExp("/\<option value=\"2\" rel=\"page-2-edited\"[\s]+?\>page-2-edited/s", $json[2]["value"]);$this->assertEquals("pages", $json[3]["key"]);
+        $this->assertRegExp("/\<option value=\"2\" rel=\"another-page\"[\s]+?\>another-page/s", $json[2]["value"]);
+        $this->assertRegExp("/\<option value=\"3\" rel=\"page-2\"[\s]+?\>page-2/s", $json[2]["value"]);
+        $this->assertEquals("pages", $json[3]["key"]);
         $this->assertTrue(array_key_exists("value", $json[3])); 
         $this->assertRegExp("/\<li id=\"5\"[^\>]+\>\<a href=\"#\"\>another-page\<\/a\>/s", $json[3]["value"]);
-        $this->assertRegExp("/\<li id=\"3\"[^\>]+\>\<a href=\"#\"\>page1\<\/a\>/s", $json[3]["value"]);
-        $this->assertRegExp("/\<li id=\"4\"[^\>]+\>\<a href=\"#\"\>page2-edited\<\/a\>/s", $json[3]["value"]);
+        $this->assertRegExp("/\<li id=\"3\"[^\>]+\>\<a href=\"#\"\>page1-edited\<\/a\>/s", $json[3]["value"]);
+        $this->assertRegExp("/\<li id=\"4\"[^\>]+\>\<a href=\"#\"\>page2\<\/a\>/s", $json[3]["value"]);
         
         $page = $this->pageRepository->fromPk(2);
         $this->assertEquals(1, $page->getToDelete());
