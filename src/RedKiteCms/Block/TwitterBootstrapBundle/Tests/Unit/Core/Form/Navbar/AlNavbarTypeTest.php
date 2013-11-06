@@ -15,29 +15,42 @@
  * 
  */
 
-
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\NavbarDropdown;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Navbar;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\AlNavbarDropdownType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\AlNavbarType;
 
 /**
  * AlNavbarDropdownTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlNavbarDropdownTypeTest extends AlBaseType
+class AlNavbarTypeTest extends AlBaseType
 {
     protected function configureFields()
     {
         return array(
-            'button_text',
+            array(
+                'name' => 'position',
+                'type' => 'choice',
+                'options' => array('choices' => array("" => "normal", "navbar-fixed-top" => "fixed top", "navbar-fixed-bottom" => "fixed bottom", "navbar-static-top" => "static top")),
+            ),
+            array(
+                'name' => 'inverted',
+                'type' => 'choice',
+                'options' => array('choices' => array("" => "normal", "navbar-inverse" => "inverted")),
+            ),
+            array(
+                'name' => 'save', 
+                'type' => 'submit', 
+                'options' => array('attr' => array('class' => 'al_editor_save btn btn-primary')),
+            ),
         );
     }
     
     protected function getForm()
     {
-        return new AlNavbarDropdownType();
+        return new AlNavbarType();
     }
     
     public function testDefaultOptions()

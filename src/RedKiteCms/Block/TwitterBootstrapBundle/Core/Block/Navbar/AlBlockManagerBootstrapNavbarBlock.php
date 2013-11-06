@@ -98,8 +98,6 @@ class AlBlockManagerBootstrapNavbarBlock extends AlBlockManagerJsonBlockCollecti
      * {@inheritdoc}
      *
      * Extends the base edit method to manage a json collection of objects
-     *
-     * @api
      */
     protected function edit(array $values)
     {

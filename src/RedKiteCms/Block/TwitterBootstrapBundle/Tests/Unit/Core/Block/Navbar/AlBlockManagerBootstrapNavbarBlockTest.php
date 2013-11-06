@@ -89,6 +89,54 @@ class AlBlockManagerBootstrapNavbarBlockTest extends AlBlockManagerContainerBase
         $this->assertEquals($expectedResult, $blockManager->getHtml());
     }
     
+    public function testEditorParameters()
+    {
+        $value = '
+            {
+                "0" : {
+                    "button_text": "Button 1",
+                    "button_type": "",
+                    "button_attribute": "",
+                    "button_block": "",
+                    "button_enabled": ""
+                }
+            }';
+        
+        $block = $this->initBlock($value);
+        $this->initContainer();
+
+        $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
+        $this->container->expects($this->at(2))
+                        ->method('get')
+                        ->with('bootstrap_navbar.form')
+                        ->will($this->returnValue($formType))
+        ;
+        
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')
+                    ->disableOriginalConstructor()
+                    ->getMock();
+        $form->expects($this->once())
+            ->method('createView')
+            ->will($this->returnValue('the-form'))
+        ;
+        
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->once())
+                    ->method('create')
+                    ->will($this->returnValue($form))
+        ;
+        $this->container->expects($this->at(3))
+                        ->method('get')
+                        ->with('form.factory')
+                        ->will($this->returnValue($formFactory))
+        ;
+        
+        $blockManager = new AlBlockManagerBootstrapNavbarBlock($this->container, $this->validator);
+        $blockManager->set($block);
+        $result = $blockManager->editorParameters();
+        $this->assertEquals('TwitterBootstrapBundle:Editor:Navbar/Navbar/navbar_editor.html.twig', $result["template"]);
+    }
+    
     protected function initBlock($value)
     {
         $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
