@@ -32,14 +32,13 @@ class AlButtonType extends JsonBlockType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-        
         $builder->add('button_text');
         $builder->add('button_type', 'choice', array('choices' => array('' => 'base', 'btn-primary' => 'primary', 'btn-info' => 'info', 'btn-success' => 'success', 'btn-warning' => 'warning', 'btn-danger' => 'danger', 'btn-inverse' => 'inverse')));
         $builder->add('button_attribute', 'choice', array('choices' => array("" => "normal", "btn-mini" => "mini", "btn-small" => "small", "btn-large" => "large")));
         $builder->add('button_block', 'choice', array('choices' => array("" => "normal", "btn-block" => "block")));
         $builder->add('button_enabled', 'choice', array('choices' => array("" => "enabled", "disabled" => "disabled")));        
         $builder->add('button_href', "text", array('attr' => array('class' => "input-medium")));
-        $builder->add('save', 'submit', array('attr' => array('class' => 'al_editor_save btn btn-primary')));
+        
+        parent::buildForm($builder, $options);
     }
 }

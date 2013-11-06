@@ -37,8 +37,15 @@
         </parameter>
         
         <parameter key="bootstrap_navbar_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarBlock</parameter>
+        <parameter key="bootstrap_navbar_menu_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarMenuBlock</parameter>
+        <parameter key="bootstrap_navbar_button_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarButtonBlock</parameter>
         <parameter key="bootstrap_navbar_dropbown_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarDropdownBlock</parameter>
-        <parameter key="bootstrap_navbar_dropbown.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\NavbarDropdown\AlNavbarDropdownType</parameter>
+        <parameter key="bootstrap_navbar_text_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarTextBlock</parameter>
+        
+        <parameter key="bootstrap_navbar.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\AlNavbarType</parameter>
+        <parameter key="bootstrap_navbar_menu.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\AlNavbarMenuType</parameter>        
+        <parameter key="bootstrap_navbar_dropbown.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\AlNavbarDropdownType</parameter>
+        <parameter key="bootstrap_navbar_text.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\AlNavbarTextType</parameter>
         
         <!-- BUTTON -->
         <parameter key="bootstrapbuttonblock.external_javascripts.cms" type="collection">
@@ -119,12 +126,36 @@
             <argument type="service" id="service_container" />
         </service>
         
-        <service id="bootstrap_navbar_dropbown_block" class="%bootstrap_navbar_dropbown_block.block.class%">
-            <tag name="red_kite_cms.blocks_factory.block" description="Nav dropdown" type="BootstrapNavbarDropdownBlock" group="bootstrap,Twitter Bootstrap" />
+        <service id="bootstrap_navbar_menu_block" class="%bootstrap_navbar_menu_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Nav menu" type="BootstrapNavbarMenuBlock" group="bootstrap,Twitter Bootstrap" filter="navbar-block-2 navbar-block-3" />
             <argument type="service" id="service_container" />
         </service>
         
+        <service id="bootstrap_navbar_button_block" class="%bootstrap_navbar_button_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Nav button" type="BootstrapNavbarButtonBlock" group="bootstrap,Twitter Bootstrap" filter="navbar-block-3" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_navbar_dropbown_block" class="%bootstrap_navbar_dropbown_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Nav dropdown" type="BootstrapNavbarDropdownBlock" group="bootstrap,Twitter Bootstrap" filter="menu-navbar" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_navbar_text_block" class="%bootstrap_navbar_text_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Nav text" type="BootstrapNavbarTextBlock" group="bootstrap,Twitter Bootstrap" filter="navbar-block-2 navbar-block-3" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_navbar.form" class="%bootstrap_navbar.form.class%">
+        </service>
+        
+        <service id="bootstrap_navbar_menu.form" class="%bootstrap_navbar_menu.form.class%">
+        </service>
+        
         <service id="bootstrap_navbar_dropbown.form" class="%bootstrap_navbar_dropbown.form.class%">
+        </service>
+        
+        <service id="bootstrap_navbar_text.form" class="%bootstrap_navbar_text.form.class%">
         </service>
         
         <!-- BUTTON -->

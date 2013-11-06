@@ -32,8 +32,6 @@ class AlThumbnailType extends JsonBlockType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-        
         $builder->add('width', 'choice', 
             array('choices' => 
                 array(
@@ -52,7 +50,8 @@ class AlThumbnailType extends JsonBlockType
                     'col-md-12' => 'col-md-12',
                 ),
             )
-        );     
-        $builder->add('save', 'submit', array('attr' => array('class' => 'al_editor_save btn btn-primary')));
+        );  
+        
+        parent::buildForm($builder, $options);
     }
 }

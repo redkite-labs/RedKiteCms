@@ -33,11 +33,12 @@ class AlBlockManagerBootstrapNavbarBlockTest extends AlBlockManagerContainerBase
         $expectedValue = array(
             "Content" =>    '
             {
-                "0": {
-                    "blockType" : "Link"
-                },
-                "1": {
-                    "blockType" : "Link"
+                "position": "navbar-fixed-top",
+                "inverted": "",
+                "items": {
+                    "0": {
+                        "blockType" : "BootstrapNavbarMenuBlock"
+                    }
                 }
             }'
         );
@@ -70,14 +71,15 @@ class AlBlockManagerBootstrapNavbarBlockTest extends AlBlockManagerContainerBase
         $blockManager->set($block);
 
         $expectedResult = array('RenderView' => array(
-            'view' => 'TwitterBootstrapBundle:Content:Navbar/' .$bootstrapVersion . '/navbar.html.twig',
+            'view' => 'TwitterBootstrapBundle:Content:Navbar/Navbar/' .$bootstrapVersion . '/navbar.html.twig',
             'options' => array(
-                'items' => array(
-                    array(
-                        "item",
-                    ),
-                    array(
-                        "item",
+                'navbar' => array(
+                    "position" =>  "navbar-fixed-top",
+                    "inverted" =>  "",
+                    "items" => array(
+                        array(
+                            "blockType" =>  "BootstrapNavbarMenuBlock",
+                        )
                     ),
                 ),
                 'block_manager' => $blockManager,

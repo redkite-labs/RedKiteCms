@@ -1,0 +1,5 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
+
+{% block body %}
+<p class="navbar-text al-navbar-list {% if data.alignment is defined %}{{ data.alignment }}{% endif %}" {{ editor|raw }}>{{ data.text }}</p>
+{% endblock %}

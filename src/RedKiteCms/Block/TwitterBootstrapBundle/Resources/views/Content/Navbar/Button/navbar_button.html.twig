@@ -1,0 +1,5 @@
+{% extends "TwitterBootstrapBundle:Content:Button/_button_params.html.twig" %}
+
+{% block body %}
+<button type="button" class="btn{{ button_type }}{{ button_attribute }}{{ button_block }}{{ button_enabled }}{% if data.alignment is defined %} {{ data.alignment }}{% endif %} navbar-btn al-navbar-list" {{ editor|raw }}>{{ button_text }}</button>
+{% endblock %}

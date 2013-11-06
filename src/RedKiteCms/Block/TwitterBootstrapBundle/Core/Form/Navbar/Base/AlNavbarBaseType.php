@@ -15,7 +15,7 @@
  * 
  */
 
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\NavbarDropdown;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,15 +25,15 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlNavbarDropdownType extends JsonBlockType
+abstract class AlNavbarBaseType extends JsonBlockType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
+        $builder->add('alignment', 'choice', array('choices' => array("" => "None", "navbar-left" => "Left", "navbar-right" => "Right")));
         
-        $builder->add('button_text');
+        parent::buildForm($builder, $options);
     }
 }

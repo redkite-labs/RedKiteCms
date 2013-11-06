@@ -15,18 +15,18 @@
  * 
  */
 
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button\AlBlockManagerBootstrapButtonBlock;
 
 /**
- * Defines the Block Manager to handle a Bootstrap Button
+ * Defines the Block Manager to handle a Bootstrap navbar button
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapButtonBlock extends AlBlockManagerJsonBlockContainer
+class AlBlockManagerBootstrapNavbarButtonBlock extends AlBlockManagerBootstrapButtonBlock
 {
-    protected $blockTemplate = 'TwitterBootstrapBundle:Content:Button/button.html.twig';
+    protected $blockTemplate = 'TwitterBootstrapBundle:Content:Navbar/Button/navbar_button.html.twig';
     
     /**
      * {@inheritdoc}
@@ -40,25 +40,13 @@ class AlBlockManagerBootstrapButtonBlock extends AlBlockManagerJsonBlockContaine
                     "button_type": "",
                     "button_attribute": "",
                     "button_block": "",
-                    "button_enabled": ""
+                    "button_enabled": "",
+                    "alignment": "navbar-left"
                 }
             }
         ';
         
         return array('Content' => $value);
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    protected function renderHtml()
-    {
-        $items = $this->decodeJsonContent($this->alBlock->getContent());
-        
-        return array('RenderView' => array(
-            'view' => $this->blockTemplate,
-            'options' => array('data' => $items[0]),
-        ));
     }
     
     /**
@@ -70,7 +58,7 @@ class AlBlockManagerBootstrapButtonBlock extends AlBlockManagerJsonBlockContaine
         $item = $items[0];
         
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
-        $form = $bootstrapFormFactory->createForm('Button', 'AlButtonType', $item);
+        $form = $bootstrapFormFactory->createForm('Navbar\Button', 'AlNavbarButtonType', $item);
         
         return array(
             "template" => "TwitterBootstrapBundle:Editor:Button/button_editor.html.twig",

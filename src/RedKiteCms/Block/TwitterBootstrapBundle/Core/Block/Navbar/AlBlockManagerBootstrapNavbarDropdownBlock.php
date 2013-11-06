@@ -27,7 +27,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
  */
 class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrapDropdownButtonBlock
 {
-    protected $blockTemplate = 'TwitterBootstrapBundle:Content:NavbarDropdown/navbar_dropdown_button.html.twig';  
+    protected $blockTemplate = 'TwitterBootstrapBundle:Content:Navbar/Dropdown/navbar_dropdown_button.html.twig';  
     
     /**
      * {@inheritdoc}

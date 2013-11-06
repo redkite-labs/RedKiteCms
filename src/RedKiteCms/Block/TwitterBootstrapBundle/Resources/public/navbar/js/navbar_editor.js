@@ -15,26 +15,39 @@
  */
  
 $(document).ready(function() {
-    $(document).on("startEditingBlocks", function(event, element){
-        if (element.attr('data-type') != 'BootstrapNavbarBlock') {
-            return;
-        }
+    $(document).on("popoverShow", function(event, element){ 
+        if (element.attr('data-type') == 'BootstrapNavbarBlock') {
+            $('.al-edit-item').unbind().click(function(){
+                element.popover('hide');
+                
+                var filter = (bootstrapVersion == "2.x") ? 'navbar-block-2' : 'navbar-block-3';
+                element.inlinelist('start', {'target': '.al-navbar-list', 'filterAdders': filter});
+            });
+        } 
         
-        $(element)
-            .find('.al-navbar-list')
-            .inlinelist('start')
-        ;
+        if (element.attr('data-type') == 'BootstrapNavbarMenuBlock') {
+            $('.al-edit-item').unbind().click(function(){
+                element.popover('hide');
+                element.inlinelist('start', {'target': '> li', 'filterAdders': 'menu-navbar'});
+            });
+        } 
     });
     
     $(document).on("stopEditingBlocks", function(event, element){ 
-        if (element.attr('data-type') != 'BootstrapNavbarBlock') {
-            return;
+        if (element.attr('data-type') == 'BootstrapNavbarBlock') {
+            $('.al-navbar-list').inlinelist('stop');
         }
-                
-        $(element)
-            .find('.al-navbar-list')
-            .inlinelist('stop')
-        ;
-        $('.al_block_adder').unbind().blocksMenu('initAdders')
+
+        if (element.attr('data-type') == 'BootstrapNavbarMenuBlock') {
+            $('.al-navbar-menu-list').inlinelist('stop');
+        }
+
+        $('.al_block_adder').unbind().blocksMenu('initAdders');
+    });
+
+    $(document).on("blockEdited", function(event, element){        
+        if (element.attr('data-type') == 'BootstrapNavbarBlock' || element.attr('data-type') == 'BootstrapNavbarMenuBlock') {
+            $(element).blocksEditor('start');
+        }
     });
 });

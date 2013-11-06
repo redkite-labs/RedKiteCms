@@ -15,28 +15,26 @@
  * 
  */
 
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Slider;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Defines the form to edit the Bootstrap slider's attributes
+ * Defines the form to edit a navbar block
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlSliderType extends JsonBlockType
+class AlNavbarType extends JsonBlockType
 {
     /**
      * {@inheritdoc}
-     */    
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('src');
-        $builder->add('data_src', 'hidden');
-        $builder->add('title');
-        $builder->add('alt');
-        $builder->add('caption_title');
-        $builder->add('caption_body', 'textarea');
+        $builder->add('position', 'choice', array('choices' => array("" => "normal", "navbar-fixed-top" => "fixed top", "navbar-fixed-bottom" => "fixed bottom", "navbar-static-top" => "static top")));
+        $builder->add('inverted', 'choice', array('choices' => array("" => "normal", "navbar-inverse" => "inverted")));
+        
+        parent::buildForm($builder, $options);
     }
 }

@@ -1,0 +1,16 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
+
+{% block body %}
+<nav class="navbar navbar-default {{ navbar.position}} {{ navbar.inverted}}" {{ editor|raw }} role="navigation">
+    <div class="navbar-header">
+        {% set baseKey = block_manager.get.getId ~ "-brand" %}            
+        <a class="navbar-brand" href="#">{{ renderIncludedBlock(baseKey, block_manager, 'Text', true, 'Brand') }}</a>
+    </div>
+    <div class="collapse navbar-collapse navbar-ex1-collapse"> 
+        {% for key, item in navbar.items %}
+            {% set baseKey = block_manager.get.getId ~ "-" ~ key %}    
+            {{ renderIncludedBlock(baseKey, block_manager, item.blockType, true, '', 'data-item=' ~ key) }}    
+        {% endfor %}
+    </div>
+</nav>
+{% endblock %}
