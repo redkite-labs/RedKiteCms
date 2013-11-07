@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Label;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
 
 /**
  * AlBlockManagerTestBase
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-abstract class AlBlockManagerLabelTestBase extends AlBlockManagerContainerBase
+abstract class AlBlockManagerLabelTestBase extends BaseTestBlock
 {    
     protected abstract function getBlockManager();
     
@@ -84,27 +84,5 @@ abstract class AlBlockManagerLabelTestBase extends AlBlockManagerContainerBase
         ));
         
         $this->assertEquals($expectedResult, $blockManager->getHtml());
-    }
-    
-    protected function initBlock($value)
-    {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-              ->method('getContent')
-              ->will($this->returnValue($value));
-
-        return $block;
-    }
-    
-    protected function initForm()
-    {
-        $form = $this->getMockBuilder('Symfony\Component\Form\Form')
-                    ->disableOriginalConstructor()
-                    ->getMock();
-        $form->expects($this->once())
-            ->method('createView')
-        ;
-        
-        return $form;
     }
 }

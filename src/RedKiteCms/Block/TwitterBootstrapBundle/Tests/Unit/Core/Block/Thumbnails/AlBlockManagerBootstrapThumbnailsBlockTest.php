@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Thumbnails;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
 use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\AlBlockManagerBootstrapThumbnailsBlock;
 
 
@@ -26,7 +26,7 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\AlBlockManager
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapThumbnailsBlockTest extends AlBlockManagerContainerBase
+class AlBlockManagerBootstrapThumbnailsBlockTest extends BaseTestBlock
 {  
     public function testDefaultValue()
     {
@@ -85,15 +85,5 @@ class AlBlockManagerBootstrapThumbnailsBlockTest extends AlBlockManagerContainer
         ));
         
         $this->assertEquals($expectedResult, $blockManager->getHtml());
-    }
-    
-    protected function initBlock($value)
-    {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-              ->method('getContent')
-              ->will($this->returnValue($value));
-
-        return $block;
     }
 }

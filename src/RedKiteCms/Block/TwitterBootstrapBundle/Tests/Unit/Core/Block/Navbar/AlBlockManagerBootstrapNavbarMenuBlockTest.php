@@ -18,69 +18,71 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Navbar;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarBlock;
-
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarMenuBlock;
 
 /**
- * AlBlockManagerBootstrapNavbarBlockTest
+ * AlBlockManagerBootstrapNavbarMenuBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapNavbarBlockTest extends BaseTestBlock
+class AlBlockManagerBootstrapNavbarMenuBlockTest extends BaseTestBlock
 {  
     public function testDefaultValue()
     {
         $expectedValue = array(
-            "Content" =>    '
+            "Content" =>    
+            '
             {
-                "position": "navbar-fixed-top",
-                "inverted": "",
+                "alignment" : "none",
                 "items": {
                     "0": {
-                        "blockType" : "BootstrapNavbarMenuBlock"
+                        "blockType" : "Link"
+                    },
+                    "1": {
+                        "blockType" : "Link"
                     }
                 }
             }'
         );
             
         $this->initContainer(); 
-        $blockManager = new AlBlockManagerBootstrapNavbarBlock($this->container, $this->validator);
+        $blockManager = new AlBlockManagerBootstrapNavbarMenuBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
-
-    /**
-     * @dataProvider bootstrapVersionsProvider
-     */
-    public function testGetHtml($bootstrapVersion)
+    
+    public function testGetHtml()
     {
-        $value = '
-        {
-            "0" : {
-                    "0": "item"
+        $value = '{
+            "alignment" : "none",
+            "items": {
+                "0": {
+                    "blockType" : "Link"
                 },
-                "1" : {
-                    "0": "item"
+                "1": {
+                    "blockType" : "Link"
                 }
+            }
         }';
-            
+        
         $block = $this->initBlock($value);
         $this->initContainer();
-        $this->initBootstrapversion($bootstrapVersion);
         
-        $blockManager = new AlBlockManagerBootstrapNavbarBlock($this->container, $this->validator);
+        $blockManager = new AlBlockManagerBootstrapNavbarMenuBlock($this->container, $this->validator);
         $blockManager->set($block);
-
+        
         $expectedResult = array('RenderView' => array(
-            'view' => 'TwitterBootstrapBundle:Content:Navbar/Navbar/' .$bootstrapVersion . '/navbar.html.twig',
+            'view' => 'TwitterBootstrapBundle:Content:Navbar/Menu/navbar_menu.html.twig',
             'options' => array(
-                'navbar' => array(
-                    "position" =>  "navbar-fixed-top",
-                    "inverted" =>  "",
-                    "items" => array(
+                'menu' => array(
+                    'items' => array(
                         array(
-                            "blockType" =>  "BootstrapNavbarMenuBlock",
-                        )
+                            'blockType' => 'Link',
+                        ),
+                        array(
+                            'blockType' => 'Link',
+                        ),
                     ),
+                    'alignment' => 'none',
                 ),
                 'block_manager' => $blockManager,
             ),
@@ -93,47 +95,42 @@ class AlBlockManagerBootstrapNavbarBlockTest extends BaseTestBlock
     {
         $value = '
             {
-                "0" : {
-                    "button_text": "Button 1",
-                    "button_type": "",
-                    "button_attribute": "",
-                    "button_block": "",
-                    "button_enabled": ""
+                "alignment" : "none",
+                "items": {
+                    "0": {
+                        "blockType" : "Link"
+                    },
+                    "1": {
+                        "blockType" : "Link"
+                    }
                 }
             }';
         
         $block = $this->initBlock($value);
         $this->initContainer();
-
+        
+        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
+        $formFactory->expects($this->at(0))
+                    ->method('create')
+                    ->will($this->returnValue($this->initForm()))
+        ;
+        
         $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
         $this->container->expects($this->at(2))
                         ->method('get')
-                        ->with('bootstrap_navbar.form')
+                        ->with('bootstrap_navbar_menu.form')
                         ->will($this->returnValue($formType))
         ;
         
-        $form = $this->getMockBuilder('Symfony\Component\Form\Form')
-                    ->disableOriginalConstructor()
-                    ->getMock();
-        $form->expects($this->once())
-            ->method('createView')
-            ->will($this->returnValue('the-form'))
-        ;
-        
-        $formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
-        $formFactory->expects($this->once())
-                    ->method('create')
-                    ->will($this->returnValue($form))
-        ;
         $this->container->expects($this->at(3))
                         ->method('get')
                         ->with('form.factory')
                         ->will($this->returnValue($formFactory))
         ;
         
-        $blockManager = new AlBlockManagerBootstrapNavbarBlock($this->container, $this->validator);
+        $blockManager = new AlBlockManagerBootstrapNavbarMenuBlock($this->container, $this->validator);
         $blockManager->set($block);
         $result = $blockManager->editorParameters();
-        $this->assertEquals('TwitterBootstrapBundle:Editor:Navbar/Navbar/navbar_editor.html.twig', $result["template"]);
+        $this->assertEquals('TwitterBootstrapBundle:Editor:Navbar/Menu/navbar_menu_editor.html.twig', $result["template"]);
     }
 }

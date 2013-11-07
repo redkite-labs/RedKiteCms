@@ -17,7 +17,7 @@
  
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Navbar;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
 use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarDropdownBlock;
 
 /**
@@ -25,7 +25,7 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBoot
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapNavbarDropdownBlockTest extends AlBlockManagerContainerBase
+class AlBlockManagerBootstrapNavbarDropdownBlockTest extends BaseTestBlock
 {  
     public function testDefaultValue()
     {
@@ -131,27 +131,5 @@ class AlBlockManagerBootstrapNavbarDropdownBlockTest extends AlBlockManagerConta
         $blockManager->set($block);
         $result = $blockManager->editorParameters();
         $this->assertEquals('TwitterBootstrapBundle:Editor:DropdownButton/dropdown_editor.html.twig', $result["template"]);
-    }
-    
-    protected function initBlock($value)
-    {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-              ->method('getContent')
-              ->will($this->returnValue($value));
-
-        return $block;
-    }
-    
-    protected function initForm()
-    {
-        $form = $this->getMockBuilder('Symfony\Component\Form\Form')
-                    ->disableOriginalConstructor()
-                    ->getMock();
-        $form->expects($this->once())
-            ->method('createView')
-        ;
-        
-        return $form;
     }
 }

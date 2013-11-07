@@ -172,16 +172,4 @@ abstract class AlBlockManagerBootstrapDropdownTestBase extends AlBlockManagerCon
 
         return $block;
     }
-    
-    protected function initForm()
-    {
-        $form = $this->getMockBuilder('Symfony\Component\Form\Form')
-                    ->disableOriginalConstructor()
-                    ->getMock();
-        $form->expects($this->once())
-            ->method('createView')
-        ;
-        
-        return $form;
-    }
 }

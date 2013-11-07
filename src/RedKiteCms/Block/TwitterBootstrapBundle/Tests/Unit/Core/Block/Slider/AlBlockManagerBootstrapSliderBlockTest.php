@@ -17,7 +17,7 @@
  
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Slider;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
 use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Slider\AlBlockManagerBootstrapSliderBlock;
 
 class AlBlockManagerBootstrapSliderBlockTester extends AlBlockManagerBootstrapSliderBlock
@@ -33,7 +33,7 @@ class AlBlockManagerBootstrapSliderBlockTester extends AlBlockManagerBootstrapSl
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapSliderBlockTest extends AlBlockManagerContainerBase
+class AlBlockManagerBootstrapSliderBlockTest extends BaseTestBlock
 {  
     public function testDefaultValue()
     {
@@ -170,21 +170,16 @@ class AlBlockManagerBootstrapSliderBlockTest extends AlBlockManagerContainerBase
         $this->assertEquals($expectedResult, $blockManager->removeFormNameReferenceTester($values));
     }
     
-    protected function initBlock($value)
-    {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-              ->method('getContent')
-              ->will($this->returnValue($value));
-
-        return $block;
-    }
-    
     protected function initForm()
     {
-        return $this->getMockBuilder('Symfony\Component\Form\Form')
+        $form = $this->getMockBuilder('Symfony\Component\Form\Form')
                     ->disableOriginalConstructor()
                     ->getMock();
+        $form->expects($this->any())
+            ->method('createView')
+        ;
+        
+        return $form;
     }
     
     private function initFormFactory()

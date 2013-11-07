@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Thumbnail;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
 use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail\AlBlockManagerBootstrapThumbnailBlock;
 
 /**
@@ -25,7 +25,7 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail\AlBlockManagerB
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapThumbnailBlockTest extends AlBlockManagerContainerBase
+class AlBlockManagerBootstrapThumbnailBlockTest extends BaseTestBlock
 {  
     /**
      * @dataProvider bootstrapVersionsProvider
@@ -146,27 +146,5 @@ class AlBlockManagerBootstrapThumbnailBlockTest extends AlBlockManagerContainerB
         $this->initBootstrapversion($bootstrapVersion);
         $blockManager = new AlBlockManagerBootstrapThumbnailBlock($this->container, $this->validator);
         $this->assertTrue($blockManager->getIsInternalBlock());
-    }
-    
-    protected function initBlock($value)
-    {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
-        $block->expects($this->once())
-              ->method('getContent')
-              ->will($this->returnValue($value));
-
-        return $block;
-    }
-    
-    protected function initForm()
-    {
-        $form = $this->getMockBuilder('Symfony\Component\Form\Form')
-                    ->disableOriginalConstructor()
-                    ->getMock();
-        $form->expects($this->once())
-            ->method('createView')
-        ;
-        
-        return $form;
     }
 }
