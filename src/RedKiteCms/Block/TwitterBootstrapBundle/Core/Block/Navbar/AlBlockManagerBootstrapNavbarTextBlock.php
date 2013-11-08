@@ -62,8 +62,8 @@ class AlBlockManagerBootstrapNavbarTextBlock extends AlBlockManagerJsonBlockCont
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         
-        $formClass = $this->container->get('bootstrap_navbar_text.form');
-        $form = $this->container->get('form.factory')->create($formClass, $items[0]);
+        $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
+        $form = $bootstrapFormFactory->createForm('Navbar\Text', 'AlNavbarTextType', $items[0]);
         
         return array(
             "template" => "TwitterBootstrapBundle:Editor:Navbar/Text/navbar_text_editor.html.twig",

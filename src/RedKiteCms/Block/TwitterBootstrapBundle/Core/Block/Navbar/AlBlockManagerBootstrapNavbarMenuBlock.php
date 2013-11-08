@@ -68,8 +68,8 @@ class AlBlockManagerBootstrapNavbarMenuBlock extends AlBlockManagerBootstrapNavb
         $parameters = $this->decodeJsonContent($this->alBlock);
         unset($parameters["items"]);
         
-        $formService = $this->container->get('bootstrap_navbar_menu.form');
-        $form = $this->container->get('form.factory')->create($formService, $parameters);
+        $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
+        $form = $bootstrapFormFactory->createForm('Navbar\Menu', 'AlNavbarMenuType', $parameters);
         
         return array(
             "template" => 'TwitterBootstrapBundle:Editor:Navbar/Menu/navbar_menu_editor.html.twig',

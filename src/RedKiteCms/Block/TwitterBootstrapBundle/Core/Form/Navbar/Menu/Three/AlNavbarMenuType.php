@@ -15,25 +15,15 @@
  * 
  */
 
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Menu\Three;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
-use Symfony\Component\Form\FormBuilderInterface;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Three\AlNavbarBaseWithEmptyOptionType;
 
 /**
- * Defines the form to edit a navbar dropbown block
+ * Defines the form to edit a navbar block
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlNavbarTextType extends Base\AlNavbarBaseType
+class AlNavbarMenuType extends AlNavbarBaseWithEmptyOptionType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->add('text');
-        
-        parent::buildForm($builder, $options);
-    }
 }

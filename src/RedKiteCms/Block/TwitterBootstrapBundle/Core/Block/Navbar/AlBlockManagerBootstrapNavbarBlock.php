@@ -26,6 +26,9 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
  */
 class AlBlockManagerBootstrapNavbarBlock extends AlBlockManagerJsonBlockCollectionBase
 {    
+    protected $contentTemplate = 'TwitterBootstrapBundle:Content:Navbar/Navbar/%s/navbar.html.twig';
+    protected $editorTemplate = 'TwitterBootstrapBundle:Editor:Navbar/Navbar/navbar_editor.html.twig';
+    
     /**
      * {@inheritdoc}
      */
@@ -66,7 +69,7 @@ class AlBlockManagerBootstrapNavbarBlock extends AlBlockManagerJsonBlockCollecti
         }
         
         $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion(); 
-        $template = sprintf('TwitterBootstrapBundle:Content:Navbar/Navbar/%s/navbar.html.twig', $bootstrapVersion);
+        $template = sprintf($this->contentTemplate, $bootstrapVersion);
         
         return array('RenderView' => array(
             'view' => $template,
@@ -88,7 +91,7 @@ class AlBlockManagerBootstrapNavbarBlock extends AlBlockManagerJsonBlockCollecti
         $form = $this->container->get('form.factory')->create($formService, $parameters);
         
         return array(
-            "template" => 'TwitterBootstrapBundle:Editor:Navbar/Navbar/navbar_editor.html.twig',
+            "template" => $this->editorTemplate,
             "title" => "Navbar editor",
             "form" => $form->createView(),
         );

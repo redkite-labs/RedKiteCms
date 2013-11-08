@@ -15,10 +15,10 @@
  * 
  */
 
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Navbar;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Navbar\Three;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\AlNavbarMenuType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Menu\Three\AlNavbarMenuType;
 
 /**
  * AlNavbarDropdownTypeTest
@@ -33,7 +33,7 @@ class AlNavbarMenuTypeTest extends AlBaseType
             array(
                 'name' => 'alignment',
                 'type' => 'choice',
-                'options' => array('choices' => array("" => "None", "navbar-left" => "Left", "navbar-right" => "Right")),
+                'options' => array('choices' => array("navbar-left" => "Left", "navbar-right" => "Right"), 'empty_value' => 'None'),
             ),
             array(
                 'name' => 'save', 

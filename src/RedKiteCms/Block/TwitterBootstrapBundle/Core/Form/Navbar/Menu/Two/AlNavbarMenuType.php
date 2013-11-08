@@ -15,16 +15,15 @@
  * 
  */
 
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Menu\Two;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
-use Symfony\Component\Form\FormBuilderInterface;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Two\AlNavbarBaseWithEmptyOptionType;
 
 /**
  * Defines the form to edit a navbar block
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlNavbarMenuType extends Base\AlNavbarBaseType
+class AlNavbarMenuType extends AlNavbarBaseWithEmptyOptionType
 {
 }

@@ -81,12 +81,12 @@ class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrap
         unset($item["items"]);
         
         $formClass = $this->container->get('bootstrap_navbar_dropbown.form');
-        $buttonForm = $this->container->get('form.factory')->create($formClass, $item);
+        $form = $this->container->get('form.factory')->create($formClass, $item);
         
         return array(
             "template" => $this->editorTemplate,
             "title" => "Button editor",
-            "form" => $buttonForm->createView(),
+            "form" => $form->createView(),
             'items' => $items,  
         );
     }

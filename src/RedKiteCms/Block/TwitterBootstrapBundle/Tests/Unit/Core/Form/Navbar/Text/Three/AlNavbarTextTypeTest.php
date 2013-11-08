@@ -15,23 +15,27 @@
  * 
  */
 
-
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\NavbarDropdown;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Navbar\Three;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\AlNavbarDropdownType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Text\Three\AlNavbarTextType;
 
 /**
  * AlNavbarDropdownTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlNavbarDropdownTypeTest extends AlBaseType
+class AlNavbarTextTypeTest extends AlBaseType
 {
     protected function configureFields()
     {
         return array(
-            'button_text',
+            'text',
+            array(
+                'name' => 'alignment',
+                'type' => 'choice',
+                'options' => array('choices' => array("navbar-left" => "Left", "navbar-right" => "Right")),
+            ),
             array(
                 'name' => 'save', 
                 'type' => 'submit', 
@@ -42,7 +46,7 @@ class AlNavbarDropdownTypeTest extends AlBaseType
     
     protected function getForm()
     {
-        return new AlNavbarDropdownType();
+        return new AlNavbarTextType();
     }
     
     public function testDefaultOptions()

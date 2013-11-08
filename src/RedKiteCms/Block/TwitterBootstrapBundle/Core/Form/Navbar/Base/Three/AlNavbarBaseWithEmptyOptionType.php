@@ -15,25 +15,21 @@
  * 
  */
 
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Three;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
-use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Defines the form to edit a navbar dropbown block
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-abstract class AlNavbarBaseType extends JsonBlockType
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
+abstract class AlNavbarBaseWithEmptyOptionType extends AlNavbarBaseType
+{    
+    protected function setChoices()
     {
-        $builder->add('alignment', 'choice', array('choices' => array("" => "None", "navbar-left" => "Left", "navbar-right" => "Right")));
+        $choices = parent::setChoices();
+        $choices["empty_value"] = "None";
         
-        parent::buildForm($builder, $options);
+        return $choices;
     }
 }
