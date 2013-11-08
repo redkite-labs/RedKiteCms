@@ -81,14 +81,19 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
      */
     public function executeCommand($cmd, \Closure $closure = null, Process $process = null)
     {
-        $cmd = $this->php.' '.$this->console.' '.$cmd;
-        if (null === $process) {
-            $process =  new Process($cmd);
-        } else {
-            $process->setCommandLine($cmd);
-        }
+        try {
+            $cmd = $this->php.' '.$this->console.' '.$cmd;
+            if (null === $process) {
+                $process =  new Process($cmd);
+            } else {
+                $process->setCommandLine($cmd);
+            }
 
-        return $process->run($closure);
+            return $process->run($closure);
+        }  
+        catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -101,7 +106,7 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
         foreach ($commands as $command => $commandClosure) {
             $currentClosure = (null !== $commandClosure) ? $commandClosure : $closure;
             $processResult = $this->executeCommand($command, $currentClosure, $process);
-            if (-1 === $processResult) {
+            if ($processResult === -1 || $processResult === 255) {
                 return false;
             }
         }
