@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\Block\NavigationMenuBundle\Tests\DependencyInjection;
+namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\DependencyInjection;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\DependencyInjection\RedKiteCmsBaseBlocksExtension;

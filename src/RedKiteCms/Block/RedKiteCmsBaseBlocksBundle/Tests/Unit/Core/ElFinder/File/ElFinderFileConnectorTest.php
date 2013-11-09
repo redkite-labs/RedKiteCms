@@ -15,7 +15,7 @@
  *
  */
 
-namespace AlphaLemon\Block\FileBundle\Tests\Unit\Core\ElFinder;
+namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\ElFinder\File;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\ElFinder\File\ElFinderFileConnector;
