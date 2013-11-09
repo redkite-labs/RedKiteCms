@@ -358,6 +358,12 @@ select.input-xxs {
 .al_blocks_list ul li {
   margin: 4px 0;
 }
+.al_blocks_list .rk-disabled, .al_blocks_list .rk-disabled:hover {
+  color: #cccccc;
+}
+.al_blocks_list .rk-disabled:hover {
+  text-decoration: none;
+}
 
 .al_items_list ul, .al_commands_box ul {
   margin: 0;
