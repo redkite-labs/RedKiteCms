@@ -51,7 +51,7 @@
             <argument type="string">navbar</argument>
             <argument type="collection" >
                 <argument key="repeated">site</argument>
-                <argument key="blockType">BootstrapNavbarBlock</argument>
+                <argument key="blockType">BootbusinessNavbarBlock</argument>
             </argument>
             <tag name="bootbusiness_theme.theme.template.contacts.slots" />
         </service>
@@ -225,12 +225,12 @@
             </argument>
             <tag name="bootbusiness_theme.theme.template.contacts.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.contacts.slots.alphalemon_love" class="%red_kite_labs_theme_engine.slot.class%" public="false">
-            <argument type="string">alphalemon_love</argument>
+        <service id="bootbusiness_theme.theme.template.contacts.slots.redkitecms_love" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">redkitecms_love</argument>
             <argument type="collection" >
                 <argument key="repeated">site</argument>
                 <argument key="htmlContent">
-                    <![CDATA[<a href="http://alphalemon.com">Powered by RedKiteCms CMS</a>]]>
+                    <![CDATA[<a href="http://redkite-labs.com">Powered by RedKite CMS</a>]]>
                 </argument>
             </argument>
             <tag name="bootbusiness_theme.theme.template.contacts.slots" />

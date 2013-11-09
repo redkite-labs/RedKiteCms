@@ -29,8 +29,9 @@
     {{ parent() }}
         
     <style>
-        .alphalemon-love a {
+        .redkite-love a {
             color: white;
+            font-weight: bold;
         }
     </style>
 {% endblock %}
@@ -43,7 +44,7 @@
 {# BEGIN-SLOT
     name: navbar
     repeated: site
-    blockType: BootstrapNavbarBlock
+    blockType: BootbusinessNavbarBlock
 END-SLOT #}
 {{ renderSlot('navbar') }}
 {% endblock %} 
@@ -270,16 +271,16 @@ END-SLOT #}
             {{ renderSlot('coopyright') }}
         {% endblock %}          
     </div>
-    <div class="pull-right alphalemon-love">
-    {% block alphalemon_love %}
+    <div class="pull-right redkite-love">
+    {% block redkitecms_love %}
         {# BEGIN-SLOT
-            name: alphalemon_love
+            name: redkitecms_love
             repeated: site
             htmlContent: |
-                <a href="http://alphalemon.com">Powered by RedKiteCms CMS</a>
+                <a href="http://redkite-labs.com">Powered by RedKite CMS</a>
         END-SLOT #}
-        {{ renderSlot('alphalemon_love') }}
-    {% endblock %}   
+        {{ renderSlot('redkitecms_love') }}
+    {% endblock %} 
     </div>
   </div>
 </footer>

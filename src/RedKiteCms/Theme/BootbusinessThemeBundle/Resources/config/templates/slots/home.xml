@@ -21,7 +21,7 @@ We build awesome products in mobile.We build awesome products in mobile.
             </p><h3><a href="#" class="btn btn-primary">Buy now</a><a href="product.html" class="btn">Learn more</a></h3></div><div class="span5"><img src="holder.js/470x470" class="thumbnail"></div></div></div></div><div class="item"><div class="hero-unit"><div class="row-fluid"><div class="span7 marketting-info"><h1>TELL ABOUT YOUR ANOTHER PRODUCT</h1><p>
 Get excited about our products.We build awesome products in mobile.
 We build awesome products in mobile.We build awesome products in mobile.
-            </p><h3><a href="#" class="btn btn-primary">Buy now</a><a href="product.html" class="btn">Learn more</a></h3></div><div class="span5"><img src="holder.js/470x470" class="thumbnail"></div></div></div></div></div><a class="left carousel-control" href="#heroSlider" data-slide="prev">�</a><a class="right carousel-control" href="#heroSlider" data-slide="next">�</a></div>]]>
+            </p><h3><a href="#" class="btn btn-primary">Buy now</a><a href="product.html" class="btn">Learn more</a></h3></div><div class="span5"><img src="holder.js/470x470" class="thumbnail"></div></div></div></div></div><a class="left carousel-control" href="#heroSlider" data-slide="prev">‹</a><a class="right carousel-control" href="#heroSlider" data-slide="next">›</a></div>]]>
                 </argument>
             </argument>
             <tag name="bootbusiness_theme.theme.template.home.slots" />
@@ -66,7 +66,7 @@ We build awesome products in mobile.We build awesome products in mobile.
             <argument type="string">navbar</argument>
             <argument type="collection" >
                 <argument key="repeated">site</argument>
-                <argument key="blockType">BootstrapNavbarBlock</argument>
+                <argument key="blockType">BootbusinessNavbarBlock</argument>
             </argument>
             <tag name="bootbusiness_theme.theme.template.home.slots" />
         </service>
@@ -240,12 +240,12 @@ We build awesome products in mobile.We build awesome products in mobile.
             </argument>
             <tag name="bootbusiness_theme.theme.template.home.slots" />
         </service>
-        <service id="bootbusiness_theme.theme.template.home.slots.alphalemon_love" class="%red_kite_labs_theme_engine.slot.class%" public="false">
-            <argument type="string">alphalemon_love</argument>
+        <service id="bootbusiness_theme.theme.template.home.slots.redkitecms_love" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">redkitecms_love</argument>
             <argument type="collection" >
                 <argument key="repeated">site</argument>
                 <argument key="htmlContent">
-                    <![CDATA[<a href="http://alphalemon.com">Powered by RedKiteCms CMS</a>]]>
+                    <![CDATA[<a href="http://redkite-labs.com">Powered by RedKite CMS</a>]]>
                 </argument>
             </argument>
             <tag name="bootbusiness_theme.theme.template.home.slots" />
