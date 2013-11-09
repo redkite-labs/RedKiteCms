@@ -17,8 +17,6 @@
 {% form_theme pageAttributesForm 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/FormTheme/forms.html.twig' %}
 
 {% set cms_language = configuration.read('language') %}
-{% set panel_class = 'al_panel_contents_width' %}
-
 <div class="panel-container">
     <div id="al_sidebar_left" class="pull-left pages-left panel-column">
         {% include 'RedKiteCmsBundle:Pages:pages_list.html.twig' %}
@@ -31,9 +29,15 @@
             {{ form_errors(pageAttributesForm) }}
 
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#page" data-toggle="tab">{{ "pages_controller_label_page"|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#seo" data-toggle="tab">{{ "pages_controller_label_seo"|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#sitemap" data-toggle="tab">{{ "pages_controller_label_sitemap"|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
+                <li class="active">
+                    <a href="#page" data-toggle="tab">{{ "pages_controller_label_page"|trans({}, 'RedKiteCmsBundle', cms_language) }}</a>
+                </li>
+                <li>
+                    <a href="#seo" data-toggle="tab">{{ "pages_controller_label_seo"|trans({}, 'RedKiteCmsBundle', cms_language) }}</a>
+                </li>
+                <li>
+                    <a href="#sitemap" data-toggle="tab">{{ "pages_controller_label_sitemap"|trans({}, 'RedKiteCmsBundle', cms_language) }}</a>
+                </li>
             </ul>
 
             <div class="tab-content">
