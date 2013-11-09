@@ -146,8 +146,8 @@ class FrontendControllerTest extends TestCase
     public function templateFoldersProvider()
     {
         return array(
-            array('AlphaLemon'),
-            array('AlphaLemonStage'),
+            array('RedKite'),
+            array('RedKiteStage'),
         );
     }
     

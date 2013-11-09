@@ -7,7 +7,7 @@ use RedKiteLabs\ThemeEngineBundle\Twig\FileExtension;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlphaLemonCmsExtensionTest
+ * FileExtensionTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */

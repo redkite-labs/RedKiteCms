@@ -69,40 +69,6 @@ class AlAssetTest extends TestCase
         $this->assertEquals($asset, $alAsset->getAsset());
         $this->assertEquals('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css', $alAsset->getRealPath());
     }
-    
-    /*
-    public function testComposerNamespace()
-    {
-        $root = vfsStream::setup('root', null, array('app' => array(), 'vendor' => array('composer' => array())));
-        $autoloadNamespaces = '<?php' . PHP_EOL;
-        $autoloadNamespaces .= '$vendorDir = dirname(__DIR__);' . PHP_EOL;
-        $autoloadNamespaces .= '$baseDir = dirname($vendorDir);' . PHP_EOL;
-        $autoloadNamespaces .= 'return array(' . PHP_EOL;
-        $autoloadNamespaces .= '    \'AlphaLemon\\Theme\\BusinessWebsiteThemeBundle\' => $vendorDir . \'/alphalemon/business-website-theme-bundle/\',' . PHP_EOL;
-        $autoloadNamespaces .= ');' . PHP_EOL;
-        file_put_contents(vfsStream::url('root/vendor/composer/autoload_namespaces.php'), $autoloadNamespaces);
-        
-        //print_R(vfsStream::inspect(new vfsStreamStructureVisitor())->getStructure());exit;
-        
-        $asset = '@BusinessWebsiteThemeBundle/Resources/public/css/reset.css';
-        $asset = 'vfs://root/app/../vendor/alphalemon/business-website-theme-bundle/pippo.jpg';
-        $bundleAssetPath = '/path/to/bundle/folder';
-        $this->setUpKernel($bundleAssetPath);
-        
-        $this->kernel
-             ->expects($this->exactly(2))
-             ->method('getRootDir')
-             ->will($this->returnValue(vfsStream::url('root/app')))
-        ;
-
-        
-        
-        $alAsset = new AlAsset($this->kernel, $asset);
-        $this->assertEquals($asset, $alAsset->getAsset());
-        $this->assertEquals($bundleAssetPath . '/Resources/public/css/reset.css', $alAsset->getRealPath());
-        $this->assertEquals('bundles/businesswebsitetheme/css/reset.css', $alAsset->getAbsolutePath());
-        $this->assertEquals('/path/to/kernel/root/dir/../web/bundles/businesswebsitetheme/css/reset.css', $alAsset->getWebFolderRealPath());        
-    }*/
 
     public function testAssetPathAreCalculatedFromARelativePath()
     {
