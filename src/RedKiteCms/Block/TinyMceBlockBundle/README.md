@@ -3,7 +3,7 @@ TinyMceBlockBundle
 
 Adds the TinyMceBlockBundle web editor to RedKiteCms CMS to manage hypertext contents.
 
-[![Build Status](https://secure.travis-ci.org/alphalemon/TinyMceBlockBundle.png)](http://travis-ci.org/alphalemon/TinyMceBlockBundle)
+[![Build Status](https://secure.travis-ci.org/redkite-blocks/TinyMceBlockBundle.png)](http://travis-ci.org/redkite-blocks/TinyMceBlockBundle)
 
 Installation
 ------------
