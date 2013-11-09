@@ -181,11 +181,11 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         }
 
         // First displayed group
-        $alphaLemonBlocks = array("Default" => $this->extractGroup('redkitecms_internals', $blockGroups));
+        $redKiteBlocks = array("Default" => $this->extractGroup('redkitecms_internals', $blockGroups));
         // Last displayed group
         $notGrouped = $this->extractGroup('none', $blockGroups);
         // Sorts
-        $this->recurKsort($alphaLemonBlocks);
+        $this->recurKsort($redKiteBlocks);
         if (count($notGrouped) > 0) {
             $this->recurKsort($notGrouped);
         }
@@ -198,7 +198,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         $this->recurKsort($blocks);
 
         // Merges blocks
-        $blocks = array_merge($alphaLemonBlocks, $blocks);
+        $blocks = array_merge($redKiteBlocks, $blocks);
         $blocks = array_merge($blocks, $notGrouped);
         
         return $blocks;
