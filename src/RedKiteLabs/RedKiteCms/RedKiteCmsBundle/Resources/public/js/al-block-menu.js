@@ -94,9 +94,10 @@
             var $this = $(this); 
             var filterAttribute = $this.attr('data-filter');
             
-            $this.parent().show();
+            //$this.parent().show();
             if (filter == 'none' && ! filterAttribute.match(new RegExp(filter))) {
-                $this.parent().hide();
+                $this.unbind().click(function(){return false;}); 
+                $this.addClass('rk-disabled');
                 currentMenu = ".al-blocks-menu";
             }
             
@@ -104,8 +105,8 @@
                 var addItemCallback = settings.addItemCallback;
                 $('.al-available-blocks-list').append(
                     $this
-                        .clone()  
-                        .wrap("<li> </li>")                      
+                        .clone()     
+                        .removeClass('rk-disabled')                
                         .unbind()
                         .click(function(){ 
                             var value = '{"operation": "add", "item": "' + $(document).data('data-item') + '", "value": { "blockType" : "' + $(this).attr('rel') + '" }}';
