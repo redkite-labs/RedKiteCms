@@ -19,12 +19,11 @@ namespace RedKiteCms\Block\TinyMceBlockBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Finder\Finder;
 
 /**
  * TinyMceController
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <info@redkite-labs.com>
  */
 class TinyMceController extends Controller
 {
