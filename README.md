@@ -19,11 +19,11 @@ Requirements
 
 Install RedKiteCms
 ----------------------
-To install RedKiteCms you just need to download the [RedKiteCms Sandbox](https://github.com/alphalemon/AlphaLemonCmsSandbox)
+To install RedKiteCms you just need to download the [RedKiteCms Sandbox](https://github.com/redkite-labs/RedKiteCmsSandbox)
 and follow the intructions that comes with the sandbox itself.
 
 If you want to install RedKiteCms for an existing application or from the scratch,
-just read the [RedKiteCms install chapter](https://alphalemon.com/how-to-install-alphalemon-cms)
+just read the [RedKiteCms install chapter](http://redkite-labs.com/how-to-install-redkite-cms)
 
 
 Start RedKiteCms
@@ -49,32 +49,32 @@ to
 
 Documentation
 -------------
-You can read RedKiteCms official documentation at alphalemon.com:
+You can read RedKiteCms official documentation at redkite-labs.com:
 
-- [The book](http://alphalemon.com/the-official-alphalemon-cms-documentation)
-- [The cookbook](http://alphalemon.com/alphalemon-cms-cookbook)
-- [Developers guide](http://alphalemon.com/getting-started-contributing-to-alphalemon-cms)
+- [The book](http://redkite-labs.com/the-official-redkite-cms-documentation)
+- [The cookbook](http://redkite-labs.com/redkite-cms-cookbook)
+- [Developers guide](http://redkite-labs.com/getting-started-contributing-to-redkite-cms)
 
-RedKiteCms [documentation repository](https://github.com/alphalemon/alphalemon-docs)
+RedKiteCms [documentation repository](https://github.com/redkite-labs/redkitecms-docs)
 lives at github.
 
 
 Support
 -------
-If you require support you can ask for help at [RedKiteCms users forum](https://groups.google.com/forum/?hl=it#!forum/alphalemoncms-users).
+If you require support you can ask for help at [RedKiteCms users forum](https://groups.google.com/forum/?hl=it#!forum/redkitecms-users).
 
-If you want to collaborate, just introduce yourself at [RedKiteCms developers forum](https://groups.google.com/forum/?hl=it#!forum/alphalemoncms-dev).
+If you want to collaborate, just introduce yourself at [RedKiteCms developers forum](https://groups.google.com/forum/?hl=it#!forum/redkitecms-dev).
 
 
 Stay in touch
 -------------
 RedKiteCms is present on major social networks:
 
-Follow [@alphalemoncms on Twitter](https://twitter.com/alphalemoncms) for the latest news
+Follow [@redkitecms on Twitter](https://twitter.com/redkitecms) for the latest news
 
-Like RedKiteCms at [Facebook](https://www.facebook.com/alphalemon)
+Like RedKiteCms at [Facebook](https://www.facebook.com/redkitecms)
 
-Connect with RedKiteCms at [Google+](https://plus.google.com/103994964006724386514/posts)
+Connect with RedKiteCms at [Google+](https://plus.google.com/103994964006724386514)
 
 
 Notes for windows users
