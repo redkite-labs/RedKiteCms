@@ -13,8 +13,7 @@
   bootstrap="./Tests/bootstrap.php">
 
     <testsuites>
-        <testsuite name="AlphaLemonCmsBundle Test Suite">
-            <directory suffix="Test.php">./Bundle/AlphaLemon/Block/*/Tests</directory>
+        <testsuite name="RedKiteCmsBundle Test Suite">
             <directory suffix="Test.php">./Tests</directory>
         </testsuite>
     </testsuites>
@@ -35,7 +34,6 @@
                 <directory>./Core/vendor</directory>
                 <directory>./Core/Exception</directory>
                 <directory>./Command/Update</directory>
-                <directory>./Bundle/AlphaLemon/Block/*/Tests</directory>
             </exclude>
         </whitelist>
     </filter>
