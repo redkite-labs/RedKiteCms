@@ -531,7 +531,7 @@ $(document).ready(function(){
                     success: function(html)
                     {
                         $('#al_panel').OpenPanel(html, function(){
-                            $('body').pages('init');                          
+                            $('body').pages('init');
                         });
                     },
                     error: function(err)
