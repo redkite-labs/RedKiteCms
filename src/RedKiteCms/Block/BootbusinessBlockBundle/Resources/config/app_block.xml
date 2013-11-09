@@ -6,6 +6,7 @@
     <parameters>    
         <parameter key="bootbusinessproductblock.external_javascripts.cms" type="collection">
             <parameter>@BootbusinessBlockBundle/Resources/public/js/bootbusiness_product.js</parameter>
+            <parameter>@BootbusinessBlockBundle/Resources/public/js/bootbusiness_navbar.js</parameter>
         </parameter>
         
         <parameter key="bootbusiness_product.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessProductBlock</parameter>
@@ -14,6 +15,7 @@
         <parameter key="bootbusiness_member.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessMemberBlock</parameter>
         <parameter key="bootbusiness_event.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessEventBlock</parameter>
         <parameter key="bootbusiness_contact_office.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessContactOfficeBlock</parameter>
+        <parameter key="bootbusiness_navbar.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessNavbarBlock</parameter>
     </parameters>
 
     <services>
@@ -40,6 +42,11 @@
         <service id="bootbusiness_contact_office.block" class="%bootbusiness_contact_office.block.class%">
             <tag name="red_kite_cms.blocks_factory.block" description="Bootbusiness Contact Office" type="BootbusinessContactOfficeBlock" group="Bootbusiness,Bootbusiness product" />
             <argument type="service" id="red_kite_cms.events_handler" />
+        </service>
+        
+        <service id="bootbusiness_navbar.block" class="%bootbusiness_navbar.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Bootbusiness Navbar" type="BootbusinessNavbarBlock" group="Bootbusiness,Bootbusiness product" />
+            <argument type="service" id="service_container" />
         </service>
         
         <service id="bootbusinessproductblock.form" class="%bootbusinessproductblock.form.class%">
