@@ -8,7 +8,7 @@
         
         {% for key, item in navbar.items %}
             {% set baseKey = block_manager.get.getId ~ "-" ~ key %}    
-            {{ renderIncludedBlock(baseKey, block_manager, item.blockType, true, '', 'data-item=' ~ key) }}    
+            {{ renderIncludedBlock(baseKey, block_manager, item.blockType, true, '', 'data-hide-blocks-menu=true data-item=' ~ key) }}    
         {% endfor %}
     </div>
 </div>
