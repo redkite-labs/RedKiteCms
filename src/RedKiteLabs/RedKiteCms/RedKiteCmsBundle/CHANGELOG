@@ -1,3 +1,22 @@
+RedKite CMS 1.1.Beta 4 (2013/11/10)
+e8a66c5 fixed box-centered class
+80229d0 blocks toolbar add button is now hidden when block is included
+099ba4e improved contents toolbar: background image is now rendered using css, background image changes according with the toolbar position; added hover image
+12f0013 hidden move icon because it is not implemented yet
+242f250 fixed AlCommandsProcessor to detect a failed command
+af35802 added submit button to this base type so all classes which inherits will inherit the button
+3bb7783 refactored AlBlockManagerJsonBlockCollection
+bd05a64 implemented the filter attribute for App-Blocks to filter them in the added menu
+efea4ca increased floating panel z-index
+4c46a07 increased popover z-index
+297a4bb thrown an exception when home page is directly degraded
+c75b786 fixed language promotion to main language which was not working as expected because it did not reset the previous main language
+64d967a redesigned the login form and the one displayed when the user session has expired
+deef510 upgraded to Propel 1.7.0
+efdd73d changed placeholder icon
+32c461a fixed elfinder icons wrong display when using Twitter Bootstrap 3
+e2e7dbd redesigned pages, languages and security panels
+
 RedKite CMS 1.1.Beta 3 (2013/10/26)
 c8269ce added a control to check when the red_kite_cms.bootstrap_themes is defined
 ec232c6 added a workaround to correctly display alerts in Twitter Bootstrap 2.x and 3.x
