@@ -2,7 +2,7 @@ _assetic:
     resource: .
     type:     assetic
     
-_alphaLemonCmsBundle:
+_redKiteCmsCmsBundle:
     resource: "@RedKiteCmsBundle/Resources/config/routing_cms.yml"
 
 _main:

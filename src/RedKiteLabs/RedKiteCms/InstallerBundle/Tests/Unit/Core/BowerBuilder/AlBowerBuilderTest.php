@@ -1,17 +1,17 @@
 <?php
-/**
- * This file is part of the RedKiteCms CMS Application and it is distributed
- * under the GPL LICENSE Version 2.0. To use this application you must leave
+/*
+ * This file is part of the RedKite CMS InstallerBundle and it is distributed
+ * under the MIT LICENSE. To use this application you must leave
  * intact this copyright notice.
  *
- * Copyright (c) RedKiteCms <webmaster@alphalemon.com>
+ * Copyright (c) RedKiteCms <webmaster@redkite-labs.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
  *
- * @license    GPL LICENSE Version 2.0
+ * @license    MIT LICENSE
  *
  */
 
@@ -23,7 +23,7 @@ use org\bovigo\vfs\vfsStream;
 /**
  * AlBowerBuilderTest
  *
- * @author alphalemon <webmaster@alphalemon.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlBowerBuilderTest extends TestCase
 {

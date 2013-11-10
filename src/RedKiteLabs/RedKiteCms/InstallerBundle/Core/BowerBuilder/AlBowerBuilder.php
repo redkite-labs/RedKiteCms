@@ -1,6 +1,6 @@
 <?php
-/**
- * This file is part of the RedKite CMS Application and it is distributed
+/*
+ * This file is part of the RedKite CMS InstallerBundle and it is distributed
  * under the MIT LICENSE. To use this application you must leave
  * intact this copyright notice.
  *
@@ -24,7 +24,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
  * file if exists. All the collected files are merged and an unique file is generated
  * into the web folder.
  *
- * @author alphalemon <webmaster@redkite-labs.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlBowerBuilder
 {

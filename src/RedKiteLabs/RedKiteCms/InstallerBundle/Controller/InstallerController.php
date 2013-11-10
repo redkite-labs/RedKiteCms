@@ -31,7 +31,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Implements the controller to install RedKite CMS
  *
- * @author alphalemon <webmaster@redkite-labs.com>
+ * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class InstallerController extends Controller
 {

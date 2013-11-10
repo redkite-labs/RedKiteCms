@@ -56,7 +56,7 @@ class ConfigureCmsCommand extends ContainerAwareCommand
             $this->writeMessages($output, $configuration->configure(), true);        
             $output->writeln("<info>The configuration has been written</info>");
 
-            $installer = new Environments($container->getParameter('kernel.root_dir'), $options);        
+            $installer = new Environments($container->getParameter('kernel.root_dir'), $options);
             $this->writeMessages($output, $installer->setUp(), true);
             $output->writeln("<info>The RedKite CMS environments have been set up</info>");
         }

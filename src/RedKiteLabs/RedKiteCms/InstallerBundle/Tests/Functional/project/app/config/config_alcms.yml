@@ -14,29 +14,7 @@ monolog:
 
 assetic:
     use_controller: true
-    
-#red_kite_cms:
-    # skin: alphaLemon
-    # page_blocks:
-        #BundleName: Bundle description
-    #   Markdown: Markdown file
-      
-    # stylesheets:
-    #     0: path/to/stylesheet
-    #     1: path/to/stylesheet
-        
-    # javascripts:
-    #     0: path/to/javascript
-    #     1: path/to/javascript
-        
-    # deploy:
-    #     xliff_skeleton: RedKiteCmsBundle/Resources/data/xml/xliff-skeleton.xml
-    #     xml_skeleton: RedKiteCmsBundle/Resources/data/xml/page-skeleton.xml
-        
-    # assets:
-    #     skeletons_folder: RedKiteCmsBundle/Resources/data/assets
-    #     output_folder: Resources/views/Assets
-    
+
 framework:
     router:   { resource: "%kernel.root_dir%/config/routing_rkcms.yml" }
     
