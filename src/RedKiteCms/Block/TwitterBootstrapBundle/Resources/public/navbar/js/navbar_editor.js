@@ -35,11 +35,19 @@ $(document).ready(function() {
     
     $(document).on("stopEditingBlocks", function(event, element){ 
         if (element.attr('data-type') == 'BootstrapNavbarBlock') {
-            $('.al-navbar-list').inlinelist('stop');
+            $(element)
+                .inlinelist('stop')
+                .find('[data-editor="enabled"]')
+                .blocksEditor('start')
+            ;
         }
 
         if (element.attr('data-type') == 'BootstrapNavbarMenuBlock') {
-            $('.al-navbar-menu-list').inlinelist('stop');
+            $(element)
+                .inlinelist('stop')
+                .find('[data-editor="enabled"]')
+                .blocksEditor('start')
+            ;
         }
 
         $('.al_block_adder').unbind().blocksMenu('initAdders');
@@ -47,7 +55,11 @@ $(document).ready(function() {
 
     $(document).on("blockEdited", function(event, element){        
         if (element.attr('data-type') == 'BootstrapNavbarBlock' || element.attr('data-type') == 'BootstrapNavbarMenuBlock') {
-            $(element).blocksEditor('start');
+            $(element)
+                .blocksEditor('start')
+                .find('[data-editor="enabled"]')
+                .blocksEditor('start')
+            ;
         }
     });
 });
