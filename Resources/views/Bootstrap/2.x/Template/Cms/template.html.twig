@@ -17,10 +17,11 @@
 
 {% block external_stylesheets %}
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
-        {% stylesheets filter='?yui_css,cssrewrite' 'components/redkitecms/jquery-ui/themes/smoothness/*'
-                                                    'components/redkitecms/twitter-bootstrap/2.x/css/bootstrap.min.css'
+        {% stylesheets filter='?yui_css,cssrewrite' 'components/redkitecms/twitter-bootstrap/2.x/css/bootstrap.min.css'
                                                     'components/redkitecms/twitter-bootstrap/2.x/css/bootstrap-responsive.min.css'
                                                     'bundles/redkitecms/css/skins/bootstrap/skin.css'
+                                                    'bundles/redkitecms/css/skins/bootstrap/skin_2.x.css'
+                                                    'components/redkitecms/jquery-ui/themes/smoothness/*'
                                                     'bundles/redkitelabselfinder/vendor/ElFinder/vendor/jquery-ui.css'
                                                     'bundles/redkitelabselfinder/vendor/ElFinder/css/elfinder.min.css'
                                                     'bundles/redkitelabselfinder/vendor/ElFinder/css/theme.css'
@@ -28,11 +29,11 @@
         <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
         {% endstylesheets %}
     {% else %}
-        {% stylesheets filter='?cssrewrite' 'components/redkitecms/jquery-ui/themes/smoothness/*'
-                                            'components/redkitecms/twitter-bootstrap/2.x/css/bootstrap.min.css'
+        {% stylesheets filter='?cssrewrite' 'components/redkitecms/twitter-bootstrap/2.x/css/bootstrap.min.css'
                                             'components/redkitecms/twitter-bootstrap/2.x/css/bootstrap-responsive.min.css'
-                                            'bundles/redkitecms/vendor/vendor-adapter.css' 
                                             'bundles/redkitecms/css/skins/bootstrap/skin.css'
+                                            'bundles/redkitecms/css/skins/bootstrap/skin_2.x.css'
+                                            'components/redkitecms/jquery-ui/themes/smoothness/*'
                                             'bundles/redkitelabselfinder/vendor/ElFinder/vendor/jquery-ui.css'
                                             'bundles/redkitelabselfinder/vendor/ElFinder/css/elfinder.min.css'
                                             'bundles/redkitelabselfinder/vendor/ElFinder/css/theme.css'
@@ -52,7 +53,7 @@
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
     {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js'
                                      'components/redkitecms/jquery-ui/js/jquery-ui.min.js'
-                                     'components/redkitecms/twitter-bootstrap/2.x/js/bootstrap.js'
+                                     'components/redkitecms/twitter-bootstrap/2.x/js/bootstrap.min.js'
                                      'components/jquery-easing/jquery.easing.min.js'
                                      'components/holderjs/holder.js'
                                      'bundles/redkitelabselfinder/vendor/ElFinder/js/elfinder.min.js'

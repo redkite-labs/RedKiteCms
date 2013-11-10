@@ -50,9 +50,10 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('#languages_language')->count());
         $this->assertEquals(1, $crawler->filter('#languages_isMain')->count());
         $this->assertEquals(1, $crawler->filter('#al_language_saver')->count());
+        $this->assertEquals(1, $crawler->filter('.rk-language-remover')->count());
     }
 
-    public function testAddLanguageFailsWhenPageNameParamIsMissing()
+    public function testAddLanguageFailsWhenLanguageNameParamIsMissing()
     {
         $params = array('page' => 'index',
                         'language' => 'en',
@@ -62,7 +63,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertRegExp(
-            '/exception_null_language_name|A language cannot be null. Please provide a valid language name to add the language/si',
+            '/exception_some_required_options_are_not_provided|The following options are required: %required%. The options you gave are %values%/si',
             $this->client->getResponse()->getContent()
         );
     }
@@ -91,9 +92,9 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("languages", $json[1]["key"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertNotRegExp("/\<a[^\>]+ref=\"2\"\>en\<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/\<a[^\>]+data-language-id=\"2\"\>en\<\/a\>/s", $json[1]["value"]);
         $this->assertRegExp("/en/s", $json[1]["value"]);
-        $this->assertRegExp("/\<a[^\>]+ref=\"3\"\>fr\<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/\<a[^\>]+data-language-id=\"3\"\>fr\<\/a\>/s", $json[1]["value"]);
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("languages_menu", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));        
@@ -172,10 +173,12 @@ class LanguagesControllerTest extends WebTestCaseFunctional
 
     public function testAddANewMainLanguage()
     {
-        $params = array('page' => 'index',
-                        'language' => 'en',
-                        'newLanguage' => 'es',
-                        'isMain' => '1',);
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'newLanguage' => 'es',
+            'isMain' => '1',
+        );
         $crawler = $this->client->request('POST', '/backend/en/al_saveLanguage', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -204,6 +207,47 @@ class LanguagesControllerTest extends WebTestCaseFunctional
 
         $language = $this->languageRepository->fromPk(3);
         $this->assertEquals('it', $language->getLanguageName());
+    }
+    
+    public function testDegradingMainLanguageFails()
+    {
+        $languageId = $this->languageRepository->mainLanguage()->getId();
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'languageId' => $languageId,
+            'isMain' => 0,
+        );
+
+        $crawler = $this->client->request('POST', '/backend/en/al_saveLanguage', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(404, $response->getStatusCode());
+
+        $this->assertRegExp(
+            '/exception_main_language_cannot_be_degraded|Current main language cannot be degraded. To change the main language you must promote another language as main and this one will be automatically degraded/si',
+            $response->getContent()
+        );
+    }
+    
+    public function testLanguageHasBeenPromotedToMainLanguage()
+    {
+        $mainLanguage = $this->languageRepository->mainLanguage();
+        
+        $params = array(
+            'page' => 'index',
+            'language' => 'en',
+            'languageId' => 3,
+            'isMain' => 1,
+        );
+
+        $crawler = $this->client->request('POST', '/backend/en/al_saveLanguage', $params);
+        $response = $this->client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $language = $this->languageRepository->fromPk(3);
+        $this->assertEquals(1, $language->getMainLanguage());
+        
+        $this->assertEquals(0, $mainLanguage->getMainLanguage());
     }
 
     public function testDeleteLanguageFailsBecauseAnyLanguageIdIsGiven()
@@ -277,8 +321,8 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("languages", $json[1]["key"]);
         $this->assertTrue(array_key_exists("value", $json[1]));
-        $this->assertRegExp("/\<a[^\>]+ref=\"3\"\>it<\/a\>/s", $json[1]["value"]);
-        $this->assertRegExp("/\<a[^\>]+ref=\"4\"\>es\<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/\<a[^\>]+data-language-id=\"3\"\>it<\/a\>/s", $json[1]["value"]);
+        $this->assertRegExp("/\<a[^\>]+data-language-id=\"4\"\>es\<\/a\>/s", $json[1]["value"]);
         $this->assertTrue(array_key_exists("key", $json[2]));
         $this->assertEquals("languages_menu", $json[2]["key"]);
         $this->assertTrue(array_key_exists("value", $json[2]));    

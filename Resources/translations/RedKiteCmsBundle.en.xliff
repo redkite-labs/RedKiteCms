@@ -338,6 +338,14 @@
             <source>exception_slot_not_changed</source>
             <target>The slot has not been changed due to an error occoured when saving to database</target>
         </trans-unit>
+        <trans-unit id="exceptions-86">
+            <source>exception_main_language_cannot_be_degraded</source>
+            <target>Current main language cannot be degraded. To change the main language you must promote another language as main and this one will be automatically degraded</target>
+        </trans-unit>
+        <trans-unit id="exceptions-87">
+            <source>exception_home_page_cannot_be_degraded</source>
+            <target>Current home page cannot be degraded. To change the website home page you must promote another page as main and this one will be automatically degraded</target>
+        </trans-unit>
                 
         <!-- COMMON -->
         
@@ -372,6 +380,10 @@
         <trans-unit id="common-8">
             <source>common_label_change</source>
             <target>Change</target>
+        </trans-unit>
+        <trans-unit id="common-9">
+            <source>common_label_save_as_new</source>
+            <target>Save as new</target>
         </trans-unit>
         
         <!-- BLOCKS CONTROLLER -->
@@ -708,10 +720,6 @@
             <source>pages_controller_label_site_pages</source>
             <target>Site pages</target>
         </trans-unit>
-        <trans-unit id="pages-controller-27">
-            <source>pages_controller_next_step</source>
-            <target>And now select the language or remove the page</target>
-        </trans-unit>
         <trans-unit id="pages-controller-28">
             <source>pages_controller_al_prefix_not_permitted</source>
             <target>The prefix [ al_ ] is not permitted to avoid conflicts with the application internal routes</target>
@@ -739,7 +747,7 @@
         <trans-unit id="pages-controller-34">
             <source>pages_controller_page_removed</source>
             <target>The page has been successfully removed</target>
-        </trans-unit>
+        </trans-unit>   
         
         
         <!-- PREVIEW CONTROLLER -->
@@ -764,8 +772,8 @@
             <target>Username</target>
         </trans-unit>
         <trans-unit id="security-controller-3">
-            <source>security_controller_label_email</source>
-            <target>Email</target>
+            <source>security_controller_label_role</source>
+            <target>Role</target>
         </trans-unit>
         <trans-unit id="security-controller-4">
             <source>security_controller_label_roles</source>
@@ -789,7 +797,7 @@
         </trans-unit>
         <trans-unit id="security-controller-9">
             <source>security_controller_label_rolename</source>
-            <target>Rolename</target>
+            <target>Role name</target>
         </trans-unit>
         <trans-unit id="security-controller-10">
             <source>security_controller_label_manage_role</source>
@@ -815,6 +823,35 @@
             <source>security_controller_role_saved</source>
             <target>Role has been saved</target>
         </trans-unit>
+        <trans-unit id="security-controller-16">
+            <source>security_controller_user_removed</source>
+            <target>User has been removed</target>
+        </trans-unit>
+        <trans-unit id="security-controller-17">
+            <source>security_controller_values_not_valid</source>
+            <target>Some values are not valid</target>
+        </trans-unit>
+        <trans-unit id="security-controller-18">
+            <source>security_controller_role_removed</source>
+            <target>Role has been removed</target>
+        </trans-unit>
+        <trans-unit id="security-controller-19">
+            <source>security_controller_role_in_use</source>
+            <target>Role cannot be removed because it is assigned to one or more users</target>
+        </trans-unit>
+        <trans-unit id="security-controller-20">
+            <source>security_controller_nothing_made</source>
+            <target>Nothing has been made with the given data</target>
+        </trans-unit>
+        <trans-unit id="security-controller-21">
+            <source>security_controller_reauthentication_title</source>
+            <target>Session expired</target>
+        </trans-unit>
+        <trans-unit id="security-controller-22">
+            <source>security_controller_reauthentication_body</source>
+            <target>Your session has expired. You need to re-authenticate yourself to continue</target>
+        </trans-unit>
+        
         
         <!-- THEMES CONTROLLER -->
         

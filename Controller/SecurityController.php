@@ -24,6 +24,7 @@ use RedKiteLabs\RedKiteCmsBundle\Model\AlRole;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\Security\AlUserType;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\Security\AlRoleType;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Implements the authentication action to grant the use of the CMS.
@@ -59,7 +60,7 @@ class SecurityController extends Base\BaseController
         $alPage = $pageReporitory->homePage();
         $alLanguage = $languageReporitory->mainLanguage();
         $params['target'] = '/backend/' . $alLanguage->getLanguageName() . '/' . $alPage->getPageName();
-        //$params['bootstrap_version'] = $bootstrapVersion;
+        $params['cms_language'] = $this->container->get('red_kite_cms.configuration')->read('language');
         
         return $this->container->get('templating')->renderResponse($template, $params, $response);
     }
@@ -80,128 +81,199 @@ class SecurityController extends Base\BaseController
         // The security layer will intercept this request
     }
 
-    public function listUsersAction()
+    public function listUsersAction(Request $request)
     {
         return $this->loadUsers();
     }
 
-    public function listRolesAction()
+    public function listRolesAction(Request $request)
     {
-        return $this->loadRoles();
+        return $this->loadRoles($request);
     }
 
-    public function showUserAction()
+    public function loadUserAction(Request $request)
     {
-        $request = $this->container->get('request');
-        $isNewUser = (null !== $request->get('id') && 0 != $request->get('id')) ? false : true;
-        $user = (!$isNewUser) ? $this->userRepository()->fromPk($request->get('id')) : new AlUser();
-        $form = $this->container->get('form.factory')->create(new AlUserType(), $user);
-        
+        $values = array();
+        $userId = $request->get('entityId');
+        if (null !== $userId) {
+            $alUser = $this->userRepository()->fromPK($userId);
+            $values[] = array("name" => "#al_user_id", "value" => $alUser->getId());
+            $values[] = array("name" => "#al_user_username", "value" => $alUser->getUserName());
+            $values[] = array("name" => "#al_user_email", "value" => $alUser->getEmail());
+            $values[] = array("name" => "#al_user_AlRole", "value" => $alUser->getRoleId());
+        }
+
+        return $this->buildJsonResponse($values);
+    }
+
+    public function loadRoleAction(Request $request)
+    {
+        $values = array();
+        $roleId = $request->get('entityId');
+        if (null !== $roleId) {
+            $alRole = $this->roleRepository()->fromPK($roleId);
+            $values[] = array("name" => "#al_role_id", "value" => $alRole->getId());
+            $values[] = array("name" => "#al_role_role", "value" => $alRole->getRole());
+        }
+
+        return $this->buildJsonResponse($values);
+    }
+    
+    public function saveUserAction(Request $request)
+    {
         $message = '';
         $errors = array();
         if ('POST' === $request->getMethod()) { 
-            $userName = $request->get('al_username');
-            if ($isNewUser && null !== $this->userRepository()->fromUsername($userName)) {
+            $userId = $request->get('userId');
+            $isNewUser = (null !== $userId && $userId != 0) ? false : true;
+            $user = ( ! $isNewUser) ? $this->userRepository()->fromPk($userId) : new AlUser();
+            
+            $userName = $request->get('username');
+            if (null !== $this->userRepository()->fromUsername($userName) && $user->getUserName() != $userName ) {
                 throw new RuntimeException('exception_username_exists');
             }
             
-            $alUser = $this->container->get('security.context')->getToken()->getUser();
-
-            $user->setRoleId($request->get('al_role_id'));
+            $user->setRoleId($request->get('roleId'));
             $user->setUsername($userName);
-            $user->setPassword($request->get('al_password'));
-            $user->setEmail($request->get('al_email'));
+            $user->setPassword($request->get('password'));
+            $user->setEmail($request->get('email'));
 
             $validator = $this->container->get('validator');
             $errors = $validator->validate($user);
-            if (count($errors) == 0) {
-                $factory = $this->container->get('security.encoder_factory');
-                $encoder = $factory->getEncoder($alUser);
-                $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
-                $password = $encoder->encodePassword($request->get('al_password'), $salt);
-
-                $user->setSalt($salt);
-                $user->setPassword($password);
-
-                $message = "security_controller_user_not_saved";
-                if ($user->save() > 0) {
-                    $message = "security_controller_user_saved";
-                }
-                $message = $this->translate($message);
-
-                // Let's refresh the form with the saved data when the user is edited
-                if ( ! $isNewUser) {
-                    $form = $this->container->get('form.factory')->create(new AlUserType(), $user);
-                }
+            if (count($errors) > 0) {
+                $message = $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_errors.html.twig', array(
+                    'errors' => $errors,
+                    'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
+                ));
+                
+                throw new RuntimeException($message);
             }
-        }
+            
+            $factory = $this->container->get('security.encoder_factory');
+            $encoder = $factory->getEncoder($user);
+            $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+            $password = $encoder->encodePassword($request->get('password'), $salt);
 
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/user.html.twig', array(
-            'form' => $form->createView(),
-            'errors' => $errors,
-            'message' => $message,
-            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
-        ));
+            $user->setSalt($salt);
+            $user->setPassword($password);
+
+            $messageKey = "security_controller_user_not_saved";
+            if ($user->save() > 0) {
+                $messageKey = "security_controller_user_saved";
+            }
+            $message = $this->translate($messageKey);
+        }
+        
+        $values = array(
+            array(
+                'key' => 'message',
+                'value' => $message,
+            ),
+            array(
+                'key' => 'refresh_list',
+                'value' => $this->loadUsersList(),
+            ),
+        );
+        
+        return $this->buildJsonResponse($values);
     }
 
-    public function showRoleAction()
+    public function saveRoleAction(Request $request)
     {
-        $request = $this->container->get('request');
-        $isNewRole = (null !== $request->get('id') && 0 != $request->get('id')) ? false : true;
-        $role = (null !== $request->get('id') && 0 != $request->get('id')) ? $this->roleRepository()->fromPK($request->get('id')) : new AlRole();
-        $form = $this->container->get('form.factory')->create(new AlRoleType(), $role);
-
         $message = '';
         $errors = array();
         if ('POST' === $request->getMethod()) {
-            $roleName = strtoupper($request->get('al_rolename'));
-            if ($isNewRole && null !== $this->roleRepository()->fromRolename($roleName)) {
+            $roleId = $request->get('roleId');
+            $roleName = strtoupper($request->get('role'));
+            $isNewRole = (null !== $roleId && 0 != $roleId) ? false : true;
+            $role = ( ! $isNewRole) ? $this->roleRepository()->fromPK($roleId) : new AlRole();
+            if (null !== $this->roleRepository()->fromRoleName($roleName) && $role->getRoleName() != $roleName ) {
                 throw new RuntimeException('exception_role_exists');
             }
             
             $role->setRole($roleName);
             $validator = $this->container->get('validator');
             $errors = $validator->validate($role);
-            if (count($errors) == 0) {
-                $message = "security_controller_role_not_saved";
-                if ($role->save() > 0) {
-                    $message = "security_controller_role_saved";
-                }
-                $message = $this->translate($message);
-
-                // Let's refresh the form with the saved data when the user is edited
-                if (!$isNewRole) $form = $this->container->get('form.factory')->create(new AlRoleType(), $role);
+            if (count($errors) > 0) {
+                $message = $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_errors.html.twig', array(
+                    'errors' => $errors,
+                    'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
+                ));
+                
+                throw new RuntimeException($message);                
             }
+            
+            $messageKey = "security_controller_role_not_saved";
+            if ($role->save() > 0) {
+                $messageKey = "security_controller_role_saved";
+            }
+            $message = $this->translate($messageKey);
         }
         
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/role.html.twig', array(
-            'form' => $form->createView(),
-            'errors' => $errors,
-            'message' => $message,
-            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
-        ));
+        $values = array(
+            array(
+                'key' => 'message',
+                'value' => $message,
+            ),
+            array(
+                'key' => 'refresh_list',
+                'value' => $this->loadRolesList(),
+            ),
+        );
+        
+        return $this->buildJsonResponse($values);
     }
 
-    public function deleteUserAction()
+    public function deleteUserAction(Request $request)
     {
-        $request = $this->container->get('request');
         if (null !== $request->get('id')) {
             $user = $this->userRepository()->fromPk($request->get('id'));
             $user->delete();
-        }
 
-        return $this->loadUsers();
+            $values = array(
+                array(
+                    'key' => 'message',
+                    'value' => $this->translate('security_controller_user_removed'),
+                ),
+                array(
+                    'key' => 'refresh_list',
+                    'value' => $this->loadUsersList(),
+                ),
+            );
+
+            return $this->buildJsonResponse($values);
+        }
+        
+        throw new RuntimeException('security_controller_nothing_made');
     }
 
-    public function deleteRoleAction()
+    public function deleteRoleAction(Request $request)
     {
-        $request = $this->container->get('request');
-        if (null !== $request->get('id')) {
-            $user = $this->roleRepository()->fromPK($request->get('id'));
+        $roleId = $request->get('id');
+        if (null !== $roleId) {
+            $users = $this->userRepository()->usersByRole($roleId);
+            if (count($users) > 0) {
+                throw new RuntimeException('security_controller_role_in_use');
+            }
+            
+            $user = $this->roleRepository()->fromPK($roleId);
             $user->delete();
+            
+            $values = array(
+                array(
+                    'key' => 'message',
+                    'value' => $this->translate('security_controller_role_removed'),
+                ),
+                array(
+                    'key' => 'refresh_list',
+                    'value' => $this->loadRolesList(),
+                ),
+            );
+            
+            return $this->buildJsonResponse($values);
         }
-
-        return $this->loadRoles();
+        
+        throw new RuntimeException('security_controller_nothing_made');
     }
     
     protected function checkRequestError()
@@ -234,20 +306,42 @@ class SecurityController extends Base\BaseController
 
     private function loadUsers()
     {  
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/users_list.html.twig', array(
+        $form = $this->container->get('form.factory')->create(new AlUserType(), new AlUser());
+        
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/users_panel.html.twig', array(
             'users' => $this->userRepository()->activeUsers(),
+            'form' => $form->createView(),
             'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
         ));
     }
 
     private function loadRoles()
     {
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/roles_list.html.twig', array(
+        $form = $this->container->get('form.factory')->create(new AlRoleType(), new AlRole());
+        
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/roles_panel.html.twig', array(
+            'roles' => $this->roleRepository()->activeRoles(),
+            'form' => $form->createView(),
+            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
+        ));
+    }
+    
+    private function loadUsersList()
+    { 
+        return $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_users_list.html.twig', array(
+            'users' => $this->userRepository()->activeUsers(),
+            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
+        ));
+    }
+    
+    private function loadRolesList()
+    { 
+        return $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_roles_list.html.twig', array(
             'roles' => $this->roleRepository()->activeRoles(),
             'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
         ));
     }
-
+    
     private function factoryRepository()
     {
         if (null === $this->factoryRepository) {
@@ -273,5 +367,13 @@ class SecurityController extends Base\BaseController
         }
 
         return $this->roleRepository;
+    }
+    
+    private function buildJsonResponse(array $values)
+    {
+        $response = new Response(json_encode($values));
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 }

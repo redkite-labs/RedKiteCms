@@ -251,7 +251,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                     $className = $this->languageRepository->getRepositoryObjectClassName();
                     $this->alLanguage = new $className();
                 }
-
+                
                 $result = $this->languageRepository
                             ->setRepositoryObject($this->alLanguage)
                             ->save($values);
@@ -316,17 +316,19 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             $result = true;
             $this->languageRepository->startTransaction();
 
+            $requireToChangeName = array_key_exists('LanguageName', $values);
+            
             if (isset($values["MainLanguage"]) && $values["MainLanguage"] == 1) {
-                if ($this->alLanguage->getMainLanguage() == 1) {
-                    // If the language is declared as main, resets the previuos
-                    $result = $this->resetMain();
-                }
+                $result = $this->resetMain();
             } else {
                 unset($values["MainLanguage"]);
+                if ( ! $requireToChangeName) {
+                    throw new Language\MainLanguageCannotBeDegradedException('exception_main_language_cannot_be_degraded');
+                }
             }
 
             if (false !== $result) {
-                if ( ! empty($values['LanguageName']) && $this->alLanguage->getLanguageName() == $values['LanguageName']) {
+                if ($requireToChangeName && ! empty($values['LanguageName']) && $this->alLanguage->getLanguageName() == $values['LanguageName']) {
                     unset($values['LanguageName']);
                 }
 

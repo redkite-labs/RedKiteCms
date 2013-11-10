@@ -390,6 +390,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             } else {
                 unset($values['TemplateName']);
             }
+            
+            if (array_key_exists('IsHome', $values) && $this->alPage->getIsHome() == 1 && $values['IsHome'] == 0) {
+                throw new Page\HomePageCannotBeDegradedException('exception_home_page_cannot_be_degraded');
+            }
 
             $result = true;
             if (isset($values['IsHome']) && $values['IsHome'] != "" && $values['IsHome'] != 0 && $this->validator->hasPages(1)) {

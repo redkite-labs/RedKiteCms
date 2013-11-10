@@ -142,8 +142,8 @@ class CmsControllerTest extends WebTestCaseFunctional
     {
         $this->assertCount(0, $crawler->filter('#block_28'));
         $this->assertCount(1, $crawler->filter('[data-name="block_28"]'));
-        $this->assertCount(1, $crawler->filter('[data-name="block_28"]')->filter('[data-included="1"]'));
-        $this->assertCount(1, $crawler->filter('[data-name="block_28"]')->filter('[data-type="Link"]'));
+        $this->assertCount(3, $crawler->filter('[data-name="block_28"]')->filter('[data-included="1"]'));
+        $this->assertCount(2, $crawler->filter('[data-name="block_28"]')->filter('[data-type="Link"]'));
         $this->assertCount(1, $crawler->filter('[data-name="block_28"]')->filter('[data-slot-name="6-0"]'));
     }
     

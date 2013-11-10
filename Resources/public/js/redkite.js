@@ -135,7 +135,8 @@
             }
             
             activateEditableInlineContents();
-            hideContentsForEditMode($this);                
+            hideContentsForEditMode($this);     
+            
             $this
                 .unbind()
                 .addClass('al_edit_on')
@@ -146,61 +147,86 @@
                         return;
                     }
                     
-                    $this.highligther('highlight');
-                    $(this).css('cursor', 'pointer');
+                    var element = $(this);
                     
+                    $this.highligther('highlight');
+                    element.css('cursor', 'pointer');
                     
                     $('#al_block_menu_toolbar').show();
-                    if ($(this).is('[data-hide-blocks-menu="true"]')) {
+                    if (element.is('[data-hide-blocks-menu="true"]')) {
                         $('#al_block_menu_toolbar').hide();
-                        
+
                         return;
                     }
+                    
+                    $('.al-img-add-button').show();
+                    if (element.is('[data-included="1"]') && element.attr('data-block-id') > 0) {
+                        $('.al-img-add-button').hide();
+                    }
 
-                    $('#al_block_menu_toolbar').position({
+                    $('#al_block_menu_toolbar').data('parent', $this).position({
                             my: "right top",
                             at: "right bottom",
-                            of: $this
-                        })                      
-                        .data('parent', $this)
+                            of: $this,
+                            using: function( pos, ui ) {
+                                var $this = $(this);
+                                
+                                if ( ui.vertical == 'bottom' ) { 
+                                    $this.addClass('rk-top').removeClass('rk-bottom');
+                                    $($this).css({
+                                        left: pos.left + 'px',
+                                        top: pos.top - 1 + 'px'
+                                    });
+                                    
+                                } else {
+                                    $this.addClass('rk-bottom').removeClass('rk-top');
+                                    $($this).css({
+                                        left: pos.left + 'px',
+                                        top: pos.top + 1 + 'px'
+                                    });
+                                }
+                            }
+                        })
                     ;
+                    
+                    return;
                 })
                 .click(function(event)
                 {   
                     event.stopPropagation();
-                    
+
                     if (isCursorOverEditor && $('.al-popover:visible').length > 0) {
                         return false;
                     }
-                    
+
                     var $this = $(this);
-                    
+
                     if ($this.hasClass('al-empty-slot-placeholer')) {
                         alert(translate('You are trying to edit a placeholder for a slot which does not contain blocks: please do not edit this placeholder but simply add a new block to this slot'));
 
                         return false;
                     }
-                    
+
                     if ($('body').data('activeBlock') != null) {
                         stopEditElement($('body').data('activeBlock'));
-                        
+
                         if ($this.attr('data-name') == 'block_' + $('body').data('idBlock')) {
                             return false;
                         }
                     }
-                    
+
                     startEdit($this);
                     if (hasPopover) {
                         showPopover($this);
                     }
-                    
+
                     return false;
                 })
             ;
-
-            $(this).find("a").unbind().click(function(event) {
+            
+            $this.find("a").unbind().click(function(event) {
                 event.preventDefault();
-            });            
+            });
         });
     }
     
@@ -215,7 +241,7 @@
             .data('activeBlock', element)
         ;
         $('#al_block_menu_toolbar').hide();
-
+        
         $(document).trigger("startEditingBlocks", [ element ]);
     }
     
@@ -238,7 +264,6 @@
         element.popover('show');
 
         $('.al-popover:visible').each(function(){
-            //var pos = element.offset();
             var popover = $(this);
             
             // prevents to close editor when interacting with the included elements 
@@ -368,7 +393,7 @@ $(document).ready(function(){
                     },
                     error: function(err)
                     {
-                        $('body').showDialog(err.responseText);
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -444,7 +469,7 @@ $(document).ready(function(){
             $('[data-editor="enabled"]').trigger("editorStopping").blocksEditor('stop');
             $('.al_block_menu').hide();
             $('#al_block_menu_toolbar').hide();
-            $('#al_blocks_list').hide();
+            $('.al_blocks_list').hide();
 
             return false;
         });
@@ -506,9 +531,9 @@ $(document).ready(function(){
             $("#al_toggle_nav_button").toggle();
                 
             return false;
-	    });
+        });
         
-        $('#al_open_users_manager').ListUsers();
+        $('#al_open_users_manager').security('users_list');
 
         $('#al_logout').click(function()
         {
@@ -531,11 +556,13 @@ $(document).ready(function(){
                     },
                     success: function(html)
                     {
-                        $('#al_panel').OpenPanel(html, function(){InitPagesCommands();ObservePages();});
+                        $('#al_panel').OpenPanel(html, function(){
+                            $('body').pages('init');
+                        });
                     },
                     error: function(err)
                     {
-                        $('body').showDialog(err.responseText);
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -566,11 +593,13 @@ $(document).ready(function(){
                     },
                     success: function(html)
                     {
-                        $('#al_panel').OpenPanel(html, function(){InitLanguagesCommands();ObserveLanguages();});
+                        $('#al_panel').OpenPanel(html, function(){
+                            $('body').languages('init');
+                        });
                     },
                     error: function(err)
                     {
-                        $('body').showDialog(err.responseText);
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -605,7 +634,7 @@ $(document).ready(function(){
                     },
                     error: function(err)
                     {
-                        $('body').showDialog(err.responseText);
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -655,7 +684,7 @@ $(document).ready(function(){
                     },
                     error: function(err)
                     {
-                        $('body').showDialog(err.responseText);
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {
@@ -693,7 +722,7 @@ $(document).ready(function(){
                     },
                     error: function(err)
                     {
-                        $('body').showDialog(err.responseText);
+                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
                     },
                     complete: function()
                     {

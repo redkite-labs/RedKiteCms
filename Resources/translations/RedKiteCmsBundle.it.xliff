@@ -338,6 +338,14 @@
             <source>exception_slot_not_changed</source>
             <target>Lo slot non è stato cambiato a causa di un errore di salvataggio nel database</target>
         </trans-unit>
+        <trans-unit id="exceptions-86">
+            <source>exception_main_language_cannot_be_degraded</source>
+            <target>Il linguaggio corrente non può essere degradato. Per cambiare la lingua devi promuoverne un'altra come lingua principale e questa verrà automaticamente degradata</target>
+        </trans-unit>
+        <trans-unit id="exceptions-87">
+            <source>exception_home_page_cannot_be_degraded</source>
+            <target>La homepage corrente non può essere degradata. Per cambiare la pagina principale del sito devi promuoverne un'altra come homepage e questa verrà automaticamente degradata</target>
+        </trans-unit>
         
         <!-- COMMON -->
         
@@ -372,6 +380,10 @@
         <trans-unit id="common-8">
             <source>common_label_change</source>
             <target>Cambia</target>
+        </trans-unit>
+        <trans-unit id="common-9">
+            <source>common_label_save_as_new</source>
+            <target>Salva come nuova</target>
         </trans-unit>
         
         <!-- BLOCKS CONTROLLER -->
@@ -708,10 +720,6 @@
             <source>pages_controller_label_site_pages</source>
             <target>Pagine del sito</target>
         </trans-unit>
-        <trans-unit id="pages-controller-27">
-            <source>pages_controller_next_step</source>
-            <target>Ed ora seleziona la lingua oppure rimuovi la pagina</target>
-        </trans-unit>
         <trans-unit id="pages-controller-28">
             <source>pages_controller_al_prefix_not_permitted</source>
             <target>Il prefisso [ al_ ] non è consentito per evitare conflitti con le rotte interne dell'applicazione</target>
@@ -739,7 +747,7 @@
         <trans-unit id="pages-controller-34">
             <source>pages_controller_page_removed</source>
             <target>La pagina è stata rimossa con successo</target>
-        </trans-unit>
+        </trans-unit>   
         
         <!-- PREVIEW CONTROLLER -->
         
@@ -763,8 +771,8 @@
             <target>Utente</target>
         </trans-unit>
         <trans-unit id="security-controller-3">
-            <source>security_controller_label_email</source>
-            <target>Email</target>
+            <source>security_controller_label_role</source>
+            <target>Ruolo</target>
         </trans-unit>
         <trans-unit id="security-controller-4">
             <source>security_controller_label_roles</source>
@@ -814,6 +822,36 @@
             <source>security_controller_role_saved</source>
             <target>Il ruolo è stato salvato</target>
         </trans-unit>
+        <trans-unit id="security-controller-16">
+            <source>security_controller_user_removed</source>
+            <target>L'utente è stato rimosso</target>
+        </trans-unit>
+        <trans-unit id="security-controller-17">
+            <source>security_controller_values_not_valid</source>
+            <target>Alcuni valori non sono validi</target>
+        </trans-unit>
+        <trans-unit id="security-controller-18">
+            <source>security_controller_role_removed</source>
+            <target>Il ruolo è stato rimosso</target>
+        </trans-unit>
+        <trans-unit id="security-controller-19">
+            <source>security_controller_role_in_use</source>
+            <target>Il ruolo non può essere rimosso perchè è assegnato a uno o più utenti</target>
+        </trans-unit>
+        <trans-unit id="security-controller-20">
+            <source>security_controller_nothing_made</source>
+            <target>Nessuna operazione effettuata con i dati forniti</target>
+        </trans-unit>
+        <trans-unit id="security-controller-21">
+            <source>security_controller_reauthentication_title</source>
+            <target>Sessione scaduta</target>
+        </trans-unit>
+        <trans-unit id="security-controller-22">
+            <source>security_controller_reauthentication_body</source>
+            <target>La sessione è scaduta. E' necessario autentificarsi nuovamente per proseguire</target>
+        </trans-unit>
+        
+        
         
         <!-- THEMES CONTROLLER -->
         
