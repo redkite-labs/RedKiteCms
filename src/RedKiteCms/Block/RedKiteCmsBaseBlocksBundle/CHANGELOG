@@ -1,0 +1,5 @@
+RedKite CMS Base Blocks 1.1.Beta 4 (2013/11/10)
+6071ac9 removed submit button because it is inherited from parent class
+41d446a added explicit filter for link block
+a2ec1b7 blocks can now be used both with Twitter Bootstrap 2.x and 3.x; updated template files paths due to changes on RedKiteCmsBundle
+49e6160 first import
