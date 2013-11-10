@@ -147,14 +147,21 @@
                         return;
                     }
                     
+                    var element = $(this);
+                    
                     $this.highligther('highlight');
-                    $(this).css('cursor', 'pointer');
-
+                    element.css('cursor', 'pointer');
+                    
                     $('#al_block_menu_toolbar').show();
-                    if ($(this).is('[data-hide-blocks-menu="true"]')) {
+                    if (element.is('[data-hide-blocks-menu="true"]')) {
                         $('#al_block_menu_toolbar').hide();
 
                         return;
+                    }
+                    
+                    $('.al-img-add-button').show();
+                    if (element.is('[data-included="1"]') && element.attr('data-block-id') > 0) {
+                        $('.al-img-add-button').hide();
                     }
 
                     $('#al_block_menu_toolbar').data('parent', $this).position({
