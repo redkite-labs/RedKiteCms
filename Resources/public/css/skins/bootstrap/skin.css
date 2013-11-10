@@ -699,14 +699,12 @@ select.input-xxs {
 }
 
 #al_block_menu_toolbar {
-  width: 110px;
-  height: 34px;
+  width: auto;
+  height: auto;
   display: none;
   position: absolute;
   cursor: pointer;
-  padding-left: 12px;
   z-index: 5200;
-  background: transparent url("images/block_menu/block-menu.png") top left no-repeat;
 }
 #al_block_menu_toolbar ul {
   margin: 0;
@@ -722,11 +720,48 @@ select.input-xxs {
 #al_block_menu_toolbar .al-img-add-button {
   background: transparent url("images/block_menu/add.png") top left no-repeat;
 }
+#al_block_menu_toolbar .al-img-add-button:hover {
+  background: transparent url("images/block_menu/add-hover.png") top left no-repeat;
+}
 #al_block_menu_toolbar .al-img-move-button {
   background: transparent url("images/block_menu/move.png") top left no-repeat;
 }
+#al_block_menu_toolbar .al-img-move-button:hover {
+  background: transparent url("images/block_menu/move-hover.png") top left no-repeat;
+}
 #al_block_menu_toolbar .al-img-delete-button {
   background: transparent url("images/block_menu/delete.png") top left no-repeat;
+}
+#al_block_menu_toolbar .al-img-delete-button:hover {
+  background: transparent url("images/block_menu/delete-hover.png") top left no-repeat;
+}
+
+.rk-bottom {
+  -webkit-border-radius: 0 0 10px 10px;
+  -moz-border-radius: 0 0 10px 10px;
+  -ms-border-radius: 0 0 10px 10px;
+  -o-border-radius: 0 0 10px 10px;
+  border-radius: 0 0 10px 10px;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6a6a6a), color-stop(80%, #3a3a3a), color-stop(100%, #000000));
+  background-image: -webkit-linear-gradient(#6a6a6a, #3a3a3a 80%, #000000);
+  background-image: -moz-linear-gradient(#6a6a6a, #3a3a3a 80%, #000000);
+  background-image: -o-linear-gradient(#6a6a6a, #3a3a3a 80%, #000000);
+  background-image: linear-gradient(#6a6a6a, #3a3a3a 80%, #000000);
+  padding: 6px 4px 6px 8px;
+}
+
+.rk-top {
+  -webkit-border-radius: 10px 10px 0 0;
+  -moz-border-radius: 10px 10px 0 0;
+  -ms-border-radius: 10px 10px 0 0;
+  -o-border-radius: 10px 10px 0 0;
+  border-radius: 10px 10px 0 0;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #000000), color-stop(20%, #3a3a3a), color-stop(100%, #6a6a6a));
+  background-image: -webkit-linear-gradient(#000000, #3a3a3a 20%, #6a6a6a);
+  background-image: -moz-linear-gradient(#000000, #3a3a3a 20%, #6a6a6a);
+  background-image: -o-linear-gradient(#000000, #3a3a3a 20%, #6a6a6a);
+  background-image: linear-gradient(#000000, #3a3a3a 20%, #6a6a6a);
+  padding: 8px 4px 4px 8px;
 }
 
 .al_block_menu {
