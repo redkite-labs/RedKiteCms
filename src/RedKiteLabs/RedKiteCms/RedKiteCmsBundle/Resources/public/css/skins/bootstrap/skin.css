@@ -199,6 +199,15 @@ select.input-xxs {
 }
 
 .box-centered {
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.box-centered1 {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -438,7 +447,6 @@ select.input-xxs {
 #rk-container {
   width: 350px;
   height: 360px;
-  margin-top: -40px;
 }
 
 #rk-signin-form {
