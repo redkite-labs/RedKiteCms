@@ -1,0 +1,14 @@
+RedKite CMS Twitter Bootstrap Blocks 1.1.Beta 4 (2013/11/10)
+abd78cf when editor was stopped, included blocks are not editable. Fixed
+2defc17 hide blocks toolbar for included blocks
+1d271c1 added navbar form object and fixed blocks alignment for twitter bootstrap 2.x
+98b1d0a refactored toolbar block and added text and button included blocks
+2f1fed8 fixed runtime exception message when bootstrap version is not found
+72c58e0 blocks can now be used both with Twitter Bootstrap 2.x and 3.x; updated template files paths due to changes on RedKiteCmsBundle
+
+RedKite CMS Twitter Bootstrap Blocks
+62a7203 added script to manage thumbnails
+e892092 added the href attribute to button block: when this attribute is filled up, the button is rendered as a link
+2a85362 valued received from the images form are decoded
+c176390 updated autoload to load the bundle only for rkcms environments; implemented composer.json
+bce8fed first import
