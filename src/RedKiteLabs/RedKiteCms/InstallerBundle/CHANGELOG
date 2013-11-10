@@ -1,0 +1,37 @@
+RedKite CMS Installer 1.1.Beta 4 (2013/11/10)
+d406996 removed test connection
+70bba75 removed silent mode
+c198ada removed return value from commands
+
+RedKite CMS Installer 1.1
+1d2ef35 checked the database connection when the process begins
+f3a392d moved the environment configuration from BaseDbBootstrapper to InstallCommand; added a control to check the environment
+ecac8f8 updated to return -1 when the command fails
+9b944e1 added a method to test the database connection with the given parameters
+52a4bf9 excluded sqlite not required parameters validation
+a0febc8 to install RedKite CMS is now required to run two commands, in fact install command does not configure the environments anymore; added a valid
+56deab5 udated RedKite CMS bower package
+a486d76 updated active theme service name
+f6c2c56 a test database is used when running tests
+e4698a6 fixed routing_rkcms.yml generation
+c4192e3 implemented permission check before starting the installation process
+9552fe9 added generators to generate configuration and frontcontroller files
+e98dee9 added unit tests
+271a1bc MysqlDsnBuilder inherits from GenericDsnBuilder
+937850f refactored InstallerBundle; fixed installation for postgres and sqlite databases; splitted installation in three phases now callable one by one
+91aa5fa write the config_rkcms_dev.yml which was missing; routing configuration files are now recreated each time as the configs
+d528681 redesigned the web interface
+9bd2d30 improved installer to reinstall from the scratch, when the CMS is installed more the one times
+da0b416 added website url requirement durung the installation process
+3456cd9 replaced bindRequest deprecated method with new bind method
+42c7998 fixed registerContainerConfiguration method manipulation
+9f2c6b9 added bower support
+488fed4 removed TinyMCE requirement
+d9a16e8 added initial value for al_configuration table; active theme is now explicitly choosen
+b6e46ca fixed a minor bug in AppKernel code generated
+0ab07bc removed yuicompressor requirement
+542189d fixed routing_stage.yml file creating
+2b3764c update installer to install stage environment
+2d563cd added backup for important symfony2 system files
+7572ba1 added fake email to admin user
+b1f1393 first import
