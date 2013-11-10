@@ -146,7 +146,7 @@
                     if (stopBlocksMenu) {
                         return;
                     }
-
+                    
                     $this.highligther('highlight');
                     $(this).css('cursor', 'pointer');
 
@@ -157,13 +157,32 @@
                         return;
                     }
 
-                    $('#al_block_menu_toolbar').position({
+                    $('#al_block_menu_toolbar').data('parent', $this).position({
                             my: "right top",
                             at: "right bottom",
-                            of: $this
-                        })                      
-                        .data('parent', $this)
+                            of: $this,
+                            using: function( pos, ui ) {
+                                var $this = $(this);
+                                
+                                if ( ui.vertical == 'bottom' ) { 
+                                    $this.addClass('rk-top').removeClass('rk-bottom');
+                                    $($this).css({
+                                        left: pos.left + 'px',
+                                        top: pos.top - 1 + 'px'
+                                    });
+                                    
+                                } else {
+                                    $this.addClass('rk-bottom').removeClass('rk-top');
+                                    $($this).css({
+                                        left: pos.left + 'px',
+                                        top: pos.top + 1 + 'px'
+                                    });
+                                }
+                            }
+                        })
                     ;
+                    
+                    return;
                 })
                 .click(function(event)
                 {   
