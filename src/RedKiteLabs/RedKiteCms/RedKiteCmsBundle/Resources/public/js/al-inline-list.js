@@ -64,7 +64,8 @@
         ;
         
         element
-            .find(settings.target).each(function(){
+            .find(settings.target)
+            .each(function(){
                 var $this = $(this); 
                 if ($this.hasClass('al-empty')) { 
                     return;
@@ -110,34 +111,17 @@
         
         $('.al-add-item-list').show();
         if (settings.addValue == null) {
-            
             // Adds a custom value            
             $('.al-add-item-list')
                 .click(function(event){
-                    event.stopPropagation(); 
+                    event.stopPropagation();
                     $(document).data('data-item', $(this).attr('data-item'));
                 })
-                .blocksMenu('add')
+                .blocksMenu('add', {'filter' : settings.filterAdders})
             ;
-            $('.al_block_adder').unbind().each(function(){ 
-                var addItemCallback = settings.addItemCallback;  
-                $(this).click(function(){ 
-                    var value = '{"operation": "add", "item": "' + $(document).data('data-item') + '", "value": { "blockType" : "' + $(this).attr('rel') + '" }}';
-                    $('body').EditBlock("Content", value, null, function()
-                    {
-                        Holder.run();                    
-                        addItemCallback();
-                        $('.inline-list').addClass('collapsed-list');
-                    }); 
-                                    
-                    $('#al_close_block_menu').click();
-                    
-                    return false;
-                });
-            });
         }
         else {
-        
+            
             // Adds an included block
             $('.al-add-item-list').click(function(event) {  
                 event.stopPropagation(); 
@@ -175,9 +159,10 @@
     $.fn.inlinelist = function( method, options ) {    
     
         settings = $.extend( {
-          target            : '> li',
-          addValue          : null,
-          position          : 'left bottom',
+          target                : '> li',
+          addValue              : null,
+          position              : 'left bottom',
+          filterAdders          : 'none',
           addItemCallback       : function(){},          
           deleteItemCallback    : function(){}
         }, options);

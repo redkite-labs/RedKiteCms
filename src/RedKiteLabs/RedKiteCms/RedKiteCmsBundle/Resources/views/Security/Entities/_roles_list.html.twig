@@ -1,0 +1,46 @@
+{#
+   This file is part of the RedKiteCmsBunde Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/base.html.twig' %}
+
+{% block body %}
+<div class="al_security_list">
+    <h2>{{ "security_controller_label_roles_management"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
+    <table class="table table-condensed table-hover">
+        <tbody>
+            <thead>
+                <th></th>
+                <th>{{ "security_controller_label_rolename"|trans({}, 'RedKiteCmsBundle', cms_language) }}</th>
+                <th></th>
+            </thead>
+            {% for role in roles %}
+            <tr>
+                <td>{{ page_icon|raw }}</td>
+                <td width="100%">
+                    <a href="#" data-entity-id="{{ role.id }}" rel="{{ role.id }}" class="al_edit_role">{{ role.role }}</a>
+                </td>
+                <td>
+                    <a href="#">
+                        <button class="btn btn-xs btn-danger al_delete_role btn-mini" data-entity-id="{{ role.id }}">
+                            {{ trash_icon|raw }}
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

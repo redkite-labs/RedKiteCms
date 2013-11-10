@@ -7,8 +7,7 @@
     <div id="al_control_panel_body">
         <div id="al_commands" class="pull-left">
             <ul class="{{ list_inline }} al-brand pull-left">
-                <img src="/bundles/redkitecms/css/skins/bootstrap/images/rklogo-64.png" width="24" height="24" class="pull-left" />
-                <li>RedKite CMS</li>
+                <li><img src="/bundles/redkitecms/css/skins/bootstrap/images/tb-logo.png" class="pull-left" /></li>
             </ul>
             <ul class="{{ list_inline }} al-commands pull-left">
                 <li><a href="#" id="al_open_pages_panel" rel="tooltip" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_pages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
@@ -115,7 +114,7 @@
 <div id="al_block_menu_toolbar" class="pull-right">
     <ul class="{{ list_inline }}">
         <li><a id="al_block_menu_add" href="#"><div class="al-img-button al-img-add-button">&nbsp;</div></a></li>
-        <li><a id="al_block_menu_move" href="#"><div class="al-img-button al-img-move-button">&nbsp;</div></a></li>
+        {# TODO <li><a id="al_block_menu_move" href="#"><div class="al-img-button al-img-move-button">&nbsp;</div></a></li> #}
         <li><a id="al_block_menu_delete" href="#"><div class="al-img-button al-img-delete-button">&nbsp;</div></a></li>
     </ul>    
 </div>
@@ -130,7 +129,8 @@
 {% endblock %}
 
 {% block block_available_blocks_panel %}
-{% include "RedKiteCmsBundle:Cms:AvailableBlocks/available_blocks.html.twig" with {'blocks': available_blocks} %}
+{% include "RedKiteCmsBundle:Cms:BlocksMenu/blocks_menu.html.twig" with {'blocks': available_blocks} %}
+{% include "RedKiteCmsBundle:Cms:BlocksMenu/available_blocks.html.twig" %}
 {% endblock %}
 
 {% block block_permalink_select %}

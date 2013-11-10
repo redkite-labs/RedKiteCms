@@ -18,6 +18,7 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * JsonBlockType is the abstract Type that should be used to implement an App-Block which
@@ -25,6 +26,14 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
  */
 abstract class JsonBlockType extends BaseBlockType
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder->add('save', 'submit', array('attr' => array('class' => 'al_editor_save btn btn-primary')));
+    }
+    
     /**
      * {@inheritdoc}
      */

@@ -21,5 +21,9 @@
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
     {% endstylesheets %}
     
+    <div>
+        <h2>{{ 'security_controller_reauthentication_title'|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
+        <p>{{ 'security_controller_reauthentication_body'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p>
     {% include('RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/Security/Login/login-form-base.html.twig') %}
+    </div>
 {% endblock %}

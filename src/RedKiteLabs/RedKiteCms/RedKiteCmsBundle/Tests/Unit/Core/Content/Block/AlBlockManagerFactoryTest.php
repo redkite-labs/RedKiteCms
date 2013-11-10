@@ -72,7 +72,12 @@ class AlBlockManagerFactoryTest extends TestCase
                      ->method('getIsInternalBlock')
                      ->will($this->returnValue($isInternal));
 
-        $attributes = array('id' => 'app_fake.block', 'description' => 'Script block',  'type' => 'Script', 'group' => 'group_1');
+        $attributes = array(
+            'id' => 'app_fake.block', 
+            'description' => 'Script block',  
+            'type' => 'Script', 
+            'group' => 'group_1'
+        );
         $this->blockManagerFactory->addBlockManager($blockManager, $attributes);
         
         $blocks = $this->blockManagerFactory->getBlocks();
@@ -93,10 +98,15 @@ class AlBlockManagerFactoryTest extends TestCase
         $expectedResult = array
         (
             "Default" => array(),
-            "Script" => "Script block",
-            "Text" => "Fake block",
+            "Script" => array(
+                "description" => "Script block",
+                "filter" => "none",
+            ),
+            "Text" => array(
+                "description" => "Fake block",
+                "filter" => "none",
+            ),
         );
-
         
         $this->assertEquals($expectedResult, $blocks);
     }
@@ -165,15 +175,24 @@ class AlBlockManagerFactoryTest extends TestCase
                 array
                 (
                     "Default" => array(),
-                    "Script" => "Script block",
-                    "Text" => "Fake block",
+                    "Script" => array(
+                        "description" => "Script block",
+                        "filter" => "none",
+                    ),
+                    "Text" => array(
+                        "description" => "Fake block",
+                        "filter" => "none",
+                    ),
                 ),
             ),array(
                 true,
                 array
                 (
                     "Default" => array(),
-                    "Text" => "Fake block",
+                    "Text" => array(
+                        "description" => "Fake block",
+                        "filter" => "none",
+                    ),
                 ),
             ),
         );

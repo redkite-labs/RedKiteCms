@@ -36,7 +36,15 @@ class AlPropelOrm implements OrmInterface
      */
     public function __construct(\PropelPDO $connection = null)
     {
-        self::$connection = (null === $connection) ? \Propel::getConnection() : $connection;
+        self::$connection = $connection;
+        if (null === $connection) {
+            try {
+                self::$connection = \Propel::getConnection();
+            }
+            catch(\Exception $ex) {
+                // We are in test environment, so propel connection does not matter
+            }
+        }
     }
 
     /**

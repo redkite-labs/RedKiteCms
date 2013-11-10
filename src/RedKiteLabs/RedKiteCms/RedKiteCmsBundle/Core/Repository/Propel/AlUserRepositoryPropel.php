@@ -73,7 +73,19 @@ class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepo
      */
     public function activeUsers()
     {
+        return AlUserQuery::create('a')
+                          ->joinWith('a.AlRole')
+                          ->orderBy('AlRole.Role')
+                          ->find();
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function usersByRole($roleId)
+    {
         return AlUserQuery::create()
+                          ->filterByRoleId($roleId)
                           ->find();
     }
 }

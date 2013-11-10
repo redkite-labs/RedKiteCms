@@ -30,6 +30,5 @@
         <ignore>Core/vendor/*</ignore>
         <ignore>Core/Exception/*</ignore>
         <ignore>Command/Update/*</ignore>
-        <ignore>Bundle/AlphaLemon/Block/*/Tests*</ignore>
     </files>
 </phpdoc>

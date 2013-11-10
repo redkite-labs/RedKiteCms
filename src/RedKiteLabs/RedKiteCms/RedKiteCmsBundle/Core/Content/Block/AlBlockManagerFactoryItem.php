@@ -35,6 +35,7 @@ class AlBlockManagerFactoryItem
     private $blockManager;
     private $description;
     private $group;
+    private $filter;
     private $requiredAttributes = array('id' => '', 'description' => '');
 
     /**
@@ -64,6 +65,7 @@ class AlBlockManagerFactoryItem
         $this->id = $attributes['id'];
         $this->type = $attributes['type'];
         $this->description = $attributes['description'];
+        $this->filter = array_key_exists('filter', $attributes) ? $attributes['filter'] : 'none';
         $this->group = (array_key_exists('group', $attributes)) ? $attributes['group'] : 'none';
     }
 
@@ -125,5 +127,17 @@ class AlBlockManagerFactoryItem
     public function getGroup()
     {
         return $this->group;
+    }
+    
+    /**
+     * Returns the item filter
+     *
+     * @return string
+     *
+     * @api
+     */
+    public function getFilter()
+    {
+        return $this->filter;
     }
 }
