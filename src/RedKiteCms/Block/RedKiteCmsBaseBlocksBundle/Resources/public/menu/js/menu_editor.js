@@ -11,7 +11,7 @@ $(document).ready(function() {
         
         $(element)
             //.find('.al-menu-list')
-            .inlinelist('start', { 'target': '> li', 'position': position, 'filterAdders': 'menu' })
+            .inlinelist('start', { 'target': 'li', 'position': position, 'filterAdders': 'menu' })
         ;
     });
     
