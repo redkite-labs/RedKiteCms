@@ -10,9 +10,9 @@ $(document).ready(function() {
         }
         
         $(element)
-            //.find('.al-menu-list')
             .inlinelist('start', { 'target': 'li', 'position': position, 'filterAdders': 'menu' })
         ;
+        
     });
     
     $(document).on("stopEditingBlocks", function(event, element){ 
@@ -21,9 +21,10 @@ $(document).ready(function() {
         }
                 
         $(element)
-            .find('.al-menu-list')
             .inlinelist('stop')
+            .blocksEditor('start')
+            .find('[data-editor="enabled"]')
+            .blocksEditor('start')
         ;
-        $('.al_block_adder').unbind().blocksMenu('initAdders')
     });
 });
