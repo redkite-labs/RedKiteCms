@@ -32,6 +32,10 @@
             <parameter>@RedKiteCmsBaseBlocksBundle/Resources/public/link/js/link_editor.js</parameter>
         </parameter>
         
+        <parameter key="link.external_stylesheets.cms" type="collection">
+            <parameter>@RedKiteCmsBaseBlocksBundle/Resources/public/link/css/link_editor.css</parameter>
+        </parameter>
+        
         <parameter key="link.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Link\AlBlockManagerLink</parameter>
         <parameter key="bootstrap_link.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Link\AlLinkType</parameter>
         
