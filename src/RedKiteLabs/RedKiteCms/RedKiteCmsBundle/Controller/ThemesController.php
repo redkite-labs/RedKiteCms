@@ -36,47 +36,43 @@ class ThemesController extends Base\BaseController
     }
     
     public function changeThemeAction()
-    {
-        try {            
-            $request = $this->container->get('request');
+    {    
+        $request = $this->container->get('request');
 
-            $map = array();
-            $data = explode('&', $request->get('data'));
-            
-            $c = 0;
-            while($c < count($data)) {
-                $template = preg_split('/=/', $data[$c]);
-                $templateName = $template[1];
-                $mappedTemplate = preg_split('/=/', $data[$c+1]);
-                $mappedTemplateName = $mappedTemplate[1];
-                if (empty($mappedTemplateName)) {
-                    $exception = array(
-                        'message' => 'themes_controller_some_templates_not_mapped',
-                        'parameters' => array(
-                            '%template_name%' => $templateName,
-                        ),
-                    );
-                    
-                    throw new InvalidArgumentException(json_encode($exception));
-                }
-                
-                $map[$templateName] = $mappedTemplateName;
-                $c += 2;
+        $map = array();
+        $data = explode('&', $request->get('data'));
+
+        $c = 0;
+        while($c < count($data)) {
+            $template = preg_split('/=/', $data[$c]);
+            $templateName = $template[1];
+            $mappedTemplate = preg_split('/=/', $data[$c+1]);
+            $mappedTemplateName = $mappedTemplate[1];
+            if (empty($mappedTemplateName)) {
+                $exception = array(
+                    'message' => 'themes_controller_some_templates_not_mapped',
+                    'parameters' => array(
+                        '%template_name%' => $templateName,
+                    ),
+                );
+
+                throw new InvalidArgumentException(json_encode($exception));
             }
-            
-            $themeName = $request->get('themeName');            
-            $currentTheme = $this->getActiveTheme();            
-            $themeChanger = $this->container->get('red_kite_cms.theme_changer');
-            $themes = $this->container->get('red_kite_labs_theme_engine.themes');            
-            $previousTheme = $themes->getTheme($currentTheme->getActiveTheme());
-            $theme = $themes->getTheme($themeName);
-            $themeChanger->change($previousTheme, $theme, $this->container->getParameter('red_kite_cms.theme_structure_file'), $map);
-            $currentTheme->writeActiveTheme($themeName);
-            
-            return new Response($this->translate('themes_controller_theme_changed'), 200);            
-        } catch (\Exception $e) {
-            return $this->renderThemeChanger($e->getMessage());
+
+            $map[$templateName] = $mappedTemplateName;
+            $c += 2;
         }
+
+        $themeName = $request->get('themeName');            
+        $currentTheme = $this->getActiveTheme();            
+        $themeChanger = $this->container->get('red_kite_cms.theme_changer');
+        $themes = $this->container->get('red_kite_labs_theme_engine.themes');            
+        $previousTheme = $themes->getTheme($currentTheme->getActiveTheme());
+        $theme = $themes->getTheme($themeName);
+        $themeChanger->change($previousTheme, $theme, $this->container->getParameter('red_kite_cms.theme_structure_file'), $map);
+        $currentTheme->writeActiveTheme($themeName);
+
+        return new Response($this->translate('themes_controller_theme_changed'), 200);     
     }
     
     public function changeSlotAction()
@@ -103,7 +99,6 @@ class ThemesController extends Base\BaseController
                 'key' => 'slots',
                 'value' => $this->container->get('templating')->render('RedKiteCmsBundle:Themes:Slots/template_slots_panel.html.twig', array(
                     'slots' => $slots, 
-                    'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
                 )),            
             ), 
         );
@@ -116,11 +111,7 @@ class ThemesController extends Base\BaseController
     
     public function showThemesFinalizerAction()
     {
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Themes:Finalizer/theme_finalizer.html.twig',
-            array(
-                'configuration' => $this->container->get('red_kite_cms.configuration'),
-            )
-        );
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Themes:Finalizer/theme_finalizer.html.twig');
     }
     
     public function finalizeThemeAction()
@@ -208,7 +199,6 @@ class ThemesController extends Base\BaseController
             'current_templates' => $currentTemplates, 
             'themeName' => $themeName, 
             'error' => $error,
-            'configuration' => $this->container->get('red_kite_cms.configuration'),
         ));
 
         return new Response($output, $status);
@@ -232,7 +222,6 @@ class ThemesController extends Base\BaseController
 
         $responseContent = $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Themes:Panel/index.html.twig', array(
             'values' => $values,
-            'configuration' => $this->container->get('red_kite_cms.configuration'),
         ));
 
         return $responseContent;

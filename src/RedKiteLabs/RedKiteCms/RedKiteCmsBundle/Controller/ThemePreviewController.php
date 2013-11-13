@@ -69,7 +69,6 @@ class ThemePreviewController extends AlCmsController
             'enable_yui_compressor' => $this->container->getParameter('red_kite_cms.enable_yui_compressor'),
             'language_name' => $languageName,
             'page_name' => $pageName,
-            'configuration' => $this->container->get('red_kite_cms.configuration'),
         );
         
         return $this->render(sprintf('RedKiteCmsBundle:Bootstrap:%s/Template/Preview/template.html.twig', $bootstrapVersion), $baseParams);

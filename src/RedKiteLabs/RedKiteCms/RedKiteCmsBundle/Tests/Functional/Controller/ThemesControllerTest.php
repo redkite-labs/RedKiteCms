@@ -69,8 +69,10 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('POST', 'backend/en/al_changeTheme', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('html:contains("themes_controller_some_templates_not_mapped")'));
-        
+        $this->assertRegExp(
+            '/themes_controller_some_templates_not_mapped|It seems you have not mapped the "empty" template. To change a theme each template must be mapped with a template from the new theme/si',
+            $response->getContent()
+        );
     }
     
     public function testChangeTheme()

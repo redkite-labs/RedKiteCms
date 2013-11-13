@@ -123,7 +123,7 @@
         else {
             
             // Adds an included block
-            $('.al-add-item-list').click(function(event) {  
+            $('.al-add-item-list').click(function(event) {
                 event.stopPropagation(); 
                 var value = settings.addValue;
                 if ($.parseJSON(value) != null) {

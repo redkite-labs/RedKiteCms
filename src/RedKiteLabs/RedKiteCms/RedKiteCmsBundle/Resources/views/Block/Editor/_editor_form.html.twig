@@ -1,8 +1,6 @@
-{% include "RedKiteCmsBundle:Block:Editor/Translation/_translation.html.twig" %}
-
 {% form_theme form 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/FormTheme/forms.html.twig' %}
 
-{% block editor %} 
+{% block editor %}
 <form id="al_item_form">
     {{ form(form) }}
 </form>

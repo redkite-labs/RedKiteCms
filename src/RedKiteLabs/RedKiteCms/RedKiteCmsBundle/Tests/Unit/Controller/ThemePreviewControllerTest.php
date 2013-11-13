@@ -343,15 +343,8 @@ class ThemePreviewControllerTest extends TestCase
             ->will($this->returnValue($request))
         ;
         
-        $this->configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
-        $this->container->expects($this->at(15))
-            ->method('get')
-            ->with('red_kite_cms.configuration')
-            ->will($this->returnValue($this->configuration))
-        ;
-        
         $this->container
-             ->expects($this->at(16))
+             ->expects($this->at(15))
              ->method('get')
              ->with('templating')
              ->will($this->returnValue($this->templating))

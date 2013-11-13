@@ -115,14 +115,36 @@ class CmsBootstrapListenerTest extends TestCase
 
 
         $twig = $this->getMock('\Twig_Environment');
-        $twig->expects($this->once())
+        $twig->expects($this->at(0))
             ->method('addGlobal')
             ->with('bootstrap_version', '2.x');
+        
+        $twig->expects($this->at(1))
+            ->method('addGlobal')
+            ->with('cms_language');
+        
         $this->container->expects($this->at(13))
             ->method('get')
             ->with('twig')
             ->will($this->returnValue($twig));
+        
+        $configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $configuration
+            ->expects($this->once())
+            ->method('read')
+            ->with('language')
+        ;
+        
+        $this->container->expects($this->at(14))
+            ->method('get')
+            ->with('red_kite_cms.configuration')
+            ->will($this->returnValue($configuration));
 
+        $this->container->expects($this->at(15))
+            ->method('get')
+            ->with('twig')
+            ->will($this->returnValue($twig));
+        
         $this->setupFolders();
 
         $this->kernel->expects($this->once())

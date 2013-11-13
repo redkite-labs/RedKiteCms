@@ -630,7 +630,10 @@ $(document).ready(function(){
                     },
                     success: function(html)
                     {
-                        $('#al_panel').OpenPanel(html, function(){ObserveThemeCommands();});
+                        $('#al_panel').OpenPanel(html, function(){
+                            //ObserveThemeCommands();
+                            $('body').manageTheme('init');
+                        });
                     },
                     error: function(err)
                     {

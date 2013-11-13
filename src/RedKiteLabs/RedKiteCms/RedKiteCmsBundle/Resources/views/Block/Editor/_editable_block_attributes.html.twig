@@ -1,6 +1,3 @@
-{% extends 'RedKiteCmsBundle:Block:Editor/Translation/_translation.html.twig' %}
-
-{% block content %}
 {% if edit_inline %}data-content-editable="true"{% endif %} data-name="block_{{ block_id }}" data-block-id="{{ block_id }}" data-slot-name="{{ slot_name }}" data-type="{{ type }}" data-included="{{ included }}" data-hide-when-edit="{{ hide_in_edit_mode }}" {{ extra_attributes }}
 
 {% if editor|length > 0 %}
@@ -8,4 +5,3 @@
 {% set title = editor.title is defined ? editor.title : "Generic editor"|trans({}, 'messages', cms_language) %}
 data-title="{{ title }}" rel="popover" data-html="true" data-encoded-content='{% include editor.template %}' 
 {% endif %}
-{% endblock %}

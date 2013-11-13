@@ -45,7 +45,6 @@ class AlCmsController extends BaseFrontendController
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');        
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
-        $this->configuration = $this->container->get('red_kite_cms.configuration');
         $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
         
         $params = array(
@@ -62,7 +61,6 @@ class AlCmsController extends BaseFrontendController
             'language' => 0,
             'available_languages' => $this->container->getParameter('red_kite_cms.available_languages'),
             'frontController' => $this->getFrontcontroller($request),
-            'configuration' => $this->configuration,
         );
         
         if (null !== $pageTree) {
@@ -109,14 +107,15 @@ class AlCmsController extends BaseFrontendController
                 )
             );
         } else {
-            $cmsLanguage = $this->configuration->read('language');
+            $configuration = $this->container->get('red_kite_cms.configuration');
+            $cmsLanguage = $configuration->read('language');
             $message = $this->container->get('translator')->trans(
                 'cms_controller_page_not_exists_for_given_language', 
                 array(
                     '%page%' => $request->get('page'), 
                     '%language%' => $request->get('_locale')
                 ), 
-                $cmsLanguage . '_cms_controller', 
+                'RedKiteCmsBundle', 
                 $cmsLanguage
             );
             $this->container->get('session')->getFlashBag()->add('notice', $message);
@@ -156,11 +155,12 @@ class AlCmsController extends BaseFrontendController
             $asset = new AlAsset($this->kernel, $themeName);
             $themeFolder = $asset->getRealPath();
             if (false === $themeFolder || !is_file($themeFolder .'/Resources/views/Theme/' . $templateName . '.html.twig')) {
-                $cmsLanguage = $this->configuration->read('language');
+                $configuration = $this->container->get('red_kite_cms.configuration');
+                $cmsLanguage = $configuration->read('language');
                 $message = $this->container->get('translator')->trans(
-                    'The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme', 
+                    'The template assigned to this page does not exist. This happens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme', 
                     array(), 
-                    $cmsLanguage . '_cms_controller', 
+                    'RedKiteCmsBundle', 
                     $cmsLanguage
                 );
                 

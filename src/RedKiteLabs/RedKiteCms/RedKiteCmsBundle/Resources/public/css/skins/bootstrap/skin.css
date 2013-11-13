@@ -207,13 +207,9 @@ select.input-xxs {
   right: 0;
 }
 
-.box-centered1 {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 40%;
-  height: 50%;
+#al_page_name {
+  width: 80px;
+  max-width: 80px;
 }
 
 #al_control_panel {
