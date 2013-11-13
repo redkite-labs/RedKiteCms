@@ -87,10 +87,11 @@
     $.fn.EditBlock =function(key, value, options, successCallback)
     {
         try {
+            var activeBlock = $('body').data('activeBlock');
+            var item = (activeBlock != null) ? activeBlock.attr('data-item') : null;
             this.each(function()
             {
                 value = (value == null) ? encodeURIComponent($(this).val()) : value;
-                var item = ($('body').data('activeBlock') != null) ? $('body').data('activeBlock').attr('data-item') : null;
                 $.ajax({
                     type: 'POST',
                     url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/editBlock',
@@ -112,14 +113,15 @@
                     },
                     success: function(response)
                     {
-                        var activeBlock = $('body').data('activeBlock');
                         updateContentsJSon(response);
                         Holder.run();
                         if (successCallback != null) {
                             successCallback(activeBlock);
                         }
-
-                        $(document).trigger("blockEdited", [ activeBlock ]);
+                        
+                        if (activeBlock != null) {
+                            $(document).trigger("blockEdited", [ activeBlock ]);
+                        }
                     },
                     error: function(err)
                     {
