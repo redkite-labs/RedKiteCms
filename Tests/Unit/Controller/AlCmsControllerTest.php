@@ -106,6 +106,18 @@ class AlCmsControllerTest extends TestCase
             ->will($this->returnValue($flashBag))
         ;
         
+        $configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $configuration
+            ->expects($this->once())
+            ->method('read')
+            ->with('language')
+        ;
+        
+        $this->container->expects($this->at(9))
+            ->method('get')
+            ->with('red_kite_cms.configuration')
+            ->will($this->returnValue($configuration));
+        
         $this->container->expects($this->at(10))
             ->method('get')
             ->with('translator')
@@ -208,14 +220,26 @@ class AlCmsControllerTest extends TestCase
         $translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         $translator->expects($this->once())
             ->method('trans')
-            ->with('The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme')
+            ->with('The template assigned to this page does not exist. This happens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme')
             ->will($this->returnValue('The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme'))
+        ;
+        
+        $this->container->expects($this->at(9))
+            ->method('get')
+            ->with('red_kite_cms.template_slots')
+            ->will($this->returnValue($templateSlots));
+        
+        $configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $configuration
+            ->expects($this->once())
+            ->method('read')
+            ->with('language')
         ;
         
         $this->container->expects($this->at(10))
             ->method('get')
-            ->with('red_kite_cms.template_slots')
-            ->will($this->returnValue($templateSlots));
+            ->with('red_kite_cms.configuration')
+            ->will($this->returnValue($configuration));
         
         $this->container->expects($this->at(11))
             ->method('get')
@@ -282,23 +306,11 @@ class AlCmsControllerTest extends TestCase
             ->with('red_kite_cms.factory_repository')
             ->will($this->returnValue($this->factoryRepository));
         
-        $this->configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
-        $this->configuration
-            ->expects($this->once())
-            ->method('read')
-            ->with('language')
-        ;
-        
-        $this->container->expects($this->at(5))
-            ->method('get')
-            ->with('red_kite_cms.configuration')
-            ->will($this->returnValue($this->configuration));
-
         $activeTheme = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
         $activeTheme->expects($this->once())
             ->method('getThemeBootstrapVersion')
             ->will($this->returnValue('2.x'));
-        $this->container->expects($this->at(6))
+        $this->container->expects($this->at(5))
             ->method('get')
             ->with('red_kite_cms.active_theme')
             ->will($this->returnValue($activeTheme));

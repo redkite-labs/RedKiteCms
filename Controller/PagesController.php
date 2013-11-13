@@ -40,7 +40,6 @@ class PagesController extends Base\BaseController
             'pagesForm' => $pagesForm->createView(),
             'pageAttributesForm' => $seoForm->createView(),
             'active_page' => $request->get('page'),
-            'configuration' => $this->container->get('red_kite_cms.configuration'),
         );
 
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Pages:panel.html.twig', $params);
@@ -211,13 +210,12 @@ class PagesController extends Base\BaseController
         $request = $this->container->get('request');
         
         $permalinks = ChoiceValues::getPermalinks($this->createRepository('Seo'), $request->get('_locale'));
-        
+     
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
         $values[] = array("key" => "pages_list", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Pages:pages_list.html.twig', array(
             'pages' => $pagesList, 
             'active_page' => $request->get('page'),
-            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
             'languages' => ChoiceValues::getLanguages($this->createRepository('Language'), false),
         )));
         $values[] = array("key" => "permalinks", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_permalink_select.html.twig', array(

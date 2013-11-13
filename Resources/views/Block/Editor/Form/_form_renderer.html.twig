@@ -13,15 +13,10 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% extends 'RedKiteCmsBundle:Block:Editor/Translation/_translation.html.twig' %}
-
 {% form_theme form 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/FormTheme/forms.html.twig' %}
-
-{% block content %} 
 
 {% if form_id is not defined %}
 {% set form_id = 'al_form' %}
 {% endif %}
 
 {{ form(form, { 'attr': {'id' : form_id} }) }}
-{% endblock %}

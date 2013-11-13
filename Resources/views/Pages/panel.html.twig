@@ -16,7 +16,6 @@
 {% form_theme pagesForm 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/FormTheme/forms.html.twig' %}
 {% form_theme pageAttributesForm 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/FormTheme/forms.html.twig' %}
 
-{% set cms_language = configuration.read('language') %}
 <div class="panel-container">
     <div id="al_sidebar_left" class="pull-left pages-left panel-column">
         {% include 'RedKiteCmsBundle:Pages:pages_list.html.twig' %}

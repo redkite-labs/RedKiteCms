@@ -62,6 +62,7 @@ class CmsBootstrapListener
         $this->setUpPageTree();
         $this->checkTemplatesSlots();
         $this->setupBootstrapVersion();
+        $this->setupConfiguration();
     }
 
     private function setUpRequiredFolders()
@@ -118,5 +119,11 @@ class CmsBootstrapListener
     {
         $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
         $this->container->get('twig')->addGlobal('bootstrap_version', $bootstrapVersion);
+    }
+    
+    private function setupConfiguration()
+    {
+        $configuration = $this->container->get('red_kite_cms.configuration');
+        $this->container->get('twig')->addGlobal('cms_language', $configuration->read('language'));
     }
 }

@@ -13,9 +13,6 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% extends 'RedKiteCmsBundle:Themes:Base/base.html.twig' %}
-
-{% block theme_panel %}
 <div id="al_theme_fixer">
     <div>
         <b>{{ "theme_controller_label_activate"|trans({}, 'RedKiteCmsBundle', cms_language) }}:</b> <span id="al-theme">{{ themeName }}</span>
@@ -75,7 +72,7 @@
           },
           error: function(err)
           {
-            $('#al_dialog').html(err.responseText);
+              $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
           },
           complete: function()
           {
@@ -86,4 +83,3 @@
       return false;
     });
 </script>
-{% endblock %}

@@ -13,9 +13,6 @@
    @license    GPL LICENSE Version 2.0
 #}
 
-{% extends "RedKiteCmsBundle:Block:Editor/Translation/_translation.html.twig" %}
-
-{% block content %}
 <div>
     {% include "RedKiteCmsBundle:Block:Editor/Form/_form_renderer.html.twig" with {'form_id' : 'al_item_attributes_form'} %}
 </div>
@@ -26,4 +23,3 @@
     {% endblock %}
 </div>
 <div id="al_save_item_errors"></div>
-{% endblock %}

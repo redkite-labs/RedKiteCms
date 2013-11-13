@@ -60,7 +60,6 @@ class SecurityController extends Base\BaseController
         $alPage = $pageReporitory->homePage();
         $alLanguage = $languageReporitory->mainLanguage();
         $params['target'] = '/backend/' . $alLanguage->getLanguageName() . '/' . $alPage->getPageName();
-        $params['cms_language'] = $this->container->get('red_kite_cms.configuration')->read('language');
         
         return $this->container->get('templating')->renderResponse($template, $params, $response);
     }
@@ -143,7 +142,6 @@ class SecurityController extends Base\BaseController
             if (count($errors) > 0) {
                 $message = $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_errors.html.twig', array(
                     'errors' => $errors,
-                    'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
                 ));
                 
                 throw new RuntimeException($message);
@@ -197,7 +195,6 @@ class SecurityController extends Base\BaseController
             if (count($errors) > 0) {
                 $message = $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_errors.html.twig', array(
                     'errors' => $errors,
-                    'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
                 ));
                 
                 throw new RuntimeException($message);                
@@ -311,7 +308,6 @@ class SecurityController extends Base\BaseController
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/users_panel.html.twig', array(
             'users' => $this->userRepository()->activeUsers(),
             'form' => $form->createView(),
-            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
         ));
     }
 
@@ -322,7 +318,6 @@ class SecurityController extends Base\BaseController
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/roles_panel.html.twig', array(
             'roles' => $this->roleRepository()->activeRoles(),
             'form' => $form->createView(),
-            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
         ));
     }
     
@@ -330,7 +325,6 @@ class SecurityController extends Base\BaseController
     { 
         return $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_users_list.html.twig', array(
             'users' => $this->userRepository()->activeUsers(),
-            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
         ));
     }
     
@@ -338,7 +332,6 @@ class SecurityController extends Base\BaseController
     { 
         return $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_roles_list.html.twig', array(
             'roles' => $this->roleRepository()->activeRoles(),
-            'cms_language' => $this->container->get('red_kite_cms.configuration')->read('language'),
         ));
     }
     
