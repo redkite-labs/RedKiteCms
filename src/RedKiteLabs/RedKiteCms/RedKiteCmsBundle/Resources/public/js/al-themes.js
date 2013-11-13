@@ -175,89 +175,88 @@
 
 (function($){
     var methods = {
+        init: function()
+        {
+            $('.al_themes_changer').unbind().manageTheme('change');
+            $('.al_start_from_theme').unbind().manageTheme('scratch');
+        },
         change: function()
         {
-            this.each(function()
+            $(this).click(function()
             {
-                $(this).click(function()
-                {
-                    try{
-                        $.ajax({
-                            type: 'POST',
-                            url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemeChanger',
-                            data: {
-                                'themeName' : $(this).attr('data-theme-name')
-                            },
-                            beforeSend: function()
-                            {
-                                $('body').AddAjaxLoader();
-                            },
-                            success: function(html)
-                            {
-                                $('body').showDialog(html, {width:300, buttons: null});
-                            },
-                            error: function(err)
-                            {
-                                $('body').showDialog(err);
-                            },
-                            complete: function()
-                            {
-                                $('body').RemoveAjaxLoader();
-                            }
-                        });
-                    }
-                    catch(e){
-                        $('body').showAlert('An unespected error occoured in al-theme file method change. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
-                    }
+                try{
+                    $.ajax({
+                        type: 'POST',
+                        url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemeChanger',
+                        data: {
+                            'themeName' : $(this).attr('data-theme-name')
+                        },
+                        beforeSend: function()
+                        {
+                            $('body').AddAjaxLoader();
+                        },
+                        success: function(html)
+                        {
+                            $('body').showDialog(html, {width:300, buttons: null});
+                        },
+                        error: function(err)
+                        {
+                            $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
+                        },
+                        complete: function()
+                        {
+                            $('body').RemoveAjaxLoader();
+                        }
+                    });
+                }
+                catch(e){
+                    $('body').showAlert('An unespected error occoured in al-theme file method change. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
+                }
 
-                    return false;
-                });
+                return false;
             });
         },        
         scratch: function()
         {
-            this.each(function()
+            $(this).click(function()
             {
-                $(this).click(function()
-                {
-                    if ( ! confirm(translate('WARNING: this command will destroy all the saved data and start a new site base on the choosen theme from the scratch: are you sure to continue?'))) {
-                        return false;
-                    }
-                    
-                    try {
-                        var themeName = $(this).attr('data-theme-name');
-
-                        $.ajax({
-                            type: 'POST',
-                            url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/startFromTheme',
-                            data: {
-                                'themeName' : themeName
-                            },
-                            beforeSend: function()
-                            {
-                                $('body').AddAjaxLoader();
-                            },
-                            success: function(html)
-                            {
-                                $('body').showAlert(html);
-                                Navigate($('#al_languages_navigator').html(), $('#al_pages_navigator').html());
-                            },
-                            error: function(err)
-                            {
-                                $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
-                            },
-                            complete: function()
-                            {
-                                $('body').RemoveAjaxLoader();
-                            }
-                        });
-                    }
-                    catch(e){
-                        $('body').showAlert('An unespected error occoured in al-theme file method scratch. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
-                    }
-
+                if ( ! confirm(translate('WARNING: this command will destroy all the saved data and start a new site base on the choosen theme from the scratch: are you sure to continue?'))) {
                     return false;
-                });
+                }
+
+                try {
+                    var themeName = $(this).attr('data-theme-name');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/startFromTheme',
+                        data: {
+                            'themeName' : themeName
+                        },
+                        beforeSend: function()
+                        {
+                            $('body').AddAjaxLoader();
+                        },
+                        success: function(html)
+                        {
+                            $('body').showAlert(html);
+                            Navigate($('#al_languages_navigator').html(), $('#al_pages_navigator').html());
+                        },
+                        error: function(err)
+                        {
+                            $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
+                        },
+                        complete: function()
+                        {
+                            $('body').RemoveAjaxLoader();
+                        }
+                    });
+                }
+                catch(e){
+                    $('body').showAlert('An unespected error occoured in al-theme file method scratch. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
+                }
+
+                return false;
             });
         }
     };
@@ -295,12 +294,3 @@
     };
     
 })($);
-
-
-ObserveThemeCommands = function()
-{
-    try {
-        $('.al_themes_changer').unbind().manageTheme('change');
-        $('.al_start_from_theme').unbind().manageTheme('scratch');
-    } catch (e) {}
-};
