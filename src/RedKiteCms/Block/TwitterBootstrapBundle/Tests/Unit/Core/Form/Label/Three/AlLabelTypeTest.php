@@ -34,7 +34,16 @@ class AlLabelTypeTest extends AlBaseType
             array(
                 'name' => 'label_type',
                 'type' => 'choice',
-                'options' => array('choices' => array('label-default' => 'base', 'label-info' => 'info', 'label-success' => 'success', 'label-warning' => 'warning', 'label-important' => 'important', 'label-inverse' => 'inverse')),
+                'options' => array(
+                    'choices' => array(
+                        'label-default' => 'base', 
+                        'label-primary' => 'primary', 
+                        'label-success' => 'success', 
+                        'label-info' => 'info', 
+                        'label-warning' => 'warning', 
+                        'label-danger' => 'danger', 
+                    )
+                ),
             ),
             array(
                 'name' => 'save',

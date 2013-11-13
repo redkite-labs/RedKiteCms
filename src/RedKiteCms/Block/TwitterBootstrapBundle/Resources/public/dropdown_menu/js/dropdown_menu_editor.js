@@ -16,7 +16,7 @@
  
  $(document).ready(function() {
     $(document).on("popoverShow", function(event, element){
-        blockType = element.attr('data-type');
+        var blockType = element.attr('data-type');
         if (blockType != 'BootstrapDropdownButtonBlock' && blockType != 'BootstrapSplitDropdownButtonBlock' && blockType != 'BootstrapNavbarDropdownBlock') {
             return;
         }

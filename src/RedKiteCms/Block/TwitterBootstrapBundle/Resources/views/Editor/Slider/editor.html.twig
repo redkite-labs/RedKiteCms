@@ -1,13 +1,13 @@
 {% block images %}
 <style>
-.images_list {
+.rk-images-list {
     min-width: 700px;
 }
-.images_attributes {
-    min-width: 300px;
+.rk-images-attributes {
+    max-width: 300px;
 }
-.images_contents {
-    min-width: 360px;
+.rk-images-contents {
+    max-width: 360px;
     max-height: 300px;
     overflow: auto;
     margin-right: 20px;
@@ -16,12 +16,12 @@
     visibility:visible;
 }
 </style>
-<div class="images_list">
-    <div class="images_contents pull-left">
+<div class="rk-images-list">
+    <div class="rk-images-contents pull-left">
         {% include "RedKiteCmsBundle:List:Image/"  ~ bootstrap_version ~ "/_list.html.twig" with { 'images': editor.items, 'form_name' : editor.form_name } %}
     </div>
-    <div class="images_attributes pull-right">
-        {% include "TwitterBootstrapBundle:Editor:Slider/item.html.twig" with {'configuration': editor.configuration } %}
+    <div class="rk-images-attributes pull-right">
+        {% include "TwitterBootstrapBundle:Editor:Slider/item.html.twig" %}
     </div>    
     <div class="clearfix"></div>
 </div>    

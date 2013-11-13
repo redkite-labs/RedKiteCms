@@ -72,9 +72,9 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
     {        
         $items = array();
         $values = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
-        while( ! empty($values)) {
+        /*while( ! empty($values)) {
             $items[] = array_splice($values, 0, 3);
-        }
+        }*/
         
         $formClass = $this->container->get('bootstrapsliderblock.form');
         $form = $this->container->get('form.factory')->create($formClass);
@@ -84,8 +84,7 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
             "title" => "Slider editor",
             "form" => $form->createView(),
             'form_name' => $form->getName(),
-            'items' => $items,
-            'configuration' => $this->container->get('red_kite_cms.configuration'), 
+            'items' => $values,
         );
     }
     

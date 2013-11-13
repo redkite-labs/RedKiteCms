@@ -16,7 +16,9 @@
  
 $(document).ready(function() {
     $(document).on("popoverShow", function(event, element){ 
-        if (element.attr('data-type') == 'BootstrapNavbarBlock') {
+        var type = element.attr('data-type');
+        //if ()
+        if (type == 'BootstrapNavbarBlock') {
             $('.al-edit-item').unbind().click(function(){
                 element.popover('hide');
                 
@@ -25,7 +27,7 @@ $(document).ready(function() {
             });
         } 
         
-        if (element.attr('data-type') == 'BootstrapNavbarMenuBlock') {
+        if (type == 'BootstrapNavbarMenuBlock') {
             $('.al-edit-item').unbind().click(function(){
                 element.popover('hide');
                 element.inlinelist('start', {'target': '> li', 'filterAdders': 'menu-navbar'});
@@ -34,7 +36,9 @@ $(document).ready(function() {
     });
     
     $(document).on("stopEditingBlocks", function(event, element){ 
-        if (element.attr('data-type') == 'BootstrapNavbarBlock') {
+        var type = element.attr('data-type');
+        
+        if (type == 'BootstrapNavbarBlock') {
             $(element)
                 .inlinelist('stop')
                 .find('[data-editor="enabled"]')
@@ -42,7 +46,7 @@ $(document).ready(function() {
             ;
         }
 
-        if (element.attr('data-type') == 'BootstrapNavbarMenuBlock') {
+        if (type == 'BootstrapNavbarMenuBlock') {
             $(element)
                 .inlinelist('stop')
                 .find('[data-editor="enabled"]')
