@@ -33,8 +33,17 @@ class AlLabelType extends JsonBlockType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('label_text');
-        $builder->add('label_type', 'choice', array('choices' => array('label-default' => 'base', 'label-info' => 'info', 'label-success' => 'success', 'label-warning' => 'warning', 'label-important' => 'important', 'label-inverse' => 'inverse')));        
-        
+        $builder->add('label_type', 'choice', array(
+            'choices' => array(
+                'label-default' => 'base', 
+                'label-primary' => 'primary', 
+                'label-success' => 'success', 
+                'label-info' => 'info', 
+                'label-warning' => 'warning', 
+                'label-danger' => 'danger', 
+            )
+        ));
+
         parent::buildForm($builder, $options);
     }
 }
