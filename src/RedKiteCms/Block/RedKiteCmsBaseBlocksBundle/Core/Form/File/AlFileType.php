@@ -19,6 +19,7 @@ namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\File;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
  * Defines the file form
@@ -35,10 +36,21 @@ class AlFileType extends JsonBlockType
         $builder->add('file');
         $builder->add('description', 'textarea');
         $builder->add('opened', 'checkbox', array(
-            'label' => 'Show opened',
+            'label' => 'file_block_show_opened',
             )
         );
         
         parent::buildForm($builder, $options);
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            'translation_domain' => 'RedKiteCmsBaseBlocksBundle',  
+            'csrf_protection' => false,
+        ));
     }
 }

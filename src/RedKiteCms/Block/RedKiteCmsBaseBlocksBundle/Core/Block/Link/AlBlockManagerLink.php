@@ -84,7 +84,6 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
             "title" => $this->translator->translate('Link editor'),
             "form" => $form->createView(),
             'pages' => ChoiceValues::getPermalinks($seoRepository, $request->get('_locale')),
-            'configuration' => $this->container->get('red_kite_cms.configuration'),
         );
     }
 }

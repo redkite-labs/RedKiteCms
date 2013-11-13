@@ -31,8 +31,6 @@ $(document).ready(function() {
             return false;
         });
         
-        $(".al_Stylesheet_item_remover").RemoveExternalFile("ExternalStylesheet");
-        $(".al_Javascript_item_remover").RemoveExternalFile("ExternalJavascript"); 
         $(".al_Stylesheet_file_manager").click(function(){
             openMediaLibrary('al-stylesheet-external-files', 'ExternalStylesheet', 'al_elFinderStylesheetsConnect')
         });

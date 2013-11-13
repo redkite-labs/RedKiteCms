@@ -1,8 +1,5 @@
-{% extends 'RedKiteCmsBundle:Block:Editor/Translation/_translation.html.twig' %}
-
 {% form_theme form 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/FormTheme/forms.html.twig' %}
 
-{% block content %}
 <form id="al_item_form">
     <table>
         <tr>
@@ -19,4 +16,3 @@
         {{ form_rest(form) }}
     </table>
 </form>
-{% endblock %}

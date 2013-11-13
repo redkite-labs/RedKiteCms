@@ -32,7 +32,7 @@ class AlLinkType extends JsonBlockType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('href');
+        $builder->add('href', null, array('attr' => array('class' => 'rk-href')));
         $builder->add('value', null, array(
             'label' => 'Displayed value',
         ));

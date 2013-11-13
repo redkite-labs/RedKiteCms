@@ -62,7 +62,6 @@ class AlBlockManagerScript extends AlBlockManagerContainer
             "form" => $form->createView(),
             "jsFiles" => explode(",", $this->alBlock->getExternalJavascript()),
             "cssFiles" => explode(",", $this->alBlock->getExternalStylesheet()),
-            'configuration' => $this->container->get('red_kite_cms.configuration'),
         );
     }
 
@@ -72,5 +71,16 @@ class AlBlockManagerScript extends AlBlockManagerContainer
     public function getHideInEditMode()
     {
         return true;
+    }
+    
+    protected function edit(array $values)
+    {
+        $unserializedData = array();
+        $serializedData = $values['Content'];            
+        parse_str($serializedData, $unserializedData); 
+        
+        $values["Content"] = $unserializedData['al_json_block']['content'];
+        
+        return parent::edit($values);
     }
 }
