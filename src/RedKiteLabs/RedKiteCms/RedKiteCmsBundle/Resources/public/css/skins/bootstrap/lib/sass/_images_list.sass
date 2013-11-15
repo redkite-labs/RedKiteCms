@@ -11,21 +11,18 @@
 //
 // @license    GPL LICENSE Version 2.0
 
-.al_images_list
-    :border 2px solid #ccc
-    :padding 6px
-    :height 450px
-    :max-height 450px
+#rk-empty-image-row
+    display: none
 
-.al_img_selected
-    :background-color #ff9900
+.rk-images-list
 
-.images_contents
-    :width 410px
-    :overflow auto
+    a
+        color: $darkGray
+        text-decoration: none
+
+    .al_img_selected
+        :font-weight bold
+        :color $panelElementSelectedColor
 
 .al_images_selector_commands
     :padding 6px
-
-.al_img img
-    :max-height 100px

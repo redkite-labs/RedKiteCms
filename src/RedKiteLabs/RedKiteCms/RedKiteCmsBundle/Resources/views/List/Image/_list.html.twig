@@ -1,0 +1,31 @@
+{% extends 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/base.html.twig' %}
+
+{% block body %}
+<div class="rk-images-list">
+    <table class="table table-condensed table-hover">
+        <tbody>
+            {% set empty_row = false %}
+            {% set create_empty_row = true %}
+            {% for image in images %}
+            <tr>
+                {% set attributes = "" %}
+                {% for name, value in image %}
+                    {% set attributeName = 'data-' ~ form_name ~ '_' ~ name %}
+                    {% set attributes = attributes ~ attributeName ~ '="' ~ value|escape('url') ~ '" ' %}
+                    {% if create_empty_row %}
+                        {% set empty_row = empty_row ~ attributeName ~ '="" ' %}
+                    {% endif %}
+                {% endfor %}
+                {% set create_empty_row = false %}
+                <td><a href="#" class="al_img" {{ attributes|raw }}>{% if (image.src|trim != "") %}{{ image.src }}{% else %}Empty image{% endif %}</a></td>                
+                <td width="32"><button class="btn btn-xs btn-danger rk-image-remover btn-mini">{{ trash_icon|raw }}</button></td>
+            </tr>
+            {% endfor %}
+            <tr id="rk-empty-image-row">
+                <td><a href="#" class="al_empty_img" {{ empty_row|raw }}>Empty image</a></td>                
+                <td><button class="btn btn-xs btn-danger rk-image-remover btn-mini">{{ trash_icon|raw }}</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
