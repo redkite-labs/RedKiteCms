@@ -1,24 +1,7 @@
 {% block images %}
-<style>
-.rk-images-list {
-    min-width: 700px;
-}
-.rk-images-attributes {
-    max-width: 300px;
-}
-.rk-images-contents {
-    max-width: 360px;
-    max-height: 300px;
-    overflow: auto;
-    margin-right: 20px;
-}
-.al_img {
-    visibility:visible;
-}
-</style>
-<div class="rk-images-list">
+<div class="rk-images-list-panel">
     <div class="rk-images-contents pull-left">
-        {% include "RedKiteCmsBundle:List:Image/"  ~ bootstrap_version ~ "/_list.html.twig" with { 'images': editor.items, 'form_name' : editor.form_name } %}
+        {% include "RedKiteCmsBundle:List:Image/_list.html.twig" with { 'images': editor.items, 'form_name' : editor.form_name } %}
     </div>
     <div class="rk-images-attributes pull-right">
         {% include "TwitterBootstrapBundle:Editor:Slider/item.html.twig" %}

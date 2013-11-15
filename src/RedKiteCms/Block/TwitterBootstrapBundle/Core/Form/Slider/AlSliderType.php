@@ -37,6 +37,6 @@ class AlSliderType extends JsonBlockType
         $builder->add('title');
         $builder->add('alt');
         $builder->add('caption_title');
-        $builder->add('caption_body', 'textarea');
+        $builder->add('caption_body', 'textarea', array('attr' => array('rows' => 6)));
     }
 }

@@ -35,7 +35,7 @@ class AlSliderTypeTest extends AlBaseType
             'title',
             'alt',
             'caption_title',
-            array('name' => 'caption_body', 'type' => 'textarea'),
+            array('name' => 'caption_body', 'type' => 'textarea', "options" => array('attr' => array('rows' => 6))),
         );
     }
     

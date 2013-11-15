@@ -21,31 +21,8 @@
         }
         
         Holder.run();  
-        $('#al_add_item').imagesList('addItem');      
-        $('.al_img').imagesList('editItem');
-        $('#al_delete_item').imagesList('deleteItem');
-        $('.al_form_item').imagesList('saveAttributes');
-        $('#al_item_attributes_form .form-control').imagesList('saveAttributes');
-        $('#al_save_item').imagesList('save');
-        
-        $('#al_json_block_src').click(function(){
-            $('<div />').dialogelfinder({
-                url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_elFinderMediaConnect',
-                lang : $('#al_available_languages option:selected').val(),
-                width : 840,
-                destroyOnClose : true,
-                commandsOptions : {
-                    getfile: {
-                        oncomplete: 'destroy'
-                    }
-                },
-                getFileCallback : function(file, fm) {
-                    $('#al_json_block_src').val(file.url);
-                    $('.al_img_selected').find('img').attr('src', file.url);
-                }
-             });
-
-            return false;
-        });
+        $('body').imagesList('init'); 
+        $('#al_add_item').unbind().imagesList('addItem');     
+        $('#al_save_item').unbind().imagesList('save'); 
     });
 });

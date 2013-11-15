@@ -5,6 +5,10 @@
 
     <parameters>
         <!-- SLIDER -->
+        <parameter key="bootstrapsliderblock.external_stylesheets.cms" type="collection">
+            <parameter>@TwitterBootstrapBundle/Resources/public/slider/css/slider.css</parameter>
+        </parameter>
+        
         <parameter key="bootstrapsliderblock.external_javascripts.cms" type="collection">
             <parameter>@TwitterBootstrapBundle/Resources/public/slider/js/slider_editor.js</parameter>
         </parameter>
