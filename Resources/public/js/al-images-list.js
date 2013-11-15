@@ -18,51 +18,48 @@
     var settings;
     
     var methods = {
-        addItem: function() {
-            $(this).click(function(){                
+        init: function() {
+            $('.al_img').unbind().imagesList('editItem');
+            $('.rk-image-remover').unbind().imagesList('deleteItem');
+            $('.al_form_item').unbind().imagesList('saveAttributes');
+            $('#al_item_attributes_form .form-control').unbind().imagesList('saveAttributes');
             
-                var attributes = "";
-                $('#al_item_attributes_form').find(':input:not(input[type=submit])').each(function(){
-                    var el = $(this);
-                    var field = el.attr('id');                        
-                    attributes += 'data-' + field + '="" '; 
-                }); 
-                
-                var imageMarkup;
-                if ($('.images_contents .thumbnails').length > 0) { 
-                    // Twitter Bootstrap 2.x
-                    if ($('.images_contents .thumbnails:last li').length == 3) {
-                        $('.images_contents').append('<ul class="thumbnails"></ul>');
+            $('#al_json_block_src').click(function(){
+                $('<div />').dialogelfinder({
+                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_elFinderMediaConnect',
+                    lang : $('#al_available_languages option:selected').val(),
+                    width : 840,
+                    destroyOnClose : true,
+                    commandsOptions : {
+                        getfile: {
+                            oncomplete: 'destroy'
+                        }
+                    },
+                    getFileCallback : function(file, fm) {
+                        $('#al_json_block_src').val(file.url);
+                        $('.al_img_selected').html(file.url).find('img').attr('src', file.url);
                     }
-                    
-                    imageMarkup = 
-                        '<li class="' + settings.span + '">' + 
-                        '<a href="#" ' + attributes + 'class="thumbnail al_img">' +
-                        '<img data-src="holder.js/' + settings.imageDimension + '" title="" alt=""/>' +
-                        '</a>' +
-                        '</li>'
-                    ;
-                    $('.images_contents .thumbnails:last').append(imageMarkup);
-                }
-                else {
-                    // Twitter Bootstrap 3.x
-                    if ($('.images_contents .row:last .col-sm-6').length == 3) {
-                        $('.images_contents').append('<div class="row"></div>');
-                    }
+                 });
 
-                    imageMarkup = 
-                        '<div class="col-sm-6 col-md-4">' + 
-                        '<a href="#" ' + attributes + 'class="thumbnail al_img">' +
-                        '<img data-src="holder.js/' + settings.imageDimension + '" title="" alt=""/>' +
-                        '</a>' +
-                        '</div>'
-                    ;
-                    $('.images_contents .row:last').append(imageMarkup);
-                }
+                return false;
+            });
             
-                var element = $('.al_img:last');
-                editItem(element);
-                Holder.run();
+        },
+        addItem: function() {
+            $(this).click(function(){
+                var row = $('#rk-empty-image-row');
+                row.clone()
+                    .removeAttr('id')
+                    .insertBefore(row)
+                    .find('.al_empty_img')                  
+                    .addClass('al_img')                    
+                    .removeClass('al_empty_img')  
+                ;
+                
+                $('body').imagesList('init');
+                
+                deselectActiveItem();
+                resetForm();
                 
                 return false;
             });
@@ -70,7 +67,7 @@
         editItem: function() {
             editItem($(this));
         },
-        deleteItem : function() { 
+        deleteItem : function() {
             deleteItem($(this));
         },
         save: function(element, values) { 
@@ -122,8 +119,8 @@
             $('#al_item_attributes_form').find(':input:not(input[type=submit])').each(function(){
                 var el = $(this);
                 var value = $this.attr('data-' + el.attr('id'));
-                if (null == value) {
-                    value = "";
+                if (null == value || value == "") {
+                    value = " ";
                 }
                 el.val(decodeURIComponent(value));
             });
@@ -137,35 +134,31 @@
     function deleteItem(element) {
         element.click(function(){  
             if(confirm(translate("Are you sure you want to remove the selected image"))) {
-                var imageThumbnail = $('.al_img_selected').parent();
-                imageThumbnail.remove();
+                $(this).parent().parent().remove();
                 
-                if ($('.images_contents .thumbnails').length > 0) { 
-                    // Twitter Bootstrap 2.x
-                    if ($('.images_contents .thumbnails:last li').length == 0) {
-                        $('.images_contents .thumbnails:last').remove();
-                    }
-                }
-                else {
-                    // Twitter Bootstrap 3.x
-                    if ($('.images_contents .row:last .col-sm-6').length == 0) {
-                        $('.images_contents .row:last').remove();
-                    }
-                }
-                
-                
-                $(".al_form_item").val('');
+                deselectActiveItem();
+                resetForm();
             }
 
             return false;
         });
     }
     
-    function selectActiveItem(element) {
+    function deselectActiveItem() {
         $('.al_img').removeClass('al_img_selected');
+    }
+    
+    function selectActiveItem(element) {
+        deselectActiveItem();
         element
             .addClass('al_img_selected')
         ;
+    }
+    
+    function resetForm() {
+        $('#al_item_attributes_form').find(':input:not(input[type=submit])').each(function(){
+            $(this).val('');
+        });
     }
 
     $.fn.imagesList = function( method, options ) {    

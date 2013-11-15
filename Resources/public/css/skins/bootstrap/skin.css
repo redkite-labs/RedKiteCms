@@ -627,28 +627,21 @@ select.input-xxs {
   font-style: italic;
 }
 
-.al_images_list {
-  border: 2px solid #cccccc;
-  padding: 6px;
-  height: 450px;
-  max-height: 450px;
+#rk-empty-image-row {
+  display: none;
 }
 
-.al_img_selected {
-  background-color: #ff9900;
+.rk-images-list a {
+  color: #525252;
+  text-decoration: none;
 }
-
-.images_contents {
-  width: 410px;
-  overflow: auto;
+.rk-images-list .al_img_selected {
+  font-weight: bold;
+  color: #c20000;
 }
 
 .al_images_selector_commands {
   padding: 6px;
-}
-
-.al_img img {
-  max-height: 100px;
 }
 
 .al_floating_panel {
