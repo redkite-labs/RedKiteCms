@@ -1,7 +1,7 @@
 {% extends "RedKiteCmsBundle:Editor:base_editor.html.twig" %}
 
 {% set data_src = "" %}
-{% if image.src is defined and image.src != "" %}
+{% if image.src is defined and image.src|trim != "" %}
     {% set src = image.src %}
 {% else %}
     {% set src = "" %}
