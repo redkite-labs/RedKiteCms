@@ -128,6 +128,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_stylesheets %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?yui_css,cssrewrite\" %}" . PHP_EOL;
         $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />" . PHP_EOL;
         $section .= "  {% endstylesheets %}" . PHP_EOL;
@@ -148,6 +149,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_javascripts %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "  {% javascripts \"javascript1.js\" \"javascript2.js\" filter=\"\" %}" . PHP_EOL;
         $section .= "    <script src=\"{{ asset_url }}\"></script>" . PHP_EOL;
         $section .= "  {% endjavascripts %}" . PHP_EOL;
@@ -168,6 +170,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_stylesheets %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?cssrewrite\" %}" . PHP_EOL;
         $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />" . PHP_EOL;
         $section .= "  {% endstylesheets %}" . PHP_EOL;
@@ -188,6 +191,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_javascripts %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "  {% javascripts \"javascript1.js\" \"javascript2.js\" filter=\"?yui_js\" %}" . PHP_EOL;
         $section .= "    <script src=\"{{ asset_url }}\"></script>" . PHP_EOL;
         $section .= "  {% endjavascripts %}" . PHP_EOL;
@@ -208,6 +212,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block internal_header_stylesheets %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "<style>some css code</style>" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
 
@@ -226,6 +231,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "<script>$(document).ready(function(){some js code});</script>" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
 
@@ -255,6 +261,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
 
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "<script>$(document).ready(function(){" . $expectedJsCode . "});</script>" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         
@@ -273,19 +280,23 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_stylesheets %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?yui_css,cssrewrite\" %}" . PHP_EOL;
         $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />" . PHP_EOL;
         $section .= "  {% endstylesheets %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= "{% block external_javascripts %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "  {% javascripts \"javascript1.js\" \"javascript2.js\" filter=\"?yui_js\" %}" . PHP_EOL;
         $section .= "    <script src=\"{{ asset_url }}\"></script>" . PHP_EOL;
         $section .= "  {% endjavascripts %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= "{% block internal_header_stylesheets %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "<style>some css code</style>" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "<script>$(document).ready(function(){some js code});</script>" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
 
@@ -650,19 +661,23 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section .= "{% block keywords %}some,keywords{% endblock %}" . PHP_EOL;
         $section .= "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block external_stylesheets %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "  {% stylesheets \"style1.css\" \"style2.css\" filter=\"?yui_css,cssrewrite\" %}" . PHP_EOL;
         $section .= "    <link href=\"{{ asset_url }}\" rel=\"stylesheet\" type=\"text/css\" media=\"all\" />" . PHP_EOL;
         $section .= "  {% endstylesheets %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= "{% block external_javascripts %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "  {% javascripts \"javascript1.js\" \"javascript2.js\" filter=\"?yui_js\" %}" . PHP_EOL;
         $section .= "    <script src=\"{{ asset_url }}\"></script>" . PHP_EOL;
         $section .= "  {% endjavascripts %}" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= "{% block internal_header_stylesheets %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "<style>some css code</style>" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
+        $section .= "{{ parent() }}" . PHP_EOL;
         $section .= "<script>$(document).ready(function(){some js code});</script>" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;

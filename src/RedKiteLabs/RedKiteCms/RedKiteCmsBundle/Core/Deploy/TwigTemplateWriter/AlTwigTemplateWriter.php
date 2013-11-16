@@ -213,21 +213,21 @@ abstract class AlTwigTemplateWriter
         if (!empty($externalStylesheets)) {
             $sectionContent = '<link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />';
             $filter = $yuiEnabled ? '?yui_css,cssrewrite' : '?cssrewrite';
-            $this->assetsSection .= $this->writeBlock('external_stylesheets', $this->writeAssetic('stylesheets', implode(' ', array_map(function($value){ return '"' . $value . '"'; }, $externalStylesheets )), $sectionContent, $filter));
+            $this->assetsSection .= $this->writeBlock('external_stylesheets', $this->writeAssetic('stylesheets', implode(' ', array_map(function($value){ return '"' . $value . '"'; }, $externalStylesheets )), $sectionContent, $filter), true);
         }
 
         if (!empty($externalJavascripts)) {
             $sectionContent = '<script src="{{ asset_url }}"></script>';
             $filter = $yuiEnabled ? '?yui_js' : '';
-            $this->assetsSection .= $this->writeBlock('external_javascripts', $this->writeAssetic('javascripts', implode(' ', array_map(function($value){ return '"' . $value . '"'; }, $externalJavascripts )), $sectionContent, $filter));
+            $this->assetsSection .= $this->writeBlock('external_javascripts', $this->writeAssetic('javascripts', implode(' ', array_map(function($value){ return '"' . $value . '"'; }, $externalJavascripts )), $sectionContent, $filter), true);
         }
 
         if (!empty($internalStylesheet)) {
-            $this->assetsSection .= $this->writeBlock('internal_header_stylesheets', '<style>' . $internalStylesheet . '</style>');
+            $this->assetsSection .= $this->writeBlock('internal_header_stylesheets', '<style>' . $internalStylesheet . '</style>', true);
         }
 
         if (!empty($internalJavascript)) {
-            $this->assetsSection .= $this->writeBlock('internal_header_javascripts', '<script>$(document).ready(function(){' . $this->rewriteImagesPathForProduction($internalJavascript) . '});</script>');
+            $this->assetsSection .= $this->writeBlock('internal_header_javascripts', '<script>$(document).ready(function(){' . $this->rewriteImagesPathForProduction($internalJavascript) . '});</script>', true);
         }
     }
 
