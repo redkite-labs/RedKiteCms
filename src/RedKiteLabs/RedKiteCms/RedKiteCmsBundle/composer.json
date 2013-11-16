@@ -22,9 +22,9 @@
     "imagine/Imagine": ">=0.4.1",
     "propel/propel-bundle": "1.2.*",
     "propel/propel1": "1.7.0",
-    "redkite-labs/redkite-labs-bootstrap-bundle": "~1.1.0-beta",
-    "redkite-labs/redkite-labs-theme-engine-bundle": "~1.1.0-beta",
-    "redkite-labs/redkite-labs-elfinder-bundle": "~1.1.0-beta"
+    "redkite-labs/redkite-labs-bootstrap-bundle": "~1.1.0-rc",
+    "redkite-labs/redkite-labs-theme-engine-bundle": "~1.1.0-rc",
+    "redkite-labs/redkite-labs-elfinder-bundle": "~1.1.0-rc"
   },
   "require-dev": {    
     "symfony/symfony": "2.3.4",
