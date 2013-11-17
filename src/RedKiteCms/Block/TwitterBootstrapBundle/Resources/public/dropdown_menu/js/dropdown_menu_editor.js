@@ -111,8 +111,10 @@
 
 function initRemoveButtons()
 {
-    $('.dropdown-menu-delete-item').on('click', function(){ 
-        $("." + $(this).attr('rel')).remove();
+    $('.dropdown-menu-delete-item').on('click', function(){
+        if(confirm("Are you sure you want to remove the selected item")) {
+            $("." + $(this).attr('data-row-id')).remove();
+        }
 
         return false;
     });

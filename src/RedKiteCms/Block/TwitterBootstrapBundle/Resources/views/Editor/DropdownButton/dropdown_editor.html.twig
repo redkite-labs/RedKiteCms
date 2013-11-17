@@ -30,9 +30,9 @@
                 <td><input id="href_{{ key }}" type="text" name="dropdown_items_form[{{ key }}][metadata][href]" value="{% if item.metadata.href is defined %}{{ item.metadata.href }}{% endif %}" class="form-control input-medium" /></td>
                 <td>
                     {% if bootstrap_version == '3.x' %}
-                    <a href="#" class="dropdown-menu-delete-item btn btn-danger btn-xs" rel="row-{{ key }}"><span class="glyphicon glyphicon-trash"></span></a>
+                    <a href="#" class="dropdown-menu-delete-item btn btn-danger btn-xs" data-row-id="row-{{ key }}"><span class="glyphicon glyphicon-trash"></span></a>
                     {% else %}
-                    <a class="btn btn-mini btn-danger"><i class="icon-trash icon-white"></i></a>
+                    <a class="dropdown-menu-delete-item btn btn-mini btn-danger" data-row-id="row-{{ key }}"><i class="icon-trash icon-white"></i></a>
                     {% endif %}
                 </td>
             </tr>
