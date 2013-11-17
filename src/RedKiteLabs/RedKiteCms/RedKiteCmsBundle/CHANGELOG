@@ -1,3 +1,12 @@
+RedKite CMS 1.1.Beta 4 (2013/11/17)
+59ad6e4 added a callback called when the list is started end another one when the list is stopped
+20aa369 added missing parent() call for assets sections
+5422182 images list displays images as table rows instead of thumbnails
+c6410ae added the cms_language as global twig variable
+c891fc7 improved and refactored the manageTheme plugin
+1861da5 removed messages dictionaries because they have been moved
+7f1088e refactored EditBlock method
+
 RedKite CMS 1.1.Beta 4 (2013/11/10)
 e8a66c5 fixed box-centered class
 80229d0 blocks toolbar add button is now hidden when block is included
