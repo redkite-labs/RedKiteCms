@@ -36,6 +36,7 @@ $(document).ready(function()
         element.inlinelist('start', {             
             target: '> div',
             addValue: '{"operation": "add", "value": { "0": "item" }}',
+            startListCallback: expandAccordion,
             addItemCallback: expandAccordion,
             deleteItemCallback: expandAccordion
         }); 
