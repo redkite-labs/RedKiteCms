@@ -1,3 +1,11 @@
+RedKite CMS Base Blocks 1.1.Release Cansidate (2013/11/17)
+1e2b741 fixed control trimming the image source name
+d79f363 added a stylesheet to define the href input width
+1d091b7 fixed bug that displays the link value instead of the link text
+2556a28 fixed menu and menu vertical blocks
+14aca55 fixed menu target selector
+9ad5195 filtered blocks that can be added to menus
+
 RedKite CMS Base Blocks 1.1.Beta 4 (2013/11/10)
 6071ac9 removed submit button because it is inherited from parent class
 41d446a added explicit filter for link block
