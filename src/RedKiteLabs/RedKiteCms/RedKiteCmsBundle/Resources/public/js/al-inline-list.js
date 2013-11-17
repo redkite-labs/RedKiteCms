@@ -26,6 +26,8 @@
             
             $('body').data('al-active-inline-list', $this);
             
+            settings.startListCallback();
+            
             return this;
         },    
         stop: function() 
@@ -34,6 +36,8 @@
             $('.al-delete-item-list').unbind().remove();
             $('.inline-list-commands-container').remove();
             $('body').data('al-active-inline-list', null);
+            
+            settings.stopListCallback();
             
             return this;
         }
@@ -163,6 +167,8 @@
           addValue              : null,
           position              : 'left bottom',
           filterAdders          : 'none',
+          startListCallback     : function(){},  
+          stopListCallback      : function(){},  
           addItemCallback       : function(){},          
           deleteItemCallback    : function(){}
         }, options);
