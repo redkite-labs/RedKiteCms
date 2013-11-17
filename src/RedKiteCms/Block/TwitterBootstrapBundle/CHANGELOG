@@ -1,3 +1,10 @@
+RedKite CMS Twitter Bootstrap Blocks 1.1.Release Cansidate (2013/11/17)
+97f3709 fixed tumbnail list editor target
+c86acf7 called method to expand the accordion when the list is started
+427f6f2 fixed dropdown button for twitter bootstrap 2.x
+3a03db1 fixed slider carousel to work with new images list
+20f7763 fixed label types which was from Bootstrap 2
+
 RedKite CMS Twitter Bootstrap Blocks 1.1.Beta 4 (2013/11/10)
 abd78cf when editor was stopped, included blocks are not editable. Fixed
 2defc17 hide blocks toolbar for included blocks
