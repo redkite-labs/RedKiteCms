@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Form;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
 use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\File\AlFileType;
 
 /**
@@ -25,28 +25,26 @@ use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\File\AlFileType;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlFileTypeTest extends TestCase
+class AlFileTypeTest extends AlBaseType
 {
-    public function testConfigure()
+    protected function configureFields()
     {
-        $listener = new AlFileType();
-        
-        $formBuilder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')
-                            ->disableOriginalConstructor()
-                            ->getMock();  
-        
-        $formBuilder->expects($this->at(0))
-                    ->method('add')
-                    ->with('file');
-        
-        $formBuilder->expects($this->at(1))
-                    ->method('add')
-                    ->with('description');
-        
-        $formBuilder->expects($this->at(2))
-                    ->method('add')
-                    ->with('opened');
-        
-        $listener->buildForm($formBuilder, array());
+        return array(
+            "file",
+            array(
+                'name' => 'description',
+                'type' => 'textarea',
+            ),
+            array(
+                'name' => 'opened',
+                'type' => 'checkbox',
+                'options' => array('label' => 'file_block_show_opened'),
+            ),
+        );
+    }
+    
+    protected function getForm()
+    {
+        return new AlFileType();
     }
 }
