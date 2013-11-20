@@ -29,21 +29,31 @@ class LanguagesMenuType extends JsonBlockType
 {
     protected $flagsDirectories;
     protected $languages;
-    protected $flagsDirectory;
+    protected $currentFlagsDirectory;
     
-    public function __construct($flagsDirectories, $languages, $flagsDirectory)
+    /**
+     * Constructor 
+     * 
+     * @param array $flagsDirectories
+     * @param array $languages
+     * @param type $currentFlagsDirectory
+     */
+    public function __construct(array $flagsDirectories, array $languages, $currentFlagsDirectory)
     {
         $this->flagsDirectories = $flagsDirectories;
         $this->languages = $languages;
-        $this->flagsDirectory = $flagsDirectory;
+        $this->currentFlagsDirectory = $currentFlagsDirectory;
     }
     
+    /**
+     * @inheritdoc
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('flags_directories', 'choice', array(
             'choices' => $this->flagsDirectories, 
             'label' => 'Flags',
-            'data' => $this->flagsDirectory,
+            'data' => $this->currentFlagsDirectory,
             'empty_value' => 'Choose flags folder', 
         ));
         
