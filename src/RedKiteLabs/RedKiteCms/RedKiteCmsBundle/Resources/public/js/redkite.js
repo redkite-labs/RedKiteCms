@@ -289,6 +289,10 @@
                 at: "left bottom",
                 of: element
             });
+            
+            // Forces always the data-title as popover title to avoid conflicts with 
+            // image block
+            popover.find('.popover-title').html(element.attr('data-title'));
         });
         
         $('.al_editor_save').each(function(){ 
