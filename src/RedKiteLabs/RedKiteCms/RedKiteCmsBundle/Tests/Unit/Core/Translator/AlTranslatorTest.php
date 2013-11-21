@@ -115,18 +115,18 @@ class AlTranslatorTest extends TestCase
     
     public function catalogues()
     {
-        return array(
-            array(
-                'messages',
-                'messages',
-            ),
+        return array(            
             array(
                 'RedKiteCmsBundle',
                 'RedKiteCmsBundle',
             ),
             array(
-                'catalogue',
-                'RedKiteCmsBundle',
+                'messages',
+                'messages',
+            ),
+            array(
+                'RedKiteCmsBaseBlocksBundle',
+                'RedKiteCmsBaseBlocksBundle',
             ),
         );
     }

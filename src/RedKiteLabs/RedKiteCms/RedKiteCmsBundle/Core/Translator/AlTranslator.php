@@ -100,15 +100,11 @@ class AlTranslator implements AlTranslatorInterface
     /**
      * {@inheritdoc}
      */
-    public function translate($message, array $parameters = array(), $domain = 'messages', $locale = null)
+    public function translate($message, array $parameters = array(), $domain = 'RedKiteCmsBundle', $locale = null)
     {
         if (null !== $this->configuration) {        
             if (null === $locale) {
                 $locale = $this->configuration->read('language');
-            }
-            
-            if ($domain != 'messages') {
-                $domain = 'RedKiteCmsBundle';
             }
         }
         
