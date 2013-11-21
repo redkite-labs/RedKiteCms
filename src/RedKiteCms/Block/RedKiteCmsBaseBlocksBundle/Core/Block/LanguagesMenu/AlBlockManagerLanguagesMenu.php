@@ -86,7 +86,7 @@ class AlBlockManagerLanguagesMenu extends AlBlockManagerContainer
 
         return array(
             "template" => 'RedKiteCmsBaseBlocksBundle:Editor:LanguagesMenu/editor.html.twig',
-            "title" => $this->translator->translate("Navigation languages menu"),
+            "title" => $this->translator->translate("navigation_languages_menu_title_editor", array(), 'RedKiteCmsBaseBlocksBundle'),
             "form" => $form->createView(),
             "configuration" => $this->configuration,
         );

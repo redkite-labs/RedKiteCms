@@ -3,12 +3,12 @@
 <form id="al_item_form">
     <table>
         <tr>
-            <td>{{ form_label(form.href, "Href", {'cms_language': cms_language}) }}</td>
+            <td>{{ form_label(form.href) }}</td>
             <td class="al_pages_selector"></td>
             <td>{{ form_errors(form.href) }} {{ form_widget(form.href) }} </td>
         </tr>
         <tr>
-            <td>{{ form_label(form.value, "Displayed value", {'cms_language' : cms_language}) }}</td>
+            <td>{{ form_label(form.value) }}</td>
             <td colspan="2">                
                 {{ form_errors(form.value) }} {{ form_widget(form.value) }}
             </td>

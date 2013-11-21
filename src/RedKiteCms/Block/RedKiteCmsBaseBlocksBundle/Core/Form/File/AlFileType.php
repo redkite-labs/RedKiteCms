@@ -17,16 +17,15 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\File;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\AlBaseType;
 
 /**
  * Defines the file form
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlFileType extends JsonBlockType
+class AlFileType extends AlBaseType
 {
     /**
      * {@inheritdoc}
@@ -41,16 +40,5 @@ class AlFileType extends JsonBlockType
         );
         
         parent::buildForm($builder, $options);
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults(array(
-            'translation_domain' => 'RedKiteCmsBaseBlocksBundle',  
-            'csrf_protection' => false,
-        ));
     }
 }

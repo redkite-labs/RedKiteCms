@@ -32,6 +32,12 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
     protected $translator;
     protected $cmsLanguage;
     
+    /**
+     * Constructor
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     */
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($container, $validator);
@@ -39,6 +45,9 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
         $this->translator = $this->container->get('red_kite_cms.translator');
     }
     
+    /**
+     * {@inheritdoc}
+     */
     public function getDefaultValue()
     {
         $value = 
@@ -54,6 +63,9 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
         return array('Content' => $value);
     }
     
+    /**
+     * {@inheritdoc}
+     */
     protected function renderHtml()
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
@@ -68,6 +80,9 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
         ));
     }
     
+    /**
+     * {@inheritdoc}
+     */
     public function editorParameters()
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
@@ -81,7 +96,7 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
         
         return array(
             "template" => "RedKiteCmsBaseBlocksBundle:Editor:Link/editor.html.twig",
-            "title" => $this->translator->translate('Link editor'),
+            "title" => $this->translator->translate('link_block_editor_title', array(), 'RedKiteCmsBaseBlocksBundle'),
             "form" => $form->createView(),
             'pages' => ChoiceValues::getPermalinks($seoRepository, $request->get('_locale')),
         );

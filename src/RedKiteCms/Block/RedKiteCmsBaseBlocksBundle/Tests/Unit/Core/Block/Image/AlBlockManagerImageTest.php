@@ -44,15 +44,15 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
                     "0" : {
                         "src": "",
                         "data_src": "holder.js/260x180",
-                        "title" : "Sample title",
-                        "alt" : "Sample alt"
+                        "title" : "image_block_title_attribute",
+                        "alt" : "image_block_alt_attribute"
                     }
                 }
             '
         );
         
-        $this->translate("Sample title", 0);
-        $this->translate("Sample alt", 1);
+        $this->translate("image_block_title_attribute", 0);
+        $this->translate("image_block_alt_attribute", 1);
         $this->assertEquals($expectedValue, $this->blockManager->getDefaultValue());
     }
 

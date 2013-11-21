@@ -33,6 +33,12 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
     protected $translator;
     protected $cmsLanguage;
     
+    /**
+     * Constructor
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     */
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($container, $validator);
@@ -40,6 +46,9 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         $this->translator = $this->container->get('red_kite_cms.translator');
     }
     
+    /**
+     * {@inheritdoc}
+     */
     public function getDefaultValue()
     {
         $value = sprintf(
@@ -49,13 +58,16 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
                 "description" : "",
                 "opened" : false
             }
-        }', $this->translator->translate("Click to load a file"));
+        }', $this->translator->translate('file_block_file_load', array(), 'RedKiteCmsBaseBlocksBundle'));
 
         return array(
             'Content' => $value,
         );
     }
     
+    /**
+     * {@inheritdoc}
+     */
     protected function renderHtml()
     {
         $items = $this->decodeJsonContent($this->alBlock);
@@ -72,7 +84,10 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
             ? sprintf("{%% set file = kernel_root_dir ~ '/../" . $this->container->getParameter('red_kite_cms.web_folder') . "/%s/%s' %%} {{ file_open(file) }}", $deployBundleAsset->getAbsolutePath(), $file)          
             : sprintf('<a href="/%s/%s" />%s</a>', AlAssetsPath::getUploadFolder($this->container), $file, ( ! empty($description)) ? $description : basename($file));
     }
-        
+    
+    /**
+     * {@inheritdoc}
+     */
     public function editorParameters()
     {        
         $items = $this->decodeJsonContent($this->alBlock);
@@ -84,16 +99,22 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
         
         return array(
             'template' => 'RedKiteCmsBundle:Block:Editor/_editor_form.html.twig',
-            'title' => $this->translator->translate('Files editor'),
+            'title' => $this->translator->translate('file_block_editor_title', array(), 'RedKiteCmsBaseBlocksBundle'),
             'form' => $form->createView(),
         );
     }
     
+    /**
+     * {@inheritdoc}
+     */
     public function getHideInEditMode()
     {
         return true;
     }
     
+    /**
+     * {@inheritdoc}
+     */
     protected function replaceHtmlCmsActive()
     {
         $options = $this->getOptions(); 

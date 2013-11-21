@@ -28,6 +28,12 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
  */
 class AlBlockManagerScript extends AlBlockManagerContainer
 {
+    /**
+     * Constructor
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     */
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($container, $validator);
@@ -40,9 +46,12 @@ class AlBlockManagerScript extends AlBlockManagerContainer
      */
     public function getDefaultValue()
     {
-        return array('Content' => $this->translator->translate("This is a default script content"));
+        return array('Content' => $this->translator->translate("script_block_default_content", array(), 'RedKiteCmsBaseBlocksBundle'));
     }
     
+    /**
+     * {@inheritdoc}
+     */
     protected function renderHtml()
     {
         return array('RenderView' => array(
@@ -50,6 +59,9 @@ class AlBlockManagerScript extends AlBlockManagerContainer
         ));
     }
     
+    /**
+     * {@inheritdoc}
+     */
     public function editorParameters()
     {
         $formClass = $this->container->get('script.form');
@@ -57,7 +69,7 @@ class AlBlockManagerScript extends AlBlockManagerContainer
         
         return array(
             "template" => "RedKiteCmsBaseBlocksBundle:Editor:Script/editor.html.twig",
-            "title" => "Script editor",
+            "title" => $this->translator->translate('script_block_editor_title', array(), 'RedKiteCmsBaseBlocksBundle'),
             "blockManager" => $this,
             "form" => $form->createView(),
             "jsFiles" => explode(",", $this->alBlock->getExternalJavascript()),
@@ -73,6 +85,9 @@ class AlBlockManagerScript extends AlBlockManagerContainer
         return true;
     }
     
+    /**
+     * {@inheritdoc}
+     */
     protected function edit(array $values)
     {
         $unserializedData = array();

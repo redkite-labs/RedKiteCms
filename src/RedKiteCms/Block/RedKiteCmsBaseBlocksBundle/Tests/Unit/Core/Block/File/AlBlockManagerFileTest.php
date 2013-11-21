@@ -35,7 +35,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         $value =
         '{
             "0" : {
-                "file" : "Click to load a file",
+                "file" : "file_block_file_load",
                 "description" : "",
                 "opened" : false
             }
@@ -46,7 +46,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
         );
 
         $this->initContainer();
-        $this->translate("Click to load a file");
+        $this->translate("file_block_file_load");
         $blockManager = new AlBlockManagerFile($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }

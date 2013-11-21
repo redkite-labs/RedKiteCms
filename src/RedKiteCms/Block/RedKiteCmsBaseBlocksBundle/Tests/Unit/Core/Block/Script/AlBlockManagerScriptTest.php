@@ -39,7 +39,7 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
 
     public function testDefaultValue()
     {
-        $message = 'This is a default script content';
+        $message = 'script_block_default_content';
         $this->translator
             ->expects($this->once())
             ->method('translate')
@@ -104,6 +104,12 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
                         ->with('form.factory')
                         ->will($this->returnValue($formFactory))
         ;
+        
+        $this->translator
+            ->expects($this->once())
+            ->method('translate')
+            ->with('script_block_editor_title')                
+            ->will($this->returnValue('Script editor'));
         
         $expectedResult = array(
             "template" => "RedKiteCmsBaseBlocksBundle:Editor:Script/editor.html.twig",

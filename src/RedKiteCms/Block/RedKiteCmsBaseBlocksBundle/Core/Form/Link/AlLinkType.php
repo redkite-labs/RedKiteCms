@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Link;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\AlBaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -25,16 +25,19 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlLinkType extends JsonBlockType
+class AlLinkType extends AlBaseType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('href', null, array('attr' => array('class' => 'rk-href')));
+        $builder->add('href', null, array(
+            'attr' => array('class' => 'rk-href'),
+            'label' => 'link_block_href',
+        ));
         $builder->add('value', null, array(
-            'label' => 'Displayed value',
+            'label' => 'link_block_displayed_value',
         ));
         
         parent::buildForm($builder, $options);

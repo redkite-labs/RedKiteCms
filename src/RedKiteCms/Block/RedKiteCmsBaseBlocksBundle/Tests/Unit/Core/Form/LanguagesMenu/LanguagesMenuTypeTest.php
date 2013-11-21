@@ -38,9 +38,9 @@ class LanguagesMenuTypeTest extends AlBaseType
                         "40x30" => "40x30", 
                         "20x15" => "20x15",
                     ),
-                    'label' => 'Flags',
+                    'label' => 'navigation_languages_menu_flags',
                     'data' => '20x15',
-                    'empty_value' => 'Choose flags folder',
+                    'empty_value' => 'navigation_languages_menu_flags_folder',
                 ),
             ),
             array(

@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Script;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\AlBaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -25,8 +25,11 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlScriptType extends JsonBlockType
+class AlScriptType extends AlBaseType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('content', 'textarea', array('label' => false, 'attr' => array('class' => 'editor-textarea', 'rows' => '12'))); 

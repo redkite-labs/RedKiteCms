@@ -26,6 +26,9 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ElFinder\Base\ElFinderBaseConnector;
  */
 class ElFinderFileConnector extends ElFinderBaseConnector
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function configure()
     {
         $filesFolder = $this->container->getParameter('file.base_folder') ;

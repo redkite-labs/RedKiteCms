@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\LanguagesMenu;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\AlBaseType;
 
 /**
  * Defines the languages menu editor form
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class LanguagesMenuType extends JsonBlockType
+class LanguagesMenuType extends AlBaseType
 {
     protected $flagsDirectories;
     protected $languages;
@@ -46,15 +46,15 @@ class LanguagesMenuType extends JsonBlockType
     }
     
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('flags_directories', 'choice', array(
             'choices' => $this->flagsDirectories, 
-            'label' => 'Flags',
+            'label' => 'navigation_languages_menu_flags',
             'data' => $this->currentFlagsDirectory,
-            'empty_value' => 'Choose flags folder', 
+            'empty_value' => 'navigation_languages_menu_flags_folder', 
         ));
         
         foreach($this->languages as $language => $values) {
