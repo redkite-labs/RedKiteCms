@@ -31,7 +31,7 @@ abstract class JsonBlockType extends BaseBlockType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('save', 'submit', array('attr' => array('class' => 'al_editor_save btn btn-primary')));
+        $builder->add('save', 'submit', array('label' => 'common_label_save', 'attr' => array('class' => 'al_editor_save btn btn-primary')));
     }
     
     /**
