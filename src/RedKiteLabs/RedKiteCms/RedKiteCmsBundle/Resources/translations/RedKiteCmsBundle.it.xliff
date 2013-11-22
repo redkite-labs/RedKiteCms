@@ -348,7 +348,6 @@
         </trans-unit>
         
         <!-- COMMON -->
-        
         <trans-unit id="common-1">
             <source>common_label_stop</source>
             <target>Stop</target>
@@ -1000,6 +999,13 @@
         <trans-unit id="twig-extension-6">
             <source>twig_extension_slot_name_must_be_string</source>
             <target>Il nome dello slot deve essere di tipo stringa per la funzione renderSlot</target>
+        </trans-unit>
+        
+        <!-- IMAGES LIST -->
+             
+        <trans-unit id="images-list-1">
+            <source>images_list_empty_image</source>
+            <target>Immagine non inserita</target>
         </trans-unit>
     </body>
     </file>

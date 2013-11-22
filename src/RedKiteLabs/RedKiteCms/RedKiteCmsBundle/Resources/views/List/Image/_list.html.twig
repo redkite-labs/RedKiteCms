@@ -17,12 +17,12 @@
                     {% endif %}
                 {% endfor %}
                 {% set create_empty_row = false %}
-                <td><a href="#" class="al_img" {{ attributes|raw }}>{% if (image.src|trim != "") %}{{ image.src }}{% else %}Empty image{% endif %}</a></td>                
+                <td><a href="#" class="al_img" {{ attributes|raw }}>{% if (image.src|trim != "") %}{{ image.src }}{% else %}{{ "images_list_empty_image"|trans({}, 'RedKiteCmsBundle', cms_language) }}{% endif %}</a></td>                
                 <td width="32"><button class="btn btn-xs btn-danger rk-image-remover btn-mini">{{ trash_icon|raw }}</button></td>
             </tr>
             {% endfor %}
             <tr id="rk-empty-image-row">
-                <td><a href="#" class="al_empty_img" {{ empty_row|raw }}>Empty image</a></td>                
+                <td><a href="#" class="al_empty_img" {{ empty_row|raw }}>{{ "images_list_empty_image"|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></td>                
                 <td><button class="btn btn-xs btn-danger rk-image-remover btn-mini">{{ trash_icon|raw }}</button></td>
             </tr>
         </tbody>
