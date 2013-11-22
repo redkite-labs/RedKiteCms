@@ -1002,6 +1002,13 @@
             <source>twig_extension_slot_name_must_be_string</source>
             <target>renderSlot function requires a string as argument to identify the slot name</target>
         </trans-unit>        
+        
+        <!-- IMAGES LIST -->
+             
+        <trans-unit id="images-list-1">
+            <source>images_list_empty_image</source>
+            <target>Empty image</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>
