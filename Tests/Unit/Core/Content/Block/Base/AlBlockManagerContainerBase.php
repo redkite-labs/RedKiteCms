@@ -31,6 +31,7 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
     protected $blockRepository;
     protected $factoryRepository;
     protected $container;
+    protected $translator;
 
     protected function setUp()
     {
@@ -50,6 +51,8 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
+        
+        $this->translator = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
     }
@@ -77,6 +80,11 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
                         ->method('get')
                         ->with('red_kite_cms.factory_repository')
                         ->will($this->returnValue($this->factoryRepository));
+        
+        $this->container->expects($this->at(2))
+                        ->method('get')
+                        ->with('red_kite_cms.translator')
+                        ->will($this->returnValue($this->translator));
     }
 
     protected function initBootstrapversion($bootstrapVersion)
