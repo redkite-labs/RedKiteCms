@@ -58,7 +58,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->container->expects($this->at(2))
+        $this->container->expects($this->at(3))
                         ->method('get')
                         ->with('request')
                         ->will($this->returnValue($request));
