@@ -30,12 +30,14 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
 abstract class AlBlockManagerContainer extends AlBlockManager
 {
     protected $container = null;
+    protected $translator;
 
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
         $this->container = $container;
         $eventsHandler = $container->get('red_kite_cms.events_handler');
         $factoryRepository = $container->get('red_kite_cms.factory_repository');
+        $this->translator = $this->container->get('red_kite_cms.translator');
 
         parent::__construct($eventsHandler, $factoryRepository, $validator);
     }

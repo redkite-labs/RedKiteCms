@@ -32,6 +32,7 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
 {
     protected $container;
     protected $blocksRepository;
+    protected $translator;
 
     /**
      * Constructor
@@ -47,6 +48,7 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
         $eventsHandler = $container->get('red_kite_cms.events_handler');
         $factoryRepository = $container->get('red_kite_cms.factory_repository');
         $this->blocksRepository = $factoryRepository->createRepository('Block');
+        $this->translator = $this->container->get('red_kite_cms.translator');
 
         parent::__construct($eventsHandler, $factoryRepository, $validator);
     }
