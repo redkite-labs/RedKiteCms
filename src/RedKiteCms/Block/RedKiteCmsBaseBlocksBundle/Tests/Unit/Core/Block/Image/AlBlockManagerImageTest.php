@@ -103,7 +103,7 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
 
         $block = $this->initBlock($value);
         $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
-        $this->container->expects($this->at(4))
+        $this->container->expects($this->at(3))
                         ->method('get')
                         ->with('image.form')
                         ->will($this->returnValue($formType))
@@ -122,7 +122,7 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
                     ->will($this->returnValue($form))
         ;
         
-        $this->container->expects($this->at(5))
+        $this->container->expects($this->at(4))
                         ->method('get')
                         ->with('form.factory')
                         ->will($this->returnValue($formFactory))
@@ -132,27 +132,6 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
         $blockManager = new AlBlockManagerImage($this->container, $this->validator);
         $blockManager->set($block);
         $blockManager->editorParameters();        
-    }
-    
-    protected function initContainer()
-    {
-        parent::initContainer();
-        
-        $this->translator = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
-        $this->container
-            ->expects($this->at(2))
-            ->method('get')
-            ->with('red_kite_cms.translator')
-            ->will($this->returnValue($this->translator))
-        ;
-        
-        $this->configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
-        $this->container
-            ->expects($this->at(3))
-            ->method('get')
-            ->with('red_kite_cms.configuration')
-            ->will($this->returnValue($this->configuration))
-        ;
     }
 
     private function initBlock($value)

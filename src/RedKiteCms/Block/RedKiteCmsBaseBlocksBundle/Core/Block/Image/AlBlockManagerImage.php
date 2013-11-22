@@ -29,25 +29,8 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
  */
 class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
 {
-    protected $translator;
-    protected $configuration;
-    protected $cmsLanguage;
     protected $blockTemplate = 'RedKiteCmsBaseBlocksBundle:Content:Image/image.html.twig';  
     protected $editorTemplate = 'RedKiteCmsBaseBlocksBundle:Editor:Image/editor.html.twig';
-    
-    /**
-     * Consstructor
-     * 
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     */
-    public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
-    {
-        parent::__construct($container, $validator);
-        
-        $this->translator = $this->container->get('red_kite_cms.translator');
-        $this->configuration = $this->container->get('red_kite_cms.configuration');
-    }
     
     /**
      * {@inheritdoc}
@@ -102,7 +85,6 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
             "template" => $this->editorTemplate,
             "title" => $this->translator->translate("image_block_editor_title", array(), 'RedKiteCmsBaseBlocksBundle'),
             "form" => $form->createView(),
-            "configuration" => $this->configuration,
         );
     }
 }

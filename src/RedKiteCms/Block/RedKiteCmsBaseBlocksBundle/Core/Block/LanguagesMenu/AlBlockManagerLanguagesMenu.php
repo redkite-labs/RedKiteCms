@@ -37,7 +37,6 @@ class AlBlockManagerLanguagesMenu extends AlBlockManagerContainer
     private $urlManager = null;
     private $kernel = null;
     private $flagsAsset;
-    private $translator;
 
     /**
      * Constructor
@@ -54,8 +53,6 @@ class AlBlockManagerLanguagesMenu extends AlBlockManagerContainer
         $this->kernel = $this->container->get('kernel');
         $flagsFolder = $this->container->getParameter('red_kite_cms.flags_folder');
         $this->flagsAsset = new AlAsset($this->kernel, $flagsFolder); 
-        $this->translator = $this->container->get('red_kite_cms.translator');
-        $this->configuration = $this->container->get('red_kite_cms.configuration');
     }
 
     /**
@@ -88,7 +85,6 @@ class AlBlockManagerLanguagesMenu extends AlBlockManagerContainer
             "template" => 'RedKiteCmsBaseBlocksBundle:Editor:LanguagesMenu/editor.html.twig',
             "title" => $this->translator->translate("navigation_languages_menu_title_editor", array(), 'RedKiteCmsBaseBlocksBundle'),
             "form" => $form->createView(),
-            "configuration" => $this->configuration,
         );
     }
 

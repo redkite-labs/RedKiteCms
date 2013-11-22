@@ -34,10 +34,12 @@ class AlBlockManagerLanguagesMenuTester extends AlBlockManagerLanguagesMenu
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerLanguagesMenuTest extends TestCase
+class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase
 {
     protected function setUp()
     {
+        parent::setUp();
+        
         $folders = array(
             'flags' => 
                 array(
@@ -77,44 +79,22 @@ class AlBlockManagerLanguagesMenuTest extends TestCase
             ->method('locateResource')
             ->will($this->returnValue(vfsStream::url('root\flags')));
         
+        $this->initContainer();
         
-        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->container->expects($this->at(0))
-            ->method('get')
-            ->with('red_kite_cms.events_handler')
-            ->will($this->returnValue($this->eventsHandler));
-        
-        $this->container->expects($this->at(1))
-            ->method('get')
-            ->with('red_kite_cms.factory_repository')
-            ->will($this->returnValue($this->factoryRepository));
-        
-        $this->container->expects($this->at(2))
+        $this->container->expects($this->at(3))
             ->method('get')
             ->with('red_kite_cms.url_manager')
             ->will($this->returnValue($this->urlManager));
         
-        $this->container->expects($this->at(3))
+        $this->container->expects($this->at(4))
             ->method('get')
             ->with('kernel')
             ->will($this->returnValue($this->kernel));
         
-        $this->container->expects($this->at(4))
+        $this->container->expects($this->at(5))
             ->method('getParameter')
             ->with('red_kite_cms.flags_folder')
             ->will($this->returnValue('@NavigationMenuBundle'));
-        
-        $this->translator = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
-        $this->container->expects($this->at(5))
-            ->method('get')
-            ->with('red_kite_cms.translator')
-            ->will($this->returnValue($this->translator));
-        
-        $this->configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
-        $this->container->expects($this->at(6))
-            ->method('get')
-            ->with('red_kite_cms.configuration')
-            ->will($this->returnValue($this->configuration));
     }
 
     /**
@@ -173,7 +153,7 @@ class AlBlockManagerLanguagesMenuTest extends TestCase
                     ->will($this->returnValue($this->initForm()))
         ;
                 
-        $this->container->expects($this->at(7))
+        $this->container->expects($this->at(6))
                         ->method('get')
                         ->with('form.factory')
                         ->will($this->returnValue($formFactory))
@@ -355,7 +335,7 @@ class AlBlockManagerLanguagesMenuTest extends TestCase
             ->method('getAlPage')
             ->will($this->returnValue($page));
         
-        $this->container->expects($this->at(7))
+        $this->container->expects($this->at(6))
             ->method('get')
             ->with('red_kite_cms.page_tree')
             ->will($this->returnValue($pageTree));

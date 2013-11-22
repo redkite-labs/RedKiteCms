@@ -27,20 +27,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlBlockManagerScript extends AlBlockManagerContainer
-{
-    /**
-     * Constructor
-     * 
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     */
-    public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
-    {
-        parent::__construct($container, $validator);
-        
-        $this->translator = $this->container->get('red_kite_cms.translator');
-    }
-    
+{    
     /**
      * {@inheritdoc}
      */

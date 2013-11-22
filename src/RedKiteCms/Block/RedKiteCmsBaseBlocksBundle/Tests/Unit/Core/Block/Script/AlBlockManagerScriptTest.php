@@ -133,17 +133,4 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
     {   
         $this->assertTrue($this->blockManager->getHideInEditMode());
     }
-    
-    protected function initContainer()
-    {
-        parent::initContainer();
-        
-        $this->translator = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
-        $this->container
-            ->expects($this->at(2))
-            ->method('get')
-            ->with('red_kite_cms.translator')
-            ->will($this->returnValue($this->translator))
-        ;
-    }
 }

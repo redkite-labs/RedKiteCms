@@ -26,10 +26,7 @@ use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\File\AlBlockManagerFi
  * @author RedKite Labs <info@redkite-labs.com>
  */
 class AlBlockManagerFileTest extends AlBlockManagerContainerBase
-{
-    protected $translator;
-    protected $configuration;
-    
+{   
     public function testDefaultValue()
     {
         $value =
@@ -277,19 +274,6 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
             ->method('get')
             ->with('kernel')
             ->will($this->returnValue($this->kernel))
-        ;
-    }
-    
-    protected function initContainer()
-    {
-        parent::initContainer();
-        
-        $this->translator = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
-        $this->container
-            ->expects($this->at(2))
-            ->method('get')
-            ->with('red_kite_cms.translator')
-            ->will($this->returnValue($this->translator))
         ;
     }
     
