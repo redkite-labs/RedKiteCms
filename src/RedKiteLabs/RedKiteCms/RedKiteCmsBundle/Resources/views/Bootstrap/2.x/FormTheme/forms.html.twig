@@ -6,6 +6,15 @@
     {% set has_class = false %}{% for attrname, attrvalue in attr %}{% if attrname in ['placeholder', 'title'] %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain, cms_language) }}" {% else %}{% if attrname == 'class' %}{{ attrname }}="{{ attrvalue }} form-control"{% set has_class = true %}{% else %}{{ attrname }}="{{ attrvalue }}"{% endif %}{% endif %}{% endfor %}{% if has_class == false %}class="form-control"{% endif %}
 {% endspaceless %}
 {% endblock widget_attributes %}
+
+{% block button_widget %}
+{% spaceless %}
+    {% if label is empty %}
+        {% set label = name|humanize %}
+    {% endif %}
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain, cms_language) }}</button>
+{% endspaceless %}
+{% endblock button_widget %}
     
 {% block form_label %}
 {% spaceless %}
@@ -23,5 +32,3 @@
     {% endif %}
 {% endspaceless %}
 {% endblock form_label %}
-
-{% block button_label %}{% endblock %}
