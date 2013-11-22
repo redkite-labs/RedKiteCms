@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Slider;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base\AlBaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -25,18 +25,18 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlSliderType extends JsonBlockType
+class AlSliderType extends AlBaseType
 {
     /**
      * {@inheritdoc}
      */    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('src');
+        $builder->add('src', null, array('label' => 'slider_src_attribute'));
         $builder->add('data_src', 'hidden');
-        $builder->add('title');
-        $builder->add('alt');
-        $builder->add('caption_title');
-        $builder->add('caption_body', 'textarea', array('attr' => array('rows' => 6)));
+        $builder->add('title', null, array('label' => 'slider_title_attribute'));
+        $builder->add('alt', null, array('label' => 'slider_alt_attribute'));
+        $builder->add('caption_title', null, array('label' => 'slider_caption_title'));
+        $builder->add('caption_body', 'textarea', array('label' => 'slider_caption_body', 'attr' => array('rows' => 6)));
     }
 }

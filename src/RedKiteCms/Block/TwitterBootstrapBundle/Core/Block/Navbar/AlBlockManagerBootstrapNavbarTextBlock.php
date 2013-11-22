@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
  * @author RedKite Labs <info@redkite-labs.com>
  */
 class AlBlockManagerBootstrapNavbarTextBlock extends AlBlockManagerJsonBlockContainer
-{
+{    
     /**
      * {@inheritdoc}
      */
@@ -34,7 +34,8 @@ class AlBlockManagerBootstrapNavbarTextBlock extends AlBlockManagerJsonBlockCont
         $value = '
             {
                 "0": {
-                    "text": "Default text"
+                    "text": "Default text",
+                    "alignment": "pull-left"
                 }
             }
         ';
@@ -67,7 +68,7 @@ class AlBlockManagerBootstrapNavbarTextBlock extends AlBlockManagerJsonBlockCont
         
         return array(
             "template" => "TwitterBootstrapBundle:Editor:Navbar/Text/navbar_text_editor.html.twig",
-            "title" => "Button editor",
+            "title" => $this->translator->translate('navbar_text_editor_title', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
         );
     }

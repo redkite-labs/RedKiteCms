@@ -81,7 +81,7 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
         
         return array(
             "template" => 'TwitterBootstrapBundle:Editor:Slider/editor.html.twig',
-            "title" => "Slider editor",
+            "title" => $this->translator->translate('slider_editor_title', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
             'form_name' => $form->getName(),
             'items' => $values,

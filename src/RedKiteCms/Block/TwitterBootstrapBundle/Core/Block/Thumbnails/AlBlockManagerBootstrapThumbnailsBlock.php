@@ -43,19 +43,4 @@ class AlBlockManagerBootstrapThumbnailsBlock extends AlBlockManagerBootstrapSimp
         
         return array('Content' => $value);
     }
-
-    /**
-     * {@inheritdoc}
-     
-    protected function renderHtml()
-    {
-        $items = $this->decodeJsonContent($this->alBlock->getContent());
-        
-        return array('RenderView' => array(
-            'view' => 'TwitterBootstrapBundle:Content:Thumbnails/3.x/thumbnails.html.twig',
-            'options' => array(
-                'values' => $items,
-            ),
-        ));
-    }*/
 }

@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Form\Two;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base\AlBaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -25,20 +25,20 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlNavbarformType extends JsonBlockType
+class AlNavbarformType extends AlBaseType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('method', 'choice', array('choices' => array("post" => "POST", "get" => "GET")));
-        $builder->add('action');
-        $builder->add('enctype', 'choice', array('choices' => array("" => "", "application/x-www-form-urlencoded" => "application/x-www-form-urlencoded", "multipart/form-data" => "multipart/form-data", "text/plain" => "text/plain")));
-        $builder->add('placeholder');
-        $builder->add('button_text');
-        $builder->add('role'); 
-        $builder->add('alignment', 'choice', array('choices' => array("pull-left" => "Left", "pull-right" => "Right")));
+        $builder->add('method', 'choice', array('label' => 'navbar_form_method', 'choices' => array("post" => "POST", "get" => "GET")));
+        $builder->add('action', null,  array('label' => 'navbar_form_action',));
+        $builder->add('enctype', 'choice', array('label' => 'navbar_form_enctype', 'choices' => array("" => "", "application/x-www-form-urlencoded" => "application/x-www-form-urlencoded", "multipart/form-data" => "multipart/form-data", "text/plain" => "text/plain")));
+        $builder->add('placeholder', null,  array('label' => 'navbar_form_placeholder',));
+        $builder->add('button_text', null,  array('label' => 'navbar_button_text',));
+        $builder->add('role', null,  array('label' => 'navbar_form_role',)); 
+        $builder->add('alignment', 'choice', array('label' => 'navbar_alignment', 'choices' => array("pull-left" => "Left", "pull-right" => "Right")));
         
         parent::buildForm($builder, $options);
     }

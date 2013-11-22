@@ -17,7 +17,7 @@
  
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Thumbnail\Three;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base\AlBaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -25,7 +25,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlThumbnailType extends JsonBlockType
+class AlThumbnailType extends AlBaseType
 {
     /**
      * {@inheritdoc}
@@ -33,7 +33,7 @@ class AlThumbnailType extends JsonBlockType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('width', 'choice', 
-            array('choices' => 
+            array('label' => 'thumbnail_width_attribute', 'choices' => 
                 array(
                     'none' => 'none',
                     'col-md-1' => 'col-md-1',

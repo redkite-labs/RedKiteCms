@@ -92,7 +92,7 @@ class AlBlockManagerBootstrapNavbarBlock extends AlBlockManagerJsonBlockCollecti
         
         return array(
             "template" => $this->editorTemplate,
-            "title" => "Navbar editor",
+            "title" => $this->translator->translate('navbar_editor_title', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
         );
     }

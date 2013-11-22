@@ -1,16 +1,16 @@
 {% extends "RedKiteCmsBundle:Block:Editor/_editor_form.html.twig" %}
 {% block editor %}
-<div><h3>Attributes</h3></div>
+<div><h3>{{ "dropdown_button_attributes"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</h3></div>
 {{ parent() }}
-<div><h3>Items</h3></div>
+<div><h3>{{ "dropdown_button_items"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</h3></div>
 <div class="dropdown-menu-items-container">
     <form class="dropdown-items-form">
         <table class="dropdown-menu-table table"> 
             <thead>
-                <th>Type</th>
-                <th>Displayed value</th>
-                <th>Permalinks</th>
-                <th>Link</th>
+                <th>{{ "dropdown_button_table_title_type"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</th>
+                <th>{{ "dropdown_button_table_title_displayed_value"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</th>
+                <th>{{ "dropdown_button_table_title_permalinks"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</th>
+                <th>{{ "dropdown_button_table_title_link"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</th>
             </thead>
         {% for key, item in editor.items %}
             <tr class="row-{{ key }} dropdown-menu-row">
@@ -42,7 +42,7 @@
 </div>
 
 <div> 
-    <a class="dropdown-menu-add-item btn btn-primary" href="#" >New</a>
-    <a class="al_editor_save btn btn-primary" href="#" >Save</a>
+    <a class="dropdown-menu-add-item btn btn-primary" href="#" >{{ "common_label_new"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</a>
+    <a class="al_editor_save btn btn-primary" href="#" >{{ "common_label_save"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</a>
 </div>
 {% endblock %}

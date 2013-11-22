@@ -85,7 +85,7 @@ class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrap
         
         return array(
             "template" => $this->editorTemplate,
-            "title" => "Button editor",
+            "title" =>  $this->translator->translate('dropdown_button_editor_title', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
             'items' => $items,  
         );

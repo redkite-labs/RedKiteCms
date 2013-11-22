@@ -73,7 +73,7 @@ class AlBlockManagerBootstrapNavbarMenuBlock extends AlBlockManagerBootstrapNavb
         
         return array(
             "template" => 'TwitterBootstrapBundle:Editor:Navbar/Menu/navbar_menu_editor.html.twig',
-            "title" => "Navbar menu editor",
+            "title" => $this->translator->translate('navbar_menu_editor_title', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
         );
     }

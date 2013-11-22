@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Badge\Two;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base\AlBaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -25,15 +25,15 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBadgeType extends JsonBlockType
+class AlBadgeType extends AlBaseType
 {    
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('badge_text');
-        $builder->add('badge_type', 'choice', array('choices' => array('' => 'base', 'badge-info' => 'info', 'badge-success' => 'success', 'badge-warning' => 'warning', 'badge-important' => 'important', 'badge-inverse' => 'inverse')));
+        $builder->add('badge_text', null, array('label' => 'badge_block_text'));
+        $builder->add('badge_type', 'choice', array('label' => 'badge_block_type', 'choices' => array('' => 'base', 'badge-info' => 'info', 'badge-success' => 'success', 'badge-warning' => 'warning', 'badge-important' => 'important', 'badge-inverse' => 'inverse')));
         
         parent::buildForm($builder, $options);
     }

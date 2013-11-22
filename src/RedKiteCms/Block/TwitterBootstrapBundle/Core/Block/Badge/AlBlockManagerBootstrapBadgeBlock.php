@@ -61,7 +61,7 @@ class AlBlockManagerBootstrapBadgeBlock extends AlBlockManagerBootstrapLabelBloc
 
         return array(
             "template" => $this->editorTemplate,
-            "title" => "Bootstrap badge editor",
+            "title" => $this->translator->translate('badge_block_editor_title', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
         );
     }

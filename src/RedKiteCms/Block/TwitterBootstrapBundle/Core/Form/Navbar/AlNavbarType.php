@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base\AlBaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -25,15 +25,15 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlNavbarType extends JsonBlockType
+class AlNavbarType extends AlBaseType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('position', 'choice', array('choices' => array("" => "normal", "navbar-fixed-top" => "fixed top", "navbar-fixed-bottom" => "fixed bottom", "navbar-static-top" => "static top")));
-        $builder->add('inverted', 'choice', array('choices' => array("" => "normal", "navbar-inverse" => "inverted")));
+        $builder->add('position', 'choice', array('label' => 'navbar_position', 'choices' => array("" => "normal", "navbar-fixed-top" => "fixed top", "navbar-fixed-bottom" => "fixed bottom", "navbar-static-top" => "static top")));
+        $builder->add('inverted', 'choice', array('label' => 'navbar_inverted', 'choices' => array("" => "normal", "navbar-inverse" => "inverted")));
         
         parent::buildForm($builder, $options);
     }

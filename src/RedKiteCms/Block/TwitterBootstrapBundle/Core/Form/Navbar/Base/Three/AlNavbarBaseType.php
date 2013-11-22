@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Three;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base\AlBaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -25,7 +25,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-abstract class AlNavbarBaseType extends JsonBlockType
+abstract class AlNavbarBaseType extends AlBaseType
 {   
     /**
      * {@inheritdoc}
@@ -40,6 +40,7 @@ abstract class AlNavbarBaseType extends JsonBlockType
     protected function setChoices()
     {
         return array(
+            'label' => 'navbar_alignment', 
             'choices' => array(
                 "navbar-left" => "Left", 
                 "navbar-right" => "Right",

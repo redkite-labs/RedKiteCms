@@ -104,7 +104,7 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
         
         return array(
             "template" => $this->editorTemplate,
-            "title" => "Dropdown button editor",
+            "title" => $this->translator->translate('dropdown_button_editor_title', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
             'items' => $items,  
             'permalinks' => ChoiceValues::getPermalinks($seoRepository, $request->get('_locale')),

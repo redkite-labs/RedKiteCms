@@ -32,7 +32,7 @@ class AlNavbarTextType extends AlNavbarBaseType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('text');
+        $builder->add('text', null, array('label' => 'navbar_text_attribute_text'));
         
         parent::buildForm($builder, $options);
     }

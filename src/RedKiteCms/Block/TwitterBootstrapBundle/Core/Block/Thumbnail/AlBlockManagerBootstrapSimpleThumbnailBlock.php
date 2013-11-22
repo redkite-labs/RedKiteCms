@@ -95,7 +95,7 @@ class AlBlockManagerBootstrapSimpleThumbnailBlock extends AlBlockManagerJsonBloc
         
         return array(
             "template" => $this->editorTemplate,
-            "title" => "Thumbnail editor",
+            "title" => $this->translator->translate('thumbnail_width_attribute', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
         );
     }

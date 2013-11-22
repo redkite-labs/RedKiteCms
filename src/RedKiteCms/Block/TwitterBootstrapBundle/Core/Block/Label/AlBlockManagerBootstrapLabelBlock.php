@@ -74,7 +74,7 @@ class AlBlockManagerBootstrapLabelBlock extends AlBlockManagerJsonBlockContainer
         
         return array(
             "template" => $this->editorTemplate,
-            "title" => "Bootstrap label editor",
+            "title" => $this->translator->translate('label_block_editor_title', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
         );
     }

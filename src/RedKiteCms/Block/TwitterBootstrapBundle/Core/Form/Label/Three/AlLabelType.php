@@ -17,7 +17,7 @@
  
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Label\Three;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base\AlBaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -25,15 +25,16 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlLabelType extends JsonBlockType
+class AlLabelType extends AlBaseType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('label_text');
+        $builder->add('label_text', null, array('label' => 'label_block_text',));
         $builder->add('label_type', 'choice', array(
+            'label' => 'label_block_type', 
             'choices' => array(
                 'label-default' => 'base', 
                 'label-primary' => 'primary', 

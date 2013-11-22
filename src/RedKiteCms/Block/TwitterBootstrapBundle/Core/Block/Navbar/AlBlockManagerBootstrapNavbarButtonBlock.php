@@ -62,7 +62,7 @@ class AlBlockManagerBootstrapNavbarButtonBlock extends AlBlockManagerBootstrapBu
         
         return array(
             "template" => "TwitterBootstrapBundle:Editor:Button/button_editor.html.twig",
-            "title" => "Button editor",
+            "title" => $this->translator->translate('button_block_editor_title', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
         );
     }

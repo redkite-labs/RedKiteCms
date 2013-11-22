@@ -28,6 +28,7 @@ class AlBlockManagerBootstrapButtonBlock extends AlBlockManagerJsonBlockContaine
 {
     protected $blockTemplate = 'TwitterBootstrapBundle:Content:Button/button.html.twig';
     
+    
     /**
      * {@inheritdoc}
      */
@@ -74,7 +75,7 @@ class AlBlockManagerBootstrapButtonBlock extends AlBlockManagerJsonBlockContaine
         
         return array(
             "template" => "TwitterBootstrapBundle:Editor:Button/button_editor.html.twig",
-            "title" => "Button editor",
+            "title" => $this->translator->translate('button_block_editor_title', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
         );
     }
