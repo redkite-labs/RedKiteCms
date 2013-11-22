@@ -32,10 +32,10 @@ class AlImageType extends AlBaseType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('src');
+        $builder->add('src', null, array('label' => 'image_block_src_attribute'));
         $builder->add('data_src', 'hidden');
-        $builder->add('title');
-        $builder->add('alt'); 
+        $builder->add('title', null, array('label' => 'image_block_title_attribute'));
+        $builder->add('alt', null, array('label' => 'image_block_alt_attribute')); 
         
         parent::buildForm($builder, $options);
     }
