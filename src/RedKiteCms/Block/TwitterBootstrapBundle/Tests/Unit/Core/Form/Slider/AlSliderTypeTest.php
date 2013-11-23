@@ -27,15 +27,48 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Slider\AlSliderType;
  */
 class AlSliderTypeTest extends AlBaseType
 {
+    protected $translatorDomain = 'TwitterBootstrapBundle';
+    
     protected function configureFields()
     {
         return array(
-            'src',
+            array(
+                'name' => 'src',                
+                'type' => null,
+                'options' => array(
+                    'label' => 'slider_src_attribute',
+                ),
+            ),
             array('name' => 'data_src', 'type' => 'hidden'),
-            'title',
-            'alt',
-            'caption_title',
-            array('name' => 'caption_body', 'type' => 'textarea', "options" => array('attr' => array('rows' => 6))),
+            array(
+                'name' => 'title',                
+                'type' => null,
+                'options' => array(
+                    'label' => 'slider_title_attribute',
+                ),
+            ),
+            array(
+                'name' => 'alt',                
+                'type' => null,
+                'options' => array(
+                    'label' => 'slider_alt_attribute',
+                ),
+            ),
+            array(
+                'name' => 'caption_title',                
+                'type' => null,
+                'options' => array(
+                    'label' => 'slider_caption_title',
+                ),
+            ),
+            array(
+                'name' => 'caption_body', 
+                'type' => 'textarea', 
+                "options" => array(
+                    'label' => 'slider_caption_body', 
+                    'attr' => array('rows' => 6),
+                )
+            ),
         );
     }
     

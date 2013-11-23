@@ -93,7 +93,7 @@ class AlBlockManagerBootstrapThumbnailBlockTest extends BaseTestBlock
                     ->with('Thumbnail', 'AlThumbnailType')
                     ->will($this->returnValue($form))
         ;
-        $this->container->expects($this->at(3))
+        $this->container->expects($this->at(4))
                         ->method('get')
                         ->with('twitter_bootstrap.bootstrap_form_factory')
                         ->will($this->returnValue($formFactory))

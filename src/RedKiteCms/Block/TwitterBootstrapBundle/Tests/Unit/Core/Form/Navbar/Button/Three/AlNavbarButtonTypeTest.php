@@ -16,7 +16,7 @@
  */
 
 
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\NavbarDropdown;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Navbar;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
 use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Button\Three\AlNavbarButtonType;
@@ -28,6 +28,8 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Button\Three\AlNavb
  */
 class AlNavbarButtonTypeTest extends AlBaseType
 {
+    protected $translatorDomain = 'TwitterBootstrapBundle';
+    
     protected function configureFields()
     {
         return array(
@@ -35,32 +37,27 @@ class AlNavbarButtonTypeTest extends AlBaseType
             array(
                 'name' => 'button_type',
                 'type' => 'choice',
-                'options' => array('choices' => array('btn-default' => 'base', 'btn-primary' => 'primary', 'btn-info' => 'info', 'btn-success' => 'success', 'btn-warning' => 'warning', 'btn-danger' => 'danger', 'btn-inverse' => 'inverse')),
+                'options' => array('label' => 'button_block_type', 'choices' => array('btn-default' => 'base', 'btn-primary' => 'primary', 'btn-info' => 'info', 'btn-success' => 'success', 'btn-warning' => 'warning', 'btn-danger' => 'danger', 'btn-inverse' => 'inverse')),
             ),
             array(
                 'name' => 'button_attribute',
                 'type' => 'choice',
-                'options' => array('choices' => array("" => "normal", "btn-xs" => "mini", "btn-sm" => "small", "btn-lg" => "large")),
+                'options' => array('label' => 'button_block_attribute', 'choices' => array("" => "normal", "btn-xs" => "mini", "btn-sm" => "small", "btn-lg" => "large")),
             ),
             array(
                 'name' => 'button_block',
                 'type' => 'choice',
-                'options' => array('choices' => array("" => "normal", "btn-block" => "block")),
+                'options' => array('label' => 'button_block_attribute_block', 'choices' => array("" => "normal", "btn-block" => "block")),
             ),
             array(
                 'name' => 'button_enabled',
                 'type' => 'choice',
-                'options' => array('choices' => array("" => "enabled", "disabled" => "disabled")),
+                'options' => array('label' => 'button_block_enabled', 'choices' => array("" => "enabled", "disabled" => "disabled")),
             ),
             array(
                 'name' => 'alignment',
                 'type' => 'choice',
-                'options' => array('choices' => array("navbar-left" => "Left", "navbar-right" => "Right")),
-            ),
-            array(
-                'name' => 'save', 
-                'type' => 'submit', 
-                'options' => array('attr' => array('class' => 'al_editor_save btn btn-primary')),
+                'options' => array('label' => 'button_block_alignment', 'choices' => array("navbar-left" => "Left", "navbar-right" => "Right")),
             ),
         );
     }

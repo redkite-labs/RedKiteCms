@@ -27,6 +27,8 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Text\Three\AlNavbar
  */
 class AlNavbarTextTypeTest extends AlBaseType
 {
+    protected $translatorDomain = 'TwitterBootstrapBundle';
+    
     protected function configureFields()
     {
         return array(
@@ -34,12 +36,16 @@ class AlNavbarTextTypeTest extends AlBaseType
             array(
                 'name' => 'alignment',
                 'type' => 'choice',
-                'options' => array('choices' => array("navbar-left" => "Left", "navbar-right" => "Right")),
+                'options' => array(
+                    'label' => 'navbar_alignment',
+                    'choices' => array("navbar-left" => "Left", "navbar-right" => "Right")),
             ),
             array(
                 'name' => 'save', 
                 'type' => 'submit', 
-                'options' => array('attr' => array('class' => 'al_editor_save btn btn-primary')),
+                'options' => array(
+                    'label' => 'common_label_save', 
+                    'attr' => array('class' => 'al_editor_save btn btn-primary')),
             ),
         );
     }

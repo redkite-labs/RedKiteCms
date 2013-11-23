@@ -120,7 +120,7 @@ class AlBlockManagerBootstrapNavbarButtonBlockTest extends AlBlockManagerBootstr
                     ->with('Navbar\Button', 'AlNavbarButtonType')
                     ->will($this->returnValue($form))
         ;
-        $this->container->expects($this->at(2))
+        $this->container->expects($this->at(3))
                         ->method('get')
                         ->with('twitter_bootstrap.bootstrap_form_factory')
                         ->will($this->returnValue($formFactory))

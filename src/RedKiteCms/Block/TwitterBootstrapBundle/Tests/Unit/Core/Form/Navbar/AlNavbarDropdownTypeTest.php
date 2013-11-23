@@ -16,7 +16,7 @@
  */
 
 
-namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\NavbarDropdown;
+namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Navbar;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
 use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\AlNavbarDropdownType;
@@ -28,14 +28,17 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\AlNavbarDropdownTyp
  */
 class AlNavbarDropdownTypeTest extends AlBaseType
 {
+    protected $translatorDomain = 'TwitterBootstrapBundle';
+    
     protected function configureFields()
     {
         return array(
-            'button_text',
             array(
-                'name' => 'save', 
-                'type' => 'submit', 
-                'options' => array('attr' => array('class' => 'al_editor_save btn btn-primary')),
+                'name' => 'button_text', 
+                'type' => null, 
+                'options' => array(
+                    'label' => 'navbar_button_text',
+                ),
             ),
         );
     }

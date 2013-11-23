@@ -106,7 +106,7 @@ class AlBlockManagerBootstrapNavbarBlockTest extends BaseTestBlock
         $this->initContainer();
 
         $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
-        $this->container->expects($this->at(2))
+        $this->container->expects($this->at(3))
                         ->method('get')
                         ->with('bootstrap_navbar.form')
                         ->will($this->returnValue($formType))
@@ -125,7 +125,7 @@ class AlBlockManagerBootstrapNavbarBlockTest extends BaseTestBlock
                     ->method('create')
                     ->will($this->returnValue($form))
         ;
-        $this->container->expects($this->at(3))
+        $this->container->expects($this->at(4))
                         ->method('get')
                         ->with('form.factory')
                         ->will($this->returnValue($formFactory))

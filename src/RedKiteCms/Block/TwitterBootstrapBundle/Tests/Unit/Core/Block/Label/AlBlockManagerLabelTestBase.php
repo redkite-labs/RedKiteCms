@@ -56,7 +56,7 @@ abstract class AlBlockManagerLabelTestBase extends BaseTestBlock
                     ->with($type, $formName)
                     ->will($this->returnValue($form))
         ;
-        $this->container->expects($this->at(2))
+        $this->container->expects($this->at(3))
                         ->method('get')
                         ->with('twitter_bootstrap.bootstrap_form_factory')
                         ->will($this->returnValue($formFactory))

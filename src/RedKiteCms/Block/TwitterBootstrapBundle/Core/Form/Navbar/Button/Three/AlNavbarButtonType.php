@@ -37,7 +37,7 @@ class AlNavbarButtonType extends AlBaseType
         $builder->add('button_attribute', 'choice', array('label' => 'button_block_attribute', 'choices' => array("" => "normal", "btn-xs" => "mini", "btn-sm" => "small", "btn-lg" => "large")));
         $builder->add('button_block', 'choice', array('label' => 'button_block_attribute_block', 'choices' => array("" => "normal", "btn-block" => "block")));
         $builder->add('button_enabled', 'choice', array('label' => 'button_block_enabled', 'choices' => array("" => "enabled", "disabled" => "disabled")));  
-        $builder->add('alignment', 'choice', array('label' => 'button_block_href', 'choices' => array("navbar-left" => "Left", "navbar-right" => "Right")));
+        $builder->add('alignment', 'choice', array('label' => 'button_block_alignment', 'choices' => array("navbar-left" => "Left", "navbar-right" => "Right")));
         
         parent::buildForm($builder, $options);
     }

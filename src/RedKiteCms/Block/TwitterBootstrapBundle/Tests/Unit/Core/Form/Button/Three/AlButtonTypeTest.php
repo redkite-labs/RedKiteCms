@@ -27,6 +27,8 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Button\Three\AlButtonType;
  */
 class AlButtonTypeTest extends AlBaseType
 {
+    protected $translatorDomain = 'TwitterBootstrapBundle';
+    
     protected function configureFields()
     {
         return array(
@@ -34,28 +36,28 @@ class AlButtonTypeTest extends AlBaseType
             array(
                 'name' => 'button_type',
                 'type' => 'choice',
-                'options' => array('choices' => array('btn-default' => 'base', 'btn-primary' => 'primary', 'btn-info' => 'info', 'btn-success' => 'success', 'btn-warning' => 'warning', 'btn-danger' => 'danger', 'btn-inverse' => 'inverse')),
+                'options' => array('label' => 'button_block_type', 'choices' => array('btn-default' => 'base', 'btn-primary' => 'primary', 'btn-info' => 'info', 'btn-success' => 'success', 'btn-warning' => 'warning', 'btn-danger' => 'danger', 'btn-inverse' => 'inverse')),
             ),
             array(
                 'name' => 'button_attribute',
                 'type' => 'choice',
-                'options' => array('choices' => array("" => "normal", "btn-xs" => "mini", "btn-sm" => "small", "btn-lg" => "large")),
+                'options' => array('label' => 'button_block_attribute', 'choices' => array("" => "normal", "btn-xs" => "mini", "btn-sm" => "small", "btn-lg" => "large")),
             ),
             array(
                 'name' => 'button_block',
                 'type' => 'choice',
-                'options' => array('choices' => array("" => "normal", "btn-block" => "block")),
+                'options' => array('label' => 'button_block_attribute_block', 'choices' => array("" => "normal", "btn-block" => "block")),
             ),
             array(
                 'name' => 'button_enabled',
                 'type' => 'choice',
-                'options' => array('choices' => array("" => "enabled", "disabled" => "disabled")),
+                'options' => array('label' => 'button_block_enabled', 'choices' => array("" => "enabled", "disabled" => "disabled")),
             ),
             'button_href',
             array(
                 'name' => 'save',
                 'type' => 'submit',
-                'options' => array('attr' => array('class' => 'al_editor_save btn btn-primary')),
+                'options' => array('label' => 'common_label_save', 'attr' => array('class' => 'al_editor_save btn btn-primary')),
             ),
         );
     }

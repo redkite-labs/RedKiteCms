@@ -137,7 +137,7 @@ class AlBlockManagerBootstrapNavbarFormBlockTest extends BaseTestBlock
                     ->with('Navbar\Form', 'AlNavbarFormType')
                     ->will($this->returnValue($form))
         ;
-        $this->container->expects($this->at(3))
+        $this->container->expects($this->at(4))
                         ->method('get')
                         ->with('twitter_bootstrap.bootstrap_form_factory')
                         ->will($this->returnValue($formFactory))
@@ -165,7 +165,9 @@ class AlBlockManagerBootstrapNavbarFormBlockTest extends BaseTestBlock
     
     protected function initContainer($bootstrapVersion = null)
     {
-        $this->container->expects($this->at(2))
+        parent::initContainer();
+        
+        $this->container->expects($this->at(3))
                         ->method('get')
                         ->with('red_kite_cms.active_theme')
                         ->will($this->returnValue($this->activeTheme));

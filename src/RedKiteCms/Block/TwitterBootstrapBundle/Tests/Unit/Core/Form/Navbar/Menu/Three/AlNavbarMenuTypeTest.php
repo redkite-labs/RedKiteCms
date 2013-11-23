@@ -27,18 +27,26 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Menu\Three\AlNavbar
  */
 class AlNavbarMenuTypeTest extends AlBaseType
 {
+    protected $translatorDomain = 'TwitterBootstrapBundle';
+    
     protected function configureFields()
     {
         return array(
             array(
                 'name' => 'alignment',
                 'type' => 'choice',
-                'options' => array('choices' => array("navbar-left" => "Left", "navbar-right" => "Right"), 'empty_value' => 'None'),
+                'options' => array(
+                    'label' => 'navbar_alignment', 
+                    'choices' => array("navbar-left" => "Left", "navbar-right" => "Right"), 'empty_value' => 'None',
+                ),
             ),
             array(
                 'name' => 'save', 
                 'type' => 'submit', 
-                'options' => array('attr' => array('class' => 'al_editor_save btn btn-primary')),
+                'options' => array(
+                    'label' => 'common_label_save', 
+                    'attr' => array('class' => 'al_editor_save btn btn-primary'),
+                ),
             ),
         );
     }

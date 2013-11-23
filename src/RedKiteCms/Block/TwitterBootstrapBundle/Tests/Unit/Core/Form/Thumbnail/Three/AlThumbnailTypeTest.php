@@ -27,13 +27,17 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Thumbnail\Three\AlThumbnai
  */
 class AlThumbnailTypeTest extends AlBaseType
 {
+    protected $translatorDomain = 'TwitterBootstrapBundle';
+    
     protected function configureFields()
     {
         return array(
             array(
                 'name' => 'width',
                 'type' => 'choice',
-                'options' => array('choices' =>
+                'options' => array(
+                    'label' => 'thumbnail_width_attribute',
+                    'choices' =>
                     array(
                         'none' => 'none',
                         'col-md-1' => 'col-md-1',

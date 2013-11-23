@@ -27,23 +27,34 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\AlNavbarType;
  */
 class AlNavbarTypeTest extends AlBaseType
 {
+    protected $translatorDomain = 'TwitterBootstrapBundle';
+    
     protected function configureFields()
     {
         return array(
             array(
                 'name' => 'position',
                 'type' => 'choice',
-                'options' => array('choices' => array("" => "normal", "navbar-fixed-top" => "fixed top", "navbar-fixed-bottom" => "fixed bottom", "navbar-static-top" => "static top")),
+                'options' => array(
+                    'label' => 'navbar_position', 
+                    'choices' => array("" => "normal", "navbar-fixed-top" => "fixed top", "navbar-fixed-bottom" => "fixed bottom", "navbar-static-top" => "static top"),
+                ),
             ),
             array(
                 'name' => 'inverted',
                 'type' => 'choice',
-                'options' => array('choices' => array("" => "normal", "navbar-inverse" => "inverted")),
+                'options' => array(
+                    'label' => 'navbar_inverted',
+                    'choices' => array("" => "normal", "navbar-inverse" => "inverted"),
+                ),
             ),
             array(
                 'name' => 'save', 
                 'type' => 'submit', 
-                'options' => array('attr' => array('class' => 'al_editor_save btn btn-primary')),
+                'options' => array(
+                    'label' => 'common_label_save',
+                    'attr' => array('class' => 'al_editor_save btn btn-primary'),
+                ),
             ),
         );
     }

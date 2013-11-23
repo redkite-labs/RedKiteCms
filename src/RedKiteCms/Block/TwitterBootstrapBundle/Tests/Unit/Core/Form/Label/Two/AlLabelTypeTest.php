@@ -27,6 +27,8 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Label\Two\AlLabelType;
  */
 class AlLabelTypeTest extends AlBaseType
 {
+    protected $translatorDomain = 'TwitterBootstrapBundle';
+    
     protected function configureFields()
     {
         return array(
@@ -34,12 +36,18 @@ class AlLabelTypeTest extends AlBaseType
             array(
                 'name' => 'label_type',
                 'type' => 'choice',
-                'options' => array('choices' => array('' => 'base', 'label-info' => 'info', 'label-success' => 'success', 'label-warning' => 'warning', 'label-important' => 'important', 'label-inverse' => 'inverse')),
+                'options' => array(
+                    'label' => 'label_block_type',
+                    'choices' => array('' => 'base', 'label-info' => 'info', 'label-success' => 'success', 'label-warning' => 'warning', 'label-important' => 'important', 'label-inverse' => 'inverse')
+                ),
             ),
             array(
                 'name' => 'save',
                 'type' => 'submit',
-                'options' => array('attr' => array('class' => 'al_editor_save btn btn-primary')),
+                'options' => array(
+                    'label' => 'common_label_save',
+                    'attr' => array('class' => 'al_editor_save btn btn-primary')
+                ),
             ),
         );
     }

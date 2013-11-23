@@ -27,6 +27,8 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Badge\Three\AlBadgeType;
  */
 class AlBadgeTypeTest extends AlBaseType
 {
+    protected $translatorDomain = 'TwitterBootstrapBundle';
+    
     protected function configureFields()
     {
         return array(
@@ -34,7 +36,10 @@ class AlBadgeTypeTest extends AlBaseType
             array(
                 'name' => 'save',
                 'type' => 'submit',
-                'options' => array('attr' => array('class' => 'al_editor_save btn btn-primary')),
+                'options' => array(
+                    'label' => 'common_label_save', 
+                    'attr' => array('class' => 'al_editor_save btn btn-primary')
+                ),
             ),
         );
     }

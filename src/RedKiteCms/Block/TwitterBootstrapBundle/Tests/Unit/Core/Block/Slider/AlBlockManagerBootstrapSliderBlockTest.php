@@ -192,13 +192,13 @@ class AlBlockManagerBootstrapSliderBlockTest extends BaseTestBlock
         ;
         
         $formType = $this->getMock('Symfony\Component\Form\FormTypeInterface');
-        $this->container->expects($this->at(2))
+        $this->container->expects($this->at(3))
                         ->method('get')
                         ->with('bootstrapsliderblock.form')
                         ->will($this->returnValue($formType))
         ;
         
-        $this->container->expects($this->at(3))
+        $this->container->expects($this->at(4))
                         ->method('get')
                         ->with('form.factory')
                         ->will($this->returnValue($formFactory))
