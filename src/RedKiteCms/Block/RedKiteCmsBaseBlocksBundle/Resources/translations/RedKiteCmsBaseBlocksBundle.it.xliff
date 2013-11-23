@@ -38,6 +38,14 @@
             <source>image_block_src_attribute</source>
             <target>Attributo src</target>
         </trans-unit>
+        <trans-unit id="image_block_7">
+            <source>image_block_href_attribute</source>
+            <target>Href</target>
+        </trans-unit>
+        <trans-unit id="image_block_8">
+            <source>image_block_file_attribute</source>
+            <target>File</target>
+        </trans-unit>
         <trans-unit id="script_block_1">
             <source>script_block_editor_title</source>
             <target>Editor degli script</target>
@@ -73,6 +81,10 @@
         <trans-unit id="common_label_1">
             <source>common_label_save</source>
             <target>Salva</target>
+        </trans-unit>
+        <trans-unit id="common_label_2">
+            <source>common_label_load</source>
+            <target>Carica</target>
         </trans-unit>
     </body>
     </file>

@@ -19,8 +19,7 @@
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
 
 /**
  * AlBlockManagerImage handles an image block
@@ -66,6 +65,7 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
             'view' => $this->blockTemplate,
             'options' => array(
                 'image' => $item,
+                'folder' => AlAssetsPath::getUploadFolder($this->container),
             ),
         ));
     }

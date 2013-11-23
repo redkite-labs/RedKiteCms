@@ -27,15 +27,6 @@ use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerI
  */
 class AlBlockManagerImageTest extends AlBlockManagerContainerBase
 {
-    
-    protected function setUp()
-    {
-        parent::setUp();
-        
-        $this->initContainer();
-        $this->blockManager = new AlBlockManagerImage($this->container, $this->validator);
-    }
-
     public function testDefaultValue()
     {
         $expectedValue = array('Content' =>
@@ -53,11 +44,18 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
         
         $this->translate("image_block_title_attribute", 0);
         $this->translate("image_block_alt_attribute", 1);
-        $this->assertEquals($expectedValue, $this->blockManager->getDefaultValue());
+        
+        $this->initContainer();  
+        $blockManager = new AlBlockManagerImage($this->container, $this->validator);
+        $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
 
     public function testHtmlViewOutput()
-    {
+    {   
+        $this->initContainer();      
+        $this->initRequest(); 
+        $blockManager = new AlBlockManagerImage($this->container, $this->validator);
+        
         $value =
         '
             {
@@ -70,7 +68,7 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
             }
         ';
         $block = $this->initBlock($value);
-        $this->blockManager->set($block);        
+        $blockManager->set($block);        
         $expectedResult = array('RenderView' => array(
             'view' => 'RedKiteCmsBaseBlocksBundle:Content:Image/image.html.twig',
             'options' => array(
@@ -80,11 +78,12 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
                     'title' => 'Sample title',
                     'alt' => 'Sample alt',
                 ),
-                'block_manager' => $this->blockManager
+                'block_manager' => $blockManager,
+                'folder' => '',
             ),
         ));
         
-        $this->assertEquals($expectedResult, $this->blockManager->getHtml());
+        $this->assertEquals($expectedResult, $blockManager->getHtml());
     }
     
     public function testEditorParameters()
@@ -132,6 +131,18 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
         $blockManager = new AlBlockManagerImage($this->container, $this->validator);
         $blockManager->set($block);
         $blockManager->editorParameters();        
+    }
+
+    private function initRequest()
+    {
+        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
+        $this->container->expects($this->at(3))
+                        ->method('get')
+                        ->with('request')
+                        ->will($this->returnValue($request));
     }
 
     private function initBlock($value)
