@@ -1,4 +1,4 @@
- {
+{
   "name": "redkite-cms/redkite-cms-bundle",
   "description": "RedKiteCms is an Open Source Content Management System Application, built on top of Symfony2 and TwitterBootstrap frameworks, providing an easy an intuitive user-interface, to improve the website's content management experience",
   "keywords": ["redkite", "redkite labs", "redkite cms", "cms"],
@@ -22,9 +22,9 @@
     "imagine/Imagine": ">=0.4.1",
     "propel/propel-bundle": "1.2.*",
     "propel/propel1": "1.7.0",
-    "redkite-labs/redkite-labs-bootstrap-bundle": "~1.1.0-rc",
-    "redkite-labs/redkite-labs-theme-engine-bundle": "~1.1.0-rc",
-    "redkite-labs/redkite-labs-elfinder-bundle": "~1.1.0-rc"
+    "redkite-labs/redkite-labs-bootstrap-bundle": "dev-master",
+    "redkite-labs/redkite-labs-theme-engine-bundle": "dev-master",
+    "redkite-labs/redkite-labs-elfinder-bundle": "dev-master"
   },
   "require-dev": {    
     "symfony/symfony": "2.3.4",
@@ -38,9 +38,9 @@
     "sensio/framework-extra-bundle": "2.3.*",
     "sensio/generator-bundle": "2.3.*",
     "incenteev/composer-parameter-handler": "~2.0",
-    "redkite-cms/redkite-cms-base-blocks": "~1.1.0-rc",
-    "redkite-cms/tinymce-block-bundle": "~1.1.0-rc",
-    "redkite-labs/bootbusiness-theme-bundle": "~1.1.0-rc",
+    "redkite-cms/redkite-cms-base-blocks": "dev-master",
+    "redkite-cms/tinymce-block-bundle": "dev-master",
+    "redkite-labs/bootbusiness-theme-bundle": "dev-master",
     "redkite-labs/sunshine-theme-bundle": "dev-master",
     "willdurand/propel-typehintable-behavior": "dev-master",  
     "mikey179/vfsStream": "1.1.0"
