@@ -27,6 +27,7 @@ use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 abstract class AlBaseType extends TestCase
 {
     protected $resolver;
+    protected $translatorDomain = 'RedKiteCmsBundle';
 
     abstract protected function configureFields();
     
@@ -71,7 +72,7 @@ abstract class AlBaseType extends TestCase
     protected function setBaseResolver()
     {
         $options = array(
-            'translation_domain' => 'RedKiteCmsBundle',
+            'translation_domain' => $this->translatorDomain,
             'csrf_protection' => false,
         );
         $this->resolver
