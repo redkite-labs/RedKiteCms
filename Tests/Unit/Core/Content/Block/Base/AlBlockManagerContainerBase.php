@@ -93,7 +93,7 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
         $activeTheme->expects($this->once())
             ->method('getThemeBootstrapVersion')
             ->will($this->returnValue($bootstrapVersion));
-        $this->container->expects($this->at(2))
+        $this->container->expects($this->at(3))
             ->method('get')
             ->with('red_kite_cms.active_theme')
             ->will($this->returnValue($activeTheme));
