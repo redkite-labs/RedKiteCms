@@ -1,3 +1,14 @@
+RedKite CMS Base Blocks 1.1.Release Cansidate 1 (2013/11/24)
+70a8c99 removed script_editor.js because it was unused
+aef51ff improve image which now can be linked to a link or to a file; added a button to load the image instead of opening the media library when click
+daf3a42 refactored translation dictionaries and added some entries
+513c0ba removed translator fetching from constructors and updated unit tests
+f01955b added unit test for AlBaseType
+b49400f added dictionary to translate the bundle; added/updated docblocks; updateded unit tests;
+45df75d rewritten unit test using base unit test for forms
+51229c2 added unit test for AlScriptType form
+01e9a28 renamed LanguagesMenuType third argument and added unit test
+
 RedKite CMS Base Blocks 1.1.Release Cansidate (2013/11/17)
 1e2b741 fixed control trimming the image source name
 d79f363 added a stylesheet to define the href input width
