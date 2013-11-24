@@ -21,8 +21,10 @@
     var methods = {
         start: function() 
         {
+            var $this = $(this);
             $('body').addClass('cms_started');
-            doStartEdit($(this));
+            doStartEdit($this);
+            hideContentsForEditMode($this);
             $('.inline-list').addClass('collapsed-list');
             
             $(document).trigger("cmsStarted");
@@ -33,9 +35,9 @@
         {
             if($('body').hasClass('cms_started'))
             {
+                showHiddenContentsFromEditMode();
                 $("#al_cms_contents a").unbind();
                 deactivateEditableInlineContents();
-                showHiddenContentsFromEditMode();
                 
                 this.each(function() {
                     $(this)
@@ -61,7 +63,7 @@
             return this;
         },
         startEditElement: function()
-        {     
+        {   
             doStartEdit($(this));
                 
             return this;
@@ -135,7 +137,6 @@
             }
             
             activateEditableInlineContents();
-            hideContentsForEditMode($this);     
             
             $this
                 .unbind()
@@ -248,7 +249,7 @@
     function stopEditElement(element)
     {
         $('.al_block_menu').hide();
-
+        
         element.each(function(){   
             var $this = $(this);
             $this.popover('destroy');
@@ -337,9 +338,9 @@
 
     function showHiddenContentsFromEditMode()
     {
-        $('.is_hidden_in_edit_mode').each(function() {
+        $('.is_hidden_in_edit_mode').each(function() { 
             var $this = $(this);
-            $this.removeClass('is_hidden_in_edit_mode').html($this.data('html')); 
+            $this.html($this.data('html')).removeClass('is_hidden_in_edit_mode'); 
         });
     }
     
