@@ -54,7 +54,7 @@ class AlBlockManagerBootstrapSimpleThumbnailBlock extends AlBlockManagerJsonBloc
      */
     public function getDefaultValue()
     {
-        $columnValue = ($this->bootstrapVersion == '2.x') ? "span3" : "col-md-3";
+        $columnValue = ($this->bootstrapVersion == '2.x') ? "span3" : "col-md-5";
         
         $value = '
             {
