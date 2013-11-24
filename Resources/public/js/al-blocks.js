@@ -120,7 +120,7 @@
                         }
                         
                         if (activeBlock != null) {
-                            $(document).trigger("blockEdited", [ activeBlock ]);
+                            $(document).trigger("blockEdited", [ activeBlock ]);                      
                         }
                     },
                     error: function(err)
@@ -266,7 +266,11 @@ function updateContentsJSon(response, editorWidth)
                 $(blockName)
                     .blocksEditor('stopEditElement')
                     .replaceWith(item.value);
-                $(blockName).blocksEditor('startEditElement');
+                    
+                $(blockName)
+                    .blocksEditor('startEditElement')
+                    .blocksEditor('hideElementContent')
+                ;      
                 
                 break;
             case "remove-block":
