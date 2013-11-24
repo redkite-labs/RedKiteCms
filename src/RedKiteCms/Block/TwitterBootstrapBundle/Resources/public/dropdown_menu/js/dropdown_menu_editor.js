@@ -112,7 +112,7 @@
 function initRemoveButtons()
 {
     $('.dropdown-menu-delete-item').on('click', function(){
-        if(confirm("Are you sure you want to remove the selected item")) {
+        if(confirm(translate('Are you sure to remove the active item'))) {
             $("." + $(this).attr('data-row-id')).remove();
         }
 
