@@ -1,3 +1,10 @@
+RedKite CMS Twitter Bootstrap Blocks 1.1.Release Cansidate 1 (2013/11/24)
+cfdf1c9 changed the minimum thumbnail width for bootstrap 3
+c7020d0 fixed a bug to avoid page scrolls to to when start editing toolbar items
+3da63cb translated the confirmation when removing a dropdown item
+66017ca added unit test for AlNavbarFormType
+8ec637c adapted the bundle for translation
+
 RedKite CMS Twitter Bootstrap Blocks 1.1.Release Cansidate (2013/11/17)
 97f3709 fixed tumbnail list editor target
 c86acf7 called method to expand the accordion when the list is started
