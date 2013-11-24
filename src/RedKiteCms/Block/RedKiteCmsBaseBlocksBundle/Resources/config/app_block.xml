@@ -12,11 +12,7 @@
         <parameter key="image.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage</parameter>
         <parameter key="image.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Image\AlImageType</parameter>
         
-        <!-- SCRIPT -->
-        <parameter key="script.external_javascripts.cms" type="collection">
-            <parameter>@RedKiteCmsBaseBlocksBundle/Resources/public/script/js/script_editor.js</parameter>
-        </parameter>
-        
+        <!-- SCRIPT -->        
         <parameter key="script.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript</parameter>
         
         <!-- MENU -->
