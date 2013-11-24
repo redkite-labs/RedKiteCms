@@ -74,6 +74,12 @@
                 
             return this;
         },
+        hideElementContent: function()
+        {     
+            hideContentsForEditMode($(this));
+                
+            return this;
+        },
         lockBlocksMenu: function()
         {     
             stopBlocksMenu = true;
@@ -327,7 +333,7 @@
     
     function hideContentsForEditMode(element)
     {
-        element.each(function() {
+        $(element).each(function() {
             var $this = $(this);
             if($this.attr('data-hide-when-edit') == "true") {
                 var html = $this.html();
