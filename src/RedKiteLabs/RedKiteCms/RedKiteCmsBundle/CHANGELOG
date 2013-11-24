@@ -1,4 +1,13 @@
-RedKite CMS 1.1.Beta 4 (2013/11/17)
+RedKite CMS 1.1.Release Candidate 1 (2013/11/14)
+68278e4 added hideElementContent method to make appliable the hide content method to an element; hid the edited block when required
+87bb383 hidden contents were not correctly restored when the editor was stopped. fixed
+ff35dd0 added upload icon to base bootstrap themes
+641611c updated base test to fetch the translator
+4291b0b refactored button_widget adding the cms_language for translations
+729500a fixed AlTranslator to accept all catalouges
+4df13fe forced popover editor to use always the data-title attribute as title
+
+RedKite CMS 1.1.Release Candidate (2013/11/17)
 59ad6e4 added a callback called when the list is started end another one when the list is stopped
 20aa369 added missing parent() call for assets sections
 5422182 images list displays images as table rows instead of thumbnails
