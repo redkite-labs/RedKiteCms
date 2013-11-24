@@ -68,7 +68,7 @@
         {
             $(this).click(function()
             {
-                var roleId = $('#al_role_id').val(); console.log($('#al_role_id').val());
+                var roleId = $('#al_role_id').val();
                 if (roleId == "") {
                     roleId = 0;
                 }
