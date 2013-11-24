@@ -24,6 +24,8 @@ $(document).ready(function() {
                 
                 var filter = (bootstrapVersion == "2.x") ? 'navbar-block-2' : 'navbar-block-3';
                 element.inlinelist('start', {'target': '.al-navbar-list', 'filterAdders': filter});
+                
+                return false;
             });
         } 
         
@@ -31,6 +33,8 @@ $(document).ready(function() {
             $('.al-edit-item').unbind().click(function(){
                 element.popover('hide');
                 element.inlinelist('start', {'target': '> li', 'filterAdders': 'menu-navbar'});
+                
+                return false;
             });
         } 
     });
