@@ -48,6 +48,14 @@ class AlBlockManagerBootstrapButtonsGroupBlockTest extends BaseTestBlock
         $this->assertEquals($expectedValue, json_decode($defaultValue["Content"], true));
     }
     
+    public function testGetHtmlReturnsAnEmptyValueWhenAnyBlockIsSet()
+    {
+        $this->initContainer();
+        
+        $blockManager = new AlBlockManagerBootstrapButtonsGroupBlock($this->container, $this->validator);
+        $this->assertEmpty($blockManager->getHtml());
+    }
+    
     public function testGetHtml()
     {
         $value = '
