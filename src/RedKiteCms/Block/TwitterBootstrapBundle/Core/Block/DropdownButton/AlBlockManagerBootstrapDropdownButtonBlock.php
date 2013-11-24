@@ -113,6 +113,8 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
     
     /**
      * {@inheritdoc}
+     * 
+     * @codeCoverageIgnore
      */
     protected function edit(array $values)
     {
