@@ -29,7 +29,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class LanguagesForm extends BaseBlockType
 {
     /**
-     * {@inheritdoc}
+     * Builds the form
+     *
+     * @see FormTypeExtensionInterface::buildForm()
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -45,7 +47,9 @@ class LanguagesForm extends BaseBlockType
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the default options for this type
+     *
+     * @param OptionsResolverInterface $resolver The resolver for the options
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -57,7 +61,9 @@ class LanguagesForm extends BaseBlockType
     }
 
     /**
-     * {@inheritdoc}
+     * Returns the name of this type
+     *
+     * @return string The name of this type
      */
     public function getName()
     {

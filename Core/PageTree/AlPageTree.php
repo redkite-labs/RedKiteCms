@@ -17,7 +17,6 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree;
 
-//use RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree as BaseAlPageTree;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
@@ -29,9 +28,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
 
 /**
- * {@inheritdoc}
- *
- * Extends the base AlPageTree object to fetch page information from the database
+ * Defines an object which stores all the web page information as a tree
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */

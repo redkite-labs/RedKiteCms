@@ -25,7 +25,9 @@ namespace RedKiteLabs\RedKiteCmsBundle\Twig;
 class StringsExtension extends \Twig_Extension
 {
     /**
-     * {@inheritdoc}
+     * Returns the name of this type
+     *
+     * @return string The name of this type
      */
     public function getName()
     {

@@ -40,7 +40,7 @@ class DeleteLanguageSeoListener extends Base\DeleteLanguageBaseListener
     }
 
     /**
-     *{ @inheritdoc }
+     *{@inheritdoc}
      */
     protected function setUpSourceObjects()
     {

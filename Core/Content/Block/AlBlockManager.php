@@ -92,16 +92,11 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Defines the default value of the managed block
+     * Defines the App-Block's default value
      *
-     * Returns an array which may contain one or more of these keys:
+     * Returns an array which contains the following key:
      *
      *   - *Content*                The html content displayed on the page
-     *   - *ExternalJavascript*     A comma separated external javascripts files
-     *   - *InternalJavascript*     A javascript code
-     *   - *ExternalStylesheet*     A comma separated external stylesheets files
-     *   - *InternalStylesheet*     A stylesheet code
-     *
      *
      * @return array
      */
@@ -201,7 +196,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Defines the parameters passed to the block's editor
+     * Defines the parameters passed to the App-Block's editor
      *
      * @return array
      *
@@ -502,7 +497,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * Implements a method to let the derived class override it to format the content
      * to display when the Cms is active
      *
-     * @return null
+     * @return string|null
      *
      * @api
      */
@@ -521,7 +516,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Default rendered view
+     * Renders the App-Block's content view
      *
      * This method must be overriden to display an elaborated version of the content
      * saved for the current Block

@@ -48,7 +48,7 @@ class AlTwigDeployerProduction extends AlTwigDeployer
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function save(AlPageTree $pageTree, $type)
     {

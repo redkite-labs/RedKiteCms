@@ -145,9 +145,11 @@ class AlPageBlocks implements AlPageBlocksInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets the blocks
+     * 
+     * @param array $blocks An array of blocks
      */
-    public function setAlBlocks($blocks)
+    public function setAlBlocks(array $blocks)
     {
         $this->alBlocks = $blocks;
         $this->arrangeBlocks();
