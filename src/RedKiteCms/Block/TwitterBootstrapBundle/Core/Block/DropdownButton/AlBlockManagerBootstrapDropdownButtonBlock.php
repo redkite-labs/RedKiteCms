@@ -32,7 +32,9 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
     protected $editorTemplate = 'TwitterBootstrapBundle:Editor:DropdownButton/dropdown_editor.html.twig';
     
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -74,7 +76,9 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
     }
     
     /**
-     * {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {
@@ -87,7 +91,9 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
     }
     
     /**
-     * {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {
@@ -112,7 +118,7 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
     }
     
     /**
-     * {@inheritdoc}
+     * Edits the current block object
      * 
      * @codeCoverageIgnore
      */

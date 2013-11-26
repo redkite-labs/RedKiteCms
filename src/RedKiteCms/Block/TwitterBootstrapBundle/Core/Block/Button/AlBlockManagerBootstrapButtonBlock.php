@@ -30,7 +30,9 @@ class AlBlockManagerBootstrapButtonBlock extends AlBlockManagerJsonBlockContaine
     
     
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -50,7 +52,9 @@ class AlBlockManagerBootstrapButtonBlock extends AlBlockManagerJsonBlockContaine
     }
     
     /**
-     * {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {
@@ -63,7 +67,9 @@ class AlBlockManagerBootstrapButtonBlock extends AlBlockManagerJsonBlockContaine
     }
     
     /**
-     * {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {

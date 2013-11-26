@@ -28,7 +28,9 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
 class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
 {
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -66,7 +68,9 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
     }
     
     /**
-     * {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {        
@@ -89,7 +93,9 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
     }
     
     /**
-     * {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {
@@ -113,7 +119,11 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
     }
     
     /**
-     * {@inheritdoc}
+     * Edits the current block object
+     * 
+     * @param  array
+     * @return boolean
+     * @codeCoverageIgnore
      */
     protected function edit(array $values)
     {

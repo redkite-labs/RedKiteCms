@@ -29,7 +29,9 @@ class AlBlockManagerBootstrapButtonsGroupBlock extends AlBlockManagerJsonBlockCo
     private $visibleColumns = array('button_text');
     
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {        
@@ -50,7 +52,9 @@ class AlBlockManagerBootstrapButtonsGroupBlock extends AlBlockManagerJsonBlockCo
     }
     
     /**
-     * {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {

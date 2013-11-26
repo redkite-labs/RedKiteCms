@@ -25,7 +25,9 @@ namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
 class AlBlockManagerBootstrapNavbarMenuBlock extends AlBlockManagerBootstrapNavbarBlock
 {
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -46,7 +48,9 @@ class AlBlockManagerBootstrapNavbarMenuBlock extends AlBlockManagerBootstrapNavb
     }
     
     /**
-     * {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {
@@ -61,7 +65,9 @@ class AlBlockManagerBootstrapNavbarMenuBlock extends AlBlockManagerBootstrapNavb
     }
     
     /**
-     * {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {

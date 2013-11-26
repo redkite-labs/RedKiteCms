@@ -27,7 +27,9 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
 class AlBlockManagerBootstrapNavbarTextBlock extends AlBlockManagerJsonBlockContainer
 {    
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -44,7 +46,9 @@ class AlBlockManagerBootstrapNavbarTextBlock extends AlBlockManagerJsonBlockCont
     }
     
     /**
-     * {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {
@@ -57,7 +61,9 @@ class AlBlockManagerBootstrapNavbarTextBlock extends AlBlockManagerJsonBlockCont
     }
     
     /**
-     * {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {

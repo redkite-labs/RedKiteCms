@@ -50,7 +50,9 @@ class AlBlockManagerBootstrapSimpleThumbnailBlock extends AlBlockManagerJsonBloc
     }
     
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -67,7 +69,9 @@ class AlBlockManagerBootstrapSimpleThumbnailBlock extends AlBlockManagerJsonBloc
     }
 
     /**
-     * {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {
@@ -83,7 +87,9 @@ class AlBlockManagerBootstrapSimpleThumbnailBlock extends AlBlockManagerJsonBloc
     }
     
     /**
-     * {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {
@@ -101,7 +107,10 @@ class AlBlockManagerBootstrapSimpleThumbnailBlock extends AlBlockManagerJsonBloc
     }
     
     /**
-     * {@inheritdoc}
+     * Defines when a block is internal, so it must not be available in the add blocks
+     * menu
+     *
+     * @return boolean
      */
     public function getIsInternalBlock()
     {

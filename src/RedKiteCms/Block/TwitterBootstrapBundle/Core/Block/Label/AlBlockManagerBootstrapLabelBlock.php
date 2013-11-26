@@ -31,7 +31,9 @@ class AlBlockManagerBootstrapLabelBlock extends AlBlockManagerJsonBlockContainer
     protected $editorTemplate = 'TwitterBootstrapBundle:Editor:Label/label_editor.html.twig';
 
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -49,7 +51,9 @@ class AlBlockManagerBootstrapLabelBlock extends AlBlockManagerJsonBlockContainer
     }
     
     /**
-     * {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {
@@ -62,7 +66,9 @@ class AlBlockManagerBootstrapLabelBlock extends AlBlockManagerJsonBlockContainer
     }
     
     /**
-     * {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {        

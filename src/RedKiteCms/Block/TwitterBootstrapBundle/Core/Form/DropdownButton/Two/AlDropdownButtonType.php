@@ -29,7 +29,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 class AlDropdownButtonType extends AbstractType
 {
     /**
-     * {@inheritdoc}
+     * Builds the form
+     *
+     * @see FormTypeExtensionInterface::buildForm()
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -42,7 +44,9 @@ class AlDropdownButtonType extends AbstractType
     }
     
     /**
-     * {@inheritdoc}
+     * Sets the default options for this type
+     *
+     * @param OptionsResolverInterface $resolver The resolver for the options
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -53,7 +57,9 @@ class AlDropdownButtonType extends AbstractType
     }
     
     /**
-     * {@inheritdoc}
+     * Returns the name of this type
+     *
+     * @return string The name of this type
      */
     public function getName()
     {

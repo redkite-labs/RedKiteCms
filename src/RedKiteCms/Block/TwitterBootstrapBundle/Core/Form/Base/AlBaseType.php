@@ -28,7 +28,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 abstract class AlBaseType extends JsonBlockType
 {  
     /**
-     * {@inheritdoc}
+     * Sets the default options for this type
+     *
+     * @param OptionsResolverInterface $resolver The resolver for the options
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {

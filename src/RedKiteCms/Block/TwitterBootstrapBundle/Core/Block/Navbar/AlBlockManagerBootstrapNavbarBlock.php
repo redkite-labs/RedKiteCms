@@ -30,7 +30,9 @@ class AlBlockManagerBootstrapNavbarBlock extends AlBlockManagerJsonBlockCollecti
     protected $editorTemplate = 'TwitterBootstrapBundle:Editor:Navbar/Navbar/navbar_editor.html.twig';
     
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -49,7 +51,9 @@ class AlBlockManagerBootstrapNavbarBlock extends AlBlockManagerJsonBlockCollecti
     }
     
     /**
-     * {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {
@@ -80,7 +84,9 @@ class AlBlockManagerBootstrapNavbarBlock extends AlBlockManagerJsonBlockCollecti
     }
     
     /**
-     * {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {
@@ -98,9 +104,13 @@ class AlBlockManagerBootstrapNavbarBlock extends AlBlockManagerJsonBlockCollecti
     }
     
     /**
-     * {@inheritdoc}
+     * Edits the current block object
      *
      * Extends the base edit method to manage a json collection of objects
+     * 
+     * @param  array
+     * @return boolean
+     * @codeCoverageIgnore
      */
     protected function edit(array $values)
     {

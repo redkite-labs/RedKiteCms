@@ -28,7 +28,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 class AlThumbnailType extends AlBaseType
 {
     /**
-     * {@inheritdoc}
+     * Builds the form
+     *
+     * @see FormTypeExtensionInterface::buildForm()
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

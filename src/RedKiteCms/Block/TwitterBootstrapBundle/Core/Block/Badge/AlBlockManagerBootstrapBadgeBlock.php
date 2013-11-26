@@ -31,7 +31,9 @@ class AlBlockManagerBootstrapBadgeBlock extends AlBlockManagerBootstrapLabelBloc
     protected $editorTemplate = 'TwitterBootstrapBundle:Editor:Badge/badge_editor.html.twig';
     
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -49,7 +51,9 @@ class AlBlockManagerBootstrapBadgeBlock extends AlBlockManagerBootstrapLabelBloc
     }
 
     /**
-     * {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {

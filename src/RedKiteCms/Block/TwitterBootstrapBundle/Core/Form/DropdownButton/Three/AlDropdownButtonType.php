@@ -27,7 +27,9 @@ use Symfony\Component\Form\FormBuilderInterface;
 class AlDropdownButtonType extends \RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\DropdownButton\Two\AlDropdownButtonType
 {
     /**
-     * {@inheritdoc}
+     * Builds the form
+     *
+     * @see FormTypeExtensionInterface::buildForm()
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

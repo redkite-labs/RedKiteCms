@@ -29,7 +29,9 @@ class AlBlockManagerBootstrapNavbarButtonBlock extends AlBlockManagerBootstrapBu
     protected $blockTemplate = 'TwitterBootstrapBundle:Content:Navbar/Button/navbar_button.html.twig';
     
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -50,7 +52,9 @@ class AlBlockManagerBootstrapNavbarButtonBlock extends AlBlockManagerBootstrapBu
     }
     
     /**
-     * {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {

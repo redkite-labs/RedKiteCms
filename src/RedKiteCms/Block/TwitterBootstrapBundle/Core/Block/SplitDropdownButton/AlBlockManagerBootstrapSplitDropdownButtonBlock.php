@@ -29,7 +29,9 @@ class AlBlockManagerBootstrapSplitDropdownButtonBlock extends AlBlockManagerBoot
     protected $blockTemplate = 'TwitterBootstrapBundle:Content:SplitDropdownButton/split_dropdown_button.html.twig';  
     
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {

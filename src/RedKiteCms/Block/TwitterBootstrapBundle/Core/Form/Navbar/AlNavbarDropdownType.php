@@ -29,7 +29,9 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 class AlNavbarDropdownType extends AlBaseType
 {
     /**
-     * {@inheritdoc}
+     * Builds the form
+     *
+     * @see FormTypeExtensionInterface::buildForm()
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -37,7 +39,9 @@ class AlNavbarDropdownType extends AlBaseType
     }
     
     /**
-     * {@inheritdoc}
+     * Sets the default options for this type
+     *
+     * @param OptionsResolverInterface $resolver The resolver for the options
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
@@ -48,7 +52,9 @@ class AlNavbarDropdownType extends AlBaseType
     }
     
     /**
-     * {@inheritdoc}
+     * Returns the name of this type
+     *
+     * @return string The name of this type
      */
     public function getName()
     {

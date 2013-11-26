@@ -27,7 +27,9 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
 class AlBlockManagerBootstrapSimpleThumbnailsBlock extends AlBlockManagerJsonBlockCollection
 {
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {        
@@ -45,7 +47,9 @@ class AlBlockManagerBootstrapSimpleThumbnailsBlock extends AlBlockManagerJsonBlo
     }
 
     /**
-     * {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {
