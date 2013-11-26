@@ -109,7 +109,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     }
 
     /**
-     * { @inheritDoc }
+     * {@inheritdoc}
      */
     public function createBlockManager($block)
     {

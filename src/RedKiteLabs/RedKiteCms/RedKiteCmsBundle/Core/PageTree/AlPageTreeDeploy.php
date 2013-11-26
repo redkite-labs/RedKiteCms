@@ -18,8 +18,6 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree;
 
 /**
- * {@inheritdoc}
- *
  * The AlPageTree object used when deploying the website
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

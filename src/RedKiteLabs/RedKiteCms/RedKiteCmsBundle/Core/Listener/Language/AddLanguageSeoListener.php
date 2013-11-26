@@ -48,7 +48,7 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
     }
 
     /**
-     *{ @inheritdoc }
+     *{@inheritdoc}
      */
     protected function setUpSourceObjects()
     {
@@ -58,7 +58,7 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
     }
 
     /**
-     * { @inheritdoc }
+     * {@inheritdoc}
      */
     protected function copy(array $values)
     {

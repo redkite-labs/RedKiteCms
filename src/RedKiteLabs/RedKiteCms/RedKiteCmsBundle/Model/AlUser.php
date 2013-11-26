@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class AlUser extends BaseAlUser implements UserInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      * 
      * @codeCoverageIgnore
      */
@@ -18,7 +18,7 @@ class AlUser extends BaseAlUser implements UserInterface
     }
     
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      * 
      * @codeCoverageIgnore
      */
