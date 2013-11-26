@@ -32,7 +32,9 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
     protected $editorTemplate = 'RedKiteCmsBaseBlocksBundle:Editor:Image/editor.html.twig';
     
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -54,7 +56,9 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
     }
     
     /**
-     * {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {
@@ -71,7 +75,9 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
     }
     
     /**
-     * {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {

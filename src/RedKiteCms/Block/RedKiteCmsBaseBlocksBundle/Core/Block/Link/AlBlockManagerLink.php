@@ -32,7 +32,9 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
     protected $cmsLanguage;
     
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -50,7 +52,9 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
     }
     
     /**
-     * {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {
@@ -67,7 +71,9 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
     }
     
     /**
-     * {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {

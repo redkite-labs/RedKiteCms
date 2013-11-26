@@ -56,7 +56,9 @@ class AlBlockManagerLanguagesMenu extends AlBlockManagerContainer
     }
 
     /**
-     *  {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -64,7 +66,9 @@ class AlBlockManagerLanguagesMenu extends AlBlockManagerContainer
     }
     
     /**
-     *  {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {
@@ -89,7 +93,9 @@ class AlBlockManagerLanguagesMenu extends AlBlockManagerContainer
     }
 
     /**
-     *  {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {
@@ -104,7 +110,11 @@ class AlBlockManagerLanguagesMenu extends AlBlockManagerContainer
     }
     
     /**
-     *  {@inheritdoc}
+     * Edits the current block object
+     * 
+     * @param  array
+     * @return boolean
+     * @codeCoverageIgnore
      */
     protected function edit(array $values)
     {

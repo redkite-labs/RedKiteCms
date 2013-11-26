@@ -33,7 +33,9 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
     protected $cmsLanguage;
     
     /**
-     * {@inheritdoc}
+     * Defines the App-Block's default value
+     *
+     * @return array
      */
     public function getDefaultValue()
     {
@@ -52,7 +54,9 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
     }
     
     /**
-     * {@inheritdoc}
+     * Renders the App-Block's content view
+     *
+     * @return string|array
      */
     protected function renderHtml()
     {
@@ -72,7 +76,9 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
     }
     
     /**
-     * {@inheritdoc}
+     * Defines the parameters passed to the App-Block's editor
+     *
+     * @return array
      */
     public function editorParameters()
     {        
@@ -91,7 +97,9 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
     }
     
     /**
-     * {@inheritdoc}
+     * Defines when a content is rendered or not in edit mode
+     * 
+     * @return boolean
      */
     public function getHideInEditMode()
     {
@@ -99,7 +107,10 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
     }
     
     /**
-     * {@inheritdoc}
+     * Implements a method to let the derived class override it to format the content
+     * to display when the Cms is active
+     *
+     * @return string|null
      */
     protected function replaceHtmlCmsActive()
     {
