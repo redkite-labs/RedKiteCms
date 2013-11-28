@@ -115,6 +115,8 @@
                     {
                         updateContentsJSon(response);
                         Holder.run();
+                        
+                        activeBlock = $('body').data('activeBlock');
                         if (successCallback != null) {
                             successCallback(activeBlock);
                         }
@@ -263,14 +265,17 @@ function updateContentsJSon(response, editorWidth)
                 break;
             case "edit-block": 
                 var blockName = '[data-name="' + item.blockName + '"]';
-                $(blockName)
+                var block = $(blockName);
+                block
                     .blocksEditor('stopEditElement')
                     .replaceWith(item.value);
                     
-                $(blockName)
+                block
                     .blocksEditor('startEditElement')
                     .blocksEditor('hideElementContent')
-                ;      
+                ;     
+                
+                $('body').data('activeBlock', block);  
                 
                 break;
             case "remove-block":
