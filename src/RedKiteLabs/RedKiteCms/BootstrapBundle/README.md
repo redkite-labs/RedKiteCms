@@ -1,7 +1,18 @@
 # RedKiteLabsBootstrapBundle
-RedKiteLabsBootstrapBundle takes care to autoload and configure bundles on a composer based application. Each developer
-could add an autoloader.json file to a bundle and configure it to autoload that bundle, without have to enable it
-manually in the AppKernel file.
+RedKiteLabsBootstrapBundle takes care to autoload and configure Symfony2 bundles for 
+an application which dependencies are managed by composer. 
+
+To autoload a bundle, without requiring to declare it in Symfony2's AppKernel, you 
+just need to create an autoloader.json file on the bundle's top folder and let the 
+RedKiteLabsBootstrapBundle do the hard job for you.
+
+You can autoload your bundles by environments and you can add a base configuration 
+to your bundle, saved in a config.yml file which comes with the bundle itself, to define
+the base configuration for your bundle the user should manually add to application's
+config.yml file.
+
+As for configuration, you can define your routes in the routing.yml file and distribute
+them with the bundle.
 
 [![Build Status](https://secure.travis-ci.org/redkite-labs/BootstrapBundle.png)](http://travis-ci.org/redkite-labs/BootstrapBundle)
 
@@ -30,13 +41,14 @@ At last the bundle must be added to the AppKernel.php file:
 
 
 ## The autoload.json file
-The autoload.json file must be placed into the root of the bundle you want to autoload. It is made by the following sections:
+The autoload.json file must be placed in bundle's top folder and it is structured as
+follows:
 
 - bundles (mandatory)
-- actionManager
 - routing
 
-The mandatory **bundles** section contains the bundles you want to autoload. Let's see a very basic example:
+The mandatory **bundles** section contains the bundles you want to autoload. Let's 
+see a very basic example:
 
     {
         "bundles" : {
@@ -44,11 +56,11 @@ The mandatory **bundles** section contains the bundles you want to autoload. Let
         }
     }
 
-This autoloads the BusinessDropCapBundle for all the environments.
+This autoloads the BusinessDropCapBundle for the whole application's environments.
 
 ### Environments
-Sometimes it could be useful to autoload a bundle for certains environments, so a simple configuration could be added for the bundle
-as follows:
+When you need to autoload a bundle only for certains environments, just add the 
+**environments** option to the bundle:
 
     {
         "bundles" : {
@@ -58,8 +70,8 @@ as follows:
         }
     }
 
-The **environments** option enables the bundle only for the specified environments. In the example above, the BusinessDropCapBundle
-is enabled only for the dev and test enviroments.
+The **environments** option enables the bundle only for the declared environments. In 
+the example above, the BusinessDropCapBundle is enabled only for the dev and test enviroments.
 
 ### The all keyword
 To specifiy all the enviroments you can use the **all** keyword:
@@ -72,11 +84,15 @@ To specifiy all the enviroments you can use the **all** keyword:
         }
     }
 
-This example is equivalent to the very first one.
+This is the default option used by the library when the **environments** one is not
+defined.
 
 ### The **overrides** options
-Sometimes it could happen that a bundle overrides a part of another bundle. In this specific case the overrider bundle must be declared
-after the overriden one. The **overrides** option can be used to achieve this task:
+When a bundle overrides another bundle, it must be instantiated in the AppKernel after 
+the overrided bundle.
+
+You can implement this case in your autoload.json adding the **overrides** option:
+
 
     {
         "bundles" : {
@@ -87,74 +103,92 @@ after the overriden one. The **overrides** option can be used to achieve this ta
         }
     }
 
-The bundles order will be resolved instantiating the BusinessCarouselBundle before the BusinessDropCapBundle
+In this example the bundles order will be resolved instantiating the BusinessCarouselBundle 
+before the BusinessDropCapBundle
 
 ### Autoloading a bundle without the autoloader.json file
-You might wonder why we are talking about "bundles" and not just "bundle". This is quite simple to explain, in fact you could autoload a bundle without
+You might wonder why we are talking about "bundles" and not just "bundle". This is 
+quite simple to explain, in fact you could autoload a bundle when it does not implement
 the autoloader.json file.
 
 Let's suppose the BusinessCarouselBundle has not the autoloader.json file and the BusinessDropCapBundle requires it. You can
 write the BusinessDropCapBundle's autoloader as follows to autoload it:
 
+For example, let's uppose the BusinessCarouselBundle requires the PropelBundle to work and 
+this last bundle does not implements the autoloader.json file.
+
+In this case you can easily autoload the PropelBundle just declaring that bundle 
+in you autoload.json file:
+
     {
         "bundles" : {
             "RedKiteLabs\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : {
-				"environments" : ["dev", "test"]
-			},
-			"RedKiteLabs\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle" : ""
+                    "environments" : ["dev", "test"]
+            },
+            "RedKiteLabs\\Block\\BusinessCarouselBundle\\BusinessCarouselBundle" : ""
         }
     }
 
 If you need to enable it for specific environments, you just  have to add the **environments** option as explained above.
 
-### Execute and action when the package is installed or uninstalled
-When you need to execute some actions after the package is installed or uninstalled, you have to add a class that extends the
-**ActionManager** object and that implements the **ActionManagerInterface**. This last one requires four methods which are:
 
-    packageInstalledPreBoot
-    packageUninstalledPreBoot
-    packageInstalledPostBoot
-    packageUninstalledPostBoot
+Another situation could ben when a bundle implements its own environments. For example 
+the RedKiteCmsBundle implements the rkcms and the rkcms_dev environments so we need
+to register many thirdy part bundles:
 
-The **ActionManager** class implemements all those methods as blank methods because all of them are always executed, so
-the only thing you have to do is to extend the **ActionManager** object and override the method you need.
-
-Let's see the actions in detail. The most important thing to notice is when the action is executed: there are two actions that are suffixed by
-**PreBoot** and two actions that are suffixed by **PostBoot**. The difference is quite important, in fact the first actions are executed when
-the kernel is not booted, the second ones when it has been booted and they receive the container as well.
-
-To declare your ActionManager class in your autoloader.json file, you just need to specify that class to the actionManager section as follows:
-
-    {
-        "bundles" : {
-            "RedKiteLabs\\Block\\BusinessDropCapBundle\\BusinessDropCapBundle" : ""
+{
+    "bundles" : {
+        "RedKiteLabs\\RedKiteCmsBundle\\RedKiteCmsBundle" : {
+            "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
         },
-        "actionManager" : "\\RedKiteLabs\\Block\\BusinessCarouselBundle\\Core\\\\ActionManager\\ActionManagerBusinessDropCap"
+        "Propel\\PropelBundle\\PropelBundle" : {
+            "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
+        },
+        "Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle" : {
+            "environments" : ["rkcms_dev", "rkcms_test"]
+        },
+        "Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle" : {
+            "environments" : ["rkcms_dev", "rkcms_test"]
+        },
+        "Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle" : {
+            "environments" : ["rkcms", "rkcms_dev", "rkcms_test"]
+        }
     }
+}
 
-## Configuration files
-Usually each bundle requires to add some configurations inside the application's config.yml to make it work properly. Some of these settings could be
-generic, ie. enabling the bundle to use assetic, while others could be specific for the application which is using that bundle.
+The **"RedKiteLabs\\RedKiteCmsBundle\\RedKiteCmsBundle"** section enables the RedKiteCmsBundle
+for the **"rkcms", "rkcms_dev", "rkcms_test", "test"**, then requires the PropelBundle for the
+same environments and at last requires the WebProfilerBundle, the SensioDistributionBundle
+and the SensioGeneratorBundle for the **"rkcms_dev", "rkcms_test"** environments.
 
-The **BootstrapBundle** let the developer to define the generic settings directly with the bundle. This will produce some benefits for the final
-user:
+## Configuration files (config.yml - routing.yml)
+Usually each bundle requires to add some configurations inside the application's config.yml to 
+make it work properly. Some of these settings could be generic, ie. enabling the bundle to use 
+assetic, while others could be specific for the application which is using that bundle.
 
-- The bundle that requires only generic setting is ready to be used without thouching the application's config.yml file
+The **BootstrapBundle** let the developer to define the generic settings directly with the bundle. 
+This will produce some benefits for the final user:
+
+- The bundle that requires only generic setting is ready to be used without touching the application's config.yml file
 - When the bundle is used by many applications, the generic configuration is already made
 - Less frustation for the user
 - Less frustation for the bundle's developer who has to write less documentation
 - Light config.yml file
 
-To add a configuration that usually goes into the **config.yml** file of your application, just add a **config.yml** file under the
-**Resources/config** folder of your bundle and add the required setting to it. The BootstrapBundle takes care to copy it into the
-**app/config/bundles/[environment]** folder and loaded in the AppKernel class.
+To add a configuration that usually goes into the application's **config.yml** file, 
+just add a **config.yml** file under the **Resources/config** folder of your bundle 
+and add the required setting to it.
 
-The same concepts are applied to the routes implemented by the bundle, so you can add a **routing.yml** file into the **Resources/config**
-of your bundle and the BootstrapBundle will do the rest for you.
+The BootstrapBundle takes care to copy it into the **app/config/bundles/[environment]** 
+folder and load your configuration in the AppKernel class.
+
+The same concepts are applied to the routes implemented by the bundle, so you can add 
+a **routing.yml** file into the **Resources/config** of your bundle and the BootstrapBundle 
+will do the rest for you.
 
 ## Routing priority
-Sometimes a routing file must be processed after another routing file of another bundle. To help achieve this task, you can add a **routing**
-option to the autoloader.json file, as follows:
+When you need to assign a specific priority to routing files, you can add a **routing/priority**
+setting to your configuration file:
 
     {
         "bundles" : {
@@ -165,12 +199,14 @@ option to the autoloader.json file, as follows:
         }
     }
 
-Each bundle gets zero as routing priority when the option is not specified. To load the routing file after, specify a value higher than zero,
-to load the routing file before, specify a value lower than zero.
+Each bundle gets zero as routing priority when the option is not specified. To load 
+the routing file after, specify a value higher than zero, to load the routing file before, 
+specify a value lower than zero.
 
 ### A practical example
-For example, RedKiteLabs CMS uses assetic to manage its assets, so the user who want to use that bundle should add the following configuration
-to the config.yml file of his application:
+For example, RedKiteCmsBundle uses assetic to manage its assets, so the user who want 
+to use that bundle should add the following configuration to the config.yml file of 
+his application:
 
     app/config/config.yml
 
@@ -183,24 +219,32 @@ to the config.yml file of his application:
         yui_js:
             jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
 
-With the BootstrapBundle these setting have been added to the config.yml file of RedKiteLabsCms bundle so the user has the
-generic configuration ready to be used and doesn't require to add nothing to the **config.yml** file.
+With the BootstrapBundle these setting have been added to RedKiteCmsBundle's config.yml 
+file so the user is not required to manually add those settings to application's config.yml.
 
 ## Enabling the routing autoloader
-To enable the routing autoloader the following configuration must be added to the **routing.yml** configuration file:
+To enable the routing autoloader the following configuration must be added to the 
+application's **routing.yml** configuration file:
 
     RedKiteLabsBootstrapBundle:
         resource: .
         type: bootstrap
 
 ## Use the BootstrapBundle in your AppKernel
-To enable the autoloading some small changes must be applied to the AppKernel file. At the end of the **registerBundles** method, declare
-a new **BundlesAutoloader** object, as follows:
+To enable the autoloading some small changes must be implemented to the AppKernel file. 
+At the end of the **registerBundles** method, declare a new **BundlesAutoloader** object, 
+as follows:
 
 
     public function registerBundles()
     {
-        [...]
+        $bundles = array(
+            [...]
+        );
+
+        if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+            [...]
+        }
 
         $bootstrapper = new \RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
         $bundles = $bootstrapper->getBundles();
@@ -208,21 +252,43 @@ a new **BundlesAutoloader** object, as follows:
         return $bundles;
     }
 
-That object requires the kernel dir, the one where the AppKernel is placed, the current environment and the instantiated bundles. Then bundles
-are retrieved by the **getBundles** method and returned as usual.
+BundlesAutoloader requires the kernel dir, the one where the AppKernel is placed, 
+as first argument, the current environment as second argument and the instantiated 
+bundles as third. 
 
-To load the configurations from the app/config/bundles folder, the **registerContainerConfiguration** must be changed as follows:
+Bundles are retrieved by the **getBundles** method and returned as usual.
+
+To load the configurations from the app/config/bundles folder, the default 
+**registerContainerConfiguration** must be changed as follows:
 
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $configFolder = __DIR__ . '/config/bundles/config/' . $this->getEnvironment();
-        $finder = new \Symfony\Component\Finder\Finder();
-        $configFiles = $finder->depth(0)->name('*.yml')->in($configFolder);
-        foreach ($configFiles as $config) {
-            $loader->load((string)$config);
+        if (is_dir($configFolder)) {
+            $finder = new \Symfony\Component\Finder\Finder();
+            $configFiles = $finder->depth(0)->name('*.yml')->in($configFolder);
+            foreach ($configFiles as $config) {
+                $loader->load((string)$config);
+            };
         };
 
         $loader->load(__DIR__.'/config/config_'.$this->getEnvironment().'.yml');
     }
 
-That's enough to autoload all the bundles that have an autoload file
+
+### Autoload bundles from other folders
+BundlesAutoloader can be configured to look for autoloading bundles placed inside other 
+folders in your application.
+ 
+By defaut the BundlesAutoloader looks into the **src/RedKiteCms/Block** and the 
+**src/RedKiteCms/Theme** folders.
+
+You can easily change that parameter, passing an array with your folders defined into
+to the BundlesAutoloader declaration.
+
+For example, if you would need to tell BundlesAutoloader to look into the **src/Acme**
+just change the BundlesAutoloader instantiation as follows:
+
+    $bootstrapper = new \RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles, array(__DIR__ . '/../src/Acme');
+
+Please notice that the BundlesAutoloader assumes that your bundles are placed inside the **Acme** folder.
