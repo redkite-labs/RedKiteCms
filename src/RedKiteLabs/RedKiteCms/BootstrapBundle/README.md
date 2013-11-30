@@ -136,25 +136,25 @@ Another situation could ben when a bundle implements its own environments. For e
 the RedKiteCmsBundle implements the rkcms and the rkcms_dev environments so we need
 to register many thirdy part bundles:
 
-{
-    "bundles" : {
-        "RedKiteLabs\\RedKiteCmsBundle\\RedKiteCmsBundle" : {
-            "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
-        },
-        "Propel\\PropelBundle\\PropelBundle" : {
-            "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
-        },
-        "Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle" : {
-            "environments" : ["rkcms_dev", "rkcms_test"]
-        },
-        "Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle" : {
-            "environments" : ["rkcms_dev", "rkcms_test"]
-        },
-        "Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle" : {
-            "environments" : ["rkcms", "rkcms_dev", "rkcms_test"]
+    {
+        "bundles" : {
+            "RedKiteLabs\\RedKiteCmsBundle\\RedKiteCmsBundle" : {
+                "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
+            },
+            "Propel\\PropelBundle\\PropelBundle" : {
+                "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
+            },
+            "Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle" : {
+                "environments" : ["rkcms_dev", "rkcms_test"]
+            },
+            "Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle" : {
+                "environments" : ["rkcms_dev", "rkcms_test"]
+            },
+            "Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle" : {
+                "environments" : ["rkcms", "rkcms_dev", "rkcms_test"]
+            }
         }
     }
-}
 
 The **"RedKiteLabs\\RedKiteCmsBundle\\RedKiteCmsBundle"** section enables the RedKiteCmsBundle
 for the **"rkcms", "rkcms_dev", "rkcms_test", "test"**, then requires the PropelBundle for the
