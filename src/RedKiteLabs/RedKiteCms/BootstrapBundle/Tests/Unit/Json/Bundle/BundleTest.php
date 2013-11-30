@@ -48,11 +48,10 @@ class BundleTest extends TestCase
     
     public function testSettingTheClassPropertySetsTheBundleIdToo()
     {
-        $this->assertNull($this->bundle->getId());
+        $this->assertNull($this->bundle->getName());
         $this->bundle->setClass("RedKiteLabs\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle");
         $this->assertEquals("RedKiteLabs\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle", $this->bundle->getClass());        
-        $this->assertEquals("BusinessCarouselFakeBundle", $this->bundle->getId());
-        $this->assertEquals("BusinessCarouselFakeBundle", $this->bundle->__toString());
+        $this->assertEquals("BusinessCarouselFakeBundle", $this->bundle->getName());
     }
     
     public function testSetTheOverridesProperty()

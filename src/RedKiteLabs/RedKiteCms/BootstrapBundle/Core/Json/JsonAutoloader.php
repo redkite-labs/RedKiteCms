@@ -17,26 +17,18 @@
 namespace RedKiteLabs\BootstrapBundle\Core\Json;
 
 use RedKiteLabs\BootstrapBundle\Core\Json\Bundle\Bundle;
-use RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerInterface;
 use RedKiteLabs\BootstrapBundle\Core\Exception\InvalidJsonFormatException;
-use RedKiteLabs\BootstrapBundle\Core\Exception\InvalidJsonParameterException;
-
-
-
 
 /**
  * Parses a json autoloader and converts it into an object
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class JsonAutoloader extends JsonToolkit
+class JsonAutoloader extends BaseJson
 {
     private $bundleName;
     private $filename = null;
     private $bundles = array();
-    private $actionManager = null;
-    private $actionManagerClass = null;
-    private $json = null;
     private $routing = null;
 
     /**
@@ -81,41 +73,11 @@ class JsonAutoloader extends JsonToolkit
     {
         return $this->bundles;
     }
-
-    /**
-     * Returns the ActionManger object from the class declared in the autoloader json
-     *
-     * @return null|RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerInterface
-     */
-    public function getActionManager()
-    {
-        if (null === $this->actionManager) {
-            $this->instantiateActionManager();
-        }
-
-        return $this->actionManager;
-    }
-
-    /**
-     * Returns the ActionManger class declared in the autoloader json
-     *
-     * @return null|string
-     */
-    public function getActionManagerClass()
-    {
-        return $this->actionManagerClass;
-    }
-
-    /**
-     * Returns the json file contents
-     */
-    public function getSourceJson()
-    {
-        return $this->json;
-    }
     
     /**
-     * Returns the json file contents
+     * Returns the routing option when specified in the autoloader file or null
+     * 
+     * return array|null
      */
     public function getRouting()
     {
@@ -141,8 +103,10 @@ class JsonAutoloader extends JsonToolkit
             if (!is_array($environments)) $environments = array($environments);
             $overrides = (isset($options["overrides"])) ? $options["overrides"] : array();
             $bundle = new Bundle();
-            $bundle->setClass($bundleClass);
-            $bundle->setOverrides($overrides);
+            $bundle
+                ->setClass($bundleClass)
+                ->setOverrides($overrides)
+            ;
             foreach ($environments as $environment) {
                 $this->bundles[$environment][] = $bundle;
             }
@@ -154,18 +118,6 @@ class JsonAutoloader extends JsonToolkit
         
         if (isset($autoloader["routing"])) {
             $this->routing = $autoloader["routing"];
-        }
-    }
-
-    private function instantiateActionManager()
-    {
-        if (null !== $this->actionManagerClass && class_exists($this->actionManagerClass)) {
-            $class = $this->actionManagerClass;
-            $this->actionManager = new $class;
-            if (!$this->actionManager instanceof ActionManagerInterface) {
-                $this->actionManager = null;
-                $this->actionManagerClass = null;
-            }
         }
     }
 }

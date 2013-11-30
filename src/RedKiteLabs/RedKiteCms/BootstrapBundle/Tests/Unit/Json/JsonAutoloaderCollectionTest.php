@@ -38,35 +38,65 @@ class JsonAutoloaderCollectionTest extends BaseFilesystem
         $autoloaderCollection = new JsonAutoloaderCollection(vfsStream::url('root/vendor/composer'));
     }
 
-    public function testOnlyABundleWithAutoloadFileIsAutoloaded()
+    /**
+     * @dataProvider bundlesProvider
+     */
+    public function testOnlyABundleWithAutoloadFileIsAutoloaded($bundles)
     {
         $this->initFilesystem(array('vendor/composer' => array()));
         $this->createAutoloadNamespacesFile();
-        $bundleFolder = 'root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
-        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
-
-        $bundleFolder = 'root/vendor/redkite-cms/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
-        $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle', false);
+        
+        foreach($bundles as $bundle) {
+            $this->createBundle($bundle["bundleFolder"], $bundle["bundleName"], $bundle["autoload"]);
+        }
 
         $autoloaderCollection = new JsonAutoloaderCollection(vfsStream::url('root/vendor'));
         $this->assertEquals(1, $autoloaderCollection->count());
     }
-
-    public function testAllBundlesAreLoaded()
+    
+    public function bundlesProvider()
     {
-        $this->initFilesystem(array('vendor/composer' => array()));
-        $this->createAutoloadNamespacesFile();
-        $bundleFolder = 'root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
-        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
-
-        $bundleFolder = 'root/vendor/redkite-cms/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
-        $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle');
-
-        $bundleFolder = 'root/vendor/redkite-cms/redkite-cms-cms-bundle/RedKiteLabs/RedKiteLabsCms/RedKiteLabsCmsFakeBundle/';
-        $this->createBundle($bundleFolder, 'RedKiteLabsCmsFakeBundle');
-
-        $autoloaderCollection = new JsonAutoloaderCollection(vfsStream::url('root/vendor'));
-        $this->assertEquals(3, $autoloaderCollection->count());
+        return array(
+            array(
+                array(
+                    array(
+                        'bundleFolder' => 'root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/',
+                        'bundleName' => 'BusinessCarouselFakeBundle',
+                        'autoload' => null,
+                    ),    
+                ),
+                array(
+                    array(
+                        'bundleFolder' => 'root/vendor/redkite-cms/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/',
+                        'bundleName' => 'BusinessDropCapFakeBundle',
+                        'autoload' => false,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    array(
+                        'bundleFolder' => 'root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/',
+                        'bundleName' => 'BusinessCarouselFakeBundle',
+                        'autoload' => null,
+                    ),    
+                ),
+                array(
+                    array(
+                        'bundleFolder' => 'root/vendor/redkite-cms/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle',
+                        'bundleName' => 'BusinessDropCapFakeBundle',
+                        'autoload' => null,
+                    ),
+                ),
+                array(
+                    array(
+                        'bundleFolder' => 'root/vendor/redkite-cms/redkite-cms-cms-bundle/RedKiteLabs/RedKiteLabsCms/RedKiteLabsCmsFakeBundle/',
+                        'bundleName' => 'RedKiteLabsCmsFakeBundle',
+                        'autoload' => null,
+                    ),
+                ),
+            ),
+        );
     }
 
     private function initFilesystem(array $folders)

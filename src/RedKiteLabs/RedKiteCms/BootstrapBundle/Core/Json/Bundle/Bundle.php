@@ -16,8 +16,6 @@
 
 namespace RedKiteLabs\BootstrapBundle\Core\Json\Bundle;
 
-use RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerInterface;
-use RedKiteLabs\BootstrapBundle\Core\Exception\InvalidJsonFormatException;
 use RedKiteLabs\BootstrapBundle\Core\Exception\InvalidJsonParameterException;
 
 /**
@@ -27,43 +25,69 @@ use RedKiteLabs\BootstrapBundle\Core\Exception\InvalidJsonParameterException;
  */
 class Bundle
 {
-    private $id = null;
+    private $name = null;
     private $class = null;
     private $overrides = null;
 
-    public function getId()
+    /**
+     * Returns the bundle name
+     * 
+     * @return string
+     */
+    public function getName()
     {
-        return $this->id;
+        return $this->name;
     }
 
+    /**
+     * Returns the class that defines the bundle
+     * 
+     * @return string
+     */
     public function getClass()
     {
         return $this->class;
     }
 
+    /**
+     * Sets the bundle class
+     * 
+     * @param string $class
+     * @return \RedKiteLabs\BootstrapBundle\Core\Json\Bundle\Bundle
+     * @throws InvalidJsonParameterException
+     */
     public function setClass($class)
     {
         preg_match('/\\\([\w]+Bundle)$/', $class, $match);
         if (empty($match[1])) {
             throw new InvalidJsonParameterException(sprintf("The class %s does not seem to be a valid bundle class. Check your autoloader.json file", $class));
         }
-        $this->id = basename($match[1]);
+        $this->name = basename($match[1]);
         $this->class = $class;
+        
+        return $this;
     }
 
+    /**
+     * Returns an array which contains the overrided bundles or null
+     * 
+     * @return array|null
+     */
     public function getOverrides()
     {
         return $this->overrides;
     }
 
+    /**
+     * Sets the overrides bundles
+     * 
+     * @param array $overrides
+     * @return \RedKiteLabs\BootstrapBundle\Core\Json\Bundle\Bundle
+     */
     public function setOverrides(array $overrides)
     {
-
         $this->overrides = $overrides;
-    }
-
-    public function __toString()
-    {
-        return $this->id;
+        
+        return $this;
     }
 }

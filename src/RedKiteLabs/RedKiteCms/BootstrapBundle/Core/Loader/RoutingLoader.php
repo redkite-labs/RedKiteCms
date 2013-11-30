@@ -16,23 +16,26 @@
 
 namespace RedKiteLabs\BootstrapBundle\Core\Loader;
 
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Resource\FileResource;
-use Symfony\Component\Finder\Finder;
 use RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloaderCollection;
 
 /**
- * Automatically loads routes from the predefined routing folder
+ * Defines a routing loader object to automatically load routes from a predefined 
+ * routing folder
  */
 class RoutingLoader extends YamlFileLoader
 {
     private $routingDir;
 
     /**
-     * {@inheritdoc}
+     * Constructor
+     * 
+     * @param \Symfony\Component\Config\FileLocatorInterface $locator
+     * @param \RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloaderCollection $autoloaderCollection
+     * @param string $routingDir
      */
     public function __construct(FileLocatorInterface $locator, JsonAutoloaderCollection $autoloaderCollection, $routingDir)
     {
@@ -43,14 +46,21 @@ class RoutingLoader extends YamlFileLoader
     }
 
     /**
-     * {@inheritdoc}
+     * Loads a Yaml file.
+     *
+     * @param string      $file A Yaml file path
+     * @param string|null $type The resource type
+     *
+     * @return RouteCollection A RouteCollection instance
+     *
+     * @throws \InvalidArgumentException When a route can't be parsed because YAML is invalid
      */
     public function load($resource, $type = null)
     {
         $bundles = $this->orderRoutes();
         $collection = new RouteCollection();
         foreach($bundles as $bundle) {
-            $routingConfig = $this->routingDir . '/' . strtolower($bundle) . '.yml'; 
+            $routingConfig = $this->routingDir . '/' . strtolower($bundle) . '.yml';
             if (file_exists($routingConfig)) {
                 $collection->addCollection(parent::load($routingConfig));
                 $collection->addResource(new FileResource($routingConfig));
@@ -60,7 +70,20 @@ class RoutingLoader extends YamlFileLoader
         return $collection;
     }
 
-    protected function orderRoutes()
+    /**
+     * Returns true if this class supports the given resource.
+     *
+     * @param mixed  $resource A resource
+     * @param string $type     The resource type
+     *
+     * @return Boolean true if this class supports the given resource, false otherwise
+     */
+    public function supports($resource, $type = null)
+    {
+        return 'bootstrap' === $type;
+    }
+
+    private function orderRoutes()
     {
         $order = array();
         foreach ($this->autoloaderCollection as $autoloader) {
@@ -77,13 +100,5 @@ class RoutingLoader extends YamlFileLoader
         }
 
         return $result;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function supports($resource, $type = null)
-    {
-        return 'bootstrap' === $type;
     }
 }

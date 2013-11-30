@@ -18,7 +18,7 @@ namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Json;
 
 use org\bovigo\vfs\vfsStream;
 use RedKiteLabs\BootstrapBundle\Tests\TestCase;
-use RedKiteLabs\BootstrapBundle\Core\Json\JsonToolkit;
+use RedKiteLabs\BootstrapBundle\Core\Json\BaseJson;
 
 
 /**
@@ -26,7 +26,7 @@ use RedKiteLabs\BootstrapBundle\Core\Json\JsonToolkit;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class JsonToolkitTest extends TestCase
+class BaseJsonTest extends TestCase
 {
     private $root;
     private $jsonToolkit;
@@ -44,7 +44,7 @@ class JsonToolkitTest extends TestCase
         $this->jsonAutoload .= '}';
         
         $this->root = vfsStream::setup('root');
-        $this->jsonToolkit = new JsonToolkit();
+        $this->jsonToolkit = new BaseJson();
     }
     
     public function testFileGetContentsReturnsAnEmptyStringWhenTheFileDoesNotExist()
@@ -64,5 +64,20 @@ class JsonToolkitTest extends TestCase
         file_put_contents(vfsStream::url('root/autoload.json'), $this->jsonAutoload);
         
         $this->assertEquals(1, count($this->jsonToolkit->decode(vfsStream::url('root/autoload.json'))));
+    }
+    
+    public function testFileIsNotCreatedWhenAnyValueIsGiven()
+    {
+        $fileName = vfsStream::url('root/autoload.json');
+        $this->jsonToolkit->encode($fileName, array());
+        $this->assertFalse(file_exists($fileName));
+    }
+    
+    public function testEncodeJson()
+    {
+        $fileName = vfsStream::url('root/autoload.json');
+        $this->jsonToolkit->encode($fileName, array('foo' => 'bar'));
+        $this->assertTrue(file_exists($fileName));
+        $this->assertEquals('{"foo":"bar"}', file_get_contents($fileName));
     }
 }

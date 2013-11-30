@@ -92,7 +92,7 @@ class JsonAutoloaderTest extends TestCase
         $this->assertEquals(1, count($bundles['all']));
 
         $bundle = $bundles['all'][0];
-        $this->assertEquals('BusinessCarouselFakeBundle', $bundle->getId());
+        $this->assertEquals('BusinessCarouselFakeBundle', $bundle->getName());
         $this->assertEquals('RedKiteLabs\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle', $bundle->getClass());
         $this->assertEquals(array('BusinessDropCapBundle'), $bundle->getOverrides());
     }
@@ -135,15 +135,14 @@ class JsonAutoloaderTest extends TestCase
         $this->assertEquals(1, count($bundles['dev']));
 
         $bundle = $bundles['prod'][0];
-        $this->assertEquals('BusinessCarouselFakeBundle', $bundle->getId());
+        $this->assertEquals('BusinessCarouselFakeBundle', $bundle->getName());
         $this->assertEquals('RedKiteLabs\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle', $bundle->getClass());
         $this->assertEquals(array('BusinessDropCapBundle'), $bundle->getOverrides());
+        
         $bundle = $bundles['dev'][0];
-        $this->assertEquals('BusinessCarouselFakeBundle', $bundle->getId());
+        $this->assertEquals('BusinessCarouselFakeBundle', $bundle->getName());
         $this->assertEquals('RedKiteLabs\\Block\\BusinessCarouselFakeBundle\\BusinessCarouselFakeBundle', $bundle->getClass());
         $this->assertEquals(array('BusinessDropCapBundle'), $bundle->getOverrides());
-        $this->assertEquals('\\RedKiteLabs\\Block\\BusinessCarouselFakeBundle\\Core\\ActionManager\\ActionManagerBusinessCarousel', $autoload->getActionManagerClass());
-
     }
 
     public function testRoutingPriorityIsNullWhenRoutingOptionIsNotDeclare()

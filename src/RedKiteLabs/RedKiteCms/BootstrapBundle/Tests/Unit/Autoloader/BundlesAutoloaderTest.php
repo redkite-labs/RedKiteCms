@@ -33,8 +33,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
     protected function setUp()
     {
         parent::setUp();
-        $this->scriptFactory = $this->getMock('RedKiteLabs\BootstrapBundle\Core\Script\Factory\ScriptFactoryInterface');
-
+        
         $folders = array('app' => array(),
                          'src' => array(
                              'Acme' => array(),
@@ -60,7 +59,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
                          'vendor' => array(),
                         );
         $this->root = vfsStream::setup('root', null, $folders);
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array());
         $bundlesAutoloader->getBundles();
     }
 
@@ -86,7 +85,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
                                 'vendor' => array('composer' => array('autoload_namespaces.php' => '<?php return array();')),
                                 ));
 
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array());
         $this->assertEquals($expectedResult, vfsStream::inspect(new vfsStreamStructureVisitor())->getStructure());
     }
     
@@ -98,43 +97,9 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
 
         $bundleFolder = 'root/vendor/redkite-cms/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
-        $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle', false); // This bundle has any autoload.json file
+        $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle', false); 
 
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
-        $this->assertCount(1, $bundlesAutoloader->getBundles());
-        $this->assertFileExists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json'));
-        $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml'));
-        $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/routing/businesscarouselfake.yml'));
-        $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/autoloaders/businessdropcap.json'));
-    }
-
-    public function testOnlyBundlesWithAnAutoloadFileAreAutoloaded1()
-    {
-        $this->createAutoloadNamespacesFile();
-
-        $bundleFolder = 'root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
-
-        $autoload = '{' . PHP_EOL;
-        $autoload .= '    "bundles" : {' . PHP_EOL;
-        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
-        $autoload .= '           "environments" : ["all"]' . PHP_EOL;
-        $autoload .= '        }' . PHP_EOL;
-        $autoload .= '    },' . PHP_EOL;
-        $autoload .= '    "actionManager" : "\\\\RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\Core\\\\ActionManager\\\\ActionManagerBusinessCarousel"';
-        $autoload .= '}';
-
-        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
-        $this->addClassManager('root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselFakeBundle');
-
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array());
         $this->assertCount(1, $bundlesAutoloader->getBundles());
         $this->assertFileExists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json'));
         $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml'));
@@ -153,11 +118,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $this->createFile($configFolder . '/config.yml');
         $this->createFile($configFolder . '/routing.yml');
 
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array());
         $bundlesAutoloader->getBundles();
 
         $this->assertFileExists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json'));
@@ -184,11 +145,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $autoload .= '}';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
 
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array());
         $bundlesAutoloader->getBundles();
     }
 
@@ -207,11 +164,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $autoload .= '}';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
 
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array());
         $bundlesAutoloader->getBundles();
 
         $this->assertCount(0, $bundlesAutoloader->getBundles());
@@ -236,17 +189,13 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundleFolder = 'root/vendor/redkite-cms/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle');
 
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array());
         $bundlesAutoloader->getBundles();
 
         $this->assertCount(1, $bundlesAutoloader->getBundles());
     }
-
-    public function testAnOverridedBundleIsPlacedAfterTheOneHowOverrideIt()
+    
+    public function testAnOverridedBundleIsPlacedAfterTheOneWhoOverrideIt()
     {
         $this->createAutoloadNamespacesFile();
 
@@ -265,14 +214,46 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundleFolder = 'root/vendor/redkite-cms/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle');
 
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array());
         $bundles = $bundlesAutoloader->getBundles();
         $this->assertCount(2, $bundles);
         $this->assertEquals(array('BusinessDropCapFakeBundle', 'BusinessCarouselFakeBundle'), array_keys($bundles));
+    }    
+    
+    public function testAnOverridedBundleInstantiatedTwoTimes()
+    {
+        $this->createAutoloadNamespacesFile();
+
+        $bundleFolder = 'root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
+
+        $autoload = '{' . PHP_EOL;
+        $autoload .= '    "bundles" : {' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessCarouselFakeBundle\\\\BusinessCarouselFakeBundle" : {' . PHP_EOL;
+        $autoload .= '           "environments" : ["all"],' . PHP_EOL;
+        $autoload .= '           "overrides" : ["BusinessDropCapFakeBundle"]' . PHP_EOL;
+        $autoload .= '        }' . PHP_EOL;
+        $autoload .= '    }' . PHP_EOL;
+        $autoload .= '}';
+        $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle', $autoload);
+        
+        $bundleFolder = 'root/vendor/redkite-cms/app-business-dropcap1-bundle/RedKiteLabs/Block/BusinessDropCap1FakeBundle/';
+        $autoload = '{' . PHP_EOL;
+        $autoload .= '    "bundles" : {' . PHP_EOL;
+        $autoload .= '        "RedKiteLabs\\\\Block\\\\BusinessDropCap1FakeBundle\\\\BusinessDropCap1FakeBundle" : {' . PHP_EOL;
+        $autoload .= '           "environments" : ["all"],' . PHP_EOL;
+        $autoload .= '           "overrides" : ["BusinessDropCapFakeBundle"]' . PHP_EOL;
+        $autoload .= '        }' . PHP_EOL;
+        $autoload .= '    }' . PHP_EOL;
+        $autoload .= '}';
+        $this->createBundle($bundleFolder, 'BusinessDropCap1FakeBundle', $autoload);
+        
+        $bundleFolder = 'root/vendor/redkite-cms/app-business-dropcap-bundle/RedKiteLabs/Block/BusinessDropCapFakeBundle/';
+        $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle');
+
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array());
+        $bundles = $bundlesAutoloader->getBundles();
+        $this->assertCount(3, $bundles);
+        $this->assertEquals(array('BusinessDropCapFakeBundle', 'BusinessDropCap1FakeBundle', 'BusinessCarouselFakeBundle'), array_keys($bundles));
     }
 
     public function testAutoloadingABundleWithoutAutoloader()
@@ -293,11 +274,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundleFolder = 'root/vendor/redkite-cms/redkite-cms-cms-bundle/RedKiteLabs/RedKiteLabsCms/RedKiteLabsCmsFakeBundle/';
         $this->createBundle($bundleFolder, 'RedKiteLabsCmsFakeBundle', false, 'RedKiteLabs\RedKiteLabsCms');
 
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array());
         $bundles = $bundlesAutoloader->getBundles();
         $this->assertCount(2, $bundles);
         $this->assertEquals(array('BusinessCarouselFakeBundle', 'RedKiteLabsCmsFakeBundle'), array_keys($bundles));
@@ -330,11 +307,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $autoload .= '}';
         $this->createBundle($bundleFolder, 'BusinessDropCapFakeBundle', $autoload);
 
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array());
         $bundles = $bundlesAutoloader->getBundles();
         $this->assertCount(2, $bundles);
         $this->assertEquals(array('BusinessCarouselFakeBundle', 'BusinessDropCapFakeBundle'), array_keys($bundles));
@@ -369,11 +342,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundleFolder = 'root/vendor/redkite-cms/redkite-cms-cms-bundle/RedKiteLabs/RedKiteLabsCms/RedKiteLabsCmsFakeBundle/';
         $this->createBundle($bundleFolder, 'RedKiteLabsCmsFakeBundle', false, 'RedKiteLabs\RedKiteLabsCms');
 
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array(), $this->scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'prod', array());
         $bundles = $bundlesAutoloader->getBundles();
         $this->assertCount(3, $bundles);
         $this->assertEquals(array('BusinessCarouselFakeBundle', 'RedKiteLabsCmsFakeBundle', 'BusinessDropCapFakeBundle'), array_keys($bundles));
@@ -391,11 +360,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $this->createFile($configFolder . '/config.yml');
         $this->createFile($configFolder . '/routing.yml');
 
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array());
         $this->assertCount(1, $bundlesAutoloader->getBundles());
         $this->assertFileExists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json'));
         $this->assertFileExists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml'));
@@ -405,18 +370,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $fs = new \Symfony\Component\Filesystem\Filesystem();
         $fs->remove(vfsStream::url($bundleFolder));
 
-        $this->addClassManager('root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/Core/ActionManager/', 'ActionManagerBusinessCarousel.php', 'BusinessCarouselFakeBundle');
-
-        $script = $this->getMock('RedKiteLabs\BootstrapBundle\Core\Script\ScriptInterface');
-        $script->expects($this->exactly(2))
-            ->method('executeActions');
-
-        $scriptFactory = $this->getMock('RedKiteLabs\BootstrapBundle\Core\Script\Factory\ScriptFactoryInterface');
-        $scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($script));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array());
         $this->assertCount(0, $bundlesAutoloader->getBundles());
         $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json'));
         $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/config/dev/businesscarouselfake.yml'));
@@ -433,11 +387,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundleFolder = 'root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
 
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);        
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array());        
         $this->assertCount(2, $bundlesAutoloader->getBundles());
         
         $this->assertFileExists(vfsStream::url('root/app/config/bundles/autoloaders/businesscarouselfake.json'));
@@ -453,11 +403,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundleFolder = 'root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
 
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory);
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array());
         $this->assertCount(1, $bundlesAutoloader->getBundles());
         
         $this->assertFileNotExists(vfsStream::url('root/app/config/bundles/autoloaders/businessmenufake.json'));
@@ -473,21 +419,8 @@ class BundlesAutoloaderTest extends BaseFilesystem
         $bundleFolder = 'root/vendor/redkite-cms/app-business-carousel-bundle/RedKiteLabs/Block/BusinessCarouselFakeBundle/';
         $this->createBundle($bundleFolder, 'BusinessCarouselFakeBundle');
 
-        $this->scriptFactory->expects($this->exactly(2))
-            ->method('createScript')
-            ->will($this->returnValue($this->createScript()));
-
-        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), $this->scriptFactory, array(vfsStream::url('root/src/Acme/Blocks')));
+        $bundlesAutoloader = new BundlesAutoloader(vfsStream::url('app'), 'dev', array(), array(vfsStream::url('root/src/Acme/Blocks')));
         $this->assertCount(2, $bundlesAutoloader->getBundles());        
         $this->assertFileExists(vfsStream::url('root/app/config/bundles/autoloaders/businessmenufakebundle.json'));
-    }
-
-    private function createScript()
-    {
-        $script = $this->getMock('RedKiteLabs\BootstrapBundle\Core\Script\ScriptInterface');
-        $script->expects($this->exactly(2))
-            ->method('executeActions');
-
-        return $script;
     }
 }

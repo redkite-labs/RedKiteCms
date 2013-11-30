@@ -17,9 +17,7 @@
 namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Base;
 
 use RedKiteLabs\BootstrapBundle\Tests\TestCase;
-use RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader;
 use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
 
 /**
  * BundlesAutoloaderTest
@@ -69,20 +67,6 @@ class BaseFilesystem extends TestCase
         require_once vfsStream::url($classFile);
     }
 
-    protected function addClassManager($classFolder, $classFileName, $bundleName)
-    {
-        $this->createFolder($classFolder);
-
-        $classContent = '<?php' . PHP_EOL;
-        $classContent .= sprintf('namespace RedKiteLabs\Block\%s\Core\ActionManager;', $bundleName) . PHP_EOL;
-        $classContent .= 'use RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManager;' . PHP_EOL;
-        $classContent .= 'class ActionManagerBusinessCarousel extends ActionManager {}' . PHP_EOL;
-        $classFile = $classFolder . $classFileName;
-
-        $this->addClass($classFile, $classContent);
-    }
-
-
     protected function createAutoloadNamespacesFile($autoloadNamespaces = null)
     {
         if(null === $autoloadNamespaces) {
@@ -92,6 +76,7 @@ class BaseFilesystem extends TestCase
             $autoloadNamespaces .= 'return array(' . PHP_EOL;
             $autoloadNamespaces .= '    \'RedKiteLabs\\Block\\BusinessCarouselFakeBundle\' => $vendorDir . \'/redkite-cms/app-business-carousel-bundle/\',' . PHP_EOL;
             $autoloadNamespaces .= '    \'RedKiteLabs\\Block\\BusinessDropCapFakeBundle\' => $vendorDir . \'/redkite-cms/app-business-dropcap-bundle/\',' . PHP_EOL;
+            $autoloadNamespaces .= '    \'RedKiteLabs\\Block\\BusinessDropCap1FakeBundle\' => $vendorDir . \'/redkite-cms/app-business-dropcap1-bundle/\',' . PHP_EOL;
             $autoloadNamespaces .= '    \'RedKiteLabs\\RedKiteLabsCms\\RedKiteLabsCmsFakeBundle\' => $vendorDir . \'/redkite-cms/redkite-cms-cms-bundle/\',' . PHP_EOL;
             $autoloadNamespaces .= ');' . PHP_EOL;
         }

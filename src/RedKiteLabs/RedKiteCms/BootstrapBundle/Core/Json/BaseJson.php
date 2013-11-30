@@ -16,29 +16,27 @@
 
 namespace RedKiteLabs\BootstrapBundle\Core\Json;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\BootstrapBundle\Core\Script\ScriptInterface;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
-use RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerGenerator;
-use RedKiteLabs\BootstrapBundle\Core\ActionManager\ActionManagerInterface;
-
 /**
- * Implemens som ebasic functions to manage the json format
+ * Implemens some basic functions to manage the json format
  * 
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class JsonToolkit
+class BaseJson
 {
     /**
-     * Returns the retrieved contents from the given filename
+     * Returns filename contents when exists or an empty string
      * 
      * @param string  $file
      * @return string 
      */
     public function getFileContents($file)
     {
-        return (file_exists($file)) ? file_get_contents($file) : "";
+        $contents = "";
+        if (file_exists($file)) {
+            $contents = file_get_contents($file);
+        }
+        
+        return  $contents;
     }
 
     /**
@@ -50,8 +48,13 @@ class JsonToolkit
     public function decode($file)
     {
         $contents = $this->getFileContents($file);
-
-        return ($contents != "") ? json_decode($contents, true) : array();
+        
+        $result = array();
+        if ($contents != "") {
+            $result = json_decode($contents, true);
+        }
+        
+        return $result;
     }
 
     /**
@@ -62,7 +65,7 @@ class JsonToolkit
      */
     public function encode($file, array $values)
     {
-        if (!empty($values)) {
+        if ( ! empty($values)) {
             file_put_contents($file, json_encode($values));
         }
     }

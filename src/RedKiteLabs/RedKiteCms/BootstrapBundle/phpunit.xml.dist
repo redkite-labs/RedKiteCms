@@ -25,6 +25,8 @@
                 <directory>./Resources</directory>
                 <directory>./Tests</directory>
                 <directory>./vendor</directory>
+                <directory>./DependencyInjection</directory>
+                <directory>./RedKiteLabsBootstrapBundle.php</directory>
             </exclude>
         </whitelist>
     </filter>
