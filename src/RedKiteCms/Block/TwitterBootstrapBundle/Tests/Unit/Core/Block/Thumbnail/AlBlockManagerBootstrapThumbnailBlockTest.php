@@ -56,7 +56,7 @@ class AlBlockManagerBootstrapThumbnailBlockTest extends BaseTestBlock
             ),
             array(
                 "3.x",
-                "col-md-3",
+                "col-md-5",
             ),
         );
     }
