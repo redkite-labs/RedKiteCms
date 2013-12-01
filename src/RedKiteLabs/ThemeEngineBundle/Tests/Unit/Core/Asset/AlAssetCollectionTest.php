@@ -19,6 +19,7 @@ namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
+use org\bovigo\vfs\vfsStream;
 
 /**
  * AlAssetTest
@@ -33,7 +34,7 @@ class AlAssetCollectionTest extends TestCase
     {
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
     }
-
+    
     public function testAnEmptyCollectionIsInstantiated()
     {
         $alAssetCollection = new AlAssetCollection($this->kernel);
@@ -61,8 +62,56 @@ class AlAssetCollectionTest extends TestCase
         $alAssetCollection->add('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css');
         $this->assertEquals(1, count($alAssetCollection));
     }
+    
+    public function testAddAllFolderAssets()
+    {
+        $this->root = vfsStream::setup('root', null, array(
+            'app' => array(),
+            'foo' => array(
+                'public' => array(
+                    'asset1.js' => '',
+                    'asset2.js' => '',
+                ),
+            ),
+        ));
+        
+        $asset = '@FakeBundle/foo/public/*';
+        
+        $this->kernel->expects($this->any())
+            ->method('locateResource')
+            ->will($this->returnValue(vfsStream::url('root')))
+        ;
+        
+        $alAssetCollection = new AlAssetCollection($this->kernel);
+        $alAssetCollection->add($asset);
+        $this->assertEquals(2, count($alAssetCollection));
+    }
+    
+    public function testAssetIsNotAddedTwiceWithRealFiles()
+    {
+        $this->root = vfsStream::setup('root', null, array(
+            'app' => array(),
+            'foo' => array(
+                'public' => array(
+                    'asset.js' => '',
+                ),
+            ),
+        ));
+        
+        $asset = '@FakeBundle/foo/public/asset.js';
+        
+        $this->kernel->expects($this->any())
+            ->method('locateResource')
+            ->will($this->returnValue(vfsStream::url('root')))
+        ;
+        
+        $alAssetCollection = new AlAssetCollection($this->kernel);
+        $alAssetCollection->add($asset);
+        $alAssetCollection->add($asset);
+        $this->assertEquals(1, count($alAssetCollection));
+    }
 
-    public function testAnAssetIsNotAddedTwice()
+    public function testAnAssetIsNotAddedTwiceVirtualFiles()
     {
         $alAssetCollection = new AlAssetCollection($this->kernel);
         $alAssetCollection->add('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css');

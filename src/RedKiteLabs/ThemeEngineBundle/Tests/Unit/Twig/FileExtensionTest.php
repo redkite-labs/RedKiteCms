@@ -32,8 +32,18 @@ class FileExtensionTest extends TestCase
         $this->assertArrayHasKey("file_open", $this->fileExtension->getFunctions());
     }
     
+    public function testFileDoesNotExist()
+    {
+        $this->assertEquals("The file vfs://root/bar has not been found", $this->fileExtension->openFile(vfsStream::url('root/bar')));
+    }
+    
     public function testOpenFile()
     {
         $this->assertEquals("bar", $this->fileExtension->openFile(vfsStream::url('root/foo')));
+    }
+    
+    public function testFileContentTruncated()
+    {
+        $this->assertEquals('ba ...<br /><span class="label label-info">RedKite CMS: file content truncated</span>', $this->fileExtension->openFile(vfsStream::url('root/foo'), 2));
     }
 }

@@ -55,8 +55,10 @@ abstract class FrontendController extends BaseFrontendController
                 $response = $this->render($template, array('base_template' => $baseTemplate));
             }
             catch(\InvalidArgumentException $ex) { // Backward compatibility
+                // @codeCoverageIgnoreStart
                 $template = sprintf('%s:%s:%s.html.twig', $deployBundle, $language, $page);
                 $response = $this->render($template, array('base_template' => $baseTemplate));
+                // @codeCoverageIgnoreEnd
             }
 
             // Dispatches the pre rendering events for current language and page

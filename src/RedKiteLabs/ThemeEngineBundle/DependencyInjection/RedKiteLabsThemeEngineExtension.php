@@ -62,7 +62,7 @@ class RedKiteLabsThemeEngineExtension extends Extension
                 }
             }
             
-            $container->setParameter('red_kite_cms.bootstrap_themes', $bootstrapThemes);
+            $container->setParameter('red_kite_labs_theme_engine.bootstrap_themes', $bootstrapThemes);
         }
         
         $container->setParameter('red_kite_labs_theme_engine.deploy_bundle', $config['deploy_bundle']);

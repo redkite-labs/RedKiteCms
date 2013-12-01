@@ -62,7 +62,7 @@ class EventListenersRegistratorTest extends TestCase
             'my_event_subscriber' => array(
                 0 => array(
                     'method' => 'event.method', 
-                    'priority' => '128'
+                    'priority' => '128',
                 ),
             ),
         );
@@ -77,12 +77,16 @@ class EventListenersRegistratorTest extends TestCase
     /**
      * @dataProvider eventsSubscriberProvider
      */
-    public function testSubscribeEvents($services, $results)
+    public function testSubscribeEvents($services, $servicesIds, $servicesResults)
     {
         $definition = $this->getMock('Symfony\Component\DependencyInjection\Definition');
-        $definition->expects($this->atLeastOnce())
+        $definition->expects($this->at(0))
             ->method('addMethodCall')
-            ->with('addListenerService', $results);
+            ->with('addListenerId', $servicesIds);
+        
+        $definition->expects($this->at(1))
+            ->method('addMethodCall')
+            ->with('addListenerService', $servicesResults);
         
         $builder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
         $builder->expects($this->any())
@@ -97,7 +101,7 @@ class EventListenersRegistratorTest extends TestCase
             ->method('findTaggedServiceIds')
             ->will($this->returnValue($services));
         
-        EventListenersRegistrator::registerByTaggedServiceId($builder, 'rkcms.event');
+        EventListenersRegistrator::registerByTaggedServiceId($builder, 'red_kite_labs_theme_engine.event_listener');
     }
     
     public function eventsSubscriberProvider()
@@ -109,13 +113,16 @@ class EventListenersRegistratorTest extends TestCase
                         0 => array(
                             'event' => 'event.name', 
                             'method' => 'event.method', 
-                            'priority' => '128'
+                            'priority' => '128',
                         ),
                     ),
                 ),
                 array(
+                    'my_event_subscriber'
+                ),
+                array(
                     'event.name', 
-                    array('my_event_subscriber', 'event.method'), '128'
+                    array('my_event_subscriber', 'event.method'), '128',
                 ),
             ),
             array(
@@ -123,13 +130,16 @@ class EventListenersRegistratorTest extends TestCase
                     'my_event_subscriber' => array(
                         1 => array(
                             'event' => 'event.name', 
-                            'priority' => '-128'
+                            'priority' => '-128',
                         ),
                     ),
                 ),
                 array(
+                    'my_event_subscriber'
+                ),
+                array(
                     'event.name', 
-                    array('my_event_subscriber', 'onEventName'), '-128'
+                    array('my_event_subscriber', 'onEventName'), '-128',
                 ),
             ),
         );

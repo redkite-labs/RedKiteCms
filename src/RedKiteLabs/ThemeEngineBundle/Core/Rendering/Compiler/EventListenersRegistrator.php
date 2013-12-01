@@ -27,7 +27,7 @@ class EventListenersRegistrator
 {
     public static function registerByTaggedServiceId(ContainerBuilder $container, $tagServiceId)
     {
-        if (!$container->hasDefinition('event_dispatcher')) {
+        if ( ! $container->hasDefinition('event_dispatcher')) {
             return;
         }
         
@@ -37,11 +37,11 @@ class EventListenersRegistrator
             foreach ($events as $event) {
                 $priority = isset($event['priority']) ? $event['priority'] : 0;
                 
-                if (!isset($event['event'])) {
+                if ( ! isset($event['event'])) {
                     throw new \InvalidArgumentException(sprintf('Service "%s" must define the "event" attribute on "%s" tags.', $id, $tagServiceId));
                 }
                 
-                if (!isset($event['method'])) {
+                if ( ! isset($event['method'])) {
                     $event['method'] = 'on'.preg_replace(array(
                         '/(?<=\b)[a-z]/ie',
                         '/[^a-z0-9]/i'

@@ -34,6 +34,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
      *
      * @param \Symfony\Component\HttpKernel\KernelInterface $kernel
      * @param array $assets
+     * @codeCoverageIgnore
      */
     public function __construct(KernelInterface $kernel, array $assets = array())
     {
@@ -43,7 +44,11 @@ class AlAssetCollection implements AlAssetsCollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Return the current element
+     * 
+     * @link http://php.net/manual/en/iterator.current.php
+     * @return mixed Can return any type.
+     * @codeCoverageIgnore
      */
     public function current()
     {
@@ -51,8 +56,10 @@ class AlAssetCollection implements AlAssetsCollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Return the key of the current element
      * 
+     * @link http://php.net/manual/en/iterator.key.php
+     * @return scalar scalar on success, or <b>NULL</b> on failure.
      * @codeCoverageIgnore
      */
     public function key()
@@ -61,7 +68,11 @@ class AlAssetCollection implements AlAssetsCollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Move forward to next element
+     * 
+     * @link http://php.net/manual/en/iterator.next.php
+     * @return void Any returned value is ignored.
+     * @codeCoverageIgnore
      */
     public function next()
     {
@@ -69,7 +80,11 @@ class AlAssetCollection implements AlAssetsCollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Rewind the Iterator to the first element
+     * 
+     * @link http://php.net/manual/en/iterator.rewind.php
+     * @return void Any returned value is ignored.
+     * @codeCoverageIgnore
      */
     public function rewind()
     {
@@ -77,7 +92,11 @@ class AlAssetCollection implements AlAssetsCollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if current position is valid
+     * 
+     * @link http://php.net/manual/en/iterator.valid.php
+     * @return boolean The return value will be casted to boolean and then evaluated.
+     * @codeCoverageIgnore
      */
     public function valid()
     {
@@ -85,7 +104,11 @@ class AlAssetCollection implements AlAssetsCollectionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Count elements of an object
+     * 
+     * @link http://php.net/manual/en/countable.count.php
+     * @return int The custom count as an integer.
+     * @codeCoverageIgnore
      */
     public function count()
     {
@@ -103,7 +126,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
             // parses the first subfolder when all the subfolder's files are required
             if ($assetName == '*') {
                 $asset = new AlAsset($this->kernel, substr($asset, 0, strlen($asset) - 2));
-
+                
                 $assetPath = $asset->getRealPath();
                 $finder = new Finder();
                 $subAssets = $finder->files()->depth(0)->in($assetPath);
@@ -121,17 +144,17 @@ class AlAssetCollection implements AlAssetsCollectionInterface
     protected function addAsset($asset)
     {
         $asset = new AlAsset($this->kernel, $asset);
-        if (!is_file($asset->getRealPath())) {
+        if ( ! is_file($asset->getRealPath())) {
             if (!in_array($asset, $this->assets)) {
                 $this->assets[] = $asset;
             }
 
             return;
         }
-
+        
         // Avoids assets duplication
         $key = basename($asset->getRealPath());
-        if (!array_key_exists($key, $this->assets)) {
+        if ( ! array_key_exists($key, $this->assets)) {
             $this->assets[$key] = $asset;
         }
     }

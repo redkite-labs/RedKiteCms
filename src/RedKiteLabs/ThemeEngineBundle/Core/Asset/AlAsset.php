@@ -110,7 +110,7 @@ class AlAsset
 
     /**
      * Retrieves the web bundle folder from the current asset
-     *
+     * 
      * @return null|string
      */
     protected function retrieveBundleWebFolder()
@@ -121,9 +121,11 @@ class AlAsset
         if (file_exists($namespacesFile)) {
             $map = require $namespacesFile;
             foreach ($map as $namespace => $paths) {
+                // @codeCoverageIgnoreStart
                 if ( ! is_array($paths)) {
                     $paths = array($paths);
                 }
+                // @codeCoverageIgnoreEnd
                 
                 foreach($paths as $path) {
                     if (strpos($this->asset, $path) !== false) {
@@ -172,7 +174,7 @@ class AlAsset
             if (empty($match[1])) {
                 return;
             }
-
+            
             $resource = $this->kernel->locateResource($match[1]);
             
             $resourceLength = strlen($resource) - 1;
@@ -200,7 +202,9 @@ class AlAsset
     private function realPath($path)
     {
         $realPath = realpath($path);
-        if(false === $realPath) $realPath = $path;
+        if (false === $realPath) {
+            $realPath = $path;
+        }
 
         return $realPath;
     }

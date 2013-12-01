@@ -143,6 +143,28 @@ class FrontendControllerTest extends TestCase
         $this->controller->showAction();
     }
     
+    /**
+     * @dataProvider templateFoldersProvider
+     */
+    public function testWebsitePageHasBeenRenderedForStageEnvironment($folder)
+    {
+        $this->setUpContainer($folder,'red_kite_labs_theme_engine.deploy.stage_templates_folder');
+        $this->setUpRequest(2);
+
+        $this->templating->expects($this->once())
+            ->method('renderResponse')
+            ->will($this->returnValue($this->response));
+
+        $this->dispatcher->expects($this->exactly(3))
+            ->method('dispatch');
+
+        $this->container->expects($this->exactly(3))
+            ->method('get')
+            ->will($this->onConsecutiveCalls($this->request, $this->templating, $this->dispatcher));
+
+        $this->controller->stageAction();
+    }
+    
     public function templateFoldersProvider()
     {
         return array(
@@ -151,11 +173,11 @@ class FrontendControllerTest extends TestCase
         );
     }
     
-    private function setUpContainer($templatesFolder)
+    private function setUpContainer($templatesFolder, $templatesFolderParam = 'red_kite_labs_theme_engine.deploy.templates_folder')
     {
         $this->container->expects($this->at(0))
             ->method('getParameter')
-            ->with('red_kite_labs_theme_engine.deploy.templates_folder')
+            ->with($templatesFolderParam)
             ->will($this->returnValue($templatesFolder));
         
         $this->container->expects($this->at(2))

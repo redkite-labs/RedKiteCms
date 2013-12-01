@@ -82,6 +82,7 @@ class AlTemplateAssetTest extends TestCase
     public function testAssetsAreNotRetrievedJustValorizingTheTemplateName()
     {
         $this->templateAssets->setTemplateName('Home');
+        $this->assertEquals('home', $this->templateAssets->getTemplateName());
         $this->assertCount(0, $this->templateAssets->getExternalStylesheets());
     }
     

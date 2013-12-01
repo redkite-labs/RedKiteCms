@@ -20,7 +20,6 @@ namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 use org\bovigo\vfs\vfsStream;
-use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
 
 /**
  * AlAssetTest
@@ -111,7 +110,39 @@ class AlAssetTest extends TestCase
         $this->assertEquals($normalizedAsset, $alAsset->getRealPath());
         $this->assertEquals('bundles/businesswebsitetheme/css/style.css', $alAsset->getAbsolutePath());
     }
+    
+    public function testAssetIsRetrievedUsingAutolodingNamespacesFile()
+    {
+        
+        $namespacesFile = "<?php\n";
+        $namespacesFile .= '$vendorDir = "vendors";' . "\n";
+        $namespacesFile .= '$baseDir = dirname($vendorDir);' . "\n";
+        $namespacesFile .= 'return array(' . "\n";
+        $namespacesFile .= '    \'RedKiteCmsBundle\' => array($vendorDir . \'/path/to/bundle\'),' . "\n";
+        $namespacesFile .= ');' . "\n";
+        
+        $this->root = vfsStream::setup('root', null, array(
+            'app' => array(),
+            'vendor' => array(
+                'composer' => array(
+                    'autoload_namespaces.php' => $namespacesFile,
+                ),
+            ),
+        ));
+        
+        $asset = '/vendors/path/to/bundle/RedKiteCmsBundle/Resources/public/js/asset.js';
+        
+        $this->kernel
+             ->expects($this->once())
+             ->method('getRootDir')
+             ->will($this->returnValue(vfsStream::url('root/app')))
+        ;
 
+        $alAsset = new AlAsset($this->kernel, $asset);
+        $this->assertEquals($asset, $alAsset->getRealPath());
+        $this->assertEquals('bundles/redkitecms/js/asset.js', $alAsset->getAbsolutePath());
+    }
+    
     public function testAssetIsRecognizedAsBundle()
     {
         $asset = 'FakeBundle';

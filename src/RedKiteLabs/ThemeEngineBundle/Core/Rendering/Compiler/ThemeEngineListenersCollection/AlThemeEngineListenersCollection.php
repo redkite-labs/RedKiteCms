@@ -33,9 +33,11 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
      */
     public function addListenerId($listenerId)
     {
+        // @codeCoverageIgnoreStart
         if (null !== $this->getListenerId($listenerId)) {
             return;
         }
+        // @codeCoverageIgnoreEnd
         
         $this->listeners[$listenerId] = $listenerId;
     }
@@ -52,7 +54,11 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
     }
 
     /**
-     * {@inheritdoc}
+     * Return the current element
+     * 
+     * @link http://php.net/manual/en/iterator.current.php
+     * @return mixed Can return any type.
+     * @codeCoverageIgnore
      */
     public function current()
     {
@@ -60,7 +66,11 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
     }
 
     /**
-     * {@inheritdoc}
+     * Return the key of the current element
+     * 
+     * @link http://php.net/manual/en/iterator.key.php
+     * @return scalar scalar on success, or <b>NULL</b> on failure.
+     * @codeCoverageIgnore
      */
     public function key()
     {
@@ -68,7 +78,11 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
     }
 
     /**
-     * {@inheritdoc}
+     * Move forward to next element
+     * 
+     * @link http://php.net/manual/en/iterator.next.php
+     * @return void Any returned value is ignored.
+     * @codeCoverageIgnore
      */
     public function next()
     {
@@ -76,7 +90,11 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
     }
 
     /**
-     * {@inheritdoc}
+     * Rewind the Iterator to the first element
+     * 
+     * @link http://php.net/manual/en/iterator.rewind.php
+     * @return void Any returned value is ignored.
+     * @codeCoverageIgnore
      */
     public function rewind()
     {
@@ -84,7 +102,11 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
     }
 
     /**
-     * {@inheritdoc}
+     * Checks if current position is valid
+     * 
+     * @link http://php.net/manual/en/iterator.valid.php
+     * @return boolean The return value will be casted to boolean and then evaluated.
+     * @codeCoverageIgnore
      */
     public function valid()
     {
@@ -92,7 +114,11 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
     }
 
     /**
-     * {@inheritdoc}
+     * Count elements of an object
+     * 
+     * @link http://php.net/manual/en/countable.count.php
+     * @return int The custom count as an integer.
+     * @codeCoverageIgnore
      */
     public function count()
     {
