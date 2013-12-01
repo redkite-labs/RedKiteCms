@@ -30,20 +30,7 @@ class RedKiteLabsThemeEngineExtensionTest extends TestCase
     public function testDefaultConfiguration()
     {
         $extension = new RedKiteLabsThemeEngineExtension();
-        $extension->load(
-                array(
-                    array(
-                        'deploy_bundle' => 'AcmsWebSiteBundle',
-                        'bootstrap' => array(
-                            'theme' => array(
-                                array(                                    
-                                    'theme' => 'FooTheme',
-                                    'version' => '2.x',
-                                )
-                            ),
-                        ),
-                    )
-                ), $this->container);
+        $extension->load(array(array('deploy_bundle' => 'AcmsWebSiteBundle')), $this->container);
         $this->assertEquals('RedKiteLabsThemeEngineBundle:Frontend:base.html.twig', $this->container->getParameter('red_kite_labs_theme_engine.base_template'));
         $this->assertEquals('RedKiteCms', $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder'));
         $this->assertEquals(
@@ -63,7 +50,6 @@ class RedKiteLabsThemeEngineExtensionTest extends TestCase
         $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate', $this->container->getParameter('red_kite_labs_theme_engine.template.class'));
         $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets', $this->container->getParameter('red_kite_labs_theme_engine.template_assets.class'));
         $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots', $this->container->getParameter('red_kite_labs_theme_engine.template_slots.class'));
-        $this->assertEquals(array('FooTheme' => '2.x'), $this->container->getParameter('red_kite_labs_theme_engine.bootstrap_themes'));
     }
 
     public function testBaseTemplate()
@@ -78,7 +64,7 @@ class RedKiteLabsThemeEngineExtensionTest extends TestCase
     
     public function testRenderTemplatesFolder()
     {
-        $this->scalarNodeParameter('red_kite_labs_theme_engine.deploy.templates_folder', 'templates_folder', 'RedKite');
+        $this->scalarNodeParameter('red_kite_labs_theme_engine.deploy.templates_folder', 'templates_folder', 'RedKIte');
     }
 
     private function scalarNodeParameter($parameter, $configKey, $configValue)
