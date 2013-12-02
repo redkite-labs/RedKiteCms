@@ -95,6 +95,20 @@ class BundlesAutoloader
     }
 
     /**
+     * Sets the vendor directory path
+     *
+     * @param type $vendorDir
+     * @return \RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader
+     * @codeCoverageIgnore
+     */
+    public function setVendorDir($vendorDir)
+    {
+        $this->vendorDir = $vendorDir;
+
+        return $this;
+    }
+
+    /**
      * Runs the process
      */
     protected function run()
