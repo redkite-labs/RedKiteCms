@@ -38,6 +38,10 @@ class RedKiteLabsBootstrapExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        
+        if (isset($config['vendor_dir'])) {
+            $container->setParameter('red_kite_labs_bootstrap.vendor_dir', $config['vendor_dir']);
+        }
     }
 
     public function getAlias()
