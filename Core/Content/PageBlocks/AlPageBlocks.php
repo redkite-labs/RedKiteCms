@@ -147,9 +147,9 @@ class AlPageBlocks implements AlPageBlocksInterface
     /**
      * Sets the blocks
      * 
-     * @param array $blocks An array of blocks
+     * @param array|object $blocks A traversable list of blocks
      */
-    public function setAlBlocks(array $blocks)
+    public function setAlBlocks($blocks)
     {
         $this->alBlocks = $blocks;
         $this->arrangeBlocks();
