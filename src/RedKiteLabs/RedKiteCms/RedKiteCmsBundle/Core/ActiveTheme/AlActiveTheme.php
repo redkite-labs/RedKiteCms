@@ -80,11 +80,11 @@ class AlActiveTheme implements AlActiveThemeInterface
         
         $this->bootstrapVersion = $this->container->getParameter('red_kite_cms.bootstrap_version');
         
-        if ( ! $this->container->hasParameter('red_kite_cms.bootstrap_themes')){
+        if ( ! $this->container->hasParameter('red_kite_labs_theme_engine.bootstrap_themes')){
             return $this->bootstrapVersion;
         }
         
-        $themes = $this->container->getParameter('red_kite_cms.bootstrap_themes'); 
+        $themes = $this->container->getParameter('red_kite_labs_theme_engine.bootstrap_themes'); 
         if (array_key_exists($themeName, $themes)) {
             
             $this->bootstrapVersion = $themes[$themeName];
