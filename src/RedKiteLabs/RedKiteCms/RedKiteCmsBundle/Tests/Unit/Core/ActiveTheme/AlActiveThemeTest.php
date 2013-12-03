@@ -36,19 +36,17 @@ class AlActiveThemeTest extends TestCase
         $this->root = vfsStream::setup('root');
         $this->activeThemePath = vfsStream::url('root/.active_theme');
 
-        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->container->expects($this->any())
-            ->method('getParameter')
-            ->will($this->returnValue($this->activeThemePath));
+        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');        
     }
 
     public function testCurrentActiveThemeIsRetrieved()
     {
         file_put_contents($this->activeThemePath, 'BusinessWebsiteThemeBundle');
-        $this->container->expects($this->any())
-            ->method('getParameter')
-            ->will($this->returnValue($this->activeThemePath));
+        $this->setActiveThemeFile();
         $activeTheme = new AlActiveTheme($this->container);
+        $this->assertEquals('BusinessWebsiteThemeBundle', $activeTheme->getActiveTheme());
+        
+        // from class' cache
         $this->assertEquals('BusinessWebsiteThemeBundle', $activeTheme->getActiveTheme());
     }
 
@@ -67,9 +65,14 @@ class AlActiveThemeTest extends TestCase
              ->method('current')
              ->will($this->returnValue($theme));
 
-        $this->container->expects($this->any())
+        $this->container->expects($this->at(1))
             ->method('get')
             ->will($this->returnValue($themes));
+        
+        $this->container->expects($this->at(2))
+            ->method('getParameter')
+            ->with('red_kite_cms.active_theme_file')
+            ->will($this->returnValue($this->activeThemePath));
 
         $activeTheme = new AlActiveTheme($this->container);
         $this->assertEquals('BusinessWebsiteThemeBundle', $activeTheme->getActiveTheme());
@@ -77,9 +80,69 @@ class AlActiveThemeTest extends TestCase
 
     public function testWriteActiveTheme()
     {
+        $this->setActiveThemeFile();
         $activeTheme = new AlActiveTheme($this->container);
         $activeTheme->writeActiveTheme('FakeThemeBundle');
         $bundle = file_get_contents(vfsStream::url('root/.active_theme'));
         $this->assertEquals('FakeThemeBundle', $bundle);
+    }
+    
+    /**
+     * @dataProvider versionsProvider
+     */
+    public function testgetBootstrapVersion($themeDeclaresVersion, $themes, $expectedVersion)
+    {
+        file_put_contents($this->activeThemePath, 'BusinessWebsiteThemeBundle');
+        
+        $this->setActiveThemeFile();
+        $this->container->expects($this->at(1))
+            ->method('getParameter')
+            ->with('red_kite_cms.bootstrap_version')
+            ->will($this->returnValue('3.x'));
+        
+        $this->container->expects($this->at(2))
+            ->method('hasParameter')
+            ->with('red_kite_labs_theme_engine.bootstrap_themes')
+            ->will($this->returnValue($themeDeclaresVersion));
+        
+        if (null !== $themes) {
+            $this->container->expects($this->at(3))
+            ->method('getParameter')
+            ->with('red_kite_labs_theme_engine.bootstrap_themes')
+            ->will($this->returnValue($themes));
+        }
+        
+        $activeTheme = new AlActiveTheme($this->container);
+        $this->assertEquals($expectedVersion, $activeTheme->getThemeBootstrapVersion());
+        $this->assertEquals($expectedVersion, $activeTheme->getThemeBootstrapVersion());
+    }
+    
+    public function versionsProvider()
+    {
+        return array(
+            array(
+                false,
+                null,
+                '3.x',
+            ),
+            array(
+                true,
+                array('FooBundle' => '2.x'),
+                '3.x',
+            ),
+            array(
+                true,
+                array('BusinessWebsiteThemeBundle' => '2.x'),
+                '2.x',
+            ),
+        );
+    }
+    
+    private function setActiveThemeFile()
+    {
+        $this->container->expects($this->at(0))
+            ->method('getParameter')
+            ->with('red_kite_cms.active_theme_file')
+            ->will($this->returnValue($this->activeThemePath));
     }
 }
