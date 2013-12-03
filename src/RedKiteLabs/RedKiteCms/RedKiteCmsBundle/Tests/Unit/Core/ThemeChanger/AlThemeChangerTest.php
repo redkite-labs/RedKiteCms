@@ -86,6 +86,70 @@ class AlThemeChangerTest extends TestCase
         $this->themeChanger = new AlThemeChanger($this->templateManager, $this->factoryRepository, $this->blockManagerFactory);
     }
     
+    public function testATemplateNotMappedIsSkipped()
+    {
+        $languages = array($this->initLanguage(2));
+        $this->languageRepository
+             ->expects($this->any())
+             ->method('activeLanguages')
+             ->will($this->returnValue($languages))
+        ;
+        
+        $pages = array($this->initPage(2, 'foo'),);
+        $this->pageRepository
+             ->expects($this->any())
+             ->method('activePages')
+             ->will($this->returnValue($pages))
+        ;
+        
+        $blocks = array(
+            array(
+                'block' => $this->initBlock(),
+                'result' => true,
+            ),
+        );
+        $this->blockRepository
+             ->expects($this->any())
+             ->method('retrieveContents')
+             ->with(null, null)
+             ->will($this->returnValue($this->extractBlocks($blocks)))
+        ;
+        
+        $prevTheme = $this->initTheme("RedKiteLabsThemeBundle");        
+        $theme = $this->initTheme("BootbusinessThemeBundle");
+        
+        $this->initBlocks($blocks);       
+        $this->checkSaveResult($blocks); 
+
+        $theme
+            ->expects($this->never())
+            ->method('getTemplate')
+        ;
+
+        $this->templateManager
+             ->expects($this->never())
+             ->method('setTemplate')
+        ;
+
+        $this->templateManager
+             ->expects($this->never())
+             ->method('refresh')
+        ;
+
+        $this->templateManager
+             ->expects($this->never())
+             ->method('populate')
+        ;
+        
+        $arrayMap = array(
+            'home' => 'home', 
+            'internal' => 'empty',
+        );
+        
+        $file = vfsStream::url('root\Resources\.site_structure');        
+        $this->themeChanger->change($prevTheme, $theme, $file, $arrayMap);
+    }
+    
     /**
      * @dataProvider sitePagesProvider
      */
@@ -507,7 +571,7 @@ class AlThemeChangerTest extends TestCase
                 "BootbusinessThemeBundle",
                 array(
                     'home' => 'home', 
-                    'internal' => 'empty'
+                    'internal' => 'empty',
                 ),
             ),
             array(
@@ -597,7 +661,7 @@ class AlThemeChangerTest extends TestCase
                 array(
                     'home' => 'home', 
                     'internal' => 'empty', 
-                    'internal_1' => 'contacts'
+                    'internal_1' => 'contacts',
                 ),
             ),
         );

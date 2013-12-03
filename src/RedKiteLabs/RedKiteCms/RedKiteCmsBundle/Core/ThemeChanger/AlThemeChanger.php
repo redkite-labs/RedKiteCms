@@ -214,9 +214,12 @@ class AlThemeChanger
         $this->blockRepository->startTransaction();
         foreach ($blocks as $block) {
             $blockManager = $this->blocksFactory->createBlockManager($block);
+            
+            // @codeCoverageIgnoreStart
             if (null === $blockManager) {
                continue;
             }
+            // @codeCoverageIgnoreEnd
 
             $result = $blockManager
                 ->set($block)
