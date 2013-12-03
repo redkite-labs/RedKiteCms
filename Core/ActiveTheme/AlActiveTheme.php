@@ -44,7 +44,9 @@ class AlActiveTheme implements AlActiveThemeInterface
             return $this->activeTheme;
         }
         
-        if ( ! file_exists($this->getActiveThemeFile()))
+        $activeThemeFile = $this->getActiveThemeFile();
+        
+        if ( ! file_exists($activeThemeFile))
         {
             $themes = $this->container->get('red_kite_labs_theme_engine.themes');
             foreach ($themes as $theme) break;
@@ -55,7 +57,7 @@ class AlActiveTheme implements AlActiveThemeInterface
             return $this->activeTheme;
         }
         
-        $this->activeTheme = trim(file_get_contents($this->getActiveThemeFile()));
+        $this->activeTheme = trim(file_get_contents($activeThemeFile));
 
         return $this->activeTheme;
     }
@@ -85,8 +87,7 @@ class AlActiveTheme implements AlActiveThemeInterface
         }
         
         $themes = $this->container->getParameter('red_kite_labs_theme_engine.bootstrap_themes'); 
-        if (array_key_exists($themeName, $themes)) {
-            
+        if (array_key_exists($themeName, $themes)) {            
             $this->bootstrapVersion = $themes[$themeName];
         }
         
