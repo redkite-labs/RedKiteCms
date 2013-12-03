@@ -40,7 +40,17 @@ class AlCommandsProcessorTest extends TestCase
         $this->root = vfsStream::setup('root', null, $structure);
 
         $this->commandsProcessor = new AlCommandsProcessor(vfsStream::url('root/app'));
+    }
 
+    public function testExecuteCommandReturnsFalseWhenAnExceptionOccours()
+    {
+        $process = $this->getMockBuilder('Symfony\Component\Process\Process')
+                        ->disableOriginalConstructor()
+                        ->getMock();
+        $process->expects($this->once())
+                ->method('run')
+                ->will($this->throwException(new \RuntimeException()));
+        $this->assertFalse($this->commandsProcessor->executeCommand('my:command', null, $process));
     }
 
     public function testExecuteCommandIsExecuted()
