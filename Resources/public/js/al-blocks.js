@@ -265,12 +265,12 @@ function updateContentsJSon(response, editorWidth)
                 break;
             case "edit-block": 
                 var blockName = '[data-name="' + item.blockName + '"]';
-                var block = $(blockName);
-                block
+                $(blockName)
                     .blocksEditor('stopEditElement')
                     .replaceWith(item.value);
-                    
-                block
+                
+                // Here we need to retrieve the block again because it has just been replaced
+                $(blockName)
                     .blocksEditor('startEditElement')
                     .blocksEditor('hideElementContent')
                 ;     
