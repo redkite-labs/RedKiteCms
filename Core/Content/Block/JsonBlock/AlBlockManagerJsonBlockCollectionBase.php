@@ -91,7 +91,7 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
                 $values = array("Content" => json_encode(array_values($savedValues)));
             }
         }
-
+        
         return $values;
     }
     
@@ -147,7 +147,7 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
             $remainingKeyToken = "";
             $itemProgressive = str_replace($blockKey, '', $block->getSlotName());
             preg_match('/([^-]+)(-.*)/', $itemProgressive, $matches);
-            if ( ! empty($matches)) {
+            if ( ! empty($matches)) { 
                 $itemProgressive = $matches[1];
                 $remainingKeyToken = $matches[2];
             }
@@ -162,7 +162,7 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
                 }
             }
 
-            if (null !== $nextItem && $itemProgressive >= $nextItem) { 
+            if (null !== $nextItem && $itemProgressive >= $nextItem) {
                 $itemProgressive--; 
                 $block->setSlotName($blockKey . $itemProgressive . $remainingKeyToken);
                 $result = $block->save();

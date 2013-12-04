@@ -28,8 +28,8 @@ use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
  */
 class AlPageTreeTest extends TestCase
 {
-    private $language;
-    private $page;
+    protected $language;
+    protected $page;
     
     protected function setUp()
     {
@@ -116,6 +116,15 @@ class AlPageTreeTest extends TestCase
         $this->assertEmpty($pageTree->getExternalStylesheets());
     }
     
+    public function testAlPageIsSetUsingSetter()
+    {
+        $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
+        $page = $this->setUpPage(2);
+                
+        $this->assertSame($pageTree, $pageTree->setAlPage($page));
+        $this->assertSame($page, $pageTree->getAlPage());
+    }
+        
     public function testMetatags()
     {
         $pageTree = new AlPageTree($this->container, $this->factoryRepository, $this->themesCollectionWrapper);
@@ -490,7 +499,6 @@ class AlPageTreeTest extends TestCase
         $this->assertTrue($pageTree->isValid());
     }
 
-    // url: /backend/en/homepage 
     public function testPageIsFetchedFromPermalink()
     {   
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
@@ -538,7 +546,6 @@ class AlPageTreeTest extends TestCase
         $this->assertTrue($pageTree->isValid());
     }
     
-    // url: /backend/homepage
     public function testPageIsFetchedFromPermalinkWhenLanguageIsNotProvidedInrequestedUrl()
     {
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
@@ -1351,7 +1358,7 @@ class AlPageTreeTest extends TestCase
         );
     }
     
-    private function setUpBlock($method, $externalStylesheet, $type = 'Script')
+    protected function setUpBlock($method, $externalStylesheet, $type = 'Script')
     {
         $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
@@ -1365,7 +1372,7 @@ class AlPageTreeTest extends TestCase
         return $block;
     }
     
-    private function setUpAssetsCollection(array $storedAssets)
+    protected function setUpAssetsCollection(array $storedAssets)
     {
         $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
         $assetsCollection = new AlAssetCollection($kernel, $storedAssets);
@@ -1374,7 +1381,7 @@ class AlPageTreeTest extends TestCase
             ->will($this->returnValue($assetsCollection));
     }
 
-    private function initValidPageTree()
+    protected function initValidPageTree()
     {
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
@@ -1432,7 +1439,7 @@ class AlPageTreeTest extends TestCase
         $this->initEventsDispatcher('page_tree.before_setup', 'page_tree.after_setup');
     }
 
-    private function configureLanguage()
+    protected function configureLanguage()
     {
         $alLanguage = $this->setUpLanguage(2);
         $this->languageRepository->expects($this->once())
@@ -1442,7 +1449,7 @@ class AlPageTreeTest extends TestCase
         return $alLanguage;
     }
 
-    private function configurePage()
+    protected function configurePage()
     {
         $alPage = $this->setUpPage(2);
         $this->pageRepository->expects($this->once())
@@ -1452,7 +1459,7 @@ class AlPageTreeTest extends TestCase
         return $alPage;
     }
 
-    private function configureTheme()
+    protected function configureTheme()
     {
         $this->activeTheme->expects($this->once())
             ->method('getActiveTheme')
@@ -1489,7 +1496,7 @@ class AlPageTreeTest extends TestCase
         return $seo;
     }
 
-    private function setUpPageBlocks()
+    protected function setUpPageBlocks()
     {
         $this->pageBlocks->expects($this->once())
             ->method('setIdLanguage')
@@ -1508,7 +1515,7 @@ class AlPageTreeTest extends TestCase
             ->will($this->returnSelf());
     }
 
-    private function setUpTemplateAttributes()
+    protected function setUpTemplateAttributes()
     {
         $this->template->expects($this->once())
             ->method('getThemeName')
@@ -1519,7 +1526,7 @@ class AlPageTreeTest extends TestCase
             ->will($this->returnValue('home'));
     }
 
-    private function initContainer($request)
+    protected function initContainer($request)
     {
         $this->blocksManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
                                     ->disableOriginalConstructor()
@@ -1548,7 +1555,7 @@ class AlPageTreeTest extends TestCase
         }
     }
     
-    private function initEventsDispatcher($beforeEvent = null, $afterEvent = null)
+    protected function initEventsDispatcher($beforeEvent = null, $afterEvent = null)
     {
         if (null !== $beforeEvent) {
             $this->dispatcher->expects($this->at(0))
@@ -1563,7 +1570,7 @@ class AlPageTreeTest extends TestCase
         }
     }
     
-    private function initRegistedListeners($listeners = array())
+    protected function initRegistedListeners($listeners = array())
     {
         $this->container->expects($this->at(4))
             ->method('get')
@@ -1571,11 +1578,11 @@ class AlPageTreeTest extends TestCase
             ->will($this->returnValue($listeners['listener']));
     }
     
-    private function checkAssets($assets, &$startIndex, $ignoreCms = false)
+    protected function checkAssets($assets, &$startIndex, $ignoreCms = false)
     {
         foreach($assets as $parameter => $asset) {
             
-            $globalAsset = $asset['global']; 
+            $globalAsset = $asset['global'];
             $assetDeclared = $globalAsset['exists'];
             $this->container->expects($this->at($startIndex))
                 ->method('hasParameter')

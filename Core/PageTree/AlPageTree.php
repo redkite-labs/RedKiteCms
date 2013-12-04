@@ -26,6 +26,8 @@ use Symfony\Component\DependencyInjection\Container;
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\PageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlPage;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
 
 /**
  * Defines an object which stores all the web page information as a tree
@@ -217,14 +219,30 @@ class AlPageTree
         return $this->alLanguage;
     }
 
-    public function setAlPage($alPage)
+    /**
+     * Sets the AlPage object
+     * 
+     * @param AlPage $alPage
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
+     *
+     * @api
+     */
+    public function setAlPage(AlPage $alPage)
     {
         $this->alPage = $alPage;
 
         return $this;
     }
 
-    public function setAlLanguage($alLanguage)
+    /**
+     * Sets the AlLanguage object
+     * 
+     * @param AlLanguage $alLanguage
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
+     *
+     * @api
+     */
+    public function setAlLanguage(AlLanguage $alLanguage)
     {
         $this->alLanguage = $alLanguage;
 
