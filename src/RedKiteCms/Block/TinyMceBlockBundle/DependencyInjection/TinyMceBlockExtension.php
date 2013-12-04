@@ -16,6 +16,8 @@ class TinyMceBlockExtension extends Extension
 {
     /**
      * {@inheritDoc}
+     * 
+     * @codeCoverageIgnore
      */
     public function load(array $configs, ContainerBuilder $container)
     {
