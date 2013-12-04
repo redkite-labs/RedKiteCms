@@ -21,5 +21,3 @@ framework:
 
 red_kite_labs_theme_engine:
     render_slot_class: RedKiteLabs\RedKiteCmsBundle\Twig\SlotRendererExtension
-    themes_panel:
-      theme_skeleton: RedKiteCmsBundle:Themes:theme_skeleton.html.twig
