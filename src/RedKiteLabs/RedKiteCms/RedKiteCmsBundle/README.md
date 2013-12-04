@@ -8,7 +8,7 @@ website's content management experience.
 
 
 [![Build Status](https://secure.travis-ci.org/redkite-labs/RedKiteCmsBundle.png)](http://travis-ci.org/redkite-labs/RedKiteCmsBundle)
-
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/redkite-labs/RedKiteCmsBundle/badges/quality-score.png?s=c7e103682f556b0ece668946ab66d4f023f38f74)](https://scrutinizer-ci.com/g/redkite-labs/RedKiteCmsBundle/)
 
 Requirements
 ------------
