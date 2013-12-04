@@ -142,7 +142,9 @@ abstract class AddLanguageBaseListener
             if (null !== $alLanguage) {
                 return $alLanguage;
             }
+        // @codeCoverageIgnoreStart
         }
+        // @codeCoverageIgnoreEnd
 
         // Fetches the current language from the main language when the adding one is not the main language
         if ($this->mainLanguage->getId() != $this->languageManager->get()->getId()) {

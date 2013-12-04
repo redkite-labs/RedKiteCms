@@ -64,6 +64,44 @@ class SecurityControllerTest extends BaseSecured
         $this->assertTrue($crawler->filter('#al_user_email')->count() == 1);
         $this->assertTrue($crawler->filter('#al_user_AlRole')->count() == 1);
     }
+    
+    public function testLoadUser()
+    {
+        $client = $this->setUpClient();
+
+        $params = array(
+            "page" => "2",
+            "language" => "2",
+            "entityId" => "1",
+        );
+        $crawler = $client->request('POST', '/backend/users/en/al_loadUser', $params);
+        $response = $client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
+
+        $json = json_decode($response->getContent(), true);        
+        $expectedResult = array
+        (
+            array (
+                "name" => "#al_user_id",
+                "value" => "1",
+            ),
+            array (
+                "name" => "#al_user_username",
+                "value" => "admin",
+            ),
+            array (
+                "name" => "#al_user_email",
+                "value" => "",
+            ),
+            array (
+                "name" => "#al_user_AlRole",
+                "value" => "2",
+            ),
+        );
+        
+        $this->assertEquals($expectedResult, $json);
+    }
 
     public function testAddUserFailsBecauseUsernameIsBlank()
     {
@@ -84,7 +122,6 @@ class SecurityControllerTest extends BaseSecured
             '/security_controller_values_not_valid|Some values are not valid/si',
             $crawler->text()
         );
-        //$this->assertTrue($crawler->filter('html:contains("Some values are not valid")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("Username field can not be empty")')->count() == 1);
     }
 
@@ -207,6 +244,27 @@ class SecurityControllerTest extends BaseSecured
         $this->assertTrue($crawler->filter('html:contains("username")')->count() == 1);
         $this->assertTrue($crawler->filter('html:contains("ROLE_USER")')->count() == 1);
     }
+    
+    public function testAddingUserTwiceIsForbidden()
+    {
+        $client = $this->setUpClient();
+
+        $role = $this->fetchRole($client, 'ROLE_USER');
+        $params = array(
+            "userId" => 0,
+            "email" => "text@example.com",
+            "username" => "admin",
+            "password" => "password",
+            "roleId" => $role->getId(),
+        );
+        $crawler = $client->request('POST', '/backend/users/en/al_saveUser', $params);
+        $response = $client->getResponse();
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertRegExp(
+            '/exception_username_exists|The username already exists/si',
+            $response->getContent()
+        );
+    }
 
     public function testUserHasBeenEdited()
     {
@@ -265,6 +323,19 @@ class SecurityControllerTest extends BaseSecured
         $user = $this->fetchUser($client, 'john_doe');
         $this->assertNull($user);
     }
+    
+    public function testUserHasNotBeenDeletedWnerIdParamIsNotGiven()
+    {
+        $client = $this->setUpClient();
+        
+        $crawler = $client->request('POST', '/backend/users/en/al_deleteUser');
+        $response = $client->getResponse();
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertRegExp(
+            '/security_controller_nothing_made|Nothing has been made with the given data/si',
+            $response->getContent()
+        );
+    }
 
     public function testRoleList()
     {
@@ -279,6 +350,36 @@ class SecurityControllerTest extends BaseSecured
         $this->assertTrue($crawler->filter('html:contains("Role")')->count() == 1);
         $this->assertEquals(3, $crawler->filter('.al_edit_role')->count());
         $this->assertEquals(3, $crawler->filter('.al_delete_role')->count());
+    }
+    
+    public function testLoadRole()
+    {
+        $client = $this->setUpClient();
+
+        $params = array(
+            "page" => "2",
+            "language" => "2",
+            "entityId" => "1",
+        );
+        $crawler = $client->request('POST', '/backend/users/en/al_loadRole', $params);
+        $response = $client->getResponse();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
+
+        $json = json_decode($response->getContent(), true);        
+        $expectedResult = array
+        (
+            array (
+                "name" => "#al_role_id",
+                "value" => "1",
+            ),
+            array (
+                "name" => "#al_role_role",
+                "value" => "ROLE_USER",
+            ),
+        );
+        
+        $this->assertEquals($expectedResult, $json);
     }
 
     public function testAddRoleFailsBecauseRoleIsBlank()
@@ -330,6 +431,23 @@ class SecurityControllerTest extends BaseSecured
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("ROLE_BOSS")')->count() == 1);
     }
+    
+    public function testAddingRoleTwiceIsForbidden()
+    {
+        $client = $this->setUpClient();
+
+        $params = array(
+            "roleId" => 0,
+            "role" => "ROLE_ADMIN",
+        );
+        $crawler = $client->request('POST', '/backend/users/en/al_saveRole', $params);
+        $response = $client->getResponse();
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertRegExp(
+            '/exception_role_exists|The role already exists/si',
+            $response->getContent()
+        );
+    }
 
     public function testRoleHasBeenEdited()
     {
@@ -370,6 +488,37 @@ class SecurityControllerTest extends BaseSecured
         $response = $client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("ROLE_GOD")')->count() == 0);
+    }
+    
+    public function testRoleHasNotBeenDeletedWnerIdParamIsNotGiven()
+    {
+        $client = $this->setUpClient();
+        
+        $crawler = $client->request('POST', '/backend/users/en/al_deleteRole');
+        $response = $client->getResponse();
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertRegExp(
+            '/security_controller_nothing_made|Nothing has been made with the given data/si',
+            $response->getContent()
+        );
+    }
+    
+    public function testRoleHasNotBeenDeletedBecauseItIsInUse()
+    {
+        $client = $this->setUpClient();
+
+        $role = $this->fetchRole($client, 'ROLE_ADMIN');
+        $params = array(
+            "id" => $role->getId()
+        );
+        $crawler = $client->request('POST', '/backend/users/en/al_deleteRole', $params);
+        $response = $client->getResponse();
+        $this->assertEquals(404, $response->getStatusCode());
+        
+        $this->assertRegExp(
+            '/security_controller_role_in_use|Role cannot be removed because it is assigned to one or more users/si',
+            $response->getContent()
+        );
     }
 
     public function testUserPermissions()

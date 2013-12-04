@@ -185,7 +185,7 @@ class SecurityController extends Base\BaseController
             $roleName = strtoupper($request->get('role'));
             $isNewRole = (null !== $roleId && 0 != $roleId) ? false : true;
             $role = ( ! $isNewRole) ? $this->roleRepository()->fromPK($roleId) : new AlRole();
-            if (null !== $this->roleRepository()->fromRoleName($roleName) && $role->getRoleName() != $roleName ) {
+            if (null !== $this->roleRepository()->fromRoleName($roleName) && $role->getRole() != $roleName ) {
                 throw new RuntimeException('exception_role_exists');
             }
             
@@ -273,6 +273,9 @@ class SecurityController extends Base\BaseController
         throw new RuntimeException('security_controller_nothing_made');
     }
     
+    /**
+     * @codeCoverageIgnore
+     */
     protected function checkRequestError()
     {
         $request = $this->container->get('request');

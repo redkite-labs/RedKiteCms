@@ -42,17 +42,22 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
         $block = $this->initBlock(2, $htmlContent);
 
         $this->initContainer();
-        $params = array('AddFile' => "/new/path/to/image");
+        $params = array('AddFile' => "image.jpg");
         $this->blockManager = new AlBlockManagerImagesBlockTester($this->container, $this->validator);
         $this->blockManager->set($block)
                            ->save($params);
     }
 
-    public function testANewImageHasBeenAddedToImagesBlock()
+    /**
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException
+     */
+    public function testAnExceptionIsThrownWhenTheImageAlreadyExists()
     {
         $this->initContainer();
         $this->container->expects($this->once())
-                        ->method('getParameter');
+            ->method('getParameter')
+            ->with('red_kite_cms.upload_assets_dir')
+            ->will($this->returnValue('upload/folder'));
 
         $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
                                     ->disableOriginalConstructor()
@@ -64,7 +69,45 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
                         ->will($this->returnValue($request));
         
         $block = $this->initBlock();
-        $params = array('AddFile' => "/new/path/to/image");
+        $params = array('AddFile' => "image.jpg");
+        $this->blockManager = new AlBlockManagerImagesBlockTester($this->container, $this->validator);
+        $this->blockManager
+            ->set($block)
+            ->save($params)
+        ;
+    }
+    
+    public function testNoImageToAddOrRemove()
+    {
+        $this->initContainer();
+        
+        $block = $this->initBlock();
+        $params = array('Content' => 'foo', 'ToDelete' => '1');
+        $this->blockManager = new AlBlockManagerImagesBlockTester($this->container, $this->validator);
+        $this->doSave($block, $params);
+        
+        return $this->blockManager;
+    }
+
+    public function testANewImageHasBeenAddedToImagesBlock()
+    {
+        $this->initContainer();
+        $this->container->expects($this->once())
+            ->method('getParameter')
+            ->with('red_kite_cms.upload_assets_dir')
+            ->will($this->returnValue('upload/folder'));
+
+        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
+        $this->container->expects($this->at(3))
+                        ->method('get')
+                        ->with('request')
+                        ->will($this->returnValue($request));
+        
+        $block = $this->initBlock();
+        $params = array('AddFile' => "flower.jpg");
         $this->blockManager = new AlBlockManagerImagesBlockTester($this->container, $this->validator);
         $this->doSave($block, $params);
         
@@ -76,7 +119,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
         $this->initContainer();
 
         $block = $this->initBlock();
-        $params = array('RemoveFile' => "/path/to/image");
+        $params = array('RemoveFile' => "/upload/folder/image.jpg");
         $this->blockManager = new AlBlockManagerImagesBlockTester($this->container, $this->validator);
         $this->doSave($block, $params);
     }
@@ -86,7 +129,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
         if (null === $id) $id = 2;
         if (null === $htmlContent) $htmlContent = '{
             "0" : {
-                "image" : "/path/to/image"
+                "src" : "/upload/folder/image.jpg"
             }
         }';
 
@@ -110,7 +153,7 @@ class AlBlockManagerImagesBlockTester extends AlBlockManagerImages
         $defaultContent =
         '{
             "0" : {
-                "image" : "path/to/image"
+                "image" : "/upload/folder/image.jpg"
             }
         }';
 

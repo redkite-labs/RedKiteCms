@@ -205,7 +205,9 @@ class SlotRendererExtension extends \Twig_Extension
 
                 return $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes);
             }            
-        } 
+        // @codeCoverageIgnoreStart
+        }          
+        // @codeCoverageIgnoreEnd
         
         if (true === $addWhenEmpty) {
             if (null === $parent) { 
@@ -231,8 +233,10 @@ class SlotRendererExtension extends \Twig_Extension
                 $blockManager->save($values);
 
                 return $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes);
-            }
-        }
+            }          
+        // @codeCoverageIgnoreStart
+        }          
+        // @codeCoverageIgnoreEnd
         
         return sprintf('<div data-editor="enabled" data-block-id="0" data-slot-name="%s" data-included="1">%s</div>', $key, $this->translator->translate('twig_extension_empty_slot', array(), 'RedKiteCmsBundle'));
     }

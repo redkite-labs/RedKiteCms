@@ -76,6 +76,49 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
         $this->assertEquals($values, $result);
     }
     
+    public function testItemIdAddedToEndOfCollectionWhenItemParamIsNotSpecified()
+    {
+        $values = array(
+            'Content' => '{"operation": "add", "value": { "type": "TestBlock" }}',
+        );
+        
+        $expectedResult = array(
+            'Content' => '[{"type":"LinkBlock"},{"type":"BootstrapNavbarBlock"},{"type":"LinkBlock"},{"type":"TestBlock"}]',
+        );
+                
+        $value = '
+        {
+            "0" : {
+                "type": "LinkBlock"
+            },
+            "1" : {
+                "type": "BootstrapNavbarBlock"
+            },
+            "2" : {
+                "type": "LinkBlock"
+            }
+        }';
+        
+        $blocksRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel');
+        $repository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $repository->expects($this->any())
+              ->method('createRepository')
+              ->with('Block')
+              ->will($this->returnValue($blocksRepository))
+        ;
+        
+        $this->container->expects($this->at(1))
+                      ->method('get')
+                      ->will($this->returnValue($repository));
+        
+        $block = $this->setUpBaseBlock($value, $this->initBlockSimple('nav-menu')); 
+        $blockManager = new AlBlockManagerJsonBlockCollectionTester($this->container, $this->validator);               
+        $blockManager->set($block);
+        $result = $blockManager->manageCollectionTester($values);
+        
+        $this->assertEquals($expectedResult, $result);
+    }
+    
     /**
      * @dataProvider addItemProvider
      */
@@ -210,7 +253,7 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
     public function deleteItemProvider()
     {
         return array(            
-            array(
+            /**/array(
                 array(
                     'Content' => '{"operation": "remove", "item": "0"}',
                 ),
@@ -270,8 +313,42 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
                     $this->initBlock('2-2', '2-1', null, true),
                 ),
                 false,
+            ),   
+            array(
+                array(
+                    'Content' => '{"operation": "remove", "item": "1"}',
+                ),
+                array(        
+                    $this->initBlock('2-0-0', null, true, true),  
+                    $this->initBlock('2-1-0', '2-0-0', null, true),            
+                    $this->initBlock('2-2-0', '2-1-0', null, true),
+                ),
+                
+                array(
+                    'Content' => '[{"type":"LinkBlock"},{"type":"LinkBlock"}]',
+                ),
             ), 
         );
+    }
+    
+    protected function initBlockSimple($slotName)
+    {
+        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        
+        $block->expects($this->any())
+              ->method('getSlotName')
+              ->will($this->returnValue($slotName))
+        ;
+        
+        $block->expects($this->never())
+                ->method('setSlotName')
+          ;
+        
+        $block->expects($this->never())
+                ->method('save')
+          ;
+
+        return $block;
     }
     
     protected function initBlock($slotName, $newSlotName = null, $toDetete = null, $result = null)
@@ -307,12 +384,15 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
     }
     
     
-    private function setUpBaseBlock($value)
+    private function setUpBaseBlock($value, $block = null)
     {
-        $block = $this->initBlock('nav-menu');
-        $block->expects($this->once())
-                  ->method('getId')
-                  ->will($this->returnValue(2));
+        if (null === $block) {
+            $block = $this->initBlock('nav-menu');
+        
+            $block->expects($this->once())
+                      ->method('getId')
+                      ->will($this->returnValue(2));
+        }
         
         $block->expects($this->once())
                   ->method('getContent')
