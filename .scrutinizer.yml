@@ -86,18 +86,6 @@ tools:
             - php
         command: php-cs-fixer
         path_configs: {  }
-    php_code_coverage:
-        config_path: ./
-        enabled: true
-        filter:
-            excluded_paths:
-                - 'vendor/*'
-                - 'app/*'
-                - 'web/*'
-                - 'Tests/*'
-            paths: {  }
-        test_command: phpunit
-        only_changesets: false
     php_loc:
         excluded_dirs:
             - vendor
@@ -114,6 +102,9 @@ tools:
         configuration_file: null
         suffixes:
             - php
+    external_code_coverage:         
+        timeout: 700
+        enabled: true
 before_commands: {  }
 after_commands: {  }
 artifacts: {  }
