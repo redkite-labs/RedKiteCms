@@ -103,7 +103,7 @@ tools:
         suffixes:
             - php
     external_code_coverage:         
-        timeout: 700
+        timeout: 3600
         enabled: true
 before_commands: {  }
 after_commands: {  }
