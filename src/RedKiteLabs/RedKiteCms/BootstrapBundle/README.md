@@ -15,6 +15,8 @@ As for configuration, you can define your routes in the routing.yml file and dis
 them with the bundle.
 
 [![Build Status](https://secure.travis-ci.org/redkite-labs/BootstrapBundle.png)](http://travis-ci.org/redkite-labs/BootstrapBundle)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/redkite-labs/BootstrapBundle/badges/quality-score.png?s=d323d86ff9055c23989c3db8e0f398d1816b02a3)](https://scrutinizer-ci.com/g/redkite-labs/BootstrapBundle/)
+[![Code Coverage](https://scrutinizer-ci.com/g/redkite-labs/BootstrapBundle/badges/coverage.png?s=aeb0bc487a40d4a69c376d3e17bed5730b27ad51)](https://scrutinizer-ci.com/g/redkite-labs/BootstrapBundle/)
 
 ## Install the RedKiteLabsBootstrapBundle
 To install the RedKiteLabsBootstrapBundle, simply require it in your composer.json:
