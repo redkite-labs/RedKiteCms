@@ -1,0 +1,110 @@
+filter:
+    excluded_paths:
+        - 'vendor/*'
+        - 'Tests/*'
+    paths: {  }
+tools:
+    php_mess_detector:
+        enabled: true
+        filter:
+            excluded_paths:
+                - 'vendor/*'
+                - 'app/*'
+                - 'web/*'
+                - 'Tests/*'
+            paths: {  }
+        config:
+            code_size_rules:
+                cyclomatic_complexity: true
+                npath_complexity: true
+                excessive_method_length: true
+                excessive_class_length: true
+                excessive_parameter_list: true
+                excessive_public_count: true
+                too_many_fields: true
+                too_many_methods: true
+                excessive_class_complexity: true
+            naming_rules:
+                short_variable: true
+                long_variable: true
+                short_method: true
+                constructor_conflict: true
+                constant_naming: true
+                boolean_method_name: false
+            ruleset: null
+            design_rules:
+                exit_expression: true
+                eval_expression: true
+                goto_statement: true
+                number_of_class_children: true
+                depth_of_inheritance: true
+                coupling_between_objects: true
+            unused_code_rules:
+                unused_private_field: true
+                unused_local_variable: true
+                unused_private_method: true
+                unused_formal_parameter: false
+            controversial_rules:
+                superglobals: true
+                camel_case_class_name: false
+                camel_case_property_name: false
+                camel_case_method_name: false
+                camel_case_parameter_name: false
+                camel_case_variable_name: false
+        extensions:
+            - php
+        command: phpmd
+        path_configs: {  }
+    php_cs_fixer:
+        enabled: true
+        filter:
+            excluded_paths:
+                - 'vendor/*'
+                - 'app/*'
+                - 'web/*'
+                - 'Tests/*'
+            paths: {  }
+        config:
+            level: all
+            fixers:
+                indentation: false
+                linefeed: false
+                trailing_spaces: false
+                unused_use: false
+                phpdoc_params: false
+                visibility: false
+                return: false
+                short_tag: false
+                braces: false
+                include: false
+                php_closing_tag: false
+                extra_empty_lines: false
+                controls_spaces: false
+                elseif: false
+                eof_ending: false
+        extensions:
+            - php
+        command: php-cs-fixer
+        path_configs: {  }
+    php_loc:
+        excluded_dirs:
+            - vendor
+            - Tests
+        enabled: true
+        command: phploc
+        names:
+            - '*.php'
+    php_pdepend:
+        excluded_dirs:
+            1: Tests
+        enabled: true
+        command: pdepend
+        configuration_file: null
+        suffixes:
+            - php
+    external_code_coverage:         
+        timeout: 3600
+        enabled: true
+before_commands: {  }
+after_commands: {  }
+artifacts: {  }
