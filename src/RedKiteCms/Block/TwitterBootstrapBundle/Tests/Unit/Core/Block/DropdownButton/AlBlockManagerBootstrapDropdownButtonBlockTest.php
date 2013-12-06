@@ -44,22 +44,22 @@ class AlBlockManagerBootstrapDropdownButtonBlockTest extends AlBlockManagerBoots
                     "button_dropup" : "none",
                     "items": [
                         {
-                            "data" : "Item 1", 
-                            "metadata" : {  
+                            "data" : "Item 1",
+                            "metadata" : {
                                 "type": "link",
                                 "href": "#"
                             }
                         },
-                        { 
-                            "data" : "Item 2", 
-                            "metadata" : {  
+                        {
+                            "data" : "Item 2",
+                            "metadata" : {
                                 "type": "link",
                                 "href": "#"
                             }
                         },
-                        { 
-                            "data" : "Item 3", 
-                            "metadata" : {  
+                        {
+                            "data" : "Item 3",
+                            "metadata" : {
                                 "type": "link",
                                 "href": "#"
                             }
