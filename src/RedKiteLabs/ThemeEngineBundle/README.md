@@ -8,6 +8,8 @@ work in production environment, you need this bundle to render the twig files ge
 by RedKite to render the website in production.
 
 [![Build Status](https://secure.travis-ci.org/alphalemon/ThemeEngineBundle.png)](http://travis-ci.org/alphalemon/ThemeEngineBundle)
+[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/redkite-labs/ThemeEngineBundle/badges/quality-score.png?s=934279aec511fe6e7a632af196533fbbfc7b6dbd)](https://scrutinizer-ci.com/g/redkite-labs/ThemeEngineBundle/)
+[![Code Coverage](https://scrutinizer-ci.com/g/redkite-labs/ThemeEngineBundle/badges/coverage.png?s=55eabb27d3e1c0229bba357f870fd5ff6d571d5d)](https://scrutinizer-ci.com/g/redkite-labs/ThemeEngineBundle/)
 
 ## Configuration
 This bundle exposes some properties you can configure to adapt some bundle behaviors:
