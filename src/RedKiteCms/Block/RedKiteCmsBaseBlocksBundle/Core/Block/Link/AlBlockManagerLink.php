@@ -19,8 +19,6 @@ namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Link;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * AlBlockManagerLink handles a link block
@@ -30,7 +28,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
 class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
 {
     protected $cmsLanguage;
-    
+
     /**
      * Defines the App-Block's default value
      *
@@ -38,7 +36,7 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
      */
     public function getDefaultValue()
     {
-        $value = 
+        $value =
             '
                 {
                     "0" : {
@@ -47,10 +45,10 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
                     }
                 }
             ';
-        
+
         return array('Content' => $value);
     }
-    
+
     /**
      * Renders the App-Block's content view
      *
@@ -60,16 +58,16 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         $link = $items[0];
-        
+
         return array('RenderView' => array(
             'view' => 'RedKiteCmsBaseBlocksBundle:Content:Link/link.html.twig',
             'options' => array(
-                'link' => $link, 
+                'link' => $link,
                 'block_manager' => $this,
             ),
         ));
     }
-    
+
     /**
      * Defines the parameters passed to the App-Block's editor
      *
@@ -79,13 +77,13 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         $item = $items[0];
-        
+
         $formClass = $this->container->get('bootstrap_link.form');
         $form = $this->container->get('form.factory')->create($formClass, $item);
-                
-        $seoRepository = $this->factoryRepository->createRepository('Seo');        
+
+        $seoRepository = $this->factoryRepository->createRepository('Seo');
         $request = $this->container->get('request');
-        
+
         return array(
             "template" => "RedKiteCmsBaseBlocksBundle:Editor:Link/editor.html.twig",
             "title" => $this->translator->translate('link_block_editor_title', array(), 'RedKiteCmsBaseBlocksBundle'),

@@ -27,7 +27,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
 class AlBlockManagerMenu extends AlBlockManagerJsonBlockCollection
 {
     protected $blocksTemplate = 'RedKiteCmsBaseBlocksBundle:Content:Menu/menu.html.twig';
-        
+
     /**
      * Defines the App-Block's default value
      *
@@ -44,10 +44,10 @@ class AlBlockManagerMenu extends AlBlockManagerJsonBlockCollection
                     "blockType" : "Link"
                 }
             }';
-        
+
         return array("Content" => $value);
     }
-    
+
     /**
      * Renders the App-Block's content view
      *
@@ -56,11 +56,11 @@ class AlBlockManagerMenu extends AlBlockManagerJsonBlockCollection
     protected function renderHtml()
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
-        
+
         return array('RenderView' => array(
             'view' => $this->blocksTemplate,
             'options' => array(
-                'items' => $items, 
+                'items' => $items,
             ),
         ));
     }

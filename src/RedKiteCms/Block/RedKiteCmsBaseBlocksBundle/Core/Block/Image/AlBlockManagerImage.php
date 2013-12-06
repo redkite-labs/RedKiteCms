@@ -15,7 +15,6 @@
  *
  */
 
-
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
@@ -28,9 +27,9 @@ use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
  */
 class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
 {
-    protected $blockTemplate = 'RedKiteCmsBaseBlocksBundle:Content:Image/image.html.twig';  
+    protected $blockTemplate = 'RedKiteCmsBaseBlocksBundle:Content:Image/image.html.twig';
     protected $editorTemplate = 'RedKiteCmsBaseBlocksBundle:Editor:Image/editor.html.twig';
-    
+
     /**
      * Defines the App-Block's default value
      *
@@ -48,13 +47,13 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
                         "alt" : "%s"
                     }
                 }
-            ',  
-            $this->translator->translate("image_block_title_attribute", array(), 'RedKiteCmsBaseBlocksBundle'), 
+            ',
+            $this->translator->translate("image_block_title_attribute", array(), 'RedKiteCmsBaseBlocksBundle'),
             $this->translator->translate("image_block_alt_attribute", array(), 'RedKiteCmsBaseBlocksBundle'));
-        
+
         return array('Content' => $value);
     }
-    
+
     /**
      * Renders the App-Block's content view
      *
@@ -64,7 +63,7 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         $item = $items[0];
-        
+
         return array('RenderView' => array(
             'view' => $this->blockTemplate,
             'options' => array(
@@ -73,7 +72,7 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
             ),
         ));
     }
-    
+
     /**
      * Defines the parameters passed to the App-Block's editor
      *
@@ -83,10 +82,10 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         $item = $items[0];
-        
+
         $formClass = $this->container->get('image.form');
         $form = $this->container->get('form.factory')->create($formClass, $item);
-        
+
         return array(
             "template" => $this->editorTemplate,
             "title" => $this->translator->translate("image_block_editor_title", array(), 'RedKiteCmsBaseBlocksBundle'),

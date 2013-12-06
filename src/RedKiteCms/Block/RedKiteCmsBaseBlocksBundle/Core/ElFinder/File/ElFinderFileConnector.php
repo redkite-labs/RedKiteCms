@@ -32,7 +32,7 @@ class ElFinderFileConnector extends ElFinderBaseConnector
     protected function configure()
     {
         $filesFolder = $this->container->getParameter('file.base_folder') ;
-        
+
         return $this->generateOptions($filesFolder, 'Files');
     }
 }

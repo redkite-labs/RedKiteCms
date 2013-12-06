@@ -37,7 +37,7 @@ class AlImageType extends AlBaseType
         $builder->add('src', null, array('label' => 'image_block_src_attribute'));
         $builder->add('data_src', 'hidden');
         $builder->add('title', null, array('label' => 'image_block_title_attribute'));
-        $builder->add('alt', null, array('label' => 'image_block_alt_attribute')); 
+        $builder->add('alt', null, array('label' => 'image_block_alt_attribute'));
         $builder->add('href', null, array(
             'attr' => array('class' => 'rk-href'),
             'label' => 'image_block_href_attribute',
@@ -45,8 +45,8 @@ class AlImageType extends AlBaseType
         $builder->add('file', null, array(
             'attr' => array('class' => 'rk-file'),
             'label' => 'image_block_file_attribute',
-        )); 
-        
+        ));
+
         parent::buildForm($builder, $options);
     }
 }

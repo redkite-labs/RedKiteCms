@@ -18,8 +18,6 @@
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerContainer;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * AlBlockManagerScript handles a script block
@@ -27,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlBlockManagerScript extends AlBlockManagerContainer
-{    
+{
     /**
      * Defines the App-Block's default value
      *
@@ -37,7 +35,7 @@ class AlBlockManagerScript extends AlBlockManagerContainer
     {
         return array('Content' => $this->translator->translate("script_block_default_content", array(), 'RedKiteCmsBaseBlocksBundle'));
     }
-    
+
     /**
      * Renders the App-Block's content view
      *
@@ -49,7 +47,7 @@ class AlBlockManagerScript extends AlBlockManagerContainer
             'view' => 'RedKiteCmsBaseBlocksBundle:Content:Script/script.html.twig',
         ));
     }
-    
+
     /**
      * Defines the parameters passed to the App-Block's editor
      *
@@ -59,7 +57,7 @@ class AlBlockManagerScript extends AlBlockManagerContainer
     {
         $formClass = $this->container->get('script.form');
         $form = $this->container->get('form.factory')->create($formClass, $this->alBlock);
-        
+
         return array(
             "template" => "RedKiteCmsBaseBlocksBundle:Editor:Script/editor.html.twig",
             "title" => $this->translator->translate('script_block_editor_title', array(), 'RedKiteCmsBaseBlocksBundle'),
@@ -72,17 +70,17 @@ class AlBlockManagerScript extends AlBlockManagerContainer
 
     /**
      * Defines when a content is rendered or not in edit mode
-     * 
+     *
      * @return boolean
      */
     public function getHideInEditMode()
     {
         return true;
     }
-    
+
     /**
      * Edits the current block object
-     * 
+     *
      * @param  array
      * @return boolean
      * @codeCoverageIgnore
@@ -90,11 +88,11 @@ class AlBlockManagerScript extends AlBlockManagerContainer
     protected function edit(array $values)
     {
         $unserializedData = array();
-        $serializedData = $values['Content'];            
-        parse_str($serializedData, $unserializedData); 
-        
+        $serializedData = $values['Content'];
+        parse_str($serializedData, $unserializedData);
+
         $values["Content"] = $unserializedData['al_json_block']['content'];
-        
+
         return parent::edit($values);
     }
 }

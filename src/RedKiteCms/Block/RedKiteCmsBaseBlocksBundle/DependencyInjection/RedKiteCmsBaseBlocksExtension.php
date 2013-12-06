@@ -24,7 +24,7 @@ class RedKiteCmsBaseBlocksExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
-        
+
         $container->setParameter('red_kite_cms.flags_folder', $config['flags_folder']);
     }
 }

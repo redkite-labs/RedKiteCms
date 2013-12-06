@@ -26,7 +26,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()
-                ->scalarNode('flags_folder')->defaultValue('@RedKiteCmsBaseBlocksBundle/Resources/public/languages_menu/images')->end()                
+                ->scalarNode('flags_folder')->defaultValue('@RedKiteCmsBaseBlocksBundle/Resources/public/languages_menu/images')->end()
             ->end()
         ;
 

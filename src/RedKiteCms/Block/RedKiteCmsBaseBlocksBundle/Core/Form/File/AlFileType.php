@@ -40,7 +40,7 @@ class AlFileType extends AlBaseType
             'label' => 'file_block_show_opened',
             )
         );
-        
+
         parent::buildForm($builder, $options);
     }
 }

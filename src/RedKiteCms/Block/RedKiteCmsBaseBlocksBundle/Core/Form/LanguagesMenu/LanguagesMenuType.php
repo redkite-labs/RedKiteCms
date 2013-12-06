@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the BusinessDropCapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\LanguagesMenu;
@@ -30,13 +30,13 @@ class LanguagesMenuType extends AlBaseType
     protected $flagsDirectories;
     protected $languages;
     protected $currentFlagsDirectory;
-    
+
     /**
-     * Constructor 
-     * 
+     * Constructor
+     *
      * @param array $flagsDirectories
      * @param array $languages
-     * @param type $currentFlagsDirectory
+     * @param type  $currentFlagsDirectory
      */
     public function __construct(array $flagsDirectories, array $languages, $currentFlagsDirectory)
     {
@@ -44,7 +44,7 @@ class LanguagesMenuType extends AlBaseType
         $this->languages = $languages;
         $this->currentFlagsDirectory = $currentFlagsDirectory;
     }
-    
+
     /**
      * Builds the form
      *
@@ -53,20 +53,20 @@ class LanguagesMenuType extends AlBaseType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('flags_directories', 'choice', array(
-            'choices' => $this->flagsDirectories, 
+            'choices' => $this->flagsDirectories,
             'label' => 'navigation_languages_menu_flags',
             'data' => $this->currentFlagsDirectory,
-            'empty_value' => 'navigation_languages_menu_flags_folder', 
+            'empty_value' => 'navigation_languages_menu_flags_folder',
         ));
-        
-        foreach($this->languages as $language => $values) {
+
+        foreach ($this->languages as $language => $values) {
             $country = strtoupper(basename($values["country"], '.png'));
             $builder->add($language, 'country', array(
-                'empty_value' => 'Choose the country', 
+                'empty_value' => 'Choose the country',
                 'data' => $country
             ));
         }
-        
+
         parent::buildForm($builder, $options);
     }
 }

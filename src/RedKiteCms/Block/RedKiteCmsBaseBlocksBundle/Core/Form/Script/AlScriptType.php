@@ -34,8 +34,8 @@ class AlScriptType extends AlBaseType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('content', 'textarea', array('label' => false, 'attr' => array('class' => 'editor-textarea', 'rows' => '12'))); 
-        
+        $builder->add('content', 'textarea', array('label' => false, 'attr' => array('class' => 'editor-textarea', 'rows' => '12')));
+
         parent::buildForm($builder, $options);
     }
 }
