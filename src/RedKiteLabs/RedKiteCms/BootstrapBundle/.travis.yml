@@ -13,6 +13,11 @@ before_script:
   - wget -nc http://getcomposer.org/composer.phar
   - php composer.phar install --dev
 
+script: 
+  - phpunit --coverage-clover=coverage.clover
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+
 notifications:
   email:
-    - info@alphalemon.com
+    - info@redkite-labs.com
