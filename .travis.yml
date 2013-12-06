@@ -4,28 +4,15 @@ php:
   - 5.3
   - 5.4
 
-#env:
-#  - SYMFONY_VERSION=v2.0.15
-#  - SYMFONY_VERSION=origin/2.0
-#  - SYMFONY_VERSION=origin/master
-
-#mysql:
-#  adapter: mysql2
-#  database: alphalemon_test
-#  username: root
-#  encoding: utf8
-
 before_script:
-#  - "mysql -e 'create database alphalemon_test;'"
   - wget http://getcomposer.org/composer.phar
   - php composer.phar install --dev
 
 notifications:
   email:
-    - info@alphalemon.com
+    - info@redkite-labs.com
 
 script: 
-  #phpunit --coverage-text
   - phpunit --coverage-clover=coverage.clover
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
