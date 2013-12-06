@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\Exception;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
- * Thrown when an error occours changin a slot 
+ * Thrown when an error occours changin a slot
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */

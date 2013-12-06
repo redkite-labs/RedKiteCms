@@ -40,11 +40,11 @@ class AlBlockManagerFactoryItem
 
     /**
      * Constructor
-     * 
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
-     * @param array $attributes
+     *
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface               $blockManager
+     * @param  array                                                                                  $attributes
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
-     * 
+     *
      * @api
      */
     public function __construct(AlBlockManagerInterface $blockManager, array $attributes)
@@ -54,7 +54,7 @@ class AlBlockManagerFactoryItem
             $exception = array(
                 'message' => 'exception_missing_expected_attributes',
                 'parameters' => array(
-                    '%attributes%' => implode(',', array_keys($missingAttributes)), 
+                    '%attributes%' => implode(',', array_keys($missingAttributes)),
                     '%class%' => get_class($blockManager),
                 ),
             );
@@ -128,7 +128,7 @@ class AlBlockManagerFactoryItem
     {
         return $this->group;
     }
-    
+
     /**
      * Returns the item filter
      *

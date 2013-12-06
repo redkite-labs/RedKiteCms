@@ -39,7 +39,7 @@ class AlResourcesLocker
      * Constructor
      *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * @param int                                                                                  $expiringTime      The time after a not updated resource is expired
+     * @param int                                                                                $expiringTime      The time after a not updated resource is expired
      *
      * @api
      */

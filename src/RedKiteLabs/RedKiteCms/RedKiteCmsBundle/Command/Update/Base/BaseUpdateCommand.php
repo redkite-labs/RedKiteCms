@@ -33,19 +33,18 @@ abstract class BaseUpdateCommand extends ContainerAwareCommand
         $orm = new AlPropelOrm($connection);
         if (is_file($sqlFile)) {
             $updateQueries = file_get_contents($sqlFile);
-            
+
             $queries = explode(';', $updateQueries);
             foreach ($queries as $query) {
                 try {
                     $orm->executeQuery($query);
-                }
-                catch (\PropelException $ex) {echo $ex->getMessage();}
+                } catch (\PropelException $ex) {echo $ex->getMessage();}
             }
         } else {
             throw new \Exception(sprintf('The file %s has not been found. RedKiteCms provides only the mysql queries required to updated the database. To fix this, please create a %s folder under the %s and adjust the provided queries for your database, then launch the command again.', $sqlFile, $input->getOption('driver'), dirname($sqlFile)));
         }
     }
-    
+
     protected function buildModel($input, $output)
     {
         $modelCommand = new ModelBuildCommand();

@@ -58,8 +58,8 @@ class AlTemplateSlots
     /**
      * Runs the process
      *
-     * @param  int                                                               $languageId
-     * @param  int                                                               $pageId
+     * @param  int                                                             $languageId
+     * @param  int                                                             $pageId
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlTemplateSlots
      */
     public function run($languageId, $pageId)
@@ -78,11 +78,11 @@ class AlTemplateSlots
             }
             $previousTemplateName = $previousThemeStructure["Templates"][$templateKey];
             $previousTheme = $themes->getTheme($previousThemeName);
-            
+
             if (null === $previousTheme) {
                 return $this;
             }
-            
+
             $template = $previousTheme->getTemplate($previousTemplateName);
             $this->initTemplateManager($template);
 

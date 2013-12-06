@@ -34,7 +34,7 @@ use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlPageTree 
+class AlPageTree
 {
     protected $container = null;
     protected $template = null;
@@ -63,7 +63,7 @@ class AlPageTree
     /**
      * Constructor
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface                              $container
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface                            $container
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface   $factoryRepository
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper $themesCollectionWrapper
      *
@@ -81,7 +81,7 @@ class AlPageTree
         $this->dispatcher = $container->get('event_dispatcher');
         $this->templateManager = $this->themesCollectionWrapper->getTemplateManager();
         $this->blockManagerFactory = $container->get('red_kite_cms.block_manager_factory');
-        
+
         $this->container = $container;
         $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
     }
@@ -99,7 +99,7 @@ class AlPageTree
     /**
      * Sets the pageBlocks object
      *
-     * @param AlPageBlocksInterface $v
+     * @param  AlPageBlocksInterface                                   $v
      * @return \RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree
      */
     public function setPageBlocks(AlPageBlocksInterface $v)
@@ -118,7 +118,6 @@ class AlPageTree
     {
         return $this->pageBlocks;
     }
-
 
     /**
      * Sets the page metatags
@@ -144,47 +143,41 @@ class AlPageTree
     /**
      * Catches the methods to manage assets and metatags
      *
-     * @param string $name the method name
-     * @param mixed $params the values to pass to the called method
-     * @return mixed Depends on method called
+     * @param  string $name   the method name
+     * @param  mixed  $params the values to pass to the called method
+     * @return mixed  Depends on method called
      */
     public function __call($name, $params)
     {
-        if(preg_match('/^(add)?(External)?([Styleshee|Javascrip]+t)$/', $name, $matches))
-        {
+        if (preg_match('/^(add)?(External)?([Styleshee|Javascrip]+t)$/', $name, $matches)) {
             $method = $matches[0];
             $this->getTemplate()->$method($params[0]);
 
             return $this;
         }
 
-        if(preg_match('/^(add)?(External)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
-        {
+        if (preg_match('/^(add)?(External)?([Styleshee|Javascrip]+ts)$/', $name, $matches)) {
             $method = $matches[0];
             $this->getTemplate()->$method($params);
 
             return $this;
         }
 
-        if(preg_match('/^(get)?(External)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
-        {
+        if (preg_match('/^(get)?(External)?([Styleshee|Javascrip]+ts)$/', $name, $matches)) {
             return $this->getAssets($matches[0], strtolower($matches[3]), strtolower($matches[2]));
         }
 
-        if(preg_match('/^(get)?(Internal)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
-        {
+        if (preg_match('/^(get)?(Internal)?([Styleshee|Javascrip]+ts)$/', $name, $matches)) {
             return implode("", $this->getAssets($matches[0], strtolower($matches[3]), strtolower($matches[2])));
         }
 
-        if(preg_match('/^(get)?(Meta)?([Title|Description|Keywords]+)$/', $name, $matches))
-        {
+        if (preg_match('/^(get)?(Meta)?([Title|Description|Keywords]+)$/', $name, $matches)) {
             $property = strtolower($matches[2]) . $matches[3];
 
             return $this->$property;
         }
 
-        if(preg_match('/^(set)?(Meta)?([Title|Description|Keywords]+)$/', $name, $matches))
-        {
+        if (preg_match('/^(set)?(Meta)?([Title|Description|Keywords]+)$/', $name, $matches)) {
             $property = strtolower($matches[2]) . $matches[3];
             $this->$property = $params[0];
 
@@ -193,7 +186,6 @@ class AlPageTree
 
         throw new \RuntimeException('Call to undefined method: ' . $name);
     }
-
 
     /**
      * Returns the current AlPage object
@@ -221,8 +213,8 @@ class AlPageTree
 
     /**
      * Sets the AlPage object
-     * 
-     * @param AlPage $alPage
+     *
+     * @param  AlPage                                                 $alPage
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      *
      * @api
@@ -236,8 +228,8 @@ class AlPageTree
 
     /**
      * Sets the AlLanguage object
-     * 
-     * @param AlLanguage $alLanguage
+     *
+     * @param  AlLanguage                                             $alLanguage
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      *
      * @api
@@ -345,7 +337,7 @@ class AlPageTree
         if (null !== $this->templateManager) {
             return $this->templateManager->getTemplate();
         }
-        
+
         return $this->template;
     }
 
@@ -362,7 +354,7 @@ class AlPageTree
 
             $request = $this->getRequest();
             $this->pageName = $request->get('page');
-            if ( ! $this->pageName || $this->pageName == "" || $this->pageName == "backend") {
+            if (! $this->pageName || $this->pageName == "" || $this->pageName == "backend") {
                 return null;
             }
 
@@ -384,7 +376,7 @@ class AlPageTree
             if (null === $this->initTheme()) {
                 return null;
             }
-            
+
             $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->theme->getThemeName(), $this->alPage->getTemplateName());
             $this->doRefresh();
 
@@ -399,8 +391,8 @@ class AlPageTree
     /**
      * Refreshes the page tree object with the given language and page identities
      *
-     * @param  int                                                      $idLanguage
-     * @param  int                                                      $idPage
+     * @param  int                                                    $idLanguage
+     * @param  int                                                    $idPage
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      */
     public function refresh($idLanguage, $idPage)
@@ -439,7 +431,7 @@ class AlPageTree
      * stylesheet that must be loaded only when you are in CMS mode. That task is achieved adding a parameter
      * suffixed with the ".cms" suffix (businesswebsitetheme.home.external_stylesheets.cms)
      *
-     * @param  array                                                    $value
+     * @param  array                                                  $value
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      */
     public function setExtraAssetsSuffixes(array $value = array())
@@ -493,7 +485,7 @@ class AlPageTree
 
             // merges assets for theme engine registered listeners
             $registeredListeners = $this->container->get('red_kite_labs_theme_engine.registed_listeners');
-            
+
             foreach ($registeredListeners as $registeredListener) {
                 // Assets from page_renderer.before_page_rendering listeners
                 $parameter = sprintf('%s.page.%s_%s', $registeredListener, $type, $assetType);
@@ -537,27 +529,27 @@ class AlPageTree
                     }
                 }
             }
-            
+
             // Sets back the collection to the Template
             $method = 's' . substr($method, 1);
             if (substr($method, -1) != 's') {
                 $method .= 's';
             }
             $template->$method($assetsCollection);
-            
+
             return $assetsCollection;
         }
     }
-    
+
     protected function mergeAppBlocksAssets($assetsCollection, $type, $assetType)
     {
         // When a block has examined, it is saved in this array to avoid parsing it again
         $appsAssets = array();
 
-        // merges assets from installed apps  
-        $availableBlocks = $this->blockManagerFactory->getAvailableBlocks();     
+        // merges assets from installed apps
+        $availableBlocks = $this->blockManagerFactory->getAvailableBlocks();
         foreach ($availableBlocks as $className) {
-            if ( ! in_array($className, $appsAssets)) {                    
+            if ( ! in_array($className, $appsAssets)) {
                 $parameterSchema = '%s.%s_%s';
                 $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType);
                 $this->addAssetsFromContainer($assetsCollection, $parameter);
@@ -582,7 +574,7 @@ class AlPageTree
             return $this->alSeo->getAlLanguage();
         }
 
-        return (null === $languageId || (int)$languageId == 0) ? $this->languageRepository->fromLanguageName($request->get('_locale')) : $this->languageRepository->fromPK($languageId);
+        return (null === $languageId || (int) $languageId == 0) ? $this->languageRepository->fromLanguageName($request->get('_locale')) : $this->languageRepository->fromPK($languageId);
     }
 
     /**
@@ -599,16 +591,16 @@ class AlPageTree
         if (null !== $this->alSeo) {
             return $this->alSeo->getAlPage();
         }
-        
-        $pageId = (int)$this->getRequest()->get('pageId');
+
+        $pageId = (int) $this->getRequest()->get('pageId');
         $this->alSeo= $this->seoRepository->fromPageAndLanguage($this->alLanguage->getId(), $pageId);
-        if (null === $this->alSeo) {            
+        if (null === $this->alSeo) {
             return ($pageId == 0) ? $this->pageRepository->fromPageName($this->pageName) : $this->pageRepository->fromPK($pageId);
-        } 
-        
+        }
+
         $alPage = $this->alSeo->getAlPage();
         $this->setUpMetaTags();
-        
+
         return $alPage;
     }
 
@@ -630,14 +622,14 @@ class AlPageTree
      * Adds a range of assets to the assets collection
      *
      * @param \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
-     * @param string                                                     $parameter        The parameter to fetch from the Container
+     * @param string                                                      $parameter        The parameter to fetch from the Container
      */
     protected function addAssetsFromContainer(&$assetsCollection, $parameter)
     {
         if ( ! $this->container->hasParameter($parameter)) {
             return;
         }
-        
+
         $assets = $this->container->getParameter($parameter);
         $assetsCollection->addRange($assets);
     }
@@ -646,7 +638,7 @@ class AlPageTree
      * Adds to the assets collection the extra parameters defined by extraAssetsSuffixes
      *
      * @param \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
-     * @param string                                                     $baseParam
+     * @param string                                                      $baseParam
      */
     protected function addExtraAssets(&$assetsCollection, $baseParam)
     {
@@ -656,26 +648,23 @@ class AlPageTree
         }
     }
 
-
-
     /**
      * Returns an array that contains the absolute path of each asset
      *
-     * @param string $method The method to retrieve the current ArrayObject tha stores the requiredassets
-     * @param string $assetType The assets type (stylesheet/javascript)
-     * @param string $type The required type (internal/external)
+     * @param  string $method    The method to retrieve the current ArrayObject tha stores the requiredassets
+     * @param  string $assetType The assets type (stylesheet/javascript)
+     * @param  string $type      The required type (internal/external)
      * @return array
      */
     protected function getAssets($method, $assetType, $type)
     {
         $assetsCollection = $this->mergeAssets($method, $assetType, $type);
-        if(null === $assetsCollection) {
+        if (null === $assetsCollection) {
             return array();
         }
 
         $assets = array();
-        foreach($assetsCollection as $asset)
-        {
+        foreach ($assetsCollection as $asset) {
             $absolutePath = $asset->getAbsolutePath();
             $originalAsset = $asset->getAsset();
             $assets[] = ($type == 'external') ? (empty($absolutePath)) ? $originalAsset : $absolutePath : $originalAsset;

@@ -34,37 +34,37 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface;
 abstract class AlBlockManagerInlineTextBlock extends AlBlockManager
 {
     protected $translator;
-    
+
     /**
      * Constructor
-     * 
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     *
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface $translator
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface                 $translator
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler = null, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null, AlTranslatorInterface $translator = null)
     {
         parent::__construct($eventsHandler, $factoryRepository, $validator);
-        
+
         $this->translator = $translator;
     }
-    
+
     /**
      * @inheritdoc
      */
     public function getDefaultValue()
     {
-        $message = "This is the default content for a new hypertext block";  
+        $message = "This is the default content for a new hypertext block";
         if (null !== $this->translator) {
             $message = $this->translator->translate($message);
         }
-        
+
         return array(
             'Content' => $message,
         );
     }
-    
+
     /**
      * @inheritdoc
      */

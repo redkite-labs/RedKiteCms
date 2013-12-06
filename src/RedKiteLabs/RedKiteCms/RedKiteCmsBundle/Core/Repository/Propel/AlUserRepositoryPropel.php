@@ -78,7 +78,7 @@ class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepo
                           ->orderBy('AlRole.Role')
                           ->find();
     }
-    
+
     /**
      * {@inheritdoc}
      */

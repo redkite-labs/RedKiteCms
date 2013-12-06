@@ -42,7 +42,7 @@ class LanguagesForm extends BaseBlockType
             'label' => 'languages_controller_is_main_language',
             'attr' => array(
                 'title' => 'languages_controller_is_main_language_explanation',
-            ),      
+            ),
         ));
     }
 
@@ -54,7 +54,7 @@ class LanguagesForm extends BaseBlockType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);
-        
+
         $resolver->setDefaults(array(
             'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Language\Language',
         ));

@@ -49,7 +49,7 @@ class AlPageBlocks implements AlPageBlocksInterface
      * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
      */
     protected $blockRepository;
-    
+
     protected $blocks = array();
     protected $alBlocks = null;
 
@@ -69,10 +69,10 @@ class AlPageBlocks implements AlPageBlocksInterface
     /**
      * The id of the page to retrieve
      *
-     * @param  int                                                                                          $v
+     * @param  int                                                                                       $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * 
+     *
      * @api
      */
     public function setIdPage($v)
@@ -89,10 +89,10 @@ class AlPageBlocks implements AlPageBlocksInterface
     /**
      * The id of the language to retrieve
      *
-     * @param  int                                                                                          $v
+     * @param  int                                                                                       $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * 
+     *
      * @api
      */
     public function setIdLanguage($v)
@@ -146,7 +146,7 @@ class AlPageBlocks implements AlPageBlocksInterface
 
     /**
      * Sets the blocks
-     * 
+     *
      * @param array|object $blocks A traversable list of blocks
      */
     public function setAlBlocks($blocks)
@@ -156,22 +156,22 @@ class AlPageBlocks implements AlPageBlocksInterface
 
         return $this;
     }
-    
+
     /**
      * Returns the block types associated to this PageBlock
-     * 
+     *
      * @return array
      */
     public function getBlockTypes()
     {
         $types = array();
-        foreach($this->alBlocks as $block) {
+        foreach ($this->alBlocks as $block) {
             $type = $block->getType();
             if ( !in_array($type, $types)) {
                 $types[] = $type;
             }
         }
-        
+
         return $types;
     }
 
@@ -180,12 +180,9 @@ class AlPageBlocks implements AlPageBlocksInterface
      */
     public function add($slotName, $value, $position = null)
     {
-        if(null !== $position && array_key_exists($position, $this->blocks[$slotName]))
-        {
+        if (null !== $position && array_key_exists($position, $this->blocks[$slotName])) {
             $this->blocks[$slotName][$position] = $value;
-        }
-        else
-        {
+        } else {
             $this->blocks[$slotName][] = $value;
         }
 
@@ -197,21 +194,16 @@ class AlPageBlocks implements AlPageBlocksInterface
      */
     public function addRange(array $values, $override = false)
     {
-        foreach($values as $slotName => $contents)
-        {
+        foreach ($values as $slotName => $contents) {
             if (array_key_exists($slotName, $this->blocks) && $override) {
                 $this->clearSlotBlocks($slotName);
             }
 
-            if(null !== $contents)
-            {
-                foreach($contents as $content)
-                {
+            if (null !== $contents) {
+                foreach ($contents as $content) {
                     $this->add($slotName, $content);
                 }
-            }
-            else
-            {
+            } else {
                 $this->blocks[$slotName] = null;
             }
         }

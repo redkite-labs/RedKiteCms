@@ -42,13 +42,13 @@ class AlPageTreeCollection implements \Iterator, \Countable
     /**
      * Constructor
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface                              $container
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface                            $container
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface   $factoryRepository
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper $themesCollectionWrapper
      *
      * @api
      */
-    public function  __construct(ContainerInterface $container,
+    public function __construct(ContainerInterface $container,
             AlFactoryRepositoryInterface $factoryRepository,
             AlThemesCollectionWrapper $themesCollectionWrapper = null)
     {
@@ -63,7 +63,7 @@ class AlPageTreeCollection implements \Iterator, \Countable
 
     /**
      * Return the current element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed Can return any type.
      */
@@ -74,7 +74,7 @@ class AlPageTreeCollection implements \Iterator, \Countable
 
     /**
      * Return the key of the current element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.key.php
      * @return scalar scalar on success, or <b>NULL</b> on failure.
      */
@@ -85,7 +85,7 @@ class AlPageTreeCollection implements \Iterator, \Countable
 
     /**
      * Move forward to next element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.next.php
      * @return void Any returned value is ignored.
      */
@@ -96,7 +96,7 @@ class AlPageTreeCollection implements \Iterator, \Countable
 
     /**
      * Rewind the Iterator to the first element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void Any returned value is ignored.
      */
@@ -107,7 +107,7 @@ class AlPageTreeCollection implements \Iterator, \Countable
 
     /**
      * Checks if current position is valid
-     * 
+     *
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean The return value will be casted to boolean and then evaluated.
      */
@@ -118,7 +118,7 @@ class AlPageTreeCollection implements \Iterator, \Countable
 
     /**
      * Count elements of an object
-     * 
+     *
      * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
      */
@@ -130,7 +130,7 @@ class AlPageTreeCollection implements \Iterator, \Countable
     /**
      * Returns the AlPageTree object stored at the requird key
      *
-     * @param  string                                                        $key
+     * @param  string                                                      $key
      * @return null|\RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      *
      * @api

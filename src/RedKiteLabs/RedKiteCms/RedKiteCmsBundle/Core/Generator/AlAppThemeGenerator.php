@@ -17,10 +17,10 @@ class AlAppThemeGenerator extends AlBaseGenerator
     public function generateExt($namespace, $bundle, $dir, $format, $structure, array $options)
     {
         $format = 'annotation';
-        
+
         // @codeCoverageIgnoreStart
         if (null === $this->bundleSkeletonDir) {
-            $this->bundleSkeletonDir = __DIR__ . '/../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton';            
+            $this->bundleSkeletonDir = __DIR__ . '/../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton';
         }
         // @codeCoverageIgnoreEnd
         $this->setSkeletonDirs($this->bundleSkeletonDir);
@@ -30,7 +30,7 @@ class AlAppThemeGenerator extends AlBaseGenerator
         $themeBasename = str_replace('Bundle', '', $bundle);
         $extensionAlias = Container::underscore($themeBasename);
 
-        $themeSkeletonDir = __DIR__ . '/../../Resources/skeleton/app-theme';            
+        $themeSkeletonDir = __DIR__ . '/../../Resources/skeleton/app-theme';
         $this->setSkeletonDirs($themeSkeletonDir);
         $parameters = array(
             'namespace_path' => str_replace('\\', '\\\\', $namespace),

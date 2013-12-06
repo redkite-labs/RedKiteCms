@@ -14,7 +14,7 @@ class AlBlockManager{{ bundle_basename }} extends AlBlockManagerJsonBlockContain
 {
     public function getDefaultValue()
     {
-        $value = 
+        $value =
             '
                 {
                     "0" : {

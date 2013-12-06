@@ -21,7 +21,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception;
  * Defines a generic RedKite Cms exception
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
- * 
+ *
  * @api
  */
 interface RedKiteCmsExceptionInterface

@@ -39,7 +39,7 @@ abstract class BaseGenerateBundle extends GenerateBundleCommand
         // @codeCoverageIgnoreEnd
 
         foreach (array('namespace', 'dir') as $option) {
-            if (null === $input->getOption($option)) {                
+            if (null === $input->getOption($option)) {
                 // @codeCoverageIgnoreStart
                 throw new \RuntimeException(sprintf('The "%s" option must be provided.', $option));
                 // @codeCoverageIgnoreEnd
@@ -93,7 +93,7 @@ abstract class BaseGenerateBundle extends GenerateBundleCommand
     protected function checkStrictNamespace($namespace)
     {
     }
-    
+
     /**
      * @codeCoverageIgnore
      */

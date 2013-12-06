@@ -41,8 +41,8 @@ class BlockEditorRenderingEvent extends Event
     /**
      * Construct
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface                  $container
-     * @param \Symfony\Component\HttpFoundation\Request                                  $request
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface                $container
+     * @param \Symfony\Component\HttpFoundation\Request                                $request
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
      *
      * @api

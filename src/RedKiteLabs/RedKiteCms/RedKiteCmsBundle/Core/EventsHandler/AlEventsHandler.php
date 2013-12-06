@@ -89,7 +89,7 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * @throws InvalidArgumentException
      * @throws InvalidArgumentTypeException
      */
@@ -109,7 +109,7 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
             $exception = array(
                 'message' => 'exception_invalid_class_name_for_createEvent',
                 'parameters' => array(
-                    '%argumentClass%' => get_class($this),                    
+                    '%argumentClass%' => get_class($this),
                     '%className%' => get_class($this),
                 ),
             );
@@ -121,11 +121,11 @@ abstract class AlEventsHandler implements AlEventsHandlerInterface
         if (null !== $event) {unset($this->events[$eventName]);}
 
         $event = new $class();
-        if ( ! $event instanceof Event) {
+        if (! $event instanceof Event) {
             $exception = array(
                 'message' => 'exception_invalid_class_instance_for_createEvent',
                 'parameters' => array(
-                    '%argumentClass%' => get_class($this),                    
+                    '%argumentClass%' => get_class($this),
                     '%className%' => get_class($this),
                 ),
             );

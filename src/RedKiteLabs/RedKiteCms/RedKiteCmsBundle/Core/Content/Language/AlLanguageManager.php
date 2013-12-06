@@ -103,7 +103,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      * Sets the language model object
      *
      *
-     * @param  LanguageRepositoryInterface                                             $v
+     * @param  LanguageRepositoryInterface                                           $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager
      *
      * @api
@@ -187,10 +187,10 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $this->eventsHandler
                      ->createEvent(LanguageEvents::AFTER_DELETE_LANGUAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\AfterLanguageDeletedEvent', array($this))
                      ->dispatch();
-                     
+
                 return $result;
             }
-                
+
             $this->languageRepository->rollBack();
 
             return $result;
@@ -206,12 +206,12 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     /**
      * Adds a new AlLanguage object from the given params
      *
-     * @param  array                                                                                   $values
+     * @param  array                                                                                 $values
      * @return type
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException
      * @throws LanguageExistsException
      * @throws General\ArgumentIsEmptyException
-     * 
+     *
      * @api
      */
     protected function add(array $values)
@@ -251,7 +251,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                     $className = $this->languageRepository->getRepositoryObjectClassName();
                     $this->alLanguage = new $className();
                 }
-                
+
                 $result = $this->languageRepository
                             ->setRepositoryObject($this->alLanguage)
                             ->save($values);
@@ -271,10 +271,10 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $this->eventsHandler
                      ->createEvent(LanguageEvents::AFTER_ADD_LANGUAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\AfterLanguageAddedEvent', array($this))
                      ->dispatch();
-                     
+
                 return $result;
-            }   
-                     
+            }
+
             $this->languageRepository->rollBack();
 
             return $result;
@@ -290,7 +290,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     /**
      * Edits the managed language object
      *
-     * @param  array                                                                                   $values
+     * @param  array                                                                                 $values
      * @return type
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException
      *
@@ -317,12 +317,12 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             $this->languageRepository->startTransaction();
 
             $requireToChangeName = array_key_exists('LanguageName', $values);
-            
+
             if (isset($values["MainLanguage"]) && $values["MainLanguage"] == 1) {
                 $result = $this->resetMain();
             } else {
                 unset($values["MainLanguage"]);
-                if ( ! $requireToChangeName) {
+                if (! $requireToChangeName) {
                     throw new Language\MainLanguageCannotBeDegradedException('exception_main_language_cannot_be_degraded');
                 }
             }
@@ -334,10 +334,10 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
                 if (empty($values)) {
                     $this->languageRepository->rollBack();
-                    
+
                     return false;
                 }
-                
+
                 $result = $this->languageRepository
                     ->setRepositoryObject($this->alLanguage)
                     ->save($values)
@@ -360,10 +360,10 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $this->eventsHandler
                      ->createEvent(LanguageEvents::AFTER_EDIT_LANGUAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\AfterLanguageEditedEvent', array($this))
                      ->dispatch();
-                     
+
                 return $result;
             }
-                
+
             $this->languageRepository->rollBack();
 
             return $result;

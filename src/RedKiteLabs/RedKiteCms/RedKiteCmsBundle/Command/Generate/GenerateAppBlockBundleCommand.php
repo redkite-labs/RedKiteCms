@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 class GenerateAppBlockBundleCommand extends BaseGenerateBundle
 {
     protected $updateKernel = false;
-    
+
     protected function configure()
     {
         $this
@@ -53,11 +53,11 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
         $group = $dialog->ask($output, $dialog->getQuestion('App-Block group', $input->getOption('group')), $input->getOption('group'));
         $input->setOption('group', $group);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         parent::execute($input, $output);
-        
+
         $output->writeln(array(
             '',
             'Please clear your cache to have your App-Block working',
@@ -91,7 +91,7 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
             return new AlAppBlockGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
             // @codeCoverageIgnoreEnd
         }
-        
+
         return $this->generator;
     }
 }

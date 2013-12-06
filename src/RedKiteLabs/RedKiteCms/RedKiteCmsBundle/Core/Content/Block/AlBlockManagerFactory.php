@@ -79,7 +79,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface          $eventsHandler
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * 
+     *
      * @api
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository = null)
@@ -103,7 +103,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         if (empty($attributes['type'])) {
             return;
         }
-        
+
         $blockManager->setFactoryRepository($this->factoryRepository);
         $this->blockManagersItems[] = new AlBlockManagerFactoryItem($blockManager, $attributes);
     }
@@ -120,14 +120,13 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         if ($items == 0) {
             return null;
         }
-        
+
         foreach ($this->blockManagersItems as $blockManagerItem) {
             if ($blockManagerItem->getType() == $blockType) {
                 $blockManager = $blockManagerItem->getBlockManager();
                 $blockManager = clone($blockManager);
                 $blockManager->setEventsHandler($this->eventsHandler);
                 if ($isAlBlock) $blockManager->set($block);
-
                 return $blockManager;
             }
         }
@@ -200,7 +199,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         // Merges blocks
         $blocks = array_merge($redKiteBlocks, $blocks);
         $blocks = array_merge($blocks, $notGrouped);
-        
+
         return $blocks;
     }
 

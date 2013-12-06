@@ -31,7 +31,7 @@ class ExceptionListener
 {
     protected $templating;
     protected $translator;
-    
+
     public function __construct(EngineInterface $templating, AlTranslatorInterface $translator)
     {
         $this->templating = $templating;
@@ -46,10 +46,10 @@ class ExceptionListener
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
-        if ( ! $exception instanceof RedKiteCmsExceptionInterface) {
+        if (! $exception instanceof RedKiteCmsExceptionInterface) {
             return;
         }
-        
+
         $message = $exception->getMessage();
         $jsonMessage = json_decode($message, true);
         if ( ! is_array($jsonMessage)) {
@@ -57,13 +57,13 @@ class ExceptionListener
                 'message' => $message,
             );
         }
-        
+
         $parameters = array(
             'message' => '',
             'parameters' => array(),
             'domain' => 'RedKiteCmsBundle',
             'locale' => null,
-        ); 
+        );
         $cleanedParameters = array_intersect_key($jsonMessage, $parameters);
         $parameters = array_merge($parameters, $cleanedParameters);
 
@@ -80,7 +80,7 @@ class ExceptionListener
                 'message' => $message,
             )
         );
-        $response->setStatusCode(404);        
+        $response->setStatusCode(404);
         $event->setResponse($response);
     }
 }

@@ -39,7 +39,7 @@ abstract class AlTwigDeployer extends AlDeployer
      *
      * @api
      */
-    public function  __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
 

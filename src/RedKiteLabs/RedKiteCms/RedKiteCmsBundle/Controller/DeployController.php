@@ -25,7 +25,7 @@ class DeployController extends Base\BaseController
             $deployer = $this->container->get('red_kite_cms.production_deployer');
             $deployer->deploy();
             $response = $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
-            
+
             $this->clearEnvironment('prod');
 
             return $response;
@@ -33,22 +33,22 @@ class DeployController extends Base\BaseController
             return $this->renderDialogMessage($e->getMessage());
         }
     }
-    
+
     public function stageAction()
     {
         try {
             $deployer = $this->container->get('red_kite_cms.stage_deployer');
             $deployer->deploy();
             $response = $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => 'The staging site has been deployed'));
-            
+
             $this->clearEnvironment('stage');
-            
+
             return $response;
         } catch (\Exception $e) {
             return $this->renderDialogMessage($e->getMessage());
         }
     }
-    
+
     protected function clearEnvironment($environment)
     {
         $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';

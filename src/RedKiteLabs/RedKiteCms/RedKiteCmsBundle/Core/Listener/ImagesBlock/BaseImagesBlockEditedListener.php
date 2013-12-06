@@ -46,7 +46,7 @@ abstract class BaseImagesBlockEditedListener
     public function __construct(EngineInterface $templateEngine)
     {
         throw new RedKiteDeprecatedException("BaseImagesBlockEditedListener has been deprecated since RedKiteCms 1.1.0");
-            
+
         $this->templateEngine = $templateEngine;
     }
 

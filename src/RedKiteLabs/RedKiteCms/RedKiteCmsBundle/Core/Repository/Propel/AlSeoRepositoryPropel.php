@@ -143,7 +143,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
      * {@inheritdoc}
      */
     public function fromLanguageName($languageName, $ordered = true)
-    {   
+    {
         return AlSeoQuery::create('a')
                     ->joinWith('a.AlLanguage')
                     ->where('AlLanguage.languageName = ?', $languageName)

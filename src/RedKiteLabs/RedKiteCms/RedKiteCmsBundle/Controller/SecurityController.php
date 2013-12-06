@@ -39,12 +39,12 @@ class SecurityController extends Base\BaseController
 
     public function loginAction()
     {
-        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion(); 
+        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
         $this->container->get('twig')->addGlobal('bootstrap_version', $bootstrapVersion);
-        
+
         $request = $this->container->get('request');
         $params = $this->checkRequestError();
-        
+
         $response = null;
         $template = 'RedKiteCmsBundle:Security:Login/login-form.html.twig';
         if ($request->isXmlHttpRequest()) {
@@ -60,7 +60,7 @@ class SecurityController extends Base\BaseController
         $alPage = $pageReporitory->homePage();
         $alLanguage = $languageReporitory->mainLanguage();
         $params['target'] = '/backend/' . $alLanguage->getLanguageName() . '/' . $alPage->getPageName();
-        
+
         return $this->container->get('templating')->renderResponse($template, $params, $response);
     }
 
@@ -117,21 +117,21 @@ class SecurityController extends Base\BaseController
 
         return $this->buildJsonResponse($values);
     }
-    
+
     public function saveUserAction(Request $request)
     {
         $message = '';
         $errors = array();
-        if ('POST' === $request->getMethod()) { 
+        if ('POST' === $request->getMethod()) {
             $userId = $request->get('userId');
             $isNewUser = (null !== $userId && $userId != 0) ? false : true;
             $user = ( ! $isNewUser) ? $this->userRepository()->fromPk($userId) : new AlUser();
-            
+
             $userName = $request->get('username');
             if (null !== $this->userRepository()->fromUsername($userName) && $user->getUserName() != $userName ) {
                 throw new RuntimeException('exception_username_exists');
             }
-            
+
             $user->setRoleId($request->get('roleId'));
             $user->setUsername($userName);
             $user->setPassword($request->get('password'));
@@ -143,10 +143,10 @@ class SecurityController extends Base\BaseController
                 $message = $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_errors.html.twig', array(
                     'errors' => $errors,
                 ));
-                
+
                 throw new RuntimeException($message);
             }
-            
+
             $factory = $this->container->get('security.encoder_factory');
             $encoder = $factory->getEncoder($user);
             $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
@@ -161,7 +161,7 @@ class SecurityController extends Base\BaseController
             }
             $message = $this->translate($messageKey);
         }
-        
+
         $values = array(
             array(
                 'key' => 'message',
@@ -172,7 +172,7 @@ class SecurityController extends Base\BaseController
                 'value' => $this->loadUsersList(),
             ),
         );
-        
+
         return $this->buildJsonResponse($values);
     }
 
@@ -188,7 +188,7 @@ class SecurityController extends Base\BaseController
             if (null !== $this->roleRepository()->fromRoleName($roleName) && $role->getRole() != $roleName ) {
                 throw new RuntimeException('exception_role_exists');
             }
-            
+
             $role->setRole($roleName);
             $validator = $this->container->get('validator');
             $errors = $validator->validate($role);
@@ -196,17 +196,17 @@ class SecurityController extends Base\BaseController
                 $message = $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_errors.html.twig', array(
                     'errors' => $errors,
                 ));
-                
-                throw new RuntimeException($message);                
+
+                throw new RuntimeException($message);
             }
-            
+
             $messageKey = "security_controller_role_not_saved";
             if ($role->save() > 0) {
                 $messageKey = "security_controller_role_saved";
             }
             $message = $this->translate($messageKey);
         }
-        
+
         $values = array(
             array(
                 'key' => 'message',
@@ -217,7 +217,7 @@ class SecurityController extends Base\BaseController
                 'value' => $this->loadRolesList(),
             ),
         );
-        
+
         return $this->buildJsonResponse($values);
     }
 
@@ -240,7 +240,7 @@ class SecurityController extends Base\BaseController
 
             return $this->buildJsonResponse($values);
         }
-        
+
         throw new RuntimeException('security_controller_nothing_made');
     }
 
@@ -252,10 +252,10 @@ class SecurityController extends Base\BaseController
             if (count($users) > 0) {
                 throw new RuntimeException('security_controller_role_in_use');
             }
-            
+
             $user = $this->roleRepository()->fromPK($roleId);
             $user->delete();
-            
+
             $values = array(
                 array(
                     'key' => 'message',
@@ -266,13 +266,13 @@ class SecurityController extends Base\BaseController
                     'value' => $this->loadRolesList(),
                 ),
             );
-            
+
             return $this->buildJsonResponse($values);
         }
-        
+
         throw new RuntimeException('security_controller_nothing_made');
     }
-    
+
     /**
      * @codeCoverageIgnore
      */
@@ -280,7 +280,7 @@ class SecurityController extends Base\BaseController
     {
         $request = $this->container->get('request');
         $session = $request->getSession();
-        
+
         // get the error if any (works with forward and redirect -- see below)
         $error = '';
         if ($request->attributes->has(SecurityContext::AUTHENTICATION_ERROR)) {
@@ -297,7 +297,7 @@ class SecurityController extends Base\BaseController
 
         // last username entered by the user
         $lastUsername = (null === $session) ? '' : $session->get(SecurityContext::LAST_USERNAME);
-        
+
         return array(
             "error" => $error,
             "last_username" => $lastUsername,
@@ -305,9 +305,9 @@ class SecurityController extends Base\BaseController
     }
 
     private function loadUsers()
-    {  
+    {
         $form = $this->container->get('form.factory')->create(new AlUserType(), new AlUser());
-        
+
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/users_panel.html.twig', array(
             'users' => $this->userRepository()->activeUsers(),
             'form' => $form->createView(),
@@ -317,27 +317,27 @@ class SecurityController extends Base\BaseController
     private function loadRoles()
     {
         $form = $this->container->get('form.factory')->create(new AlRoleType(), new AlRole());
-        
+
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/roles_panel.html.twig', array(
             'roles' => $this->roleRepository()->activeRoles(),
             'form' => $form->createView(),
         ));
     }
-    
+
     private function loadUsersList()
-    { 
+    {
         return $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_users_list.html.twig', array(
             'users' => $this->userRepository()->activeUsers(),
         ));
     }
-    
+
     private function loadRolesList()
-    { 
+    {
         return $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_roles_list.html.twig', array(
             'roles' => $this->roleRepository()->activeRoles(),
         ));
     }
-    
+
     private function factoryRepository()
     {
         if (null === $this->factoryRepository) {
@@ -364,7 +364,7 @@ class SecurityController extends Base\BaseController
 
         return $this->roleRepository;
     }
-    
+
     private function buildJsonResponse(array $values)
     {
         $response = new Response(json_encode($values));

@@ -161,7 +161,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\Exception
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Page\RemoveHomePageException
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
-     * 
+     *
      * @api
      */
     public function delete()
@@ -169,11 +169,11 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
         if (null === $this->alPage) {
             throw new General\ArgumentIsEmptyException('exception_no_pages_selected_delete_skipped');
         }
-        
+
         if (0 !== $this->alPage->getIsHome()) {
             throw new Page\RemoveHomePageException("exception_home_page_cannot_be_removed");
         }
-        
+
         $this->dispatchBeforeOperationEvent(
             '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageDeletingEvent',
             PageEvents::BEFORE_DELETE_PAGE,
@@ -203,7 +203,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $this->eventsHandler
                      ->createEvent(PageEvents::AFTER_DELETE_PAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\AfterPageDeletedEvent', array($this))
                      ->dispatch();
-                     
+
                 return $result;
             }
             $this->pageRepository->rollBack();
@@ -255,7 +255,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Adds a new AlPage object from the given params
      *
-     * @param  array                                                                                    $values
+     * @param  array                                                                                 $values
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\Exception
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
@@ -333,10 +333,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $this->eventsHandler
                      ->createEvent(PageEvents::AFTER_ADD_PAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\AfterPageAddedEvent', array($this))
                      ->dispatch();
-                     
+
                 return $result;
-            } 
-                
+            }
+
             $this->pageRepository->rollBack();
 
             return $result;
@@ -352,7 +352,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Edits the managed page object
      *
-     * @param  array                                                       $values
+     * @param  array                                                     $values
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\Exception
      *
@@ -390,7 +390,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             } else {
                 unset($values['TemplateName']);
             }
-            
+
             if (array_key_exists('IsHome', $values) && $this->alPage->getIsHome() == 1 && $values['IsHome'] == 0) {
                 throw new Page\HomePageCannotBeDegradedException('exception_home_page_cannot_be_degraded');
             }
@@ -413,7 +413,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                                 ->save($values);
                 }
 
-                if (false !== $result) { 
+                if (false !== $result) {
                     $eventName = PageEvents::BEFORE_EDIT_PAGE_COMMIT;
                     $result = !$this->eventsHandler
                                         ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent', array($this, $values))
@@ -429,10 +429,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
                 $this->eventsHandler
                      ->createEvent(PageEvents::AFTER_EDIT_PAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\AfterPageEditedEvent', array($this))
                      ->dispatch();
-                     
+
                 return $result;
-            } 
-                
+            }
+
             $this->pageRepository->rollBack();
 
             return $result;

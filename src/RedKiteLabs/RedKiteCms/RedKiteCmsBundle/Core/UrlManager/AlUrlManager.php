@@ -44,7 +44,7 @@ class AlUrlManager implements AlUrlManagerInterface
     /**
      * Constructor
      *
-     * @param \Symfony\Component\HttpKernel\KernelInterface                                        $kernel
+     * @param \Symfony\Component\HttpKernel\KernelInterface                                      $kernel
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
@@ -190,7 +190,7 @@ class AlUrlManager implements AlUrlManagerInterface
 
             return $language;
         }
-        
+
         throw new InvalidArgumentException('exception_language_not_retrieved');
     }
 
@@ -214,8 +214,8 @@ class AlUrlManager implements AlUrlManagerInterface
             $this->checkNull($page, 'exception_page_not_found');
 
             return $page;
-        } 
-        
+        }
+
         throw new InvalidArgumentException('exception_page_not_retrieved');
     }
 

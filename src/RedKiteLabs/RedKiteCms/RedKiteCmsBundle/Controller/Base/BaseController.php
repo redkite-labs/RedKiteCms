@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 abstract class BaseController extends ContainerAware
 {
     protected $translator = null;
-    
+
     protected function renderDialogMessage($message, $statusCode = 404)
     {
         $response = new Response();
@@ -31,16 +31,16 @@ abstract class BaseController extends ContainerAware
 
         return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => $message), $response);
     }
-    
+
     protected function translate($message, array $params = array(), $catalogue = "RedKiteCmsBundle")
     {
         if (null === $this->translator) {
             $this->translator = $this->container->get('red_kite_cms.translator');
         }
-        
+
         return $this->translator->translate(
-            $message, 
-            $params, 
+            $message,
+            $params,
             $catalogue
         );
     }

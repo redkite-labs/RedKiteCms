@@ -27,20 +27,20 @@ class AlExtensionGenerator extends Generator
 
     /**
      * Generates the extension file
-     * 
+     *
      * @param string $namespace
      * @param string $dir
      * @param string $themeName
-     * @param array $templates 
+     * @param array  $templates
      */
     public function generateExtension($namespace, $dir, $themeName, array $templates, array $slotFiles)
     {
         $themeBasename = str_replace('Bundle', '', $themeName);
         $extensionAlias = Container::underscore($themeBasename);
 
-        $templateFiles = array_map(function($template){ return basename($template, '.html.twig'); }, $templates);
-        $slotFiles = array_map(function($slotFile){ return basename($slotFile, '.html.twig'); }, $slotFiles);
-        
+        $templateFiles = array_map(function ($template) { return basename($template, '.html.twig'); }, $templates);
+        $slotFiles = array_map(function ($slotFile) { return basename($slotFile, '.html.twig'); }, $slotFiles);
+
         $parameters = array(
             'namespace' => $namespace,
             'bundle_basename' => $themeBasename,
@@ -52,7 +52,7 @@ class AlExtensionGenerator extends Generator
 
         $this->setSkeletonDirs($this->themeSkeletonDir);
         $extensionFile = str_replace('Bundle', '', $themeBasename) . 'Extension.php';
-        $this->renderFile('Extension.php', $dir . '/' . $extensionFile, $parameters);        
+        $this->renderFile('Extension.php', $dir . '/' . $extensionFile, $parameters);
         $message = sprintf('The extension file <info>%s</info> has been generated into <info>%s</info>', $extensionFile, $dir);
 
         return $message;

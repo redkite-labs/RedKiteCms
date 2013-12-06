@@ -50,7 +50,7 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
     /**
      * Sets the console dir path
      *
-     * @param  type                                                                       $consoleDir
+     * @param  type                                                                     $consoleDir
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessor
      *
      * @api
@@ -90,8 +90,7 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
             }
 
             return $process->run($closure);
-        }  
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }

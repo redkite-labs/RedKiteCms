@@ -92,10 +92,10 @@ class AddSeoListener
 
                 if (false !== $result) {
                     $pageRepository->commit();
-                
+
                     return;
                 }
-                
+
                 $pageRepository->rollBack();
                 $event->abort();
             }

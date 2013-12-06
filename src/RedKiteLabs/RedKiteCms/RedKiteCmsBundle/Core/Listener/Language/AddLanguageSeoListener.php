@@ -36,7 +36,7 @@ class AddLanguageSeoListener extends Base\AddLanguageBaseListener
      * Constructor
      *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface     $container
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface   $container
      *
      * @api
      */

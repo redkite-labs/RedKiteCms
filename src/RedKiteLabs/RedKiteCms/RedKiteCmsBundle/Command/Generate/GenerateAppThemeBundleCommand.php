@@ -4,8 +4,6 @@ namespace RedKiteLabs\RedKiteCmsBundle\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Sensio\Bundle\GeneratorBundle\Command\Validators;
 use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlAppThemeGenerator;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
@@ -50,7 +48,6 @@ class GenerateAppThemeBundleCommand extends BaseGenerateBundle
             $this->generator = new AlAppThemeGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
         }
         // @codeCoverageIgnoreEnd
-
         return $this->generator;
     }
 }

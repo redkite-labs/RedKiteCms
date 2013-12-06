@@ -81,7 +81,7 @@ class PagesForm extends BaseBlockType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);
-        
+
         $resolver->setDefaults(array(
             'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\Page',
         ));

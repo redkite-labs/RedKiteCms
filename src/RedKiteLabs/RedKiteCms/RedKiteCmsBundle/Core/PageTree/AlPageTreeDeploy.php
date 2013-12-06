@@ -27,7 +27,7 @@ class AlPageTreeDeploy extends AlPageTree
     protected function mergeAppBlocksAssets($assetsCollection, $type, $assetType)
     {
         $blockTypes = $this->pageBlocks->getBlockTypes();
-            
+
         // When a block has examined, it is saved in this array to avoid parsing it again
         $appsAssets = array();
 
@@ -37,10 +37,10 @@ class AlPageTreeDeploy extends AlPageTree
             if ( ! in_array($className, $blockTypes)) {
                 continue;
             }
-            
-            if ( ! in_array($className, $appsAssets)) {        
+
+            if ( ! in_array($className, $appsAssets)) {
                 $parameterSchema = '%s.%s_%s';
-                $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType); // echo $parameter;exit;    
+                $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType); // echo $parameter;exit;
                 $this->addAssetsFromContainer($assetsCollection, $parameter);
                 $this->addExtraAssets($assetsCollection, $parameter);
 

@@ -90,10 +90,10 @@ class UpdatePermalinkOnBlocksListener
 
                     if (false !== $result) {
                         $this->blockRepository->commit();
-                        
+
                         return;
                     }
-                    
+
                     $this->blockRepository->rollBack();
                     $event->abort();
                 } catch (\Exception $e) {

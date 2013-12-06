@@ -9,17 +9,17 @@ class AlUser extends BaseAlUser implements UserInterface
 {
     /**
      * {@inheritdoc}
-     * 
+     *
      * @codeCoverageIgnore
      */
     public function getRoles()
     {
         return array($this->getAlRole()->getRole());
     }
-    
+
     /**
      * {@inheritdoc}
-     * 
+     *
      * @codeCoverageIgnore
      */
     public function eraseCredentials()

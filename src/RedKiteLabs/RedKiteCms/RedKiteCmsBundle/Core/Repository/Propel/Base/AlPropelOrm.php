@@ -40,8 +40,7 @@ class AlPropelOrm implements OrmInterface
         if (null === $connection) {
             try {
                 self::$connection = \Propel::getConnection();
-            }
-            catch(\Exception $ex) {
+            } catch (\Exception $ex) {
                 // We are in test environment, so propel connection does not matter
             }
         }

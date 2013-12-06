@@ -24,11 +24,11 @@ class ConfigurationController extends Base\BaseController
     public function changeCmsLanguageAction()
     {
         $request = $this->container->get('request');
-        $languageName = $request->get('languageName');  
+        $languageName = $request->get('languageName');
 
         $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $configurationRepository = $factoryRepository->createRepository('Configuration');
-        $configuration = $configurationRepository->fetchParameter('language');                        
+        $configuration = $configurationRepository->fetchParameter('language');
         $result = $configurationRepository
             ->setRepositoryObject($configuration)
             ->save(array('Value' => $languageName))
@@ -54,6 +54,6 @@ class ConfigurationController extends Base\BaseController
                 break;
         }
 
-        return new Response($this->translate($message, $params), $statusCode); 
+        return new Response($this->translate($message, $params), $statusCode);
     }
 }

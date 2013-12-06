@@ -27,7 +27,7 @@ interface AlFactoryRepositoryInterface
     /**
      * Creates the repository
      *
-     * @param  string                                                                         $repository
+     * @param  string                                                                       $repository
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\RepositoryInterface
      */
     public function createRepository($repository);
