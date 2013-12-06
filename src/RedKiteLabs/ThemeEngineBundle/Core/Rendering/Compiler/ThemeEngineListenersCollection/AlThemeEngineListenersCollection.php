@@ -38,14 +38,14 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
             return;
         }
         // @codeCoverageIgnoreEnd
-        
+
         $this->listeners[$listenerId] = $listenerId;
     }
 
     /**
      * Returns the listener id
      *
-     * @param string $listenerId
+     * @param  string      $listenerId
      * @return null|string
      */
     public function getListenerId($listenerId)
@@ -55,7 +55,7 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
 
     /**
      * Return the current element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed Can return any type.
      * @codeCoverageIgnore
@@ -67,7 +67,7 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
 
     /**
      * Return the key of the current element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.key.php
      * @return scalar scalar on success, or <b>NULL</b> on failure.
      * @codeCoverageIgnore
@@ -79,7 +79,7 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
 
     /**
      * Move forward to next element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.next.php
      * @return void Any returned value is ignored.
      * @codeCoverageIgnore
@@ -91,7 +91,7 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
 
     /**
      * Rewind the Iterator to the first element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void Any returned value is ignored.
      * @codeCoverageIgnore
@@ -103,7 +103,7 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
 
     /**
      * Checks if current position is valid
-     * 
+     *
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean The return value will be casted to boolean and then evaluated.
      * @codeCoverageIgnore
@@ -115,7 +115,7 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
 
     /**
      * Count elements of an object
-     * 
+     *
      * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
      * @codeCoverageIgnore

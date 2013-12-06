@@ -36,12 +36,12 @@ class FileExtension extends \Twig_Extension
         if ( !file_exists($file)) {
             return sprintf('The file %s has not been found', $file);
         }
-        
+
         $contents = file_get_contents($file);
         if (null !== $maxLength) {
             $contents = substr($contents, 0, $maxLength) . ' ...<br /><span class="label label-info">RedKite CMS: file content truncated</span>';
         }
-        
+
         return $contents;
     }
 

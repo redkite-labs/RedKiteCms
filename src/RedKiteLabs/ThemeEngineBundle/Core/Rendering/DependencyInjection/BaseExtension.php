@@ -29,7 +29,7 @@ use Symfony\Component\Config\FileLocator;
  */
 abstract class BaseExtension extends Extension
 {
-    abstract function configureTheme();
+    abstract public function configureTheme();
 
     /**
      * {@inheritdoc}
@@ -42,9 +42,9 @@ abstract class BaseExtension extends Extension
 
     /**
      * Loads the them configuration recursively
-     * 
+     *
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @param array $configuration
+     * @param array                                                   $configuration
      */
     protected function loadConfigurationRecursive(ContainerBuilder $container, array $configuration)
     {

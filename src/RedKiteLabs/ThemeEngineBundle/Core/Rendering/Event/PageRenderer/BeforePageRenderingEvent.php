@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT License
- * 
+ *
  */
 
 namespace RedKiteLabs\ThemeEngineBundle\Core\Rendering\Event\PageRenderer;
@@ -29,7 +29,7 @@ class BeforePageRenderingEvent extends Event
 
     /**
      * Constructor
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\Response $response
      */
     public function __construct(Response $response)
@@ -39,7 +39,7 @@ class BeforePageRenderingEvent extends Event
 
     /**
      * Gets the response
-     * 
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getResponse()
@@ -49,7 +49,7 @@ class BeforePageRenderingEvent extends Event
 
     /**
      * Sets the response
-     * 
+     *
      * @param \Symfony\Component\HttpFoundation\Response $response
      */
     public function setResponse(Response $response)

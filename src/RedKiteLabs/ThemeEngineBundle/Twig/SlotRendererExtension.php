@@ -44,7 +44,8 @@ class SlotRendererExtension extends \Twig_Extension
     /**
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return 'slotRenderer';
     }
 }

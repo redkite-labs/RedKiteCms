@@ -67,7 +67,6 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
     {
         $key = $this->normalizeKey($name);
         if ( ! $this->hasTemplate($name)) return null;
-
         return $this->templates[$key];
     }
 
@@ -88,11 +87,11 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
 
         return array_key_exists($key, $this->templates);
     }
-    
+
     /**
      * Returns the home template or the first one when the theme does not contains
      * an home template
-     * 
+     *
      * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
      */
     public function getHomeTemplate()
@@ -105,7 +104,7 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
             sort($templates);
             $templateName = $templates[0];
         }
-        
+
         return $this->templates[$templateName];
     }
 
@@ -138,7 +137,7 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * @codeCoverageIgnore
      */
     public function next()
@@ -148,7 +147,7 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * @codeCoverageIgnore
      */
     public function rewind()

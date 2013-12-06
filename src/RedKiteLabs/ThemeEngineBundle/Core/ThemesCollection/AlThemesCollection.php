@@ -42,19 +42,19 @@ class AlThemesCollection extends AlThemeCollectionBase
     /**
      * Returns the template from its name
      *
-     * @param string $name
+     * @param  string  $name
      * @return AlTheme
      */
     public function getTheme($name)
     {
         $key = $this->normalizeKey($name);
-        
+
         return (array_key_exists($key, $this->themes)) ? $this->themes[$key] : null;
     }
 
     /**
      * Return the current element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed Can return any type.
      * @codeCoverageIgnore
@@ -66,7 +66,7 @@ class AlThemesCollection extends AlThemeCollectionBase
 
     /**
      * Return the key of the current element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.key.php
      * @return scalar scalar on success, or <b>NULL</b> on failure.
      * @codeCoverageIgnore
@@ -78,7 +78,7 @@ class AlThemesCollection extends AlThemeCollectionBase
 
     /**
      * Move forward to next element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.next.php
      * @return void Any returned value is ignored.
      * @codeCoverageIgnore
@@ -90,7 +90,7 @@ class AlThemesCollection extends AlThemeCollectionBase
 
     /**
      * Rewind the Iterator to the first element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void Any returned value is ignored.
      * @codeCoverageIgnore
@@ -102,7 +102,7 @@ class AlThemesCollection extends AlThemeCollectionBase
 
     /**
      * Checks if current position is valid
-     * 
+     *
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean The return value will be casted to boolean and then evaluated.
      * @codeCoverageIgnore
@@ -114,7 +114,7 @@ class AlThemesCollection extends AlThemeCollectionBase
 
     /**
      * Count elements of an object
-     * 
+     *
      * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
      * @codeCoverageIgnore

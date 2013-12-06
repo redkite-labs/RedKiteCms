@@ -18,8 +18,6 @@
 namespace RedKiteLabs\ThemeEngineBundle\Core\Rendering\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Event\PageRenderer\BeforePageRenderingEvent;
 use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Event\PageRendererEvents;
@@ -67,4 +65,3 @@ abstract class BaseFrontendController extends Controller
         $this->dispatcher->dispatch($eventName, $this->event);
     }
 }
-

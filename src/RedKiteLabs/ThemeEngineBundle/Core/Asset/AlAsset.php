@@ -35,7 +35,7 @@ class AlAsset
      * Constructor
      *
      * @param KernelInterface $kernel
-     * @param string $asset  The asset
+     * @param string          $asset  The asset
      */
     public function __construct(KernelInterface $kernel, $asset)
     {
@@ -62,7 +62,7 @@ class AlAsset
      */
     public function getRealPath()
     {
-        if(null === $this->asset || empty($this->asset)) {
+        if (null === $this->asset || empty($this->asset)) {
             return null;
         }
 
@@ -110,13 +110,13 @@ class AlAsset
 
     /**
      * Retrieves the web bundle folder from the current asset
-     * 
+     *
      * @return null|string
      */
     protected function retrieveBundleWebFolder()
     {
         $asset = $this->asset;
-        
+
         $namespacesFile = $this->kernel->getRootDir() . '/../vendor/composer/autoload_namespaces.php';
         if (file_exists($namespacesFile)) {
             $map = require $namespacesFile;
@@ -126,8 +126,8 @@ class AlAsset
                     $paths = array($paths);
                 }
                 // @codeCoverageIgnoreEnd
-                
-                foreach($paths as $path) {
+
+                foreach ($paths as $path) {
                     if (strpos($this->asset, $path) !== false) {
                         preg_match('/Bundle(.*)/', $this->asset, $matches);
                         $asset = str_replace("\\", "", $namespace) . $matches[1];
@@ -167,23 +167,19 @@ class AlAsset
         $asset = $this->normalizePath($asset);
         if(\substr($asset, 0, 1) != '@') $asset = '@' . $asset;
 
-        try
-        {
+        try {
             // Fetches the relative resource to locate from asset
             preg_match('/(@[^\/]+)?([\w\/\.\-_]+)?/', $asset, $match);
             if (empty($match[1])) {
                 return;
             }
-            
+
             $resource = $this->kernel->locateResource($match[1]);
-            
+
             $resourceLength = strlen($resource) - 1;
             if (substr($resource, $resourceLength, 1) == '/') $resource = substr($resource, 0, $resourceLength);
-
             return (isset($match[2])) ? $resource . $match[2] : $resource;
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             return null;
         }
     }
@@ -191,8 +187,8 @@ class AlAsset
     /**
      * Normalize a path as a unix path
      *
-     * @param   string      $path
-     * @return  string
+     * @param  string $path
+     * @return string
      */
     protected function normalizePath($path)
     {

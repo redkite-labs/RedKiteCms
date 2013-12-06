@@ -53,8 +53,8 @@ class AlTemplate
     /**
      * Constructor
      *
-     * @param KernelInterface $kernel
-     * @param AlTemplateAssets $templateAssets
+     * @param KernelInterface          $kernel
+     * @param AlTemplateAssets         $templateAssets
      * @param AlTemplateSlotsInterface $templateSlots
      */
     public function __construct(KernelInterface $kernel, AlTemplateAssets $templateAssets, AlTemplateSlotsInterface $templateSlots)
@@ -74,15 +74,15 @@ class AlTemplate
 
     /**
      * Clones the holden objects, when the object is cloned
-     * 
+     *
      * @codeCoverageIgnore
      */
-    function __clone()
+    public function __clone()
     {
         if (null !== $this->templateAssets) {
             $this->templateAssets = clone($this->templateAssets);
         }
-        
+
         if (null !== $this->templateSlots) {
             $this->templateSlots = clone($this->templateSlots);
         }
@@ -91,7 +91,7 @@ class AlTemplate
     /**
      * Sets the theme name for the associated AlTemplateAssets object
      *
-     * @param string $v
+     * @param  string                                                  $v
      * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
      */
     public function setThemeName($v)
@@ -104,7 +104,7 @@ class AlTemplate
     /**
      * Sets the template name for the associated AlTemplateAssets object
      *
-     * @param string $v
+     * @param  string                                                  $v
      * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
      */
     public function setTemplateName($v)
@@ -137,7 +137,7 @@ class AlTemplate
     /**
      * Sets the current AlTemplateSlots object
      *
-     * @param AlTemplateSlotsInterface $templateSlots
+     * @param  AlTemplateSlotsInterface                                              $templateSlots
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      */
     public function setTemplateSlots(AlTemplateSlotsInterface $templateSlots)
@@ -180,24 +180,21 @@ class AlTemplate
     /**
      * Catches the methods to manage template assets
      *
-     * @param string $name the method name
-     * @param mixed $params the values to pass to the called method
-     * @return mixed Depends on method called
+     * @param  string            $name   the method name
+     * @param  mixed             $params the values to pass to the called method
+     * @return mixed             Depends on method called
      * @throws \RuntimeException
      */
     public function __call($name, $params)
     {
-        if(preg_match('/^(add)?([Ex|In]+ternal)?([Styleshee|Javascrip]+t)$/', $name, $matches))
-        {
+        if (preg_match('/^(add)?([Ex|In]+ternal)?([Styleshee|Javascrip]+t)$/', $name, $matches)) {
             $this->addAsset(strtolower($matches[3]) . 's', strtolower($matches[2]), $params[0]);
 
             return $this;
         }
 
-        if(preg_match('/^(add)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
-        {
-            if(!is_array($params[0]))
-            {
+        if (preg_match('/^(add)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches)) {
+            if (!is_array($params[0])) {
                 throw new \RuntimeException(sprintf('%s method requires an array as argument, %s given', $name, gettype($params[0])));
             }
 
@@ -206,23 +203,21 @@ class AlTemplate
             return $this;
         }
 
-        if(preg_match('/^(get)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
-        {
+        if (preg_match('/^(get)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches)) {
             return $this->getAssets(strtolower($matches[3]), strtolower($matches[2]));
         }
-        
-        if(preg_match('/^(set)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
-        { 
+
+        if (preg_match('/^(set)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches)) {
             $a = strtolower($matches[2]);
             $b = strtolower($matches[3]);
             $this->assets->$b->$a = $params[0];
-            
+
             return;
         }
 
         throw new \RuntimeException('Call to undefined method: ' . $name);
     }
-    
+
     /*
     public function setAC($x)
     {

@@ -33,7 +33,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
      * Constructor
      *
      * @param \Symfony\Component\HttpKernel\KernelInterface $kernel
-     * @param array $assets
+     * @param array                                         $assets
      * @codeCoverageIgnore
      */
     public function __construct(KernelInterface $kernel, array $assets = array())
@@ -45,7 +45,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
 
     /**
      * Return the current element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed Can return any type.
      * @codeCoverageIgnore
@@ -57,7 +57,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
 
     /**
      * Return the key of the current element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.key.php
      * @return scalar scalar on success, or <b>NULL</b> on failure.
      * @codeCoverageIgnore
@@ -69,7 +69,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
 
     /**
      * Move forward to next element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.next.php
      * @return void Any returned value is ignored.
      * @codeCoverageIgnore
@@ -81,7 +81,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
 
     /**
      * Rewind the Iterator to the first element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void Any returned value is ignored.
      * @codeCoverageIgnore
@@ -93,7 +93,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
 
     /**
      * Checks if current position is valid
-     * 
+     *
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean The return value will be casted to boolean and then evaluated.
      * @codeCoverageIgnore
@@ -105,7 +105,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
 
     /**
      * Count elements of an object
-     * 
+     *
      * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
      * @codeCoverageIgnore
@@ -120,18 +120,17 @@ class AlAssetCollection implements AlAssetsCollectionInterface
      */
     public function add($asset)
     {
-        if(null !== $asset && $asset != "" && is_string($asset))
-        {
+        if (null !== $asset && $asset != "" && is_string($asset)) {
             $assetName = basename($asset);
             // parses the first subfolder when all the subfolder's files are required
             if ($assetName == '*') {
                 $asset = new AlAsset($this->kernel, substr($asset, 0, strlen($asset) - 2));
-                
+
                 $assetPath = $asset->getRealPath();
                 $finder = new Finder();
                 $subAssets = $finder->files()->depth(0)->in($assetPath);
                 foreach ($subAssets as $subAsset) {
-                    $this->addAsset((string)$subAsset);
+                    $this->addAsset((string) $subAsset);
                 }
 
                 return;
@@ -151,7 +150,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
 
             return;
         }
-        
+
         // Avoids assets duplication
         $key = basename($asset->getRealPath());
         if ( ! array_key_exists($key, $this->assets)) {

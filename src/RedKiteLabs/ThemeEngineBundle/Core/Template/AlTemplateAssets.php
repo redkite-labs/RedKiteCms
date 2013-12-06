@@ -16,9 +16,6 @@
 
 namespace RedKiteLabs\ThemeEngineBundle\Core\Template;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
-use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsFactoryInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
 
 /**
@@ -53,7 +50,7 @@ class AlTemplateAssets
     /**
      * Sets the template name
      *
-     * @param string $v
+     * @param  string                                                        $v
      * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets
      */
     public function setTemplateName($v)
@@ -68,7 +65,7 @@ class AlTemplateAssets
     /**
      * Sets the theme name
      *
-     * @param string $v
+     * @param  string                                                        $v
      * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets
      */
     public function setThemeName($v)
@@ -103,28 +100,26 @@ class AlTemplateAssets
     /**
      * Catches the methods to manage template assets
      *
-     * @param string $name the method name
-     * @param mixed $params the values to pass to the called method
-     * @return mixed Depends on method called
+     * @param  string            $name   the method name
+     * @param  mixed             $params the values to pass to the called method
+     * @return mixed             Depends on method called
      * @throws \RuntimeException
      */
     public function __call($name, $params)
     {
-        if (preg_match('/^(get)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches))
-        {
+        if (preg_match('/^(get)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)$/', $name, $matches)) {
             $property = strtolower($matches[2]) . $matches[3];
             $assets = $this->$property;
 
             return $assets;
         }
 
-        if (preg_match('/^(set)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)/', $name, $matches))
-        {
+        if (preg_match('/^(set)?([Ex|In]+ternal)?([Styleshee|Javascrip]+ts)/', $name, $matches)) {
             $values = $params[0];
             if ( ! is_array($values)) {
                 $values = array($values);
             }
-        
+
             $property = strtolower($matches[2]) . $matches[3];
             $this->$property = $values;
 
@@ -136,7 +131,7 @@ class AlTemplateAssets
 
     private function validateString($v)
     {
-        if(!is_string($v)) {
+        if (!is_string($v)) {
             throw new InvalidArgumentException('The called method expects a string value as param.');
         }
     }

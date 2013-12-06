@@ -45,30 +45,30 @@ class RedKiteLabsThemeEngineExtension extends Extension
         if (isset($config['base_template'])) {
             $container->setParameter('red_kite_labs_theme_engine.base_template', $config['base_template']);
         }
-        
+
         if (isset($config['render_slot_class'])) {
             $container->setParameter('twig.extension.render_slot.class', $config['render_slot_class']);
         }
-        
+
         if (isset($config['stage_templates_folder'])) {
             $container->setParameter('red_kite_labs_theme_engine.deploy.stage_templates_folder', $config['stage_templates_folder']);
         }
-        
+
         if (isset($config['templates_folder'])) {
             $container->setParameter('red_kite_labs_theme_engine.deploy.templates_folder', $config['templates_folder']);
         }
-        
+
         if (isset($config['bootstrap'])) {
             $bootstrapThemes = array();
-            foreach($config['bootstrap'] as $themes) {
-                foreach($themes as $theme) {
+            foreach ($config['bootstrap'] as $themes) {
+                foreach ($themes as $theme) {
                     $bootstrapThemes[$theme['theme']] = $theme['version'];
                 }
             }
-            
+
             $container->setParameter('red_kite_labs_theme_engine.bootstrap_themes', $bootstrapThemes);
         }
-        
+
         $container->setParameter('red_kite_labs_theme_engine.deploy_bundle', $config['deploy_bundle']);
     }
 

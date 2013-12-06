@@ -17,7 +17,6 @@
 namespace RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection;
 
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
-use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
 
 /**
  * AlTheme represents a theme and it is a collection of AlTemplate objects
@@ -29,7 +28,7 @@ abstract class AlThemeCollectionBase implements \Iterator, \Countable
     /**
      * Normalizes the given key
      *
-     * @param string $key
+     * @param  string $key
      * @return string
      */
     protected function normalizeKey($key)

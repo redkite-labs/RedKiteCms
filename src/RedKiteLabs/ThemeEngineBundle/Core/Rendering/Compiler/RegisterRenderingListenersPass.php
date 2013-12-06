@@ -31,4 +31,3 @@ class RegisterRenderingListenersPass implements CompilerPassInterface
         EventListenersRegistrator::registerByTaggedServiceId($container, 'red_kite_labs_theme_engine.event_listener');
     }
 }
-

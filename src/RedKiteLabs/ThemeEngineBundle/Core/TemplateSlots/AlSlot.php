@@ -34,18 +34,16 @@ class AlSlot
     /**
      * Constructor
      *
-     * @param string    $slotName   The slot name
-     * @param array     $options    An array of options, which are [repeated, blockType, htmlContent]
+     * @param string $slotName The slot name
+     * @param array  $options  An array of options, which are [repeated, blockType, htmlContent]
      */
     public function __construct($slotName, array $options = null)
     {
-        if(null === $slotName)
-        {
+        if (null === $slotName) {
             throw new InvalidArgumentException("The slotName param could not be null");
         }
 
-        if(!is_string($slotName))
-        {
+        if (!is_string($slotName)) {
             throw new InvalidArgumentException("The slotName param must be a string");
         }
 
@@ -67,7 +65,7 @@ class AlSlot
     {
         return $this->repeated;
     }
-    
+
     public function getForceRepeatedDuringDeploying()
     {
         return $this->forceRepeatedDuringDeploying;
@@ -105,7 +103,7 @@ class AlSlot
 
     /**
      *
-     * @param array $options    An array of options
+     * @param array $options An array of options
      */
     protected function fromArray(array $options)
     {

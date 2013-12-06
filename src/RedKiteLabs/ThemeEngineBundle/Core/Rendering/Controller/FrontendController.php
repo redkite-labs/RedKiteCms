@@ -29,32 +29,31 @@ abstract class FrontendController extends BaseFrontendController
     public function showAction()
     {
         $templatesFolder = $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder');
-        
+
         return $this->renderPage($templatesFolder);
     }
-    
+
     public function stageAction()
     {
         $stageTemplatesFolder = $this->container->getParameter('red_kite_labs_theme_engine.deploy.stage_templates_folder');
-        
+
         return $this->renderPage($stageTemplatesFolder, 'RedKiteLabsThemeEngineBundle:Stage:stage.html.twig');
     }
-    
+
     protected function renderPage($templatesFolder)
     {
         try {
             $request = $this->container->get('request');
-            
+
             $language = $request->getLocale();
             $page = $request->get('page');
             $deployBundle = $this->container->getParameter('red_kite_labs_theme_engine.deploy_bundle');
             $baseTemplate = $this->container->getParameter('red_kite_labs_theme_engine.base_template');
-            
+
             try {
                 $template = sprintf('%s:%s:%s/%s.html.twig', $deployBundle, $templatesFolder, $language, $page);
                 $response = $this->render($template, array('base_template' => $baseTemplate));
-            }
-            catch(\InvalidArgumentException $ex) { // Backward compatibility
+            } catch (\InvalidArgumentException $ex) { // Backward compatibility
                 // @codeCoverageIgnoreStart
                 $template = sprintf('%s:%s:%s.html.twig', $deployBundle, $language, $page);
                 $response = $this->render($template, array('base_template' => $baseTemplate));
@@ -65,8 +64,7 @@ abstract class FrontendController extends BaseFrontendController
             $response = $this->dispatchEvents($request, $response);
 
             return $response;
-        }
-        catch(\Exception $ex) {
+        } catch (\Exception $ex) {
             $statusCode = (method_exists($ex, 'getStatusCode')) ? $ex->getStatusCode() : 500;
             $response = new Response();
             $response->setStatusCode($statusCode);
@@ -75,7 +73,7 @@ abstract class FrontendController extends BaseFrontendController
                 'status_code' => $statusCode,
                 'message' => $ex->getMessage(),
             );
-            
+
             return $this->container->get('templating')->renderResponse('RedKiteLabsThemeEngineBundle:Error:error.html.twig', $values, $response);
         }
     }

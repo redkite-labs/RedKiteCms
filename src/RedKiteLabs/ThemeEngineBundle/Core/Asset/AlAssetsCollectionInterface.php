@@ -16,8 +16,6 @@
 
 namespace RedKiteLabs\ThemeEngineBundle\Core\Asset;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 /**
  * Defines the methods to add and remove one or more items from the
  * AlAssetsCollect

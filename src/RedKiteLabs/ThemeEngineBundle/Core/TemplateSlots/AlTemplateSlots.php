@@ -16,12 +16,6 @@
 
 namespace RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots;
 
-use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Config\FileLocator;
-use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidFixtureConfigurationException;
-use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidTemplateNameException;
-use Symfony\Component\HttpKernel\KernelInterface;
-
 /**
  * AlTemplateSlots is the object deputated to collect and manage the template's slots
  *
@@ -61,8 +55,7 @@ class AlTemplateSlots implements AlTemplateSlotsInterface
     public function toArray($fullSlot = false)
     {
         $slots = array();
-        foreach($this->slots as $slot)
-        {
+        foreach ($this->slots as $slot) {
             $slots[$slot->getRepeated()][] = ($fullSlot) ? $slot->toArray() : $slot->getSlotName();
         }
 
@@ -72,8 +65,8 @@ class AlTemplateSlots implements AlTemplateSlotsInterface
     /**
      * Returns the repeated content status for the required slot
      *
-     * @param   string   $slotName The slot name to retrieve
-     * @return  string   The repeated slot status or null if a non existent slot is required
+     * @param  string $slotName The slot name to retrieve
+     * @return string The repeated slot status or null if a non existent slot is required
      */
     public function getRepeatedContentFromSlot($slotName)
     {
@@ -85,8 +78,8 @@ class AlTemplateSlots implements AlTemplateSlotsInterface
     /**
      * Returns the default html content when a new content is added to the slot
      *
-     * @param   string   $slotName The slot name to retrieve
-     * @return  string   The default text
+     * @param  string $slotName The slot name to retrieve
+     * @return string The default text
      */
     public function getContentFromSlot($slotName)
     {
@@ -98,8 +91,8 @@ class AlTemplateSlots implements AlTemplateSlotsInterface
     /**
      * Checks if a slot exists
      *
-     * @param   string  $slotName   The slot name to check
-     * @return  boolean
+     * @param  string  $slotName The slot name to check
+     * @return boolean
      */
     private function checkSlotExists($slotName)
     {

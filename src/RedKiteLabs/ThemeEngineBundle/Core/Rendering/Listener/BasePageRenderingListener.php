@@ -16,7 +16,6 @@
 
 namespace RedKiteLabs\ThemeEngineBundle\Core\Rendering\Listener;
 
-
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Event\PageRenderer\BeforePageRenderingEvent;
 use RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent;
@@ -35,15 +34,15 @@ abstract class BasePageRenderingListener
     /**
      * Returns an array of \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent
      * objects.
-     * 
+     *
      * @return array
      */
     abstract protected function renderSlotContents();
 
     /**
      * Constructor
-     * 
-     * @param ContainerInterface $container 
+     *
+     * @param ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -52,16 +51,16 @@ abstract class BasePageRenderingListener
 
     /**
      * Handles the event when notified or filtered.
-     * 
-     * @param BeforePageRenderingEvent $event
-     * @throws \InvalidArgumentException 
+     *
+     * @param  BeforePageRenderingEvent  $event
+     * @throws \InvalidArgumentException
      */
     public function onPageRendering(BeforePageRenderingEvent $event)
     {
         $response = $event->getResponse();
 
         $slotContents = $this->renderSlotContents();
-        
+
         if (!is_array($slotContents)) {
             throw new \InvalidArgumentException('"renderSlotContents" method must return an array');
         }
@@ -75,11 +74,11 @@ abstract class BasePageRenderingListener
 
     /**
      * Renders the current slot
-     * 
-     * @param Response $response
-     * @param AlSlotContent $slotContent
+     *
+     * @param  Response                                   $response
+     * @param  AlSlotContent                              $slotContent
      * @return \Symfony\Component\HttpFoundation\Response
-     * @throws \RuntimeException 
+     * @throws \RuntimeException
      */
     protected function renderSlot(Response $response, AlSlotContent $slotContent)
     {
@@ -107,10 +106,10 @@ abstract class BasePageRenderingListener
 
     /**
      * Replaces rhe content on the current slot with the new one
-     * 
-     * @param AlSlotContent $slotContent
-     * @param string $content The content to replace
-     * @return string 
+     *
+     * @param  AlSlotContent $slotContent
+     * @param  string        $content     The content to replace
+     * @return string
      */
     protected function replaceContent(AlSlotContent $slotContent, $content)
     {
@@ -121,10 +120,10 @@ abstract class BasePageRenderingListener
 
     /**
      * Injects the content at the end of the fiven content
-     * 
-     * @param AlSlotContent $slotContent
-     * @param string $content The content to inject
-     * @return string 
+     *
+     * @param  AlSlotContent $slotContent
+     * @param  string        $content     The content to inject
+     * @return string
      */
     protected function injectContent(AlSlotContent $slotContent, $content)
     {
@@ -133,7 +132,7 @@ abstract class BasePageRenderingListener
             return;
         }
         $newContent = $match[1] . PHP_EOL . $slotContent->getContent();
-        
+
         return preg_replace($regex, $newContent, $content);
     }
 
