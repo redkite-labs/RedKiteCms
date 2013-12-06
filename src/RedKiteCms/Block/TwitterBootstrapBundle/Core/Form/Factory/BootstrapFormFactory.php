@@ -24,7 +24,7 @@ class BootstrapFormFactory
     /**
      * Comnstructor
      *
-     * @param AlActiveThemeInterface $activeTheme
+     * @param AlActiveThemeInterface                       $activeTheme
      * @param \Symfony\Component\Form\FormFactoryInterface $formFactory
      */
     public function __construct(AlActiveThemeInterface $activeTheme, FormFactoryInterface $formFactory)
@@ -36,24 +36,24 @@ class BootstrapFormFactory
     /**
      * Creates the form
      *
-     * @param string $type
-     * @param string $formName
-     * @param array $data
+     * @param  string                                $type
+     * @param  string                                $formName
+     * @param  array                                 $data
      * @return \Symfony\Component\Form\FormInterface
      */
     public function createForm($type, $formName, array $data = null)
     {
         $formClass = $this->getFormClass($type, $formName);
         $form = $this->formFactory->create(new $formClass(), $data);
-        
+
         return $form;
     }
 
     /**
      * Returns the form class name
      *
-     * @param string $type
-     * @param string $formName
+     * @param  string $type
+     * @param  string $formName
      * @return string
      */
     protected function getFormClass($type, $formName)
@@ -68,13 +68,13 @@ class BootstrapFormFactory
                 $bootstrapToken = "Three";
                 break;
         }
-        
+
         if (null === $bootstrapToken) {
             throw new RuntimeException(sprintf("Something went wrong: I cannot find any valid form for %s Twitter Bootstrap version", $bootstrapVersion));
         }
-        
+
         $formClass = sprintf("RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\%s\%s\%s", $type, $bootstrapToken, $formName);
-        
+
         return new $formClass();
     }
 }

@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the TwitterBootstrapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Three;
@@ -26,7 +26,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  * @author RedKite Labs <info@redkite-labs.com>
  */
 abstract class AlNavbarBaseType extends AlBaseType
-{   
+{
     /**
      * Builds the form
      *
@@ -35,16 +35,16 @@ abstract class AlNavbarBaseType extends AlBaseType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('alignment', 'choice', $this->setChoices());
-        
+
         parent::buildForm($builder, $options);
     }
-    
+
     protected function setChoices()
     {
         return array(
-            'label' => 'navbar_alignment', 
+            'label' => 'navbar_alignment',
             'choices' => array(
-                "navbar-left" => "Left", 
+                "navbar-left" => "Left",
                 "navbar-right" => "Right",
             ),
         );

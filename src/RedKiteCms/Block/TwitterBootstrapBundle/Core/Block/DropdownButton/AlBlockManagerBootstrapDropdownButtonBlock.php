@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the TwitterBootstrapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton;
@@ -28,9 +28,9 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
  */
 class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
 {
-    protected $blockTemplate = 'TwitterBootstrapBundle:Content:DropdownButton/dropdown_button.html.twig';  
+    protected $blockTemplate = 'TwitterBootstrapBundle:Content:DropdownButton/dropdown_button.html.twig';
     protected $editorTemplate = 'TwitterBootstrapBundle:Editor:DropdownButton/dropdown_editor.html.twig';
-    
+
     /**
      * Defines the App-Block's default value
      *
@@ -47,22 +47,22 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
                     "button_dropup" : "none",
                     "items": [
                         {
-                            "data" : "Item 1", 
-                            "metadata" : {  
+                            "data" : "Item 1",
+                            "metadata" : {
                                 "type": "link",
                                 "href": "#"
                             }
                         },
-                        { 
-                            "data" : "Item 2", 
-                            "metadata" : {  
+                        {
+                            "data" : "Item 2",
+                            "metadata" : {
                                 "type": "link",
                                 "href": "#"
                             }
                         },
-                        { 
-                            "data" : "Item 3", 
-                            "metadata" : {  
+                        {
+                            "data" : "Item 3",
+                            "metadata" : {
                                 "type": "link",
                                 "href": "#"
                             }
@@ -71,10 +71,10 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
                 }
             }
             ';
-        
+
         return array('Content' => $value);
     }
-    
+
     /**
      * Renders the App-Block's content view
      *
@@ -83,13 +83,13 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
     protected function renderHtml()
     {
         $items = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
-        
+
         return array('RenderView' => array(
             'view' => $this->blockTemplate,
             'options' => array('data' => $items[0]),
         ));
     }
-    
+
     /**
      * Defines the parameters passed to the App-Block's editor
      *
@@ -99,36 +99,36 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
     {
         $items = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
         $item = $items[0];
-        $items = $item["items"];  
+        $items = $item["items"];
         unset($item["items"]);
-        
+
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
         $form = $bootstrapFormFactory->createForm('DropdownButton', 'AlDropdownButtonType', $item);
-        
-        $seoRepository = $this->factoryRepository->createRepository('Seo');        
+
+        $seoRepository = $this->factoryRepository->createRepository('Seo');
         $request = $this->container->get('request');
-        
+
         return array(
             "template" => $this->editorTemplate,
             "title" => $this->translator->translate('dropdown_button_editor_title', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
-            'items' => $items,  
+            'items' => $items,
             'permalinks' => ChoiceValues::getPermalinks($seoRepository, $request->get('_locale')),
         );
     }
-    
+
     /**
      * Edits the current block object
-     * 
+     *
      * @codeCoverageIgnore
      */
     protected function edit(array $values)
     {
         $values = $this->saveDropdownItems($values);
 
-        return parent::edit($values); 
+        return parent::edit($values);
     }
-    
+
     /**
      * Saves the dropdown items
      *
@@ -136,20 +136,20 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
      * @return array
      */
     protected function saveDropdownItems(array $values)
-    { 
+    {
         if (array_key_exists('Content', $values)) {
             $unserializedData = array();
             $serializedData = $values['Content'];
             parse_str($serializedData, $unserializedData);
-            
+
             $buttonValues = $unserializedData["al_json_block"];
             if (array_key_exists("dropdown_items_form", $unserializedData)) {
                 $buttonValues += array('items' => $unserializedData["dropdown_items_form"]);
             }
-            
+
             $values['Content'] = json_encode(array($buttonValues));
         }
-        
+
         return $values;
     }
 }

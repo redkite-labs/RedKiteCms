@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the TwitterBootstrapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
@@ -29,14 +29,14 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
 class AlBlockManagerBootstrapNavbarFormBlock extends AlBlockManagerBootstrapButtonBlock
 {
     private $bootstrapVersion;
-    
+
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($container, $validator);
-        
-        $this->bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion(); 
+
+        $this->bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
     }
-    
+
     /**
      * Defines the App-Block's default value
      *
@@ -45,7 +45,7 @@ class AlBlockManagerBootstrapNavbarFormBlock extends AlBlockManagerBootstrapButt
     public function getDefaultValue()
     {
         $alignment = 'navbar-left';
-        if($this->bootstrapVersion == '2.x') {
+        if ($this->bootstrapVersion == '2.x') {
             $alignment = 'pull-left';
         }
         $value = '
@@ -61,10 +61,10 @@ class AlBlockManagerBootstrapNavbarFormBlock extends AlBlockManagerBootstrapButt
                 }
             }
         ';
-        
+
         return array('Content' => $value);
     }
-    
+
     /**
      * Renders the App-Block's content view
      *
@@ -73,17 +73,17 @@ class AlBlockManagerBootstrapNavbarFormBlock extends AlBlockManagerBootstrapButt
     protected function renderHtml()
     {
         $data = $this->decodeJsonContent($this->alBlock->getContent());
-        
+
         $template = sprintf('TwitterBootstrapBundle:Content:Navbar/Form/%s/navbar_form.html.twig', $this->bootstrapVersion);
-        
+
         return array('RenderView' => array(
             'view' => $template,
             'options' => array(
-                'data' => $data[0], 
+                'data' => $data[0],
             ),
         ));
     }
-    
+
     /**
      * Defines the parameters passed to the App-Block's editor
      *
@@ -92,10 +92,10 @@ class AlBlockManagerBootstrapNavbarFormBlock extends AlBlockManagerBootstrapButt
     public function editorParameters()
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
-        
+
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
         $form = $bootstrapFormFactory->createForm('Navbar\Form', 'AlNavbarFormType', $items[0]);
-        
+
         return array(
             "template" => "TwitterBootstrapBundle:Editor:Navbar/Form/navbar_form_editor.html.twig",
             "title" => $this->translator->translate('navbar_form_editor_title', array(), 'TwitterBootstrapBundle'),

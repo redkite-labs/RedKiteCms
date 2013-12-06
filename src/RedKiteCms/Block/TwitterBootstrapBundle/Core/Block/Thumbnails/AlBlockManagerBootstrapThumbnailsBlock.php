@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the TwitterBootstrapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,14 +10,12 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails;
-
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollection;
 
 /**
  * Defines the Block Manager to handle a collection of Bootstrap Thumbnails
@@ -32,7 +30,7 @@ class AlBlockManagerBootstrapThumbnailsBlock extends AlBlockManagerBootstrapSimp
      * @return array
      */
     public function getDefaultValue()
-    {        
+    {
         $value = '
             {
                 "0" : {
@@ -42,7 +40,7 @@ class AlBlockManagerBootstrapThumbnailsBlock extends AlBlockManagerBootstrapSimp
                     "type": "BootstrapThumbnailBlock"
                 }
             }';
-        
+
         return array('Content' => $value);
     }
 }

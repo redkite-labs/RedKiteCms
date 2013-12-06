@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the TwitterBootstrapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails;
@@ -32,7 +32,7 @@ class AlBlockManagerBootstrapSimpleThumbnailsBlock extends AlBlockManagerJsonBlo
      * @return array
      */
     public function getDefaultValue()
-    {        
+    {
         $value = '
             {
                 "0" : {
@@ -42,7 +42,7 @@ class AlBlockManagerBootstrapSimpleThumbnailsBlock extends AlBlockManagerJsonBlo
                     "type": "BootstrapSimpleThumbnailBlock"
                 }
             }';
-        
+
         return array('Content' => $value);
     }
 
@@ -54,9 +54,9 @@ class AlBlockManagerBootstrapSimpleThumbnailsBlock extends AlBlockManagerJsonBlo
     protected function renderHtml()
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
-        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();   
+        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
         $template = 'TwitterBootstrapBundle:Content:Thumbnails/' . $bootstrapVersion . '/thumbnails.html.twig';
-        
+
         return array('RenderView' => array(
             'view' => $template,
             'options' => array(

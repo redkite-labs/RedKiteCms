@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the TwitterBootstrapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,11 +10,11 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
- 
+
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Thumbnail\Two;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base\AlBaseType;
@@ -34,9 +34,9 @@ class AlThumbnailType extends AlBaseType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('width', 'choice', 
-            array('label' => 'thumbnail_width_attribute', 
-                'choices' => 
+        $builder->add('width', 'choice',
+            array('label' => 'thumbnail_width_attribute',
+                'choices' =>
                 array(
                     'none' => 'none',
                     'span1' => 'span1 (60px)',
@@ -53,8 +53,8 @@ class AlThumbnailType extends AlBaseType
                     'span12' => 'span12 (940px)',
                 )
             )
-        );  
-        
+        );
+
         parent::buildForm($builder, $options);
     }
 }

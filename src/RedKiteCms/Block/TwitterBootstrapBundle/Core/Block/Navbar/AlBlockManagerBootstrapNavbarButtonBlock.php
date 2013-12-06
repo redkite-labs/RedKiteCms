@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the TwitterBootstrapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
@@ -27,7 +27,7 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button\AlBlockManagerBoot
 class AlBlockManagerBootstrapNavbarButtonBlock extends AlBlockManagerBootstrapButtonBlock
 {
     protected $blockTemplate = 'TwitterBootstrapBundle:Content:Navbar/Button/navbar_button.html.twig';
-    
+
     /**
      * Defines the App-Block's default value
      *
@@ -47,10 +47,10 @@ class AlBlockManagerBootstrapNavbarButtonBlock extends AlBlockManagerBootstrapBu
                 }
             }
         ';
-        
+
         return array('Content' => $value);
     }
-    
+
     /**
      * Defines the parameters passed to the App-Block's editor
      *
@@ -60,10 +60,10 @@ class AlBlockManagerBootstrapNavbarButtonBlock extends AlBlockManagerBootstrapBu
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         $item = $items[0];
-        
+
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
         $form = $bootstrapFormFactory->createForm('Navbar\Button', 'AlNavbarButtonType', $item);
-        
+
         return array(
             "template" => "TwitterBootstrapBundle:Editor:Button/button_editor.html.twig",
             "title" => $this->translator->translate('button_block_editor_title', array(), 'TwitterBootstrapBundle'),

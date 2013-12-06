@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the TwitterBootstrapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Label;
@@ -26,8 +26,8 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
  */
 class AlBlockManagerBootstrapLabelBlock extends AlBlockManagerJsonBlockContainer
 {
-    protected $formParam = 'bootstraplabelblock.form';    
-    protected $blockTemplate = 'TwitterBootstrapBundle:Content:Label/label.html.twig';    
+    protected $formParam = 'bootstraplabelblock.form';
+    protected $blockTemplate = 'TwitterBootstrapBundle:Content:Label/label.html.twig';
     protected $editorTemplate = 'TwitterBootstrapBundle:Editor:Label/label_editor.html.twig';
 
     /**
@@ -37,7 +37,7 @@ class AlBlockManagerBootstrapLabelBlock extends AlBlockManagerJsonBlockContainer
      */
     public function getDefaultValue()
     {
-        $value = 
+        $value =
             '
                 {
                     "0" : {
@@ -46,10 +46,10 @@ class AlBlockManagerBootstrapLabelBlock extends AlBlockManagerJsonBlockContainer
                     }
                 }
             ';
-        
+
         return array('Content' => $value);
     }
-    
+
     /**
      * Renders the App-Block's content view
      *
@@ -58,26 +58,26 @@ class AlBlockManagerBootstrapLabelBlock extends AlBlockManagerJsonBlockContainer
     protected function renderHtml()
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
-        
+
         return array('RenderView' => array(
             'view' => $this->blockTemplate,
             'options' => array('data' => $items[0]),
         ));
     }
-    
+
     /**
      * Defines the parameters passed to the App-Block's editor
      *
      * @return array
      */
     public function editorParameters()
-    {        
+    {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         $item = $items[0];
-        
+
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
         $form = $bootstrapFormFactory->createForm('Label', 'AlLabelType', $item);
-        
+
         return array(
             "template" => $this->editorTemplate,
             "title" => $this->translator->translate('label_block_editor_title', array(), 'TwitterBootstrapBundle'),

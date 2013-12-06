@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the TwitterBootstrapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\SplitDropdownButton;
@@ -26,8 +26,8 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\AlBlockMan
  */
 class AlBlockManagerBootstrapSplitDropdownButtonBlock extends AlBlockManagerBootstrapDropdownButtonBlock
 {
-    protected $blockTemplate = 'TwitterBootstrapBundle:Content:SplitDropdownButton/split_dropdown_button.html.twig';  
-    
+    protected $blockTemplate = 'TwitterBootstrapBundle:Content:SplitDropdownButton/split_dropdown_button.html.twig';
+
     /**
      * Defines the App-Block's default value
      *
@@ -44,24 +44,24 @@ class AlBlockManagerBootstrapSplitDropdownButtonBlock extends AlBlockManagerBoot
                     "button_dropup" : "none",
                     "items": [
                         {
-                            "data" : "Item 1", 
-                            "metadata" : {  
+                            "data" : "Item 1",
+                            "metadata" : {
                                 "type": "link",
                                 "href": "#",
                                 "attributes": {}
                             }
                         },
-                        { 
-                            "data" : "Item 2", 
-                            "metadata" : {  
+                        {
+                            "data" : "Item 2",
+                            "metadata" : {
                                 "type": "link",
                                 "href": "#",
                                 "attributes": {}
                             }
                         },
-                        { 
-                            "data" : "Item 3", 
-                            "metadata" : {  
+                        {
+                            "data" : "Item 3",
+                            "metadata" : {
                                 "type": "link",
                                 "href": "#",
                                 "attributes": {}
@@ -71,7 +71,7 @@ class AlBlockManagerBootstrapSplitDropdownButtonBlock extends AlBlockManagerBoot
                 }
             }
         ';
-        
+
         return array('Content' => $value);
     }
 }

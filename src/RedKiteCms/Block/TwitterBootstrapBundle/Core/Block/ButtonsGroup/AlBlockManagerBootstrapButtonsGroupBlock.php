@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the TwitterBootstrapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\ButtonsGroup;
@@ -27,14 +27,14 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
 class AlBlockManagerBootstrapButtonsGroupBlock extends AlBlockManagerJsonBlockCollection
 {
     private $visibleColumns = array('button_text');
-    
+
     /**
      * Defines the App-Block's default value
      *
      * @return array
      */
     public function getDefaultValue()
-    {        
+    {
         $value =
         '{
             "0" : {
@@ -47,10 +47,10 @@ class AlBlockManagerBootstrapButtonsGroupBlock extends AlBlockManagerJsonBlockCo
                 "type": "BootstrapButtonBlock"
             }
         }';
-        
+
         return array('Content' => $value);
     }
-    
+
     /**
      * Renders the App-Block's content view
      *
@@ -61,9 +61,9 @@ class AlBlockManagerBootstrapButtonsGroupBlock extends AlBlockManagerJsonBlockCo
         if (null === $this->alBlock) {
             return "";
         }
-        
+
         $buttons = $this->decodeJsonContent($this->alBlock->getContent(), true);
-        
+
         return array(
             "RenderView" => array(
                 "view" => "TwitterBootstrapBundle:Content:ButtonsGroup/buttons_group.html.twig",

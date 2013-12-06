@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the TwitterBootstrapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Slider;
@@ -66,23 +66,23 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
             'Content' => $defaultValue,
         );
     }
-    
+
     /**
      * Defines the parameters passed to the App-Block's editor
      *
      * @return array
      */
     public function editorParameters()
-    {        
+    {
         $items = array();
         $values = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
-        /*while( ! empty($values)) {
+        /*while ( ! empty($values)) {
             $items[] = array_splice($values, 0, 3);
         }*/
-        
+
         $formClass = $this->container->get('bootstrapsliderblock.form');
         $form = $this->container->get('form.factory')->create($formClass);
-        
+
         return array(
             "template" => 'TwitterBootstrapBundle:Editor:Slider/editor.html.twig',
             "title" => $this->translator->translate('slider_editor_title', array(), 'TwitterBootstrapBundle'),
@@ -91,7 +91,7 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
             'items' => $values,
         );
     }
-    
+
     /**
      * Renders the App-Block's content view
      *
@@ -102,12 +102,12 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
         if (null === $this->alBlock) {
             return "";
         }
-        
+
         $images = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock);
-        
-        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion(); 
+
+        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
         $template = sprintf('TwitterBootstrapBundle:Content:Slider/%s/content.html.twig', $bootstrapVersion);
-        
+
         return array(
             "RenderView" => array(
                 "view" => $template,
@@ -117,10 +117,10 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
             )
         );
     }
-    
+
     /**
      * Edits the current block object
-     * 
+     *
      * @param  array
      * @return boolean
      * @codeCoverageIgnore
@@ -129,15 +129,15 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
     {
         $values = $this->removeFormNameReference($values);
         $values["Content"] = urldecode($values["Content"]);
-        
+
         return parent::edit($values);
     }
-    
+
     /**
-     * Removes the form name from the images' attributes given back from the attributes 
+     * Removes the form name from the images' attributes given back from the attributes
      * form
      *
-     * @param array $values
+     * @param  array $values
      * @return array
      */
     protected function removeFormNameReference(array $values)
@@ -146,10 +146,10 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
             $formClass = $this->container->get('bootstrapsliderblock.form');
             $buttonForm = $this->container->get('form.factory')->create($formClass);
 
-            $formName = $buttonForm->getName() . "_";  
+            $formName = $buttonForm->getName() . "_";
             $values["Content"] = str_replace($formName, "", $values["Content"]);
         }
-        
+
         return $values;
     }
 }

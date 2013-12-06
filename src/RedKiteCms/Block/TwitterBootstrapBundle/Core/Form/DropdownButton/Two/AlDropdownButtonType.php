@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the BusinessDropCapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\DropdownButton\Two;
@@ -39,10 +39,10 @@ class AlDropdownButtonType extends AbstractType
         $builder->add('button_type', 'choice', array('label' => 'button_block_type', 'choices' => array('' => 'base', 'btn-primary' => 'primary', 'btn-info' => 'info', 'btn-success' => 'success', 'btn-warning' => 'warning', 'btn-danger' => 'danger', 'btn-inverse' => 'inverse')));
         $builder->add('button_attribute', 'choice', array('label' => 'button_block_attribute', 'choices' => array("" => "normal", "btn-mini" => "mini", "btn-small" => "small", "btn-large" => "large")));
         $builder->add('button_block', 'choice', array('label' => 'button_block_attribute_block', 'choices' => array("" => "normal", "btn-block" => "block")));
-        $builder->add('button_enabled', 'choice', array('label' => 'button_block_enabled', 'choices' => array("" => "enabled", "disabled" => "disabled")));        
+        $builder->add('button_enabled', 'choice', array('label' => 'button_block_enabled', 'choices' => array("" => "enabled", "disabled" => "disabled")));
         $builder->add('button_href', "text", array('label' => 'button_block_href',));
     }
-    
+
     /**
      * Sets the default options for this type
      *
@@ -51,11 +51,11 @@ class AlDropdownButtonType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'translation_domain' => 'TwitterBootstrapBundle',  
+            'translation_domain' => 'TwitterBootstrapBundle',
             'csrf_protection' => false,
         ));
     }
-    
+
     /**
      * Returns the name of this type
      *

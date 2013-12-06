@@ -1,7 +1,7 @@
 <?php
 /*
  * This file is part of the TwitterBootstrapBundle and it is distributed
- * under the MIT LICENSE. To use this application you must leave intact this copyright 
+ * under the MIT LICENSE. To use this application you must leave intact this copyright
  * notice.
  *
  * Copyright (c) RedKite Labs <info@redkite-labs.com>
@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
- * 
+ *
  * @license    MIT LICENSE
- * 
+ *
  */
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
@@ -27,8 +27,8 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
  */
 class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrapDropdownButtonBlock
 {
-    protected $blockTemplate = 'TwitterBootstrapBundle:Content:Navbar/Dropdown/navbar_dropdown_button.html.twig';  
-    
+    protected $blockTemplate = 'TwitterBootstrapBundle:Content:Navbar/Dropdown/navbar_dropdown_button.html.twig';
+
     /**
      * Defines the App-Block's default value
      *
@@ -45,22 +45,22 @@ class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrap
                     "button_dropup" : "none",
                     "items": [
                         {
-                            "data" : "Item 1", 
-                            "metadata" : {  
+                            "data" : "Item 1",
+                            "metadata" : {
                                 "type": "link",
                                 "href": "#"
                             }
                         },
-                        { 
-                            "data" : "Item 2", 
-                            "metadata" : {  
+                        {
+                            "data" : "Item 2",
+                            "metadata" : {
                                 "type": "link",
                                 "href": "#"
                             }
                         },
-                        { 
-                            "data" : "Item 3", 
-                            "metadata" : {  
+                        {
+                            "data" : "Item 3",
+                            "metadata" : {
                                 "type": "link",
                                 "href": "#"
                             }
@@ -68,10 +68,10 @@ class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrap
                     ]
                 }
             }';
-        
+
         return array('Content' => $value);
     }
-    
+
     /**
      * Defines the parameters passed to the App-Block's editor
      *
@@ -81,17 +81,17 @@ class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrap
     {
         $dropdown = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock->getContent());
         $item = $dropdown[0];
-        $items = $item["items"];  
+        $items = $item["items"];
         unset($item["items"]);
-        
+
         $formClass = $this->container->get('bootstrap_navbar_dropbown.form');
         $form = $this->container->get('form.factory')->create($formClass, $item);
-        
+
         return array(
             "template" => $this->editorTemplate,
             "title" =>  $this->translator->translate('dropdown_button_editor_title', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
-            'items' => $items,  
+            'items' => $items,
         );
     }
 }

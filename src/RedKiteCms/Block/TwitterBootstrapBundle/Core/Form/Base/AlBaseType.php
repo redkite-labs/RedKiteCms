@@ -26,7 +26,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @author RedKite Labs <info@redkite-labs.com>
  */
 abstract class AlBaseType extends JsonBlockType
-{  
+{
     /**
      * Sets the default options for this type
      *
@@ -35,7 +35,7 @@ abstract class AlBaseType extends JsonBlockType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'translation_domain' => 'TwitterBootstrapBundle',  
+            'translation_domain' => 'TwitterBootstrapBundle',
             'csrf_protection' => false,
         ));
     }
