@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  *
  * For extra documentation and help please visit http://redkite-labs.com
- * 
+ *
  * @license    MIT License
  */
 

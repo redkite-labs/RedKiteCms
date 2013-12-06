@@ -23,9 +23,9 @@ use RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloader;
 use RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloaderCollection;
 
 /**
- * Parses bundles installed by composer, checks if the bundle has an autoload.json 
- * file in its main root folder and when the file is present, copies the autoloader.json, 
- * the routing.yml and config.yml under the app/config/bundles folder, to autoconfigure 
+ * Parses bundles installed by composer, checks if the bundle has an autoload.json
+ * file in its main root folder and when the file is present, copies the autoloader.json,
+ * the routing.yml and config.yml under the app/config/bundles folder, to autoconfigure
  * the bundle.
  *
  * @author RedKite Labs <info@redkite-labs.com>
@@ -53,10 +53,10 @@ class BundlesAutoloader
     /**
      * Constructor
      *
-     * @param string $kernelDir     The kernel directory path
-     * @param string $environment   The current environment
-     * @param array $bundles        The bundles already loaded
-     * @param null|array $searchFolders   Adds extra folders to be parsed to look for other budles to autoload. When null looks for RedKiteLabs's blocks
+     * @param string     $kernelDir     The kernel directory path
+     * @param string     $environment   The current environment
+     * @param array      $bundles       The bundles already loaded
+     * @param null|array $searchFolders Adds extra folders to be parsed to look for other budles to autoload. When null looks for RedKiteLabs's blocks
      */
     public function __construct($kernelDir, $environment, array $bundles, $searchFolders = null)
     {
@@ -64,14 +64,14 @@ class BundlesAutoloader
         $this->kernelDir = $kernelDir;
         $this->vendorDir = $this->kernelDir . '/../vendor';
         $this->searchFolders = array(
-            $this->kernelDir . '/../src/RedKiteCms/Block', 
+            $this->kernelDir . '/../src/RedKiteCms/Block',
             $this->kernelDir . '/../src/RedKiteCms/Theme',
         );
         if (null !== $searchFolders) {
             $this->searchFolders = $searchFolders;
         }
         $this->filesystem = new Filesystem();
-        
+
         $this->setupFolders();
 
         // @codeCoverageIgnoreStart
@@ -90,14 +90,14 @@ class BundlesAutoloader
     public function getBundles()
     {
         $this->run();
-        
+
         return $this->bundles;
     }
 
     /**
      * Sets the vendor directory path
      *
-     * @param type $vendorDir
+     * @param  type                                                           $vendorDir
      * @return \RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader
      * @codeCoverageIgnore
      */
@@ -113,7 +113,7 @@ class BundlesAutoloader
      */
     protected function run()
     {
-        if ( ! $this->bootstrapped) {
+        if (! $this->bootstrapped) {
             $this->autoloaderCollection = new JsonAutoloaderCollection($this->vendorDir, $this->searchFolders);
             $this->retrieveInstalledBundles();
             $this->install();
@@ -146,7 +146,7 @@ class BundlesAutoloader
                 }
             }
         }
-        
+
         arsort($order);
 
         // Arranges the bundles entries
@@ -170,7 +170,7 @@ class BundlesAutoloader
                 }
             }
         }
-        
+
         $this->register('all');
         $this->register($this->environment);
         $this->orderBundles();
@@ -191,7 +191,7 @@ class BundlesAutoloader
                     if ( ! class_exists($bundleClass)) {
                         throw new InvalidAutoloaderException(sprintf("The bundle class %s does not exist. Check the bundle's autoload.json to fix the problem", $bundleClass, get_class($this)));
                     }
-                    
+
                     if ( ! in_array($bundle->getName(), $this->bundles)) {
                         $instantiatedBundle = new $bundleClass;
                         $this->bundles[$bundle->getName()] = $instantiatedBundle;
@@ -222,8 +222,8 @@ class BundlesAutoloader
     /**
      * Installs the autoloader.json, the routing and config files
      *
-     * @param string $sourceFolder          The source folder where the autoloader is placed
-     * @param JsonAutoloader $autoloader    The generated autoloader object
+     * @param string         $sourceFolder The source folder where the autoloader is placed
+     * @param JsonAutoloader $autoloader   The generated autoloader object
      */
     protected function installPackage($sourceFolder, JsonAutoloader $autoloader)
     {
@@ -242,7 +242,7 @@ class BundlesAutoloader
 
     /**
      * Copies a configuration file from bundle to application folder
-     * 
+     *
      * @param string $section
      * @param string $filename
      * @param string $sourceFolder
@@ -279,7 +279,7 @@ class BundlesAutoloader
         $autoloaders = $finder->files()->depth(0)->name('*.json')->in($this->autoloadersPath);
         foreach ($autoloaders as $autoloader) {
             $bundleName = strtolower(basename($autoloader->getFilename(), '.json'));
-            $jsonAutoloader = new JsonAutoloader($bundleName, (string)$autoloader);
+            $jsonAutoloader = new JsonAutoloader($bundleName, (string) $autoloader);
             $this->installedBundles[$bundleName] = $jsonAutoloader;
         }
     }
@@ -287,7 +287,7 @@ class BundlesAutoloader
     /**
      * Retrieves the current bundle class
      *
-     * @param string $path The bundle's path
+     * @param  string $path The bundle's path
      * @return string
      */
     protected function getBundleName($path)
@@ -306,7 +306,7 @@ class BundlesAutoloader
     /**
      * Checks if the bundle has an autoloader.json file
      *
-     * @param string $path The bundle's path
+     * @param  string  $path The bundle's path
      * @return boolean
      */
     protected function hasAutoloader($path)

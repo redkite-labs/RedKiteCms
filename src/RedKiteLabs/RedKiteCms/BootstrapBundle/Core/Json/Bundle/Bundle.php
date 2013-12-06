@@ -31,7 +31,7 @@ class Bundle
 
     /**
      * Returns the bundle name
-     * 
+     *
      * @return string
      */
     public function getName()
@@ -41,7 +41,7 @@ class Bundle
 
     /**
      * Returns the class that defines the bundle
-     * 
+     *
      * @return string
      */
     public function getClass()
@@ -51,8 +51,8 @@ class Bundle
 
     /**
      * Sets the bundle class
-     * 
-     * @param string $class
+     *
+     * @param  string                                               $class
      * @return \RedKiteLabs\BootstrapBundle\Core\Json\Bundle\Bundle
      * @throws InvalidJsonParameterException
      */
@@ -64,13 +64,13 @@ class Bundle
         }
         $this->name = basename($match[1]);
         $this->class = $class;
-        
+
         return $this;
     }
 
     /**
      * Returns an array which contains the overrided bundles or null
-     * 
+     *
      * @return array|null
      */
     public function getOverrides()
@@ -80,14 +80,14 @@ class Bundle
 
     /**
      * Sets the overrides bundles
-     * 
-     * @param array $overrides
+     *
+     * @param  array                                                $overrides
      * @return \RedKiteLabs\BootstrapBundle\Core\Json\Bundle\Bundle
      */
     public function setOverrides(array $overrides)
     {
         $this->overrides = $overrides;
-        
+
         return $this;
     }
 }

@@ -18,16 +18,16 @@ namespace RedKiteLabs\BootstrapBundle\Core\Json;
 
 /**
  * Implemens some basic functions to manage the json format
- * 
+ *
  * @author RedKite Labs <info@redkite-labs.com>
  */
 class BaseJson
 {
     /**
      * Returns filename contents when exists or an empty string
-     * 
-     * @param string  $file
-     * @return string 
+     *
+     * @param  string $file
+     * @return string
      */
     public function getFileContents($file)
     {
@@ -35,33 +35,33 @@ class BaseJson
         if (file_exists($file)) {
             $contents = file_get_contents($file);
         }
-        
+
         return  $contents;
     }
 
     /**
      * Decodes the json contents readed from the given file, into an array
-     * 
-     * @param string $file
-     * @return array 
+     *
+     * @param  string $file
+     * @return array
      */
     public function decode($file)
     {
         $contents = $this->getFileContents($file);
-        
+
         $result = array();
         if ($contents != "") {
             $result = json_decode($contents, true);
         }
-        
+
         return $result;
     }
 
     /**
      * Encodes the given values into a json file
-     * 
+     *
      * @param string $file
-     * @param array $values 
+     * @param array  $values
      */
     public function encode($file, array $values)
     {

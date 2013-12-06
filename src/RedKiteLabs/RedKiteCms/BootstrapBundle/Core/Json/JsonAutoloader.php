@@ -34,8 +34,8 @@ class JsonAutoloader extends BaseJson
     /**
      * Constructor
      *
-     * @param string $bundleName    The name of the bundle who the autoloader belongs
-     * @param string $filename      The json filename
+     * @param string $bundleName The name of the bundle who the autoloader belongs
+     * @param string $filename   The json filename
      */
     public function __construct($bundleName, $filename)
     {
@@ -73,10 +73,10 @@ class JsonAutoloader extends BaseJson
     {
         return $this->bundles;
     }
-    
+
     /**
      * Returns the routing option when specified in the autoloader file or null
-     * 
+     *
      * return array|null
      */
     public function getRouting()
@@ -115,7 +115,7 @@ class JsonAutoloader extends BaseJson
         if (isset($autoloader["actionManager"])) {
             $this->actionManagerClass = $autoloader["actionManager"];
         }
-        
+
         if (isset($autoloader["routing"])) {
             $this->routing = $autoloader["routing"];
         }

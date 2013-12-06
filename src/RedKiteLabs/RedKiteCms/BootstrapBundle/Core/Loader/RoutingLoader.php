@@ -23,7 +23,7 @@ use Symfony\Component\Config\Resource\FileResource;
 use RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloaderCollection;
 
 /**
- * Defines a routing loader object to automatically load routes from a predefined 
+ * Defines a routing loader object to automatically load routes from a predefined
  * routing folder
  */
 class RoutingLoader extends YamlFileLoader
@@ -32,10 +32,10 @@ class RoutingLoader extends YamlFileLoader
 
     /**
      * Constructor
-     * 
-     * @param \Symfony\Component\Config\FileLocatorInterface $locator
+     *
+     * @param \Symfony\Component\Config\FileLocatorInterface                  $locator
      * @param \RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloaderCollection $autoloaderCollection
-     * @param string $routingDir
+     * @param string                                                          $routingDir
      */
     public function __construct(FileLocatorInterface $locator, JsonAutoloaderCollection $autoloaderCollection, $routingDir)
     {
@@ -59,7 +59,7 @@ class RoutingLoader extends YamlFileLoader
     {
         $bundles = $this->orderRoutes();
         $collection = new RouteCollection();
-        foreach($bundles as $bundle) {
+        foreach ($bundles as $bundle) {
             $routingConfig = $this->routingDir . '/' . strtolower($bundle) . '.yml';
             if (file_exists($routingConfig)) {
                 $collection->addCollection(parent::load($routingConfig));
@@ -89,7 +89,7 @@ class RoutingLoader extends YamlFileLoader
         foreach ($this->autoloaderCollection as $autoloader) {
             $bundleName = strtolower($autoloader->getBundleName());
             $routing = $autoloader->getRouting();
-            $section = (null !== $routing) ? (int)$routing['priority'] : 0;
+            $section = (null !== $routing) ? (int) $routing['priority'] : 0;
             $order[$section][] = $bundleName;
         }
         ksort($order);

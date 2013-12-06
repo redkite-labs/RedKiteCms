@@ -31,21 +31,21 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
 
     /**
      * Constructor
-     * 
+     *
      * @param string $vendorDir
-     * @param array $extraFolders
+     * @param array  $extraFolders
      */
     public function __construct($vendorDir, array $extraFolders = array())
     {
         $this->vendorDir = $vendorDir;
         $this->extraFolders = $extraFolders;
-        
+
         $this->load();
     }
-    
+
     /**
      * Return the current element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.current.php
      * @return mixed Can return any type.
      */
@@ -53,10 +53,10 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
     {
         return current($this->autoloaders);
     }
-    
+
     /**
      * Return the key of the current element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.key.php
      * @return scalar scalar on success, or <b>NULL</b> on failure.
      */
@@ -64,10 +64,10 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
     {
         return key($this->autoloaders);
     }
-    
+
     /**
      * Move forward to next element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.next.php
      * @return void Any returned value is ignored.
      */
@@ -75,10 +75,10 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
     {
         return next($this->autoloaders);
     }
-    
+
     /**
      * Rewind the Iterator to the first element
-     * 
+     *
      * @link http://php.net/manual/en/iterator.rewind.php
      * @return void Any returned value is ignored.
      */
@@ -86,10 +86,10 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
     {
         return reset($this->autoloaders);
     }
-    
+
     /**
      * Checks if current position is valid
-     * 
+     *
      * @link http://php.net/manual/en/iterator.valid.php
      * @return boolean The return value will be casted to boolean and then evaluated.
      */
@@ -97,10 +97,10 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
     {
         return (current($this->autoloaders) !== false);
     }
-    
+
     /**
      * Count elements of an object
-     * 
+     *
      * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
      */
@@ -108,7 +108,6 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
     {
         return count($this->autoloaders);
     }
-
 
     /**
      * Loads the bundles when the autoload.json file exists, parsing the autoload_namespaces.php file generated
@@ -126,10 +125,10 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
             if ( ! is_array($paths)) {
                 $paths = array($paths);
             }
-            
+
             foreach ($paths as $path) {
                 // @codeCoverageIgnoreStart
-                if (substr($path, -1) != '/') { 
+                if (substr($path, -1) != '/') {
                     $path .= '/';
                 }
                 // @codeCoverageIgnoreEnd
@@ -140,7 +139,7 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
                 $this->addBundle($bundleName, $dir);
             }
         }
-        
+
         $this->parseExtraFolders();
     }
 
@@ -156,16 +155,16 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
                 $bundleFolders = $finder->directories()->depth(0)->in($folder);
                 foreach ($bundleFolders as $bundleFolder) {
                     $bundleName = basename($bundleFolder);
-                    $this->addBundle($bundleName, (string)$bundleFolder);
+                    $this->addBundle($bundleName, (string) $bundleFolder);
                 }
             }
         }
     }
-    
+
     /**
      * Retrieves the current bundle class
      *
-     * @param string $path The bundle's path
+     * @param  string $path The bundle's path
      * @return string
      */
     protected function getBundleName($path)
@@ -184,7 +183,7 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
     /**
      * Checks if the bundle has an autoloader.json file
      *
-     * @param string $path The bundle's path
+     * @param  string  $path The bundle's path
      * @return boolean
      */
     protected function hasAutoloader($path)
@@ -199,10 +198,10 @@ class JsonAutoloaderCollection implements \Iterator, \Countable
 
         return false;
     }
-    
+
     /**
      * Adds a new autoloader for thr given bundle
-     * 
+     *
      * @param string $bundleName
      * @param string $bundleFolder
      */
