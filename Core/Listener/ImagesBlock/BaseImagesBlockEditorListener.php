@@ -31,12 +31,12 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedExce
 abstract class BaseImagesBlockEditorListener implements ImagesListenerInterface
 {
     protected $container;
-    
+
     public function __construct()
     {
         throw new RedKiteDeprecatedException("BaseImagesBlockEditorListener has been deprecated since RedKiteCms 1.1.0");
     }
-    
+
     /**
      * {@inheritdoc}
      */

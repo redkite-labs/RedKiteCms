@@ -43,7 +43,7 @@ abstract class AlBlockManagerJsonBlockCollection extends AlBlockManagerJsonBlock
             return false;
             // @codeCoverageIgnoreEnd
         }
-        
+
         return parent::edit($values);
     }
 }

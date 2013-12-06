@@ -38,9 +38,9 @@ class BlockEditedEvent extends Event
     /**
      * Construct
      *
-     * @param \Symfony\Component\HttpFoundation\Request                                  $request
+     * @param \Symfony\Component\HttpFoundation\Request                                $request
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
-     * @param \Symfony\Component\HttpFoundation\Response                                 $response
+     * @param \Symfony\Component\HttpFoundation\Response                               $response
      *
      * @api
      */

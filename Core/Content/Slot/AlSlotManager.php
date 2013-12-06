@@ -50,7 +50,7 @@ class AlSlotManager extends AlTemplateBase
      * Constructor
      *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot                               $slot
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot                            $slot
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface   $blockRepository
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface     $blockManagerFactory
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
@@ -68,7 +68,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Sets the slot object
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot         $v
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot      $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      *
      * @api
@@ -123,7 +123,7 @@ class AlSlotManager extends AlTemplateBase
      * When true forces the add operation to use the default AlSlot attributes for
      * the new block type
      *
-     * @param  boolean                                                         $v
+     * @param  boolean                                                       $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      * @throws \InvalidArgumentException
      *
@@ -144,7 +144,7 @@ class AlSlotManager extends AlTemplateBase
      * Skips adding a new block when the slot is repeated at site level and the block
      * has been already added
      *
-     * @param  boolean                                                         $v
+     * @param  boolean                                                       $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      * @throws \InvalidArgumentException
      *
@@ -275,10 +275,10 @@ class AlSlotManager extends AlTemplateBase
      * The created block managed is added to the collection. When the $referenceBlockId param is valorized,
      * the new block is created under the block identified by the given id
      *
-     * @param  int                                                                                          $idLanguage
-     * @param  type                                                                                         $idPage
-     * @param  type                                                                                         $type             The block type. By default a Text block is added
-     * @param  type                                                                                         $referenceBlockId The id of the reference block. When given, the block is placed below this one
+     * @param  int                                                                                       $idLanguage
+     * @param  type                                                                                      $idPage
+     * @param  type                                                                                      $type             The block type. By default a Text block is added
+     * @param  type                                                                                      $referenceBlockId The id of the reference block. When given, the block is placed below this one
      * @return null|boolean
      * @throws InvalidArgumentTypeException
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
@@ -287,7 +287,7 @@ class AlSlotManager extends AlTemplateBase
      * @api
      */
     public function addBlock($idLanguage, $idPage, $type = 'Text', $referenceBlockId = null)
-    { 
+    {
         if ((int) $idLanguage == 0) {
             throw new InvalidArgumentTypeException('exception_invalid_value_for_language_id');
         }
@@ -330,7 +330,7 @@ class AlSlotManager extends AlTemplateBase
                         '%type%' => $type,
                     ),
                 );
-                
+
                 throw new InvalidArgumentException(json_encode($exception));
             }
 
@@ -379,7 +379,7 @@ class AlSlotManager extends AlTemplateBase
 
             if ($result !== false) {
                 $this->blockRepository->commit();
-                
+
                 if (!empty($leftArray) || !empty($rightArray)) {
                     $index = $position - 1;
                     $this->blockManagers = array_merge($leftArray, array($index => $alBlockManager), $rightArray);
@@ -388,10 +388,10 @@ class AlSlotManager extends AlTemplateBase
                 }
 
                 $this->lastAdded = $alBlockManager;
-                
+
                 return $result;
-            } 
-            
+            }
+
             $this->blockRepository->rollBack();
 
             return $result;
@@ -407,11 +407,11 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Edits the block
      *
-     * @param  int                                                                                          $idBlock The id of the block to edit
-     * @param  array                                                                                        $values  The new values
+     * @param  int                                                                                       $idBlock The id of the block to edit
+     * @param  array                                                                                     $values  The new values
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * 
+     *
      * @api
      */
     public function editBlock($idBlock, array $values)
@@ -424,10 +424,10 @@ class AlSlotManager extends AlTemplateBase
                 $result = $blockManager->save($values);
                 if ($result !== false) {
                     $this->blockRepository->commit();
-                    
+
                     return $result;
                 }
-                
+
                 $this->blockRepository->rollBack();
 
                 return $result;
@@ -444,10 +444,10 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Deletes the block from the slot
      *
-     * @param  int                                                                                          $idBlock The id of the block to remove
+     * @param  int                                                                                       $idBlock The id of the block to remove
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * 
+     *
      * @api
      */
     public function deleteBlock($idBlock)
@@ -458,7 +458,7 @@ class AlSlotManager extends AlTemplateBase
         if (null === $info) {
             return null;
         }
-        
+
         $index = $info['index'];
         $leftArray = array_slice($this->blockManagers, 0 , $index);
         $rightArray = array_slice($this->blockManagers, $index + 1, $this->length() - 1);
@@ -475,10 +475,10 @@ class AlSlotManager extends AlTemplateBase
             if (false !== $result) {
                 $this->blockRepository->commit();
                 $this->blockManagers = array_merge($leftArray, $rightArray);
-                
+
                 return $result;
-            } 
-            
+            }
+
             $this->blockRepository->rollBack();
 
             return $result;
@@ -496,7 +496,7 @@ class AlSlotManager extends AlTemplateBase
      *
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * 
+     *
      * @api
      */
     public function deleteBlocks()
@@ -519,7 +519,7 @@ class AlSlotManager extends AlTemplateBase
 
                     return $result;
                 }
-                
+
                 $this->blockRepository->rollBack();
 
                 return $result;
@@ -536,7 +536,7 @@ class AlSlotManager extends AlTemplateBase
     /**
      * Retrieves the block manager by the block's id
      *
-     * @param  type                                                                        $idBlock The id of the block to retrieve
+     * @param  type                                                                      $idBlock The id of the block to retrieve
      * @return null|\RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface
      *
      * @api
@@ -625,11 +625,11 @@ class AlSlotManager extends AlTemplateBase
      * When in *del* mode, decrements by 1 the position of the blocks placed below the
      * removing block
      *
-     * @param  string                                                                                       $op       The operation to do. It accepts add or del as valid values
-     * @param  array                                                                                        $managers An array of block managers
+     * @param  string                                                                                    $op       The operation to do. It accepts add or del as valid values
+     * @param  array                                                                                     $managers An array of block managers
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @throws InvalidArgumentException     
+     * @throws InvalidArgumentException
      */
     protected function adjustPosition($op, array $managers)
     {
@@ -642,18 +642,18 @@ class AlSlotManager extends AlTemplateBase
                     'message' => 'exception_invalid_argumento_for_adjustPosition',
                     'parameters' => array(
                         '%className%' => get_class($this),
-                        '%options%' => $required, 
+                        '%options%' => $required,
                         '%parameter%' => $op,
                     ),
                 );
                 throw new InvalidArgumentException(json_encode($exception));
                 // @codeCoverageIgnoreEnd
             }
-            
+
             if (count($managers) == 0) {
                 return;
             }
-            
+
             $result = null;
             $this->blockRepository->startTransaction();
             foreach ($managers as $blockManager) {
@@ -668,13 +668,13 @@ class AlSlotManager extends AlTemplateBase
 
             if (false !== $result) {
                 $this->blockRepository->commit();
-                
+
                 return $result;
             }
-            
+
             $this->blockRepository->rollBack();
 
-            return $result;            
+            return $result;
         } catch (\Exception $e) {
             if (isset($this->blockRepository) && $this->blockRepository !== null) {
                 $this->blockRepository->rollBack();

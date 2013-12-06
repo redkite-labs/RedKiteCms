@@ -114,13 +114,13 @@ class CmsBootstrapListener
             ->setPageId($pageId)
             ->align($template->getTemplateName(), $template->getSlots());
     }
-    
+
     private function setupBootstrapVersion()
     {
         $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
         $this->container->get('twig')->addGlobal('bootstrap_version', $bootstrapVersion);
     }
-    
+
     private function setupConfiguration()
     {
         $configuration = $this->container->get('red_kite_cms.configuration');

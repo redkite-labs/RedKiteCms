@@ -84,7 +84,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
     public function retrieveContentsBySlotName($slotName, $toDelete = 0)
     {
         return AlBlockQuery::create('a')
-                ->where('a.SlotName like ?', $slotName) 
+                ->where('a.SlotName like ?', $slotName)
                 ->filterByToDelete($toDelete)
                 ->orderBySlotName()
                 ->find();

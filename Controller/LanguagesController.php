@@ -33,10 +33,10 @@ class LanguagesController extends Base\BaseController
         // @codeCoverageIgnoreEnd
 
         $request = $this->container->get('request');
-        
+
         $languagesForm = new LanguagesForm();
         $form = $this->container->get('form.factory')->create($languagesForm);
-        
+
         $params = array(
             'languages' => ChoiceValues::getLanguages($this->createLanguageRepository(), false),
             'active_language' => $request->get('language'),
@@ -48,7 +48,7 @@ class LanguagesController extends Base\BaseController
 
     public function saveLanguageAction()
     {
-        $request = $this->container->get('request');            
+        $request = $this->container->get('request');
         $languageManager = $this->container->get('red_kite_cms.language_manager');
         $alLanguage = $this->fetchLanguage($request->get('languageId'), $languageManager);
         $languageManager->set($alLanguage);
@@ -58,17 +58,17 @@ class LanguagesController extends Base\BaseController
         if (null !== $isMain) {
             $parameters['MainLanguage'] =  $isMain;
         }
-        
+
         $newLanguage = $request->get('newLanguage');
         if (null !== $newLanguage) {
             $parameters['LanguageName'] =  $newLanguage;
-        }    
-        
+        }
+
         if ($languageManager->save($parameters)) {
             $language = $languageManager->getLanguageRepository()->fromLanguageName($request->get('language'));
-            
+
             $message = $this->translate('languages_controller_language_saved');
-                            
+
             return $this->buildJSonHeader($message, $language);
         }
 
@@ -81,43 +81,42 @@ class LanguagesController extends Base\BaseController
     {
         $request = $this->container->get('request');
         $languageId = $request->get('languageId');
-        if ((int)$languageId == 0) {    
+        if ((int) $languageId == 0) {
             throw new RuntimeException('languages_controller_any_language_selected_for_removing');
         }
-        
+
         $languageManager = $this->container->get('red_kite_cms.language_manager');
         $alLanguage = $this->fetchLanguage($languageId, $languageManager);
-        if (null === $alLanguage) {    
+        if (null === $alLanguage) {
             throw new RuntimeException('languages_controller_any_language_selected_for_removing');
         }
-        
+
         $result = $languageManager
             ->set($alLanguage)
             ->delete()
         ;
-        if ($result) {      
-            $message = $this->translate('languages_controller_language_delete');              
-            
+        if ($result) {
+            $message = $this->translate('languages_controller_language_delete');
+
             return $this->buildJSonHeader($message, $alLanguage);
         }
-        
+
         // @codeCoverageIgnoreStart
         throw new RuntimeException('languages_controller_language_not_delete');
         // @codeCoverageIgnoreEnd
     }
-    
+
     public function loadLanguageAttributesAction()
     {
         $values = array();
         $request = $this->container->get('request');
         $languageId = $request->get('languageId');
-        if($languageId != 'none')
-        {
-            $alLanguage = $this->fetchLanguage($languageId);             
+        if ($languageId != 'none') {
+            $alLanguage = $this->fetchLanguage($languageId);
             $values[] = array("name" => "#languages_language", "value" => $alLanguage->getLanguageName());
             $values[] = array("name" => "#languages_isMain", "value" => $alLanguage->getMainLanguage());
         }
-        
+
         $response = new Response(json_encode($values));
         $response->headers->set('Content-Type', 'application/json');
 
@@ -129,12 +128,12 @@ class LanguagesController extends Base\BaseController
         $request = $this->container->get('request');
         $languages = $languagesList = ChoiceValues::getLanguages($this->createLanguageRepository());
         unset($languagesList['none']);
-        
+
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
         $values[] = array("key" => "languages", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Languages:languages_list.html.twig', array('languages' => $languagesList, 'active_language' => $request->get('language'))));
         $values[] = array("key" => "languages_menu", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_dropdown_menu.html.twig', array('id' => 'al_languages_navigator', 'type' => 'al_language_item', 'value' => (null !== $language) ? $language->getId() : 0, 'text' => $request->get('language'), 'items' => $languages)));
-        
+
         $response = new Response(json_encode($values));
         $response->headers->set('Content-Type', 'application/json');
 

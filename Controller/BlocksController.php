@@ -34,21 +34,21 @@ class BlocksController extends Base\BaseController
     public function addBlockAction()
     {
         $this->checkPageIsValid();
-        
+
         $request = $this->container->get('request');
-        $slotName = $request->get('slotName');  
+        $slotName = $request->get('slotName');
         $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $blockRepository = $factoryRepository->createRepository('Block');
-        
+
         if (null !== $request->get('included') && count($blockRepository->retrieveContentsBySlotName($slotName)) > 0 && filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)) {
             throw new InvalidOperationException('blocks_controller_included_blocks_accept_only_a_block');
         }
 
         $contentType = ($request->get('contentType') != null) ? $request->get('contentType') : 'Text';
-        $slotManager = $this->fetchSlotManager($request, false); 
+        $slotManager = $this->fetchSlotManager($request, false);
         if (null !== $slotManager) {
             $res = $slotManager->addBlock($request->get('languageId'), $request->get('pageId'), $contentType, $request->get('idBlock'));
-            if ( ! $res) {
+            if (! $res) {
                 // @codeCoverageIgnoreStart
                 throw new RuntimeException('blocks_controller_block_not_added_due_to_unespected_exception');
                 // @codeCoverageIgnoreEnd
@@ -72,7 +72,7 @@ class BlocksController extends Base\BaseController
                 "Type"            => $contentType,
                 "ContentPosition" => 1,
                 'CreatedAt'       => date("Y-m-d H:i:s")
-            );            
+            );
             $blockManager->save($values);
         }
 
@@ -80,7 +80,7 @@ class BlocksController extends Base\BaseController
         if (null !== $request->get('idBlock')) {
             $idBlock = $request->get('idBlock');
         }
-        
+
         $values = array(
             array(
                 "key" => "message",
@@ -89,8 +89,8 @@ class BlocksController extends Base\BaseController
             array(
                 "key" => "add-block",
                 "insertAfter" => "block_" . $idBlock,
-                "blockId" => "block_" . $blockManager->get()->getId(), 
-                "slotName" => $blockManager->get()->getSlotName(), 
+                "blockId" => "block_" . $blockManager->get()->getId(),
+                "slotName" => $blockManager->get()->getSlotName(),
                 "value" => $this->container->get('templating')->render(
                     $template,
                     array("blockManager" => $blockManager, 'add' => true)
@@ -110,7 +110,7 @@ class BlocksController extends Base\BaseController
 
         $value = urldecode($request->get('value'));
         $values = array($request->get('key') => $value);
-        
+
         // @codeCoverageIgnoreStart
         if (null !== $request->get('options') && is_array($request->get('options'))) {
             $values = array_merge($values, $request->get('options'));
@@ -119,8 +119,8 @@ class BlocksController extends Base\BaseController
 
         $result = $slotManager->editBlock($request->get('idBlock'), $values);
         // @codeCoverageIgnoreStart
-        if (false === $result) {            
-            throw new RuntimeException('blocks_controller_block_editing_error');            
+        if (false === $result) {
+            throw new RuntimeException('blocks_controller_block_editing_error');
         }
         // @codeCoverageIgnoreEnd
 
@@ -165,7 +165,7 @@ class BlocksController extends Base\BaseController
         if (null !== $res) {
             $message = 'blocks_controller_block_removed';
             // @codeCoverageIgnoreStart
-            if ( ! $res) {
+            if (! $res) {
                 'blocks_controller_block_not_removed';
             }
             // @codeCoverageIgnoreEnd
@@ -173,29 +173,29 @@ class BlocksController extends Base\BaseController
             $values = array(
                 array("key" => "message", "value" => $this->translate($message))
             );
-            
+
             if ($slotManager->length() > 0) {
                 $values[] = array(
                     "key" => "remove-block",
                     "blockName" => "block_" . $request->get('idBlock')
                 );
-                
+
                 return $this->buildJSonResponse($values);
             }
-            
+
             $values[] = array(
                 "key" => "redraw-slot",
                 "slotName" => $request->get('slotName'),
                 "blockId" => 'block_' . $request->get('idBlock'),
                 "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Slot:Render/_slot.html.twig', array("slotName" => $request->get('slotName'), "included" => filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)))
             );
-            
+
             return $this->buildJSonResponse($values);
         }
-        
+
         throw new RuntimeException('blocks_controller_block_does_not_exists');
     }
-    
+
     protected function buildJSonResponse($values)
     {
         $response = new Response(json_encode($values));
@@ -221,8 +221,8 @@ class BlocksController extends Base\BaseController
 
         return $slotManager;
     }
-    
-    
+
+
     /**
      * @deprecated since 1.1.0
      * @codeCoverageIgnore
@@ -247,7 +247,7 @@ class BlocksController extends Base\BaseController
                     $editorSettingsParamName = sprintf('%s.editor_settings', strtolower($block->getType()));
                     $editorSettings = ($this->container->hasParameter($editorSettingsParamName)) ? $this->container->getParameter($editorSettingsParamName) : array();
                     $template = sprintf('%sBundle:Block:%s_editor.html.twig', $block->getType(), strtolower($block->getType()));
-                    
+
                     $editor = $this->container->get('templating')->render($template, array("alContent" => $alBlockManager,
                                                                                            "jsFiles" => explode(",", $block->getExternalJavascript()),
                                                                                            "cssFiles" => explode(",", $block->getExternalStylesheet()),

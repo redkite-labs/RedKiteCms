@@ -54,7 +54,7 @@ class AlFactoryRepository implements AlFactoryRepositoryInterface
                 $exception = array(
                     'message' => 'exception_invalid_namespace',
                     'parameters' => array(
-                        '%blockType%' => $blockType, 
+                        '%blockType%' => $blockType,
                         '%namespace%' => $namespace,
                     ),
                 );

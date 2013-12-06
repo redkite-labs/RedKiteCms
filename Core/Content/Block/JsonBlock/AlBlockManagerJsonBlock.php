@@ -37,13 +37,13 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
     {
         if (array_key_exists('Content', $values)) {
             $unserializedData = array();
-            $serializedData = $values['Content'];            
-            parse_str($serializedData, $unserializedData); 
-            
+            $serializedData = $values['Content'];
+            parse_str($serializedData, $unserializedData);
+
             if (empty($unserializedData)) {
                 return parent::edit($values);
             }
-            
+
             if ( ! array_key_exists("al_json_block", $unserializedData)) {
                 $exception = array(
                     'message' => 'exception_json_configuration_error',
@@ -82,7 +82,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
                 'message' => 'exception_item_not_exists',
                 'domain' => 'exceptions',
             );
-                
+
             throw new Exception\InvalidItemException(json_encode($exception));
         }
     }

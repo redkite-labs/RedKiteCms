@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme;
 
 /**
  * Defined the methods the active theme manager object must defin
- * 
+ *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 interface AlActiveThemeInterface

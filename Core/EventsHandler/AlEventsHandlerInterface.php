@@ -40,10 +40,10 @@ interface AlEventsHandlerInterface
     /**
      * Creates an event from the event class
      *
-     * @param  string                                                             $eventName
-     * @param  string                                                             $class
-     * @param  array                                                              $args
-     * @param  boolean                                                            $overrideIfExists
+     * @param  string                                                           $eventName
+     * @param  string                                                           $class
+     * @param  array                                                            $args
+     * @param  boolean                                                          $overrideIfExists
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler
      *
      * @api
@@ -53,7 +53,7 @@ interface AlEventsHandlerInterface
     /**
      * Dispatches the event
      *
-     * @param  string                                                             $eventName
+     * @param  string                                                           $eventName
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler
      *
      * @api

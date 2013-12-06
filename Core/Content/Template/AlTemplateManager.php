@@ -60,8 +60,8 @@ class AlTemplateManager extends AlTemplateBase
      *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate                                $template
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface          $pageBlocks
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate                             $template
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface         $pageBlocks
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface     $blockManagerFactory
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      */
@@ -92,7 +92,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Sets the current AlTemplate object
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate                  $template
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate               $template
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @api
@@ -291,9 +291,9 @@ class AlTemplateManager extends AlTemplateBase
      * are filled up using the dafault values provided by each single slot.
      *
      *
-     * @param  int                                                             $idLanguage   The id that identified the language to add
-     * @param  int                                                             $idPage       The id that identified the page to add
-     * @param  boolean                                                         $skipRepeated True skips the slots that are repeated on page
+     * @param  int                                                           $idLanguage   The id that identified the language to add
+     * @param  int                                                           $idPage       The id that identified the page to add
+     * @param  boolean                                                       $skipRepeated True skips the slots that are repeated on page
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\Exception
      *
@@ -343,7 +343,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Removes the blocks from the whole slot managers managed by the template manager
      *
-     * @param  boolean                                                         $skipRepeated When true skips the slots with a repeated status
+     * @param  boolean                                                       $skipRepeated When true skips the slots with a repeated status
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\Exception
      *
@@ -389,9 +389,9 @@ class AlTemplateManager extends AlTemplateBase
      * Clear the blocks from the whole slot managers managed by the template manager,
      * for a page identified by the required parameters
      *
-     * @param  int                                                             $languageId
-     * @param  int                                                             $pageId
-     * @param  boolean                                                         $skipRepeated
+     * @param  int                                                           $languageId
+     * @param  int                                                           $pageId
+     * @param  boolean                                                       $skipRepeated
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\Exception
      *
@@ -411,10 +411,10 @@ class AlTemplateManager extends AlTemplateBase
 
             if ($result !== false) {
                 $this->blockRepository->commit();
-                
+
                 return $result;
             }
-            
+
             $this->blockRepository->rollBack();
 
             return $result;
@@ -442,8 +442,8 @@ class AlTemplateManager extends AlTemplateBase
 
         $this->slotManagers = array();
         $templateSlots = $this->template->getTemplateSlots();
-        
-        if (null === $templateSlots) { 
+
+        if (null === $templateSlots) {
             throw new General\ArgumentIsEmptyException('exception_any_template_given');
         }
 
@@ -465,7 +465,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Create the slot manager for the given slot
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot         $slot
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot      $slot
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      */
     protected function createSlotManager(AlSlot $slot)

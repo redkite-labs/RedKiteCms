@@ -41,9 +41,9 @@ class ImageThumbnailExtension extends \Twig_Extension
     /**
      * Generates a thumbnail of the given image
      *
-     * @param string $image
-     * @param int $targetWidth
-     * @param int $targetHeight
+     * @param  string $image
+     * @param  int    $targetWidth
+     * @param  int    $targetHeight
      * @return string
      */
     public function thumbnail($image, $targetWidth = 100, $targetHeight = 100)

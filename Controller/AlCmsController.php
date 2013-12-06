@@ -43,10 +43,10 @@ class AlCmsController extends BaseFrontendController
         $isSecure = (null !== $this->get('security.context')->getToken()) ? true : false;
         $this->factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
-        $this->pageRepository = $this->factoryRepository->createRepository('Page');        
+        $this->pageRepository = $this->factoryRepository->createRepository('Page');
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
         $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
-        
+
         $params = array(
             'template' => 'RedKiteCmsBundle:Cms:Welcome/welcome.html.twig',
             'enable_yui_compressor' => $this->container->getParameter('red_kite_cms.enable_yui_compressor'),
@@ -62,28 +62,28 @@ class AlCmsController extends BaseFrontendController
             'available_languages' => $this->container->getParameter('red_kite_cms.available_languages'),
             'frontController' => $this->getFrontcontroller($request),
         );
-        
+
         if (null !== $pageTree) {
             $pageId = 0;
             $languageId = 0;
             $pageName = '';
-            $languageName = '';                    
+            $languageName = '';
             if (null !== $pageTree->getAlPage()) {
                 $pageId =  $pageTree->getAlPage()->getId();
                 $pageName = $pageTree->getAlPage()->getPageName();
             }
-            
+
             if (null !== $pageTree->getAlLanguage()) {
                 $languageId =  $pageTree->getAlLanguage()->getId();
                 $languageName = $pageTree->getAlLanguage()->getLanguageName();
             }
-            
-            $templateSlots = $this->container->get('red_kite_cms.template_slots');            
+
+            $templateSlots = $this->container->get('red_kite_cms.template_slots');
             $slots = $templateSlots
                 ->run($languageId, $pageId)
                 ->getSlots()
             ;
-            
+
             $template = $this->findTemplate($pageTree);
             $params = array_merge($params, array(
                 'metatitle' => $pageTree->getMetaTitle(),
@@ -110,17 +110,17 @@ class AlCmsController extends BaseFrontendController
             $configuration = $this->container->get('red_kite_cms.configuration');
             $cmsLanguage = $configuration->read('language');
             $message = $this->container->get('translator')->trans(
-                'cms_controller_page_not_exists_for_given_language', 
+                'cms_controller_page_not_exists_for_given_language',
                 array(
-                    '%page%' => $request->get('page'), 
+                    '%page%' => $request->get('page'),
                     '%language%' => $request->get('_locale')
-                ), 
-                'RedKiteCmsBundle', 
+                ),
+                'RedKiteCmsBundle',
                 $cmsLanguage
             );
             $this->container->get('session')->getFlashBag()->add('notice', $message);
         }
-        
+
         $response = $this->render(sprintf('RedKiteCmsBundle:Bootstrap:%s/Template/Cms/template.html.twig', $bootstrapVersion), $params);
 
         return $this->dispatchEvents($request, $response);
@@ -158,12 +158,12 @@ class AlCmsController extends BaseFrontendController
                 $configuration = $this->container->get('red_kite_cms.configuration');
                 $cmsLanguage = $configuration->read('language');
                 $message = $this->container->get('translator')->trans(
-                    'The template assigned to this page does not exist. This happens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme', 
-                    array(), 
-                    'RedKiteCmsBundle', 
+                    'The template assigned to this page does not exist. This happens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme',
+                    array(),
+                    'RedKiteCmsBundle',
                     $cmsLanguage
                 );
-                
+
                 $this->container->get('session')->getFlashBag()->add('notice', $message);
 
                 return $templateTwig;
@@ -203,13 +203,13 @@ class AlCmsController extends BaseFrontendController
 
         return $asset->getAbsolutePath() . '/css/skins/' . $this->container->getParameter('red_kite_cms.skin');
     }
-    
+
     protected function getFrontcontroller(Request $request = null)
     {
         if (null === $request) {
             $request = $this->container->get('request');
         }
-        
+
         return $request->getBaseUrl() . '/';
     }
 }

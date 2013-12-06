@@ -40,7 +40,7 @@ class AlRepeatedSlotsAligner
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection                                        $themesCollection
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection                                     $themesCollection
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface $slotsConverterFactory
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface                          $factoryRepository
      *
@@ -57,7 +57,7 @@ class AlRepeatedSlotsAligner
     /**
      * Sets the id of the language
      *
-     * @param  int                                                                                       $v
+     * @param  int                                                                                     $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner
      *
      * @api
@@ -72,7 +72,7 @@ class AlRepeatedSlotsAligner
     /**
      * Sets the id of the page
      *
-     * @param  int                                                                                       $v
+     * @param  int                                                                                     $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner
      *
      * @api
@@ -168,8 +168,8 @@ class AlRepeatedSlotsAligner
     /**
      * Updates the slot status for the given slots
      *
-     * @param  array                                                                        $templateSlots
-     * @param  array                                                                        $changedSlots
+     * @param  array                                                                      $templateSlots
+     * @param  array                                                                      $changedSlots
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\Exception
      *

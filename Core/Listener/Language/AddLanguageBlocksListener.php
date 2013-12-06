@@ -36,7 +36,7 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
      * Constructor
      *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager $blockManager
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface         $container
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface       $container
      *
      * @api
      */

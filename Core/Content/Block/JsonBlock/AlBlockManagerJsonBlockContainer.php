@@ -35,7 +35,7 @@ abstract class AlBlockManagerJsonBlockContainer extends AlBlockManagerJsonBlock
     /**
      * Constructor
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface                             $container
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface                           $container
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      *
      * @api

@@ -32,9 +32,9 @@ interface AlPageBlocksInterface
      * When this last one is null the content is added, when it is given the block
      * saved at the key identified by the position is edited
      *
-     * @param string $slotName
-     * @param array $values
-     * @param int $position The first element has a position equals to 0
+     * @param  string                    $slotName
+     * @param  array                     $values
+     * @param  int                       $position The first element has a position equals to 0
      * @throws \InvalidArgumentException
      */
     public function add($slotName, $value, $position = null);
@@ -53,15 +53,15 @@ interface AlPageBlocksInterface
      *          'slotname1' => ...
      *         )
      *
-     * @param   array   $values
-     * @param   type    $override  When true, the slot is cleared and repopulated by the new blocks
+     * @param array $values
+     * @param type  $override When true, the slot is cleared and repopulated by the new blocks
      */
     public function addRange(array $values, $override = false);
 
     /**
      * Clears the blocks for the given slot
      *
-     * @param string    $slotName
+     * @param string $slotName
      */
     public function clearSlotBlocks($slotName);
 
@@ -73,7 +73,7 @@ interface AlPageBlocksInterface
     /**
      * Removes the given slot
      *
-     * @param string    $slotName
+     * @param string $slotName
      */
     public function removeSlot($slotName);
 

@@ -49,22 +49,21 @@ class StringsExtension extends \Twig_Extension
     /**
      * Returns the left part of a string according the given length
      *
-     * @param string $text
-     * @param int $length
+     * @param  string $text
+     * @param  int    $length
      * @return string
      */
     public function left($text, $length)
     {
         if (!$this->isValidLength($text, $length)) return $text;
-
         return \substr($text, 0, $length);
     }
 
     /**
      * Returns the right part of a string according the given length
      *
-     * @param string $text
-     * @param int $length
+     * @param  string $text
+     * @param  int    $length
      * @return string
      */
     public function right($text, $length)
@@ -79,22 +78,21 @@ class StringsExtension extends \Twig_Extension
     /**
      * Truncates the string at the given length
      *
-     * @param string $text
-     * @param int $length
+     * @param  string $text
+     * @param  int    $length
      * @return string
      */
     public function truncate($text, $length = 15)
     {
         if (!$this->isValidLength($text, $length)) return $text;
-
         return (\strlen($text) > $length) ? $this->left($text, $length) . '...' : $text;
     }
 
     /**
      * Checks if given length is valid
      *
-     * @param string $text
-     * @param int $length
+     * @param  string  $text
+     * @param  int     $length
      * @return boolean
      */
     protected function isValidLength($text, $length)

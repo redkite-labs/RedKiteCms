@@ -32,8 +32,8 @@ abstract class AlBlockManagerJsonBase extends AlBlockManager
      * Decodes a json content
      *
      * @param  string|RedKiteLabs\RedKiteCmsBundle\Model\AlBlock $block
-     * @param  boolean                                             $assoc
-     * @return array|object                                        depends on assoc param
+     * @param  boolean                                           $assoc
+     * @return array|object                                      depends on assoc param
      * @throws Exception\InvalidJsonFormatException
      *
      * @api

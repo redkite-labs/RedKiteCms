@@ -25,7 +25,7 @@ class AlAppBlockGenerator extends AlBaseGenerator
             $this->bundleSkeletonDir = __DIR__ . '/../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton';
         }
         // @codeCoverageIgnoreEnd
-        
+
         $this->setSkeletonDirs($this->bundleSkeletonDir);
         $this->generate($namespace, $bundle, $dir, $format, $structure);
 
@@ -48,8 +48,8 @@ class AlAppBlockGenerator extends AlBaseGenerator
             'description'    => $options["description"],
             'group'    => $options["group"],
         );
-    
-        $blockSkeletonDir = __DIR__ . '/../../Resources/skeleton/app-block';            
+
+        $blockSkeletonDir = __DIR__ . '/../../Resources/skeleton/app-block';
         $this->setSkeletonDirs($blockSkeletonDir);
         $this->renderFile('Block.php', $dir.'/Core/Block/AlBlockManager'.$bundleBasename.'.php', $parameters);
         $this->renderFile('FormType.php', $dir.'/Core/Form/Al'.$bundleBasename.'Type.php', $parameters);

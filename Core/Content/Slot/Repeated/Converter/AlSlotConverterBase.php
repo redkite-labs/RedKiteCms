@@ -42,8 +42,8 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot                              $slot
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface         $pageContentsContainer
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot                           $slot
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface        $pageContentsContainer
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      *
      * @api

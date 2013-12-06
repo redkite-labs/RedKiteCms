@@ -37,7 +37,7 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
     {
         throw new RedKiteDeprecatedException("RenderingItemEditorListener has been deprecated since RedKiteCms 1.1.0");
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -58,7 +58,7 @@ abstract class RenderingListEditorListener extends BaseRenderingEditorListener
      * Renders the editor
      *
      * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent $event
-     * @return string                                                                             The rendered editor
+     * @return string                                                                           The rendered editor
      */
     protected function doRenderEditor(BlockEditorRenderingEvent $event)
     {

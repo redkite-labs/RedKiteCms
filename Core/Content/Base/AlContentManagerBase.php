@@ -20,7 +20,6 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Base;
 use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator;
-use Symfony\Component\Translation\TranslatorInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException;
 
 /**
@@ -128,11 +127,11 @@ abstract class AlContentManagerBase
                                      ->dispatch()
                                      ->getEvent($eventName);
 
-        if ($event->isAborted()) {        
+        if ($event->isAborted()) {
             if (is_array($exceptionMessage)) {
                 $exceptionMessage = json_encode($exceptionMessage);
             }
-        
+
             throw new EventAbortedException($exceptionMessage);
         }
 

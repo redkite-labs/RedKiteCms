@@ -32,7 +32,7 @@ abstract class AlPropelRepository extends AlPropelOrm implements RepositoryInter
     /**
      * {@inheritdoc}
      *
-     * @param  BaseObject                                                                     $object
+     * @param  BaseObject                                                                   $object
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\Base\AlPropelRepository
      * @throws General\InvalidArgumentTypeException
      */

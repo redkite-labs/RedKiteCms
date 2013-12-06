@@ -39,7 +39,7 @@ class ResourceFreeListener
     /**
      * Contructor
      *
-     * @param \Symfony\Component\Security\Core\SecurityContext                       $securityContext
+     * @param \Symfony\Component\Security\Core\SecurityContext                     $securityContext
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker $resourcesLocker
      *
      * @api

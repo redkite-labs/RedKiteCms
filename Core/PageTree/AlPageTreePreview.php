@@ -34,7 +34,7 @@ class AlPageTreePreview extends AlPageTree
     /**
      * Adds a block manager
      *
-     * @param  type                                                                       $slotName
+     * @param  type                                                                     $slotName
      * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview
      *

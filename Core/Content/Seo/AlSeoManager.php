@@ -139,7 +139,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
-     * 
+     *
      * @api
      */
     public function delete()
@@ -151,10 +151,10 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                     '%className%' => get_class($this),
                 ),
             );
-            
+
             throw new General\ArgumentIsEmptyException(json_encode($exception));
         }
-        
+
         $this->dispatchBeforeOperationEvent(
             '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent',
             SeoEvents::BEFORE_DELETE_SEO,
@@ -164,7 +164,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 'domain' => 'exceptions',
             )
         );
-        
+
         try {
             $this->seoRepository->startTransaction();
             $result = $this->seoRepository
@@ -185,7 +185,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $this->eventsHandler
                      ->createEvent(SeoEvents::AFTER_DELETE_SEO, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\AfterSeoDeletedEvent', array($this))
                      ->dispatch();
-                
+
                 return $result;
             }
             $this->seoRepository->rollBack();
@@ -225,11 +225,11 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     /**
      * Adds a new AlSeo object from the given params
      *
-     * @param  array                                                                                        $values
+     * @param  array                                                                                     $values
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
-     * 
+     *
      * @api
      */
     protected function add(array $values)
@@ -260,7 +260,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
             if (empty($values['Permalink'])) {
                 throw new General\ArgumentIsEmptyException('exception_permalink_required_to_save_seo');
             }
-                    
+
             $values["Permalink"] = AlPageManager::slugify($values["Permalink"]);
 
             $this->seoRepository->startTransaction();
@@ -287,10 +287,10 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $this->eventsHandler
                      ->createEvent(SeoEvents::AFTER_ADD_SEO, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\AfterSeoAddedEvent', array($this))
                      ->dispatch();
-                     
+
                 return $result;
             }
-            
+
             $this->seoRepository->rollBack();
 
             return $result;
@@ -309,10 +309,10 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     /**
      * Edits the managed page attributes object
      *
-     * @param  array                                                                                        $values
+     * @param  array                                                                                     $values
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * 
+     *
      * @api
      */
     protected function edit(array $values = array())
@@ -376,8 +376,8 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                      ->dispatch();
 
                 return $result;
-            } 
-            
+            }
+
             $this->seoRepository->rollBack();
 
             return $result;

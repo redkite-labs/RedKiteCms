@@ -22,9 +22,9 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
- * Implements the AlConfigurationInterface to manage a set of configration parameters 
+ * Implements the AlConfigurationInterface to manage a set of configration parameters
  * from a database
- * 
+ *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlConfigurationManager implements AlConfigurationInterface
@@ -33,19 +33,18 @@ class AlConfigurationManager implements AlConfigurationInterface
     protected $configurationRepository;
     private $cachedValues = array();
 
-
     /**
      * Constructor
-     * 
+     *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository $factoryRepository
      */
     public function __construct(AlFactoryRepository $factoryRepository)
     {
         $this->factoryRepository = $factoryRepository;
         $this->configurationRepository = $this->factoryRepository->createRepository('Configuration');
-        
-    }   
-    
+
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -54,36 +53,36 @@ class AlConfigurationManager implements AlConfigurationInterface
         if (array_key_exists($parameter, $this->cachedValues)) {
             return $this->cachedValues[$parameter];
         }
-        
+
         $value = $this->fetchConfiguration($parameter)->getValue();
         $this->cachedValues[$parameter] = $value;
-        
+
         return $value;
-    } 
-    
+    }
+
     /**
      * {@inheritdoc}
      */
     public function write($parameter, $value)
     {
         unset($this->cachedValues[$parameter]);
-        
-        $configuration = $this->fetchConfiguration($parameter); 
+
+        $configuration = $this->fetchConfiguration($parameter);
         $configuration->setValue($value);
-        
+
         return $configuration->save();
     }
-    
+
     /**
      * Fetches the configuration record for the requested parameter
-     * 
-     * @param string $parameter
+     *
+     * @param  string                                                                        $parameter
      * @return \RedKiteLabs\RedKiteCmsBundle\Model\AlConfiguration
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
      */
     protected function fetchConfiguration($parameter)
     {
-        $configuration = $this->configurationRepository->fetchParameter($parameter);        
+        $configuration = $this->configurationRepository->fetchParameter($parameter);
         if (null === $configuration) {
             $exception = array(
                 'message' => 'exception_parameter_does_not_exist',
@@ -93,7 +92,7 @@ class AlConfigurationManager implements AlConfigurationInterface
             );
             throw new InvalidArgumentException(json_encode($exception));
         }
-        
+
         return $configuration;
     }
 }

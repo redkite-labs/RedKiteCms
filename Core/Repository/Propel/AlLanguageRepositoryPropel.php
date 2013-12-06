@@ -19,7 +19,6 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel;
 
 use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
 use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguageQuery;
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Query\Language;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 

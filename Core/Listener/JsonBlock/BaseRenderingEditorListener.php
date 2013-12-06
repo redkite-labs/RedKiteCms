@@ -48,19 +48,19 @@ abstract class BaseRenderingEditorListener
      * Renders the editor and adds it to the response replacing the curret response's content
      *
      * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent $event
-     * @param  array                                                                              $params
+     * @param  array                                                                            $params
      * @throws \InvalidArgumentException
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Listener\JsonBlock\Exception
      *
      * @api
      */
     abstract protected function renderEditor(BlockEditorRenderingEvent $event, array $params);
-    
+
     public function __construct()
     {
         throw new RedKiteDeprecatedException("BaseRenderingEditorListener has been deprecated since RedKiteCms 1.1.0");
     }
-    
+
     /**
      * Renders the editor
      *

@@ -35,7 +35,7 @@ abstract class JsonBlockType extends BaseBlockType
     {
         $builder->add('save', 'submit', array('label' => 'common_label_save', 'attr' => array('class' => 'al_editor_save btn btn-primary')));
     }
-    
+
     /**
      * Returns the name of this type
      *

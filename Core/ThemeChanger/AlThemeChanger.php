@@ -59,8 +59,8 @@ class AlThemeChanger
      *
      * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $previousTheme
      * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param string                                                    $path
-     * @param array                                                     $templatesMap
+     * @param string                                                     $path
+     * @param array                                                      $templatesMap
      */
     public function change(AlThemeInterface $previousTheme, AlThemeInterface $theme, $path, array $templatesMap)
     {
@@ -68,12 +68,12 @@ class AlThemeChanger
         $this->backupBlocks();
         $this->changeTemplate($theme, $templatesMap);
     }
-    
+
     /**
      * Changes the source slot with the target slot
      *
-     * @param  string $sourceSlotName
-     * @param  string $targetSlotName
+     * @param  string              $sourceSlotName
+     * @param  string              $targetSlotName
      * @throws ChangeSlotException
      */
     public function changeSlot($sourceSlotName, $targetSlotName)
@@ -154,7 +154,7 @@ class AlThemeChanger
      * array
      *
      * @param  \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param  array                                                     $templatesMap
+     * @param  array                                                      $templatesMap
      * @throws \Exception
      */
     protected function changeTemplate(AlThemeInterface $theme, array $templatesMap)
@@ -185,7 +185,7 @@ class AlThemeChanger
      * Saves the current theme structure into a file
      *
      * @param  \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param  type                                                      $themeStructureFile
+     * @param  type                                                       $themeStructureFile
      * @throws \Exception
      */
     protected function saveThemeStructure(AlThemeInterface $theme, $themeStructureFile)
@@ -214,7 +214,7 @@ class AlThemeChanger
         $this->blockRepository->startTransaction();
         foreach ($blocks as $block) {
             $blockManager = $this->blocksFactory->createBlockManager($block);
-            
+
             // @codeCoverageIgnoreStart
             if (null === $blockManager) {
                continue;
@@ -233,12 +233,12 @@ class AlThemeChanger
 
         if ($result) {
             $this->blockRepository->commit();
-            
+
             return $result;
         }
-        
+
         $this->blockRepository->rollback();
-        
+
         return $result;
     }
 

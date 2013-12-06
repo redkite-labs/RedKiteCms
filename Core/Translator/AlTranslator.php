@@ -31,7 +31,7 @@ class AlTranslator implements AlTranslatorInterface
 {
     protected $translator;
     protected $configuration;
-    
+
     /**
      * Constructor
      *
@@ -48,7 +48,7 @@ class AlTranslator implements AlTranslatorInterface
     /**
      * Sets the tranlator object
      *
-     * @param  \Symfony\Component\Translation\TranslatorInterface           $translator
+     * @param  \Symfony\Component\Translation\TranslatorInterface         $translator
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslator
      *
      * @api
@@ -71,11 +71,11 @@ class AlTranslator implements AlTranslatorInterface
     {
         return $this->translator;
     }
-    
+
     /**
      * Sets the configuration object
-     * 
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface $configuration
+     *
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface $configuration
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslator
      */
     public function setConfiguration(AlConfigurationInterface $configuration)
@@ -89,7 +89,7 @@ class AlTranslator implements AlTranslatorInterface
      * Returns the Configuration object
      *
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface
-     * 
+     *
      * @api
      */
     public function getConfiguration()
@@ -102,16 +102,16 @@ class AlTranslator implements AlTranslatorInterface
      */
     public function translate($message, array $parameters = array(), $domain = 'RedKiteCmsBundle', $locale = null)
     {
-        if (null !== $this->configuration) {        
+        if (null !== $this->configuration) {
             if (null === $locale) {
                 $locale = $this->configuration->read('language');
             }
         }
-        
+
         if (null !== $this->translator) {
             $message = $this->translator->trans($message, $parameters, $domain, $locale);
         }
-        
+
         return $message;
     }
 }

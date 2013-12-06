@@ -55,7 +55,7 @@ class AlUserType extends BaseBlockType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         parent::setDefaultOptions($resolver);
-        
+
         $resolver->setDefaults(array(
             'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Model\AlUser',
         ));

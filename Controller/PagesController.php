@@ -86,7 +86,7 @@ class PagesController extends Base\BaseController
         $pageBlocks = null;
         $pageManager = $this->container->get('red_kite_cms.page_manager');
         $pageTree = $this->container->get('red_kite_cms.page_tree');
-        if ((int)$request->get('pageId') != 0 && (int)$request->get('languageId') != 0) {
+        if ((int) $request->get('pageId') != 0 && (int) $request->get('languageId') != 0) {
             $pageRepository = $this->createRepository('Page');
             $alPage = $pageRepository->fromPk($request->get('pageId'));
 
@@ -128,15 +128,15 @@ class PagesController extends Base\BaseController
             'SitemapChangefreq' => $request->get('sitemapChangeFreq'),
             'SitemapPriority' => $request->get('sitemapPriority'),
         );
-        
+
         if ( ! $pageManager->save($values)) {
             // @codeCoverageIgnoreStart
             throw new RuntimeException('pages_controller_page_not_saved');
             // @codeCoverageIgnoreEnd
-        } 
-        
+        }
+
         $page = $pageManager->getPageRepository()->fromPageName($request->get('page'));
-            
+
         return $this->buildJSonHeader($this->translate('pages_controller_page_saved'), $page);
     }
 
@@ -144,33 +144,33 @@ class PagesController extends Base\BaseController
     {
         $request = $this->container->get('request');
         $pageManager = $this->container->get('red_kite_cms.page_manager');
-        
+
         $alPage = null;
         if ($request->get('pageId') != 'none') {
             $alPage = $pageManager->getPageRepository()->fromPK($request->get('pageId'));
         }
-        
-        if (null === $alPage) {          
+
+        if (null === $alPage) {
             throw new RuntimeException('pages_controller_any_page_selected');
         }
-        
+
         $pageManager->set($alPage);
-        
+
         return $this->removePage($pageManager);
     }
-    
+
     protected function removePage($pageManager)
     {
         $result = $pageManager->delete();
-        if ( ! $result) {
+        if (! $result) {
            // @codeCoverageIgnoreStart
            throw new RuntimeException('pages_controller_nothing_to_delete');
-            // @codeCoverageIgnoreEnd 
+            // @codeCoverageIgnoreEnd
         }
-        
+
         return $this->buildJSonHeader($this->translate('pages_controller_page_removed'), $pageManager->get());
     }
-    
+
     /**
      * @deprecated since 1.1.0     *
      * @codeCoverageIgnore
@@ -183,21 +183,21 @@ class PagesController extends Base\BaseController
             if ($result) {
                 $result = $pageManager->getTemplateManager()->clearPageBlocks($request->get('languageId'), $request->get('pageId'));
             }
-            
+
             if (false === $result) {
                 // @codeCoverageIgnoreStart
                 $pageManager->getPageRepository()->rollBack();
                 throw new RuntimeException('pages_controller_nothing_to_delete');
                 // @codeCoverageIgnoreEnd
             }
-                
+
             $pageManager->getPageRepository()->commit();
-            
+
             return $this->buildJSonHeader($this->translate('The page\'s attributes for the selected language has been successfully removed'), $pageManager->get());
         } catch (\Exception $ex) {
             // @codeCoverageIgnoreStart
             $pageManager->getPageRepository()->rollBack();
-            
+
             throw $ex;
             // @codeCoverageIgnoreEnd
         }
@@ -208,13 +208,13 @@ class PagesController extends Base\BaseController
         $pages = $pagesList = $this->getPages();
         unset($pagesList['none']);
         $request = $this->container->get('request');
-        
+
         $permalinks = ChoiceValues::getPermalinks($this->createRepository('Seo'), $request->get('_locale'));
-     
+
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
         $values[] = array("key" => "pages_list", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Pages:pages_list.html.twig', array(
-            'pages' => $pagesList, 
+            'pages' => $pagesList,
             'active_page' => $request->get('page'),
             'languages' => ChoiceValues::getLanguages($this->createRepository('Language'), false),
         )));
@@ -222,16 +222,16 @@ class PagesController extends Base\BaseController
             'permalinks' => $permalinks,)
         ));
         $values[] = array(
-            "key" => "pages", 
+            "key" => "pages",
             "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_dropdown_menu.html.twig', array(
-                'id' => 'al_pages_navigator', 
-                'type' => 'al_page_item', 
-                'value' => (null !== $page) ? $page->getId() : 0, 
-                'text' => $request->get('page'), 
+                'id' => 'al_pages_navigator',
+                'type' => 'al_page_item',
+                'value' => (null !== $page) ? $page->getId() : 0,
+                'text' => $request->get('page'),
                 'items' => $pages,
             )
         ));
-           
+
         $response = new Response(json_encode($values));
         $response->headers->set('Content-Type', 'application/json');
 

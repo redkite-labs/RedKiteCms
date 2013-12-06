@@ -42,17 +42,18 @@ class SlotRendererExtension extends \Twig_Extension
     /**
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
         return 'slotRenderer';
     }
-    
+
     /**
      * Overrides the base renderSlot method
      */
     public function renderSlot($slotName = null, $extraAttributes = "")
     {
         $this->checkSlotName($slotName);
-        
+
         $content = "";
         try {
             $slotContents = array();
@@ -84,8 +85,8 @@ class SlotRendererExtension extends \Twig_Extension
     /**
      * Renders a block
      *
-     * @param array $block
-     * @param boolean $add Returns the slot as new editable block
+     * @param  array                     $block
+     * @param  boolean                   $add   Returns the slot as new editable block
      * @return string
      * @throws \InvalidArgumentException
      */
@@ -96,23 +97,23 @@ class SlotRendererExtension extends \Twig_Extension
             if (empty($block)) {
                 return "";
             }
-            
+
             $templating = $this->container->get('templating');
             $slotName = $block["Block"]["SlotName"];
             $content = $this->blockContentToHtml($block['Content']);
-            
+
             if (strpos($content, '<script') !== false) {
                 $content = $this->translator->translate('twig_extension_script_not_rendered', array(), 'RedKiteCmsBundle');
             }
-            
+
             if (null === $template) {
                 $template = '_block.html.twig';
             }
-            
-            if ( ! $blockManager->getEditorDisabled() && preg_match('/data\-editor="true"/s', $content)) { 
+
+            if ( ! $blockManager->getEditorDisabled() && preg_match('/data\-editor="true"/s', $content)) {
                 $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'true' : 'false';
                 $editorParameters = $blockManager->editorParameters();
-                
+
                 $cmsAttributes = $templating->render('RedKiteCmsBundle:Block:Editor/_editable_block_attributes.html.twig', array(
                     'block_id' => $block['Block']["Id"],
                     'hide_in_edit_mode' => $hideInEditMode,
@@ -124,15 +125,14 @@ class SlotRendererExtension extends \Twig_Extension
                     'extra_attributes' => $extraAttributes,
                     'included' => $included,
                 ));
-                      
-                if (preg_match('/data\-encoded\-content=\'(.*?)\'/s', $cmsAttributes, $matches))
-                {
-                    $cmsAttributes = preg_replace('/data\-encoded\-content=\'(.*?)\'/s', 'data-encoded-content=\'' . rawurlencode($matches[1]) . '\'', $cmsAttributes);                    
+
+                if (preg_match('/data\-encoded\-content=\'(.*?)\'/s', $cmsAttributes, $matches)) {
+                    $cmsAttributes = preg_replace('/data\-encoded\-content=\'(.*?)\'/s', 'data-encoded-content=\'' . rawurlencode($matches[1]) . '\'', $cmsAttributes);
                 }
-                
+
                 $content = preg_replace('/data\-editor="true"/', $cmsAttributes . ' data-editor="enabled"', $content);
             }
-            
+
             return $templating->render('RedKiteCmsBundle:Slot:Page/' . $template, array(
                 'block_id' => $block['Block']["Id"],
                 'slot_name' => $slotName,
@@ -144,21 +144,21 @@ class SlotRendererExtension extends \Twig_Extension
             throw $ex;
         }
     }
-    
+
     /**
      * Converts a block's content to html
-     * 
-     * @param array|string $block
+     *
+     * @param  array|string $block
      * @return string
      */
     public function blockContentToHtml($content)
     {
-        $result = $content;    
+        $result = $content;
         if (is_array($content)) {
             $result = "";
             if (\array_key_exists('RenderView', $content)) {
                 $viewsRenderer = $this->container->get('red_kite_cms.view_renderer');
-                $result = $viewsRenderer->render($content['RenderView']); 
+                $result = $viewsRenderer->render($content['RenderView']);
             }
         }
 
@@ -185,15 +185,15 @@ class SlotRendererExtension extends \Twig_Extension
             )),
         );
     }
-    
+
     public function renderIncludedBlock($key, AlBlockManager $parent = null, $type = "Text", $addWhenEmpty = false, $defaultContent = "", $extraAttributes = "")
     {
         $blocksRepository = $this->container->get('red_kite_cms.factory_repository');
         $repository = $blocksRepository->createRepository('Block');
-        $blocks = $repository->retrieveContents(null,  null, $key, array(0, 2, 3)); 
+        $blocks = $repository->retrieveContents(null,  null, $key, array(0, 2, 3));
         $blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
-        
-        if (count($blocks) > 0) { 
+
+        if (count($blocks) > 0) {
             $alBlock = $blocks[0];
             $type = $alBlock->getType();
             $blockManager = $blockManagerFactory->createBlockManager($type);
@@ -204,13 +204,13 @@ class SlotRendererExtension extends \Twig_Extension
                 }
 
                 return $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes);
-            }            
+            }
         // @codeCoverageIgnoreStart
-        }          
+        }
         // @codeCoverageIgnoreEnd
-        
+
         if (true === $addWhenEmpty) {
-            if (null === $parent) { 
+            if (null === $parent) {
                 throw new RuntimeException($this->translator->translate('twig_extension_valid_block_manager_required', array(), 'RedKiteCmsBundle'));
             }
 
@@ -224,7 +224,7 @@ class SlotRendererExtension extends \Twig_Extension
                   "SlotName"        => $key,
                   "Type"            => $type,
                   "ContentPosition" => 1,
-                );            
+                );
 
                 if ( ! empty($defaultContent)) {
                     $values["Content"] = $defaultContent;
@@ -233,18 +233,17 @@ class SlotRendererExtension extends \Twig_Extension
                 $blockManager->save($values);
 
                 return $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes);
-            }          
+            }
         // @codeCoverageIgnoreStart
-        }          
+        }
         // @codeCoverageIgnoreEnd
-        
         return sprintf('<div data-editor="enabled" data-block-id="0" data-slot-name="%s" data-included="1">%s</div>', $key, $this->translator->translate('twig_extension_empty_slot', array(), 'RedKiteCmsBundle'));
     }
 
     /**
      * Validates the slot name
      *
-     * @param string $slotName
+     * @param  string                                                                       $slotName
      * @throws RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
      */
     protected function checkSlotName($slotName)

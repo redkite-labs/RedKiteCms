@@ -36,7 +36,7 @@ class BlockEditorRenderedEvent extends Event
     /**
      * Construct
      *
-     * @param \Symfony\Component\HttpFoundation\Response                                 $response
+     * @param \Symfony\Component\HttpFoundation\Response                               $response
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
      */
     public function __construct(Response $response, AlBlockManagerInterface $blockManager)

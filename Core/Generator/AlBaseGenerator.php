@@ -18,13 +18,13 @@ abstract class AlBaseGenerator extends BundleGenerator
 
     /**
      * Generates the App-Block bundle
-     * 
+     *
      * @param string $namespace
      * @param string $bundle
      * @param string $dir
      * @param string $format
      * @param string $structure
-     * @param array $options
+     * @param array  $options
      */
     abstract public function generateExt($namespace, $bundle, $dir, $format, $structure, array $options);
 
@@ -32,7 +32,7 @@ abstract class AlBaseGenerator extends BundleGenerator
      * Base constructor
      *
      * @param Filesystem $filesystem
-     * @param string $skeletonDir
+     * @param string     $skeletonDir
      */
     public function __construct(Filesystem $filesystem, $skeletonDir, $bundleSkeletonDir = null)
     {

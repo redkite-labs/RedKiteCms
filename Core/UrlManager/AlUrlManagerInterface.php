@@ -56,8 +56,8 @@ interface AlUrlManagerInterface
      * Builds and internal url to be used when in CMS mode and fetches the information about the
      * url itself
      *
-     * @param  mixed                                                        $language | int, string, \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage
-     * @param  mixed                                                        $page     | int, string, \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage
+     * @param  mixed                                                      $language | int, string, \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage
+     * @param  mixed                                                      $page     | int, string, \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManager
      */
     public function buildInternalUrl($language, $page);
@@ -65,7 +65,7 @@ interface AlUrlManagerInterface
     /**
      * Fetches information from the given url
      *
-     * @param  string                                                       $url
+     * @param  string                                                     $url
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManager
      */
     public function fromUrl($url);

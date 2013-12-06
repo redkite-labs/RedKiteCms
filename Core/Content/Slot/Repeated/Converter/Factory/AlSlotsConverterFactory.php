@@ -37,7 +37,7 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface         $pageContentsContainer
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface        $pageContentsContainer
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
@@ -51,8 +51,8 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot                                $slot
-     * @param  string                                                                                 $newRepeatedStatus
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot                             $slot
+     * @param  string                                                                               $newRepeatedStatus
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\className
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ClassNotFoundException
      */

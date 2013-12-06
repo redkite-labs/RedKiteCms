@@ -36,8 +36,8 @@ class AlThemesCollectionWrapper
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection  $themes
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themes
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager   $templateManager
      */
     public function __construct(AlThemesCollection $themes, AlTemplateManager $templateManager)
     {
@@ -68,7 +68,7 @@ class AlThemesCollectionWrapper
     /**
      * Returns the theme from its name
      *
-     * @param  string                                           $themeName
+     * @param  string                                            $themeName
      * @return \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme
      */
     public function getTheme($themeName)
@@ -80,32 +80,32 @@ class AlThemesCollectionWrapper
                 'parameters' => array(
                     '%theme_name%' => $themeName,
                 ),
-            );            
+            );
             throw new ThemeNotFoundException(json_encode($exception));
         }
-        
+
         return $theme;
     }
 
     /**
      * Returns the template from theme name and the template name
      *
-     * @param  string                                                 $themeName
-     * @param  string                                                 $templateName
+     * @param  string                                                  $themeName
+     * @param  string                                                  $templateName
      * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
      */
     public function getTemplate($themeName, $templateName)
     {
         $theme = $this->getTheme($themeName);
-        
+
         return $theme->getTemplate($templateName);
     }
 
     /**
      * Assigns the template retrieved from theme name and the template name to the template manager
      *
-     * @param  string                                                                  $themeName
-     * @param  string                                                                  $templateName
+     * @param  string                                                                $themeName
+     * @param  string                                                                $templateName
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      * @throws TemplateNotFoundException
      */

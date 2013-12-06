@@ -36,12 +36,12 @@ class ThemePreviewController extends AlCmsController
         $this->factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $this->blocksFactory = $this->container->get('red_kite_cms.block_manager_factory');
         $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
-        $this->blocksRepository = $this->factoryRepository->createRepository('Block');        
+        $this->blocksRepository = $this->factoryRepository->createRepository('Block');
         $bootstrapVersion = $this->activeTheme->getThemeBootstrapVersion($themeName);
-        
+
         $theme = $this->themes->getTheme($themeName);
         $template = ($templateName == 'none') ? $theme->getHomeTemplate() : $theme->getTemplate($templateName);
-        
+
         $this->pageTree = new AlPageTreePreview($this->container, $this->factoryRepository);
         $slotContents = $this->fetchSlotContents($template);
         $pageBlocks = new AlPageBlocks($this->factoryRepository);
@@ -70,7 +70,7 @@ class ThemePreviewController extends AlCmsController
             'language_name' => $languageName,
             'page_name' => $pageName,
         );
-        
+
         return $this->render(sprintf('RedKiteCmsBundle:Bootstrap:%s/Template/Preview/template.html.twig', $bootstrapVersion), $baseParams);
     }
 

@@ -36,7 +36,7 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
      * Constructor
      *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * 
+     *
      * @api
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository)

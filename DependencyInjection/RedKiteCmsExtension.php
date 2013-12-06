@@ -23,7 +23,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Config\FileLocator;
 
 use Symfony\Component\Config\Definition\Processor;
-use Symfony\Component\Form\Exception\InvalidConfigurationException;
 
 /**
  * Loads the CMS parameters into the DIC
@@ -50,15 +49,15 @@ class RedKiteCmsExtension extends Extension
         $container->setParameter('red_kite_cms.web_folder_full_path', $config['web_folder_dir_full_path']);
         $container->setParameter('red_kite_cms.upload_assets_dir', $config['upload_assets_dir']);
         $container->setParameter('red_kite_cms.love', $config['love']);
-        $container->setParameter('red_kite_cms.enable_yui_compressor', $config['enable_yui_compressor']);        
-        $container->setParameter('red_kite_cms.theme_structure_file', $config['theme_structure_file']); 
+        $container->setParameter('red_kite_cms.enable_yui_compressor', $config['enable_yui_compressor']);
+        $container->setParameter('red_kite_cms.theme_structure_file', $config['theme_structure_file']);
         $container->setParameter('red_kite_cms.website_url', $config['website_url']);
         $container->setParameter('red_kite_cms.bootstrap_version', $config['bootstrap_version']);
-        
+
         if (isset($config['active_theme_file'])) {
             $container->setParameter('red_kite_cms.active_theme_file', $config['active_theme_file']);
         }
-        
+
         if (isset($config['deploy_bundle'])) {
             $container->setParameter('red_kite_cms.deploy_bundle.resources_dir', $config['deploy_bundle']['resources_dir']);
             $container->setParameter('red_kite_cms.deploy_bundle.assets_base_dir', $config['deploy_bundle']['assets_base_dir']);

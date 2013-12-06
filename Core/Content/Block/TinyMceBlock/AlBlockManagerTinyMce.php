@@ -46,7 +46,7 @@ abstract class AlBlockManagerTinyMce extends AlBlockManager
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlUrlManagerInterface $urlManager, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
     {
         throw new RedKiteDeprecatedException("AlBlockManagerTinyMce has been deprecated since RedKiteCms 1.1.0");
-        
+
         parent::__construct($eventsHandler, $factoryRepository, $validator);
 
         $this->urlManager = $urlManager;

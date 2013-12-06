@@ -26,10 +26,10 @@ class AlTemplateGenerator extends Generator
 
     /**
      * Generates the template file
-     * @param string $dir The directory where the generated file must be saved
-     * @param string $themeName
-     * @param string $templateName
-     * @param array $assets
+     * @param  string $dir          The directory where the generated file must be saved
+     * @param  string $themeName
+     * @param  string $templateName
+     * @param  array  $assets
      * @return string A message formatted to be displayed on the console
      */
     public function generateTemplate($dir, $themeName, $templateName)

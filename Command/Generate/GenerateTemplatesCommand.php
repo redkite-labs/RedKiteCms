@@ -48,7 +48,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
     {
         return $this->slotsGenerator;
     }
-    
+
     public function setExtensionGenerator(AlExtensionGenerator $extensionGenerator)
     {
         $this->extensionGenerator = $extensionGenerator;
@@ -84,7 +84,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
             ->getBundle($themeName)
             ->getNamespace()
         ;
-        
+
         // @codeCoverageIgnoreStart
         if (null === $this->templateParser) {
             $this->templateParser = new AlTemplateParser($dir . 'Resources/views/Theme', $kernel->getRootDir(), $themeName);
@@ -97,7 +97,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
         if (null === $this->slotsGenerator) {
             $this->slotsGenerator = new AlSlotsGenerator();
         }
-        
+
         if (null === $this->extensionGenerator) {
             $this->extensionGenerator = new AlExtensionGenerator();
         }
@@ -120,14 +120,14 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
             $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, $templateName, $slots);
             $output->writeln($message);
         }
-        
+
         // @codeCoverageIgnoreStart
         if ( ! empty($baseSlots)) {
             $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, 'base', $baseSlots);
             $output->writeln($message);
         }
         // @codeCoverageIgnoreEnd
-        
+
         $message = $this->extensionGenerator->generateExtension($namespace, $dir . 'DependencyInjection', $themeName, array_keys($templates), $slotFiles);
         $output->writeln($message);
     }

@@ -91,14 +91,14 @@ abstract class AlDeployer implements AlDeployerInterface
      *
      * @api
      */
-    public function  __construct(ContainerInterface $container)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
         $this->kernel = $this->container->get('kernel');
         $this->factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $this->deployBundle = $this->container->getParameter('red_kite_labs_theme_engine.deploy_bundle');
         $this->deployBundleAsset = new AlAsset($this->kernel, $this->deployBundle);
-        
+
         $this->configDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.config_dir');
         $this->assetsDir = $this->deployBundleAsset->getRealPath()  . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.assets_base_dir');
 
@@ -114,7 +114,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
         $this->themesCollectionWrapper = $this->container->get('red_kite_cms.themes_collection_wrapper');
         $this->websiteUrl = $this->container->getParameter('red_kite_cms.website_url');
-        
+
         $this->fileSystem = new Filesystem();
     }
 
@@ -310,10 +310,10 @@ abstract class AlDeployer implements AlDeployerInterface
             if ( ! $pageTree->getAlLanguage()->getMainLanguage() || ! $pageTree->getAlPage()->getIsHome()) {
                 $permalink = $seo->getPermalink();
             }
-            
+
             $sitemap[] = sprintf("<url>\n\t<loc>%s</loc>\n\t<changefreq>%s</changefreq>\n\t<priority>%s</priority>\n</url>", $this->websiteUrl . $permalink, $seo->getSitemapChangefreq(), $seo->getSitemapPriority());
         }
-        
+
         return @file_put_contents($this->webFolderPath . '/sitemap.xml', sprintf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n%s\n</urlset>" , implode("\n", $sitemap)));
     }
 
@@ -335,7 +335,7 @@ abstract class AlDeployer implements AlDeployerInterface
         $languageRepository = $this->factoryRepository->createRepository('Language');
         $languages = $languageRepository->activeLanguages();
         $blockRepository = $this->factoryRepository->createRepository('Block');
-        
+
         $themeName = $this->activeTheme->getActiveTheme();
         //$this->themesCollectionWrapper = $this->container->get('red_kite_cms.themes_collection_wrapper');
         $templateManager = $this->themesCollectionWrapper->getTemplateManager();

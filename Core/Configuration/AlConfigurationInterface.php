@@ -26,18 +26,18 @@ interface AlConfigurationInterface
 {
     /**
      * Reads a configuration parameter
-     * 
-     * @param string $parameter
+     *
+     * @param  string $parameter
      * @return string
      */
     public function read($parameter);
-    
+
     /**
      * Writes the new value for the given parameter
-     * 
-     * @param string $parameter
-     * @param string $value
-     * @return int Affected records
+     *
+     * @param  string $parameter
+     * @param  string $value
+     * @return int    Affected records
      */
     public function write($parameter, $value);
 }

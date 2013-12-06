@@ -50,7 +50,7 @@ abstract class AlTwigTemplateWriter
      * Generates the template's subsections and the full template itself
      */
     abstract public function generateTemplate();
-    
+
     /**
      * Generates the template extension section
      */
@@ -72,7 +72,7 @@ abstract class AlTwigTemplateWriter
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface             $urlManager
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface         $viewRenderer
-     * @param array                                                                             $replaceImagesPaths
+     * @param array                                                                           $replaceImagesPaths
      */
     public function __construct(AlPageTree $pageTree, AlBlockManagerFactoryInterface $blockManagerFactory, AlUrlManagerInterface $urlManager, AlViewRendererInterface $viewRenderer, array $replaceImagesPaths = array())
     {
@@ -147,7 +147,7 @@ abstract class AlTwigTemplateWriter
     /**
      * Forces the CMS to render the credits or not
      *
-     * @param  boolean                                                                             $v
+     * @param  boolean                                                                           $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter
      */
     public function setCredits($v)
@@ -213,13 +213,13 @@ abstract class AlTwigTemplateWriter
         if (!empty($externalStylesheets)) {
             $sectionContent = '<link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />';
             $filter = $yuiEnabled ? '?yui_css,cssrewrite' : '?cssrewrite';
-            $this->assetsSection .= $this->writeBlock('external_stylesheets', $this->writeAssetic('stylesheets', implode(' ', array_map(function($value){ return '"' . $value . '"'; }, $externalStylesheets )), $sectionContent, $filter), true);
+            $this->assetsSection .= $this->writeBlock('external_stylesheets', $this->writeAssetic('stylesheets', implode(' ', array_map(function ($value) { return '"' . $value . '"'; }, $externalStylesheets )), $sectionContent, $filter), true);
         }
 
         if (!empty($externalJavascripts)) {
             $sectionContent = '<script src="{{ asset_url }}"></script>';
             $filter = $yuiEnabled ? '?yui_js' : '';
-            $this->assetsSection .= $this->writeBlock('external_javascripts', $this->writeAssetic('javascripts', implode(' ', array_map(function($value){ return '"' . $value . '"'; }, $externalJavascripts )), $sectionContent, $filter), true);
+            $this->assetsSection .= $this->writeBlock('external_javascripts', $this->writeAssetic('javascripts', implode(' ', array_map(function ($value) { return '"' . $value . '"'; }, $externalJavascripts )), $sectionContent, $filter), true);
         }
 
         if (!empty($internalStylesheet)) {
@@ -227,7 +227,7 @@ abstract class AlTwigTemplateWriter
         }
 
         if (!empty($internalJavascript)) {
-            $this->assetsSection .= $this->writeBlock('internal_header_javascripts', '<script>$(document).ready(function(){' . $this->rewriteImagesPathForProduction($internalJavascript) . '});</script>', true);
+            $this->assetsSection .= $this->writeBlock('internal_header_javascripts', '<script>$(document).ready(function () {' . $this->rewriteImagesPathForProduction($internalJavascript) . '});</script>', true);
         }
     }
 
@@ -329,7 +329,7 @@ abstract class AlTwigTemplateWriter
         $cmsAssetsFolder = $this->replaceImagesPaths['backendPath'];
         $deployBundleAssetsFolder = $this->replaceImagesPaths['prodPath'];
 
-        return preg_replace_callback('/([\/]?)(' . str_replace('/', '\/', $cmsAssetsFolder) . ')/s', function($matches) use ($deployBundleAssetsFolder) {return $matches[1].$deployBundleAssetsFolder;}, $content);
+        return preg_replace_callback('/([\/]?)(' . str_replace('/', '\/', $cmsAssetsFolder) . ')/s', function ($matches) use ($deployBundleAssetsFolder) {return $matches[1].$deployBundleAssetsFolder;}, $content);
     }
 
     protected function rewriteLinksForProduction($content)
@@ -338,17 +338,17 @@ abstract class AlTwigTemplateWriter
 
         return preg_replace_callback('/(\<a[^\>]+href[="\'\s]+)([^"\'\s]+)?([^\>]+\>)/s', function ($matches) use ($urlManager) {
             $url = $matches[2];
-            
+
             if (preg_match('/route:(.*)/i', $url, $route)) {
                 $url = sprintf("{{ path('%s') }}", html_entity_decode($route[1], ENT_QUOTES));
-                
+
                 return $matches[1] . $url . $matches[3];
             }
-            
+
             $route = $urlManager
                 ->fromUrl($url)
                 ->getProductionRoute();
-            
+
             if (null !== $route) {
                 $url = sprintf("{{ path('%s') }}", $route);
             }
@@ -375,8 +375,8 @@ abstract class AlTwigTemplateWriter
     /**
      * Writes a block section
      *
-     * @param  string $blockName
-     * @param  string $blockContent
+     * @param  string  $blockName
+     * @param  string  $blockContent
      * @param  boolean $parent
      * @return string
      */
@@ -495,7 +495,7 @@ abstract class AlTwigTemplateWriter
     {
         $template = $this->template;
 
-        return array_filter($blocks, function($slotBlocks) use ($template, $filter) {
+        return array_filter($blocks, function ($slotBlocks) use ($template, $filter) {
 
             if (count($slotBlocks) == 0) {
                 // @codeCoverageIgnoreStart
@@ -509,9 +509,9 @@ abstract class AlTwigTemplateWriter
             if (null === $slot) {
                 return false;
             }
-            
-            $repeated = (null !== $slot->getForceRepeatedDuringDeploying()) ? $slot->getForceRepeatedDuringDeploying() : $slot->getRepeated(); 
-            
+
+            $repeated = (null !== $slot->getForceRepeatedDuringDeploying()) ? $slot->getForceRepeatedDuringDeploying() : $slot->getRepeated();
+
             return in_array($repeated, $filter);
         });
     }
