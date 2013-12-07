@@ -61,7 +61,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '{' . PHP_EOL;
         $expected .= '    public function getDefaultValue()' . PHP_EOL;
         $expected .= '    {' . PHP_EOL;
-        $expected .= '        $value = ' . PHP_EOL;
+        $expected .= '        $value =' . PHP_EOL;
         $expected .= '            \'' . PHP_EOL;
         $expected .= '                {' . PHP_EOL;
         $expected .= '                    "0" : {' . PHP_EOL;
@@ -97,7 +97,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '            "form" => $form->createView(),' . PHP_EOL;
         $expected .= '        );' . PHP_EOL;
         $expected .= '    }' . PHP_EOL;
-        $expected .= '}';
+        $expected .= '}' . PHP_EOL;
 
         $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Core/Block/AlBlockManagerFakeBlock.php');
         $this->assertFileExists($file);
@@ -122,8 +122,8 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '        // Add here your fields' . PHP_EOL;
         $expected .= '        $builder->add(\'block_text\');' . PHP_EOL;
         $expected .= '    }' . PHP_EOL;
-        $expected .= '}';
-        //print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());
+        $expected .= '}' . PHP_EOL;
+        
         $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Core/Form/AlFakeBlockType.php');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));

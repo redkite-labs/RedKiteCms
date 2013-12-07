@@ -58,7 +58,7 @@ class AlTemplateParser
             $templateFolder = dirname($template);
             $templateName = basename($template);
             $templateContents = file_get_contents($template);
-
+            
             $slots[$templateName] = array(
                 "slots" => $this->fetchSlots($templateContents),
                 "extends" => null,

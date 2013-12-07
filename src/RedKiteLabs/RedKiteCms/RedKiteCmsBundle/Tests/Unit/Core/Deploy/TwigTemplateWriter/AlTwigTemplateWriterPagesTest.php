@@ -232,7 +232,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
         $section .= "{{ parent() }}" . PHP_EOL;
-        $section .= "<script>$(document).ready(function(){some js code});</script>" . PHP_EOL;
+        $section .= "<script>$(document).ready(function () {some js code});</script>" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
@@ -262,7 +262,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section = "\n{#--------------  ASSETS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
         $section .= "{{ parent() }}" . PHP_EOL;
-        $section .= "<script>$(document).ready(function(){" . $expectedJsCode . "});</script>" . PHP_EOL;
+        $section .= "<script>$(document).ready(function () {" . $expectedJsCode . "});</script>" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
@@ -297,7 +297,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
         $section .= "{{ parent() }}" . PHP_EOL;
-        $section .= "<script>$(document).ready(function(){some js code});</script>" . PHP_EOL;
+        $section .= "<script>$(document).ready(function () {some js code});</script>" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
 
         $this->assertEquals($section, $twigTemplateWriter->getAssetsSection());
@@ -678,7 +678,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= "{% block internal_header_javascripts %}" . PHP_EOL;
         $section .= "{{ parent() }}" . PHP_EOL;
-        $section .= "<script>$(document).ready(function(){some js code});</script>" . PHP_EOL;
+        $section .= "<script>$(document).ready(function () {some js code});</script>" . PHP_EOL;
         $section .= "{% endblock %}\n" . PHP_EOL;
         $section .= "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
