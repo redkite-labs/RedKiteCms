@@ -40,6 +40,13 @@ class AlBlockManagerJsonBlockCollectionTester extends AlBlockManagerJsonBlockCol
  */
 class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
 {  
+    protected function setUp()
+    {
+        parent::setUp();
+        
+        $this->blocksRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel');
+    }
+    
     public function testManageJsonCollection()
     {
         $value = '
@@ -99,12 +106,12 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
             }
         }';
         
-        $blocksRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel');
+        $this->blocksRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel');
         $repository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $repository->expects($this->any())
               ->method('createRepository')
               ->with('Block')
-              ->will($this->returnValue($blocksRepository))
+              ->will($this->returnValue($this->blocksRepository))
         ;
         
         $this->container->expects($this->at(1))
@@ -122,27 +129,15 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
     /**
      * @dataProvider addItemProvider
      */
-    public function testAddItem($values, $blocks, $expectedResult)
+    public function testAddItem($blockValue, $values, $blocks, $childrenBlocks, $expectedResult)
     {
-        $value = '
-        {
-            "0" : {
-                "type": "LinkBlock"
-            },
-            "1" : {
-                "type": "BootstrapNavbarBlock"
-            },
-            "2" : {
-                "type": "LinkBlock"
-            }
-        }';
-        
         $repository = $this->setUpRepository($blocks, $expectedResult);        
+        $this->retrieveContentsBySlotName($childrenBlocks);
         $this->container->expects($this->at(1))
                       ->method('get')
                       ->will($this->returnValue($repository));
         
-        $block = $this->setUpBaseBlock($value); 
+        $block = $this->setUpBaseBlock($blockValue); 
         $blockManager = new AlBlockManagerJsonBlockCollectionTester($this->container, $this->validator);               
         $blockManager->set($block);
         $result = $blockManager->manageCollectionTester($values);
@@ -153,27 +148,26 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
     /**
      * @dataProvider deleteItemProvider
      */
-    public function testDeleteItem($values, $blocks, $expectedResult)
-    {
-        $value = '
-        {
-            "0" : {
-                "type": "LinkBlock"
-            },
-            "1" : {
-                "type": "BootstrapNavbarBlock"
-            },
-            "2" : {
-                "type": "LinkBlock"
-            }
-        }';
-        
+    public function testDeleteItem($blockValue, $values, $blocks, $childrenBlocks, $deletingBlocks, $expectedResult)
+    {     
         $repository = $this->setUpRepository($blocks, $expectedResult); 
+        $this->deleteBlocks($deletingBlocks);           
+        
+        $at = 1;
+        foreach($deletingBlocks as $block) {
+            $this->blocksRepository->expects($this->at($at))
+                  ->method('retrieveContentsBySlotName')
+                  ->will($this->returnValue($block))
+            ;
+            $at += 1;
+        }
+        $this->retrieveContentsBySlotName($childrenBlocks, $at);
+        
         $this->container->expects($this->at(1))
                       ->method('get')
                       ->will($this->returnValue($repository));
         
-        $block = $this->setUpBaseBlock($value); 
+        $block = $this->setUpBaseBlock($blockValue); 
         $blockManager = new AlBlockManagerJsonBlockCollectionTester($this->container, $this->validator);
         $blockManager->set($block);
         $result = $blockManager->manageCollectionTester($values);
@@ -185,149 +179,167 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
     {
         return array(
             array(
+                '[{"type":"AccordionBlock"}]',
                 array(
                     'Content' => '{"operation": "add", "item": "-1", "value": { "type": "TestBlock" }}',
                 ),
                 array(
-                    $this->initBlock('2-0', '2-1', null, true),            
-                    $this->initBlock('2-1', '2-2', null, true),            
-                    $this->initBlock('2-2', '2-3', null, true),
+                    $this->initBlock('2-0', '2-1', null, true, 2),  
                 ),
                 array(
-                    'Content' => '[{"type":"TestBlock"},{"type":"LinkBlock"},{"type":"BootstrapNavbarBlock"},{"type":"LinkBlock"}]',
+                    array(),
+                ),
+                array(
+                    'Content' => '[{"type":"TestBlock"},{"type":"AccordionBlock"}]',
                 ),
             ),
             array(
+                '[{"type":"AccordionBlock"}]',
+                array(
+                    'Content' => '{"operation": "add", "item": "-1", "value": { "type": "TestBlock" }}',
+                ),
+                array(
+                    $this->initBlock('2-0', '2-1', null, true, 2),  
+                ),
+                array(
+                    array(
+                        $this->initBlock('2-0-0', '2-1-0', null, true, 3),
+                        $this->initBlock('2-0-1', '2-1-1', null, true, 4)
+                    )                    
+                ),
+                array(
+                    'Content' => '[{"type":"TestBlock"},{"type":"AccordionBlock"}]',
+                ),
+            ),
+            array(
+                '[{"type":"AccordionBlock"}, {"type":"AccordionBlock"}]',
+                array(
+                    'Content' => '{"operation": "add", "item": "-1", "value": { "type": "TestBlock" }}',
+                ),
+                array(
+                    $this->initBlock('2-0', '2-1', null, true, 2),  
+                    $this->initBlock('2-1', '2-2', null, true, 5), 
+                ),
+                array(
+                    array(
+                        $this->initBlock('2-0-0', '2-1-0', null, true, 3),
+                        $this->initBlock('2-0-1', '2-1-1', null, true, 4)
+                    ),
+                    array(
+                        $this->initBlock('5-1-0', '5-2-0', null, true, 6),
+                        $this->initBlock('5-1-1', '5-2-1', null, true, 7)
+                    ) 
+                ),
+                array(
+                    'Content' => '[{"type":"TestBlock"},{"type":"AccordionBlock"},{"type":"AccordionBlock"}]',
+                ),
+            ),
+            array(
+                '[{"type":"AccordionBlock"}, {"type":"AccordionBlock"}]',
                 array(
                     'Content' => '{"operation": "add", "item": "0", "value": { "type": "TestBlock" }}',
                 ),
                 array(
-                    $this->initBlock('2-0', null, null, true),            
-                    $this->initBlock('2-1', '2-2', null, true),            
-                    $this->initBlock('2-2', '2-3', null, true),
+                    $this->initBlock('2-0', '2-0', null, true, 2),  
+                    $this->initBlock('2-1', '2-2', null, true, 5), 
                 ),
                 array(
-                    'Content' => '[{"type":"LinkBlock"},{"type":"TestBlock"},{"type":"BootstrapNavbarBlock"},{"type":"LinkBlock"}]',
+                    array(
+                        $this->initBlock('2-0-0', '2-0-0', null, true, 3),
+                        $this->initBlock('2-0-1', '2-0-1', null, true, 4)
+                    ),
+                    array(
+                        $this->initBlock('5-1-0', '5-2-0', null, true, 6),
+                        $this->initBlock('5-1-1', '5-2-1', null, true, 7)
+                    ) 
+                ),
+                array(
+                    'Content' => '[{"type":"AccordionBlock"},{"type":"TestBlock"},{"type":"AccordionBlock"}]',
                 ),
             ),
             array(
+                '[{"type":"AccordionBlock"}, {"type":"AccordionBlock"}]',
                 array(
                     'Content' => '{"operation": "add", "item": "1", "value": { "type": "TestBlock" }}',
                 ),
                 array(
-                    $this->initBlock('2-0', null, null, true),            
-                    $this->initBlock('2-1', null, null, true),           
-                    $this->initBlock('2-2', '2-3', null, true),
+                    $this->initBlock('2-0', '2-0', null, true, 2),  
+                    $this->initBlock('2-1', '2-2', null, true, 5), 
                 ),
                 array(
-                    'Content' => '[{"type":"LinkBlock"},{"type":"BootstrapNavbarBlock"},{"type":"TestBlock"},{"type":"LinkBlock"}]',
-                ),
-            ),
-            array(
-                array(
-                    'Content' => '{"operation": "add", "item": "2", "value": { "type": "TestBlock" }}',
                 ),
                 array(
-                    $this->initBlock('2-0', null, null, true),            
-                    $this->initBlock('2-1', null, null, true),           
-                    $this->initBlock('2-2', null, null, true),
+                    'Content' => '[{"type":"AccordionBlock"},{"type":"AccordionBlock"},{"type":"TestBlock"}]',
                 ),
-                array(
-                    'Content' => '[{"type":"LinkBlock"},{"type":"BootstrapNavbarBlock"},{"type":"LinkBlock"},{"type":"TestBlock"}]',
-                ),
-            ),
-            array(
-                array(
-                    'Content' => '{"operation": "add", "item": "0", "value": { "type": "TestBlock" }}',
-                ),
-                array(
-                    $this->initBlock('2-0', null, null, true),            
-                    $this->initBlock('2-1', '2-2', null, true),            
-                    $this->initBlock('2-2', '2-3', null, false),
-                ),
-                false,
             ),
         );
     }
     
     public function deleteItemProvider()
     {
-        return array(            
-            /**/array(
-                array(
-                    'Content' => '{"operation": "remove", "item": "0"}',
-                ),
-                array(        
-                    $this->initBlock('2-0', null, true, true),  
-                    $this->initBlock('2-1', '2-0', null, true),            
-                    $this->initBlock('2-2', '2-1', null, true),
-                ),
-                array(
-                    'Content' => '[{"type":"BootstrapNavbarBlock"},{"type":"LinkBlock"}]',
-                ),
-            ),            
+        return array(
             array(
+                '[{"type":"AccordionBlock"}, {"type":"TestBlock"}]',
                 array(
                     'Content' => '{"operation": "remove", "item": "1"}',
                 ),
-                array(        
-                    $this->initBlock('2-0', null, null, true),  
-                    $this->initBlock('2-1', null, true, true),            
-                    $this->initBlock('2-2', '2-1', null, true),
+                array(
+                    $this->initBlock('2-0', '2-0', null, true, 2),  
+                    $this->initBlock('2-1', '2-2', null, true, 5), 
                 ),
                 array(
-                    'Content' => '[{"type":"LinkBlock"},{"type":"LinkBlock"}]',
-                ),
-            ),            
-            array(
-                array(
-                    'Content' => '{"operation": "remove", "item": "2"}',
-                ),
-                array(        
-                    $this->initBlock('2-0', null, null, true),  
-                    $this->initBlock('2-1', null, null, true),            
-                    $this->initBlock('2-2', null, true, true),
                 ),
                 array(
-                    'Content' => '[{"type":"LinkBlock"},{"type":"BootstrapNavbarBlock"}]',
+                    $this->initBlock('5-1-0', '5-1-0', null, true, 6),
+                    $this->initBlock('5-1-1', '5-1-1', null, true, 7)
+                ) ,
+                array(
+                    'Content' => '[{"type":"AccordionBlock"}]',
                 ),
             ),
             array(
+                '[{"type":"AccordionBlock"}, {"type":"TestBlock"}]',
                 array(
                     'Content' => '{"operation": "remove", "item": "0"}',
                 ),
-                array(        
-                    $this->initBlock('2-0', null, true, false),  
-                    $this->initBlock('2-1', '2-0', null, true),            
-                    $this->initBlock('2-2', '2-1', null, true),
-                ),
-                false,
-            ),  
-            array(
                 array(
-                    'Content' => '{"operation": "remove", "item": "0"}',
+                    $this->initBlock('2-0', '2-0', null, true, 2),  
+                    $this->initBlock('2-1', '2-0', null, true, 5), 
                 ),
-                array(        
-                    $this->initBlock('2-0', null, true, true),  
-                    $this->initBlock('2-1', '2-0', null, false),            
-                    $this->initBlock('2-2', '2-1', null, true),
+                array(                    
+                    $this->initBlock('5-1-0', '5-0-0', null, true, 6),
+                    $this->initBlock('5-1-1', '5-0-1', null, true, 7)
                 ),
-                false,
-            ),   
+                array(
+                    $this->initBlock('2-0-0', '2-0-0', null, true, 3),
+                    $this->initBlock('2-0-1', '2-0-1', null, true, 4)
+                ) ,
+                array(
+                    'Content' => '[{"type":"TestBlock"}]',
+                ),
+            ),
             array(
+                '[{"type":"AccordionBlock"}, {"type":"TestBlock"}, {"type":"AccordionBlock"}]',
                 array(
                     'Content' => '{"operation": "remove", "item": "1"}',
                 ),
-                array(        
-                    $this->initBlock('2-0-0', null, true, true),  
-                    $this->initBlock('2-1-0', '2-0-0', null, true),            
-                    $this->initBlock('2-2-0', '2-1-0', null, true),
-                ),
-                
                 array(
-                    'Content' => '[{"type":"LinkBlock"},{"type":"LinkBlock"}]',
+                    $this->initBlock('2-0', '2-0', null, true, 2),  
+                    $this->initBlock('2-1', '2-0', null, true, 5),   
+                    $this->initBlock('2-2', '2-1', null, true, 8), 
                 ),
-            ), 
+                array(                    
+                    $this->initBlock('8-2-0', '8-1-0', null, true, 6),
+                    $this->initBlock('8-2-1', '8-1-1', null, true, 7)
+                ),
+                array(
+                   $this->initBlock('2-1-0', '2-1-0', null, true, 3),
+                   $this->initBlock('2-1-1', '2-1-1', null, true, 4)
+                ) ,
+                array(
+                    'Content' => '[{"type":"AccordionBlock"},{"type":"AccordionBlock"}]',
+                ),
+            ),
         );
     }
     
@@ -351,9 +363,14 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
         return $block;
     }
     
-    protected function initBlock($slotName, $newSlotName = null, $toDetete = null, $result = null)
+    protected function initBlock($slotName, $newSlotName = null, $toDetete = null, $result = null, $id = 2)
     {
         $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        
+        $block->expects($this->any())
+              ->method('getId')
+              ->will($this->returnValue($id))
+        ;
         
         $block->expects($this->any())
               ->method('getSlotName')
@@ -386,7 +403,7 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
     
     private function setUpBaseBlock($value, $block = null)
     {
-        if (null === $block) {
+        if (null === $block) { 
             $block = $this->initBlock('nav-menu');
         
             $block->expects($this->once())
@@ -403,24 +420,23 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
     
     private function setUpRepository($blocks, $expectedResult)
     {
-        $blocksRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel');
-        $blocksRepository->expects($this->once())
+        $this->blocksRepository->expects($this->at(0))
               ->method('retrieveContentsBySlotName')
               ->will($this->returnValue($blocks))
         ;
         
-        $blocksRepository->expects($this->once())
+        $this->blocksRepository->expects($this->once())
               ->method('startTransaction')
         ;
         
         if (is_array($expectedResult)) {
-            $blocksRepository->expects($this->once())
+            $this->blocksRepository->expects($this->once())
                   ->method('commit')
             ;
         }
         
         if (is_bool($expectedResult)) {
-            $blocksRepository->expects($this->once())
+            $this->blocksRepository->expects($this->once())
                   ->method('rollback')
             ;
         }
@@ -429,9 +445,34 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
         $repository->expects($this->any())
               ->method('createRepository')
               ->with('Block')
-              ->will($this->returnValue($blocksRepository))
+              ->will($this->returnValue($this->blocksRepository))
         ;
         
         return $repository;
+    }
+    
+    private function retrieveContentsBySlotName($blocks, $startIndex = 2)
+    {
+        $at = $startIndex;
+        foreach($blocks as $block) {
+            $this->blocksRepository->expects($this->at($at))
+                  ->method('retrieveContentsBySlotName')
+                  ->will($this->returnValue($block))
+            ;
+            $at++;
+        }
+    }
+    
+    private function deleteBlocks($blocks, $startIndex = 2)
+    {
+        $at = $startIndex;
+        foreach($blocks as $block) {
+            $block->expects($this->once())
+                  ->method('setToDelete')
+                  ->with(1)
+                  ->will($this->returnValue(true))
+            ;
+            $at++;
+        }
     }
 }
