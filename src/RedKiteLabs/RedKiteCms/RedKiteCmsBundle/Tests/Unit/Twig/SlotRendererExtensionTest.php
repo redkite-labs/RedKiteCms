@@ -21,10 +21,7 @@ class SlotRendererExtensionTest extends TestCase
                                ->getMock();
         
         $this->translator = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface");
-
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-
-        //$slotRenderer = new SlotRendererExtension($this->container);
     }
 
     public function testTwigFunctions()
@@ -661,12 +658,12 @@ class SlotRendererExtensionTest extends TestCase
     private function createParentBlockManager()
     {
         $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
-        $block->expects($this->at(0))
+        $block->expects($this->once())
             ->method('getPageId')
             ->will($this->returnValue(2))
         ;
         
-        $block->expects($this->at(1))
+        $block->expects($this->once())
             ->method('getLanguageId')
             ->will($this->returnValue(2))
         ;

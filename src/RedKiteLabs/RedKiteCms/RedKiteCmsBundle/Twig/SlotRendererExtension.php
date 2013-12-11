@@ -90,7 +90,7 @@ class SlotRendererExtension extends \Twig_Extension
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function renderBlock(AlBlockManager $blockManager, $template = null, $included = false, $extraAttributes = '')
+    public function renderBlock(AlBlockManager $blockManager, $template = null, $included = false, $extraAttributes = '', array $extraOptions = null)
     {
         try {
             $block = $blockManager->toArray();
@@ -100,7 +100,7 @@ class SlotRendererExtension extends \Twig_Extension
 
             $templating = $this->container->get('templating');
             $slotName = $block["Block"]["SlotName"];
-            $content = $this->blockContentToHtml($block['Content']);
+            $content = $this->blockContentToHtml($block['Content'], $extraOptions);
 
             if (strpos($content, '<script') !== false) {
                 $content = $this->translator->translate('twig_extension_script_not_rendered', array(), 'RedKiteCmsBundle');
@@ -151,12 +151,15 @@ class SlotRendererExtension extends \Twig_Extension
      * @param  array|string $block
      * @return string
      */
-    public function blockContentToHtml($content)
+    public function blockContentToHtml($content, array $extraOptions = null)
     {
         $result = $content;
         if (is_array($content)) {
             $result = "";
             if (\array_key_exists('RenderView', $content)) {
+                if (null !== $extraOptions) {
+                    $content['RenderView']['options'] = array_merge($content['RenderView']['options'], $extraOptions);
+                }
                 $viewsRenderer = $this->container->get('red_kite_cms.view_renderer');
                 $result = $viewsRenderer->render($content['RenderView']);
             }
@@ -192,7 +195,12 @@ class SlotRendererExtension extends \Twig_Extension
         $repository = $blocksRepository->createRepository('Block');
         $blocks = $repository->retrieveContents(null,  null, $key, array(0, 2, 3));
         $blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
-
+ 
+        $extraOptions = array('parent_slot_name' => $key);
+        if (null !== $parent && preg_match('/' . $parent->get()->getId() .  '\-([0-9]+)/', $key, $matches)) {
+            $extraOptions['key'] = $matches[1];
+        }
+                
         if (count($blocks) > 0) {
             $alBlock = $blocks[0];
             $type = $alBlock->getType();
@@ -203,7 +211,7 @@ class SlotRendererExtension extends \Twig_Extension
                     $blockManager->setEditorDisabled($parent->getEditorDisabled());
                 }
 
-                return $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes);
+                return $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes, $extraOptions);
             }
         // @codeCoverageIgnoreStart
         }
@@ -217,10 +225,11 @@ class SlotRendererExtension extends \Twig_Extension
             $blockManager = $blockManagerFactory->createBlockManager($type);
             if (null !== $blockManager) {
                 $blockManager->setEditorDisabled($parent->getEditorDisabled());
-
+                $parentBlock = $parent->get();
+                
                 $values = array(
-                  "PageId"          => $parent->get()->getPageId(),
-                  "LanguageId"      => $parent->get()->getLanguageId(),
+                  "PageId"          => $parentBlock->getPageId(),
+                  "LanguageId"      => $parentBlock->getLanguageId(),
                   "SlotName"        => $key,
                   "Type"            => $type,
                   "ContentPosition" => 1,
@@ -232,7 +241,7 @@ class SlotRendererExtension extends \Twig_Extension
 
                 $blockManager->save($values);
 
-                return $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes);
+                return $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes, $extraOptions);
             }
         // @codeCoverageIgnoreStart
         }
