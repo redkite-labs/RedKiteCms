@@ -5,7 +5,7 @@
 {% set key = 0 %}
 {% endif %}
 {% set baseSlotName = block_manager.get.getId ~ "-" ~ key %} 
-<li{% if thumbnail.width is defined and thumbnail.width != "none" %} class="{{ thumbnail.width }}"{% endif %} {{ editor|raw }}>
+<li{% if thumbnail.width is defined and thumbnail.width != "none" %} class="{{ thumbnail.width }} rk-thumbnail"{% endif %} {{ editor|raw }}>
     {% include "TwitterBootstrapBundle:Content:Thumbnail/Base/_thumbnail.html.twig" %}
 </li>
 {% endblock %}

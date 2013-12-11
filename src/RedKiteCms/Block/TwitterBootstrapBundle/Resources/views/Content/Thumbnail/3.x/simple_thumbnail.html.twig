@@ -6,7 +6,7 @@
 {% endif %}
 {% set baseSlotName = block_manager.get.getId ~ "-" ~ key %}
 
-<div class="col-sm-6 {% if thumbnail.width is defined and thumbnail.width != "none" %}{{ thumbnail.width }}{% endif %}" {{ editor|raw }}>
+<div class="col-sm-6 rk-thumbnail {% if thumbnail.width is defined and thumbnail.width != "none" %}{{ thumbnail.width }}{% endif %}" {{ editor|raw }}>
     {% include "TwitterBootstrapBundle:Content:Thumbnail/Base/_thumbnail.html.twig" %}
 </div>
 {% endblock %}

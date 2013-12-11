@@ -31,7 +31,7 @@
                 break;
         }
         
-        element.inlinelist('start', { target: ".thumbnail", addValue: '{"operation": "add", "value": { "type": "' + block + '" }}'});
+        element.inlinelist('start', { target: ".rk-thumbnail", addValue: '{"operation": "add", "value": { "type": "' + block + '" }}'});
     });
     
     $(document).on("stopEditingBlocks", function(event, element){ 
