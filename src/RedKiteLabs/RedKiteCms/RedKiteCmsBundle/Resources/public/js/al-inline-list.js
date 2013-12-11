@@ -28,6 +28,18 @@
             
             settings.startListCallback();
             
+            // closes the list interface when the block is removed and the list interface is still active
+            $(document).on("blockDeleted", function(event, element){
+                if (element == null) {
+                    return;
+                }
+                
+                if ($this.attr('data-block-id') == element.attr('data-block-id')) {
+                    $(element).inlinelist('stop');
+                    $(element).blocksEditor('stopEditElement');
+                }
+            });
+            
             return this;
         },    
         stop: function() 
@@ -172,6 +184,9 @@
           addItemCallback       : function(){},          
           deleteItemCallback    : function(){}
         }, options);
+        
+        
+        
     
         if ( methods[method] ) {
             return methods[ method ].apply( this, Array.prototype.slice.call( arguments, 1 ));
