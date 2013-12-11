@@ -179,9 +179,9 @@
                     },
                     success: function(response)
                     {
+                        $(document).trigger("blockDeleted", [ $('body').data('activeBlock') ]);
+                        
                         updateContentsJSon(response);
-
-                        $(document).trigger("blockDeleted", []);
                     },
                     error: function(err)
                     {
@@ -275,7 +275,7 @@ function updateContentsJSon(response, editorWidth)
                     .blocksEditor('hideElementContent')
                 ;     
                 
-                $('body').data('activeBlock', block);  
+                $('body').data('activeBlock', $(blockName));  
                 
                 break;
             case "remove-block":
