@@ -35,7 +35,7 @@ $(document).ready(function()
         
         element.inlinelist('start', {             
             target: '> div',
-            addValue: '{"operation": "add", "value": { "0": "item" }}',
+            addValue: '{"operation": "add", "value": { "type": "BootstrapAccordionPanelBlock" }}',
             startListCallback: expandAccordion,
             addItemCallback: expandAccordion,
             deleteItemCallback: expandAccordion

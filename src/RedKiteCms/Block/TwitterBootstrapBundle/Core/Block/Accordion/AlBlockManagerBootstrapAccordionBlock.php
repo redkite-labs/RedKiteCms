@@ -36,10 +36,10 @@ class AlBlockManagerBootstrapAccordionBlock extends AlBlockManagerJsonBlockColle
         $value = '
             {
                 "0" : {
-                    "0": "item"
+                    "type": "BootstrapAccordionPanelBlock"
                 },
                 "1" : {
-                    "0": "item"
+                    "type": "BootstrapAccordionPanelBlock"
                 }
             }';
 

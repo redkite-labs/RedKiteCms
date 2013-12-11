@@ -19,6 +19,7 @@ namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\AlBlockManagerBootstrapDropdownButtonBlock;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 
 /**
  * Defines the Block Manager to handle a Bootstrap navbar dropdown button
@@ -87,11 +88,15 @@ class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrap
         $formClass = $this->container->get('bootstrap_navbar_dropbown.form');
         $form = $this->container->get('form.factory')->create($formClass, $item);
 
+        $seoRepository = $this->factoryRepository->createRepository('Seo');        
+        $request = $this->container->get('request');
+        
         return array(
             "template" => $this->editorTemplate,
             "title" =>  $this->translator->translate('dropdown_button_editor_title', array(), 'TwitterBootstrapBundle'),
             "form" => $form->createView(),
             'items' => $items,
+            'permalinks' => ChoiceValues::getPermalinks($seoRepository, $request->get('_locale')),
         );
     }
 }

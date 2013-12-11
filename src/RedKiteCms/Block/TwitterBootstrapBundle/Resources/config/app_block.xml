@@ -34,6 +34,7 @@
         </parameter>
 
         <parameter key="bootstrap_accordion_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Accordion\AlBlockManagerBootstrapAccordionBlock</parameter>
+        <parameter key="bootstrap_accordion_panel_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Accordion\AlBlockManagerBootstrapAccordionPanelBlock</parameter>
         
         <!-- NAVBAR -->
         <parameter key="bootstrapnavbarblock.external_javascripts.cms" type="collection">
@@ -120,6 +121,11 @@
         <!-- ACORDION -->
         <service id="bootstrap_accordion_block.block" class="%bootstrap_accordion_block.block.class%">
             <tag name="red_kite_cms.blocks_factory.block" description="Collapse (Accordion)" type="BootstrapAccordionBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_accordion_panel_block.block" class="%bootstrap_accordion_panel_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Collapse (Accordion)" type="BootstrapAccordionPanelBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
         
