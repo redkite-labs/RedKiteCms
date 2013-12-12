@@ -37,15 +37,12 @@ class AlBlockManagerBootstrapAccordionPanelBlock extends AlBlockManagerJsonBlock
      *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface                           $container
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     *
-     * @api
      */
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {
         parent::__construct($container, $validator);
 
         $this->bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
-
         $this->blockTemplate = sprintf('TwitterBootstrapBundle:Content:AccordionPanel/%s/accordion_panel.html.twig', $this->bootstrapVersion);
     }
 
