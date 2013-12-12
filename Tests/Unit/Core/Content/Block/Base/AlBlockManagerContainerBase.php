@@ -47,10 +47,7 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
-        $this->factoryRepository->expects($this->any())
-            ->method('createRepository')
-            ->will($this->returnValue($this->blockRepository));
+        $this->initRepository();
         
         $this->translator = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
 
@@ -85,6 +82,14 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
                         ->method('get')
                         ->with('red_kite_cms.translator')
                         ->will($this->returnValue($this->translator));
+    }
+    
+    protected function initRepository()
+    {
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->any())
+            ->method('createRepository')
+            ->will($this->returnValue($this->blockRepository));
     }
 
     protected function initBootstrapversion($bootstrapVersion)
