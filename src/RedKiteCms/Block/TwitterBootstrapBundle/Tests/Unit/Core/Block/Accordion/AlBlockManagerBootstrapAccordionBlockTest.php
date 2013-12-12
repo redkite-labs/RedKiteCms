@@ -34,10 +34,10 @@ class AlBlockManagerBootstrapAccordionBlockTest extends BaseTestBlock
             "Content" =>    '
             {
                 "0" : {
-                    "0": "item"
+                    "type": "BootstrapAccordionPanelBlock"
                 },
                 "1" : {
-                    "0": "item"
+                    "type": "BootstrapAccordionPanelBlock"
                 }
             }'
         );
