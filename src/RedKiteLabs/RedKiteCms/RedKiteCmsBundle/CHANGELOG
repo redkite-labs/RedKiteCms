@@ -1,3 +1,18 @@
+RedKite CMS 1.1.Release Candidate 2 (---)
+b80606d added a listener to close the list interface when the block is removed and the list is still in edit mode
+c812039 blockDeleted triggered before updating the block's content on the page and passed the deleted block as argument
+531669a updated SlotRendererExtension renderBlock method to accept extra attributes passed to the block's editor
+79a230b fixed AlBlockManagerJsonBlockCollection which was not working properly, in fact when you add or remove a block it did not add or remove the right item
+dfc6a02 removed SimpleHtmlDom because it is not used anymore
+b66242d fixed a bug recentry introduced. The block must be retrieved again instead of referring the previous retrieved instance
+77f2859 added more tests for AlThemeChangerTest object
+b3e45fc added more tests for AlCommandsProcessorTest object
+11332b8 added more tests for AlActiveTheme object
+2e570ec updated due to changes in RedKiteThemeEngineBundle configuration parameters
+38eead9 removed specific type for setAlBlocks argument
+4ff67de refreshed the activeBlock reference when the block it redrawed
+ccac2ef fixed docblocks and removed inheritdoc markup where not appliable
+
 RedKite CMS 1.1.Release Candidate 1 (2013/11/14)
 68278e4 added hideElementContent method to make appliable the hide content method to an element; hid the edited block when required
 87bb383 hidden contents were not correctly restored when the editor was stopped. fixed
