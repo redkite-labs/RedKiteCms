@@ -6,7 +6,7 @@
 {% endif %}
 {% set baseSlotName = block_manager.get.getId ~ "-" ~ key %}
 
-<div class="panel panel-default" {{ editor|raw }}>
+<div class="panel panel-default" {{ editor|raw }} data-hide-blocks-menu="true">
     <div class="panel-heading">
         <h4 class="panel-title">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#al-accordion" href="#item{{ key }}">

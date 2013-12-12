@@ -6,7 +6,7 @@
 {% endif %}
 {% set baseSlotName = block_manager.get.getId ~ "-" ~ key %}
 
-<div class="accordion-group" {{ editor|raw }}>
+<div class="accordion-group" {{ editor|raw }} data-hide-blocks-menu="true">
     <div class="accordion-heading">
         <h4>
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#al-accordion" href="#item{{ key }}">
