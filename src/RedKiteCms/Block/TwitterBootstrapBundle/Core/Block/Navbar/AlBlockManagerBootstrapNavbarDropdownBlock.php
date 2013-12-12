@@ -88,7 +88,7 @@ class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrap
         $formClass = $this->container->get('bootstrap_navbar_dropbown.form');
         $form = $this->container->get('form.factory')->create($formClass, $item);
 
-        $seoRepository = $this->factoryRepository->createRepository('Seo');        
+        $seoRepository = $this->factoryRepository->createRepository('Seo');
         $request = $this->container->get('request');
         
         return array(

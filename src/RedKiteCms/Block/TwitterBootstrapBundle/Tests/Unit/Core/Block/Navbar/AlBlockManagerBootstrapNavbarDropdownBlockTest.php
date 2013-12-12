@@ -127,9 +127,36 @@ class AlBlockManagerBootstrapNavbarDropdownBlockTest extends BaseTestBlock
                         ->will($this->returnValue($formFactory))
         ;
         
+        $seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+                              ->disableOriginalConstructor()
+                              ->getMock()
+        ;
+        
+        $this->factoryRepository->expects($this->at(1))
+             ->method('createRepository')
+             ->with('Seo')
+             ->will($this->returnValue($seoRepository))
+        ;
+        
+        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
+        $this->container->expects($this->at(5))
+                        ->method('get')
+                        ->with('request')
+                        ->will($this->returnValue($request))
+        ;
+        
         $blockManager = new AlBlockManagerBootstrapNavbarDropdownBlock($this->container, $this->validator);
         $blockManager->set($block);
         $result = $blockManager->editorParameters();
         $this->assertEquals('TwitterBootstrapBundle:Editor:DropdownButton/dropdown_editor.html.twig', $result["template"]);
+    }
+    
+    protected function initRepository()
+    {
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository->expects($this->at(0))
+            ->method('createRepository')
+            ->with('Block')
+            ->will($this->returnValue($this->blockRepository));
     }
 }
