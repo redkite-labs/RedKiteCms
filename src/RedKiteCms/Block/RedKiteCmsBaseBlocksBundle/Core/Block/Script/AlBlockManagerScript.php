@@ -87,11 +87,7 @@ class AlBlockManagerScript extends AlBlockManagerContainer
      */
     protected function edit(array $values)
     {
-        $unserializedData = array();
-        $serializedData = $values['Content'];
-        parse_str($serializedData, $unserializedData);
-
-        $values["Content"] = $unserializedData['al_json_block']['content'];
+        $values["Content"] = str_replace('al_json_block[content]=', '', $values["Content"]);
 
         return parent::edit($values);
     }
