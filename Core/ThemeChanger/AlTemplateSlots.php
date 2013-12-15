@@ -124,7 +124,7 @@ class AlTemplateSlots
 
         foreach ($slotManagers as $slotManager) {
             $slotName = $slotManager->getSlotName();
-            $blockManagers = $slotManager->getBlockManagers();
+            $blockManagers = $slotManager->getBlockManagersCollection()->getBlockManagers();
 
             if (empty($blockManagers)) {
                 continue;
