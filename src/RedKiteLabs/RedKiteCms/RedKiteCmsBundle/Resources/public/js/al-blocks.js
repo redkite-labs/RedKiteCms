@@ -52,7 +52,9 @@
                            'slotName' : $(this).attr('data-slot-name'),
                            'contentType': contentType,
                            'included': included,
-                           'options': options},
+                           'options': options,
+                           'insertDirection': $('body').data('insertDirection')
+                    },
                     beforeSend: function()
                     {
                         $('body').AddAjaxLoader();
@@ -257,7 +259,11 @@ function updateContentsJSon(response, editorWidth)
                 }
                 else
                 {
-                    $(item.value).insertAfter('[data-name="' + item.insertAfter + '"]');
+                    if ($('body').data('insertDirection') == 'top') {                        
+                        $('[data-name="' + item.insertAfter + '"]').parent().before(item.value);
+                    } else {                        
+                        $('[data-name="' + item.insertAfter + '"]').parent().after(item.value);
+                    }
                 }
                 
                 $('[data-name="' + item.blockId + '"]').blocksEditor('start');

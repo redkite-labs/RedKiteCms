@@ -47,7 +47,14 @@ class BlocksController extends Base\BaseController
         $contentType = ($request->get('contentType') != null) ? $request->get('contentType') : 'Text';
         $slotManager = $this->fetchSlotManager($request, false);
         if (null !== $slotManager) {
-            $res = $slotManager->addBlock($request->get('languageId'), $request->get('pageId'), $contentType, $request->get('idBlock'));
+            $options = array(
+                "idLanguage" => $request->get('languageId'),
+                "idPage" => $request->get('pageId'),
+                "type" => $contentType,
+                "referenceBlockId" => $request->get('idBlock'),
+                "insertDirection" => $request->get('insertDirection'),
+            );
+            $res = $slotManager->addBlock($options);
             if (! $res) {
                 // @codeCoverageIgnoreStart
                 throw new RuntimeException('blocks_controller_block_not_added_due_to_unespected_exception');
@@ -128,12 +135,10 @@ class BlocksController extends Base\BaseController
             throw new RuntimeException('blocks_controller_nothing_changed_with_these_values');
         }
 
-        $blockManager = $slotManager->getBlockManager($request->get('idBlock'));
-
         $response = null;
         $dispatcher = $this->container->get('event_dispatcher');
         if (null !== $dispatcher) {
-            $event = new Block\BlockEditedEvent($request, $blockManager);
+            $event = new Block\BlockEditedEvent($request, $slotManager->lastEdited());
             $dispatcher->dispatch(BlockEvents::BLOCK_EDITED, $event);
             $response = $event->getResponse();
             $blockManager = $event->getBlockManager();
@@ -174,7 +179,7 @@ class BlocksController extends Base\BaseController
                 array("key" => "message", "value" => $this->translate($message))
             );
 
-            if ($slotManager->length() > 0) {
+            if ($slotManager->getBlockManagersCollection()->count() > 0) {
                 $values[] = array(
                     "key" => "remove-block",
                     "blockName" => "block_" . $request->get('idBlock')
@@ -189,7 +194,7 @@ class BlocksController extends Base\BaseController
                 "blockId" => 'block_' . $request->get('idBlock'),
                 "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Slot:Render/_slot.html.twig', array("slotName" => $request->get('slotName'), "included" => filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)))
             );
-
+            
             return $this->buildJSonResponse($values);
         }
 

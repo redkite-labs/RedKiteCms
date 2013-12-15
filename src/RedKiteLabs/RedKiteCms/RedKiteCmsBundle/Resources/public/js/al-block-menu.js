@@ -21,39 +21,12 @@
     var methods = {
         add: function() 
         {
-            $(this).data('filter', settings.filter);
-            $(this).click(function()
-            {
-                if ($('.al-blocks-menu').is(":visible") || $('.al-available-blocks-menu').is(":visible")) {
-                    return false;
-                }
-                
-                filter($(this).data('filter'));
-                $('body').blocksEditor('lockBlocksMenu');
-                var $this = $(this);
-                var position = $this.offset();
-                var top = position.top;
-                var left = position.left;
-
-                if (left >= ($(window).width() / 2)) {                
-                    left = position.left - $(currentMenu).width();
-                }
-                
-                var elHeight = $(currentMenu).height();
-                if (top + elHeight >= $(document).height()) {  
-                    top = position.top - elHeight;
-                }
-                
-                $(currentMenu)
-                    .css('top', top + 'px')                
-                    .css('left', left + 'px')
-                ;
-                
-                $(currentMenu).show();
-                
-                return false;
-            });
+            doAdd($(this), 'bottom');
         },        
+        addTop: function() 
+        {
+            doAdd($(this), 'top');
+        },
         remove: function() 
         {
             $(this).click(function()
@@ -67,7 +40,7 @@
         initAdders: function() 
         {
             this.each(function(){
-                $(this).click(function(){
+                $(this).unbind().click(function(){ 
                     var parent = $('#al_block_menu_toolbar').data('parent');
                     $(parent).AddBlock($(this).attr('rel'), {'included': parent.hasClass('al_included')}, function(){ Holder.run(); }); 
                     $('.al_blocks_list').hide();
@@ -86,6 +59,44 @@
                 $(currentMenu).hide();
             });
         }
+    }
+    
+    function doAdd(element, direction)
+    {
+        element.data('filter', settings.filter);
+        element.click(function()
+        {
+            $('body').data('insertDirection', direction);
+            
+            if ($('.al-blocks-menu').is(":visible") || $('.al-available-blocks-menu').is(":visible")) {
+                return false;
+            }
+
+            filter($(this).data('filter'));
+            $('body').blocksEditor('lockBlocksMenu');
+            var $this = $(this);
+            var position = $this.offset();
+            var top = position.top;
+            var left = position.left;
+
+            if (left >= ($(window).width() / 2)) {                
+                left = position.left - $(currentMenu).width();
+            }
+
+            var elHeight = $(currentMenu).height();
+            if (top + elHeight >= $(document).height()) {  
+                top = position.top - elHeight;
+            }
+
+            $(currentMenu)
+                .css('top', top + 'px')                
+                .css('left', left + 'px')
+            ;
+
+            $(currentMenu).show();
+
+            return false;
+        });
     }
     
     function filter(filter){
@@ -147,6 +158,7 @@
 $(document).ready(function()
 {
     $('#al_block_menu_add').blocksMenu('add');
+    $('#al_block_menu_add_top').blocksMenu('addTop');
     $('.al_close_block_menu').blocksMenu('close');    
     $('.al_block_adder').blocksMenu('initAdders');    
     $('#al_block_menu_delete').blocksMenu('remove');

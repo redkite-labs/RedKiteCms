@@ -328,7 +328,6 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $this->assertTrue(array_key_exists("key", $json[1]));
         $this->assertEquals("remove-block", $json[1]["key"]);
         $this->assertTrue(array_key_exists("blockName", $json[1]));
-        //$this->assertEquals("block_27", $json[1]["blockName"]);
 
         $blocks = $this->blockRepository->retrieveContents(2, 2, "content_title_1");
         $this->assertEquals(1, count($blocks));
@@ -352,7 +351,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());        
         
-        $referenceBlockId = $this->getLastBlock("content_title_1")->getId();  
+        $referenceBlockId = $this->getLastBlock("content_title_1")->getId();
         $slotName = $referenceBlockId . '-0';
         $blocks = $this->blockRepository->retrieveContents(2, 2, $slotName);
         $this->assertCount(1, $blocks);      
