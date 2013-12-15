@@ -46,7 +46,7 @@ abstract class AlTemplateBase extends AlContentManagerBase
     {
         parent::__construct($eventsHandler, $validator);
 
-        $this->blockManagerFactory = $blockManagerFactory; //(null === $blockManagerFactory) ? new AlBlockManagerFactory() : $blockManagerFactory;
+        $this->blockManagerFactory = $blockManagerFactory;
     }
 
     /**

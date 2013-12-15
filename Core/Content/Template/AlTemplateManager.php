@@ -250,7 +250,7 @@ class AlTemplateManager extends AlTemplateBase
 
         $slotManager = $this->slotManagers[$slotName];
 
-        return $slotManager->toArray();
+        return $slotManager->getBlockManagersCollection()->toArray();
     }
 
     /**
@@ -264,7 +264,7 @@ class AlTemplateManager extends AlTemplateBase
     {
         $slotContents = array();
         foreach ($this->slotManagers as $slotName => $slot) {
-            $slotContents[$slotName] = $slot->toArray();
+            $slotContents[$slotName] = $slot->getBlockManagersCollection()->toArray();
         }
 
         return $slotContents;
@@ -309,7 +309,8 @@ class AlTemplateManager extends AlTemplateBase
             $result = false;
             $this->blockRepository->startTransaction();
             foreach ($this->slotManagers as $slotManager) {
-                if ($skipRepeated && $slotManager->getRepeated() != 'page') {
+                
+                if ($skipRepeated && ($this->isIncluded($slotManager->getSlotName()) || $slotManager->getRepeated() != 'page')) {
                     continue;
                 }
 
@@ -317,8 +318,17 @@ class AlTemplateManager extends AlTemplateBase
                     ->setForceSlotAttributes(true)
                     ->setSkipSiteLevelBlocks(true)
                 ;
-                $result = $slotManager->addBlock($idLanguage, $idPage);
-                if(false === $result) break;
+                                
+                $result = $slotManager->addBlock(
+                    array(
+                        "idLanguage" => $idLanguage, 
+                        "idPage" => $idPage,
+                    )
+                );
+                
+                if (false === $result) {
+                    break;
+                }
             }
 
             $this->dispatcher->dispatch(Content\TemplateManagerEvents::BEFORE_POPULATE_COMMIT, new Content\TemplateManager\BeforePopulateCommitEvent($this));
@@ -472,9 +482,9 @@ class AlTemplateManager extends AlTemplateBase
     {
         $slotName = $slot->getSlotName();
         $alBlocks = $this->pageBlocks->getSlotBlocks($slotName);
-        $slotManager = new AlSlotManager($this->eventsHandler, $slot, $this->blockRepository, $this->blockManagerFactory, $this->validator);
+        $slotManager = new AlSlotManager($slot, $this->blockRepository, $this->blockManagerFactory);
         $slotManager->setUpBlockManagers($alBlocks);
-
+        
         return $slotManager;
     }
 
@@ -490,8 +500,35 @@ class AlTemplateManager extends AlTemplateBase
             $this->pageBlocks
                 ->setIdLanguage($idLanguage)
                 ->setIdPage($idPage)
-                ->refresh();
+                ->refresh()
+            ;
+            
             $this->setUpSlotManagers();
         }
+    }
+    
+    /**
+     * Verifies when the block is included
+     * 
+     * @param string $slotName
+     * @return boolean
+     */
+    private function isIncluded($slotName)
+    {
+        if ( ! preg_match('/^([0-9]+)\-/', $slotName, $matches)) {
+            return false;
+        }
+        
+        $blockId = $matches[1];
+        $slotBlocks = $this->pageBlocks->getBlocks();
+        foreach($slotBlocks as $blocks) {
+            foreach($blocks as $block) {
+                if ($block->getId() == $blockId) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
     }
 }
