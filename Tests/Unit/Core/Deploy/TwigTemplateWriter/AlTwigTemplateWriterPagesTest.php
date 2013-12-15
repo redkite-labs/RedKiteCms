@@ -486,11 +486,11 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
         $this->setUpTemplateSlots($slots);
         $this->urlManager->expects($this->any())
             ->method('getProductionRoute')
-            ->will($this->returnValue('_en_index'));
+            ->will($this->returnValue("_en_index"));
 
         $this->setUpMetatagsAndAssets("A title", "A description", "some,keywords", array('style1.css', 'style2.css'), array('javascript1.js', 'javascript2.js'), 'some css code', 'some js code');
         $this->setUpPageBlocks();
-        $this->setUpBlockManagerFactory('<ul><li><a href="route:_en_index">Fancy page</a></li></ul>', 1);
+        $this->setUpBlockManagerFactory('<ul><li><a href="route:&#039;_en_index&#039;">Fancy page</a></li></ul>', 1);
 
         $section = "\n{#--------------  CONTENTS SECTION  --------------#}" . PHP_EOL;
         $section .= "{% block logo %}" . PHP_EOL;
