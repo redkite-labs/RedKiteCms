@@ -248,7 +248,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->refresh();
 
         $slotManager = $templateManager->getSlotManager('test');
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager', $slotManager->first());
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager', $slotManager->getBlockManagersCollection()->first());
         $this->assertEquals(1, count($templateManager->slotsToArray()));
         $this->assertEquals(1, count($templateManager->slotToArray('test')));
     }
@@ -278,7 +278,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->refresh();
 
         $slotManager = $templateManager->getSlotManager('test1');
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager', $slotManager->first());
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager', $slotManager->getBlockManagersCollection()->first());
     }
 
     public function testPopulateFailsWhenAddingANewBlockFails()
@@ -313,6 +313,26 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('save')
             ->will($this->onConsecutiveCalls(true, false));
         
+        $this->blockManager->expects($this->at(0))
+            ->method('get')
+            ->will($this->returnValue($block1));
+        
+        $this->blockManager->expects($this->at(1))
+            ->method('get')
+            ->will($this->returnValue($block2));
+        
+        $this->blockManager->expects($this->at(4))
+            ->method('get')
+            ->will($this->returnValue($block1));
+        
+        $this->blockManager->expects($this->at(5))
+            ->method('get')
+            ->will($this->returnValue($block2));
+        
+        $this->blockRepository->expects($this->any())
+            ->method('setRepositoryObject')
+            ->will($this->returnSelf());
+        
         $this->initEventsDispatcher('template_manager.before_populate', 'template_manager.after_populate', 'template_manager.before_populate_commit');
         
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->template, $this->pageBlocks, $this->factory, $this->validator);
@@ -327,13 +347,13 @@ class AlTemplateManagerTest extends AlContentManagerBase
      * @expectedException \RuntimeException
      */
     public function testPopulateThrownAnUnespectedException()
-    {
-        $this->blockRepository->expects($this->exactly(2))
+    {        
+        $this->blockRepository->expects($this->exactly(3))
             ->method('startTransaction');
 
         $this->blockRepository->expects($this->exactly(2))
             ->method('rollBack');
-
+        
         $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
         $this->templateSlots->expects($this->once())
                 ->method('getSlots')
@@ -355,6 +375,14 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->blockManager->expects($this->once())
             ->method('save')
             ->will($this->throwException(new \RuntimeException()));
+        
+        $this->blockManager->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($block));
+        
+        $this->blockRepository->expects($this->any())
+            ->method('setRepositoryObject')
+            ->will($this->returnSelf());
 
         $this->initEventsDispatcher('template_manager.before_populate');
         
@@ -368,7 +396,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
      * @dataProvider populateArguments
      */
     public function testPopulate($skip, $tt)
-    {
+    {        
         $times = 3 + $tt;
         $this->blockRepository->expects($this->exactly($times))
             ->method('startTransaction');
@@ -399,9 +427,16 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->pageBlocks->expects($this->once())
                 ->method('getBlocks')
                 ->will($this->returnValue(array('test' => array($block))));
-
-        $saveTimes = 2 + $tt;
-        $this->blockManager->expects($this->exactly($saveTimes))
+        
+        $this->blockManager->expects($this->any())
+            ->method('get')
+            ->will($this->returnValue($block));
+        
+        $this->blockRepository->expects($this->any())
+            ->method('setRepositoryObject')
+            ->will($this->returnSelf());
+        
+        $this->blockManager->expects($this->any())
             ->method('save')
             ->will($this->returnValue(true));
 
@@ -794,11 +829,11 @@ class AlTemplateManagerTest extends AlContentManagerBase
         return array(
             array(
                 false,
-                1,
+                4,
             ),
             array(
                 true,
-                0,
+                2,
             ),
         );
     }
