@@ -454,7 +454,7 @@ class AlPageTree
         if (null !== $templateManager) {
             $slotManager = $templateManager->getSlotManager($slotName);
             if (null !== $slotManager) {
-                return $slotManager->getBlockManagers();
+                return $slotManager->getBlockManagersCollection()->getBlockManagers();
             }
         }
 

@@ -272,7 +272,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertNotNull($seo);
 
         // Repeated contents have not been added
-        $this->assertCount(9, $this->blockRepository->retrieveContents(2, 4));
+        $this->assertCount(5, $this->blockRepository->retrieveContents(2, 4));
     }
 
     public function testAddNewPageWithATemplateDifferentThanTheOneOfCurrentPage()
@@ -297,7 +297,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', '/backend/en/another-page');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(0, $crawler->filter('#block_1'));
+        $this->assertCount(0, $crawler->filter('#block_1'));        
         $this->assertCount(1, $crawler->filter('#block_30'));
         $this->assertCount(1, $crawler->filter('#block_30')->filter('[data-name="block_30"]'));
         $this->assertCount(0, $crawler->filter('#block_31'));

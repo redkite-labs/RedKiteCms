@@ -196,14 +196,26 @@ class AlPageTreeTest extends TestCase
             ->will($this->returnValue($this->templateManager));
 
         $blockManager = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\BlockManagerInterface');
+        
+        $blockManagersCollection = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        
+        $blockManagersCollection->expects($this->once())
+            ->method('getBlockManagers')
+            ->will($this->returnValue(array($blockManager)))
+        ;
 
         $slotManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
+            ->disableOriginalConstructor()
+            ->getMock()
+        ;
+        
         $slotManager->expects($this->once())
-            ->method('getBlockManagers')
-            ->will($this->returnValue(array($blockManager)));
-
+            ->method('getBlockManagersCollection')
+            ->will($this->returnValue($blockManagersCollection));
+        
         $this->templateManager->expects($this->once())
             ->method('getSlotmanager')
             ->will($this->returnValue($slotManager));
