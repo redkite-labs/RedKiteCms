@@ -25,44 +25,51 @@ use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection;
 
 /**
- * AlSlotManager represents a slot on a page.
+ * AlSlotManager is the object deputaed to manage the page's slots.
  *
  * A slot is the place on the page where one or more blocks lives.
- *
- * This object is responsible  to manage the blocks that it contains, adding, editing
- * and removing them.
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlSlotManager extends AlTemplateBase
+class AlSlotManager
 {
     protected $slot;
-    protected $lastAdded = null;
     protected $blockManagers = array();
     protected $forceSlotAttributes = false;
     protected $skipSiteLevelBlocks = false;
+    protected $blocksAdder;
+    protected $blocksEdited;
+    protected $blocksRemover;
+    protected $blockManagerFactory;
 
     /**
      * Constructor
-     *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot                            $slot
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface   $blockRepository
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface     $blockManagerFactory
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     *
-     * @api
+     * 
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot $slot
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksAdder $blocksAdder|null
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksRemover $blocksRemover|null
      */
-    public function __construct(AlEventsHandlerInterface $eventsHandler, AlSlot $slot, BlockRepositoryInterface $blockRepository, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(AlSlot $slot, BlockRepositoryInterface $blockRepository, AlBlockManagerFactoryInterface $blockManagerFactory, Blocks\BlocksAdder $blocksAdder = null, Blocks\BlocksRemover $blocksRemover = null)
     {
-        parent::__construct($eventsHandler, $blockManagerFactory, $validator);
-
         $this->slot = $slot;
         $this->blockRepository = $blockRepository;
+        $this->blockManagerFactory = $blockManagerFactory;
+        
+        if (null === $blocksAdder) {
+            $this->blocksAdder = new Blocks\BlocksAdder($this->blockRepository, $this->blockManagerFactory);
+        }
+        
+        if (null === $blocksRemover) {
+            $this->blocksRemover = new Blocks\BlocksRemover($this->blockRepository);
+        }
     }
 
     /**
@@ -90,31 +97,6 @@ class AlSlotManager extends AlTemplateBase
     public function getSlot()
     {
         return $this->slot;
-    }
-
-    /**
-     * Sets the block model object
-     *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
-     *
-     * @api
-     */
-    public function setBlockRepository(BlockRepositoryInterface $v)
-    {
-        $this->blockRepository = $v;
-
-        return $this;
-    }
-
-    /**
-     * Returns the block manager object
-     *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot
-     */
-    public function getBlockRepository()
-    {
-        return $this->blockRepository;
     }
 
     /**
@@ -196,67 +178,19 @@ class AlSlotManager extends AlTemplateBase
     {
         return $this->slot->getSlotName();
     }
-
+    
     /**
-     * Returns the block managers
+     * Returns the block managers collection associated with the slot manager
      *
      * @return array
      *
      * @api
      */
-    public function getBlockManagers()
+    public function getBlockManagersCollection()
     {
-        return $this->blockManagers;
+        return $this->blockManagersCollection;
     }
-
-    /**
-     * Returns the first block manager placed on the slot
-     *
-     * @return null|AlBlockManager
-     *
-     * @api
-     */
-    public function first()
-    {
-        return ($this->length() > 0) ? $this->blockManagers[0] : null;
-    }
-
-    /**
-     * Returns the last block manager placed on the slot
-     *
-     * @return null|AlBlockManager
-     *
-     * @api
-     */
-    public function last()
-    {
-        return ($this->length() > 0) ? $this->blockManagers[$this->length() - 1] : null;
-    }
-
-    /**
-     * Returns the block manager at the given index.
-     *
-     * @return null|AlBlockManager
-     *
-     * @api
-     */
-    public function indexAt($index)
-    {
-        return ($index >= 0 && $index <= $this->length() - 1) ? $this->blockManagers[$index] : null;
-    }
-
-    /**
-     * Returns the number of block managers managed by the slot manager
-     *
-     * @return int
-     *
-     * @api
-     */
-    public function length()
-    {
-        return count($this->blockManagers);
-    }
-
+    
     /**
      * Returns the last block manager added to the slot manager
      *
@@ -266,28 +200,46 @@ class AlSlotManager extends AlTemplateBase
      */
     public function lastAdded()
     {
-        return $this->lastAdded;
+        return $this->blocksAdder->lastAdded();
     }
-
+    
+    /**
+     * Returns the last edited block manager
+     *
+     * @return AlBlockManager object or null
+     *
+     * @api
+     */
+    public function lastEdited()
+    {
+        return $this->blocksAdder->lastEdited();
+    }
+    
     /**
      * Adds a new AlBlock object to the slot
      *
      * The created block managed is added to the collection. When the $referenceBlockId param is valorized,
      * the new block is created under the block identified by the given id
-     *
-     * @param  int                                                                                       $idLanguage
-     * @param  type                                                                                      $idPage
-     * @param  type                                                                                      $type             The block type. By default a Text block is added
-     * @param  type                                                                                      $referenceBlockId The id of the reference block. When given, the block is placed below this one
+     * 
+     * @param array $options
      * @return null|boolean
      * @throws InvalidArgumentTypeException
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @throws \InvalidArgumentException
-     *
-     * @api
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException
      */
-    public function addBlock($idLanguage, $idPage, $type = 'Text', $referenceBlockId = null)
+    public function addBlock(array $options)
     {
+        $idLanguage = $options["idLanguage"];
+        $idPage = $options["idPage"];
+        $type = 'Text';
+        if (array_key_exists("type", $options)) {
+            $type = $options["type"];
+        }
+        
+        $referenceBlockId = null;
+        if (array_key_exists("referenceBlockId", $options)) {
+            $referenceBlockId = $options["referenceBlockId"];
+        }
+        
         if ((int) $idLanguage == 0) {
             throw new InvalidArgumentTypeException('exception_invalid_value_for_language_id');
         }
@@ -295,113 +247,34 @@ class AlSlotManager extends AlTemplateBase
         if ((int) $idPage == 0) {
             throw new InvalidArgumentTypeException('exception_invalid_value_for_page_id');
         }
-
+        
+        // Forces the creation of the block type defined in the AlSlot object
+        if ($this->forceSlotAttributes) {
+            $type = $this->slot->getBlockType();
+        }
+                
         try {
-            $repeated = $this->slot->getRepeated();
-            switch ($repeated) {
-                case 'site':
-                    $idPage = 1;
-                    $idLanguage = 1;
-                    break;
-                case 'language':
-                    $idPage = 1;
-                    break;
-                case 'page':
-                    break;
+            $insertDirection = 'bottom';
+            if (isset($options['insertDirection'])) {
+                $insertDirection = $options['insertDirection'];
             }
-
-            // Make sure that a content repeated at site level is never added twice
-            if ($this->skipSiteLevelBlocks && $repeated == 'site') {
-                if (count($this->blockRepository->retrieveContents(1, 1, $this->slot->getSlotName())) > 0) {
-                    return;
-                }
-            }
-
-            // Forces the creation of the block type defined in the AlSlot object
-            if ($this->forceSlotAttributes) {
-                $type = $this->slot->getBlockType();
-            }
-
-            $alBlockManager = $this->blockManagerFactory->createBlockManager($type);
-            if (null === $alBlockManager) {
-                $exception = array(
-                    'message' => 'exception_type_not_exists',
-                    'parameters' => array(
-                        '%type%' => $type,
-                    ),
-                );
-
-                throw new InvalidArgumentException(json_encode($exception));
-            }
-
-            $result = true;
-            $this->blockRepository->startTransaction();
-
-            // Find the block position
-            $leftArray = array();
-            $rightArray = array();
-            $managersLength = $this->length();
-            $position = $managersLength + 1;
-            if (null !== $referenceBlockId) {
-                $index = $this->getBlockManagerIndex($referenceBlockId);
-                if (null !== $index) {
-                    // The new block must de added below the current one, so it must retrieve the block manager down the reference manager
-                    $index += 1;
-                    if ($managersLength > $index) {
-                        $leftArray = array_slice($this->blockManagers, 0 , $index);
-                        $rightArray = array_slice($this->blockManagers, $index , $managersLength - 1);
-
-                        $manager = $this->blockManagers[$index];
-                        $position = $manager->get()->getContentPosition();
-                        $result = $this->adjustPosition('add', $rightArray);
-                    }
-                }
-            }
-
-            if (false !== $result) {
-                $values = array(
-                  "PageId"          => $idPage,
-                  "LanguageId"      => $idLanguage,
-                  "SlotName"        => $this->slot->getSlotName(),
-                  "Type"            => $type,
-                  "ContentPosition" => $position,
-                  "CreatedAt"       => date("Y-m-d H:i:s"),
-                );
-
-                if ($this->forceSlotAttributes) {
-                    $content = $this->slot->getContent();
-                    if (null !== $content) $values["Content"] = $content;
-                }
-
-                $alBlockManager->set(null);
-                $result = $alBlockManager->save($values);
-            }
-
-            if ($result !== false) {
-                $this->blockRepository->commit();
-
-                if (!empty($leftArray) || !empty($rightArray)) {
-                    $index = $position - 1;
-                    $this->blockManagers = array_merge($leftArray, array($index => $alBlockManager), $rightArray);
-                } else {
-                    $this->blockManagers[] = $alBlockManager;
-                }
-
-                $this->lastAdded = $alBlockManager;
-
-                return $result;
-            }
-
-            $this->blockRepository->rollBack();
-
-            return $result;
+            
+            $options = array(
+                "idLanguage" => $idLanguage,
+                "idPage" => $idPage,
+                "type" => $type,
+                "referenceBlockId" => $referenceBlockId,
+                "skipSiteLevelBlocks" => $this->skipSiteLevelBlocks,
+                "forceSlotAttributes" => $this->forceSlotAttributes,
+                'insertDirection' => $insertDirection,
+            );
+            
+            $result = $this->blocksAdder->add($this->slot, $this->blockManagersCollection, $options);
         } catch (\Exception $e) {
-            if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                $this->blockRepository->rollBack();
-            }
-
             throw $e;
         }
+        
+        return $result;
     }
 
     /**
@@ -416,28 +289,16 @@ class AlSlotManager extends AlTemplateBase
      */
     public function editBlock($idBlock, array $values)
     {
-        $blockManager = $this->getBlockManager($idBlock);
-        if (null !== $blockManager) {
-            try {
-                $this->blockRepository->startTransaction();
-
-                $result = $blockManager->save($values);
-                if ($result !== false) {
-                    $this->blockRepository->commit();
-
-                    return $result;
-                }
-
-                $this->blockRepository->rollBack();
-
-                return $result;
-            } catch (\Exception $e) {
-                if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                    $this->blockRepository->rollBack();
-                }
-
-                throw $e;
-            }
+        $blockManager = $this->blockManagersCollection->getBlockManager($idBlock);
+        if (null === $blockManager) {
+            return;
+        }
+        
+        try {
+            return $this->blocksAdder->edit($blockManager, $values);
+            
+        } catch (\Exception $e) {
+            throw $e;
         }
     }
 
@@ -452,40 +313,10 @@ class AlSlotManager extends AlTemplateBase
      */
     public function deleteBlock($idBlock)
     {
-        $leftArray = array();
-        $rightArray = array();
-        $info = $this->getBlockManagerAndIndex($idBlock);
-        if (null === $info) {
-            return null;
-        }
-
-        $index = $info['index'];
-        $leftArray = array_slice($this->blockManagers, 0 , $index);
-        $rightArray = array_slice($this->blockManagers, $index + 1, $this->length() - 1);
-
         try {
-            $this->blockRepository->startTransaction();
-
-            // Adjust the blocks position
-            $result = $this->adjustPosition('del', $rightArray);
-            if (false !== $result) {
-                $result = $info['manager']->delete();
-            }
-
-            if (false !== $result) {
-                $this->blockRepository->commit();
-                $this->blockManagers = array_merge($leftArray, $rightArray);
-
-                return $result;
-            }
-
-            $this->blockRepository->rollBack();
-
-            return $result;
+            return $this->blocksRemover->remove($idBlock, $this->blockManagersCollection);
+            
         } catch (\Exception $e) {
-            if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                $this->blockRepository->rollBack();
-            }
 
             throw $e;
         }
@@ -502,50 +333,89 @@ class AlSlotManager extends AlTemplateBase
     public function deleteBlocks()
     {
         try {
-            if (count($this->blockManagers) > 0) {
-                $result = null;
-                $this->blockRepository->startTransaction();
-
-                foreach ($this->blockManagers as $blockManager) {
-                    $result = $blockManager->delete();
-                    if (false === $result) {
-                        break;
-                    }
-                }
-
-                if (false !== $result) {
-                    $this->blockRepository->commit();
-                    $this->blockManagers = array();
-
-                    return $result;
-                }
-
-                $this->blockRepository->rollBack();
-
-                return $result;
-            }
+            return $this->blocksRemover->clear($this->blockManagersCollection);
+            
         } catch (\Exception $e) {
-            if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                $this->blockRepository->rollBack();
-            }
 
             throw $e;
         }
     }
+    
+    /**
+     * Sets up the block managers.
+     *
+     * When the blocks have not been given, it retrieves all the pages's contents saved on the slot
+     * 
+     * @param array $blocks
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection $blockManagersCollection
+     * 
+     * @api
+     */
+    public function setUpBlockManagers(array $blocks, BlockManagersCollection $blockManagersCollection = null)
+    {
+        if (null === $blockManagersCollection)
+        {
+            $this->blockManagersCollection = new BlockManagersCollection();
+        }
+        
+        foreach ($blocks as $block) {
+            $blockManager = $this->blockManagerFactory->createBlockManager($block);
+            $this->blockManagersCollection->addBlockManager($blockManager);
+        }
+    }
+    
+    /**
+     * Sets the block model object
+     *
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $v
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
+     *
+     * @deprecated since 1.1.0
+     * @codeCoverageIgnore
+     */
+    public function setBlockRepository(BlockRepositoryInterface $v)
+    {
+        throw new RedKiteDeprecatedException("AlSlotManager->setBlockRepository has been deprecated.");
+    }
 
+    /**
+     * Returns the block manager object
+     *
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot
+     * 
+     * @deprecated since 1.1.0
+     * @codeCoverageIgnore
+     */
+    public function getBlockRepository()
+    {
+        throw new RedKiteDeprecatedException("AlSlotManager->getBlockRepository has been deprecated.");
+    }
+    
+    /**
+     * Returns the block managers
+     *
+     * @return array
+     *
+     * @deprecated since 1.1.0
+     * @codeCoverageIgnore
+     */
+    public function getBlockManagers()
+    {
+        throw new RedKiteDeprecatedException("AlSlotManager->getBlockManagers has been deprecated and replaced by getBlockManagersCollection->getBlockManagers()");
+    }
+    
     /**
      * Retrieves the block manager by the block's id
      *
      * @param  type                                                                      $idBlock The id of the block to retrieve
      * @return null|\RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface
      *
-     * @api
+     * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function getBlockManager($idBlock)
     {
-        $info = $this->getBlockManagerAndIndex($idBlock);
-
-        return (null !== $info) ? $info['manager'] : null;
+        throw new RedKiteDeprecatedException("AlSlotManager->getBlockManager has been deprecated and replaced by getBlockManagersCollection->getBlockManager()");
     }
 
     /**
@@ -554,49 +424,77 @@ class AlSlotManager extends AlTemplateBase
      * @param  int $idBlock The id of the block to retrieve
      * @return int
      *
-     * @api
+     * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function getBlockManagerIndex($idBlock)
     {
-        $info = $this->getBlockManagerAndIndex($idBlock);
-
-        return (null !== $info) ? $info['index'] : null;
+        throw new RedKiteDeprecatedException("AlSlotManager->getBlockManagerIndex has been deprecated and replaced by getBlockManagersCollection->getBlockManagerIndex()");
     }
 
+    /**
+     * Returns the first block manager placed on the slot
+     *
+     * @return null|AlBlockManager
+     * 
+     * @deprecated since 1.1.0
+     * @codeCoverageIgnore
+     */
+    public function first()
+    {
+        throw new RedKiteDeprecatedException("AlSlotManager->first has been deprecated and replaced by getBlockManagersCollection->first()");
+    }
+
+    /**
+     * Returns the last block manager placed on the slot
+     *
+     * @return null|AlBlockManager
+     * 
+     * @deprecated since 1.1.0
+     * @codeCoverageIgnore
+     */
+    public function last()
+    {
+        throw new RedKiteDeprecatedException("AlSlotManager->last has been deprecated and replaced by getBlockManagersCollection->last()");
+    }
+
+    /**
+     * Returns the block manager at the given index.
+     *
+     * @return null|AlBlockManager
+     * 
+     * @deprecated since 1.1.0
+     * @codeCoverageIgnore
+     */
+    public function indexAt($index)
+    {
+        throw new RedKiteDeprecatedException("AlSlotManager->indexAt has been deprecated and replaced by getBlockManagersCollection->indexAt()");
+    }
+
+    /**
+     * Returns the number of block managers managed by the slot manager
+     *
+     * @return int
+     * 
+     * @deprecated since 1.1.0
+     * @codeCoverageIgnore
+     */
+    public function length()
+    {
+        throw new RedKiteDeprecatedException("AlSlotManager->length has been deprecated. Have the same behavior using getBlockManagersCollection->count()");
+    }
+    
     /**
      * Returns the managed blocks as an array
      *
      * @return array
-     *
-     * @api
+     * 
+     * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function toArray()
     {
-        $result = array();
-        foreach ($this->blockManagers as $blockManager) {
-            if (null !== $blockManager) {
-                $result[] = $blockManager->toArray();
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Sets up the block managers.
-     *
-     * When the blocks have not been given, it retrieves all the pages's contents saved on the slot
-     *
-     * @param array $alBlocks
-     *
-     * @api
-     */
-    public function setUpBlockManagers(array $alBlocks)
-    {
-        foreach ($alBlocks as $alBlock) {
-            $alBlockManager = $this->blockManagerFactory->createBlockManager($alBlock);
-            $this->blockManagers[] = $alBlockManager;
-        }
+        throw new RedKiteDeprecatedException("AlSlotManager->toArray has been deprecated and replaced by getBlockManagersCollection->toArray()");
     }
 
     /**
@@ -604,83 +502,12 @@ class AlSlotManager extends AlTemplateBase
      *
      * @param  int        $idBlock The id of the block to retrieve
      * @return null|array
+     * 
+     * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     protected function getBlockManagerAndIndex($idBlock)
     {
-        foreach ($this->blockManagers as $index => $blockManager) {
-            if ($blockManager->get()->getId() == $idBlock) {
-                return array('index' => $index, 'manager' => $blockManager);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Adjusts the blocks position on the slot, when a new block is added or a block is deleted.
-     *
-     * When in *add* mode, it creates a space between the adding block's position and
-     * the blocks below, incrementing their position by one
-     *
-     * When in *del* mode, decrements by 1 the position of the blocks placed below the
-     * removing block
-     *
-     * @param  string                                                                                    $op       The operation to do. It accepts add or del as valid values
-     * @param  array                                                                                     $managers An array of block managers
-     * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @throws InvalidArgumentException
-     */
-    protected function adjustPosition($op, array $managers)
-    {
-        try {
-            // Checks the $op parameter. If doesn't match, throwns and exception
-            $required = array("add", "del");
-            if (!in_array($op, $required)) {
-                // @codeCoverageIgnoreStart
-                $exception = array(
-                    'message' => 'exception_invalid_argumento_for_adjustPosition',
-                    'parameters' => array(
-                        '%className%' => get_class($this),
-                        '%options%' => $required,
-                        '%parameter%' => $op,
-                    ),
-                );
-                throw new InvalidArgumentException(json_encode($exception));
-                // @codeCoverageIgnoreEnd
-            }
-
-            if (count($managers) == 0) {
-                return;
-            }
-
-            $result = null;
-            $this->blockRepository->startTransaction();
-            foreach ($managers as $blockManager) {
-                $block = $blockManager->get();
-                $position = ($op == 'add') ? $block->getContentPosition() + 1 : $block->getContentPosition() - 1;
-                $result = $this->blockRepository
-                                ->setRepositoryObject($block)
-                                ->save(array("ContentPosition" => $position));
-
-                if (false === $result) break;
-            }
-
-            if (false !== $result) {
-                $this->blockRepository->commit();
-
-                return $result;
-            }
-
-            $this->blockRepository->rollBack();
-
-            return $result;
-        } catch (\Exception $e) {
-            if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                $this->blockRepository->rollBack();
-            }
-
-            throw $e;
-        }
+        throw new RedKiteDeprecatedException("AlSlotManager->getBlockManagers has been deprecated and replaced by getBlockManagersCollection->getBlockManagerAndIndex()");
     }
 }
