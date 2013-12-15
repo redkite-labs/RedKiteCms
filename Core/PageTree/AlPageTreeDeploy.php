@@ -40,7 +40,7 @@ class AlPageTreeDeploy extends AlPageTree
 
             if ( ! in_array($className, $appsAssets)) {
                 $parameterSchema = '%s.%s_%s';
-                $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType); // echo $parameter;exit;
+                $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType);
                 $this->addAssetsFromContainer($assetsCollection, $parameter);
                 $this->addExtraAssets($assetsCollection, $parameter);
 
