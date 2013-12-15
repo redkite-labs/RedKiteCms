@@ -103,7 +103,7 @@ class SlotRendererExtension extends \Twig_Extension
             $content = $this->blockContentToHtml($block['Content'], $extraOptions);
 
             if (strpos($content, '<script') !== false) {
-                $content = $this->translator->translate('twig_extension_script_not_rendered', array(), 'RedKiteCmsBundle');
+                $content = sprintf('<div data-editor="true">%s</div>', $this->translator->translate('twig_extension_script_not_rendered', array(), 'RedKiteCmsBundle'));
             }
 
             if (null === $template) {
@@ -113,7 +113,6 @@ class SlotRendererExtension extends \Twig_Extension
             if ( ! $blockManager->getEditorDisabled() && preg_match('/data\-editor="true"/s', $content)) {
                 $hideInEditMode = (array_key_exists('HideInEditMode', $block) && $block['HideInEditMode']) ? 'true' : 'false';
                 $editorParameters = $blockManager->editorParameters();
-
                 $cmsAttributes = $templating->render('RedKiteCmsBundle:Block:Editor/_editable_block_attributes.html.twig', array(
                     'block_id' => $block['Block']["Id"],
                     'hide_in_edit_mode' => $hideInEditMode,
@@ -132,7 +131,7 @@ class SlotRendererExtension extends \Twig_Extension
 
                 $content = preg_replace('/data\-editor="true"/', $cmsAttributes . ' data-editor="enabled"', $content);
             }
-
+            
             return $templating->render('RedKiteCmsBundle:Slot:Page/' . $template, array(
                 'block_id' => $block['Block']["Id"],
                 'slot_name' => $slotName,

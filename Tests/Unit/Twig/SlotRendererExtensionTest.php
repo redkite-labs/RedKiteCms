@@ -127,43 +127,6 @@ class SlotRendererExtensionTest extends TestCase
         $slotRenderer->renderSlot('logo');
     }
     
-    public function testScriptsAreNotRenderedInEditMode()
-    {
-        $value = array(
-            "Block" => array(
-                "Id" => "10",
-                "SlotName" => "logo",
-                "Type" => "Script",
-            ),
-            "Content" => "<script>my awesome script</script>",
-            "InternalJavascript" => "",
-            "EditInline" => false,
-        );
-                
-        $blockManager = $this->setUpBlockManager($value);
-        $blockManager->expects($this->never())
-            ->method('editorParameters');
-        
-        $blockManagers = array($blockManager);
-        $this->pageTree->expects($this->once())
-            ->method('getBlockManagers')
-            ->will($this->returnValue($blockManagers));
-        
-        $engine = $this->getMock('Symfony\Component\Templating\EngineInterface');
-        $engine->expects($this->once())
-                        ->method('render')
-        ;
-        
-        $this->setUpContainer();
-        $this->container->expects($this->at(2))
-                        ->method('get')
-                        ->with('templating')
-                        ->will($this->returnValue($engine));
-        
-        $slotRenderer = new SlotRendererExtension($this->container);
-        $slotRenderer->renderSlot('logo');
-    }
-    
     /**
      * @dataProvider renderSlotProvider
      */
@@ -190,6 +153,14 @@ class SlotRendererExtensionTest extends TestCase
             ->method('render')
             ->with('RedKiteCmsBundle:Slot:Page/_block.html.twig', $contentParameters)
         ;
+        
+        if ($value["Block"]["Type"] == "Script") {
+            $this->translator->expects($this->at(0))
+                ->method('translate')
+                ->with('twig_extension_script_not_rendered', array(), 'RedKiteCmsBundle')
+                ->will($this->returnValue('A "Script" block is not rendered in editor mode'))
+            ;
+        }
 
         $this->setUpContainer();
         $this->container->expects($this->at(2))
@@ -933,6 +904,35 @@ class SlotRendererExtensionTest extends TestCase
                     "type" => "Text",
                     "content" => '<p data-foo="bar" data-editor="enabled">my awesome content</p>',
                     "edit_inline" => true,
+                ),
+            ),
+            array(
+                array(
+                    "Block" => array(
+                        "Id" => "10",
+                        "SlotName" => "logo",
+                        "Type" => "Script",
+                    ),
+                    "Content" => '<script>A very dangerous script</script>',
+                    "EditInline" => false,
+                ),
+                array(
+                    "block_id" => 10,
+                    'hide_in_edit_mode' => 'false',
+                    "slot_name" => "logo",
+                    "type" => "Script",
+                    "content" => '<div data-editor="true">A "Script" block is not rendered in editor mode</div>',
+                    "edit_inline" => false,
+                    'editor' => array('foo' => 'bar'),
+                    'extra_attributes' => '',
+                    'included' => false,
+                ),                
+                array(
+                    "block_id" => 10,
+                    "slot_name" => "logo",
+                    "type" => "Script",
+                    "content" => '<div data-foo="bar" data-editor="enabled">A "Script" block is not rendered in editor mode</div>',
+                    "edit_inline" => false,
                 ),
             ),
         );
