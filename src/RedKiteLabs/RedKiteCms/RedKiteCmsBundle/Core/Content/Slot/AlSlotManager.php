@@ -228,46 +228,13 @@ class AlSlotManager
      */
     public function addBlock(array $options)
     {
-        $idLanguage = $options["idLanguage"];
-        $idPage = $options["idPage"];
-        $type = 'Text';
-        if (array_key_exists("type", $options)) {
-            $type = $options["type"];
-        }
+        $this->checkInteger($options["idLanguage"], 'exception_invalid_value_for_language_id');
+        $this->checkInteger($options["idPage"], 'exception_invalid_value_for_page_id');
         
-        $referenceBlockId = null;
-        if (array_key_exists("referenceBlockId", $options)) {
-            $referenceBlockId = $options["referenceBlockId"];
-        }
-        
-        if ((int) $idLanguage == 0) {
-            throw new InvalidArgumentTypeException('exception_invalid_value_for_language_id');
-        }
-
-        if ((int) $idPage == 0) {
-            throw new InvalidArgumentTypeException('exception_invalid_value_for_page_id');
-        }
-        
-        // Forces the creation of the block type defined in the AlSlot object
-        if ($this->forceSlotAttributes) {
-            $type = $this->slot->getBlockType();
-        }
-                
-        try {
-            $insertDirection = 'bottom';
-            if (isset($options['insertDirection'])) {
-                $insertDirection = $options['insertDirection'];
-            }
-            
-            $options = array(
-                "idLanguage" => $idLanguage,
-                "idPage" => $idPage,
-                "type" => $type,
-                "referenceBlockId" => $referenceBlockId,
-                "skipSiteLevelBlocks" => $this->skipSiteLevelBlocks,
-                "forceSlotAttributes" => $this->forceSlotAttributes,
-                'insertDirection' => $insertDirection,
-            );
+        try {            
+            $options = $this->normalizeOptions($options);
+            $options["skipSiteLevelBlocks"] = $this->skipSiteLevelBlocks;
+            $options["forceSlotAttributes"] = $this->forceSlotAttributes;
             
             $result = $this->blocksAdder->add($this->slot, $this->blockManagersCollection, $options);
         } catch (\Exception $e) {
@@ -363,6 +330,37 @@ class AlSlotManager
             $this->blockManagersCollection->addBlockManager($blockManager);
         }
     }
+    
+    private function normalizeOptions(array $options)
+    {   
+        if ( ! array_key_exists("type", $options)) {
+            $options["type"] = "Text";
+        }
+        
+        // Forces the creation of the block type defined in the AlSlot object
+        if ($this->forceSlotAttributes) {
+            $options["type"] = $this->slot->getBlockType();
+        }
+        
+        if ( ! array_key_exists("referenceBlockId", $options)) {
+            $options["referenceBlockId"] = null;
+        }
+                
+        if ( ! array_key_exists("insertDirection", $options) || $options['insertDirection'] == null) {
+            $options['insertDirection'] = 'bottom';
+        }
+        
+        return $options;
+    }
+    
+    private function checkInteger($value, $errorMessage)
+    {
+        if ((int) $value == 0) {
+            throw new InvalidArgumentTypeException($errorMessage);
+        }
+    }
+    
+    /* DEPRECATED FUNCTIONS */
     
     /**
      * Sets the block model object
