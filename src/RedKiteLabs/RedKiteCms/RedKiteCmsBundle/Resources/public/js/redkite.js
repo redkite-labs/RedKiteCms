@@ -166,9 +166,11 @@
                         return;
                     }
                     
-                    $('.al-img-add-button').show();
+                    $('.al-img-add-bottom-button').show();
+                    $('.al-img-add-top-button').show();
                     if (element.is('[data-included="1"]') && element.attr('data-block-id') > 0) {
-                        $('.al-img-add-button').hide();
+                        $('.al-img-add-bottom-button').hide();
+                        $('.al-img-add-top-button').hide();
                     }
 
                     $('#al_block_menu_toolbar').data('parent', $this).position({
