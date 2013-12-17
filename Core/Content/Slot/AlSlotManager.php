@@ -502,8 +502,8 @@ class AlSlotManager
      * @deprecated since 1.1.0
      * @codeCoverageIgnore
      */
-    protected function getBlockManagerAndIndex($idBlock)
+    protected function getManagerInfoByBlockId($idBlock)
     {
-        throw new RedKiteDeprecatedException("AlSlotManager->getBlockManagers has been deprecated and replaced by getBlockManagersCollection->getBlockManagerAndIndex()");
+        throw new RedKiteDeprecatedException("AlSlotManager->getBlockManagers has been deprecated and replaced by getBlockManagersCollection->getManagerInfoByBlockId()");
     }
 }

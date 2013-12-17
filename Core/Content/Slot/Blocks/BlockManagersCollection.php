@@ -120,7 +120,7 @@ class BlockManagersCollection implements \Countable
      * @param  int        $idBlock The id of the block to retrieve
      * @return null|array
      */
-    public function getBlockManagerAndIndex($idBlock)
+    public function getManagerInfoByBlockId($idBlock)
     {
         foreach ($this->blockManagers as $index => $blockManager) {
             if ($blockManager->get()->getId() == $idBlock) {
@@ -141,7 +141,7 @@ class BlockManagersCollection implements \Countable
      */
     public function getBlockManager($idBlock)
     {
-        $info = $this->getBlockManagerAndIndex($idBlock);
+        $info = $this->getManagerInfoByBlockId($idBlock);
 
         return (null !== $info) ? $info['manager'] : null;
     }
@@ -156,7 +156,7 @@ class BlockManagersCollection implements \Countable
      */
     public function getBlockManagerIndex($idBlock)
     {
-        $info = $this->getBlockManagerAndIndex($idBlock);
+        $info = $this->getManagerInfoByBlockId($idBlock);
 
         return (null !== $info) ? $info['index'] : null;
     }
@@ -178,23 +178,6 @@ class BlockManagersCollection implements \Countable
         }
 
         return $result;
-    }
-
-    /**
-     * Sets up the block managers.
-     *
-     * When the blocks have not been given, it retrieves all the pages's contents saved on the slot
-     *
-     * @param array $alBlocks
-     *
-     * @api
-     */
-    public function setUpBlockManagers(array $alBlocks)
-    {
-        foreach ($alBlocks as $alBlock) {
-            $alBlockManager = $this->blockManagerFactory->createBlockManager($alBlock);
-            $this->blockManagers[] = $alBlockManager;
-        }
     }
     
     /**
