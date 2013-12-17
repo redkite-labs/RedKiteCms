@@ -63,27 +63,13 @@ abstract class BaseBlocks
      */
     protected function adjustPosition($op, array $managers)
     {
-        try {
-            if (count($managers) == 0) {
-                return;
-            }
+        if (count($managers) == 0) {
+            return;
+        }
             
-            // Checks the $op parameter. If doesn't match, throwns and exception
-            $required = array("add", "del");
-            if ( ! in_array($op, $required)) {
-                // @codeCoverageIgnoreStart
-                $exception = array(
-                    'message' => 'exception_invalid_argumento_for_adjustPosition',
-                    'parameters' => array(
-                        '%className%' => get_class($this),
-                        '%options%' => $required,
-                        '%parameter%' => $op,
-                    ),
-                );
-                throw new InvalidArgumentException(json_encode($exception));
-                // @codeCoverageIgnoreEnd
-            }
-
+        $this->checkValidOperation($op);
+            
+        try {
             $result = null;
             $this->blockRepository->startTransaction();
             foreach ($managers as $blockManager) {
@@ -112,6 +98,25 @@ abstract class BaseBlocks
             $this->blockRepository->rollBack();
 
             throw $e;
+        }
+    }
+    
+    private function checkValidOperation($op)
+    {
+        // Checks the $op parameter. If doesn't match, throwns and exception
+        $required = array("add", "del");
+        if ( ! in_array($op, $required)) {
+            // @codeCoverageIgnoreStart
+            $exception = array(
+                'message' => 'exception_invalid_argumento_for_adjustPosition',
+                'parameters' => array(
+                    '%className%' => get_class($this),
+                    '%options%' => $required,
+                    '%parameter%' => $op,
+                ),
+            );
+            throw new InvalidArgumentException(json_encode($exception));
+            // @codeCoverageIgnoreEnd
         }
     }
 }
