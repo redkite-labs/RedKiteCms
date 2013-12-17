@@ -17,12 +17,9 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
-use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
@@ -47,6 +44,7 @@ class AlSlotManager
     protected $blocksEdited;
     protected $blocksRemover;
     protected $blockManagerFactory;
+    protected $blockManagersCollection = null;
 
     /**
      * Constructor
@@ -56,19 +54,27 @@ class AlSlotManager
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksAdder $blocksAdder|null
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksRemover $blocksRemover|null
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection $blockManagersCollection|null
      */
-    public function __construct(AlSlot $slot, BlockRepositoryInterface $blockRepository, AlBlockManagerFactoryInterface $blockManagerFactory, Blocks\BlocksAdder $blocksAdder = null, Blocks\BlocksRemover $blocksRemover = null)
+    public function __construct(AlSlot $slot, BlockRepositoryInterface $blockRepository, AlBlockManagerFactoryInterface $blockManagerFactory, Blocks\BlocksAdder $blocksAdder = null, Blocks\BlocksRemover $blocksRemover = null, BlockManagersCollection $blockManagersCollection = null)
     {
         $this->slot = $slot;
         $this->blockRepository = $blockRepository;
         $this->blockManagerFactory = $blockManagerFactory;
         
-        if (null === $blocksAdder) {
+        $this->blocksAdder = $blocksAdder;
+        if (null === $this->blocksAdder) {
             $this->blocksAdder = new Blocks\BlocksAdder($this->blockRepository, $this->blockManagerFactory);
         }
         
+        $this->blocksRemover = $blocksRemover;
         if (null === $blocksRemover) {
             $this->blocksRemover = new Blocks\BlocksRemover($this->blockRepository);
+        }
+        
+        $this->blockManagersCollection = $blockManagersCollection;
+        if (null === $this->blockManagersCollection) {
+            $this->blockManagersCollection = new BlockManagersCollection();
         }
     }
 
@@ -223,8 +229,6 @@ class AlSlotManager
      * 
      * @param array $options
      * @return null|boolean
-     * @throws InvalidArgumentTypeException
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException
      */
     public function addBlock(array $options)
     {
@@ -313,18 +317,12 @@ class AlSlotManager
      *
      * When the blocks have not been given, it retrieves all the pages's contents saved on the slot
      * 
-     * @param array $blocks
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection $blockManagersCollection
+     * @param array $blocks 
      * 
      * @api
      */
-    public function setUpBlockManagers(array $blocks, BlockManagersCollection $blockManagersCollection = null)
+    public function setUpBlockManagers(array $blocks)
     {
-        if (null === $blockManagersCollection)
-        {
-            $this->blockManagersCollection = new BlockManagersCollection();
-        }
-        
         foreach ($blocks as $block) {
             $blockManager = $this->blockManagerFactory->createBlockManager($block);
             $this->blockManagersCollection->addBlockManager($blockManager);
@@ -347,7 +345,7 @@ class AlSlotManager
         }
                 
         if ( ! array_key_exists("insertDirection", $options) || $options['insertDirection'] == null) {
-            $options['insertDirection'] = 'bottom';
+            $options["insertDirection"] = 'bottom';
         }
         
         return $options;

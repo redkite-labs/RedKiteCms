@@ -64,9 +64,13 @@ abstract class BaseBlocks
     protected function adjustPosition($op, array $managers)
     {
         try {
+            if (count($managers) == 0) {
+                return;
+            }
+            
             // Checks the $op parameter. If doesn't match, throwns and exception
             $required = array("add", "del");
-            if (!in_array($op, $required)) {
+            if ( ! in_array($op, $required)) {
                 // @codeCoverageIgnoreStart
                 $exception = array(
                     'message' => 'exception_invalid_argumento_for_adjustPosition',
@@ -80,15 +84,12 @@ abstract class BaseBlocks
                 // @codeCoverageIgnoreEnd
             }
 
-            if (count($managers) == 0) {
-                return;
-            }
-
             $result = null;
             $this->blockRepository->startTransaction();
             foreach ($managers as $blockManager) {
                 $block = $blockManager->get();
-                $position = ($op == 'add') ? $block->getContentPosition() + 1 : $block->getContentPosition() - 1;
+                $contentPosition = $block->getContentPosition();
+                $position = ($op == 'add') ? $contentPosition + 1 : $contentPosition - 1;
                 $result = $this->blockRepository
                                 ->setRepositoryObject($block)
                                 ->save(array("ContentPosition" => $position));
@@ -108,9 +109,7 @@ abstract class BaseBlocks
 
             return $result;
         } catch (\Exception $e) {
-            if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                $this->blockRepository->rollBack();
-            }
+            $this->blockRepository->rollBack();
 
             throw $e;
         }
