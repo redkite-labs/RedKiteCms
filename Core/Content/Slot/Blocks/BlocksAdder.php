@@ -92,22 +92,20 @@ class BlocksAdder extends BaseBlocks
             $options = $this->normalizeRepeatedStatus($repeated, $options);
             
             // Make sure that a content repeated at site level is never added twice
-            if ($options["skipSiteLevelBlocks"] && $repeated == 'site') {
-                if (count($this->blockRepository->retrieveContents(1, 1, $slot->getSlotName())) > 0) {
-                    return;
-                }
+            if ($options["skipSiteLevelBlocks"] && $repeated == 'site' && count($this->blockRepository->retrieveContents(1, 1, $slot->getSlotName())) > 0) {
+                return;
             }
             
             $this->blockRepository->startTransaction();
             
-            $blockManager = $this->createBlockManager($options["type"]);
             $blockManagerPosition = $blockManagersCollection->getBlockManagerIndex($options["referenceBlockId"]);
             $options["position"] = $blockManagerPosition + 1;
-            if (null !== $blockManagerPosition && $options["insertDirection"] == 'bottom') {                
+            if (null !== $blockManagerPosition && $options["insertDirection"] == 'bottom') {
                 $options["position"] = $blockManagerPosition + 2;
                 $blockManagerPosition += 1;
             }
             
+            $blockManager = $this->createBlockManager($options["type"]);
             $parts = $blockManagersCollection->insertAt($blockManager, $blockManagerPosition);
             $result = $this->adjustPosition('add', $parts["right"]);
                         
@@ -126,9 +124,7 @@ class BlocksAdder extends BaseBlocks
             
             return $result;
         } catch (\Exception $e) {
-            if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                $this->blockRepository->rollBack();
-            }
+            $this->blockRepository->rollBack();
 
             throw $e;
         }
@@ -148,7 +144,7 @@ class BlocksAdder extends BaseBlocks
     {        
         try {
             $this->blockRepository->startTransaction();
-
+            
             $result = $blockManager->save($values);
             if ($result !== false) {
                 $this->blockRepository->commit();
@@ -161,9 +157,7 @@ class BlocksAdder extends BaseBlocks
 
             return $result;
         } catch (\Exception $e) {
-            if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                $this->blockRepository->rollBack();
-            }
+            $this->blockRepository->rollBack();
 
             throw $e;
         }
@@ -186,8 +180,8 @@ class BlocksAdder extends BaseBlocks
     
     private function createBlockManager($type)
     {
-        $alBlockManager = $this->blockManagerFactory->createBlockManager($type);
-        if (null === $alBlockManager) {
+        $blockManager = $this->blockManagerFactory->createBlockManager($type);
+        if (null === $blockManager) {
             $exception = array(
                 'message' => 'exception_type_not_exists',
                 'parameters' => array(
@@ -198,25 +192,20 @@ class BlocksAdder extends BaseBlocks
             throw new InvalidArgumentException(json_encode($exception));
         }
         
-        return $alBlockManager;
+        return $blockManager;
     }
     
     private function saveBlockmanager(AlSlot $slot, $blockManager, array $options)
-    {
-        $idLanguage = $options["idLanguage"];
-        $idPage = $options["idPage"];
-        $type = $options["type"];
-        $position = $options["position"];
-            
+    {            
         $values = array(
-            "PageId"          => $idPage,
-            "LanguageId"      => $idLanguage,
+            "PageId"          => $options["idPage"],
+            "LanguageId"      => $options["idLanguage"],
             "SlotName"        => $slot->getSlotName(),
-            "Type"            => $type,
-            "ContentPosition" => $position,
-            "CreatedAt"       => date("Y-m-d H:i:s"),
+            "Type"            => $options["type"],
+            "ContentPosition" => $options["position"],
+            //"CreatedAt"       => date("Y-m-d H:i:s"),
         );
-
+        
         if ($options["forceSlotAttributes"]) {
             $content = $slot->getContent();
             if (null !== $content) {

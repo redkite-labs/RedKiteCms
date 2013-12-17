@@ -17,8 +17,6 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
-
 /**
  * BlocksAdder is the object deputated to remove a block from a slot
  *
@@ -34,22 +32,22 @@ class BlocksRemover extends BaseBlocks
      * @param int $idBlock
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection $blockManagers
      * @return null|boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException     *
      */
-    public function remove($idBlock, BlockManagersCollection $blockManagers)
+    public function remove($idBlock, BlockManagersCollection $blockManagersCollection)
     {
-        $blockManagerInfo = $blockManagers->getBlockManagerAndIndex($idBlock);
+        $blockManagerInfo = $blockManagersCollection->getBlockManagerAndIndex($idBlock);
         $blockManager = $blockManagerInfo['manager'];
+        // @codeCoverageIgnoreStart
         if (null === $blockManager) {
             return;
         }
+        // @codeCoverageIgnoreEnd
         
         try {
             $this->blockRepository->startTransaction();
 
-            // Adjust the blocks position
-            
-            $parts = $blockManagers->removeAt($blockManagerInfo["index"]);
+            // Adjust the blocks position            
+            $parts = $blockManagersCollection->removeAt($blockManagerInfo["index"]);
             $result = $this->adjustPosition('del', $parts["right"]);
             if (false !== $result) {
                 $result = $blockManager->delete();
@@ -64,10 +62,8 @@ class BlocksRemover extends BaseBlocks
             $this->blockRepository->rollBack();
 
             return $result;
-        } catch (\Exception $e) {
-            if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                $this->blockRepository->rollBack();
-            }
+        } catch (\Exception $e) { echo $e->getMessage();
+            $this->blockRepository->rollBack();
 
             throw $e;
         }
@@ -83,9 +79,11 @@ class BlocksRemover extends BaseBlocks
      */
     public function clear(BlockManagersCollection $blockManagersCollection)
     {
-        if (count($blockManagersCollection) == 0) {
+        // @codeCoverageIgnoreStart
+        if ($blockManagersCollection->count() == 0) {
             return;
         }
+        // @codeCoverageIgnoreEnd
         
         try {            
             $result = null;
@@ -111,9 +109,7 @@ class BlocksRemover extends BaseBlocks
             return $result;
         } 
         catch (\Exception $e) {
-            if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                $this->blockRepository->rollBack();
-            }
+            $this->blockRepository->rollBack();
 
             throw $e;
         }
