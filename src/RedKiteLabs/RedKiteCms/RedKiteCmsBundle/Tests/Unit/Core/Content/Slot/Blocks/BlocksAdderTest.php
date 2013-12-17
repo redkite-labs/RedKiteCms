@@ -479,7 +479,6 @@ class BlocksAdderTest extends AlContentManagerBase
                 array(
                     "slotName" => 'foo',
                     "slotOptions" => array("repeated" => 'page', 'htmlContent' => 'Default value'),
-                    htmlContent
                 ),
                 array(
                     "idPage"                => 2,

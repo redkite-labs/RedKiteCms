@@ -35,7 +35,7 @@ class BlocksRemover extends BaseBlocks
      */
     public function remove($idBlock, BlockManagersCollection $blockManagersCollection)
     {
-        $blockManagerInfo = $blockManagersCollection->getBlockManagerAndIndex($idBlock);
+        $blockManagerInfo = $blockManagersCollection->getManagerInfoByBlockId($idBlock);
         $blockManager = $blockManagerInfo['manager'];
         // @codeCoverageIgnoreStart
         if (null === $blockManager) {

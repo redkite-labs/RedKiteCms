@@ -62,9 +62,9 @@ class BlocksRemoverTest extends AlContentManagerBase
         
         $blockManager = $this->createBlockManager();
         $blocksManagerCollection->expects($this->once())
-             ->method('getBlockManagerAndIndex')
+             ->method('getManagerInfoByBlockId')
              ->with($idBlock)
-             ->will($this->returnValue(array("manager" => $blockManager)))
+             ->will($this->returnValue(array("manager" => $blockManager, "index" => 0)))
         ;
         
         $this->blockRepository->expects($this->once())
@@ -94,7 +94,7 @@ class BlocksRemoverTest extends AlContentManagerBase
         ;
         
         $blocksManagerCollection->expects($this->once())
-             ->method('getBlockManagerAndIndex')
+             ->method('getManagerInfoByBlockId')
              ->with($idBlock)
              ->will($this->returnValue($blockManagerInfo))
         ;
