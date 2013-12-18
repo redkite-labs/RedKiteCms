@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksAdder;
 use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
 /**
- * AlSlotsConverterFactoryTest
+ * BlocksAdderTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */

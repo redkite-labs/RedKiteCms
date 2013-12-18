@@ -21,7 +21,7 @@ use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBa
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksRemover;
 
 /**
- * AlSlotsConverterFactoryTest
+ * BlocksRemoverTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
