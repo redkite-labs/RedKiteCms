@@ -38,17 +38,17 @@ class BlocksAdder extends BaseBlocks
 
     /**
      * Constructor
-     * 
+     *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface   $blockManagerFactory
      */
     public function __construct(BlockRepositoryInterface $blockRepository, AlBlockManagerFactoryInterface $blockManagerFactory)
     {
         parent::__construct($blockRepository);
-        
+
         $this->blockManagerFactory = $blockManagerFactory;
     }
-    
+
     /**
      * Returns the last block manager added to the slot manager
      *
@@ -60,7 +60,7 @@ class BlocksAdder extends BaseBlocks
     {
         return $this->lastAdded;
     }
-    
+
     /**
      * Returns the last edited block manager
      *
@@ -72,16 +72,16 @@ class BlocksAdder extends BaseBlocks
     {
         return $this->lastEdited;
     }
-    
+
     /**
      * Adds a new AlBlock object to the slot
      *
      * The created block managed is added to the collection. When the $referenceBlockId param is valorized,
      * the new block is created under the block identified by the given id
-     * 
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot $slot
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection $blockManagersCollection
-     * @param array $options
+     *
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot                       $slot
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection $blockManagersCollection
+     * @param  array                                                                          $options
      * @return boolean|null
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
      */
@@ -90,29 +90,29 @@ class BlocksAdder extends BaseBlocks
         try {
             $repeated = $slot->getRepeated();
             $options = $this->normalizeRepeatedStatus($repeated, $options);
-            
+
             // Make sure that a content repeated at site level is never added twice
             if ($options["skipSiteLevelBlocks"] && $repeated == 'site' && count($this->blockRepository->retrieveContents(1, 1, $slot->getSlotName())) > 0) {
                 return;
             }
-            
+
             $this->blockRepository->startTransaction();
-            
+
             $blockManagerPosition = $blockManagersCollection->getBlockManagerIndex($options["referenceBlockId"]);
             $options["position"] = $blockManagerPosition + 1;
             if (null !== $blockManagerPosition && $options["insertDirection"] == 'bottom') {
                 $options["position"] = $blockManagerPosition + 2;
                 $blockManagerPosition += 1;
             }
-            
+
             $blockManager = $this->createBlockManager($options["type"]);
             $parts = $blockManagersCollection->insertAt($blockManager, $blockManagerPosition);
             $result = $this->adjustPosition('add', $parts["right"]);
-                        
+
             if ($result !== false) {
                 $result = $this->saveBlockmanager($slot, $blockManager, $options);
             }
-            
+
             if ($result !== false) {
                 $this->blockRepository->commit();
                 $this->lastAdded = $blockManager;
@@ -121,7 +121,7 @@ class BlocksAdder extends BaseBlocks
             }
 
             $this->blockRepository->rollBack();
-            
+
             return $result;
         } catch (\Exception $e) {
             $this->blockRepository->rollBack();
@@ -129,22 +129,22 @@ class BlocksAdder extends BaseBlocks
             throw $e;
         }
     }
-    
+
     /**
      * Edits the block
-     * 
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
-     * @param array $values
+     *
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface      $blockManager
+     * @param  array                                                                         $values
      * @return boolean|null
      * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
-     * 
+     *
      * @api
      */
     public function edit(AlBlockManagerInterface $blockManager, array $values)
-    {        
+    {
         try {
             $this->blockRepository->startTransaction();
-            
+
             $result = $blockManager->save($values);
             if ($result !== false) {
                 $this->blockRepository->commit();
@@ -162,7 +162,7 @@ class BlocksAdder extends BaseBlocks
             throw $e;
         }
     }
-    
+
     private function normalizeRepeatedStatus($repeated, array $options)
     {
         switch ($repeated) {
@@ -174,10 +174,10 @@ class BlocksAdder extends BaseBlocks
                 $options["idPage"] = 1;
                 break;
         }
-        
+
         return $options;
     }
-    
+
     private function createBlockManager($type)
     {
         $blockManager = $this->blockManagerFactory->createBlockManager($type);
@@ -191,12 +191,12 @@ class BlocksAdder extends BaseBlocks
 
             throw new InvalidArgumentException(json_encode($exception));
         }
-        
+
         return $blockManager;
     }
-    
+
     private function saveBlockmanager(AlSlot $slot, $blockManager, array $options)
-    {            
+    {
         $values = array(
             "PageId"          => $options["idPage"],
             "LanguageId"      => $options["idLanguage"],
@@ -205,7 +205,7 @@ class BlocksAdder extends BaseBlocks
             "ContentPosition" => $options["position"],
             //"CreatedAt"       => date("Y-m-d H:i:s"),
         );
-        
+
         if ($options["forceSlotAttributes"]) {
             $content = $slot->getContent();
             if (null !== $content) {
@@ -214,7 +214,7 @@ class BlocksAdder extends BaseBlocks
         }
 
         $blockManager->set(null);
-        
+
         return $blockManager->save($values);
     }
 }

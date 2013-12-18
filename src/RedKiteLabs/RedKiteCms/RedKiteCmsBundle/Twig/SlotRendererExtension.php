@@ -131,7 +131,7 @@ class SlotRendererExtension extends \Twig_Extension
 
                 $content = preg_replace('/data\-editor="true"/', $cmsAttributes . ' data-editor="enabled"', $content);
             }
-            
+
             return $templating->render('RedKiteCmsBundle:Slot:Page/' . $template, array(
                 'block_id' => $block['Block']["Id"],
                 'slot_name' => $slotName,
@@ -194,12 +194,12 @@ class SlotRendererExtension extends \Twig_Extension
         $repository = $blocksRepository->createRepository('Block');
         $blocks = $repository->retrieveContents(null,  null, $key, array(0, 2, 3));
         $blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
- 
+
         $extraOptions = array('parent_slot_name' => $key);
         if (null !== $parent && preg_match('/' . $parent->get()->getId() .  '\-([0-9]+)/', $key, $matches)) {
             $extraOptions['key'] = $matches[1];
         }
-                
+
         if (count($blocks) > 0) {
             $alBlock = $blocks[0];
             $type = $alBlock->getType();
@@ -225,7 +225,7 @@ class SlotRendererExtension extends \Twig_Extension
             if (null !== $blockManager) {
                 $blockManager->setEditorDisabled($parent->getEditorDisabled());
                 $parentBlock = $parent->get();
-                
+
                 $values = array(
                   "PageId"          => $parentBlock->getPageId(),
                   "LanguageId"      => $parentBlock->getLanguageId(),

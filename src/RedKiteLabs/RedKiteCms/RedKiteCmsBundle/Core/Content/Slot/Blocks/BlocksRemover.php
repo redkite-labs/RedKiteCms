@@ -25,12 +25,12 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks;
  * @api
  */
 class BlocksRemover extends BaseBlocks
-{  
+{
     /**
      * Removes the block manager that handles the given block id
-     * 
-     * @param int $idBlock
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection $blockManagers
+     *
+     * @param  int                                                                            $idBlock
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection $blockManagers
      * @return null|boolean
      */
     public function remove($idBlock, BlockManagersCollection $blockManagersCollection)
@@ -42,11 +42,11 @@ class BlocksRemover extends BaseBlocks
             return;
         }
         // @codeCoverageIgnoreEnd
-        
+
         try {
             $this->blockRepository->startTransaction();
 
-            // Adjust the blocks position            
+            // Adjust the blocks position
             $parts = $blockManagersCollection->removeAt($blockManagerInfo["index"]);
             $result = $this->adjustPosition('del', $parts["right"]);
             if (false !== $result) {
@@ -68,7 +68,7 @@ class BlocksRemover extends BaseBlocks
             throw $e;
         }
     }
-    
+
     /**
      * Deletes all the blocks managed by the slot
      *
@@ -84,8 +84,8 @@ class BlocksRemover extends BaseBlocks
             return;
         }
         // @codeCoverageIgnoreEnd
-        
-        try {            
+
+        try {
             $result = null;
             $this->blockRepository->startTransaction();
             $blockManagers = $blockManagersCollection->getBlockManagers();
@@ -107,8 +107,7 @@ class BlocksRemover extends BaseBlocks
             $this->blockRepository->rollBack();
 
             return $result;
-        } 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->blockRepository->rollBack();
 
             throw $e;

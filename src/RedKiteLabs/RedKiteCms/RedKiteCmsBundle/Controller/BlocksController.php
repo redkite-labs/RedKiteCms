@@ -194,7 +194,7 @@ class BlocksController extends Base\BaseController
                 "blockId" => 'block_' . $request->get('idBlock'),
                 "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Slot:Render/_slot.html.twig', array("slotName" => $request->get('slotName'), "included" => filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)))
             );
-            
+
             return $this->buildJSonResponse($values);
         }
 

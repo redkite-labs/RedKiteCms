@@ -29,31 +29,31 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 class BlockManagersCollection implements \Countable
 {
     protected $blockManagers = array();
-    
+
     /**
      * Adds an AlBlockManagerInterface object to the collection
-     * 
+     *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
-     * 
+     *
      * @api
      */
     public function addBlockManager(AlBlockManagerInterface $blockManager)
     {
         $this->blockManagers[] = $blockManager;
     }
-    
+
     /**
      * Returns the array managed by the collection
-     * 
+     *
      * @return array
-     * 
+     *
      * @api
      */
     public function getBlockManagers()
     {
         return $this->blockManagers;
     }
-    
+
     /**
      * Count elements of an object
      *
@@ -88,7 +88,7 @@ class BlockManagersCollection implements \Countable
     public function last()
     {
         $elements = $this->count();
-        
+
         return ($elements > 0) ? $this->blockManagers[$elements - 1] : null;
     }
 
@@ -130,7 +130,7 @@ class BlockManagersCollection implements \Countable
 
         return null;
     }
-    
+
     /**
      * Retrieves the block manager by the block's id
      *
@@ -179,44 +179,44 @@ class BlockManagersCollection implements \Countable
 
         return $result;
     }
-    
+
     /**
      * Inserts a block manager at the specified index
-     * 
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $element
-     * @param int $at
+     *
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $element
+     * @param  int                                                                      $at
      * @return array
      */
     public function insertAt(AlBlockManagerInterface $element, $at)
     {
         $elements = count($this->blockManagers);
-        
+
         $leftPart = array_slice($this->blockManagers, 0 , $at);
         $rightPart = array_slice($this->blockManagers, $at , $elements);
-        
+
         $this->blockManagers = array_merge($leftPart, array($element), $rightPart);
-        
+
         return array(
             "left" => $leftPart,
             "right" => $rightPart,
         );
     }
-    
+
     /**
      * Removes the block manager at the specified index
-     * 
-     * @param int $at
+     *
+     * @param  int   $at
      * @return array
      */
     public function removeAt($at)
     {
         $elements = count($this->blockManagers) - 1;
-        
+
         $leftPart = array_slice($this->blockManagers, 0 , $at);
         $rightPart = array_slice($this->blockManagers, $at + 1, $elements);
-        
+
         $this->blockManagers = array_merge($leftPart, $rightPart);
-        
+
         return array(
             "left" => $leftPart,
             "right" => $rightPart,

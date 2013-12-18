@@ -48,30 +48,30 @@ class AlSlotManager
 
     /**
      * Constructor
-     * 
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot $slot
+     *
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot                          $slot
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksAdder $blocksAdder|null
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksRemover $blocksRemover|null
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection $blockManagersCollection|null
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface   $blockManagerFactory
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksAdder                $blocksAdder|null
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksRemover              $blocksRemover|null
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection    $blockManagersCollection|null
      */
     public function __construct(AlSlot $slot, BlockRepositoryInterface $blockRepository, AlBlockManagerFactoryInterface $blockManagerFactory, Blocks\BlocksAdder $blocksAdder = null, Blocks\BlocksRemover $blocksRemover = null, BlockManagersCollection $blockManagersCollection = null)
     {
         $this->slot = $slot;
         $this->blockRepository = $blockRepository;
         $this->blockManagerFactory = $blockManagerFactory;
-        
+
         $this->blocksAdder = $blocksAdder;
         if (null === $this->blocksAdder) {
             $this->blocksAdder = new Blocks\BlocksAdder($this->blockRepository, $this->blockManagerFactory);
         }
-        
+
         $this->blocksRemover = $blocksRemover;
         if (null === $blocksRemover) {
             $this->blocksRemover = new Blocks\BlocksRemover($this->blockRepository);
         }
-        
+
         $this->blockManagersCollection = $blockManagersCollection;
         if (null === $this->blockManagersCollection) {
             $this->blockManagersCollection = new BlockManagersCollection();
@@ -184,7 +184,7 @@ class AlSlotManager
     {
         return $this->slot->getSlotName();
     }
-    
+
     /**
      * Returns the block managers collection associated with the slot manager
      *
@@ -196,7 +196,7 @@ class AlSlotManager
     {
         return $this->blockManagersCollection;
     }
-    
+
     /**
      * Returns the last block manager added to the slot manager
      *
@@ -208,7 +208,7 @@ class AlSlotManager
     {
         return $this->blocksAdder->lastAdded();
     }
-    
+
     /**
      * Returns the last edited block manager
      *
@@ -220,31 +220,31 @@ class AlSlotManager
     {
         return $this->blocksAdder->lastEdited();
     }
-    
+
     /**
      * Adds a new AlBlock object to the slot
      *
      * The created block managed is added to the collection. When the $referenceBlockId param is valorized,
      * the new block is created under the block identified by the given id
-     * 
-     * @param array $options
+     *
+     * @param  array        $options
      * @return null|boolean
      */
     public function addBlock(array $options)
     {
         $this->checkInteger($options["idLanguage"], 'exception_invalid_value_for_language_id');
         $this->checkInteger($options["idPage"], 'exception_invalid_value_for_page_id');
-        
-        try {            
+
+        try {
             $options = $this->normalizeOptions($options);
             $options["skipSiteLevelBlocks"] = $this->skipSiteLevelBlocks;
             $options["forceSlotAttributes"] = $this->forceSlotAttributes;
-            
+
             $result = $this->blocksAdder->add($this->slot, $this->blockManagersCollection, $options);
         } catch (\Exception $e) {
             throw $e;
         }
-        
+
         return $result;
     }
 
@@ -264,10 +264,10 @@ class AlSlotManager
         if (null === $blockManager) {
             return;
         }
-        
+
         try {
             return $this->blocksAdder->edit($blockManager, $values);
-            
+
         } catch (\Exception $e) {
             throw $e;
         }
@@ -286,7 +286,7 @@ class AlSlotManager
     {
         try {
             return $this->blocksRemover->remove($idBlock, $this->blockManagersCollection);
-            
+
         } catch (\Exception $e) {
 
             throw $e;
@@ -305,20 +305,20 @@ class AlSlotManager
     {
         try {
             return $this->blocksRemover->clear($this->blockManagersCollection);
-            
+
         } catch (\Exception $e) {
 
             throw $e;
         }
     }
-    
+
     /**
      * Sets up the block managers.
      *
      * When the blocks have not been given, it retrieves all the pages's contents saved on the slot
-     * 
-     * @param array $blocks 
-     * 
+     *
+     * @param array $blocks
+     *
      * @api
      */
     public function setUpBlockManagers(array $blocks)
@@ -328,38 +328,38 @@ class AlSlotManager
             $this->blockManagersCollection->addBlockManager($blockManager);
         }
     }
-    
+
     private function normalizeOptions(array $options)
-    {   
+    {
         if ( ! array_key_exists("type", $options)) {
             $options["type"] = "Text";
         }
-        
+
         // Forces the creation of the block type defined in the AlSlot object
         if ($this->forceSlotAttributes) {
             $options["type"] = $this->slot->getBlockType();
         }
-        
+
         if ( ! array_key_exists("referenceBlockId", $options)) {
             $options["referenceBlockId"] = null;
         }
-                
+
         if ( ! array_key_exists("insertDirection", $options) || $options['insertDirection'] == null) {
             $options["insertDirection"] = 'bottom';
         }
-        
+
         return $options;
     }
-    
+
     private function checkInteger($value, $errorMessage)
     {
         if ((int) $value == 0) {
             throw new InvalidArgumentTypeException($errorMessage);
         }
     }
-    
+
     /* DEPRECATED FUNCTIONS */
-    
+
     /**
      * Sets the block model object
      *
@@ -378,7 +378,7 @@ class AlSlotManager
      * Returns the block manager object
      *
      * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot
-     * 
+     *
      * @deprecated since 1.1.0
      * @codeCoverageIgnore
      */
@@ -386,7 +386,7 @@ class AlSlotManager
     {
         throw new RedKiteDeprecatedException("AlSlotManager->getBlockRepository has been deprecated.");
     }
-    
+
     /**
      * Returns the block managers
      *
@@ -399,7 +399,7 @@ class AlSlotManager
     {
         throw new RedKiteDeprecatedException("AlSlotManager->getBlockManagers has been deprecated and replaced by getBlockManagersCollection->getBlockManagers()");
     }
-    
+
     /**
      * Retrieves the block manager by the block's id
      *
@@ -432,7 +432,7 @@ class AlSlotManager
      * Returns the first block manager placed on the slot
      *
      * @return null|AlBlockManager
-     * 
+     *
      * @deprecated since 1.1.0
      * @codeCoverageIgnore
      */
@@ -445,7 +445,7 @@ class AlSlotManager
      * Returns the last block manager placed on the slot
      *
      * @return null|AlBlockManager
-     * 
+     *
      * @deprecated since 1.1.0
      * @codeCoverageIgnore
      */
@@ -458,7 +458,7 @@ class AlSlotManager
      * Returns the block manager at the given index.
      *
      * @return null|AlBlockManager
-     * 
+     *
      * @deprecated since 1.1.0
      * @codeCoverageIgnore
      */
@@ -471,7 +471,7 @@ class AlSlotManager
      * Returns the number of block managers managed by the slot manager
      *
      * @return int
-     * 
+     *
      * @deprecated since 1.1.0
      * @codeCoverageIgnore
      */
@@ -479,12 +479,12 @@ class AlSlotManager
     {
         throw new RedKiteDeprecatedException("AlSlotManager->length has been deprecated. Have the same behavior using getBlockManagersCollection->count()");
     }
-    
+
     /**
      * Returns the managed blocks as an array
      *
      * @return array
-     * 
+     *
      * @deprecated since 1.1.0
      * @codeCoverageIgnore
      */
@@ -498,7 +498,7 @@ class AlSlotManager
      *
      * @param  int        $idBlock The id of the block to retrieve
      * @return null|array
-     * 
+     *
      * @deprecated since 1.1.0
      * @codeCoverageIgnore
      */
