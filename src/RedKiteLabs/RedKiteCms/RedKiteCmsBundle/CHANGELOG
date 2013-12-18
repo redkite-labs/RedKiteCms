@@ -1,4 +1,10 @@
-RedKite CMS 1.1.Release Candidate 2 (---)
+RedKite CMS 1.1.Release Candidate 2 (2013/12/18)
+eb72840 fixed a bug that does not immediatly activate an editor that handles a list, when one of the items it manages was added or removed
+9139c37 fixed manual route path generation
+a74c96d a script tag added to a Script block was uneditable: fixed
+66eb9cf added a new entry in the blocks menu to add a new block above the selected block
+9364b4a fixed a bug that adds included blocks to a page when the father slot was not expected to be added
+9bc7992 [API Break Compatibility] AlSlotManager has been refactored
 b80606d added a listener to close the list interface when the block is removed and the list is still in edit mode
 c812039 blockDeleted triggered before updating the block's content on the page and passed the deleted block as argument
 531669a updated SlotRendererExtension renderBlock method to accept extra attributes passed to the block's editor
