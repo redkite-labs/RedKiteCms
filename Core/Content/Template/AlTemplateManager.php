@@ -309,7 +309,7 @@ class AlTemplateManager extends AlTemplateBase
             $result = false;
             $this->blockRepository->startTransaction();
             foreach ($this->slotManagers as $slotManager) {
-                
+
                 if ($skipRepeated && ($this->isIncluded($slotManager->getSlotName()) || $slotManager->getRepeated() != 'page')) {
                     continue;
                 }
@@ -318,14 +318,14 @@ class AlTemplateManager extends AlTemplateBase
                     ->setForceSlotAttributes(true)
                     ->setSkipSiteLevelBlocks(true)
                 ;
-                                
+
                 $result = $slotManager->addBlock(
                     array(
-                        "idLanguage" => $idLanguage, 
+                        "idLanguage" => $idLanguage,
                         "idPage" => $idPage,
                     )
                 );
-                
+
                 if (false === $result) {
                     break;
                 }
@@ -484,7 +484,7 @@ class AlTemplateManager extends AlTemplateBase
         $alBlocks = $this->pageBlocks->getSlotBlocks($slotName);
         $slotManager = new AlSlotManager($slot, $this->blockRepository, $this->blockManagerFactory);
         $slotManager->setUpBlockManagers($alBlocks);
-        
+
         return $slotManager;
     }
 
@@ -502,15 +502,15 @@ class AlTemplateManager extends AlTemplateBase
                 ->setIdPage($idPage)
                 ->refresh()
             ;
-            
+
             $this->setUpSlotManagers();
         }
     }
-    
+
     /**
      * Verifies when the block is included
-     * 
-     * @param string $slotName
+     *
+     * @param  string  $slotName
      * @return boolean
      */
     private function isIncluded($slotName)
@@ -518,17 +518,17 @@ class AlTemplateManager extends AlTemplateBase
         if ( ! preg_match('/^([0-9]+)\-/', $slotName, $matches)) {
             return false;
         }
-        
+
         $blockId = $matches[1];
         $slotBlocks = $this->pageBlocks->getBlocks();
-        foreach($slotBlocks as $blocks) {
-            foreach($blocks as $block) {
+        foreach ($slotBlocks as $blocks) {
+            foreach ($blocks as $block) {
                 if ($block->getId() == $blockId) {
                     return true;
                 }
             }
         }
-        
+
         return false;
     }
 }

@@ -95,12 +95,11 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
         return $values;
     }
 
-    
     protected function addItem($data, $savedValues)
     {
         $item = $data["item"];
         $result = $this->manageChildren($item);
-        
+
         if (false === $result) {
             $this->blocksRepository->rollback();
 
@@ -117,9 +116,9 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
     {
         $item = $data["item"];
         unset($savedValues[$item]);
-        
+
         $result = $this->manageChildren($item, true);
-        
+
         if (false === $result) {
             $this->blocksRepository->rollback();
 
@@ -130,16 +129,16 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
 
         return $savedValues;
     }
-    
+
     protected function manageChildren($item, $delete=false)
     {
         $result = null;
         $this->nextItem = null;
         $blockKey = $this->alBlock->getId() . '-';
         $blocks = $this->blocksRepository->retrieveContentsBySlotName($blockKey . '%');
-        $this->blocksRepository->startTransaction();        
+        $this->blocksRepository->startTransaction();
         foreach ($blocks as $block) {
-            $itemProgressive = str_replace($blockKey, '', $block->getSlotName());  
+            $itemProgressive = str_replace($blockKey, '', $block->getSlotName());
             if ($item == $itemProgressive || $item == -1) {
                 $this->nextItem = $item + 1;
 
@@ -153,7 +152,7 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
                     $this->deleteChildren($block->getId() . '-' . $itemProgressive);
                 }
             }
-            
+
             if (null !== $this->nextItem && $itemProgressive >= $this->nextItem) {
                 $prevSlotName = $block->getId() . '-' . $itemProgressive;
                 $increment = 1;
@@ -162,14 +161,14 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
                 }
                 $itemProgressive += $increment;
                 $newSlotName = $block->getId() . '-' . $itemProgressive;
-                 
+
                 $this->updateSlotNames($prevSlotName, $newSlotName);
                 if (! $this->updateSlotName($block, $blockKey . $itemProgressive)) {
                     break;
                 }
             }
         }
-        
+
         return $result;
     }
 
@@ -183,17 +182,17 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
                 break;
             }
         }
-        
+
         return $result;
     }
-    
+
     protected function updateSlotName($block, $blockSlotName)
     {
         $block->setSlotName($blockSlotName);
-        
+
         return $block->save();
     }
-    
+
     protected function deleteChildren($prevSlotName)
     {
         $result = true;
@@ -204,7 +203,7 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
                 break;
             }
         }
-        
+
         return $result;
     }
 }

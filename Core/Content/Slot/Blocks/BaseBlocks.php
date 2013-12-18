@@ -35,17 +35,17 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInter
 abstract class BaseBlocks
 {
     protected $blockRepository;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
      */
     public function __construct(BlockRepositoryInterface $blockRepository)
     {
         $this->blockRepository = $blockRepository;
     }
-    
+
     /**
      * Adjusts the blocks position on the slot, when a new block is added or a block is deleted.
      *
@@ -66,9 +66,9 @@ abstract class BaseBlocks
         if (count($managers) == 0) {
             return;
         }
-            
+
         $this->checkValidOperation($op);
-            
+
         try {
             $result = null;
             $this->blockRepository->startTransaction();
@@ -84,7 +84,7 @@ abstract class BaseBlocks
                     break;
                 }
             }
-            
+
             if (false !== $result) {
                 $this->blockRepository->commit();
 
@@ -100,7 +100,7 @@ abstract class BaseBlocks
             throw $e;
         }
     }
-    
+
     private function checkValidOperation($op)
     {
         // Checks the $op parameter. If doesn't match, throwns and exception
