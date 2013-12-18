@@ -1,3 +1,8 @@
+RedKite CMS Base Blocks 1.1.Release Cansidate 2 (2013/12/18)
+62ad3fb fixed a bug with ScriptBlock which was not correctly saved when the script contained the "&" char
+9d305c1 added scrutinizer configuration
+8ce9ceb fixed docblocks and removed inheritdoc markup where not appliable
+
 RedKite CMS Base Blocks 1.1.Release Cansidate 1 (2013/11/24)
 70a8c99 removed script_editor.js because it was unused
 aef51ff improve image which now can be linked to a link or to a file; added a button to load the image instead of opening the media library when click
