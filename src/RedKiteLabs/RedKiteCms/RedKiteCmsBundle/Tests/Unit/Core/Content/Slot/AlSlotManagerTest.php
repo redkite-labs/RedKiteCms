@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager;
 use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
 
 /**
- * AlSlotsConverterFactoryTest
+ * AlSlotManagerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
