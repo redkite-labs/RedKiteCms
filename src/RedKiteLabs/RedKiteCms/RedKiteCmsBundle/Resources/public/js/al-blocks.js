@@ -118,13 +118,13 @@
                         updateContentsJSon(response);
                         Holder.run();
                         
-                        activeBlock = $('body').data('activeBlock');
+                        var editedBlock = $('body').data('editedBlock');
                         if (successCallback != null) {
-                            successCallback(activeBlock);
+                            successCallback(editedBlock);
                         }
                         
-                        if (activeBlock != null) {
-                            $(document).trigger("blockEdited", [ activeBlock ]);                      
+                        if (editedBlock != null) {
+                            $(document).trigger("blockEdited", [ editedBlock ]);                      
                         }
                     },
                     error: function(err)
@@ -281,7 +281,7 @@ function updateContentsJSon(response, editorWidth)
                     .blocksEditor('hideElementContent')
                 ;     
                 
-                $('body').data('activeBlock', $(blockName));  
+                $('body').data('editedBlock', $(blockName));
                 
                 break;
             case "remove-block":
