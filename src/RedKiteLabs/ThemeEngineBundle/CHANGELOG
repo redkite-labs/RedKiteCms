@@ -1,3 +1,10 @@
+RedKiteThemeEngineBundle 1.1.0 Release Candidate 1 (2013-12-18)
+de8c9c8 fixed code standard issues
+1878391 added scrutinizer configuration; updated travis configuration to send coverage results to scrutinizer
+776910a updated the README file
+220298d removes themes_panel parameter and added the stage_templates_folder parameter to configure the stage folder
+7d391c5 renamed red_kite_cms.bootstrap_themes to red_kite_labs_theme_engine.bootstrap_themes
+
 RedKiteThemeEngineBundle 1.1.0 Release (2012-12-02)
 220298d removes themes_panel parameter and added the stage_templates_folder parameter to configure the stage folder
 7d391c5 renamed red_kite_cms.bootstrap_themes to red_kite_labs_theme_engine.bootstrap_themes
