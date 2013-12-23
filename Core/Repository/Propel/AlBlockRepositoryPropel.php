@@ -141,10 +141,10 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
     {
         $blocks = AlBlockQuery::create()
                 ->_if($idLanguage)
-                    ->filterByPageId($idLanguage)
+                    ->filterByLanguageId($idLanguage)
                 ->_endif()
                 ->_if($idPage)
-                    ->filterByLanguageId($idPage)
+                    ->filterByPageId($idPage)
                 ->_endif();
 
         if ($remove) {
