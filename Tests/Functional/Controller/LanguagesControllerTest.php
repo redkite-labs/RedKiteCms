@@ -343,10 +343,9 @@ class LanguagesControllerTest extends WebTestCaseFunctional
     private function retrievePageSlots()
     {
         $pageTree = $this->client->getContainer()->get('red_kite_cms.page_tree');
-        $templateSlots = $pageTree->getTemplateManager()->getTemplateSlots();
-        $slots = $templateSlots->toArray();
+        $slots = $pageTree->getTemplateManager()->getTemplate()->getSlots();
 
-        return $slots['page'];
+        return $slots;
     }
     
     private function checkPage($crawler)

@@ -27,6 +27,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\Exception\ChangeSlotException
  * AlThemeChanger is deputated to change the website template
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
+ * @deprecated since 1.1.0
  */
 class AlThemeChanger
 {

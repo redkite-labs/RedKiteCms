@@ -44,20 +44,21 @@ class AlActiveTheme implements AlActiveThemeInterface
             return $this->activeTheme;
         }
 
+        $themes = $this->container->get('red_kite_labs_theme_engine.themes');
+        
         $activeThemeFile = $this->getActiveThemeFile();
-
         if ( ! file_exists($activeThemeFile)) {
-            $themes = $this->container->get('red_kite_labs_theme_engine.themes');
             foreach ($themes as $theme) break;
 
-            $this->activeTheme = $theme->getThemeName();
-            $this->writeActiveTheme($this->activeTheme);
+            $this->activeTheme = $theme;
+            $this->writeActiveTheme($this->activeTheme->getThemeName());
 
             return $this->activeTheme;
         }
 
-        $this->activeTheme = trim(file_get_contents($activeThemeFile));
-
+        $themeName = trim(file_get_contents($activeThemeFile));
+        $this->activeTheme = $themes->getTheme($themeName); 
+        
         return $this->activeTheme;
     }
 
@@ -76,7 +77,7 @@ class AlActiveTheme implements AlActiveThemeInterface
                 return $this->bootstrapVersion;
             }
 
-            $themeName = $this->getActiveTheme();
+            $themeName = $this->getActiveTheme()->getThemeName();
         }
 
         $this->bootstrapVersion = $this->container->getParameter('red_kite_cms.bootstrap_version');

@@ -23,6 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
  * AlSiteBootstrap is responsibile to boostrap a web site from the scratch, for a
@@ -63,8 +64,8 @@ class AlSiteBootstrap
      */
     public function __construct(AlLanguageManager $languageManager,
                                 AlPageManager $pageManager,
-                                \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager $blockManager,
-                                AlTemplateManager $templateManager = null)
+                                AlBlockManager $blockManager,
+                                AlTemplateManager $templateManager)
     {
         $this->languageManager = $languageManager;
         $this->pageManager = $pageManager;

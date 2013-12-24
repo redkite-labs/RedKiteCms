@@ -20,8 +20,6 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
 use Symfony\Component\DependencyInjection\Container;
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\PageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
@@ -55,7 +53,6 @@ class AlPageTree
     protected $dispatcher;
     protected $locatedAssets = array('css' => array(), 'js' => array());
     protected $extraAssetsSuffixes = array('cms');
-    protected $themesCollectionWrapper;
     protected $blockManagerFactory = null;
     private $pageName = null;
     private $request = null;
@@ -65,25 +62,24 @@ class AlPageTree
      *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface                            $container
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface   $factoryRepository
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper $themesCollectionWrapper
      *
      * @api
      */
     public function __construct(ContainerInterface $container,
-                                AlFactoryRepositoryInterface $factoryRepository,
-                                AlThemesCollectionWrapper $themesCollectionWrapper = null)
+                                AlFactoryRepositoryInterface $factoryRepository)
     {
-        $this->themesCollectionWrapper = (null === $themesCollectionWrapper) ? $container->get('red_kite_cms.themes_collection_wrapper') : $themesCollectionWrapper;
         $this->factoryRepository = $factoryRepository;
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');
         $this->seoRepository = $this->factoryRepository->createRepository('Seo');
         $this->dispatcher = $container->get('event_dispatcher');
-        $this->templateManager = $this->themesCollectionWrapper->getTemplateManager();
+        $this->templateManager = $container->get('red_kite_cms.template_manager');
         $this->blockManagerFactory = $container->get('red_kite_cms.block_manager_factory');
 
         $this->container = $container;
         $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
+        $this->theme = $this->activeTheme->getActiveTheme();
+        $this->pageBlocks = $this->container->get('red_kite_cms.page_blocks');
     }
 
     /**
@@ -319,10 +315,7 @@ class AlPageTree
      */
     public function setTemplate(AlTemplate $v)
     {
-        $this->templateManager
-            ->setTemplate($v)
-            ->refresh()
-        ;
+        $this->template = $v;
 
         return $this;
     }
@@ -334,10 +327,6 @@ class AlPageTree
      */
     public function getTemplate()
     {
-        if (null !== $this->templateManager) {
-            return $this->templateManager->getTemplate();
-        }
-
         return $this->template;
     }
 
@@ -372,12 +361,7 @@ class AlPageTree
                 $this->alLanguage = $this->alSeo->getAlLanguage();
                 $this->alPage = $this->alSeo->getAlPage();
             }
-
-            if (null === $this->initTheme()) {
-                return null;
-            }
-
-            $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->theme->getThemeName(), $this->alPage->getTemplateName());
+            
             $this->doRefresh();
 
             $this->dispatcher->dispatch(PageTree\PageTreeEvents::AFTER_PAGE_TREE_SETUP, new PageTree\AfterPageTreeSetupEvent($this));
@@ -404,12 +388,6 @@ class AlPageTree
 
         if (null === $this->alSeo) {
             $this->alSeo = $this->seoRepository->fromPageAndLanguage($idLanguage, $idPage);
-        }
-
-        if (null === $this->theme) {
-            if (null !== $this->initTheme()) {
-                $this->templateManager = $this->themesCollectionWrapper->assignTemplate($this->theme->getThemeName(), $this->alPage->getTemplateName());
-            }
         }
 
         $this->doRefresh();
@@ -450,12 +428,9 @@ class AlPageTree
      */
     public function getBlockManagers($slotName)
     {
-        $templateManager = $this->themesCollectionWrapper->getTemplateManager();
-        if (null !== $templateManager) {
-            $slotManager = $templateManager->getSlotManager($slotName);
-            if (null !== $slotManager) {
-                return $slotManager->getBlockManagersCollection()->getBlockManagers();
-            }
+        $slotManager = $this->templateManager->getSlotManager($slotName);
+        if (null !== $slotManager) {
+            return $slotManager->getBlockManagersCollection()->getBlockManagers();
         }
 
         return array();
@@ -506,7 +481,8 @@ class AlPageTree
 
             $this->mergeAppBlocksAssets($assetsCollection, $type, $assetType);
 
-            $slots = $template->getSlots();
+            //$slots = $template->getSlots();
+            $slots = $this->theme->getThemeSlots()->getSlots();
             if (null !== $slots && ! empty($slots)) {
                 $templateSlots = array_keys($slots);
                 $blocks = $this->pageBlocks->getBlocks();
@@ -673,18 +649,6 @@ class AlPageTree
         return $assets;
     }
 
-    private function initTheme()
-    {
-        $themeName = $this->activeTheme->getActiveTheme();
-        if (null === $themeName) {
-            return $themeName;
-        }
-
-        $this->theme = new AlTheme($themeName);
-
-        return true;
-    }
-
     private function getRequest()
     {
         if (null === $this->request) {
@@ -703,19 +667,15 @@ class AlPageTree
         $idLanguage = $this->alLanguage->getId();
         $idPage = $this->alPage->getId();
 
-        $this->pageBlocks = $this->templateManager->getPageBlocks();
-        if (null === $this->pageBlocks) {
-            return;
-        }
-
         $this->pageBlocks
              ->setIdLanguage($idLanguage)
              ->setIdPage($idPage)
              ->refresh();
-
+        
+        $this->template = $this->theme->getTemplate($this->alPage->getTemplateName());
+        $themeSlots = $this->theme->getThemeSlots();
         $this->templateManager
-             ->setPageBlocks($this->pageBlocks)
-             ->refresh();
+             ->refresh($themeSlots, $this->template, $this->pageBlocks);
 
         $this->setUpMetaTags($this->alSeo);
     }

@@ -25,7 +25,6 @@ use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\Deploy;
 use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
 /**
  * The object deputated to deploy the website from development, RedKiteCms, to production,
@@ -51,7 +50,6 @@ abstract class AlDeployer implements AlDeployerInterface
     protected $dispatcher = null;
     protected $credits = null;
     protected $activeTheme = null;
-    protected $themesCollectionWrapper = null;
     private $webFolderPath = null;
     private $pageTreeCollection = null;
     private $websiteUrl = null;
@@ -112,7 +110,6 @@ abstract class AlDeployer implements AlDeployerInterface
         $this->dispatcher = $this->container->get('event_dispatcher');
         $this->credits = ($this->container->getParameter('red_kite_cms.love') == 'no') ? false : true;
         $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
-        $this->themesCollectionWrapper = $this->container->get('red_kite_cms.themes_collection_wrapper');
         $this->websiteUrl = $this->container->getParameter('red_kite_cms.website_url');
 
         $this->fileSystem = new Filesystem();
@@ -336,10 +333,8 @@ abstract class AlDeployer implements AlDeployerInterface
         $languages = $languageRepository->activeLanguages();
         $blockRepository = $this->factoryRepository->createRepository('Block');
 
-        $themeName = $this->activeTheme->getActiveTheme();
-        //$this->themesCollectionWrapper = $this->container->get('red_kite_cms.themes_collection_wrapper');
-        $templateManager = $this->themesCollectionWrapper->getTemplateManager();
-        $templates = $this->themesCollectionWrapper->getTheme($themeName)->getTemplates();
+        $theme = $this->activeTheme->getActiveTheme();
+        $templates = $theme->getTemplates();
 
         foreach ($languages as $language) {
             $blocks = $blockRepository->retrieveContents(array(1, $language->getId()), 1);
@@ -347,21 +342,9 @@ abstract class AlDeployer implements AlDeployerInterface
                 $pageBlocks = new AlPageBlocks($this->factoryRepository);
                 $pageBlocks->setAlBlocks($blocks);
 
-                $templateManager = clone($templateManager);
-                $templateManager
-                    ->setTemplate($template)
-                    ->setPageBlocks($pageBlocks)
-                    ->refresh();
-                $themesCollectionWrapper = new AlThemesCollectionWrapper(
-                    $this->themesCollectionWrapper->getThemesCollection(),
-                    $templateManager
-                );
-                $themesCollectionWrapper->assignTemplate($themeName, $template->getTemplateName());
-
                 $pageTree = new AlPageTree(
                     $this->container,
-                    $this->factoryRepository,
-                    $themesCollectionWrapper
+                    $this->factoryRepository
                 );
 
                 $pageTree

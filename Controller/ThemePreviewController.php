@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
 
 class ThemePreviewController extends AlCmsController
 {
@@ -43,7 +43,7 @@ class ThemePreviewController extends AlCmsController
         $template = ($templateName == 'none') ? $theme->getHomeTemplate() : $theme->getTemplate($templateName);
 
         $this->pageTree = new AlPageTreePreview($this->container, $this->factoryRepository);
-        $slotContents = $this->fetchSlotContents($template);
+        $slotContents = $this->fetchSlotContents($theme);
         $pageBlocks = new AlPageBlocks($this->factoryRepository);
         $pageBlocks->addRange($slotContents);
         $this->pageTree
@@ -74,9 +74,9 @@ class ThemePreviewController extends AlCmsController
         return $this->render(sprintf('RedKiteCmsBundle:Bootstrap:%s/Template/Preview/template.html.twig', $bootstrapVersion), $baseParams);
     }
 
-    protected function fetchSlotContents(AlTemplate $template)
+    protected function fetchSlotContents(AlTheme $theme)
     {
-        $slots = $template->getSlots();
+        $slots = $theme->getThemeSlots()->getSlots();
         $slotContents = array();
         foreach ($slots as $slot) {
             $slotName = $slot->getSlotName();

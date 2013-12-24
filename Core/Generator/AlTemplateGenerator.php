@@ -32,15 +32,16 @@ class AlTemplateGenerator extends Generator
      * @param  array  $assets
      * @return string A message formatted to be displayed on the console
      */
-    public function generateTemplate($dir, $themeName, $templateName)
+    public function generateTemplate($dir, $themeName, $templateName, $templateSlots)
     {
         $themeBasename = str_replace('Bundle', '', $themeName);
         $extensionAlias = Container::underscore($themeBasename);
-
+        
         $parameters = array(
             'theme_name' => $themeName,
             'template_name' => $templateName,
             'extension_alias' => $extensionAlias,
+            'template_slots' => $templateSlots,
         );
 
         $templateFile = $templateName.'.xml';

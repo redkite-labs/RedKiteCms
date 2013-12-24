@@ -18,7 +18,6 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlTemplateSlots;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 use Symfony\Component\Yaml\Yaml;
@@ -62,78 +61,12 @@ class ThemesController extends Base\BaseController
             $map[$templateName] = $mappedTemplateName;
             $c += 2;
         }
-
+        
         $themeName = $request->get('themeName');
         $currentTheme = $this->getActiveTheme();
-        $themeChanger = $this->container->get('red_kite_cms.theme_changer');
-        $themes = $this->container->get('red_kite_labs_theme_engine.themes');
-        $previousTheme = $themes->getTheme($currentTheme->getActiveTheme());
-        $theme = $themes->getTheme($themeName);
-        $themeChanger->change($previousTheme, $theme, $this->container->getParameter('red_kite_cms.theme_structure_file'), $map);
         $currentTheme->writeActiveTheme($themeName);
 
         return new Response($this->translate('themes_controller_theme_changed'), 200);
-    }
-
-    public function changeSlotAction()
-    {
-        $request = $this->container->get('request');
-        $sourceSlotName = $request->get('sourceSlotName');
-        $targetSlotName = $request->get('targetSlotName');
-
-        $themeChanger = $this->container->get('red_kite_cms.theme_changer');
-        $themeChanger->changeSlot($sourceSlotName, $targetSlotName);
-
-        $templateSlots = new AlTemplateSlots($this->container);
-        $slots = $templateSlots
-            ->run($request->get('languageId'), $request->get('pageId'))
-            ->getSlots()
-        ;
-
-        $values = array(
-            array(
-                'key' => 'message',
-                'value' => $this->translate('themes_controller_slot_changed'),
-            ),
-            array(
-                'key' => 'slots',
-                'value' => $this->container->get('templating')->render('RedKiteCmsBundle:Themes:Slots/template_slots_panel.html.twig', array(
-                    'slots' => $slots,
-                )),
-            ),
-        );
-
-        $response = new Response(json_encode($values));
-        $response->headers->set('Content-Type', 'application/json');
-
-        return $response;
-    }
-
-    public function showThemesFinalizerAction()
-    {
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Themes:Finalizer/theme_finalizer.html.twig');
-    }
-
-    public function finalizeThemeAction()
-    {
-        $request = $this->container->get('request');
-        $action = $request->get('action');
-
-        $themeChanger = $this->container->get('red_kite_cms.theme_changer');
-        $result = $themeChanger->finalize($action);
-
-        $message = $this->translate('themes_controller_finalization_failed');
-        $statusCode = 404;
-        if ($result) {
-            $message = "The theme has been finalized";
-            $statusCode = 200;
-
-            if ($action == 'full') {
-                unlink($this->container->getParameter('red_kite_cms.theme_structure_file'));
-            }
-        }
-
-        return new Response($message, $statusCode);
     }
 
     public function startFromThemeAction()
@@ -144,11 +77,12 @@ class ThemesController extends Base\BaseController
         $themes = $this->container->get('red_kite_labs_theme_engine.themes');
         $theme = $themes->getTheme($themeName);
         $template = $theme->getHomeTemplate();
-
-        $templateManager = $this->container->get('red_kite_cms.template_manager');
-        $templateManager
-            ->setTemplate($template)
-            ->refresh();
+        
+        $templateManager = 
+            $this->container
+                 ->get('red_kite_cms.template_manager')
+                 ->refresh($theme->getThemeSlots(), $template, $this->container->get('red_kite_cms.page_blocks'))
+        ;
 
         $siteBootstrap = $this->container->get('red_kite_cms.site_bootstrap');
         $result = $siteBootstrap
@@ -207,10 +141,10 @@ class ThemesController extends Base\BaseController
     protected function renderThemesPanel()
     {
         $values = array();
-        $activeTheme = $this->getActiveTheme()->getActiveTheme();
+        $activeThemeName = $this->getActiveTheme()->getActiveTheme()->getThemeName();
         $themes = $this->container->get('red_kite_labs_theme_engine.themes');
         foreach ($themes as $theme) {
-            if ($activeTheme !== null && $activeTheme == $theme->getThemeName()) {
+            if (null !== $activeThemeName && $activeThemeName == $theme->getThemeName()) {
                 $values['active_theme'] = $this->retrieveThemeInfo($theme, false);
 
                 continue;

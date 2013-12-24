@@ -44,7 +44,7 @@ class AlSlotsGenerator extends Generator
             "slots" => $slots,
         );
 
-        $slotFile = $templateName . '.xml';
+        $slotFile = 'slots.xml';
         $this->setSkeletonDirs($this->themeSkeletonDir);
         $this->renderFile('slots.xml', $dir . '/' . $slotFile, $parameters);
 

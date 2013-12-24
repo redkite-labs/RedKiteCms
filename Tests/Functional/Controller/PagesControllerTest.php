@@ -186,7 +186,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $this->assertCount(0, $crawler->filter('#block_1')); 
         $this->assertCount(1, $crawler->filter('#block_25'));
         $this->assertCount(1, $crawler->filter('#block_25')->filter('[data-name="block_25"]'));
-        $this->assertCount(0, $crawler->filter('#block_31'));
+        $this->assertCount(0, $crawler->filter('#block_88'));
         $this->assertCount(1, $crawler->filter('[data-name="block_30"]'));
     }
 
@@ -428,7 +428,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $seo = $this->seoRepository->fromPageAndLanguage(2, 2);
         $this->assertNotNull($seo);
         
-        $this->assertCount(17, $this->blockRepository->retrieveContents(2, 2));
+        $this->assertCount(9, $this->blockRepository->retrieveContents(2, 2));
         
         $params = array('page' => 'page-2-edited',
                         'language' => 'en',
@@ -631,10 +631,9 @@ class PagesControllerTest extends WebTestCaseFunctional
     private function retrievePageSlots()
     {
         $pageTree = $this->client->getContainer()->get('red_kite_cms.page_tree');
-        $templateSlots = $pageTree->getTemplateManager()->getTemplateSlots();
-        $slots = $templateSlots->toArray();
+        $slots = $pageTree->getTemplateManager()->getTemplate()->getSlots();
 
-        return $slots['page'];
+        return $slots;
     }
     
     private function doPageFromDbTest($id, $pageName, $template, $isHome, $isPublished)

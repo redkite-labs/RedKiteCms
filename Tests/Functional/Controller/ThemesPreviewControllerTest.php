@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Functional\Controller;
 use RedKiteLabs\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
 
 /**
- * ThemesControllerTest
+ * ThemesPreviewControllerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */

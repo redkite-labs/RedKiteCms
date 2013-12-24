@@ -22,8 +22,14 @@
 {% set cms_javascripts = true %}
 {% else %}
 {% set cms_javascripts = false %}
+{% endif %}    
+{% if template_slots is defined and template_slots|length > 0  %}
+{% set slots = true %}
+{% else %}
+{% set slots = false %}
 {% endif %}
-{% if stylesheets or javascripts or cms_stylesheets or cms_javascripts %}
+    
+{% if stylesheets or javascripts or cms_stylesheets or cms_javascripts or slots %}
     <parameters>
 {% if assets.external_stylesheets is defined and assets.external_stylesheets|length > 0 %}
         <parameter key="{{ extension_alias }}.{{ template_name }}.external_stylesheets" type="collection">
@@ -53,6 +59,13 @@
 {% endfor %}
         </parameter>
 {% endif %}
+{% if slots %}
+        <parameter key="{{ extension_alias }}.{{ template_name }}.slots" type="collection">
+{% for slot in template_slots %}
+            <parameter>{% spaceless %}{{ slot }}{% endspaceless %}</parameter>
+{% endfor %}
+        </parameter>
+{% endif %}
     </parameters>
 {% endif %}
 
@@ -70,14 +83,9 @@
 {% endif %}
         </service>
 
-        <service id="{{ extension_alias }}.theme.template.{{ template_name }}.slots" class="%red_kite_labs_theme_engine.template_slots.class%" public="false">
-            <tag name="{{ extension_alias }}.theme.template.{{ template_name }}" />
-        </service>
-
         <service id="{{ extension_alias }}.theme.template.{{ template_name }}" class="%red_kite_labs_theme_engine.template.class%" public="false">
             <argument type="service" id="kernel" />
             <argument type="service" id="{{ extension_alias }}.theme.template_assets.{{ template_name }}" />
-            <argument type="service" id="{{ extension_alias }}.theme.template.{{ template_name }}.slots" />
             <tag name="{{ extension_alias }}.theme.template" />
 
             <call method="setThemeName">
@@ -86,6 +94,11 @@
             <call method="setTemplateName">
                 <argument type="string">{{ template_name }}</argument>
             </call>
+{% if slots %}
+            <call method="setSlots">
+                <argument>%{{ extension_alias }}.{{ template_name }}.slots%</argument>
+            </call>
+{% endif %}
         </service>
     </services>
 </container>

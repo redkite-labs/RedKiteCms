@@ -103,7 +103,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         if (empty($attributes['type'])) {
             return;
         }
-
+        
         $blockManager->setFactoryRepository($this->factoryRepository);
         $this->blockManagersItems[] = new AlBlockManagerFactoryItem($blockManager, $attributes);
     }

@@ -151,13 +151,12 @@ abstract class WebTestCaseFunctional extends WebTestCase
         $themes = $client->getContainer()->get('red_kite_labs_theme_engine.themes');
         $theme = $themes->getTheme('BootbusinessThemeBundle');
         $template = $theme->getTemplate('home');
-
-        $eventsHandler = $client->getContainer()->get('red_kite_cms.events_handler');
-        $pageContentsContainer = new AlPageBlocks($factoryRepository);
-        $templateManager = new AlTemplateManager($eventsHandler, $factoryRepository, $template, $pageContentsContainer, $client->getContainer()->get('red_kite_cms.block_manager_factory'));
-        $templateManager->refresh();
-
         
+        $eventsHandler = $client->getContainer()->get('red_kite_cms.events_handler');
+        $pageBlocks = new AlPageBlocks($factoryRepository);
+        $templateManager = new AlTemplateManager($eventsHandler, $factoryRepository, $client->getContainer()->get('red_kite_cms.block_manager_factory'));
+        $templateManager->refresh($theme->getThemeSlots(), $template, $pageBlocks);
+
         $alLanguageManager = new AlLanguageManager($eventsHandler, $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
         foreach (self::$languages as $language) {
             $alLanguageManager->set(null)->save($language);
@@ -167,8 +166,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
         foreach (self::$pages as $page) {
             if (isset($page["TemplateName"]))
             {
-                $template = $theme->getTemplate($page["TemplateName"]);
-                $templateManager->setTemplate($template);
+                $templateManager->refresh($theme->getThemeSlots(), $theme->getTemplate($page["TemplateName"]), $pageBlocks);
                 $alPageManager->setTemplateManager($templateManager);
             }
             $alPageManager->set(null)->save($page);

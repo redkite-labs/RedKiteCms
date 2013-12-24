@@ -45,6 +45,7 @@ abstract class AlTwigTemplateWriter
     protected $metatagsExtraContents = "";
     protected $viewRenderer;
     protected $credits = true;
+    private $themeSlots;
 
     /**
      * Generates the template's subsections and the full template itself
@@ -82,6 +83,7 @@ abstract class AlTwigTemplateWriter
         $this->viewRenderer = $viewRenderer;
         $this->replaceImagesPaths = $replaceImagesPaths;
         $this->template = $this->pageTree->getTemplate();
+        $this->themeSlots = $this->pageTree->getTemplateManager()->getTemplateSlots();
     }
 
     /**
@@ -238,7 +240,7 @@ abstract class AlTwigTemplateWriter
     {
         // Writes page contentsSection
         $this->contentsSection = $this->writeComment("Contents section");
-        $slots = array_keys($this->template->getSlots());
+        $slots = array_keys($this->themeSlots->getSlots());
 
         $needsCredits = $this->credits;
         $pageBlocks = $this->pageTree->getPageBlocks()->getBlocks();
@@ -288,6 +290,7 @@ abstract class AlTwigTemplateWriter
             $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, implode("\n" . PHP_EOL, $htmlContents)));
         }
 
+        /* 
         $template = $this->pageTree->getTemplate();
         if (null === $template) {
             // @codeCoverageIgnoreStart
@@ -303,7 +306,7 @@ abstract class AlTwigTemplateWriter
                 $slotName = $slot->getSlotName();
                 $this->contentsSection .= $this->writeBlock($slotName, $this->writeContent($slotName, ""));
             }
-        }
+        }*/
 
         if ($needsCredits) {
             $this->contentsSection .= '{% block internal_header_stylesheets %}' . PHP_EOL;
@@ -493,9 +496,9 @@ abstract class AlTwigTemplateWriter
 
     protected function filterBlocks(array $blocks, array $filter)
     {
-        $template = $this->template;
+        $themeSlots = $this->themeSlots;
 
-        return array_filter($blocks, function ($slotBlocks) use ($template, $filter) {
+        return array_filter($blocks, function ($slotBlocks) use ($themeSlots, $filter) {
 
             if (count($slotBlocks) == 0) {
                 // @codeCoverageIgnoreStart
@@ -504,7 +507,7 @@ abstract class AlTwigTemplateWriter
             }
 
             $slotName = $slotBlocks[0]->getSlotName();
-            $slot = $template->getSlot($slotName);
+            $slot = $themeSlots->getSlot($slotName);
 
             if (null === $slot) {
                 return false;

@@ -33,20 +33,27 @@ class AlExtensionGenerator extends Generator
      * @param string $themeName
      * @param array  $templates
      */
-    public function generateExtension($namespace, $dir, $themeName, array $templates, array $slotFiles)
+    public function generateExtension($namespace, $dir, $themeName, array $templates)
     {
         $themeBasename = str_replace('Bundle', '', $themeName);
         $extensionAlias = Container::underscore($themeBasename);
-
-        $templateFiles = array_map(function ($template) { return basename($template, '.html.twig'); }, $templates);
-        $slotFiles = array_map(function ($slotFile) { return basename($slotFile, '.html.twig'); }, $slotFiles);
-
+        
+        $templateFiles = array_map(function ($template) { return basename($template["name"], '.html.twig'); }, $templates);
+        //$slotFiles = array_map(function ($slotFile) { return basename($slotFile, '.html.twig'); }, $slotFiles);
+        /*
+        $templateFiles = array();
+        foreach($templates as $template) {
+            $templateName = basename($template["name"], '.html.twig');
+            $templateFiles[$templateName] = $template["slots"];
+        }*/
+        
+        
         $parameters = array(
             'namespace' => $namespace,
             'bundle_basename' => $themeBasename,
             'theme_files' => array($extensionAlias),
             'template_files' => $templateFiles,
-            "slot_files" => $slotFiles,
+            //"slot_files" => $slotFiles,
             "extension_alias" => $extensionAlias,
         );
 

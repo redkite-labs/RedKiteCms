@@ -23,6 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
  * Thrown when an error occours changin a slot
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
+ * @deprecated since 1.1.0
  */
 class ChangeSlotException extends \RuntimeException implements RedKiteCmsExceptionInterface
 {

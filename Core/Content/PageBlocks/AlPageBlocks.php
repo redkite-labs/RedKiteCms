@@ -51,7 +51,7 @@ class AlPageBlocks implements AlPageBlocksInterface
     protected $blockRepository;
 
     protected $blocks = array();
-    protected $alBlocks = null;
+    protected $alBlocks = array();
 
     /**
      * Constructor
@@ -166,13 +166,20 @@ class AlPageBlocks implements AlPageBlocksInterface
     {
         $types = array();
         foreach ($this->alBlocks as $block) {
-            $type = $block->getType();
-            if ( !in_array($type, $types)) {
-                $types[] = $type;
-            }
+            $types[] = $block->getType();
         }
 
-        return $types;
+        return array_unique($types);
+    }
+    
+    public function getSlotNames()
+    {
+        $slots = array();
+        foreach ($this->alBlocks as $block) {
+            $slots[] = $block->getSlotName();
+        }
+        
+        return array_unique($slots);
     }
 
     /**
