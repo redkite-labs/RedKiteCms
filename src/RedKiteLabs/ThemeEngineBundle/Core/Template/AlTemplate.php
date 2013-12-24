@@ -18,7 +18,7 @@ namespace RedKiteLabs\ThemeEngineBundle\Core\Template;
 
 use Symfony\Component\HttpKernel\KernelInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets;
-use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 
 /**

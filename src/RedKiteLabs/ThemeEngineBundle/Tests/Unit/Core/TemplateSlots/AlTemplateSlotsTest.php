@@ -19,7 +19,7 @@ namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
-use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlots;
 
 /**
  * AlTemplateSlotTest
@@ -147,7 +147,7 @@ class AlTemplateSlotsTest extends TestCase
     
     private function setUpSlot($slotName = 'logo', $numberOfTimes = 1)
     {
-        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         

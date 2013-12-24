@@ -14,14 +14,15 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots;
+namespace RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots;
 
 /**
- * AlTemplateSlots is the object deputated to collect and manage the template's slots
+ * AlThemeSlots is the object deputated to collect and manage the slots that belongs
+ * to a theme
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlTemplateSlots implements AlTemplateSlotsInterface
+class AlThemeSlots implements AlThemeSlotsInterface
 {
     private $slots = array();
 

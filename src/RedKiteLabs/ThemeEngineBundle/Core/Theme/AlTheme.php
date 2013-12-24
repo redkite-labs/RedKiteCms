@@ -36,7 +36,7 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
      *
      * @param string $themeName
      */
-    public function __construct($themeName, \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots $templateSlots)
+    public function __construct($themeName, \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlots $templateSlots)
     {
         if (!is_string($themeName)) {
             throw new InvalidArgumentException('The theme name, passed to the AlTheme object, must be a string');

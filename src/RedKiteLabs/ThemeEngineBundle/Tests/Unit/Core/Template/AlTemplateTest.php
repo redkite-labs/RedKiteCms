@@ -36,13 +36,13 @@ class AlTemplateTest extends TestCase
         $this->templateAssets = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets');      
         
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
+        $this->templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface');
     }
 
     public function testBlockManagerFactoryInjectedBySetters()
     {        
         $this->initAssets();
-        $templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');  
+        $templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface');  
         
         $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);           
         $this->assertEquals($this->template, $this->template->setTemplateSlots($templateSlots));

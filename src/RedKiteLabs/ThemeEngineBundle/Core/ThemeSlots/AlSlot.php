@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots;
+namespace RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots;
 
 use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
 /**

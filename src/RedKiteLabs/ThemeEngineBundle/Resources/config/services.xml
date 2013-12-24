@@ -20,10 +20,10 @@
 
         <parameter key="red_kite_labs_theme_engine.themes.class">RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection</parameter>
         <parameter key="red_kite_labs_theme_engine.theme.class">RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme</parameter>
-        <parameter key="red_kite_labs_theme_engine.slot.class">RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot</parameter>
+        <parameter key="red_kite_labs_theme_engine.slot.class">RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot</parameter>
         <parameter key="red_kite_labs_theme_engine.template.class">RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate</parameter>
         <parameter key="red_kite_labs_theme_engine.template_assets.class">RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets</parameter>
-        <parameter key="red_kite_labs_theme_engine.template_slots.class">RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots</parameter>
+        <parameter key="red_kite_labs_theme_engine.template_slots.class">RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlots</parameter>
         <parameter key="red_kite_labs_theme_engine.registed_listeners.class">RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler\ThemeEngineListenersCollection\AlThemeEngineListenersCollection</parameter>        
     </parameters>
 

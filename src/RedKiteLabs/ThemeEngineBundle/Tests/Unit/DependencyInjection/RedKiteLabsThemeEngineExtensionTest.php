@@ -59,10 +59,10 @@ class RedKiteLabsThemeEngineExtensionTest extends TestCase
         
         $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection', $this->container->getParameter('red_kite_labs_theme_engine.themes.class'));
         $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme', $this->container->getParameter('red_kite_labs_theme_engine.theme.class'));
-        $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot', $this->container->getParameter('red_kite_labs_theme_engine.slot.class'));
+        $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot', $this->container->getParameter('red_kite_labs_theme_engine.slot.class'));
         $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate', $this->container->getParameter('red_kite_labs_theme_engine.template.class'));
         $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets', $this->container->getParameter('red_kite_labs_theme_engine.template_assets.class'));
-        $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots', $this->container->getParameter('red_kite_labs_theme_engine.template_slots.class'));
+        $this->assertEquals('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlots', $this->container->getParameter('red_kite_labs_theme_engine.template_slots.class'));
         $this->assertEquals(array('FooTheme' => '2.x'), $this->container->getParameter('red_kite_labs_theme_engine.bootstrap_themes'));
     }
 

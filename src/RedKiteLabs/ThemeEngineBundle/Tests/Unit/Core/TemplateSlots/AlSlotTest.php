@@ -18,7 +18,7 @@
 namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
 
 /**
  * AlSlotTest

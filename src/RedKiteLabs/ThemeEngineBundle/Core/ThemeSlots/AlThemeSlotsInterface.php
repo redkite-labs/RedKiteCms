@@ -14,19 +14,19 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots;
+namespace RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots;
 
 /**
- * Defines the template slots methods
+ * Defines the theme slots methods
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface AlTemplateSlotsInterface
+interface AlThemeSlotsInterface
 {
     /**
      * Adds a slot object
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot
      */
     public function addSlot(AlSlot $slot);
 
