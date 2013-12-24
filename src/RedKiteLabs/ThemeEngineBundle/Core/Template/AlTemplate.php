@@ -48,20 +48,17 @@ class AlTemplate
     protected $kernel = null;
     protected $templateAssets = null;
     protected $assets = null;
-    protected $templateSlots = null;
 
     /**
      * Constructor
      *
      * @param KernelInterface          $kernel
      * @param AlTemplateAssets         $templateAssets
-     * @param AlTemplateSlotsInterface $templateSlots
      */
-    public function __construct(KernelInterface $kernel, AlTemplateAssets $templateAssets, AlTemplateSlotsInterface $templateSlots)
+    public function __construct(KernelInterface $kernel, AlTemplateAssets $templateAssets)
     {
         $this->kernel = $kernel;
         $this->templateAssets = $templateAssets;
-        $this->templateSlots = $templateSlots;
 
         $this->assets = new \ArrayObject(array());
         $this->assets->stylesheets = new \ArrayObject(array());
@@ -81,10 +78,6 @@ class AlTemplate
     {
         if (null !== $this->templateAssets) {
             $this->templateAssets = clone($this->templateAssets);
-        }
-
-        if (null !== $this->templateSlots) {
-            $this->templateSlots = clone($this->templateSlots);
         }
     }
 
@@ -133,48 +126,25 @@ class AlTemplate
     {
         return $this->templateAssets->getTemplateName();
     }
-
+    
     /**
-     * Sets the current AlTemplateSlots object
+     * Returns the slots that belong the template. Repeated slots are not included.
      *
-     * @param  AlTemplateSlotsInterface                                              $templateSlots
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
+     * @return array
      */
-    public function setTemplateSlots(AlTemplateSlotsInterface $templateSlots)
+    public function setSlots(array $slots)
     {
-        $this->templateSlots = $templateSlots;
-
-        return $this;
+        $this->slots = $slots;
     }
-
+    
     /**
-     * Returns the current AlTemplateSlots object
-     *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots
-     */
-    public function getTemplateSlots()
-    {
-        return $this->templateSlots;
-    }
-
-    /**
-     * Returns the template's slots
+     * Returns the slots that belong the template. Repeated slots are not included
      *
      * @return array
      */
     public function getSlots()
     {
-        return (null !== $this->templateSlots) ? $this->templateSlots->getSlots() : array();
-    }
-
-    /**
-     * Returns a slot by its name
-     *
-     * @return array
-     */
-    public function getSlot($slotName)
-    {
-        return (null !== $this->templateSlots) ? $this->templateSlots->getSlot($slotName) : array();
+        return $this->slots;
     }
 
     /**
@@ -239,5 +209,16 @@ class AlTemplate
     private function getAssets($assetType, $type)
     {
         return (null !== $this->assets) ? $this->assets->$assetType->$type : null;
+    }
+    
+    /**
+     * Returns a slot by its name
+     *
+     * @return array
+     * @deprecated since version number
+     */
+    public function getSlot($slotName)
+    {
+        return (null !== $this->templateSlots) ? $this->templateSlots->getSlot($slotName) : array();
     }
 }

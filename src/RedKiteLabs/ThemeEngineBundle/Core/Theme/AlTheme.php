@@ -29,21 +29,31 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
 {
     private $templates = array();
     private $themeName = null;
+    private $themeSlots = null;
 
     /**
      * Constructor
      *
      * @param string $themeName
      */
-    public function __construct($themeName)
+    public function __construct($themeName, \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots $templateSlots)
     {
         if (!is_string($themeName)) {
             throw new InvalidArgumentException('The theme name, passed to the AlTheme object, must be a string');
         }
-
+        
         $this->themeName = (!preg_match('/[\w+]Bundle$/', $themeName)) ? ucfirst($themeName) . 'Bundle' : $themeName;
+        $this->themeSlots = $templateSlots;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function getThemeSlots()
+    {
+        return $this->themeSlots;
+    }
+    
     /**
      * {@inheritdoc}
      */
@@ -67,6 +77,7 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
     {
         $key = $this->normalizeKey($name);
         if ( ! $this->hasTemplate($name)) return null;
+        
         return $this->templates[$key];
     }
 

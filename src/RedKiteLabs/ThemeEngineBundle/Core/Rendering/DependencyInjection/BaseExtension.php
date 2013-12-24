@@ -37,7 +37,27 @@ abstract class BaseExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $themeConfiguration = $this->configureTheme();
-        $this->loadConfigurationRecursive($container, $themeConfiguration);
+        
+        if ( ! array_key_exists("theme", $themeConfiguration)) {
+            $this->loadConfigurationRecursive($container, $themeConfiguration);
+            
+            return;
+        }
+        
+        $loader = new XmlFileLoader($container, new FileLocator($themeConfiguration['path']));
+        unset($themeConfiguration['path']);
+        foreach ($themeConfiguration as $configFile) {
+            $files = $configFile;
+            if ( ! is_array($files)) {
+                $files = array($files);
+            }
+            
+            foreach($files as $file) {
+                $loader->load($file);
+            }
+        }
+        
+        //$this->loadConfigurationRecursive($container, $themeConfiguration);
     }
 
     /**

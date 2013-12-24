@@ -33,5 +33,10 @@
         
         <service id="red_kite_labs_theme_engine.themes" class="%red_kite_labs_theme_engine.themes.class%">
         </service>
+        
+        <!--
+        <service id="red_kite_labs_theme_engine.template_slots" class="%red_kite_labs_theme_engine.template_slots.class%">
+        </service>
+        -->
     </services>
 </container>
