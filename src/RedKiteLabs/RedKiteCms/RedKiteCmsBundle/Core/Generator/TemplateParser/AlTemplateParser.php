@@ -51,36 +51,17 @@ class AlTemplateParser
         $templateFiles = $finder->files('*.twig')->in($directories);
 
         $templates = array();
-        //$slots = $this->findTemplateSlots($templateFiles);print_r($slots);exit;
         foreach ($templateFiles as $template) {
             $template = (string) $template;
             $templateName = basename($template);
             $templateContents = file_get_contents($template);
             $templateSlots = $this->parseBlocks($templateContents, array_keys($slots));
-            //$templateSlots = $this->fetchSlots($templateContents);
-            //$slots = array_merge($templateSlots, $slots);
             if (strpos($template, $this->kernelDir) === false && dirname($template) == $this->templatesDir) {
                 $templates[] = array(
                     'name' => $templateName,
                     'slots' => $templateSlots,
                 );
             }
-            
-            /*
-            $currentSlots = array();
-            do {
-                $currentTemplateSlots = $slots[$currentTemplateName]["slots"];
-                if (null === $currentTemplateSlots) {
-                    $currentTemplateSlots = array();
-                }
-                $currentSlots = array_merge($currentSlots, $currentTemplateSlots, $slotBlocks);
-                $currentTemplateName = $slots[$currentTemplateName]["extends"];
-
-            } while ($currentTemplateName != null);
-
-            if (strpos($template, $this->kernelDir) === false && dirname($template) == $this->templatesDir && ! (empty($currentSlots))) {
-                $templates[$templateName]['slots'] = $currentSlots;
-            }*/
         }
         
         return array(
@@ -89,7 +70,21 @@ class AlTemplateParser
         );
     }
     
-    protected function parseBlocks($templateContents, $slots)
+    private function initDirectories()
+    {
+        $directories = array(
+            $this->templatesDir,
+        );
+
+        $globalResourcesFolder = $this->kernelDir . '/Resources/views/' . $this->themeName;
+        if (is_dir($globalResourcesFolder)) {
+            $directories[] = $globalResourcesFolder;
+        }
+        
+        return $directories;
+    }
+    
+    private function parseBlocks($templateContents, $slots)
     {
         preg_match_all('/\{\{ block\([\'"]([^\)]+)[\'"]\)/s', $templateContents, $matches);
         if ( ! array_key_exists(1, $matches)) {
@@ -109,7 +104,7 @@ class AlTemplateParser
         return $templateSlots;
     }
     
-    protected function parseSlots($slotsDirectory)
+    private function parseSlots($slotsDirectory)
     {
         $finder = new Finder();
         $templateFiles = $finder->files('*.twig')->in($slotsDirectory);
@@ -142,57 +137,13 @@ class AlTemplateParser
         return $slots;
     }
 
-
-    protected function initDirectories()
-    {
-        $directories = array(
-            $this->templatesDir,
-        );
-
-        $globalResourcesFolder = $this->kernelDir . '/Resources/views/' . $this->themeName;
-        if (is_dir($globalResourcesFolder)) {
-            $directories[] = $globalResourcesFolder;
-        }
-        
-        return $directories;
-    }
-    
-    protected function findTemplateSlots($templateFiles)
-    {
-        $slots = array();        
-        foreach ($templateFiles as $template) {
-            $template = (string) $template;
-            $templateName = basename($template);
-            $templateContents = file_get_contents($template);
-
-            $slots[$templateName] = array(
-                "slots" => $this->fetchSlots($templateContents),
-                "extends" => null,
-            );
-
-            preg_match('/extends["\'\s]+(.*?)["\']+?/s', $templateContents, $matches);
-            if ( ! array_key_exists(1, $matches)) {
-                continue;
-            }
-
-            $tokens = explode(':', $matches[1]);
-            if ( ! array_key_exists(2, $tokens)) {
-                continue;
-            }
-
-            $slots[$templateName]["extends"] = basename($tokens[2]);
-        }
-        
-        return $slots;
-    }
-
     /**
      * Fetches the slots attributes
      *
      * @param  string $templateContents
      * @return array
      */
-    protected function fetchSlots($templateContents)
+    private function fetchSlots($templateContents)
     {
         $validAttributes = array(
             'repeated' => '',
@@ -200,22 +151,9 @@ class AlTemplateParser
             'htmlContent' => ''
         );
         
-        //preg_match_all('/BEGIN-SLOT[^\w]*[\r\n]([\s]*)(.*?)[\r\n][^\w]*END-SLOT/s', $templateContents, $matches, PREG_SET_ORDER);
         preg_match_all('/BEGIN-SLOT[^\w]*[\r\n](.*?)END-SLOT/si', $templateContents, $matches, PREG_SET_ORDER);
         $slots = array();
-        foreach ($matches as $slotAttributes) {
-            /*$spaces = $slotAttributes[1];
-            $attributes = $slotAttributes[2];
-
-            if ($spaces !== "") {
-                $attributesArray = explode("\n", $attributes);
-                $trimmedAttributes = array(); //
-                foreach ($attributesArray as $line) {
-                    $trimmedAttributes[] = str_replace($spaces, "", $line);
-                }
-                $attributes = implode("\n", $trimmedAttributes);
-            }*/
-            
+        foreach ($matches as $slotAttributes) {            
             $attributes = "\n" . $slotAttributes[1];
             preg_match('/([\r\n][^\w]+)/', $attributes, $spacesMatch);
             $attributes = str_replace($spacesMatch[1], "\n", $attributes);
