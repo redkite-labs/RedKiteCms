@@ -112,29 +112,11 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
             $templateName = basename($templateFileName, '.html.twig');
             $message = $this->templateGenerator->generateTemplate($dir . 'Resources/config/templates', $themeName, $templateName, $templateAttributes["slots"]);
             $output->writeln($message);
-
-            /*
-            $slots = $elements['slots'];
-            if (empty($slots)) {
-                continue;
-            }
-
-            $slotFiles[] = $templateName;
-            $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, $templateName, $slots);
-            $output->writeln($message);*/
         }
         
         $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/slots', $themeName, $templateName, $parsedTemplates["slots"]);
         $output->writeln($message);
         
-/*
-        // @codeCoverageIgnoreStart
-        if ( ! empty($baseSlots)) {
-            $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, 'base', $baseSlots);
-            $output->writeln($message);
-        }
-        // @codeCoverageIgnoreEnd
-        */
         $message = $this->extensionGenerator->generateExtension($namespace, $dir . 'DependencyInjection', $themeName, $templates);
         $output->writeln($message);
     }
