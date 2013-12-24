@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager;
-use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
 
 /**
  * AlSlotManagerTest
@@ -65,7 +65,7 @@ class AlSlotManagerTest extends AlContentManagerBase
     public function testAlSlotInjectedBySetters()
     {
         $slot = 
-            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;        

@@ -83,7 +83,7 @@ abstract class AlTwigTemplateWriter
         $this->viewRenderer = $viewRenderer;
         $this->replaceImagesPaths = $replaceImagesPaths;
         $this->template = $this->pageTree->getTemplate();
-        $this->themeSlots = $this->pageTree->getTemplateManager()->getTemplateSlots();
+        $this->themeSlots = $this->pageTree->getTemplateManager()->getThemeSlots();
     }
 
     /**

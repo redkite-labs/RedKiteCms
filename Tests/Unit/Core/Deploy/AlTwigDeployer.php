@@ -144,21 +144,21 @@ abstract class AlTwigDeployer extends AlPageTreeCollectionBootstrapper
             ->method('getSlots')
             ->will($this->returnValue($this->initTemplateSlots()));
         
-        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $slot->expects($this->any())
             ->method('getRepeated')
             ->will($this->returnValue('site'));
             
-        $slot1 = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+        $slot1 = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $slot1->expects($this->any())
             ->method('getRepeated')
             ->will($this->returnValue('language'));
             
-        $slot2 = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+        $slot2 = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $slot2->expects($this->any())

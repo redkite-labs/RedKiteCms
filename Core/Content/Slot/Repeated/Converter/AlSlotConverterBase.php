@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter;
 
-use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
@@ -42,7 +42,7 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot                           $slot
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot                           $slot
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface        $pageContentsContainer
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      *
