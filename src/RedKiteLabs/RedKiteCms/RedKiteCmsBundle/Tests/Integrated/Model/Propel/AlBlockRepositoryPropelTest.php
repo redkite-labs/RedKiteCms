@@ -140,7 +140,7 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     
     public function testBlocksAreRemoved()
     {
-        $this->assertCount(5, $this->getDeletedBlocks(2, 3));
+        $this->assertCount(2, $this->getDeletedBlocks(2, 3));
         $this->blockRepository->deleteBlocks(2, 3, true);
         $this->assertCount(0, $this->getDeletedBlocks(2, 3));
     }
@@ -148,8 +148,8 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     private function getDeletedBlocks($idLanguage, $idPage)
     {
         return \RedKiteLabs\RedKiteCmsBundle\Model\AlBlockQuery::create()
-                ->filterByPageId($idLanguage)
-                ->filterByLanguageId($idPage)
+                ->filterByPageId($idPage)
+                ->filterByLanguageId($idLanguage)
                 ->orderBySlotName()
                 ->orderByContentPosition()
                 ->find();
