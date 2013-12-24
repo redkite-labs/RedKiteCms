@@ -21,7 +21,6 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\PagesForm;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\SeoForm;
 use Symfony\Component\HttpFoundation\Response;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 
@@ -83,8 +82,9 @@ class PagesController extends Base\BaseController
         }
 
         $alPage = null;
-        $pageBlocks = null;
+        $pageBlocks = $this->container->get('red_kite_cms.page_blocks');
         $pageManager = $this->container->get('red_kite_cms.page_manager');
+        
         $pageTree = $this->container->get('red_kite_cms.page_tree');
         if ((int) $request->get('pageId') != 0 && (int) $request->get('languageId') != 0) {
             $pageRepository = $this->createRepository('Page');
@@ -96,20 +96,15 @@ class PagesController extends Base\BaseController
                 $pageTree->refresh($request->get('languageId'), $request->get('pageId'));
             }
         }
-
+        
         $activeTheme = $this->container->get('red_kite_cms.active_theme');
-        $template = $this->container->get('red_kite_cms.themes_collection_wrapper')->getTemplate(
-            $activeTheme->getActiveTheme(),
-            $request->get('templateName')
-        );
-
-        $templateManager = new AlTemplateManager(
-            $this->container->get('red_kite_cms.events_handler'),
-            $this->container->get('red_kite_cms.factory_repository'),
-            $template,
-            $pageBlocks,
-            $this->container->get('red_kite_cms.block_manager_factory')
-        );
+        $theme = $activeTheme->getActiveTheme();
+        $templateManager = 
+            $this->container
+                 ->get('red_kite_cms.template_manager')
+                 ->refresh($theme->getThemeSlots(), $theme->getTemplate($request->get('templateName')), $pageBlocks)
+        ;
+        
 
         $pageManager->set($alPage);
         $pageManager->setTemplateManager($templateManager);
@@ -171,38 +166,6 @@ class PagesController extends Base\BaseController
         return $this->buildJSonHeader($this->translate('pages_controller_page_removed'), $pageManager->get());
     }
 
-    /**
-     * @deprecated since 1.1.0     *
-     * @codeCoverageIgnore
-     */
-    protected function removePageAttributes($request, $pageManager)
-    {
-        $pageManager->getPageRepository()->startTransaction();
-        try {
-            $result = $this->container->get('red_kite_cms.seo_manager')->deleteSeoAttributesFromLanguage($request->get('languageId'), $request->get('pageId'));
-            if ($result) {
-                $result = $pageManager->getTemplateManager()->clearPageBlocks($request->get('languageId'), $request->get('pageId'));
-            }
-
-            if (false === $result) {
-                // @codeCoverageIgnoreStart
-                $pageManager->getPageRepository()->rollBack();
-                throw new RuntimeException('pages_controller_nothing_to_delete');
-                // @codeCoverageIgnoreEnd
-            }
-
-            $pageManager->getPageRepository()->commit();
-
-            return $this->buildJSonHeader($this->translate('The page\'s attributes for the selected language has been successfully removed'), $pageManager->get());
-        } catch (\Exception $ex) {
-            // @codeCoverageIgnoreStart
-            $pageManager->getPageRepository()->rollBack();
-
-            throw $ex;
-            // @codeCoverageIgnoreEnd
-        }
-    }
-
     protected function buildJSonHeader($message, $page = null)
     {
         $pages = $pagesList = $this->getPages();
@@ -248,5 +211,39 @@ class PagesController extends Base\BaseController
         $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
 
         return $factoryRepository->createRepository($repository);
+    }
+    
+    
+
+    /**
+     * @deprecated since 1.1.0     *
+     * @codeCoverageIgnore
+     */
+    protected function removePageAttributes($request, $pageManager)
+    {
+        $pageManager->getPageRepository()->startTransaction();
+        try {
+            $result = $this->container->get('red_kite_cms.seo_manager')->deleteSeoAttributesFromLanguage($request->get('languageId'), $request->get('pageId'));
+            if ($result) {
+                $result = $pageManager->getTemplateManager()->clearPageBlocks($request->get('languageId'), $request->get('pageId'));
+            }
+
+            if (false === $result) {
+                // @codeCoverageIgnoreStart
+                $pageManager->getPageRepository()->rollBack();
+                throw new RuntimeException('pages_controller_nothing_to_delete');
+                // @codeCoverageIgnoreEnd
+            }
+
+            $pageManager->getPageRepository()->commit();
+
+            return $this->buildJSonHeader($this->translate('The page\'s attributes for the selected language has been successfully removed'), $pageManager->get());
+        } catch (\Exception $ex) {
+            // @codeCoverageIgnoreStart
+            $pageManager->getPageRepository()->rollBack();
+
+            throw $ex;
+            // @codeCoverageIgnoreEnd
+        }
     }
 }

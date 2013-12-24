@@ -1,0 +1,9 @@
+{% block download_box %}
+    {# BEGIN-SLOT
+        name: download_box
+        repeated: page
+        htmlContent: |
+            <img src="/bundles/redkitelabstheme/css/images/download.png" title="RedKite labs website logo" alt="RedKite labs website logo" />
+    END-SLOT #}   
+    {{ renderSlot('download_box') }}
+{% endblock %}

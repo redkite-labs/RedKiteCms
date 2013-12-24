@@ -25,40 +25,25 @@ class {{ bundle_basename }}Extension extends BaseExtension
     {
         return
             array(
+                'path' => __DIR__.'/../Resources/config',
+                'theme' =>
                 array(
-                    'path' => __DIR__.'/../Resources/config',
-                    'configFiles' =>
-                    array(
 {% for theme_file in theme_files %}
-                        '{{ theme_file }}.xml',
+                    '{{ theme_file }}.xml',
 {% endfor %}
-                    ),
-                    'configuration' =>
-                    array(
-                        array(
-                            'path' => __DIR__.'/../Resources/config/templates',
-                            'configFiles' =>
-                            array(
-{% for template_file in template_files %}
-                                '{{ template_file }}.xml',
-{% endfor %}
-                            ),
-                            'configuration' =>
-                            array(
-                                array(
-                                    'path' => __DIR__.'/../Resources/config/templates/slots',
-                                    'configFiles' =>
-                                    array(
-{% for slot_file in slot_files %}
-                                        '{{ slot_file }}.xml',
-{% endfor %}
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
                 ),
-            );
+                'templates' =>
+                array(
+{% for template_file in template_files %}
+                    'templates/{{ template_file }}.xml',
+{% endfor %}
+                ),
+                'slots' =>
+                array(
+                    'slots/slots.xml',
+                ),
+            )
+        ;
     }
 
     public function getAlias()

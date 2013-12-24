@@ -65,7 +65,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
             ->setName('redkitecms:generate:templates')
             ->setDescription('Generate the templates config files for a theme')
             ->setDefinition(array(
-                new InputArgument('theme', InputArgument::REQUIRED, 'The name of the theme bundle which gets the template'),
+                new InputArgument('theme', InputArgument::REQUIRED, 'The name of the theme ou want to parse to generate the templates services'),
             ));
     }
 
@@ -87,7 +87,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
 
         // @codeCoverageIgnoreStart
         if (null === $this->templateParser) {
-            $this->templateParser = new AlTemplateParser($dir . 'Resources/views/Theme', $kernel->getRootDir(), $themeName);
+            $this->templateParser = new AlTemplateParser($this->getContainer()->get('templating.locator'), $this->getContainer()->get('templating.name_parser'), $dir . 'Resources/views/Theme', $kernel->getRootDir(), $themeName);
         }
 
         if (null === $this->templateGenerator) {
@@ -103,14 +103,17 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
         }
         // @codeCoverageIgnoreEnd
 
-        $baseSlots = $slotFiles = array();
-        $templates = $this->templateParser->parse();
+        //$baseSlots = $slotFiles = array();
+        $parsedTemplates = $this->templateParser->parse();
         $this->addOption('template-name', '', InputOption::VALUE_NONE, '');
-        foreach ($templates as $templateFileName => $elements) {
+        $templates = $parsedTemplates["templates"];
+        foreach ($templates as $templateAttributes) {
+            $templateFileName = $templateAttributes["name"];
             $templateName = basename($templateFileName, '.html.twig');
-            $message = $this->templateGenerator->generateTemplate($dir . 'Resources/config/templates', $themeName, $templateName);
+            $message = $this->templateGenerator->generateTemplate($dir . 'Resources/config/templates', $themeName, $templateName, $templateAttributes["slots"]);
             $output->writeln($message);
 
+            /*
             $slots = $elements['slots'];
             if (empty($slots)) {
                 continue;
@@ -118,17 +121,21 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
 
             $slotFiles[] = $templateName;
             $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, $templateName, $slots);
-            $output->writeln($message);
+            $output->writeln($message);*/
         }
-
+        
+        $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/slots', $themeName, $templateName, $parsedTemplates["slots"]);
+        $output->writeln($message);
+        
+/*
         // @codeCoverageIgnoreStart
         if ( ! empty($baseSlots)) {
             $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/templates/slots', $themeName, 'base', $baseSlots);
             $output->writeln($message);
         }
         // @codeCoverageIgnoreEnd
-
-        $message = $this->extensionGenerator->generateExtension($namespace, $dir . 'DependencyInjection', $themeName, array_keys($templates), $slotFiles);
+        */
+        $message = $this->extensionGenerator->generateExtension($namespace, $dir . 'DependencyInjection', $themeName, $templates);
         $output->writeln($message);
     }
 }

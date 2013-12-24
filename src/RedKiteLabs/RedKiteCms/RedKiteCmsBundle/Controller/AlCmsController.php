@@ -78,12 +78,6 @@ class AlCmsController extends BaseFrontendController
                 $languageName = $pageTree->getAlLanguage()->getLanguageName();
             }
 
-            $templateSlots = $this->container->get('red_kite_cms.template_slots');
-            $slots = $templateSlots
-                ->run($languageId, $pageId)
-                ->getSlots()
-            ;
-
             $template = $this->findTemplate($pageTree);
             $params = array_merge($params, array(
                 'metatitle' => $pageTree->getMetaTitle(),
@@ -103,7 +97,6 @@ class AlCmsController extends BaseFrontendController
                 'templateStylesheets' => $pageTree->getExternalStylesheets(),
                 'templateJavascripts' => $this->fixAssets($pageTree->getExternalJavascripts()),
                 'available_blocks' => $this->container->get('red_kite_cms.block_manager_factory')->getBlocks(),
-                'slots' => $slots,
                 )
             );
         } else {

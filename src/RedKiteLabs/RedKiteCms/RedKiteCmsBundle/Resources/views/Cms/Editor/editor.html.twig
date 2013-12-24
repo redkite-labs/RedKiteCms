@@ -69,28 +69,6 @@
         <div class="clearfix"></div>  
     </div>
     {% endblock %}
-    
-    {% if slots is defined and slots|length > 0 %}
-    {% block slots_button %}
-    <div id="al_toggle_slots_changer">
-        <a href="#" id="al_start_slots_management">
-            <span class="al_img_slots al_tab_text pull-left" rel="tooltip" title="{{ 'cms_controller_edit_slots'|trans({}, 'RedKiteCmsBundle', cms_language) }}"><p>{{ 'cms_controller_label_slots'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
-        </a>
-        <a href="#" id="al_stop_slots_management" style="display: none">
-            <span class="al_img_stop_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'cms_controller_stop_edit_slots'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'common_label_stop'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
-        </a>        
-        <div class="clearfix"></div>    
-    </div>    
-    {% endblock %}
-    
-    {% block finalize_button %}
-    <div id="">
-        <a href="#" id="al_finalize_theme">
-            <span class="al_img_finalize al_tab_text pull-left"><p rel="tooltip" title="{{ 'cms_controller_finalize_slots'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_finalize'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
-        </a>  
-    </div>
-    {% endblock %}
-    {% endif %}
 </div>
 {% endblock %}
 
@@ -119,14 +97,6 @@
         <li><a id="al_block_menu_delete" href="#"><div class="al-img-button al-img-delete-button">&nbsp;</div></a></li>
     </ul>    
 </div>
-{% endblock %}
-
-{% block block_slots_panel %}
-{% if slots is defined and slots|length > 0 %}
-<div id="al_old_slots" class="al_floating_panel al_slots_panel" style="display: none">
-    {% include 'RedKiteCmsBundle:Themes:Slots/template_slots_panel.html.twig' %}
-</div>
-{% endif %}
 {% endblock %}
 
 {% block block_available_blocks_panel %}

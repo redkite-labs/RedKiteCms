@@ -45,5 +45,6 @@ class AlAppThemeGenerator extends AlBaseGenerator
         $this->renderFile('autoload.json', $dir.'/autoload.json', $parameters);
         $this->renderFile('composer.json', $dir.'/composer.json', $parameters);
         $this->filesystem->mkdir($dir.'/Resources/views/Theme');
+        $this->filesystem->mkdir($dir.'/Resources/views/Slots');
     }
 }

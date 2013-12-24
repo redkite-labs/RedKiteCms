@@ -23,8 +23,12 @@ class AlTemplateParser
      *
      * @param string $templatesDir
      */
-    public function __construct($templatesDir, $kernelDir, $themeName)
+    public function __construct($templateLocator, $nameParser, $templatesDir, $kernelDir, $themeName)
     {
+        
+        $this->templateLocator = $templateLocator;
+        $this->nameParser = $nameParser;
+        
         $this->templatesDir = $templatesDir;
         $this->kernelDir = $kernelDir;
         $this->themeName = $themeName;
@@ -39,9 +43,108 @@ class AlTemplateParser
      */
     public function parse()
     {
-        $templates = array();
+        $directories = $this->initDirectories();
+        
+        $slotsDirectory = dirname($this->templatesDir) . '/Slots';
+        $slots = $this->parseSlots($slotsDirectory);
         $finder = new Finder();
+        $templateFiles = $finder->files('*.twig')->in($directories);
 
+        $templates = array();
+        //$slots = $this->findTemplateSlots($templateFiles);print_r($slots);exit;
+        foreach ($templateFiles as $template) {
+            $template = (string) $template;
+            $templateName = basename($template);
+            $templateContents = file_get_contents($template);
+            $templateSlots = $this->parseBlocks($templateContents, array_keys($slots));
+            //$templateSlots = $this->fetchSlots($templateContents);
+            //$slots = array_merge($templateSlots, $slots);
+            if (strpos($template, $this->kernelDir) === false && dirname($template) == $this->templatesDir) {
+                $templates[] = array(
+                    'name' => $templateName,
+                    'slots' => $templateSlots,
+                );
+            }
+            
+            /*
+            $currentSlots = array();
+            do {
+                $currentTemplateSlots = $slots[$currentTemplateName]["slots"];
+                if (null === $currentTemplateSlots) {
+                    $currentTemplateSlots = array();
+                }
+                $currentSlots = array_merge($currentSlots, $currentTemplateSlots, $slotBlocks);
+                $currentTemplateName = $slots[$currentTemplateName]["extends"];
+
+            } while ($currentTemplateName != null);
+
+            if (strpos($template, $this->kernelDir) === false && dirname($template) == $this->templatesDir && ! (empty($currentSlots))) {
+                $templates[$templateName]['slots'] = $currentSlots;
+            }*/
+        }
+        
+        return array(
+            "templates" => $templates,
+            "slots" => $slots,
+        );
+    }
+    
+    protected function parseBlocks($templateContents, $slots)
+    {
+        preg_match_all('/\{\{ block\([\'"]([^\)]+)[\'"]\)/s', $templateContents, $matches);
+        if ( ! array_key_exists(1, $matches)) {
+            return array();
+        }
+        
+        // Ignore blocks not included in found slots
+        $templateSlots = array();
+        foreach($matches[1] as $slotName) {
+            if ( ! in_array($slotName, $slots)) { 
+                continue;
+            }
+            
+            $templateSlots[] = $slotName;
+        }
+        
+        return $templateSlots;
+    }
+    
+    protected function parseSlots($slotsDirectory)
+    {
+        $finder = new Finder();
+        $templateFiles = $finder->files('*.twig')->in($slotsDirectory);
+        
+        $slots = array();        
+        foreach ($templateFiles as $template) {
+            $template = (string) $template;
+            $templateContents = file_get_contents($template);        
+            $slots = array_merge($slots, $this->fetchSlots($templateContents), $this->parseTemplateForSlots($templateContents));
+        }
+        
+        return $slots;
+    }
+    
+    private function parseTemplateForSlots($templateContents)
+    {
+        $slots = array();
+            
+        preg_match_all('/use["\'\s]+([^"\']+)["\']+?/s', $templateContents, $matches);
+        if ( ! array_key_exists(1, $matches)) {
+            return array();
+        }
+
+        foreach($matches[1] as $file) {
+            $template = $this->templateLocator->locate($this->nameParser->parse($file));
+            $templateContents = file_get_contents($template);
+            $slots = array_merge($slots, $this->fetchSlots($templateContents), $this->parseTemplateForSlots($templateContents));
+        }
+        
+        return $slots;
+    }
+
+
+    protected function initDirectories()
+    {
         $directories = array(
             $this->templatesDir,
         );
@@ -50,12 +153,15 @@ class AlTemplateParser
         if (is_dir($globalResourcesFolder)) {
             $directories[] = $globalResourcesFolder;
         }
-
-        $slots = array();
-        $templateFiles = $finder->files('*.twig')->in($directories);
+        
+        return $directories;
+    }
+    
+    protected function findTemplateSlots($templateFiles)
+    {
+        $slots = array();        
         foreach ($templateFiles as $template) {
             $template = (string) $template;
-            $templateFolder = dirname($template);
             $templateName = basename($template);
             $templateContents = file_get_contents($template);
 
@@ -76,31 +182,8 @@ class AlTemplateParser
 
             $slots[$templateName]["extends"] = basename($tokens[2]);
         }
-
-        $templates = array();
-        foreach ($templateFiles as $template) {
-            $template = (string) $template;
-            $templateName = basename($template);
-            $templateContents = file_get_contents($template);
-
-            $currentTemplateName = $templateName;
-            $currentSlots = array();
-            do {
-                $currentTemplateSlots = $slots[$currentTemplateName]["slots"];
-                if (null === $currentTemplateSlots) {
-                    $currentTemplateSlots = array();
-                }
-                $currentSlots = array_merge($currentSlots, $currentTemplateSlots);
-                $currentTemplateName = $slots[$currentTemplateName]["extends"];
-
-            } while ($currentTemplateName != null);
-
-            if (strpos($template, $this->kernelDir) === false && dirname($template) == $this->templatesDir && ! (empty($currentSlots))) {
-                $templates[$templateName]['slots'] = $currentSlots;
-            }
-        }
-
-        return $templates;
+        
+        return $slots;
     }
 
     /**
@@ -116,11 +199,12 @@ class AlTemplateParser
             'blockType' => '',
             'htmlContent' => ''
         );
-
-        preg_match_all('/BEGIN-SLOT[^\w]*[\r\n]([\s]*)(.*?)[\r\n][^\w]*END-SLOT/s', $templateContents, $matches, PREG_SET_ORDER);
+        
+        //preg_match_all('/BEGIN-SLOT[^\w]*[\r\n]([\s]*)(.*?)[\r\n][^\w]*END-SLOT/s', $templateContents, $matches, PREG_SET_ORDER);
+        preg_match_all('/BEGIN-SLOT[^\w]*[\r\n](.*?)END-SLOT/si', $templateContents, $matches, PREG_SET_ORDER);
         $slots = array();
         foreach ($matches as $slotAttributes) {
-            $spaces = $slotAttributes[1];
+            /*$spaces = $slotAttributes[1];
             $attributes = $slotAttributes[2];
 
             if ($spaces !== "") {
@@ -130,8 +214,12 @@ class AlTemplateParser
                     $trimmedAttributes[] = str_replace($spaces, "", $line);
                 }
                 $attributes = implode("\n", $trimmedAttributes);
-            }
-
+            }*/
+            
+            $attributes = "\n" . $slotAttributes[1];
+            preg_match('/([\r\n][^\w]+)/', $attributes, $spacesMatch);
+            $attributes = str_replace($spacesMatch[1], "\n", $attributes);
+            
             $parsedAttributes = $this->ymlParser->parse($attributes);
             if ( ! array_key_exists('name', $parsedAttributes)) {
                 continue;

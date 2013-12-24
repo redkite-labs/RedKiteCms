@@ -22,7 +22,7 @@
 {% endif %}
             </argument>
 {% endif %}
-            <tag name="{{ theme_name }}.theme.template.{{ template_name }}.slots" />
+            <tag name="{{ theme_name }}.theme.template.slot" />
         </service>
 {% endfor %}
     </services>

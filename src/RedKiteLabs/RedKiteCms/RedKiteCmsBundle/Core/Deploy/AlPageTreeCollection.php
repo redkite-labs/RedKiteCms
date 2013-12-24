@@ -21,7 +21,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTreeDeploy;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper;
 
 /**
  * A collection of PageTree objects
@@ -37,23 +36,19 @@ class AlPageTreeCollection implements \Iterator, \Countable
     private $factoryRepository = null;
     private $languageRepository = null;
     private $pageRepository = null;
-    private $themesCollectionWrapper = null;
 
     /**
      * Constructor
      *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface                            $container
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface   $factoryRepository
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper $themesCollectionWrapper
      *
      * @api
      */
     public function __construct(ContainerInterface $container,
-            AlFactoryRepositoryInterface $factoryRepository,
-            AlThemesCollectionWrapper $themesCollectionWrapper = null)
+            AlFactoryRepositoryInterface $factoryRepository)
     {
         $this->container = $container;
-        $this->themesCollectionWrapper = (null === $themesCollectionWrapper) ? $container->get('red_kite_cms.themes_collection_wrapper') : $themesCollectionWrapper;
         $this->factoryRepository = $factoryRepository;
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
         $this->pageRepository = $this->factoryRepository->createRepository('Page');
@@ -160,18 +155,9 @@ class AlPageTreeCollection implements \Iterator, \Countable
                     continue;
                 }
 
-                // Clones the current TemplateManager object and adds it to a new instance of
-                // AlThemesCollectionWrapper, which will be passed to the new PageTree object
-                $templateManager = clone($this->themesCollectionWrapper->getTemplateManager());
-                $themesCollectionWrapper = new AlThemesCollectionWrapper(
-                    $this->themesCollectionWrapper->getThemesCollection(),
-                    $templateManager
-                );
-
                 $pageTree = new AlPageTreeDeploy(
                     $this->container,
-                    $this->factoryRepository,
-                    $themesCollectionWrapper
+                    $this->factoryRepository
                 );
 
                 $pageTree

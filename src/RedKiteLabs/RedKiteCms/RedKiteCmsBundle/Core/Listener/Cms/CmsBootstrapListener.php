@@ -34,6 +34,7 @@ class CmsBootstrapListener
     private $container;
     private $kernel;
     private $pageTree;
+    private $activeTheme;
 
     /**
      * Contructor
@@ -47,6 +48,7 @@ class CmsBootstrapListener
         $this->container = $container;
         $this->kernel = $container->get('kernel');
         $this->pageTree = $this->container->get('red_kite_cms.page_tree');
+        $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
     }
 
     /**
@@ -107,17 +109,17 @@ class CmsBootstrapListener
         $page = $this->pageTree->getAlPage();
         $languageId = (null !== $language) ? $language->getId() : null;
         $pageId = (null !== $page) ? $page->getId() : null;
-
+        
         $slotsAligner = $this->container->get('red_kite_cms.repeated_slots_aligner');
         $slotsAligner
             ->setLanguageId($languageId)
             ->setPageId($pageId)
-            ->align($template->getTemplateName(), $template->getSlots());
+            ->align($template->getTemplateName(), $this->activeTheme->getActiveTheme()->getThemeSlots()->getSlots());
     }
 
     private function setupBootstrapVersion()
     {
-        $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
+        $bootstrapVersion = $this->activeTheme->getThemeBootstrapVersion();
         $this->container->get('twig')->addGlobal('bootstrap_version', $bootstrapVersion);
     }
 

@@ -26,6 +26,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksTemplateCha
  * and group them by repeated status
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
+ * @deprecated since 1.1.0
  */
 class AlTemplateSlots
 {

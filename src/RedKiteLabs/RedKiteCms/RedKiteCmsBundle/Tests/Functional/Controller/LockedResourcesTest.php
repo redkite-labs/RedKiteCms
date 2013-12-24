@@ -193,31 +193,7 @@ class LockedResourcesTest extends BaseSecured
             ),
             array(
                 '/backend/en/al_showThemesPanel', 
-                '/backend/en/al_changeSlot', 
-                array(
-                    'language' => 'en', 
-                    'page' => 'index',
-                ),
-            ),
-            array(
-                '/backend/en/al_showThemesPanel', 
                 '/backend/en/startFromTheme', 
-                array(
-                    'language' => 'en', 
-                    'page' => 'index',
-                ),
-            ),
-            array(
-                '/backend/en/al_showThemesPanel', 
-                '/backend/en/al_showThemesFinalizer', 
-                array(
-                    'language' => 'en', 
-                    'page' => 'index',
-                ),
-            ),
-            array(
-                '/backend/en/al_showThemesPanel', 
-                '/backend/en/al_finalizeTheme', 
                 array(
                     'language' => 'en', 
                     'page' => 'index',
