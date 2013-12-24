@@ -143,7 +143,7 @@ abstract class BaseAlTwigTemplateWriter extends TestCase
         
         $alSlots = array();
         foreach($slots as $slotName => $slotAttributes) {
-            $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+            $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
                     ->disableOriginalConstructor()
                     ->getMock();
             

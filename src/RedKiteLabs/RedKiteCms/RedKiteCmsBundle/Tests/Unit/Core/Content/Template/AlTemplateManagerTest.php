@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Template;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
 
 /**
  * AlTemplateManagerTest

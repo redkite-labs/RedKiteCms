@@ -218,7 +218,7 @@ class ThemePreviewControllerTest extends TestCase
     
     protected function initSlot($type, $content)
     {
-        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
              ->disableOriginalConstructor()
              ->getMock()
         ;

@@ -441,7 +441,7 @@ class AlTwigTemplateWriterPagesPagesTest extends BaseAlTwigTemplateWriter
 
     public function testAnContentSectionIsWrittenWhenAnyBlockExistsForThatslotButThatSlotExistsInTheTemplate()
     {
-        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
                 ->disableOriginalConstructor()
                 ->getMock();
         $slot->expects($this->once())

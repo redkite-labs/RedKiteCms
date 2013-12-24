@@ -24,7 +24,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager;
-use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
@@ -90,8 +90,8 @@ class AlTemplateManager extends AlTemplateBase
             $this->pageBlocks = clone($this->pageBlocks);
         }
         
-        if (null !== $this->templateSlots) {
-            $this->templateSlots = clone($this->templateSlots);
+        if (null !== $this->themeSlots) {
+            $this->themeSlots = clone($this->themeSlots);
         }
         
         if (null !== $this->blockRepository) {
@@ -112,15 +112,15 @@ class AlTemplateManager extends AlTemplateBase
     }
 
     /**
-     * Returns the current AlTemplateSlots object
+     * Returns the current AlThemeSlots object
      *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlots
      *
      * @api
      */
-    public function getTemplateSlots()
+    public function getThemeSlots()
     {
-        return $this->templateSlots;
+        return $this->themeSlots;
     }
 
     /**
@@ -171,7 +171,7 @@ class AlTemplateManager extends AlTemplateBase
      */
     public function getSlotManagers($removeIncludedSlots = false)
     {
-        return ( ! $removeIncludedSlots) ? $this->slotManagers : array_intersect_key($this->slotManagers, array_flip(array_keys($this->templateSlots->getSlots())));
+        return ( ! $removeIncludedSlots) ? $this->slotManagers : array_intersect_key($this->slotManagers, array_flip(array_keys($this->themeSlots->getSlots())));
     }
 
     /**
@@ -241,7 +241,7 @@ class AlTemplateManager extends AlTemplateBase
      */
     public function refresh($themeSlots, $template, $pageBlocks)
     {
-        $this->templateSlots = $themeSlots;
+        $this->themeSlots = $themeSlots;
         $this->template = $template;
         $this->pageBlocks = $pageBlocks;
                 
@@ -409,16 +409,16 @@ class AlTemplateManager extends AlTemplateBase
      */
     protected function setUpSlotManagers()
     {
-        if (null === $this->templateSlots || null === $this->template || null === $this->pageBlocks) {
+        if (null === $this->themeSlots || null === $this->template || null === $this->pageBlocks) {
             return;
         }
         
-        $templateSlots = $this->template->getSlots();
+        $themeSlots = $this->template->getSlots();
         $this->slotManagers = array();
-        foreach ($this->templateSlots->getSlots() as $slotName => $slot) {
+        foreach ($this->themeSlots->getSlots() as $slotName => $slot) {
             
             // slots passeas only when they are repeated or belongs the current template
-            if ($slot->getRepeated() == 'page' && ! in_array($slotName, $templateSlots) ) {
+            if ($slot->getRepeated() == 'page' && ! in_array($slotName, $themeSlots) ) {
                 continue;
             }
             
@@ -426,7 +426,7 @@ class AlTemplateManager extends AlTemplateBase
         }
         
         // Looks for included blocks' slots
-        $includedSlots = array_diff(array_keys($this->pageBlocks->getBlocks()), array_keys($this->templateSlots->getSlots()));
+        $includedSlots = array_diff(array_keys($this->pageBlocks->getBlocks()), array_keys($this->themeSlots->getSlots()));
         foreach ($includedSlots as $slotName) {
             if ($slotName != "") {
                 $slot = new AlSlot($slotName);
@@ -438,7 +438,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Create the slot manager for the given slot
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot      $slot
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot      $slot
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      */
     protected function createSlotManager(AlSlot $slot)
@@ -496,12 +496,12 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Sets the current AlTemplateSlots object
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface $templateSlots
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface $themeSlots
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @deprecated since 1.1.0
      */
-    public function setTemplateSlots(AlTemplateSlotsInterface $templateSlots)
+    public function setTemplateSlots(AlTemplateSlotsInterface $themeSlots)
     {
         throw new RedKiteDeprecatedException('AlTemplateManager->setTemplateSlots() method has been deprecated and replaced by the AlTemplateManager->refresh() method');
     }
@@ -529,13 +529,19 @@ class AlTemplateManager extends AlTemplateBase
      */
     public function setTemplate(AlTemplate $template)
     {
-        throw new RedKiteDeprecatedException('AlTemplateManager->setTemplate() method has been deprecated and replaced by the AlTemplateManager->refresh() method');
-        /*
-        if ($template !== $this->template) {
-            $this->template = $template;
-            $this->setUpSlotManagers();
-        }
-
-        return $this;*/
+        throw new RedKiteDeprecatedException('AlTemplateManager->setTemplate() method has been deprecated and replaced by the AlTemplateManager->refresh() method');        
+    }
+    
+    /**
+     * Returns the current AlTemplateSlots object
+     *
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots
+     *
+     * @api
+     * @deprecated since 1.1.0
+     */
+    public function getTemplateSlots()
+    {
+        throw new RedKiteDeprecatedException('AlTemplateManager->getTemplateSlots() method has been deprecated and replaced by the AlTemplateManager->getThemeSlots() method');
     }
 }

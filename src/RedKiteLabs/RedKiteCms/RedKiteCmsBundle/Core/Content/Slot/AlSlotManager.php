@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot;
 
-use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
@@ -49,7 +49,7 @@ class AlSlotManager
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot                          $slot
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot                          $slot
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface   $blockManagerFactory
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksAdder                $blocksAdder|null
@@ -81,7 +81,7 @@ class AlSlotManager
     /**
      * Sets the slot object
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot      $v
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot      $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      *
      * @api
@@ -96,7 +96,7 @@ class AlSlotManager
     /**
      * Returns the slot object
      *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot
      *
      * @api
      */
@@ -377,7 +377,7 @@ class AlSlotManager
     /**
      * Returns the block manager object
      *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot
      *
      * @deprecated since 1.1.0
      * @codeCoverageIgnore

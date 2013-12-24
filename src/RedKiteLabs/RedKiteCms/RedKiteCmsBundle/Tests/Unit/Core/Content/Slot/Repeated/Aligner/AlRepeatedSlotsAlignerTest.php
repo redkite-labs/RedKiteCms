@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner;
 
 /**
@@ -430,7 +430,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     {
         $slots = array();
         foreach ($slotValues as $slotValue) {         
-            $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlSlot')
+            $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
                  ->disableOriginalConstructor()
                  ->getMock();
             
