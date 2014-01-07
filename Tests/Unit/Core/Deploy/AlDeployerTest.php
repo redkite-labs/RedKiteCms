@@ -18,113 +18,286 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Deploy;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlDeployer;
+use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
+use org\bovigo\vfs\vfsStream;
 
 class AlDeployerTester extends AlDeployer
 {
-    public function getRoutesPrefix()
-    {   
-    }
-    
-    public function getTemplatesFolder()
-    {   
-    }
-
-    public function save(\RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree $pageTree, $type)
-    {   
+    public function save(AlPageTree $pageTree, AlTheme $theme, array $options)
+    {
+        return $pageTree->fakeSave();
     }
 }
 
 /**
- * AlTwigDeployerTest
+ * AlDeployerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlDeployerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\TestCase
+class AlDeployerTest extends TestCase
 {
-    protected $container;
     protected $dispatcher;
-    protected $templateSlots;
-    protected $containerAtSequenceAfterObjectCreation;
-    
+    protected $routingGenerator;
+    protected $sitemapGenerator;
+    protected $deployBundlePath;
+
+
     protected function setUp()
     {
         parent::setUp();
-
-        $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->kernel->expects($this->any())
-            ->method('locateResource')
-            ->will($this->returnValue('deploy/bundle/path'));
-
-        $this->kernel->expects($this->any())
-            ->method('getRootDir')
-            ->will($this->returnValue('home'));
-
-        $this->templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface');
-        $this->blockManagerFactory = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
-        $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
-        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->dispatcher = $this->getMock('\Symfony\Component\EventsDispatcher\EventDispatcherInterface', array('dispatch'));
-        $this->viewRenderer = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface');
         
-        $this->initContainer();
+        $this->routingGenerator = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface");
+        $this->sitemapGenerator = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface");
+        $this->pageTreeCollection = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection')
+                                        ->disableOriginalConstructor()
+                                        ->getMock();
+        $this->theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
+                                        ->disableOriginalConstructor()
+                                        ->getMock();
+        $this->sitemapGenerator = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface");
+        $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        
+        $folders = array('app' => array(),
+                         'web' => array('uploads'
+                                    => array('assets'
+                                        => array('media' => array('image1.png' => '', 'image2.png' => ''),
+                                                'js' => array('code.js' => ''),
+                                                'css' => array('style.css' => ''),
+                                                )
+                                            )
+                                        ),
+                         'AcmeWebSiteBundle' => array('Resources' => array()),
+                         'RedKiteCmsBundle' => array(),
+                        );
+        $this->root = vfsStream::setup('root', null, $folders);
+        //print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());exit;
+        
+        
     }
     
-    public function testTemplateSlotsInjectedBySetters()
-    {        
-        $pageTreeCollection = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlPageTreeCollection')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
-        $deployer = new AlDeployerTester($this->container);
-        
-        $this->assertEquals($deployer, $deployer->setPageTreeCollection($pageTreeCollection));
-        $this->assertEquals($pageTreeCollection, $deployer->getPageTreeCollection());
-    }
-    
-    public function testTemplateSlotsInjectedBySetters1()
+    /**
+     * @dataProvider deployProvider
+     */
+    public function testDeploy($pages, $basePages, $result, $sitemapGenerator = null, $dispatcher = null)
     {
-        $deployer = new AlDeployerTester($this->container);
-        $this->assertEquals('deploy/bundle/path', $deployer->getDeployBundleRealPath());
+        $deployBundlePath = vfsStream::url('root\AcmeWebSiteBundle');
+        $options = array(
+            "deployBundle" => 'AcmeWebSiteBundle',
+            "configDir" => $deployBundlePath . '/Resources/config',
+            "assetsDir" => $deployBundlePath  . '/Resources/public',
+            "viewsDir" => $deployBundlePath  . '/Resources/views',
+            "deployDir" => $deployBundlePath  . '/Resources/views/RedKiteCms',
+            "uploadAssetsFullPath" => vfsStream::url('root\web\uploads\assets'),
+            "uploadAssetsAbsolutePath" => '/uploads/assets',
+            "deployController" => "WebSite",
+            "webFolderPath" => vfsStream::url('root\web'),
+            "websiteUrl" => "http://example.com",
+        );
+        
+        $this->initPageTreeCollection($pages, $basePages);
+        $this->initRoutingGenerator($result, $options);
+        $this->initSitemapGenerator($sitemapGenerator, $options);
+        $this->initDispatcher($dispatcher);
+        
+        $this->verifyFoldersBeforeDeploy();
+        
+        $this->deployer = new AlDeployerTester($this->routingGenerator, $sitemapGenerator, $dispatcher);
+        $this->assertEquals($result, $this->deployer->deploy($this->pageTreeCollection, $this->theme, $options));
+        
+        $this->verifyFoldersAfterDeploy('RedKiteCms');        
+        $this->assertsHaveBeenCopied($result);
     }
     
-    protected function initContainer()
+    public function deployProvider()
     {
-        $this->container->expects($this->at(0))
-            ->method('get')
-            ->with('kernel')
-            ->will($this->returnValue($this->kernel));
-
-        $this->container->expects($this->at(2))
-            ->method('getParameter')
-            ->with('red_kite_labs_theme_engine.deploy_bundle')
-            ->will($this->returnValue('AcmeWebSiteBundle'));
-
-        $this->container->expects($this->at(3))
-            ->method('getParameter')
-            ->with('red_kite_cms.deploy_bundle.config_dir')
-            ->will($this->returnValue('Resources/config'));
-
-        $this->container->expects($this->at(4))
-            ->method('getParameter')
-            ->with('red_kite_cms.deploy_bundle.assets_base_dir')
-            ->will($this->returnValue('Resources/public/'));
-
-        $this->container->expects($this->at(5))
-            ->method('getParameter')
-            ->with('red_kite_cms.upload_assets_full_path')
-            ->will($this->returnValue(''));
-
-        $request = $this->getMockBuilder('Symfony\Component\HttpFoundation\Request')
-                                    ->disableOriginalConstructor()
-                                    ->getMock();
+        return array(
+            array(
+                array(
+                    $this->initPageTree(false),
+                ),
+                null,
+                false,
+            ),
+            array(
+                array(
+                    $this->initPageTree(),
+                    $this->initPageTree(false),
+                ),
+                null,
+                false,
+            ),
+            array(
+                array(
+                    $this->initPageTree(),
+                ),
+                array(
+                    $this->initPageTree(false),
+                ),
+                false,
+            ),
+            array(
+                array(
+                    $this->initPageTree(),
+                ),
+                array(
+                    $this->initPageTree(),
+                    $this->initPageTree(false),
+                ),
+                false,
+            ),
+            array(
+                array(
+                    $this->initPageTree(),
+                ),
+                array(
+                    $this->initPageTree(),
+                ),
+                true,
+                $this->sitemapGenerator,                
+                $this->dispatcher,
+            ),
+            array(
+                array(
+                    $this->initPageTree(),
+                    $this->initPageTree(),
+                ),
+                array(
+                    $this->initPageTree(),
+                    $this->initPageTree(),
+                ),
+                true,
+                $this->sitemapGenerator,      
+                $this->dispatcher,
+            ),
+        );
+    }
+    
+    protected function initPageTreeCollection($pages, $basePages)
+    {
+        $this->pageTreeCollection->expects($this->once())
+            ->method('fill')
+        ;
         
-        $this->container->expects($this->at(6))
-            ->method('get')
-            ->with('request')
-            ->will($this->returnValue($request));
+        $this->pageTreeCollection->expects($this->once())
+            ->method('getPages')
+            ->will($this->returnValue($pages))
+        ;
         
-        $this->container->expects($this->at(7))
-            ->method('getParameter')
-            ->with('red_kite_cms.upload_assets_dir')
-            ->will($this->returnValue('uploads/assets'));
+        if (null !== $basePages) {
+            $this->pageTreeCollection->expects($this->once())
+                ->method('getBasePages')
+                ->will($this->returnValue($basePages))
+            ;
+        }
+    }
+
+    protected function initRoutingGenerator($result, $options)
+    {
+        if ( ! $result) {
+            $this->routingGenerator->expects($this->never())
+                ->method('generateRouting')
+            ;
+            
+            return;
+        }
+        
+        $this->routingGenerator->expects($this->once())
+            ->method('generateRouting')
+            ->with($options["deployBundle"], $options["deployController"])
+            ->will($this->returnSelf())
+        ;
+
+        $this->routingGenerator->expects($this->once())
+            ->method('writeRouting')
+            ->with($options["configDir"])
+        ;
+    }
+
+    protected function initPageTree($result = true)
+    {
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+                                ->disableOriginalConstructor()
+                                ->setMethods(array('fakeSave'))
+                                ->getMock();
+        
+        $pageTree->expects($this->once())
+            ->method('fakeSave')
+            ->will($this->returnValue($result))
+        ;
+        
+        return $pageTree;
+    }
+    
+    protected function assertsHaveBeenCopied($result)
+    {
+        if ( ! $result) {
+            $this->assertFalse($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->hasChild('media'));
+            $this->assertFalse($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->hasChild('js'));
+            $this->assertFalse($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->hasChild('css'));
+            
+            return;
+        }
+        
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->hasChild('media'));
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->hasChild('js'));
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('public')->hasChild('css'));
+        $this->assertFileExists(vfsStream::url('root\AcmeWebSiteBundle\Resources\public\media\image1.png'));
+        $this->assertFileExists(vfsStream::url('root\AcmeWebSiteBundle\Resources\public\media\image2.png'));
+        $this->assertFileExists(vfsStream::url('root\AcmeWebSiteBundle\Resources\public\js\code.js'));
+        $this->assertFileExists(vfsStream::url('root\AcmeWebSiteBundle\Resources\public\css\style.css'));
+    }
+    
+    protected function initDispatcher($dispatcher)
+    {
+        if (null === $dispatcher) {
+            $this->dispatcher->expects($this->never())
+                ->method('dispatch')
+            ;
+            
+            return;
+        }
+        
+        $this->dispatcher->expects($this->at(0))
+            ->method('dispatch')
+            ->with('deploy.before_deploy')
+        ;
+        
+        $this->dispatcher->expects($this->at(1))
+            ->method('dispatch')
+            ->with('deploy.after_deploy')
+        ;
+    }
+    
+    protected function initSitemapGenerator($sitemapGenerator, $options)
+    {
+        if (null === $sitemapGenerator) {
+            $this->sitemapGenerator->expects($this->never())
+                ->method('writeSiteMap')
+            ;
+            
+            return;
+        }
+        
+        $this->sitemapGenerator->expects($this->once())
+            ->method('writeSiteMap')
+            ->with($options["webFolderPath"], $options["websiteUrl"])
+        ;
+    }     
+    
+    protected function verifyFoldersBeforeDeploy()
+    {
+        $this->assertFalse($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('config'));
+        $this->assertFalse($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('public'));
+        $this->assertFalse($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('views'));
+    }     
+    
+    protected function verifyFoldersAfterDeploy($templatesFolder)
+    {
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('config'));
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('public'));
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->hasChild('views'));
+        $this->assertTrue($this->root->getChild('AcmeWebSiteBundle')->getChild('Resources')->getChild('views')->hasChild($templatesFolder));
     }
 }

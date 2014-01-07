@@ -15,19 +15,24 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Controller;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator;
+
 
 /**
- * AlDeployControllerProductionTest
+ * The object deputated to deploy the website from development, RedKiteCms, to production,
+ * the deploy bundle.
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
+ *
+ * @api
  */
-class AlDeployControllerStageTest extends BaseDeployControllerTest
-{
-    protected $deployerServiceName = 'red_kite_cms.stage_deployer';
-    
-    protected function executeAction()
-    {
-        return $this->controller->stageAction();
-    }
+interface SitemapGeneratorInterface
+{    
+    /**
+     * Writes the sitemap inside the given path for the provided website url
+     * 
+     * @param string $path
+     * @param string $websiteUrl
+     */
+    function writeSiteMap($path, $websiteUrl);
 }

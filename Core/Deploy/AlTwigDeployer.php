@@ -18,43 +18,57 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
+use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface;
+use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter;
 
 /**
- * AlTwigDeployer extends the base deployer class to save the PageTree as a twig template
+ * AlTwigDeployer extends the base deployer class to save a PageTree to a twig template
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-abstract class AlTwigDeployer extends AlDeployer
+class AlTwigDeployer extends AlDeployer
 {
-    protected $urlManager;
-    protected $blockManagerFactory;
+    protected $twigTemplateWriter;
 
     /**
      * Constructor
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     *
-     * @api
+     * 
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter $twigTemplateWriter
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface $routingGenerator
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface $sitemapGenerator
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(TwigTemplateWriter $twigTemplateWriter, RoutingGeneratorInterface $routingGenerator, SitemapGeneratorInterface $sitemapGenerator = null, EventDispatcherInterface $dispatcher = null)
     {
-        parent::__construct($container);
-
-        $this->urlManager = $this->container->get('red_kite_cms.url_manager');
-        $this->blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
-        $this->viewsDir = $this->deployBundleAsset->getRealPath() . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.views_dir') . '/' . $this->deployFolder;
+        parent::__construct($routingGenerator, $sitemapGenerator, $dispatcher);
+        
+        $this->twigTemplateWriter = $twigTemplateWriter;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    protected function save(AlPageTree $pageTree, AlTheme $theme, array $options)
+    {
+        return $this->twigTemplateWriter
+            ->generateTemplate($pageTree, $theme, $options)
+            ->writeTemplate($options["deployDir"])
+        ;
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function checkTargetFolders()
+    protected function checkTargetFolders(array $options)
     {
-        parent::checkTargetFolders();
+        parent::checkTargetFolders($options);
 
-        $this->fileSystem->mkdir($this->viewsDir);
+        $this->fileSystem->mkdir($options["viewsDir"]);
     }
 }
