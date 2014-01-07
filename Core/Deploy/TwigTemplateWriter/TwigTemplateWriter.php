@@ -134,6 +134,7 @@ class TwigTemplateWriter extends TemplateSectionTwig
      * @return string
      *
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function getTemplateSection()
     {
@@ -146,6 +147,7 @@ class TwigTemplateWriter extends TemplateSectionTwig
      * @return string
      *
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function getMetaTagsSection()
     {
@@ -158,6 +160,7 @@ class TwigTemplateWriter extends TemplateSectionTwig
      * @return string
      *
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function getAssetsSection()
     {
@@ -170,6 +173,7 @@ class TwigTemplateWriter extends TemplateSectionTwig
      * @return string
      *
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function getContentsSection()
     {
@@ -180,6 +184,7 @@ class TwigTemplateWriter extends TemplateSectionTwig
      * Generates the template extension section
      *
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     protected function generateTemplateSection()
     {

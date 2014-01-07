@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the RedKiteCmsBunde Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
@@ -45,7 +45,7 @@ class AlTwigTemplateWriterPages extends AlTwigTemplateWriter
     }*/
 
     /**
-     * Generates the template's subsections and the full template itself
+     * @codeCoverageIgnore
      */
     public function generateTemplate()
     {
@@ -61,7 +61,7 @@ class AlTwigTemplateWriterPages extends AlTwigTemplateWriter
     }
 
     /**
-     * Generates the template extension section
+     * @codeCoverageIgnore
      */
     protected function generateTemplateSection()
     {

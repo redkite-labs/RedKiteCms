@@ -131,17 +131,13 @@ class DataManager
      * @param array $options
      */
     public function fromOptions(array $options)
-    {   
-        try {
-            $this->setupSeo($options['languageId'], $options['pageId'], $options["languageName"], $options["pageName"]);
-            $this->setupLanguage($options);
-            $this->setupPage($options);
-            
-            if (null === $this->seo && null !== $this->language && null !== $this->page) {
-                $this->setupSeo($this->language->getId(), $this->page->getId());
-            }
-        } catch (\Exception $ex) {
-            throw $ex;
+    {  
+        $this->setupSeo($options['languageId'], $options['pageId'], $options["languageName"], $options["pageName"]);
+        $this->setupLanguage($options);
+        $this->setupPage($options);
+
+        if (null === $this->seo && null !== $this->language && null !== $this->page) {
+            $this->setupSeo($this->language->getId(), $this->page->getId());
         }
     }
     

@@ -1,6 +1,6 @@
 <?php
 
-/*
+/**
  * This file is part of the RedKiteCmsBunde Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
@@ -31,7 +31,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
 class AlTwigDeployerProduction extends AlTwigDeployer
 {
     /**
-     * @inheritdoc
+     * @codeCoverageIgnore
      */
     protected function save(AlPageTree $pageTree, AlTheme $theme, array $options)
     {

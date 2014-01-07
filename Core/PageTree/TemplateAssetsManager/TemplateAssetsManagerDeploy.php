@@ -20,7 +20,8 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager;
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 
 /**
- * 
+ * TemplateAssetsManagerDeploy is the object deputated to handle website assets when
+ * deploying the site
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */

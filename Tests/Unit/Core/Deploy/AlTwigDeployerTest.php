@@ -39,7 +39,7 @@ class AlTwigDeployerTest extends AlDeployerTest
     /**
      * @dataProvider deployProvider
      */
-    public function testDeploy($pages, $basePages, $result, $sitemapGenerator = null, $dispatcher = null)
+    public function testDeploy($pages, $basePages, $result, $hasSitemapGenerator = false, $hasDispatcher = false)
     {
         $deployBundlePath = vfsStream::url('root\AcmeWebSiteBundle');
         $options = array(
@@ -54,6 +54,16 @@ class AlTwigDeployerTest extends AlDeployerTest
             "webFolderPath" => vfsStream::url('root\web'),
             "websiteUrl" => "http://example.com",
         );
+        
+        $sitemapGenerator = null;
+        if ($hasSitemapGenerator) {
+            $sitemapGenerator = $this->sitemapGenerator;
+        }
+        
+        $dispatcher = null;
+        if ($hasDispatcher) {
+            $dispatcher = $this->dispatcher;
+        }
         
         $this->initPageTreeCollection($pages, $basePages);
         $this->initRoutingGenerator($result, $options);
@@ -76,7 +86,7 @@ class AlTwigDeployerTest extends AlDeployerTest
     /**
      * @dataProvider deployProvider
      */
-    public function testStageDeploy($pages, $basePages, $result, $sitemapGenerator = null, $dispatcher = null)
+    public function testStageDeploy($pages, $basePages, $result, $hasSitemapGenerator = false, $hasDispatcher = false)
     {
         $deployBundlePath = vfsStream::url('root\AcmeWebSiteBundle');
         $options = array(
@@ -91,6 +101,16 @@ class AlTwigDeployerTest extends AlDeployerTest
             "webFolderPath" => vfsStream::url('root\web'),
             "websiteUrl" => "http://example.com",
         );
+        
+        $sitemapGenerator = null;
+        if ($hasSitemapGenerator) {
+            $sitemapGenerator = $this->sitemapGenerator;
+        }
+        
+        $dispatcher = null;
+        if ($hasDispatcher) {
+            $dispatcher = $this->dispatcher;
+        }
         
         $this->initPageTreeCollection($pages, $basePages);
         $this->initRoutingGenerator($result, $options);

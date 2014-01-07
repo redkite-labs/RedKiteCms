@@ -26,6 +26,9 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree;
  */
 class AlPageTreeDeploy extends AlPageTree
 {
+    /**
+     * @codeCoverageIgnore
+     */
     protected function mergeAppBlocksAssets($assetsCollection, $type, $assetType)
     {
         $blockTypes = $this->pageBlocks->getBlockTypes();

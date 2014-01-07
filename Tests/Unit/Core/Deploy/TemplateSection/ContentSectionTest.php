@@ -87,6 +87,32 @@ class ContentSectionTest extends TestCase
                 ),
                 array(
                     "logo" => array(
+                        "slot" => null,
+                        "filter" => "page",
+                    ),
+                ),
+                array(
+                    "logo" => array(
+                        $this->createBlock("logo", "foo"),
+                    ),
+                ),
+                "yes",
+                PHP_EOL . '{#--------------  CONTENTS SECTION  --------------#}' . PHP_EOL .
+                '{% block logo %}' . PHP_EOL .
+                '    <!-- BEGIN LOGO BLOCK -->' . PHP_EOL .
+                '    foo' . PHP_EOL .
+                '    <!-- END LOGO BLOCK -->' . PHP_EOL .
+                '{% endblock %}' . PHP_EOL .
+                '' . PHP_EOL .
+                '' . PHP_EOL .
+                '{#--------------  METATAGS EXTRA SECTION  --------------#}' . PHP_EOL,
+            ),
+            array(
+                array(
+                    "page",
+                ),
+                array(
+                    "logo" => array(
                         "slot" => $this->createSlot("page"),
                         "filter" => "page",
                     ),
@@ -216,6 +242,55 @@ class ContentSectionTest extends TestCase
                 '' . PHP_EOL .
                 '' . PHP_EOL .
                 '{#--------------  METATAGS EXTRA SECTION  --------------#}' . PHP_EOL,
+            ),
+            array(
+                array(
+                    "page",
+                ),
+                array(
+                    "logo" => array(
+                        "slot" => $this->createSlot("page"),
+                        "filter" => "page",
+                    ),
+                    "menu" =>  array(
+                        "slot" => $this->createSlot("language", "page"),
+                        "filter" => "page",
+                    ),
+                ),
+                array(
+                    "logo" => array(
+                        $this->createBlock("logo", "foo"),
+                    ),
+                    "menu" => array(
+                        $this->createBlock("menu", "bar"),
+                    ),
+                ),
+                "no",
+                PHP_EOL . '{#--------------  CONTENTS SECTION  --------------#}' . PHP_EOL .
+                '{% block logo %}' . PHP_EOL .
+                '    <!-- BEGIN LOGO BLOCK -->' . PHP_EOL .
+                '    foo' . PHP_EOL .
+                '    <!-- END LOGO BLOCK -->' . PHP_EOL .
+                '{% endblock %}' . PHP_EOL . PHP_EOL .
+                '{% block menu %}' . PHP_EOL .
+                '    <!-- BEGIN MENU BLOCK -->' . PHP_EOL .
+                '    bar' . PHP_EOL .
+                '    <!-- END MENU BLOCK -->' . PHP_EOL .
+                '{% endblock %}' . PHP_EOL .
+                '' . PHP_EOL .
+                '' . PHP_EOL .
+                '{#--------------  METATAGS EXTRA SECTION  --------------#}' . PHP_EOL .
+                '{% block internal_header_stylesheets %}' . PHP_EOL .
+                '  {{ parent() }}' . PHP_EOL .
+                '' . PHP_EOL .
+                '  <style>.al-credits{width:100%;background-color:#fff;text-align:center;padding:6px;border-top:1px solid #000;margin-top:1px;}.al-credits a{color:#333;}.al-credits a:hover{color:#C20000;}</style>' . PHP_EOL .
+                '{% endblock %}' . PHP_EOL .
+                '' . PHP_EOL .
+                '{% block body %}' . PHP_EOL .
+                '  {{ parent() }}' . PHP_EOL .
+                '' . PHP_EOL .
+                '  <div class="al-credits"><a href="http://redkite-labs.com">Powered by RedKiteCms</div>' . PHP_EOL .
+                '{% endblock %}' . PHP_EOL,                
             ),
         );
     }
