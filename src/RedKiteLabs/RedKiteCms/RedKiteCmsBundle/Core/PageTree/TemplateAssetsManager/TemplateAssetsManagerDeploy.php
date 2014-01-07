@@ -15,21 +15,30 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree;
+namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager;
+
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 
 /**
- * The AlPageTree object used when deploying the website
+ * 
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
- * 
- * @deprecated since 1.1.0
  */
-class AlPageTreeDeploy extends AlPageTree
+class TemplateAssetsManagerDeploy extends TemplateAssetsManager
 {
-    protected function mergeAppBlocksAssets($assetsCollection, $type, $assetType)
+    private $pageBlocks = null;
+    
+    public function setPageBlocks(\RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface $pageBlocks)
+    {
+        $this->pageBlocks = $pageBlocks;
+        
+        return $this;
+    }
+
+    protected function mergeAppBlocksAssets(AlAssetCollection $assetsCollection, array $options)
     {
         $blockTypes = $this->pageBlocks->getBlockTypes();
-
+        
         // When a block has examined, it is saved in this array to avoid parsing it again
         $appsAssets = array();
 
@@ -39,15 +48,17 @@ class AlPageTreeDeploy extends AlPageTree
             if ( ! in_array($className, $blockTypes)) {
                 continue;
             }
-
+            
             if ( ! in_array($className, $appsAssets)) {
                 $parameterSchema = '%s.%s_%s';
-                $parameter = sprintf($parameterSchema, strtolower($className), $type, $assetType);
+                $parameter = sprintf($parameterSchema, strtolower($className), $options["type"], $options["assetType"]);
                 $this->addAssetsFromContainer($assetsCollection, $parameter);
                 $this->addExtraAssets($assetsCollection, $parameter);
 
                 $appsAssets[] = $className;
             }
         }
+        
+        return $assetsCollection;
     }
 }
