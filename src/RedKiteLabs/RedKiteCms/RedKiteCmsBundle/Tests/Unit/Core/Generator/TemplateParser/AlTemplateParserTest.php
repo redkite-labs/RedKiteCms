@@ -263,183 +263,105 @@ class AlTemplateParserTest extends AlGeneratorBase
         $this->importDefaultTheme();
         $information = $this->parser->parse(vfsStream::url('root/Theme'), vfsStream::url('root/app'), 'BootbusinessThemeBundle');
         
+        
+        $templates = $this->arrangeTemplates($information["templates"]);
+        
         $expectedTemplates = array(
-            array(
-                "name" => "empty.html.twig",
-                "slots" => array(
-                    "page_title",
-                    "content",
-                    'navbar',
-                    'footer_title_1',
-                    'footer_body_1',
-                    'footer_title_2',
-                    'footer_body_2',
-                    'footer_title_3',
-                    'footer_body_3',
-                    'footer_title_4',
-                    'footer_body_4',
-                    'footer_title_5',
-                    'footer_body_5',
-                    'footer_title_6',
-                    'footer_social_1',
-                    'footer_social_2',
-                    'footer_social_3',
-                    'contacts_title_1',
-                    'contacts_body_1',
-                    'coopyright',
-                    'redkitecms_love',
-                ),
-            ),
-            array(
-                "name" => "product.html.twig",
-                "slots" => array(
-                    "product_title",
+            "empty.html.twig",
+            "product.html.twig",
+            "contacts.html.twig",
+            "two_columns.html.twig",
+            "all_products.html.twig",
+            "home.html.twig",
+        );
+        $this->assertEquals($expectedTemplates, array_keys($templates));
+        
+        $repeatedSlots = array(
+            'navbar',
+            'footer_title_1',
+            'footer_body_1',
+            'footer_title_2',
+            'footer_body_2',
+            'footer_title_3',
+            'footer_body_3',
+            'footer_title_4',
+            'footer_body_4',
+            'footer_title_5',
+            'footer_body_5',
+            'footer_title_6',
+            'footer_social_1',
+            'footer_social_2',
+            'footer_social_3',
+            'contacts_title_1',
+            'contacts_body_1',
+            'coopyright',
+            'redkitecms_love',
+        );
+        
+        $pageSlots = array(
+            "page_title",
+            "content",
+        );
+        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templates["empty.html.twig"]);
+        
+        $pageSlots = array(
+            "slider_box",
+            "content_title_1",
+            "content_body_1",
+            "content_title_2",
+            "content_body_2",
+        );
+        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templates["home.html.twig"]);
+        
+        $pageSlots = array(
+            "products_title",
+            "products",
+            "products_pagination",
+        );
+        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templates["all_products.html.twig"]);
+        
+        $pageSlots = array(
+            "left_column",
+            "right_column",
+            'page_title',
+            'content',
+        );
+        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templates["two_columns.html.twig"]);
+        
+        $pageSlots = array(
+            "contacts_title",
+            "contacts_message_title",
+            "contacts_form",
+            "offices_section_title",
+            "offices",
+        );        
+        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templates["contacts.html.twig"]);
+        
+        $pageSlots = array(
+            "product_title",
                     "product_image",
                     "product_description",
                     "product_features",
                     "product_buy",
                     "product_contact",
                     "product_faq",
-                    'navbar',
-                    'footer_title_1',
-                    'footer_body_1',
-                    'footer_title_2',
-                    'footer_body_2',
-                    'footer_title_3',
-                    'footer_body_3',
-                    'footer_title_4',
-                    'footer_body_4',
-                    'footer_title_5',
-                    'footer_body_5',
-                    'footer_title_6',
-                    'footer_social_1',
-                    'footer_social_2',
-                    'footer_social_3',
-                    'contacts_title_1',
-                    'contacts_body_1',
-                    'coopyright',
-                    'redkitecms_love',
-                ),
-            ),
-            array(
-                "name" => "contacts.html.twig",
-                "slots" => array(
-                    "contacts_title",
-                    "contacts_message_title",
-                    "contacts_form",
-                    "offices_section_title",
-                    "offices",
-                    'navbar',
-                    'footer_title_1',
-                    'footer_body_1',
-                    'footer_title_2',
-                    'footer_body_2',
-                    'footer_title_3',
-                    'footer_body_3',
-                    'footer_title_4',
-                    'footer_body_4',
-                    'footer_title_5',
-                    'footer_body_5',
-                    'footer_title_6',
-                    'footer_social_1',
-                    'footer_social_2',
-                    'footer_social_3',
-                    'contacts_title_1',
-                    'contacts_body_1',
-                    'coopyright',
-                    'redkitecms_love',
-                ),
-            ),
-            array(
-                "name" => "two_columns.html.twig",
-                "slots" => array(
-                    "left_column",
-                    "right_column",
-                    'page_title',
-                    'content',
-                    'navbar',
-                    'footer_title_1',
-                    'footer_body_1',
-                    'footer_title_2',
-                    'footer_body_2',
-                    'footer_title_3',
-                    'footer_body_3',
-                    'footer_title_4',
-                    'footer_body_4',
-                    'footer_title_5',
-                    'footer_body_5',
-                    'footer_title_6',
-                    'footer_social_1',
-                    'footer_social_2',
-                    'footer_social_3',
-                    'contacts_title_1',
-                    'contacts_body_1',
-                    'coopyright',
-                    'redkitecms_love',
-                ),
-            ),
-            array(
-                "name" => "all_products.html.twig",
-                "slots" => array(
-                    "products_title",
-                    "products",
-                    "products_pagination",
-                    'navbar',
-                    'footer_title_1',
-                    'footer_body_1',
-                    'footer_title_2',
-                    'footer_body_2',
-                    'footer_title_3',
-                    'footer_body_3',
-                    'footer_title_4',
-                    'footer_body_4',
-                    'footer_title_5',
-                    'footer_body_5',
-                    'footer_title_6',
-                    'footer_social_1',
-                    'footer_social_2',
-                    'footer_social_3',
-                    'contacts_title_1',
-                    'contacts_body_1',
-                    'coopyright',
-                    'redkitecms_love',
-                ),
-            ),
-            array(
-                "name" => "home.html.twig",
-                "slots" => array(
-                    "slider_box",
-                    "content_title_1",
-                    "content_body_1",
-                    "content_title_2",
-                    "content_body_2",
-                    'navbar',
-                    'footer_title_1',
-                    'footer_body_1',
-                    'footer_title_2',
-                    'footer_body_2',
-                    'footer_title_3',
-                    'footer_body_3',
-                    'footer_title_4',
-                    'footer_body_4',
-                    'footer_title_5',
-                    'footer_body_5',
-                    'footer_title_6',
-                    'footer_social_1',
-                    'footer_social_2',
-                    'footer_social_3',
-                    'contacts_title_1',
-                    'contacts_body_1',
-                    'coopyright',
-                    'redkitecms_love',
-                ),
-            ),
         );
+        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templates["product.html.twig"]);
         
-        $this->assertEquals($expectedTemplates, $information["templates"]);
+        //$this->assertEquals($expectedTemplates, $information["templates"]);
         $this->assertCount(43, $information["slots"]);
     }
     
+    private function arrangeTemplates($templatesInformation)
+    {
+        $templates = array();
+        foreach($templatesInformation as $templateInfo) {
+            $templates[$templateInfo["name"]] = $templateInfo["slots"];
+        }
+        
+        return $templates;
+    }
+
     public function testOverrideTemplate()
     {
         $this->markTestIncomplete('This test must be updated');
