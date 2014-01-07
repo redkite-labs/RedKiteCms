@@ -4,12 +4,7 @@
         xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="bootbusiness_theme.home.slots" type="collection">
-            <parameter>slider_box</parameter>
-            <parameter>content_title_1</parameter>
-            <parameter>content_body_1</parameter>
-            <parameter>content_title_2</parameter>
-            <parameter>content_body_2</parameter>
+        <parameter key="bootbusiness_theme.base.slots" type="collection">
             <parameter>navbar</parameter>
             <parameter>footer_title_1</parameter>
             <parameter>footer_body_1</parameter>
@@ -33,22 +28,22 @@
     </parameters>
 
     <services>
-        <service id="bootbusiness_theme.theme.template_assets.home" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">
+        <service id="bootbusiness_theme.theme.template_assets.base" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">
         </service>
 
-        <service id="bootbusiness_theme.theme.template.home" class="%red_kite_labs_theme_engine.template.class%" public="false">
+        <service id="bootbusiness_theme.theme.template.base" class="%red_kite_labs_theme_engine.template.class%" public="false">
             <argument type="service" id="kernel" />
-            <argument type="service" id="bootbusiness_theme.theme.template_assets.home" />
+            <argument type="service" id="bootbusiness_theme.theme.template_assets.base" />
             <tag name="bootbusiness_theme.theme.template" />
 
             <call method="setThemeName">
                 <argument type="string">BootbusinessThemeBundle</argument>
             </call>
             <call method="setTemplateName">
-                <argument type="string">home</argument>
+                <argument type="string">base</argument>
             </call>
             <call method="setSlots">
-                <argument>%bootbusiness_theme.home.slots%</argument>
+                <argument>%bootbusiness_theme.base.slots%</argument>
             </call>
         </service>
     </services>

@@ -25,44 +25,26 @@ class BootbusinessThemeExtension extends BaseExtension
     {
         return
             array(
+                'path' => __DIR__.'/../Resources/config',
+                'theme' =>
                 array(
-                    'path' => __DIR__.'/../Resources/config',
-                    'configFiles' =>
-                    array(
-                        'bootbusiness_theme.xml',
-                    ),
-                    'configuration' =>
-                    array(
-                        array(
-                            'path' => __DIR__.'/../Resources/config/templates',
-                            'configFiles' =>
-                            array(
-                                'empty.xml',
-                                'product.xml',
-                                'contacts.xml',
-                                'two_columns.xml',
-                                'all_products.xml',
-                                'home.xml',
-                            ),
-                            'configuration' =>
-                            array(
-                                array(
-                                    'path' => __DIR__.'/../Resources/config/templates/slots',
-                                    'configFiles' =>
-                                    array(
-                                        'empty.xml',
-                                        'product.xml',
-                                        'contacts.xml',
-                                        'two_columns.xml',
-                                        'all_products.xml',
-                                        'home.xml',
-                                    ),
-                                ),
-                            ),
-                        ),
-                    ),
+                    'bootbusiness_theme.xml',
                 ),
-            );
+                'templates' =>
+                array(
+                    'templates/empty.xml',
+                    'templates/product.xml',
+                    'templates/contacts.xml',
+                    'templates/two_columns.xml',
+                    'templates/all_products.xml',
+                    'templates/home.xml',
+                ),
+                'slots' =>
+                array(
+                    'slots/slots.xml',
+                ),
+            )
+        ;
     }
 
     public function getAlias()

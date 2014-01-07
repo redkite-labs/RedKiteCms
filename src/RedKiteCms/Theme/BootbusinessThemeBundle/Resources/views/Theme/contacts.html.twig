@@ -1,79 +1,27 @@
 {% extends 'BootbusinessThemeBundle:Theme:base/base.html.twig' %}
 
+{% use 'BootbusinessThemeBundle:Slots:slots.html.twig' %}
+
+
 {% block contents %}
 <div class="content">
   <div class="container">
     <div class="page-header">
-        {% block contacts_title %}
-            {# BEGIN-SLOT
-                name: contacts_title
-                htmlContent: |
-                    <h1>Contact us</h1>
-            END-SLOT #}
-            {{ renderSlot('contacts_title') }}
-        {% endblock %} 
+        {{ block('contacts_title') }} 
     </div>
     <div class="row-fluid">
       <!-- Start: CONTACT US FORM -->
       <div class="span4 offset1">
         <div class="page-header">
-            {% block contacts_message_title %}
-                {# BEGIN-SLOT
-                    name: contacts_message_title
-                    htmlContent: |
-                        <h2>Quick message</h2>
-                END-SLOT #}
-                {{ renderSlot('contacts_message_title') }}
-            {% endblock %} 
+            {{ block('contacts_message_title') }} 
         </div>
-        {% block contacts_form %}
-            {# BEGIN-SLOT
-                name: contacts_form
-                htmlContent: |
-                    <form class="form-contact-us">
-                      <div class="control-group">
-                        <div class="controls">
-                          <input type="text" id="inputName" placeholder="Name">
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <div class="controls">
-                          <input type="text" id="inputEmail" placeholder="Email">
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <div class="controls">
-                          <textarea id="inputMessage" placeholder="Message"></textarea>
-                        </div>
-                      </div>
-                      <div class="control-group">
-                        <div class="controls">
-                          <input type="submit" class="btn btn-primary btn-large" value="Send">
-                        </div>
-                      </div>
-                    </form>
-            END-SLOT #}
-            {{ renderSlot('contacts_form') }}
-        {% endblock %}         
+        {{ block('contacts_form') }}         
       </div>
       <div class="span5 offset1">
         <div class="page-header">
-            {% block offices_section_title %}
-                {# BEGIN-SLOT
-                    name: offices_section_title
-                    htmlContent: |
-                        <h2>Offices</h2>
-                END-SLOT #}
-                {{ renderSlot('offices_section_title') }}
-            {% endblock %}  
+            {{ block('offices_section_title') }}  
         </div>
-        {% block offices %}
-            {# BEGIN-SLOT
-                name: offices
-                blockType: BootbusinessContactOfficeBlock
-            END-SLOT #}
-            {{ renderSlot('offices') }}
-        {% endblock %}  
+        {{ block('offices') }}  
       </div>
     </div>
   </div>

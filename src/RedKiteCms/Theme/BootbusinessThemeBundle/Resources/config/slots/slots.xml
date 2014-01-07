@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="bootbusiness_theme.theme.template.slots.page_title" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">page_title</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h1>Page title<small>Subtitle</small></h1>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.content" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">content</argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.product_title" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">product_title</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h1>Product <small>Caption for the product</small></h1>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.product_image" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">product_image</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.product_description" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">product_description</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<p>
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+</p><p>
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+</p><p>
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+    Detailed description about the product that how it makes the customer's life easy.
+</p>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.product_features" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">product_features</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3>Fetures of product1</h3><ul class="features"><li><i class="icon-ok "></i>24 hrs support
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li><li><i class="icon-ok "></i>unlimited download
+  </li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.product_buy" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">product_buy</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<p>
+  Ready to start the innovation?
+</p><a class="btn btn-large btn-block" href="#">Buy now</a>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.product_contact" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">product_contact</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<p>
+  Got confused?
+</p><a class="btn btn-large btn-block" href="contact_us.html">Contact us</a>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.product_faq" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">product_faq</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<p>
+  Check frequently asked question
+</p><a class="btn btn-large btn-block" href="faq.html">FAQ</a>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.contacts_title" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">contacts_title</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h1>Contact us</h1>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.contacts_message_title" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">contacts_message_title</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Quick message</h2>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.contacts_form" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">contacts_form</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<form class="form-contact-us"><div class="control-group"><div class="controls"><input type="text" id="inputName" placeholder="Name"></div></div><div class="control-group"><div class="controls"><input type="text" id="inputEmail" placeholder="Email"></div></div><div class="control-group"><div class="controls"><textarea id="inputMessage" placeholder="Message"></textarea></div></div><div class="control-group"><div class="controls"><input type="submit" class="btn btn-primary btn-large" value="Send"></div></div></form>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.offices_section_title" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">offices_section_title</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Offices</h2>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.offices" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">offices</argument>
+            <argument type="collection" >
+                <argument key="blockType">BootbusinessContactOfficeBlock</argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.left_column" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">left_column</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<a href="#"><img src="holder.js/200x100" class="bottom-space-less thumbnail"></a><p>
+  Short discription about your partner.Short discription about your partner.
+  Short discription about your partner.Short discription about your partner.
+  Short discription about your partner.Short discription about your partner.
+  Short discription about your partner.Short discription about your partner.
+</p>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.right_column" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">right_column</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<a href="#"><img src="holder.js/200x100" class="bottom-space-less thumbnail"></a><p>
+  Short discription about your partner.Short discription about your partner.
+  Short discription about your partner.Short discription about your partner.
+  Short discription about your partner.Short discription about your partner.
+  Short discription about your partner.Short discription about your partner.
+</p>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.products_title" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">products_title</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Our products</h2>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.products" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">products</argument>
+            <argument type="collection" >
+                <argument key="blockType">BootstrapThumbnailsBlock</argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.products_pagination" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">products_pagination</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<ul><li class="disabled"><a href="#">&laquo;</a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li><a href="#">6</a></li><li><a href="#">&raquo;</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.navbar" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">navbar</argument>
+            <argument type="collection" >
+                <argument key="repeated">site</argument>
+                <argument key="blockType">BootbusinessNavbarBlock</argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_title_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_title_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4><i class="icon-star icon-white"></i> Products</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_body_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_body_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="quick-links"><li><a href="product.html">Product1</a></li><li><a href="product.html">Product2</a></li><li><a href="product.html">Product3</a></li><li><a href="all_products.html">All products</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_title_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_title_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4><i class="icon-cogs icon-white"></i> Services</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_body_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_body_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="quick-links"><li><a href="service.html">Service1</a></li><li><a href="service.html">Service2</a></li><li><a href="service.html">Service3</a></li><li><a href="all_services.html">All services</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_title_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_title_3</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4><i class="icon-beaker icon-white"></i> About</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_body_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_body_3</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="quick-links"><li><a href="our_works.html">Our works</a></li><li><a href="patnerships.html">Patnerships</a></li><li><a href="leadership.html">Leadership</a></li><li><a href="news.html">News</a></li><li><a href="events.html">Events</a></li><li><a href="blog.html">Blog</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_title_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_title_4</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4><i class="icon-thumbs-up icon-white"></i> Support</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_body_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_body_4</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="quick-links"><li><a href="faq.html">FAQ</a></li><li><a href="contact_us.html">Contact us</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_title_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_title_5</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4><i class="icon-legal icon-white"></i> Legal</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_body_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_body_5</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="quick-links"><li><a href="#">License</a></li><li><a href="#">Terms of Use</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Security</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_title_6" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_title_6</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4>Get in touch</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_social_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_social_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<a href="#"><i class="icon-twitter"></i></a><a href="#"><i class="icon-facebook"></i></a><a href="#"><i class="icon-linkedin"></i></a>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_social_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_social_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<a href="#"><i class="icon-google-plus"></i></a><a href="#"><i class="icon-github"></i></a><a href="mailto:soundar.rathinasamy@gmail.com"><i class="icon-envelope"></i></a>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.footer_social_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">footer_social_3</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<i class="icon-phone icon-large phone-number"></i> +919750227877]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.contacts_title_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">contacts_title_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4>Get updated by email</h4>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.contacts_body_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">contacts_body_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<form><input type="text" name="email" placeholder="Email address"><input type="submit" class="btn btn-primary" value="Subscribe"></form>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.coopyright" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">coopyright</argument>
+            <argument type="collection" >
+                <argument key="repeated">site</argument>
+                <argument key="htmlContent">
+                    <![CDATA[&copy; 2012-3000 Bootbusiness, Inc. All Rights Reserved.]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.redkitecms_love" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">redkitecms_love</argument>
+            <argument type="collection" >
+                <argument key="repeated">site</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<a href="http://redkite-labs.com">Powered by RedKite CMS</a>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.slider_box" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">slider_box</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<div id="heroSlider" class="carousel slide"><div class="carousel-inner"><div class="active item"><div class="hero-unit"><div class="row-fluid"><div class="span7 marketting-info"><h1>TELL ABOUT YOUR BUSINESS AND CORPORATE.</h1><p>
+                We are Bootbusiness and we are awesome.We solve your technology problems by our awesome products.
+                We are Bootbusiness and we are awesome.We solve your technology problems by our awesome products.
+            </p><h3><a href="product.html" class="btn">Learn more</a></h3></div><div class="span5"><img data-src="holder.js/470x470" class="thumbnail"></div></div></div></div><div class="item"><div class="hero-unit"><div class="row-fluid"><div class="span7 marketting-info"><h1>TELL ABOUT YOUR NATURE OF WORK</h1><p>
+                We are Bootbusiness and we design ultimate website applications.
+                We are Bootbusiness and we design ultimate website applications.
+            </p><h3><a href="service.html" class="btn">Learn more</a></h3></div><div class="span5"><img src="holder.js/470x470" class="thumbnail"></div></div></div></div><div class="item"><div class="hero-unit"><div class="row-fluid"><div class="span7 marketting-info"><h1>TELL ABOUT YOUR PRODUCT</h1><p>
+                Get excited about our products.We build awesome products in mobile.
+                We build awesome products in mobile.We build awesome products in mobile.
+            </p><h3><a href="#" class="btn btn-primary">Buy now</a><a href="product.html" class="btn">Learn more</a></h3></div><div class="span5"><img src="holder.js/470x470" class="thumbnail"></div></div></div></div><div class="item"><div class="hero-unit"><div class="row-fluid"><div class="span7 marketting-info"><h1>TELL ABOUT YOUR ANOTHER PRODUCT</h1><p>
+                Get excited about our products.We build awesome products in mobile.
+                We build awesome products in mobile.We build awesome products in mobile.
+            </p><h3><a href="#" class="btn btn-primary">Buy now</a><a href="product.html" class="btn">Learn more</a></h3></div><div class="span5"><img src="holder.js/470x470" class="thumbnail"></div></div></div></div></div><a class="left carousel-control" href="#heroSlider" data-slide="prev">‹</a><a class="right carousel-control" href="#heroSlider" data-slide="next">›</a></div>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.content_title_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">content_title_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Our products</h2>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.content_body_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">content_body_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapThumbnailBlock</argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.content_title_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">content_title_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Our Services</h2>]]>
+                </argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+        <service id="bootbusiness_theme.theme.template.slots.content_body_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">content_body_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapThumbnailBlock</argument>
+            </argument>
+            <tag name="bootbusiness_theme.theme.template.slot" />
+        </service>
+    </services>
+</container>
