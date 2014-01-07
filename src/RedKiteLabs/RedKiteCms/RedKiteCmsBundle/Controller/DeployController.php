@@ -17,13 +17,20 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
+use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
+
 class DeployController extends Base\BaseController
 {
     public function productionAction()
     {
         try {
+            $activeTheme = $this->container->get('red_kite_cms.active_theme');
+            
             $deployer = $this->container->get('red_kite_cms.production_deployer');
-            $deployer->deploy();
+            $templatesFolder =  $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder');
+            $pageTreeCollection = $this->container->get('red_kite_cms.page_tree_collection');
+            $deployer->deploy($pageTreeCollection, $activeTheme->getActiveTheme(), $this->getOptions($templatesFolder));
             $response = $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
 
             $this->clearEnvironment('prod');
@@ -37,8 +44,14 @@ class DeployController extends Base\BaseController
     public function stageAction()
     {
         try {
+            $activeTheme = $this->container->get('red_kite_cms.active_theme');
+            
             $deployer = $this->container->get('red_kite_cms.stage_deployer');
-            $deployer->deploy();
+            $templatesFolder =  $this->container->getParameter('red_kite_labs_theme_engine.deploy.stage_templates_folder');
+            $pageTreeCollection = $this->container->get('red_kite_cms.page_tree_collection');
+            $options = $this->getOptions($templatesFolder);
+            $options["assetsDir"] = $options["assetsDir"] . "/stage";
+            $deployer->deploy($pageTreeCollection, $activeTheme->getActiveTheme(), $options);
             $response = $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => 'The staging site has been deployed'));
 
             $this->clearEnvironment('stage');
@@ -59,5 +72,30 @@ class DeployController extends Base\BaseController
             'assetic:dump' => null,
             'cache:clear --env=' . $environment => null,
         ));
+    }
+    
+    private function getOptions($templatesFolder)
+    {
+        $kernel = $this->container->get('kernel');
+        $deployBundle = $this->container->getParameter('red_kite_labs_theme_engine.deploy_bundle');
+        $deployBundleAsset = new AlAsset($kernel, $deployBundle);
+        $deployBundlePath = $deployBundleAsset->getRealPath();
+        $viewsDir = $deployBundlePath . '/Resources/views';
+        
+        return array(
+            "deployBundle" => $deployBundle,
+            "configDir" => $deployBundlePath . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.config_dir'),
+            "assetsDir" => $deployBundlePath  . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.assets_base_dir'),
+            "viewsDir" => $viewsDir,
+            "templatesDir" => $templatesFolder,
+            "deployDir" => $viewsDir . '/' . $templatesFolder,
+            "uploadAssetsFullPath" => $this->container->getParameter('red_kite_cms.upload_assets_full_path'),
+            "uploadAssetsAbsolutePath" => AlAssetsPath::getAbsoluteUploadFolder($this->container),
+            "deployController" => $this->container->getParameter('red_kite_cms.deploy_bundle.controller'),
+            "webFolderPath" => $this->container->getParameter('red_kite_cms.web_folder_full_path'),
+            "websiteUrl" => $this->container->getParameter('red_kite_cms.website_url'),
+            "yuiCompressorEnabled" => $this->container->getParameter('red_kite_cms.enable_yui_compressor'),
+            "credits" => $this->container->getParameter('red_kite_cms.love'),
+        );
     }
 }

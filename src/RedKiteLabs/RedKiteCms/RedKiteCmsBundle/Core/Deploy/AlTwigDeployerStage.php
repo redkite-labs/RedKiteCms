@@ -18,88 +18,26 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriterBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriterPages;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
 
 /**
  * AlTwigDeployer extends the base deployer class to deploy the website for stage environment
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
- * @api
+ * @deprecated since 1.1.0
  */
 class AlTwigDeployerStage extends AlTwigDeployer
 {
     /**
-     * Constructor
-     *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct($container);
-
-        $this->assetsDir .= '/stage';
-        $this->urlManager = $this->container->get('red_kite_cms.url_manager_stage');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getTemplatesFolder()
-    {
-        return $this->container->getParameter('red_kite_labs_theme_engine.deploy.stage_templates_folder');
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function getRoutesPrefix()
-    {
-        return 'stage';
-    }
-
-    /**
      * @inheritdoc
      */
-    protected function save(AlPageTree $pageTree, $type)
+    protected function save(AlPageTree $pageTree, AlTheme $theme, array $options)
     {
-        $imagesPath = array(
-            'backendPath' => $this->uploadAssetsAbsolutePath,
-            'prodPath' => '/' . $this->deployBundleAsset->getAbsolutePath() . '/stage',
-        );
-
-        $credits = $this->credits;
-        switch ($type) {
-            case 'Base':
-                $twigTemplateWriter = new AlTwigTemplateWriterBase(
-                    $pageTree,
-                    $this->blockManagerFactory,
-                    $this->urlManager,
-                    $this->viewsRenderer,
-                    $imagesPath
-                );
-                break;
-            case 'Pages':
-                $credits = false;
-                $twigTemplateWriter = new AlTwigTemplateWriterPages(
-                    $pageTree,
-                    $this->blockManagerFactory,
-                    $this->urlManager,
-                    $this->deployBundle,
-                    $this->deployFolder,
-                    $this->viewsRenderer,
-                    $imagesPath
-                );
-                break;
-        }
-
-        return $twigTemplateWriter
-            ->setCredits($credits)
-            ->generateTemplate()
-            ->writeTemplate($this->viewsDir)
+        return $this->twigTemplateWriter
+            ->generateTemplate($pageTree, $theme, $options)
+            ->writeTemplate($options["deployDir"])
         ;
     }
 }

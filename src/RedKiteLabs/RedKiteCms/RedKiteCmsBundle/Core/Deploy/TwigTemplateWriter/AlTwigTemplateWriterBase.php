@@ -23,7 +23,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
- * @api
+ * @deprecated since 1.1.0
  */
 class AlTwigTemplateWriterBase extends AlTwigTemplateWriter
 {
@@ -44,11 +44,12 @@ class AlTwigTemplateWriterBase extends AlTwigTemplateWriter
      */
     public function generateTemplate()
     {
-        $this->generateTemplateSection();
-        $this->generateContentsSection(array('site', 'language'));
-        $this->generateAddictionalMetaTagsSection();
+        $this->twigTemplate = $this->generateTemplateSection();
+        $this->twigTemplate .= $this->contentSection->generateContentsSection(array('page'));
+        //$this->generateContentsSection(array('site', 'language'));
+        //$this->generateAddictionalMetaTagsSection();
 
-        $this->twigTemplate = $this->templateSection . $this->metatagsExtraSection . $this->contentsSection;
+        //$this->twigTemplate = $this->templateSection . $this->metatagsExtraSection . $this->contentsSection;
 
         return $this;
     }

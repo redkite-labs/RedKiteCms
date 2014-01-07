@@ -28,10 +28,11 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
- * @api
+ * @deprecated since 1.1.0
  */
 class AlTwigTemplateWriterPages extends AlTwigTemplateWriter
 {
+    /*
     protected $deployBundle;
     protected $templatesFolder;
 
@@ -41,20 +42,20 @@ class AlTwigTemplateWriterPages extends AlTwigTemplateWriter
         $this->templatesFolder = $templatesFolder;
 
         parent::__construct($pageTree, $blockManagerFactory, $urlManager, $viewRenderer, $replaceImagesPaths);
-    }
+    }*/
 
     /**
      * Generates the template's subsections and the full template itself
      */
     public function generateTemplate()
     {
-        $this->generateTemplateSection();
-        $this->generateMetaTagsSection();
-        $this->generateAssetsSection();
-        $this->generateContentsSection(array('page'));
-        $this->generateAddictionalMetaTagsSection();
+        $this->twigTemplate = $this->generateTemplateSection();
+        $this->twigTemplate .= $this->metatagsSection->generateMetaTagsSection();
+        $this->twigTemplate .= $this->assetsSection->generateAssetsSection();
+        $this->twigTemplate .= $this->contentSection->generateContentsSection(array('page'));
+        //$this->generateAddictionalMetaTagsSection();
 
-        $this->twigTemplate = $this->templateSection . $this->metatagsSection . $this->metatagsExtraSection . $this->assetsSection . $this->contentsSection;
+        //$this->twigTemplate = $this->templateSection . $this->metatagsSection . $this->metatagsExtraSection . $this->assetsSection . $this->contentsSection;
 
         return $this;
     }
