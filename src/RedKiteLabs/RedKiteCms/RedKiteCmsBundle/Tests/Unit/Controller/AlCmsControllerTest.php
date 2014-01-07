@@ -146,13 +146,15 @@ class AlCmsControllerTest extends TestCase
     {
         $pageTree = 
             $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+                 ->setMethods(array('getAlPage', 'getAlLanguage', 'getTemplate', 'getInternalStylesheets', 'getInternalJavascripts', 'getExternalStylesheets', 'getExternalJavascripts'))
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
+        
         $pageTree
-            ->expects($this->any())
-            ->method('__call')
+            ->expects($this->once())
+            ->method('getExternalJavascripts')
             ->will($this->returnValue(array()));
         ;
         
@@ -200,34 +202,12 @@ class AlCmsControllerTest extends TestCase
             ->will($this->returnValue(array()))
         ;
         
-        $templateSlots = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlTemplateSlots')
-                 ->disableOriginalConstructor()
-                 ->getMock()
-        ;
-        
-        $templateSlots
-            ->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue(array()))
-        ;
-        
-        $templateSlots
-            ->expects($this->once())
-            ->method('run')
-            ->will($this->returnSelf())
-        ;
-        
         $translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
         $translator->expects($this->once())
             ->method('trans')
             ->with('The template assigned to this page does not exist. This happens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme')
             ->will($this->returnValue('The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme'))
         ;
-        
-        $this->container->expects($this->at(9))
-            ->method('get')
-            ->with('red_kite_cms.template_slots')
-            ->will($this->returnValue($templateSlots));
         
         $configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
         $configuration
@@ -236,34 +216,34 @@ class AlCmsControllerTest extends TestCase
             ->with('language')
         ;
         
-        $this->container->expects($this->at(10))
+        $this->container->expects($this->at(9))
             ->method('get')
             ->with('red_kite_cms.configuration')
             ->will($this->returnValue($configuration));
         
-        $this->container->expects($this->at(11))
+        $this->container->expects($this->at(10))
             ->method('get')
             ->with('translator')
             ->will($this->returnValue($translator))
         ;
         
-        $this->container->expects($this->at(12))
+        $this->container->expects($this->at(11))
             ->method('get')
             ->with('session')
             ->will($this->returnValue($session));
         
-        $this->container->expects($this->at(14))
+        $this->container->expects($this->at(13))
             ->method('get')
             ->with('red_kite_cms.block_manager_factory')
             ->will($this->returnValue($blockManagerFactory));
                 
-        $this->container->expects($this->at(15))
+        $this->container->expects($this->at(14))
             ->method('get')
             ->with('templating')
             ->will($this->returnValue($this->templating));
         
         $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->container->expects($this->at(16))
+        $this->container->expects($this->at(15))
             ->method('get')
             ->with('event_dispatcher')
             ->will($this->returnValue($dispatcher));

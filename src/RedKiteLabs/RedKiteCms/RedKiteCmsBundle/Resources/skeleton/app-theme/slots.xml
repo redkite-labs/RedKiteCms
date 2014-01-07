@@ -5,7 +5,7 @@
 
     <services>
 {% for slot_name, attributes in slots %}
-        <service id="{{ theme_name }}.theme.template.{{ template_name }}.slots.{{ slot_name }}" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+        <service id="{{ theme_name }}.theme.template.slots.{{ slot_name }}" class="%red_kite_labs_theme_engine.slot.class%" public="false">
             <argument type="string">{{ slot_name }}</argument>
 {% if attributes is defined and attributes|length > 0 %}
             <argument type="collection" >

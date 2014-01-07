@@ -19,29 +19,23 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Template;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager;
 use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface;
 
 /**
  * AlTemplateManager wrap an AlTemplate object to manage the template's slots when
  * RedKiteCms editor is active
- *
- *
- * The AlTemplateManager object collects the slots from the templated defined by an object derived
- * from an AlTemplateSlotsInterface.
- *
- *
+ * *
  * @see AlSlotManager
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
@@ -53,16 +47,15 @@ class AlTemplateManager extends AlTemplateBase
     protected $template;
     protected $blockRepository;
     protected $pageBlocks;
+    protected $themeSlots;
     protected $dispatcher;
 
     /**
      * Constructor
-     *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate                             $template
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface         $pageBlocks
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface     $blockManagerFactory
+     * 
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
@@ -164,8 +157,8 @@ class AlTemplateManager extends AlTemplateBase
 
     /**
      * Returns the managed slot managers
-     *
-     * @return array
+     * @param boolean $removeIncludedSlots
+     * @return type
      *
      * @api
      */
@@ -177,7 +170,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the slot manager that matches the given parameter
      *
-     * @param  type       $slotName
+     * @param  string       $slotName
      * @return null|array
      *
      * @api
@@ -216,7 +209,7 @@ class AlTemplateManager extends AlTemplateBase
     }
 
     /**
-     * Returns all the slotManagers as array
+     * Converts slotManagers to an array
      *
      * @return array
      *
@@ -231,15 +224,16 @@ class AlTemplateManager extends AlTemplateBase
 
         return $slotContents;
     }
-
+    
     /**
      * Refreshes the TemplateManager
-     *
+     * 
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface $themeSlots
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate $template
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface $pageBlocks
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
-     *
-     * @api
      */
-    public function refresh($themeSlots, $template, $pageBlocks)
+    public function refresh(AlThemeSlotsInterface $themeSlots, AlTemplate $template = null, AlPageBlocksInterface $pageBlocks = null)
     {
         $this->themeSlots = $themeSlots;
         $this->template = $template;
@@ -251,7 +245,7 @@ class AlTemplateManager extends AlTemplateBase
     }
 
     /**
-     *Populates each slot using the default contents and saves them to the database.
+     * Populates each slot using the default contents and saves them to the database.
      *
      * This method is used to add a new page based on the template managed by this object. The slots
      * are filled up using the dafault values provided by each single slot.
@@ -306,9 +300,7 @@ class AlTemplateManager extends AlTemplateBase
 
             return $result;
         } catch (\Exception $e) {
-            if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                $this->blockRepository->rollBack();
-            }
+            $this->blockRepository->rollBack();
 
             throw $e;
         }
@@ -335,8 +327,10 @@ class AlTemplateManager extends AlTemplateBase
                     continue;
                 }
                 $result = $slotManager->deleteBlocks();
-
-                if(false === $result) break;
+                
+                if (false === $result) {
+                    break;
+                }
             }
 
             $this->dispatcher->dispatch(Content\TemplateManagerEvents::BEFORE_CLEAR_BLOCKS_COMMIT, new Content\TemplateManager\BeforeClearBlocksCommitEvent($this));
@@ -351,9 +345,7 @@ class AlTemplateManager extends AlTemplateBase
 
             return $result;
         } catch (\Exception $e) {
-            if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                $this->blockRepository->rollBack();
-            }
+            $this->blockRepository->rollBack();
 
             throw $e;
         }
@@ -377,7 +369,7 @@ class AlTemplateManager extends AlTemplateBase
             $this->blockRepository->startTransaction();
 
             $pageBlocks = clone($this->pageBlocks);
-            $this->refreshPageBlocks($languageId, $pageId);
+            $this->pageBlocks->refresh($languageId, $pageId);
 
             $result = $this->clearBlocks($skipRepeated);
             $this->pageBlocks = $pageBlocks;
@@ -392,9 +384,7 @@ class AlTemplateManager extends AlTemplateBase
 
             return $result;
         } catch (\Exception $e) {
-            if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                $this->blockRepository->rollBack();
-            }
+            $this->blockRepository->rollBack();
 
             throw $e;
         }
@@ -404,29 +394,33 @@ class AlTemplateManager extends AlTemplateBase
      * Creates the slot managers from the current template slot class
      *
      * @return null|boolean
-     * @throws General\ArgumentIsEmptyException
      * @throws Exception\EmptyTemplateSlotsException
      */
     protected function setUpSlotManagers()
     {
-        if (null === $this->themeSlots || null === $this->template || null === $this->pageBlocks) {
+        if (null === $this->themeSlots || null === $this->template) {
             return;
         }
         
-        $themeSlots = $this->template->getSlots();
         $this->slotManagers = array();
-        foreach ($this->themeSlots->getSlots() as $slotName => $slot) {
+        $templateSlots = $this->template->getSlots();
+        $themeSlots = $this->themeSlots->getSlots();
+        foreach ($themeSlots as $slotName => $slot) {
             
-            // slots passeas only when they are repeated or belongs the current template
-            if ($slot->getRepeated() == 'page' && ! in_array($slotName, $themeSlots) ) {
+            // slots passes only when they are repeated or belongs the current template  
+            if ($slot->getRepeated() == 'page' && ! in_array($slotName, $templateSlots)) {
                 continue;
             }
             
             $this->slotManagers[$slotName] = $this->createSlotManager($slot);
         }
         
+        if (null === $this->pageBlocks) {
+            return;
+        }
+        
         // Looks for included blocks' slots
-        $includedSlots = array_diff(array_keys($this->pageBlocks->getBlocks()), array_keys($this->themeSlots->getSlots()));
+        $includedSlots = array_diff(array_keys($this->pageBlocks->getBlocks()), array_keys($themeSlots));
         foreach ($includedSlots as $slotName) {
             if ($slotName != "") {
                 $slot = new AlSlot($slotName);
@@ -436,7 +430,7 @@ class AlTemplateManager extends AlTemplateBase
     }
 
     /**
-     * Create the slot manager for the given slot
+     * Creates the slot manager for the given slot
      *
      * @param  \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot      $slot
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
@@ -444,28 +438,14 @@ class AlTemplateManager extends AlTemplateBase
     protected function createSlotManager(AlSlot $slot)
     {
         $slotName = $slot->getSlotName();
-        $alBlocks = $this->pageBlocks->getSlotBlocks($slotName);
+        $blocks = array();
+        if (null !== $this->pageBlocks) {
+            $blocks = $this->pageBlocks->getSlotBlocks($slotName);
+        }
         $slotManager = new AlSlotManager($slot, $this->blockRepository, $this->blockManagerFactory);
-        $slotManager->setUpBlockManagers($alBlocks);
+        $slotManager->setUpBlockManagers($blocks);
 
         return $slotManager;
-    }
-
-    /**
-     * Refreshes the page container
-     *
-     * @param int $idLanguage
-     * @param int $idPage
-     */
-    private function refreshPageBlocks($idLanguage, $idPage)
-    {
-        if ($idLanguage != $this->pageBlocks->getIdLanguage() || $idPage != $this->pageBlocks->getIdPage()) {
-            $this->pageBlocks
-                ->setIdLanguage($idLanguage)
-                ->setIdPage($idPage)
-                ->refresh()
-            ;
-        }
     }
 
     /**
@@ -501,7 +481,7 @@ class AlTemplateManager extends AlTemplateBase
      *
      * @deprecated since 1.1.0
      */
-    public function setTemplateSlots(AlTemplateSlotsInterface $themeSlots)
+    public function setTemplateSlots()
     {
         throw new RedKiteDeprecatedException('AlTemplateManager->setTemplateSlots() method has been deprecated and replaced by the AlTemplateManager->refresh() method');
     }

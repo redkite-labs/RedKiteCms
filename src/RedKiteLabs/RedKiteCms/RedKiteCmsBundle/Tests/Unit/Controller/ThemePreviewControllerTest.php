@@ -83,6 +83,7 @@ class ThemePreviewControllerTest extends TestCase
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
+        
         $this->activeTheme->expects($this->once())
             ->method('getThemeBootstrapVersion')
             ->will($this->returnValue('2.x'));
@@ -125,12 +126,6 @@ class ThemePreviewControllerTest extends TestCase
              ->disableOriginalConstructor()
              ->getMock()
         ;
-        
-        $template
-            ->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue($slots)) 
-        ;
                 
         $method = ($templateName == 'none') ? 'getHomeTemplate' : 'getTemplate';
         
@@ -149,6 +144,19 @@ class ThemePreviewControllerTest extends TestCase
             ->expects($this->once())
             ->method($method)
             ->will($this->returnValue($template))
+        ;
+        
+        $themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface');
+        $themeSlots
+            ->expects($this->once())
+            ->method('getSlots')
+            ->will($this->returnValue($slots)) 
+        ;
+        
+        $theme
+            ->expects($this->once())
+            ->method('getThemeSlots')
+            ->will($this->returnValue($themeSlots))
         ;
         
         $themeName = 'BootbusinessThemeBundle';
@@ -300,29 +308,42 @@ class ThemePreviewControllerTest extends TestCase
                  ->getMock()
         ;
         
-        $templateManager
-             ->expects($this->once())
-             ->method('setTemplate')
-             ->will($this->returnSelf())
-        ;
+        $this->container
+             ->expects($this->at(5))
+             ->method('get')
+             ->with('red_kite_cms.template_manager')
+             ->will($this->returnValue($templateManager));
         
-        $themesCollectionWrapper =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ThemesCollectionWrapper\AlThemesCollectionWrapper')
+        $templateAssetsManager =
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
-        $themesCollectionWrapper
-             ->expects($this->once())
-             ->method('getTemplateManager')
-             ->will($this->returnValue($templateManager))
+        $this->container
+             ->expects($this->at(6))
+             ->method('get')
+             ->with('red_kite_cms.template_assets_manager')
+             ->will($this->returnValue($templateAssetsManager));
+        
+        $pageTreePreview =
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview')
+                 ->setMethods(array('getInternalStylesheets', 'getInternalJavascripts', 'getExternalStylesheets', 'getExternalJavascripts', 'setUp'))
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        
+        $pageTreePreview
+            ->expects($this->once())
+            ->method('getExternalJavascripts')
+            ->will($this->returnValue(array()));
         ;
         
         $this->container
-             ->expects($this->at(5))
+             ->expects($this->at(7))
              ->method('get')
-             ->with('red_kite_cms.themes_collection_wrapper')
-             ->will($this->returnValue($themesCollectionWrapper));
+             ->with('red_kite_cms.page_tree_preview')
+             ->will($this->returnValue($pageTreePreview));
         
         $session =
             $this->getMockBuilder('Symfony\Component\HttpFoundation\Session\Session')
@@ -337,14 +358,14 @@ class ThemePreviewControllerTest extends TestCase
             ->will($this->returnValue(''))
         ;
         
-        $this->container->expects($this->at(13))
+        $this->container->expects($this->at(12))
             ->method('get')
             ->with('request')
             ->will($this->returnValue($request))
         ;
         
         $this->container
-             ->expects($this->at(15))
+             ->expects($this->at(14))
              ->method('get')
              ->with('templating')
              ->will($this->returnValue($this->templating))

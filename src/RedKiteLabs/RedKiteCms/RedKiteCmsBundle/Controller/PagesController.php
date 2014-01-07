@@ -82,32 +82,20 @@ class PagesController extends Base\BaseController
         }
 
         $alPage = null;
-        $pageBlocks = $this->container->get('red_kite_cms.page_blocks');
-        $pageManager = $this->container->get('red_kite_cms.page_manager');
-        
-        $pageTree = $this->container->get('red_kite_cms.page_tree');
         if ((int) $request->get('pageId') != 0 && (int) $request->get('languageId') != 0) {
             $pageRepository = $this->createRepository('Page');
             $alPage = $pageRepository->fromPk($request->get('pageId'));
-
-            // Refreshes the page manager using the given page to update
-            $pageBlocks = $pageManager->getTemplateManager()->getPageBlocks();
-            if ($request->get('pageId') != "" && $request->get('pageId') != $pageBlocks->getIdPage()) {
-                $pageTree->refresh($request->get('languageId'), $request->get('pageId'));
-            }
         }
         
         $activeTheme = $this->container->get('red_kite_cms.active_theme');
         $theme = $activeTheme->getActiveTheme();
-        $templateManager = 
-            $this->container
-                 ->get('red_kite_cms.template_manager')
-                 ->refresh($theme->getThemeSlots(), $theme->getTemplate($request->get('templateName')), $pageBlocks)
+        $templateManager = $this->container
+            ->get('red_kite_cms.template_manager')
+            ->refresh($theme->getThemeSlots(), $theme->getTemplate($request->get('templateName')), $this->container->get('red_kite_cms.page_blocks'))
         ;
         
-
-        $pageManager->set($alPage);
-        $pageManager->setTemplateManager($templateManager);
+        $pageManager = $this->container->get('red_kite_cms.page_manager');
+        $pageManager->set($alPage)->setTemplateManager($templateManager);
         $templateName = ($request->get('templateName') != "none") ? $request->get('templateName') : '';
         $permalink = ($request->get('permalink') == "") ? $request->get('pageName') : $request->get('permalink');
 

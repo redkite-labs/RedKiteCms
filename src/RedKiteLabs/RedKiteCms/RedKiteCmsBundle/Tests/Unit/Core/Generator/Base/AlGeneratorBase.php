@@ -37,7 +37,12 @@ class AlGeneratorBase extends TestCase
 
         $this->root = vfsStream::setup('root');
 
-        $this->parser = new AlTemplateParser(vfsStream::url('root'), vfsStream::url('root/app'), 'MyThemeBundle');
+        $templateNameParser = $this->getMock('Symfony\Component\Templating\TemplateNameParserInterface');
+        $templateLocator = $this->getMockBuilder('Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator')
+                           ->disableOriginalConstructor()
+                            ->getMock();
+        
+        $this->parser = new AlTemplateParser($templateLocator, $templateNameParser);
     }
 
     protected function importDefaultTheme()

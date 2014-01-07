@@ -95,4 +95,16 @@ interface AlPageBlocksInterface
      * @return array
      */
     public function getSlotBlocks($slotName);
+    
+    /**
+     * Refreshes the blocks for the given language and page
+     * 
+     * @param int $languageId
+     * @param int $pageId
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
+     * @throws General\InvalidArgumentTypeException
+     * 
+     * @api
+     */
+    public function refresh($languageId, $pageId);
 }

@@ -296,10 +296,6 @@ class EditSeoListenerTest extends BaseListenerTest
             ->method('getPageBlocks')
             ->will($this->returnValue($this->pageContents));
 
-        $this->pageContents->expects($this->once())
-            ->method('getIdLanguage')
-            ->will($this->returnValue(2));
-
         $this->pageManager->expects($this->once())
             ->method('getPageRepository')
             ->will($this->returnValue($this->pageRepository));
@@ -308,14 +304,6 @@ class EditSeoListenerTest extends BaseListenerTest
             ->method('getTemplateManager')
             ->will($this->returnValue($this->templateManager));
 
-        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
-        $page->expects($this->any())
-            ->method('getId')
-            ->will($this->returnValue(2));
-
-        $this->pageManager->expects($this->once())
-            ->method('get')
-            ->will($this->returnValue($page));
 
         $this->seoManager->expects($this->once())
             ->method('getSeoRepository')

@@ -48,7 +48,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
      * @dataProvider addFailsProvider
      */
     public function testAddBlockFails($params, $message)
-    {
+    {//print_R($params);
         $crawler = $this->browse('/backend/en/addBlock', $params);
         $this->assertRegExp(
             $message,
@@ -511,23 +511,12 @@ class BlocksControllerTest extends WebTestCaseFunctional
                 array(
                     'pageId' => '2',                    
                     'languageId' => '2',   
-                    'page' => 'backend', 
-                    'language' => 'en', 
-                ),
-                '/blocks_controller_page_does_not_exists|The page you are trying to edit does not exist/si',
-            ),
-            array(
-                array(
-                    'pageId' => '2',                    
-                    'languageId' => '2',   
                     'page' => 'index', 
                     'language' => 'en', 
                     'slotName' => 'fake',
                 ),
                 '/blocks_controller_invalid_or_empty_slot|You are trying to manage a block on a slot that does not exist on this page, or the slot name is empty/si',
             ),
-            
-            
         );
     }
     

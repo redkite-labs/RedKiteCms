@@ -19,7 +19,6 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\PageBlocks;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
 
 /**
  * AlPageBlocksTest
@@ -47,66 +46,15 @@ class AlPageBlocksTest extends TestCase
         $this->pageContentsContainer = new AlPageBlocks($this->factoryRepository);
     }
 
-    /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
-     */
-    public function testRefreshThrownAnExceptionWhenPageAndLanguageHaveNotBeenSet()
-    {
-        $this->pageContentsContainer->refresh();
-    }
-
-    /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @expectedException The language id must be a numeric value
-     */
-    public function testLanguageIdMustBeAnInteger()
-    {
-        $this->pageContentsContainer->setIdLanguage('fake');
-    }
-
-    /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @expectedException The page id must be a numeric value
-     */
-    public function testPageIdMustBeAnInteger()
-    {
-        $this->pageContentsContainer->setIdPage('fake');
-    }
-
-    /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
-     */
-    public function testRefreshThrownAnExceptionWhenPageHaveNotBeenSet()
-    {
-        $this->pageContentsContainer
-                ->setIdLanguage(2)
-                ->refresh();
-    }
-
-    /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
-     */
-    public function testRefreshThrownAnExceptionWhenLanguageHaveNotBeenSet()
-    {
-        $this->pageContentsContainer
-                ->setIdPage(2)
-                ->refresh();
-    }
-
     public function testAnEmptyArrayIsRetrievedWhenAnyBlockExists()
     {
         $this->blockRepository->expects($this->once())
             ->method('retrieveContents')
             ->will($this->returnValue(array()));
 
-        $this->pageContentsContainer
-                ->setIdLanguage(2)
-                ->setIdPage(2)
-                ->refresh();
+        $this->pageContentsContainer->refresh(2, 2);
 
         $this->assertEquals(0, count($this->pageContentsContainer->getBlocks()));
-        $this->assertEquals(2, $this->pageContentsContainer->getIdLanguage());
-        $this->assertEquals(2, $this->pageContentsContainer->getIdPage());
     }
 
     public function testContentsAreRetrieved()
@@ -121,10 +69,7 @@ class AlPageBlocksTest extends TestCase
             ->method('retrieveContents')
             ->will($this->returnValue($blocks));
 
-        $this->pageContentsContainer
-                ->setIdLanguage(2)
-                ->setIdPage(2)
-                ->refresh();
+        $this->pageContentsContainer->refresh(2, 2);
 
         $this->assertEquals(2, count($this->pageContentsContainer->getBlocks()));
         $this->assertEquals(2, count($this->pageContentsContainer->getSlotBlocks('logo')));

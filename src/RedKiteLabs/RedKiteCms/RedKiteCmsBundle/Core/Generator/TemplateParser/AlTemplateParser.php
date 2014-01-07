@@ -4,6 +4,9 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Generator\TemplateParser;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Bundle\FrameworkBundle\Templating\Loader\TemplateLocator;
+use Symfony\Component\Templating\TemplateNameParserInterface;
+use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
  * AlTemplateParser parses the twig templates from a given folder to look for
@@ -23,15 +26,11 @@ class AlTemplateParser
      *
      * @param string $templatesDir
      */
-    public function __construct($templateLocator, $nameParser, $templatesDir, $kernelDir, $themeName)
+    public function __construct(TemplateLocator $templateLocator, TemplateNameParserInterface $nameParser)
     {
-        
         $this->templateLocator = $templateLocator;
         $this->nameParser = $nameParser;
         
-        $this->templatesDir = $templatesDir;
-        $this->kernelDir = $kernelDir;
-        $this->themeName = $themeName;
         $this->ymlParser = new Yaml();
     }
 
@@ -41,8 +40,12 @@ class AlTemplateParser
      *
      * @return array
      */
-    public function parse()
+    public function parse($templatesDir, $kernelDir, $themeName)
     {
+        $this->templatesDir = $templatesDir;
+        $this->kernelDir = $kernelDir;
+        $this->themeName = $themeName;
+        
         $directories = $this->initDirectories();
         
         $slotsDirectory = dirname($this->templatesDir) . '/Slots';
@@ -50,18 +53,34 @@ class AlTemplateParser
         $finder = new Finder();
         $templateFiles = $finder->files('*.twig')->in($directories);
 
+        $templateContents = array();
+        foreach ($templateFiles as $template) {
+            $templateName = basename((string) $template);
+            $templateContents[$templateName]["content"] =  file_get_contents($template);
+            
+            // Generate templates only in the theme top folder
+            $generate = false;
+            if (strpos($template, $this->kernelDir) === false && dirname($template) == $this->templatesDir) {
+                $generate = true;
+            }
+            $templateContents[$templateName]["generate"] = $generate;
+        }
+        
         $templates = array();
         foreach ($templateFiles as $template) {
-            $template = (string) $template;
-            $templateName = basename($template);
-            $templateContents = file_get_contents($template);
-            $templateSlots = $this->parseBlocks($templateContents, array_keys($slots));
-            if (strpos($template, $this->kernelDir) === false && dirname($template) == $this->templatesDir) {
-                $templates[] = array(
-                    'name' => $templateName,
-                    'slots' => $templateSlots,
-                );
+            $templateName = basename((string) $template);
+            if ( ! $templateContents[$templateName]["generate"]) {
+                continue;
             }
+            
+            $fileContents = $templateContents[$templateName]["content"];
+            $contents = $this->joinTemplates($templateContents, $fileContents);
+            $templateSlots = $this->parseBlocks(implode("\n", $contents), array_keys($slots));
+            
+            $templates[] = array(
+                'name' => $templateName,
+                'slots' => $templateSlots,
+            );
         }
         
         return array(
@@ -69,7 +88,7 @@ class AlTemplateParser
             "slots" => $slots,
         );
     }
-    
+
     private function initDirectories()
     {
         $directories = array(
@@ -82,6 +101,25 @@ class AlTemplateParser
         }
         
         return $directories;
+    }
+    
+    private function joinTemplates($templateContents, $fileContents, $contents = array())
+    {
+        $contents[] = $fileContents;
+        
+        preg_match('/extends["\'\s]+(.*?)["\']+?/s', $fileContents, $matches);
+        if ( ! array_key_exists(1, $matches)) {
+            return $contents;
+        }
+
+        $tokens = explode(':', $matches[1]);
+        if ( ! array_key_exists(2, $tokens)) {
+            return $contents;
+        }
+        
+        $fileContents = $templateContents[basename($tokens[2])]["content"];
+        
+        return $this->joinTemplates($templateContents, $fileContents, $contents);
     }
     
     private function parseBlocks($templateContents, $slots)
@@ -158,8 +196,12 @@ class AlTemplateParser
             preg_match('/([\r\n][^\w]+)/', $attributes, $spacesMatch);
             $attributes = str_replace($spacesMatch[1], "\n", $attributes);
             
-            $parsedAttributes = $this->ymlParser->parse($attributes);
-            if ( ! array_key_exists('name', $parsedAttributes)) {
+            try {
+                $parsedAttributes = $this->ymlParser->parse($attributes);
+                if ( ! array_key_exists('name', $parsedAttributes)) {
+                    continue;
+                }
+            } catch(ParseException $ex) {
                 continue;
             }
 

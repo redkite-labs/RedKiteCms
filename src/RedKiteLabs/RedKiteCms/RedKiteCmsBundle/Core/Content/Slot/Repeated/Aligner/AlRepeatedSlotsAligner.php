@@ -20,6 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 
 /**
  * AlRepeatedSlotsAligner is responsibile to align the slots repeated status when
@@ -118,13 +119,15 @@ class AlRepeatedSlotsAligner
      *
      * @api
      */
-    public function align($templateName, array $templateSlots)
+    public function align(AlTemplate $template, array $templateSlots)
     {
-        if (empty($templateSlots)) {
+        $slots = array_flip($template->getSlots());
+        if (empty($templateSlots) || empty($slots)) {
             return null;
         }
-
-        $templateName = strtolower($templateName);
+        
+        $templateName = strtolower($template->getTemplateName());
+        $templateSlots = array_intersect_key($templateSlots, $slots);
 
         if (null === $this->languageId) {
             $languageRepository = $this->factoryRepository->createRepository('Language');

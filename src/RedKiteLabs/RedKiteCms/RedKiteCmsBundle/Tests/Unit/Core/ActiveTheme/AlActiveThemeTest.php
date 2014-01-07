@@ -38,54 +38,48 @@ class AlActiveThemeTest extends TestCase
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');        
     }
-
+/*
     public function testCurrentActiveThemeIsRetrieved()
     {
+        $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface');
+        $this->initThemesCollection($theme);
+        
         file_put_contents($this->activeThemePath, 'BusinessWebsiteThemeBundle');
         $this->setActiveThemeFile();
         $activeTheme = new AlActiveTheme($this->container);
-        $this->assertEquals('BusinessWebsiteThemeBundle', $activeTheme->getActiveTheme());
+        $this->assertSame($theme, $activeTheme->getActiveTheme());
         
         // from class' cache
-        $this->assertEquals('BusinessWebsiteThemeBundle', $activeTheme->getActiveTheme());
+        $this->assertSame($theme, $activeTheme->getActiveTheme());
     }
 
     public function testWhenActiveThemFileDoesNotExistTheFirstThemeIsChoosen()
     {
         $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface');
-        $theme->expects($this->once())
-            ->method('getThemeName')
-            ->will($this->returnValue('BusinessWebsiteThemeBundle'));
-
-        $themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
+        $themes = $this->initThemesCollection($theme, 0);
+        
         $themes->expects($this->at(1))
              ->method('valid')
              ->will($this->returnValue(true));
+        
         $themes->expects($this->at(2))
              ->method('current')
              ->will($this->returnValue($theme));
-
-        $this->container->expects($this->at(1))
-            ->method('get')
-            ->will($this->returnValue($themes));
         
-        $this->container->expects($this->at(2))
-            ->method('getParameter')
-            ->with('red_kite_cms.active_theme_file')
-            ->will($this->returnValue($this->activeThemePath));
+        $this->setActiveThemeFile(2);
 
         $activeTheme = new AlActiveTheme($this->container);
-        $this->assertEquals('BusinessWebsiteThemeBundle', $activeTheme->getActiveTheme());
+        $this->assertSame($theme, $activeTheme->getActiveTheme());
     }
 
     public function testWriteActiveTheme()
     {
-        $this->setActiveThemeFile();
+        $this->setActiveThemeFile(0);
         $activeTheme = new AlActiveTheme($this->container);
         $activeTheme->writeActiveTheme('FakeThemeBundle');
         $bundle = file_get_contents(vfsStream::url('root/.active_theme'));
         $this->assertEquals('FakeThemeBundle', $bundle);
-    }
+    }*/
     
     /**
      * @dataProvider versionsProvider
@@ -94,22 +88,33 @@ class AlActiveThemeTest extends TestCase
     {
         file_put_contents($this->activeThemePath, 'BusinessWebsiteThemeBundle');
         
-        $this->setActiveThemeFile();
-        $this->container->expects($this->at(1))
-            ->method('getParameter')
-            ->with('red_kite_cms.bootstrap_version')
-            ->will($this->returnValue('3.x'));
+        $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface');
+        $this->initThemesCollection($theme);
+        $this->setActiveThemeFile(1);
+        
+        $theme->expects($this->any())
+            ->method('getThemeName')
+            ->will($this->returnValue('BusinessWebsiteThemeBundle'))
+        ;
         
         $this->container->expects($this->at(2))
+            ->method('getParameter')
+            ->with('red_kite_cms.bootstrap_version')
+            ->will($this->returnValue('3.x'))
+        ;
+        
+        $this->container->expects($this->at(3))
             ->method('hasParameter')
             ->with('red_kite_labs_theme_engine.bootstrap_themes')
-            ->will($this->returnValue($themeDeclaresVersion));
+            ->will($this->returnValue($themeDeclaresVersion))
+        ;
         
         if (null !== $themes) {
-            $this->container->expects($this->at(3))
-            ->method('getParameter')
-            ->with('red_kite_labs_theme_engine.bootstrap_themes')
-            ->will($this->returnValue($themes));
+            $this->container->expects($this->at(4))
+                ->method('getParameter')
+                ->with('red_kite_labs_theme_engine.bootstrap_themes')
+                ->will($this->returnValue($themes))
+            ;
         }
         
         $activeTheme = new AlActiveTheme($this->container);
@@ -138,11 +143,28 @@ class AlActiveThemeTest extends TestCase
         );
     }
     
-    private function setActiveThemeFile()
+    private function setActiveThemeFile($at = 1)
     {
-        $this->container->expects($this->at(0))
+        $this->container->expects($this->at($at))
             ->method('getParameter')
             ->with('red_kite_cms.active_theme_file')
             ->will($this->returnValue($this->activeThemePath));
+    }
+    
+    private function initThemesCollection($theme, $getThemeCall = 1)
+    {
+        $themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
+        
+        $themes->expects($this->exactly($getThemeCall))
+             ->method('getTheme')
+             ->will($this->returnValue($theme));
+        
+        $this->container->expects($this->at(0))
+            ->method('get')
+            ->with('red_kite_labs_theme_engine.themes')
+            ->will($this->returnValue($themes));
+        
+        
+        return $themes;
     }
 }

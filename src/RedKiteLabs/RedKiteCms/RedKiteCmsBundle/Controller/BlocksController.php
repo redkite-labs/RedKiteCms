@@ -31,13 +31,12 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
  */
 class BlocksController extends Base\BaseController
 {
-    public function addBlockAction()
+    public function addBlockAction(Request $request)
     {
-        $this->checkPageIsValid();
-
-        $request = $this->container->get('request');
-        $slotName = $request->get('slotName');
         $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
+        $this->areValidAttributes($request, $factoryRepository);
+        
+        $slotName = $request->get('slotName');
         $blockRepository = $factoryRepository->createRepository('Block');
 
         if (null !== $request->get('included') && count($blockRepository->retrieveContentsBySlotName($slotName)) > 0 && filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)) {
@@ -108,11 +107,11 @@ class BlocksController extends Base\BaseController
         return $this->buildJSonResponse($values);
     }
 
-    public function editBlockAction()
+    public function editBlockAction(Request $request)
     {
-        $this->checkPageIsValid();
+        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
+        $this->areValidAttributes($request, $factoryRepository);
 
-        $request = $this->container->get('request');
         $slotManager = $this->fetchSlotManager($request);
 
         $value = urldecode($request->get('value'));
@@ -160,11 +159,11 @@ class BlocksController extends Base\BaseController
         return $response;
     }
 
-    public function deleteBlockAction()
+    public function deleteBlockAction(Request $request)
     {
-        $this->checkPageIsValid();
+        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
+        $this->areValidAttributes($request, $factoryRepository);
 
-        $request = $this->container->get('request');
         $slotManager = $this->fetchSlotManager($request);
         $res = $slotManager->deleteBlock($request->get('idBlock'));
         if (null !== $res) {
@@ -209,10 +208,19 @@ class BlocksController extends Base\BaseController
         return $response;
     }
 
-    private function checkPageIsValid()
+    private function areValidAttributes($request, $factoryRepository)
     {
-        $pageTree = $this->container->get('red_kite_cms.page_tree');
-        if ( ! $pageTree->isValid()) {
+        $dataManager = new \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager($factoryRepository);
+        $options = array(
+            "pageName" => "",            
+            "languageName" => "",        
+            "pageId" => (int)$request->get('pageId'),            
+            "languageId" => (int)$request->get('languageId'),            
+            "permalink" => "",
+        );
+        
+        $dataManager->fromOptions($options);
+        if (null === $dataManager->getPage() || null === $dataManager->getLanguage()) {
             throw new RuntimeException("blocks_controller_page_does_not_exists");
         }
     }
