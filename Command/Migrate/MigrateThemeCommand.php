@@ -84,5 +84,8 @@ class MigrateThemeCommand extends ContainerAwareCommand
         $slotsDir = $themePath  . '/Resources/views/Slots';
         @mkdir($slotsDir);
         file_put_contents($slotsDir . '/slots.html.twig', implode("\n\n", $slots));
+        
+        $message = sprintf('The theme <info>%s</info> has been migrated', $themeName);
+        $output->writeln($message);
     }
 }
