@@ -80,7 +80,7 @@ class AlDeployerTest extends TestCase
     /**
      * @dataProvider deployProvider
      */
-    public function testDeploy($pages, $basePages, $result, $sitemapGenerator = null, $dispatcher = null)
+    public function testDeploy($pages, $basePages, $result, $hasSitemapGenerator = false, $hasDispatcher = false)
     {
         $deployBundlePath = vfsStream::url('root\AcmeWebSiteBundle');
         $options = array(
@@ -95,6 +95,16 @@ class AlDeployerTest extends TestCase
             "webFolderPath" => vfsStream::url('root\web'),
             "websiteUrl" => "http://example.com",
         );
+        
+        $sitemapGenerator = null;
+        if ($hasSitemapGenerator) {
+            $sitemapGenerator = $this->sitemapGenerator;
+        }
+        
+        $dispatcher = null;
+        if ($hasDispatcher) {
+            $dispatcher = $this->dispatcher;
+        }
         
         $this->initPageTreeCollection($pages, $basePages);
         $this->initRoutingGenerator($result, $options);
@@ -155,8 +165,8 @@ class AlDeployerTest extends TestCase
                     $this->initPageTree(),
                 ),
                 true,
-                $this->sitemapGenerator,                
-                $this->dispatcher,
+                true,                
+                true,
             ),
             array(
                 array(
@@ -168,8 +178,8 @@ class AlDeployerTest extends TestCase
                     $this->initPageTree(),
                 ),
                 true,
-                $this->sitemapGenerator,      
-                $this->dispatcher,
+                true,      
+                true,
             ),
         );
     }

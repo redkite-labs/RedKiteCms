@@ -104,7 +104,9 @@ class ContentSection extends TemplateSectionTwig
         $blocks = (null !== $filter) ? $this->filterBlocks($pageBlocks, $filter) : $pageBlocks;
         foreach ($blocks as $slotName => $slotBlocks) {
             if ( ! in_array($slotName, $slots)) {
+                // @codeCoverageIgnoreStart
                 continue;
+                // @codeCoverageIgnoreEnd
             }
 
             $this->parseBlocks($slotName, $slotBlocks);
@@ -118,16 +120,20 @@ class ContentSection extends TemplateSectionTwig
             
             $blockManager = $this->blockManagerFactory->createBlockManager($block);
             if (null === $blockManager) {
+                // @codeCoverageIgnoreStart
                 continue;
+                // @codeCoverageIgnoreEnd
             }
             
             $blockManager->setPageTree($this->pageTree);
             $blockManager->setEditorDisabled(true);
             $content = $this->renderContent($blockManager);
 
+            // @codeCoverageIgnoreStart
             if ($this->credits && preg_match('/\<a[^\>]+href="http:\/\/redkite\-labs\.com[^\>]+\>powered by redkite cms\<\/a\>/is', strtolower($content))) {
                 $this->credits = false;
             }
+            // @codeCoverageIgnoreEnd
 
             $metatags = $blockManager->getMetaTags();
             if (null !== $metatags) {
@@ -162,7 +168,9 @@ class ContentSection extends TemplateSectionTwig
         return array_filter($blocks, function ($slotBlocks) use ($themeSlots, $filter) {
             
             if (count($slotBlocks) == 0) {
+                // @codeCoverageIgnoreStart
                 return false;
+                // @codeCoverageIgnoreEnd
             }
             
             $slotName = $slotBlocks[0]->getSlotName();

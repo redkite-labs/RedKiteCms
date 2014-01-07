@@ -23,10 +23,16 @@ use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 class AlPageTreeTester extends AlPageTree
 {
     private $dataManager;
+    private $templateAssetsManager;
     
     public function getDataManager()
     {
         return $this->dataManager;
+    }
+    
+    public function getTemplateAssetsManager()
+    {
+        return $this->templateAssetsManager;
     }
 }
 
@@ -73,6 +79,18 @@ class AlPageTreeTest extends TestCase
         $this->assertNull($pageTree->getDataManager());
         $pageTree->setDataManager($this->dataManager);
         $this->assertNotSame($this->dataManager, $pageTree->getDataManager());
+    }
+    
+    public function testTemplateAssetsManagerInjectedBySetters()
+    {
+        $pageTree = new AlPageTreeTester($this->templateAssetsManager);
+        $this->assertNull($pageTree->getTemplateAssetsManager());
+        
+        $templateAssetsManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager')                
+                                      ->disableOriginalConstructor()
+                                      ->getMock();
+        $pageTree->setTemplateAssetsManager($templateAssetsManager);
+        $this->assertNotSame($templateAssetsManager, $pageTree->getTemplateAssetsManager());
     }
     
     public function testCmsMode()
@@ -140,7 +158,6 @@ class AlPageTreeTest extends TestCase
             ),
         );
     }
-
     
     /**
      *  @dataProvider pageTreeProvider
@@ -176,6 +193,16 @@ class AlPageTreeTest extends TestCase
         }
         
         $pageTree->setUp($this->theme, $this->templateManager, $this->pageBlocks, $template);
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Call to undefined method: AlPageTree->getSomething()
+     */
+    public function testAnExceptionIsThrownWhenCalledMethodDoesNotExists()
+    {   
+        $pageTree = new AlPageTree($this->templateAssetsManager, $this->dispatcher, $this->dataManager);
+        $pageTree->getSomething();
     }
     
     /**
@@ -305,8 +332,18 @@ class AlPageTreeTest extends TestCase
         return array(
             array(
                 'getExternalStylesheets',
+                null,
+                array(),
+            ),
+            array(
+                'getExternalStylesheets',
                 array("asset1", "asset2"),
                 array("asset1", "asset2"),
+            ),
+            array(
+                'getInternalStylesheets',
+                null,
+                "",
             ),
             array(
                 'getInternalStylesheets',
@@ -386,6 +423,11 @@ class AlPageTreeTest extends TestCase
         $this->dataManager->expects($this->once())
             ->method('getPage')
             ->will($this->returnValue($page));
+        ;
+        
+        $this->dataManager->expects($this->any())
+            ->method('getSeo')
+            ->will($this->returnValue($this->createSeo()));
         ;
     }
     

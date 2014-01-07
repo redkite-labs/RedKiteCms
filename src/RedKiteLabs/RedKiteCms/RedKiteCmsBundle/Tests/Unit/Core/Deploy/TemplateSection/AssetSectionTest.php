@@ -84,6 +84,11 @@ class AssetSectionTest extends TestCase
         return array(
             array(
                 true,
+                 PHP_EOL . '{#--------------  ASSETS SECTION  --------------#}' . PHP_EOL,
+                array(),
+            ),
+            array(
+                true,
                  PHP_EOL . '{#--------------  ASSETS SECTION  --------------#}' . PHP_EOL .
                 '{% block external_stylesheets %}' . PHP_EOL .
                 '{{ parent() }}' . PHP_EOL .

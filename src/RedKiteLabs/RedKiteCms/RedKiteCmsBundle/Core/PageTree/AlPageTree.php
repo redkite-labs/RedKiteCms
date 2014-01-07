@@ -197,11 +197,7 @@ class AlPageTree
      * @return array
      */
     public function getBlockManagers($slotName)
-    {
-        if (null === $this->templateManager) {
-            return array();
-        }
-        
+    {        
         $slotManager = $this->templateManager->getSlotManager($slotName);
         if (null === $slotManager) {
             return array();
@@ -224,48 +220,44 @@ class AlPageTree
         $this->templateManager = $templateManager;
         $this->pageBlocks = $pageBlocks;
         $this->theme = $theme;
-                
-        try {
-            $this->dispatch(PageTree\PageTreeEvents::BEFORE_PAGE_TREE_SETUP, new PageTree\BeforePageTreeSetupEvent($this));
             
-            $language = $this->getAlLanguage();
-            $page = $this->getAlPage();        
-            if (null !== $language && null !== $page) {
-                $this->pageBlocks->refresh($language->getId(), $page->getId());
-            }
+        $this->dispatch(PageTree\PageTreeEvents::BEFORE_PAGE_TREE_SETUP, new PageTree\BeforePageTreeSetupEvent($this));
 
-            $options = array();
-            if (null !== $language) {
-                $options["language"] = $language->getLanguageName();
-            }
-
-            $templateName = "";
-            if (null !== $page) {
-                $options["page"] = $page->getPageName();
-                $templateName = $page->getTemplateName();            
-            }
-
-            $this->template = (null === $template) ? $this->theme->getTemplate($templateName) : $template;
-            if (null === $this->template) {
-                return;
-            }
-
-            $this->assetsManager
-                ->withExtraAssets($this->cmsMode)
-                ->setUp($this->template, $options)
-            ;
-
-            $this->templateManager
-                 ->refresh($this->theme->getThemeSlots(), $this->template, $this->pageBlocks);
-
-            $this->setUpMetaTags($this->getAlSeo());
-            
-            $this->dispatch(PageTree\PageTreeEvents::AFTER_PAGE_TREE_SETUP, new PageTree\AfterPageTreeSetupEvent($this));
-                        
-            return $this;
-        } catch (\Exception $ex) {
-            throw $ex;
+        $language = $this->getAlLanguage();
+        $page = $this->getAlPage();        
+        if (null !== $language && null !== $page) {
+            $this->pageBlocks->refresh($language->getId(), $page->getId());
         }
+
+        $options = array();
+        if (null !== $language) {
+            $options["language"] = $language->getLanguageName();
+        }
+
+        $templateName = "";
+        if (null !== $page) {
+            $options["page"] = $page->getPageName();
+            $templateName = $page->getTemplateName();            
+        }
+
+        $this->template = (null === $template) ? $this->theme->getTemplate($templateName) : $template;
+        if (null === $this->template) {
+            return;
+        }
+
+        $this->assetsManager
+            ->withExtraAssets($this->cmsMode)
+            ->setUp($this->template, $options)
+        ;
+
+        $this->templateManager
+             ->refresh($this->theme->getThemeSlots(), $this->template, $this->pageBlocks);
+
+        $this->setUpMetaTags($this->getAlSeo());
+
+        $this->dispatch(PageTree\PageTreeEvents::AFTER_PAGE_TREE_SETUP, new PageTree\AfterPageTreeSetupEvent($this));
+
+        return $this;
     }
 
     /**
@@ -295,6 +287,7 @@ class AlPageTree
      * @return Symfony\Component\DependencyInjection\ContainerInterface
      * 
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function getContainer()
     {
@@ -308,6 +301,7 @@ class AlPageTree
      * @return \RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree
      * 
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function setPageBlocks(AlPageBlocksInterface $v)
     {
@@ -321,6 +315,7 @@ class AlPageTree
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      * 
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function setAlPage(AlPage $alPage)
     {
@@ -334,6 +329,7 @@ class AlPageTree
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      * 
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function setAlLanguage(AlLanguage $alLanguage)
     {
@@ -347,6 +343,7 @@ class AlPageTree
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      * 
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function setTemplateManager(AlTemplateManager $v)
     {
@@ -358,6 +355,7 @@ class AlPageTree
      * @inheritdoc
      * 
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function setTemplate(AlTemplate $v)
     {
@@ -372,6 +370,7 @@ class AlPageTree
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      * 
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function refresh($idLanguage, $idPage)
     {
@@ -391,6 +390,7 @@ class AlPageTree
      * @param array $metatags
      * 
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function setMetatags(array $metatags)
     {
@@ -403,6 +403,7 @@ class AlPageTree
      * @return boolean
      *
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function isValid()
     {
