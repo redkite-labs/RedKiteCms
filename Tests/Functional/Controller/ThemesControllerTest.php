@@ -19,7 +19,6 @@ namespace RedKiteLabs\RedKiteCmsBundle\Tests\Functional\Controller;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
 
 /**
  * ThemesControllerTest
@@ -77,9 +76,6 @@ class ThemesControllerTest extends WebTestCaseFunctional
     
     public function testChangeTheme()
     {
-        $blockRepository = new AlBlockRepositoryPropel();
-        $this->assertCount(0, $blockRepository->retrieveContents(null, null, null, 2));
-        
         $pageRepository = new AlPageRepositoryPropel();
         $page = $pageRepository->fromPageName('index');
         $this->assertEquals('home', $page->getTemplateName());
@@ -97,94 +93,12 @@ class ThemesControllerTest extends WebTestCaseFunctional
         );
        
         $crawler = $this->client->request('GET', 'backend');
-           
-        $this->assertNotCount(0, $blockRepository->retrieveContents(null, null, null, 2));
         
         $page = $pageRepository->fromPageName('index');
         $this->assertEquals('home', $page->getTemplateName());
         
         $page = $pageRepository->fromPageName('page1');
         $this->assertEquals('internal', $page->getTemplateName());
-    }
-    
-    public function testChangeSlot()
-    {
-        $blockRepository = new AlBlockRepositoryPropel();
-        $sourceBlocks = $blockRepository->retrieveContents(null, null, 'slider_box', 2);
-        $this->assertCount(1, $sourceBlocks);
-        $targetBlocks = $blockRepository->retrieveContents(null, null, 'logo');
-        $this->assertCount(1, $targetBlocks);
-        
-        $params = array("languageId" => 2, "pageId" => 2, "sourceSlotName" => "slider_box", "targetSlotName" => "logo");
-        $crawler = $this->client->request('POST', 'backend/en/al_changeSlot', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertRegExp('/Content-Type:  application\/json/s', $response->__toString());
-        
-        $json = json_decode($response->getContent(), true);
-        $this->assertEquals(2, count($json));
-        $this->assertTrue(array_key_exists("key", $json[0]));
-        $this->assertEquals("message", $json[0]["key"]);
-        $this->assertTrue(array_key_exists("value", $json[0]));
-        $this->assertRegExp(
-            '/themes_controller_slot_changed|The slot has been changed/si',
-            $json[0]["value"]
-        );
-        
-        $this->assertTrue(array_key_exists("key", $json[1]));
-        $this->assertEquals("slots", $json[1]["key"]);
-        $this->assertTrue(array_key_exists("value", $json[1]));
-        
-        $changedSourceBlocks = $blockRepository->retrieveContents(null, null, 'slider_box', 3);
-        $this->assertCount(1, $changedSourceBlocks);
-        $changedTargetBlocks = $blockRepository->retrieveContents(null, null, 'logo');
-        $this->assertCount(1, $changedTargetBlocks);
-        
-        $this->assertEquals($changedTargetBlocks[0]->getContent(), $sourceBlocks[0]->getContent());
-        $this->assertEquals($changedSourceBlocks[0]->getContent(), $targetBlocks[0]->getContent());
-    }
-    
-    public function testShowThemesFinalizerChanger()
-    {
-        $crawler = $this->client->request('GET', 'backend/en/al_showThemesFinalizer');
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertCount(1, $crawler->filter('#al-partial-finalizer'));
-        $this->assertCount(1, $crawler->filter('#al-full-finalizer'));
-        $this->assertCount(1, $crawler->filter('#al-close-finalizer'));
-        $this->assertRegExp(
-            '/themes_controller_finalize_change_theme_explanation|Finalizes the change of theme/si',
-            $response->getContent()
-        );
-    }
-    
-    public function testPartialFinalization()
-    {
-        $blockRepository = new AlBlockRepositoryPropel();
-        $this->assertCount(1, $blockRepository->retrieveContents(null, null, null, 3));
-        
-        $params = array('action' => 'partial');
-        $crawler = $this->client->request('POST', 'backend/en/al_finalizeTheme', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        
-        $this->assertCount(0, $blockRepository->retrieveContents(null, null, null, 3));
-    }
-    
-    public function testFullFinalization()
-    {
-        $fileStructure = $this->client->getContainer()->getParameter('red_kite_cms.theme_structure_file');
-        $blockRepository = new AlBlockRepositoryPropel();
-        $this->assertNotCount(0, $blockRepository->retrieveContents(null, null, null, 2));
-        $this->assertFileExists($fileStructure);
-        
-        $params = array('action' => 'full');
-        $crawler = $this->client->request('POST', 'backend/en/al_finalizeTheme', $params);
-        $response = $this->client->getResponse();
-        $this->assertEquals(200, $response->getStatusCode());
-        
-        $this->assertCount(0, $blockRepository->retrieveContents(null, null, null, 2));
-        $this->assertFileNotExists($fileStructure);
     }
     
     public function testStartFromScratch()

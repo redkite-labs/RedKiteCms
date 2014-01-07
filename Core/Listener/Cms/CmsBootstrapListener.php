@@ -49,6 +49,7 @@ class CmsBootstrapListener
         $this->kernel = $container->get('kernel');
         $this->pageTree = $this->container->get('red_kite_cms.page_tree');
         $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
+        $this->theme = $this->activeTheme->getActiveTheme();
     }
 
     /**
@@ -95,7 +96,17 @@ class CmsBootstrapListener
 
     private function setUpPageTree()
     {
-        $this->pageTree->setUp();
+        $dataManager = $this->container->get('red_kite_cms.data_manager');
+        $dataManager->fromRequest($this->container->get('request'));
+        
+        $this->pageTree
+            ->setDataManager($dataManager)
+            ->setUp(
+                $this->theme,
+                $this->container->get('red_kite_cms.template_manager'),
+                $this->container->get('red_kite_cms.page_blocks')
+            )
+        ;
     }
 
     private function checkTemplatesSlots()
@@ -114,7 +125,7 @@ class CmsBootstrapListener
         $slotsAligner
             ->setLanguageId($languageId)
             ->setPageId($pageId)
-            ->align($template->getTemplateName(), $this->activeTheme->getActiveTheme()->getThemeSlots()->getSlots());
+            ->align($template, $this->theme->getThemeSlots()->getSlots());
     }
 
     private function setupBootstrapVersion()

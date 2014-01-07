@@ -27,7 +27,6 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\Exception\ChangeSlotException
  * AlThemeChanger is deputated to change the website template
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
- * @deprecated since 1.1.0
  */
 class AlThemeChanger
 {
@@ -66,16 +65,73 @@ class AlThemeChanger
     public function change(AlThemeInterface $previousTheme, AlThemeInterface $theme, $path, array $templatesMap)
     {
         $this->saveThemeStructure($previousTheme, $path);
-        $this->backupBlocks();
         $this->changeTemplate($theme, $templatesMap);
     }
 
+    /**
+     * Changes the website templates with the new ones provided into the $templatesMap
+     * array
+     *
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
+     * @param  array                                                      $templatesMap
+     * @throws \Exception
+     */
+    protected function changeTemplate(AlThemeInterface $theme, array $templatesMap)
+    {
+        $ignoreRepeatedSlots = false;
+        foreach ($this->languagesRepository->activeLanguages() as $language) {
+            foreach ($this->pagesRepository->activePages() as $page) {
+                $templateName = $page->getTemplateName();
+                if ( ! array_key_exists($templateName, $templatesMap)) {
+                    continue;
+                }
+
+                $page->setTemplateName($templatesMap[$templateName]);
+                $page->save();
+
+                $template = $theme->getTemplate($page->getTemplateName());
+                $this->templateManager
+                    ->refresh($theme->getThemeSlots(), $template);
+
+                $this->templateManager->populate($language->getId(), $page->getId(), $ignoreRepeatedSlots);
+                $ignoreRepeatedSlots = true;
+            }
+        }
+    }
+
+    /**
+     * Saves the current theme structure into a file
+     *
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
+     * @param  type                                                       $themeStructureFile
+     * @throws \Exception
+     */
+    protected function saveThemeStructure(AlThemeInterface $theme, $themeStructureFile)
+    {
+        $templates = array();
+        foreach ($this->languagesRepository->activeLanguages() as $language) {
+            foreach ($this->pagesRepository->activePages() as $page) {
+                $key = $language->getId() . '-' . $page->getId();
+                $templates[$key] = $page->getTemplateName();
+            }
+        }
+
+        $themeName = $theme->getThemeName();
+        $currentTheme = array(
+            "Theme" => $themeName,
+            "Templates" => $templates,
+        );
+
+        file_put_contents($themeStructureFile, json_encode($currentTheme));
+    }
+    
     /**
      * Changes the source slot with the target slot
      *
      * @param  string              $sourceSlotName
      * @param  string              $targetSlotName
      * @throws ChangeSlotException
+     * @deprecated since 1.1.0
      */
     public function changeSlot($sourceSlotName, $targetSlotName)
     {
@@ -121,6 +177,7 @@ class AlThemeChanger
      *
      * @param  string  $action
      * @return boolean
+     * @deprecated since 1.1.0
      */
     public function finalize($action)
     {
@@ -139,131 +196,5 @@ class AlThemeChanger
         $this->blockRepository->commit();
 
         return true;
-    }
-
-    /**
-     * Copies the current theme blocks and sets ToDelete field to 2
-     */
-    protected function backupBlocks()
-    {
-        $blocks = $this->blockRepository->retrieveContents(null, null);
-        $this->saveBlocks($blocks, array('ToDelete' => 2));
-    }
-
-    /**
-     * Changes the website templates with the new ones provided into the $templatesMap
-     * array
-     *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param  array                                                      $templatesMap
-     * @throws \Exception
-     */
-    protected function changeTemplate(AlThemeInterface $theme, array $templatesMap)
-    {
-        $ignoreRepeatedSlots = false;
-        foreach ($this->languagesRepository->activeLanguages() as $language) {
-            foreach ($this->pagesRepository->activePages() as $page) {
-                $templateName = $page->getTemplateName();
-                if ( ! array_key_exists($templateName, $templatesMap)) {
-                    continue;
-                }
-
-                $page->setTemplateName($templatesMap[$templateName]);
-                $page->save();
-
-                $template = $theme->getTemplate($page->getTemplateName());
-                $this->templateManager
-                    ->setTemplate($template)
-                    ->refresh();
-
-                $this->templateManager->populate($language->getId(), $page->getId(), $ignoreRepeatedSlots);
-                $ignoreRepeatedSlots = true;
-            }
-        }
-    }
-
-    /**
-     * Saves the current theme structure into a file
-     *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param  type                                                       $themeStructureFile
-     * @throws \Exception
-     */
-    protected function saveThemeStructure(AlThemeInterface $theme, $themeStructureFile)
-    {
-        $templates = array();
-        foreach ($this->languagesRepository->activeLanguages() as $language) {
-            foreach ($this->pagesRepository->activePages() as $page) {
-                $key = $language->getId() . '-' . $page->getId();
-                $templates[$key] = $page->getTemplateName();
-            }
-        }
-
-        $themeName = $theme->getThemeName();
-        $currentTheme = array(
-            "Theme" => $themeName,
-            "Templates" => $templates,
-        );
-
-        file_put_contents($themeStructureFile, json_encode($currentTheme));
-    }
-
-    private function saveBlocks($blocks, $values)
-    {
-        $result = true;
-
-        $this->blockRepository->startTransaction();
-        foreach ($blocks as $block) {
-            $blockManager = $this->blocksFactory->createBlockManager($block);
-
-            // @codeCoverageIgnoreStart
-            if (null === $blockManager) {
-               continue;
-            }
-            // @codeCoverageIgnoreEnd
-
-            $result = $blockManager
-                ->set($block)
-                ->save($values)
-            ;
-
-            if (! $result) {
-                break;
-            }
-        }
-
-        if ($result) {
-            $this->blockRepository->commit();
-
-            return $result;
-        }
-
-        $this->blockRepository->rollback();
-
-        return $result;
-    }
-
-    private function saveIncludedBlocks($blocks, $toDelete = 0)
-    {
-        $result = true;
-
-        foreach ($blocks as $block) {
-            $includedBlocks = $this->blockRepository->retrieveContentsBySlotName('%' . $block->getId() . '%', $toDelete);
-            if (empty($includedBlocks)) {
-                continue;
-            }
-
-            $result = $this->saveBlocks($includedBlocks, array(
-                'ToDelete' => ($toDelete == 0) ? 3 : 0,
-            ));
-
-            if (! $result) {
-                $this->blockRepository->rollback();
-
-                break;
-            }
-        }
-
-        return $result;
     }
 }

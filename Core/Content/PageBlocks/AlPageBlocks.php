@@ -20,9 +20,11 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
 
 /**
- * Extends the AlPageBlocks class to load blocks from the database
+ * AlPageBlocks is the object deputated to load and handle the blocks for a website
+ * page
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
@@ -67,81 +69,32 @@ class AlPageBlocks implements AlPageBlocksInterface
     }
 
     /**
-     * The id of the page to retrieve
-     *
-     * @param  int                                                                                       $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     *
-     * @api
+     * {@inheritdoc}
      */
-    public function setIdPage($v)
+    public function getBlocks()
     {
-        if (!is_numeric($v)) {
-            throw new General\InvalidArgumentTypeException('exception_invalid_value_for_page_id');
-        }
-
-        $this->idPage = $v;
-
-        return $this;
+        return $this->blocks;
     }
 
     /**
-     * The id of the language to retrieve
-     *
-     * @param  int                                                                                       $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     *
-     * @api
+     * {@inheritdoc}
      */
-    public function setIdLanguage($v)
+    public function getSlotBlocks($slotName)
     {
-        if (!is_numeric($v)) {
-            throw new General\InvalidArgumentTypeException('exception_invalid_value_for_language_id');
-        }
-
-        $this->idLanguage = $v;
-
-        return $this;
+        return (array_key_exists($slotName, $this->blocks)) ? $this->blocks[$slotName] : array();
     }
-
+    
     /**
-     * Returns the current page id
-     *
-     * @return int
-     *
-     * @api
+     * Returns an array which containt the handled page information 
+     * 
+     * @return array
      */
-    public function getIdPage()
+    public function getPageInformation()
     {
-        return $this->idPage;
-    }
-
-    /**
-     * Returns the current language id
-     *
-     * @return int
-     *
-     * @api
-     */
-    public function getIdLanguage()
-    {
-        return $this->idLanguage;
-    }
-
-    /**
-     * Refreshes the blocks
-     *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
-     *
-     * @api
-     */
-    public function refresh()
-    {
-        $this->setUpBlocks();
-
-        return $this;
+        return array(
+            'idLanguage' => $this->idLanguage,
+            'idPage' => $this->idPage,
+        );
     }
 
     /**
@@ -166,20 +119,39 @@ class AlPageBlocks implements AlPageBlocksInterface
     {
         $types = array();
         foreach ($this->alBlocks as $block) {
-            $types[] = $block->getType();
+            $type = $block->getType();
+            if ( !in_array($type, $types)) {
+                $types[] = $type;
+            }
         }
 
-        return array_unique($types);
+        return $types;
     }
     
-    public function getSlotNames()
+    /**
+     * {@inheritdoc}
+     */
+    public function refresh($languageId, $pageId)
     {
-        $slots = array();
-        foreach ($this->alBlocks as $block) {
-            $slots[] = $block->getSlotName();
+        if (!is_numeric($languageId)) {
+            throw new General\InvalidArgumentTypeException('exception_invalid_value_for_page_id');
         }
         
-        return array_unique($slots);
+        if (!is_numeric($pageId)) {
+            throw new General\InvalidArgumentTypeException('exception_invalid_value_for_language_id');
+        }
+        
+        if ($languageId == $this->idLanguage && $pageId == $this->idPage) {
+            return;
+        }
+        
+        $this->idLanguage = $languageId;
+        $this->idPage = $pageId;
+        
+        $this->alBlocks = $this->blockRepository->retrieveContents(array(1, $languageId), array(1, $pageId));
+        $this->arrangeBlocks();
+
+        return $this;
     }
 
     /**
@@ -235,7 +207,8 @@ class AlPageBlocks implements AlPageBlocksInterface
      */
     public function clearSlots()
     {
-        foreach ($this->blocks as $slotName => $block) {
+        $slots = array_keys($this->blocks);
+        foreach ($slots as $slotName) {
             $this->clearSlotBlocks($slotName);
         }
 
@@ -265,21 +238,11 @@ class AlPageBlocks implements AlPageBlocksInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Checks the requested slot exists
+     * 
+     * @param string $slotName
+     * @throws InvalidArgumentException
      */
-    public function getBlocks()
-    {
-        return $this->blocks;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSlotBlocks($slotName)
-    {
-        return (array_key_exists($slotName, $this->blocks)) ? $this->blocks[$slotName] : array();
-    }
-
     protected function checkSlotExists($slotName)
     {
         if (!array_key_exists($slotName, $this->blocks)) {
@@ -288,34 +251,66 @@ class AlPageBlocks implements AlPageBlocksInterface
     }
 
     /**
-     * Retrieves from the database the contents and arranges them by slots
-     *
-     * @return array
+     * Arranges the blocks retrieved from the database into an array where blocks are 
+     * grouped by slot name
      */
-    protected function setUpBlocks()
-    {
-        if (null === $this->idLanguage) {
-            throw new General\ArgumentIsEmptyException('exception_language_id_not_set');
-        }
-
-        if (null === $this->idPage) {
-            throw new General\ArgumentIsEmptyException('exception_page_id_not_set');
-        }
-
-        $this->alBlocks = $this->fetchBlocks();
-        $this->arrangeBlocks();
-    }
-
-    protected function fetchBlocks()
-    {
-        return $this->blockRepository->retrieveContents(array(1, $this->idLanguage), array(1, $this->idPage));
-    }
-
     protected function arrangeBlocks()
     {
         $this->blocks = array();
         foreach ($this->alBlocks as $alBlock) {
             $this->blocks[$alBlock->getSlotName()][] = $alBlock;
         }
+    }
+    
+    /**
+     * The id of the page to retrieve
+     *
+     * @param  int                                                                                       $v
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     *
+     * @api
+     */
+    public function setIdPage($v)
+    {
+        throw new RedKiteDeprecatedException("AlPageBlocks->setIdPage() has been deprecated");
+    }
+
+    /**
+     * The id of the language to retrieve
+     *
+     * @param  int                                                                                       $v
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     *
+     * @api
+     */
+    public function setIdLanguage($v)
+    {
+        throw new RedKiteDeprecatedException("AlPageBlocks->setIdLanguage() has been deprecated");
+    }
+
+    /**
+     * Returns the current page id
+     *
+     * @return int
+     *
+     * @api
+     */
+    public function getIdPage()
+    {
+        throw new RedKiteDeprecatedException("AlPageBlocks->getIdPage() has been deprecated.  Use the getPageInformation() method instead this one");
+    }
+
+    /**
+     * Returns the current language id
+     *
+     * @return int
+     *
+     * @deprecated
+     */
+    public function getIdLanguage()
+    {
+        throw new RedKiteDeprecatedException("AlPageBlocks->getIdLanguage() has been deprecated. Use the getPageInformation() method instead this one");
     }
 }

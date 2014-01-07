@@ -36,20 +36,20 @@ class ThemePreviewController extends AlCmsController
         $this->factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $this->blocksFactory = $this->container->get('red_kite_cms.block_manager_factory');
         $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
+        $templateManager = $this->container->get('red_kite_cms.template_manager');
+        $assetsManager = $this->container->get('red_kite_cms.template_assets_manager');
         $this->blocksRepository = $this->factoryRepository->createRepository('Block');
         $bootstrapVersion = $this->activeTheme->getThemeBootstrapVersion($themeName);
 
         $theme = $this->themes->getTheme($themeName);
         $template = ($templateName == 'none') ? $theme->getHomeTemplate() : $theme->getTemplate($templateName);
 
-        $this->pageTree = new AlPageTreePreview($this->container, $this->factoryRepository);
+        $this->pageTree = $this->container->get('red_kite_cms.page_tree_preview'); 
+        $this->pageTree->setTemplateAssetsManager($assetsManager);
         $slotContents = $this->fetchSlotContents($theme);
         $pageBlocks = new AlPageBlocks($this->factoryRepository);
         $pageBlocks->addRange($slotContents);
-        $this->pageTree
-            ->setTemplate($template)
-            ->setPageBlocks($pageBlocks)
-        ;
+        $this->pageTree->setUp($theme, $templateManager, $pageBlocks, $template);
         $this->container->set('red_kite_cms.page_tree', $this->pageTree);
 
         $twigTemplate = $this->findTemplate($this->pageTree);

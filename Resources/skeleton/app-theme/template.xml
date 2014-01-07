@@ -22,13 +22,12 @@
 {% set cms_javascripts = true %}
 {% else %}
 {% set cms_javascripts = false %}
-{% endif %}    
+{% endif %}
 {% if template_slots is defined and template_slots|length > 0  %}
 {% set slots = true %}
 {% else %}
 {% set slots = false %}
 {% endif %}
-    
 {% if stylesheets or javascripts or cms_stylesheets or cms_javascripts or slots %}
     <parameters>
 {% if assets.external_stylesheets is defined and assets.external_stylesheets|length > 0 %}

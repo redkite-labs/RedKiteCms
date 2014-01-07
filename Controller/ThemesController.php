@@ -64,6 +64,11 @@ class ThemesController extends Base\BaseController
         
         $themeName = $request->get('themeName');
         $currentTheme = $this->getActiveTheme();
+        $themeChanger = $this->container->get('red_kite_cms.theme_changer');
+        $themes = $this->container->get('red_kite_labs_theme_engine.themes');
+        $previousTheme = $themes->getTheme($currentTheme->getActiveTheme()->getThemeName());
+        $theme = $themes->getTheme($themeName);
+        $themeChanger->change($previousTheme, $theme, $this->container->getParameter('red_kite_cms.theme_structure_file'), $map);
         $currentTheme->writeActiveTheme($themeName);
 
         return new Response($this->translate('themes_controller_theme_changed'), 200);
@@ -78,11 +83,9 @@ class ThemesController extends Base\BaseController
         $theme = $themes->getTheme($themeName);
         $template = $theme->getHomeTemplate();
         
-        $templateManager = 
-            $this->container
-                 ->get('red_kite_cms.template_manager')
-                 ->refresh($theme->getThemeSlots(), $template, $this->container->get('red_kite_cms.page_blocks'))
-        ;
+        $pageBlocks = $this->container->get('red_kite_cms.page_blocks');
+        $templateManager = $this->container->get('red_kite_cms.template_manager');
+        $templateManager->refresh($theme->getThemeSlots(), $template, $pageBlocks);
 
         $siteBootstrap = $this->container->get('red_kite_cms.site_bootstrap');
         $result = $siteBootstrap

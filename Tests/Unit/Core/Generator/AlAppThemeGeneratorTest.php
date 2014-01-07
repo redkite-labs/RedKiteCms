@@ -17,7 +17,6 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Generator;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlAppThemeGenerator;
 use org\bovigo\vfs\vfsStream;
 
@@ -47,8 +46,13 @@ class AlAppThemeGeneratorTest extends Base\AlAppGeneratorBase
         $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '    <services>' . PHP_EOL;
+        $expected .= '        <service id="fake_theme.theme_slots" class="%red_kite_labs_theme_engine.theme_slots.class%">' . PHP_EOL;
+        $expected .= '            <tag name="bootbusiness_theme.slots" />' . PHP_EOL;
+        $expected .= '        </service>' . PHP_EOL;
+        $expected .= PHP_EOL;
         $expected .= '        <service id="fake_theme.theme" class="%red_kite_labs_theme_engine.theme.class%">' . PHP_EOL;
         $expected .= '            <argument type="string">FakeTheme</argument>' . PHP_EOL;
+        $expected .= '            <argument type="service" id="fake_theme.theme_slots" />' . PHP_EOL;
         $expected .= '            <tag name="red_kite_labs_theme_engine.themes.theme" />' . PHP_EOL;
         $expected .= '        </service>' . PHP_EOL;
         $expected .= '    </services>' . PHP_EOL;

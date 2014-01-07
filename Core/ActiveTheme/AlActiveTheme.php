@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * AlActiveTheme is the object deputated to manage the active theme
+ * AlActiveTheme is the object deputated to manage the website active theme
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
@@ -30,6 +30,11 @@ class AlActiveTheme implements AlActiveThemeInterface
     private $activeTheme = null;
     private $bootstrapVersion = null;
 
+    /**
+     * Constructor
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
@@ -70,6 +75,11 @@ class AlActiveTheme implements AlActiveThemeInterface
         file_put_contents($this->getActiveThemeFile(), trim($themeName));
     }
 
+    /**
+     * Returns the Twitter Bootstrap version for the theme requested as argument
+     * @param string $themeName
+     * @return string
+     */
     public function getThemeBootstrapVersion($themeName = null)
     {
         if (null === $themeName) {

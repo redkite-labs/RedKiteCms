@@ -68,14 +68,16 @@ class AlCmsController extends BaseFrontendController
             $languageId = 0;
             $pageName = '';
             $languageName = '';
-            if (null !== $pageTree->getAlPage()) {
-                $pageId =  $pageTree->getAlPage()->getId();
-                $pageName = $pageTree->getAlPage()->getPageName();
+            $page = $pageTree->getAlPage();
+            $language = $pageTree->getAlLanguage();
+            if (null !== $page) {
+                $pageId =  $page->getId();
+                $pageName = $page->getPageName();
             }
 
-            if (null !== $pageTree->getAlLanguage()) {
-                $languageId =  $pageTree->getAlLanguage()->getId();
-                $languageName = $pageTree->getAlLanguage()->getLanguageName();
+            if (null !== $language) {
+                $languageId =  $language->getId();
+                $languageName = $language->getLanguageName();
             }
 
             $template = $this->findTemplate($pageTree);

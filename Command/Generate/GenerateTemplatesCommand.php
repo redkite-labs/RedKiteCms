@@ -87,7 +87,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
 
         // @codeCoverageIgnoreStart
         if (null === $this->templateParser) {
-            $this->templateParser = new AlTemplateParser($this->getContainer()->get('templating.locator'), $this->getContainer()->get('templating.name_parser'), $dir . 'Resources/views/Theme', $kernel->getRootDir(), $themeName);
+            $this->templateParser = new AlTemplateParser($this->getContainer()->get('templating.locator'), $this->getContainer()->get('templating.name_parser'));
         }
 
         if (null === $this->templateGenerator) {
@@ -103,8 +103,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
         }
         // @codeCoverageIgnoreEnd
 
-        //$baseSlots = $slotFiles = array();
-        $parsedTemplates = $this->templateParser->parse();
+        $parsedTemplates = $this->templateParser->parse($dir . 'Resources/views/Theme', $kernel->getRootDir(), $themeName);
         $this->addOption('template-name', '', InputOption::VALUE_NONE, '');
         $templates = $parsedTemplates["templates"];
         foreach ($templates as $templateAttributes) {
@@ -114,7 +113,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
             $output->writeln($message);
         }
         
-        $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/slots', $themeName, $templateName, $parsedTemplates["slots"]);
+        $message = $this->slotsGenerator->generateSlots($dir . 'Resources/config/slots', $themeName, $parsedTemplates["slots"]);
         $output->writeln($message);
         
         $message = $this->extensionGenerator->generateExtension($namespace, $dir . 'DependencyInjection', $themeName, $templates);

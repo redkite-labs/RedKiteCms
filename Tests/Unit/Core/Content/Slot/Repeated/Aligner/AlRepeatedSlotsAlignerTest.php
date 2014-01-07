@@ -18,7 +18,6 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
 
 use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner;
 
 /**
@@ -39,7 +38,10 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         parent::setUp();
 
         $this->themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
-
+        $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+                                    ->disableOriginalConstructor()
+                                    ->getMock();
+        
         $this->slotsConverterFactory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface');
         $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
@@ -54,11 +56,43 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         $this->aligner = new AlRepeatedSlotsAligner($this->themes, $this->slotsConverterFactory, $this->factoryRepository);
     }
     
-    public function testAnyOperationIsMadeWhenTheTemplateHasNotBeenChanged()
+    /**
+     * @dataProvider invalidProvider
+     */
+    public function testAnyOperationIsMadeWhenTheTemplateHasNotBeenChanged($slots, $templateSlots)
     {
-        $this->assertNull($this->aligner->align("Home", array()));
+        $this->initTemplate('home', $slots);
+        $this->assertNull($this->aligner->align($this->template, $templateSlots));
     }
     
+    public function invalidProvider()
+    {
+        return array(
+            array(
+                array(),
+                array("logo" => $this->initSlot()),
+            ),
+            array(
+                array("logo"),
+                array(),
+            ),
+        );
+    }
+    
+    private function initTemplate($templateName, $slots)
+    {
+        $this->template->expects($this->once())
+            ->method('getSlots')
+            ->will($this->returnValue($slots))
+        ;
+        
+        $this->template->expects($this->any())
+            ->method('getTemplateName')
+            ->will($this->returnValue($templateName))
+        ;
+    }
+
+
     public function testProperties()
     {
         $this->assertNull($this->aligner->getLanguageId());
@@ -116,15 +150,16 @@ class AlRepeatedSlotsAlignerTest extends TestCase
             )
         ;
         
-        $slots = $this->initSlots($slotValues);
+        $this->initTemplate('home', array('logo'));
+        $themeSlots = $this->initSlots($slotValues);
         $this->initBlocks($blockValues);
-        $this->aligner->align("Home", $slots);
+        $this->aligner->align($this->template, $themeSlots);
     }
 
     /**
      * @dataProvider valuesProvider
      */
-    public function testConvertWhenPageAndLanguageHasNotBeenSetted($slots, $blocks, $convert, $transaction, $result)
+    public function testConvertWhenPageAndLanguageHasNotBeenSetted($slots, $themeSlots, $blocks, $convert, $transaction, $result)
     {
         $language = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage');
         $language
@@ -178,22 +213,22 @@ class AlRepeatedSlotsAlignerTest extends TestCase
              ->will($this->returnValue($pageRepository))
         ;
         
-        $this->doTest($slots, $blocks, $convert, $transaction, $result);
+        $this->doTest($slots, $themeSlots, $blocks, $convert, $transaction, $result);
     }
     
     /**
      * @dataProvider valuesProvider
      */
-    public function testConvertWhenPageAndLanguageHasBeenSetted($slots, $blocks, $convert, $transaction, $result)
+    public function testConvertWhenPageAndLanguageHasBeenSetted($slots, $themeSlots, $blocks, $convert, $transaction, $result)
     {
         $this->aligner
              ->setLanguageId(2)
              ->setPageId(2);
         
-        $this->doTest($slots, $blocks, $convert, $transaction, $result);
+        $this->doTest($slots, $themeSlots, $blocks, $convert, $transaction, $result);
     }
     
-    private function doTest($slots, $blocks, $convert, $transaction, $result)
+    private function doTest($slots, $themeSlots, $blocks, $convert, $transaction, $result)
     {
         $converter = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');
         $converter->expects($this->exactly($convert["convert"]))
@@ -213,10 +248,11 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         $this->blockRepository->expects($this->exactly($transaction['rollBack']))
             ->method('rollBack');
         
-        $slots = $this->initSlots($slots);
+        $this->initTemplate('home', $slots);
+        $themeSlots = $this->initSlots($themeSlots);
         $this->initBlocks($blocks);
         
-        $this->assertEquals($result, $this->aligner->align("Home", $slots));
+        $this->assertEquals($result, $this->aligner->align($this->template, $themeSlots));
     }
     
     public function valuesProvider()
@@ -224,6 +260,9 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         return array(
             // The slot repeated status has not changed
             array(
+                array(
+                    'logo',
+                ),
                 array(
                     array(
                         "slot_name" => "logo", 
@@ -248,9 +287,46 @@ class AlRepeatedSlotsAlignerTest extends TestCase
                     "rollBack" => 0,
                 ),
                 null,
+            ),// The slot nav-menu is ignored because it does not belong the current template
+            array(
+                array(
+                    'logo',
+                ),
+                array(
+                    array(
+                        "slot_name" => "logo", 
+                        "repeated" => "site"
+                    ),
+                    array(
+                        "slot_name" => "nav-menu", 
+                        "repeated" => "language",
+                        "times" => 0,
+                    ),
+                ),
+                array(
+                    array(
+                        "slot_name" => "logo", 
+                        "language_id" => "1", 
+                        "page_id" => "1"
+                    ),
+                ),
+                array(
+                    "convert" => 0,
+                    "create" => 0,
+                    "result" => null,
+                ),
+                array(
+                    "start" => 0,
+                    "commit" => 0,
+                    "rollBack" => 0,
+                ),
+                null,
             ),
             // The slot repeated status has not changed because convert fails
             array(
+                array(
+                    'logo',
+                ),
                 array(
                     array(
                         "slot_name" => "logo", 
@@ -279,6 +355,9 @@ class AlRepeatedSlotsAlignerTest extends TestCase
             // The slot repeated status has changed
             array(
                 array(
+                    'logo',
+                ),
+                array(
                     array(
                         "slot_name" => "logo", 
                         "repeated" => "site"
@@ -305,6 +384,11 @@ class AlRepeatedSlotsAlignerTest extends TestCase
             ),
             // The slot repeated status has changed
             array(
+                array(
+                    'logo',
+                    "nav_menu", 
+                    "slot_name" => "screenshots", 
+                ),
                 array(
                     array(
                         "slot_name" => "logo", 
@@ -345,6 +429,11 @@ class AlRepeatedSlotsAlignerTest extends TestCase
                 true,
             ),
             array(
+                array(
+                    'logo',
+                    "nav_menu", 
+                    "slot_name" => "screenshots", 
+                ),
                 array(
                     array(
                         "slot_name" => "logo", 
@@ -429,26 +518,37 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     private function initSlots(array $slotValues)
     {
         $slots = array();
-        foreach ($slotValues as $slotValue) {         
-            $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
-                 ->disableOriginalConstructor()
-                 ->getMock();
-            
-            $slot
-                ->expects($this->once())
-                ->method('getSlotName')
-                ->will($this->returnValue($slotValue["slot_name"]))
-            ;
-
-            $slot
-                ->expects($this->once())
-                ->method('getRepeated')
-                ->will($this->returnValue($slotValue["repeated"]))
-            ;
+        foreach ($slotValues as $slotValue) {     
+            $times = 1;
+            if (array_key_exists("times", $slotValue)) {
+                $times = ($slotValue["times"]);
+            }
+            $slot = $this->initSlot($slotValue["slot_name"], $slotValue["repeated"], $times);
             
             $slots[$slotValue["slot_name"]] = $slot;            
         }
         
         return $slots;
+    }
+    
+    private function initSlot($slotName = "logo", $repeated = "page", $times = 1)
+    {
+        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
+                 ->disableOriginalConstructor()
+                 ->getMock();
+        
+        $slot
+            ->expects($this->exactly($times))
+            ->method('getSlotName')
+            ->will($this->returnValue($slotName))
+        ;
+
+        $slot
+            ->expects($this->exactly($times))
+            ->method('getRepeated')
+            ->will($this->returnValue($repeated))
+        ;
+        
+        return $slot;
     }
 }

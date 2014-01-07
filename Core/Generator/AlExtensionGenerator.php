@@ -39,21 +39,12 @@ class AlExtensionGenerator extends Generator
         $extensionAlias = Container::underscore($themeBasename);
         
         $templateFiles = array_map(function ($template) { return basename($template["name"], '.html.twig'); }, $templates);
-        //$slotFiles = array_map(function ($slotFile) { return basename($slotFile, '.html.twig'); }, $slotFiles);
-        /*
-        $templateFiles = array();
-        foreach($templates as $template) {
-            $templateName = basename($template["name"], '.html.twig');
-            $templateFiles[$templateName] = $template["slots"];
-        }*/
-        
         
         $parameters = array(
             'namespace' => $namespace,
             'bundle_basename' => $themeBasename,
             'theme_files' => array($extensionAlias),
             'template_files' => $templateFiles,
-            //"slot_files" => $slotFiles,
             "extension_alias" => $extensionAlias,
         );
 

@@ -29,18 +29,16 @@ class AlSlotsGenerator extends Generator
      *
      * @param  string $dir          The directory where the generated file must be saved
      * @param  string $themeName
-     * @param  string $templateName
      * @param  array  $slots
      * @return string A message formatted to be displayed on the console
      */
-    public function generateSlots($dir, $themeName, $templateName, array $slots)
+    public function generateSlots($dir, $themeName, array $slots)
     {
         $themeBasename = str_replace('Bundle', '', $themeName);
         $extensionAlias = Container::underscore($themeBasename);
 
         $parameters = array(
             'theme_name' => $extensionAlias,
-            'template_name' => $templateName,
             "slots" => $slots,
         );
 

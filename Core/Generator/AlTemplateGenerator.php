@@ -23,16 +23,17 @@ class AlTemplateGenerator extends Generator
     {
         $this->themeSkeletonDir = (null === $themeSkeletonDir) ? __DIR__ . '/../../Resources/skeleton/app-theme' : $themeSkeletonDir;
     }
-
+    
     /**
      * Generates the template file
-     * @param  string $dir          The directory where the generated file must be saved
-     * @param  string $themeName
-     * @param  string $templateName
-     * @param  array  $assets
-     * @return string A message formatted to be displayed on the console
+     * 
+     * @param string $dir           The directory where the generated file must be saved
+     * @param string $themeName
+     * @param string $templateName
+     * @param array $templateSlots  An array of slot names
+     * @return string               A message formatted to be displayed on the console
      */
-    public function generateTemplate($dir, $themeName, $templateName, $templateSlots)
+    public function generateTemplate($dir, $themeName, $templateName, array $templateSlots)
     {
         $themeBasename = str_replace('Bundle', '', $themeName);
         $extensionAlias = Container::underscore($themeBasename);

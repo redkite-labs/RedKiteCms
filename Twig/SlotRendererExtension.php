@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\AlTwigTemplateWriter;
+use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
@@ -73,7 +73,7 @@ class SlotRendererExtension extends \Twig_Extension
             }
 
             $content = implode(PHP_EOL, $slotContents);
-            $content = AlTwigTemplateWriter::MarkSlotContents($slotName, $content);
+            $content = TwigTemplateWriter::MarkSlotContents($slotName, $content);
 
         } catch (\Exception $ex) {
             $content = $this->translator->translate('twig_extension_slot_rendering_error', array('%slot_name%' => $slotName, '%error%' => $ex->getMessage()), 'RedKiteCmsBundle');

@@ -344,8 +344,21 @@ class LanguagesControllerTest extends WebTestCaseFunctional
     {
         $pageTree = $this->client->getContainer()->get('red_kite_cms.page_tree');
         $slots = $pageTree->getTemplateManager()->getTemplate()->getSlots();
-
-        return $slots;
+        $activeThemeManager = $this->client->getContainer()->get('red_kite_cms.active_theme');
+        $activeTheme = $activeThemeManager->getActiveTheme();
+        $themeSlots = $activeTheme->getThemeSlots();
+        
+        $pageSlots = array();
+        foreach($slots as $slotName) {
+            $slot = $themeSlots->getSlot($slotName);
+            if ($slot->getRepeated() != "page") {
+                continue;
+            }
+            
+            $pageSlots[] = $slotName;
+        }
+        
+        return $pageSlots;
     }
     
     private function checkPage($crawler)
