@@ -15,22 +15,22 @@
  *
  */
 
-namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
+namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\ThemeSlots;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlots;
 
 /**
- * AlTemplateSlotTest
+ * AlThemeSlotsTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlTemplateSlotsTest extends TestCase
+class AlThemeSlotsTest extends TestCase
 {
     protected function setUp()
     {
-        $this->templateSlots = new AlTemplateSlots();
+        $this->templateSlots = new AlThemeSlots();
     }
 
     public function testAddANewSlotAndRetrieveIt()

@@ -19,6 +19,7 @@ namespace RedKiteLabs\ThemeEngineBundle\Core\Theme;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemeCollectionBase;
 use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface;
 
 /**
  * AlTheme represents a theme and it is a collection of AlTemplate objects
@@ -35,8 +36,10 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
      * Constructor
      *
      * @param string $themeName
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface $templateSlots
+     * @throws InvalidArgumentException
      */
-    public function __construct($themeName, \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlots $templateSlots)
+    public function __construct($themeName, AlThemeSlotsInterface $templateSlots)
     {
         if (!is_string($themeName)) {
             throw new InvalidArgumentException('The theme name, passed to the AlTheme object, must be a string');

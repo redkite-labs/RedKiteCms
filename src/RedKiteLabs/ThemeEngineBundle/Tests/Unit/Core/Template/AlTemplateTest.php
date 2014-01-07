@@ -38,17 +38,6 @@ class AlTemplateTest extends TestCase
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
         $this->templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface');
     }
-
-    public function testBlockManagerFactoryInjectedBySetters()
-    {        
-        $this->initAssets();
-        $templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface');  
-        
-        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);           
-        $this->assertEquals($this->template, $this->template->setTemplateSlots($templateSlots));
-        $this->assertEquals($templateSlots, $this->template->getTemplateSlots());
-        $this->assertNotSame($this->template, $this->template->getTemplateSlots());
-    }
     
     public function testSetThemeAndTemplateName()
     {
@@ -103,27 +92,17 @@ class AlTemplateTest extends TestCase
         $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);   
 
         $this->assertTrue(count($this->template->getSlots()) == 0);
-        $this->assertTrue(count($this->template->getSlot('logo')) == 0);
     }
 
     public function testFetchesTemplateSlots()
     {
         $this->initTemplateWithSomeAssets();
-        $slot = array('repeated' => 'site');
-        $slots = array('logo' => $slot);
-        
-        $this->templateSlots->expects($this->once())
-            ->method('getSlots')
-            ->will($this->returnValue($slots));
+        $slots = array('logo', 'menu');
 
-        $this->templateSlots->expects($this->once())
-            ->method('getSlot')
-            ->will($this->returnValue($slot));
-
-        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);           
-        
+        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);  
+        $this->assertEmpty($this->template->getSlots());
+        $this->template->setSlots($slots);
         $this->assertEquals($slots, $this->template->getSlots());
-        $this->assertEquals($slot, $this->template->getSlot('logo'));
     }
     
     public function testAddAnAsset()

@@ -48,6 +48,7 @@ class AlTemplate
     protected $kernel = null;
     protected $templateAssets = null;
     protected $assets = null;
+    private $slots = array();
 
     /**
      * Constructor
@@ -215,10 +216,10 @@ class AlTemplate
      * Returns a slot by its name
      *
      * @return array
-     * @deprecated since version number
+     * @deprecated since 1.1.0
      */
     public function getSlot($slotName)
     {
-        return (null !== $this->templateSlots) ? $this->templateSlots->getSlot($slotName) : array();
+        throw  new \RuntimeException("AlTemplate->getSlot() method has been deprecated");
     }
 }

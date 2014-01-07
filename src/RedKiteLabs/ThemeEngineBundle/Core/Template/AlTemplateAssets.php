@@ -29,10 +29,6 @@ use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
  * @method     AlTemplateAssets setInternalStylesheets() Sets the internal stylesheets. When the property is valorized, the saved value is replaced
  * @method     AlTemplateAssets setExternalJavascripts() Sets the external javascripts. When the property is valorized, the saved value is replaced
  * @method     AlTemplateAssets setInternalJavascripts() Sets the internal javascripts. When the property is valorized, the saved value is replaced
- * @method     AlTemplateAssets addExternalStylesheets() Adds some assets to the external stylesheets collection
- * @method     AlTemplateAssets addInternalStylesheets() Adds some assets to the internal stylesheets collection
- * @method     AlTemplateAssets addExternalJavascripts() Adds some assets to the external javascripts collection
- * @method     AlTemplateAssets addInternalJavascripts() Adds some assets to the internal javascripts collection
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */

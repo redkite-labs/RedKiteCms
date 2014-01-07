@@ -44,15 +44,13 @@ class AlThemesCollectionCompilerPassTest extends TestCase
         $builder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
         $builder->expects($this->any())
             ->method('hasDefinition')
+            ->with('red_kite_labs_theme_engine.themes')
             ->will($this->returnValue(false));
         
         $this->compiler->process($builder, 'theme');
     }
-    
-    /**
-     * @dataProviderx eventsSubscriberProvider $services, $results
-     */
-    public function testAnExceptionIsThrownWhenRenderSlotContentsMethodDoesNotReturnAnArray()
+   
+    public function testThemeDefinitionHasBeenProcessed()
     {
         $themeDefinition = $this->getMock('Symfony\Component\DependencyInjection\Definition');
         $themeDefinition->expects($this->atLeastOnce())
@@ -60,65 +58,78 @@ class AlThemesCollectionCompilerPassTest extends TestCase
             ->with('addTheme', array(new Reference('business_website.theme')))
         ;
         
-        $templateDefinition = $this->getMock('Symfony\Component\DependencyInjection\Definition');
-        $templateDefinition->expects($this->atLeastOnce())
-            ->method('addMethodCall')
-            ->with('addTemplate', array(new Reference('business_website.theme.template.home')))
-        ;
-        
-        $baseSlotDefinition = $this->getMock('Symfony\Component\DependencyInjection\Definition');
-        $baseSlotDefinition->expects($this->atLeastOnce())
-            ->method('addMethodCall')
-            ->with('addSlot', array(new Reference('business_website.theme.template.base.slots')))
-        ;
-        
-        $homeSlotDefinition = $this->getMock('Symfony\Component\DependencyInjection\Definition');
-        $homeSlotDefinition->expects($this->atLeastOnce())
-            ->method('addMethodCall')
-            ->with('addSlot', array(new Reference('business_website.theme.template.home.slots')))
-        ;
-        
         $builder = $this->getMock('Symfony\Component\DependencyInjection\ContainerBuilder');
-        $builder->expects($this->any())
+        $at = 0;
+        $builder->expects($this->at($at))
             ->method('hasDefinition')
+            ->with('red_kite_labs_theme_engine.themes')
             ->will($this->returnValue(true));
         
-        $builder->expects($this->at(1))
+        $at++;
+        $builder->expects($this->at($at))
             ->method('getDefinition')
             ->will($this->returnValue($themeDefinition));
         
+        $at++;
         $themeServices = array('business_website.theme' => array(array()));        
-        $builder->expects($this->at(2))
+        $builder->expects($this->at($at))
             ->method('findTaggedServiceIds')
+            ->with('red_kite_labs_theme_engine.themes.theme')
             ->will($this->returnValue($themeServices));
         
-        $builder->expects($this->at(3))
+        $at++;
+        $themeSlotsDefinitionId = 'business_website.theme_slots';
+        $builder->expects($this->at($at))
+            ->method('hasDefinition')
+            ->with($themeSlotsDefinitionId)
+            ->will($this->returnValue(true));
+        
+        
+        $themeSlotsDefinition = $this->getMock('Symfony\Component\DependencyInjection\Definition');
+        $themeSlotsDefinition->expects($this->once())
+            ->method('addMethodCall')
+            ->with('addSlot', array(new Reference('business_website.theme.template.slots.slot_name')))
+        ;
+        
+        $at++;
+        $builder->expects($this->at($at))
+            ->method('getDefinition')
+            ->will($this->returnValue($themeSlotsDefinition));
+        
+        $slotsDefinition = array(
+            "business_website.theme.template.slots.slot_name" => array(
+                array (),
+            ),
+        );
+        
+        $at++;
+        $builder->expects($this->at($at))
+            ->method('findTaggedServiceIds')
+            ->with('business_website.theme.template.slot')
+            ->will($this->returnValue($slotsDefinition));
+        
+        
+        $templateDefinition = $this->getMock('Symfony\Component\DependencyInjection\Definition');
+        $templateDefinition->expects($this->atLeastOnce())
+            ->method('addMethodCall')
+            ->with('addTemplate', array(new Reference('business_website.theme.template.template_name')))
+        ;
+        
+        $at++;
+        $builder->expects($this->at($at))
             ->method('getDefinition')
             ->will($this->returnValue($templateDefinition));
         
-        $templateServices = array('business_website.theme.template.home' => array(array()));      
-        $builder->expects($this->at(4))
+        $templateDefinition = array(
+            "business_website.theme.template.template_name" => array(
+                array (),
+            ),
+        );
+        $at++;
+        $builder->expects($this->at($at))
             ->method('findTaggedServiceIds')
-            ->will($this->returnValue($templateServices));
-        
-        $builder->expects($this->at(5))
-            ->method('getDefinition')
-            ->will($this->returnValue($baseSlotDefinition));
-        
-        $baseSlotServices = array('business_website.theme.template.base.slots' => array(array()));      
-        $builder->expects($this->at(6))
-            ->method('findTaggedServiceIds')
-            ->will($this->returnValue($baseSlotServices));
-        
-        $builder->expects($this->at(7))
-            ->method('getDefinition')
-            ->will($this->returnValue($homeSlotDefinition));
-        
-        $homeSlotServices = array('business_website.theme.template.home.slots' => array(array()));      
-        $builder->expects($this->at(8))
-            ->method('findTaggedServiceIds')
-            ->will($this->returnValue($homeSlotServices));
-        
+            ->with('business_website.theme.template')
+            ->will($this->returnValue($templateDefinition));
         
         $this->compiler->process($builder);
     }

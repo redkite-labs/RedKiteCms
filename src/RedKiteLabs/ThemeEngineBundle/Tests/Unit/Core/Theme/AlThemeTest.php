@@ -27,12 +27,17 @@ use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
  */
 class AlThemeTest extends TestCase
 {
+    protected function setUp()
+    {
+        $this->themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface');
+    }
+
     /**
      * @expectedException \RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
     public function testAnExceptionIsThrownsWhenTheAlThemeNotReceiveAString()
     {
-        $theme = new AlTheme(array('fake'));
+        $theme = new AlTheme(array('fake'), $this->themeSlots);
     }
 
     public function testTheThemeNameIsAlwaysSuffixedWithBundle()
@@ -55,6 +60,7 @@ class AlThemeTest extends TestCase
         $theme->setTemplate('home', $otherTemplate);
         $this->assertNotSame($template, $theme->getTemplate('home'));
         $this->assertSame($otherTemplate, $theme->getTemplate('home'));
+        $this->assertSame($this->themeSlots, $theme->getThemeSlots());
     }
 
     public function testAddATemplate()
@@ -113,7 +119,7 @@ class AlThemeTest extends TestCase
 
     private function setUpTheme($themeName = 'FakeBundle', $template = null)
     {
-        $theme = new AlTheme($themeName);;
+        $theme = new AlTheme($themeName, $this->themeSlots);
         if(null !== $template) $theme->addTemplate($template);
 
         return $theme;

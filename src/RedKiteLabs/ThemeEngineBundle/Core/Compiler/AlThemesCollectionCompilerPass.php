@@ -35,42 +35,24 @@ class AlThemesCollectionCompilerPass implements CompilerPassInterface
 
         $definition = $container->getDefinition('red_kite_labs_theme_engine.themes');
         foreach ($container->findTaggedServiceIds('red_kite_labs_theme_engine.themes.theme') as $id => $attributes) {
-            foreach ($attributes as $tagAttributes) {
-                $definition->addMethodCall('addTheme', array(new Reference($id)));
-                $themeSlotsId = $id . '_slots';
-                if ($container->hasDefinition($themeSlotsId)) {
-                    $themeSlotsDefinition = $container->getDefinition($themeSlotsId);
-                    $templateSlotsTag = $id . '.template.slot';
-                    foreach ($container->findTaggedServiceIds($templateSlotsTag) as $slotId => $templateSlotsAttributes) {
-                        foreach ($templateSlotsAttributes as $templateSlotsTagAttributes) {
-                            $themeSlotsDefinition->addMethodCall('addSlot', array(new Reference($slotId)));
-                        }
+            $definition->addMethodCall('addTheme', array(new Reference($id)));
+            $themeSlotsId = $id . '_slots';
+            if ($container->hasDefinition($themeSlotsId)) {
+                $themeSlotsDefinition = $container->getDefinition($themeSlotsId);
+                $templateSlotsTag = $id . '.template.slot';
+                foreach ($container->findTaggedServiceIds($templateSlotsTag) as $slotId => $templateSlotsAttributes) {
+                    foreach ($templateSlotsAttributes as $templateSlotsTagAttributes) {
+                        $themeSlotsDefinition->addMethodCall('addSlot', array(new Reference($slotId)));
                     }
                 }
             }
-
+            
             $templateDefinition = $container->getDefinition($id);
             $templateId = $id . '.template';
             foreach ($container->findTaggedServiceIds($templateId) as $id => $templateAttributes) {
                 foreach ($templateAttributes as $templateTagAttributes) {
                     $templateDefinition->addMethodCall('addTemplate', array(new Reference($id)));
                 }
-
-                /*
-                $templateSlotsId = $id . '.slots';
-                $templateSlotsTag = preg_replace_callback('/([\w]+\.template\.)([\w]+)/', function ($matches) { return $matches[1] . 'base.slots'; }, $id);
-                $this->addSlots($container, $templateSlotsId, $templateSlotsTag);
-                $this->addSlots($container, $templateSlotsId, $templateSlotsId);*/
-            }
-        }
-    }
-
-    private function addSlots(ContainerBuilder $container, $templateSlotsId, $templateSlotsTag)
-    {
-        $templateSlotsDefinition = $container->getDefinition($templateSlotsId);
-        foreach ($container->findTaggedServiceIds($templateSlotsTag) as $id => $templateSlotsAttributes) {
-            foreach ($templateSlotsAttributes as $templateSlotsTagAttributes) {
-                $templateSlotsDefinition->addMethodCall('addSlot', array(new Reference($id)));
             }
         }
     }

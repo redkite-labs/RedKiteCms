@@ -17,8 +17,7 @@
 namespace RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots;
 
 /**
- * AlThemeSlots is the object deputated to collect and manage the slots that belongs
- * to a theme
+ * AlThemeSlots is the object deputated to collect and manage the theme's slots
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
