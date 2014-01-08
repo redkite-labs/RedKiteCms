@@ -44,8 +44,7 @@ class TemplateAssetsManagerDeploy extends TemplateAssetsManager
         $appsAssets = array();
 
         // merges assets from installed apps
-        $availableBlocks = $this->blockManagerFactory->getAvailableBlocks();
-        foreach ($availableBlocks as $className) {
+        foreach ($this->availableBlocks as $className) {
             if ( ! in_array($className, $blockTypes)) {
                 continue;
             }
