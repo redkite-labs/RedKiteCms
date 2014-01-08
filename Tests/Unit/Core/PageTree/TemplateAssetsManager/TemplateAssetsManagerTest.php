@@ -30,12 +30,44 @@ class TemplateAssetsManagerTest extends TemplateAssetsManagerBase
 {
     protected $container;
     private $assetsCollections = array();
-    private $assetCollectionAt;
+    
+    public function testEmptyObject()
+    {
+        $container = $this->getMock("Symfony\Component\DependencyInjection\ContainerInterface");
+        $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+                    ->disableOriginalConstructor()
+                    ->getMock()
+        ;
+        $templateAssetsManager = new TemplateAssetsManager($container, $blockManagerFactory);
+        $this->assertNull($templateAssetsManager->getExternalStylesheets());
+    }
+    
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage TemplateAssetsManager does not support the method: fakeMethod
+     */
+    public function testCallingNonExistentMethod()
+    {
+        $assetCollections = array(
+            'getExternalStylesheets' => $this->createAssetsCollection(array(
+                'style.css',
+            )),
+        );
+        
+        $this->assetsCollections = $assetCollections;
+        $container = $this->initContainer(array(), array());
+        $template = $this->createTemplate($assetCollections);
+        $blockManagerFactory = $this->initBlockManagerFactory(array());
+        
+        $templateAssetsManager = new TemplateAssetsManager($container, $blockManagerFactory);
+        $templateAssetsManager->setUp($template, array());
+        $templateAssetsManager->fakeMethod();
+    }
 
     /**
      * @dataProvider templateAssetsManagerProvider
      */
-    public function testSetUpTemplateAssetsManager($assetCollections, $listenersAssets, $containerAssets, $availableBlocks, $expectedResult, $options = array())
+    public function testSetUpTemplateAssetsManager($assetCollections, $listenersAssets, $containerAssets, $availableBlocks, $expectedResult, $options = array(), $extraAssets = true)
     {
         $this->assetsCollections = $assetCollections;
         $container = $this->initContainer($listenersAssets, $containerAssets);
@@ -43,6 +75,7 @@ class TemplateAssetsManagerTest extends TemplateAssetsManagerBase
         $blockManagerFactory = $this->initBlockManagerFactory($availableBlocks);
         
         $templateAssetsManager = new TemplateAssetsManager($container, $blockManagerFactory);
+        $templateAssetsManager->withExtraAssets($extraAssets);
         $templateAssetsManager->setUp($template, $options);
         $this->assertEquals($expectedResult["externalStylesheets"], $templateAssetsManager->getExternalStylesheets());
         $this->assertEquals($expectedResult["externalJavascripts"], $templateAssetsManager->getExternalJavascripts());
@@ -79,7 +112,38 @@ class TemplateAssetsManagerTest extends TemplateAssetsManagerBase
                     "externalJavascripts" => array("script.js"),
                     "internalStylesheets" => array(".foo{bar}"),
                     "internalJavascripts" => array("function foo(){bar}"),
-                )
+                ),
+            ),
+            array(
+                array(
+                    'getExternalStylesheets' => $this->createAssetsCollection(array(
+                        'style.css',
+                    )),
+                    'getExternalJavascripts' => $this->createAssetsCollection(array(
+                        'script.js',
+                    )),
+                    'getInternalStylesheets' => $this->createAssetsCollection(array(
+                        '.foo{bar}',
+                    )),
+                    'getInternalJavascripts' => $this->createAssetsCollection(array(
+                        'function foo(){bar}',
+                    )),
+                ),
+                array(
+                ),
+                array(
+                ),
+                array(
+                ),
+                array(
+                    "externalStylesheets" => array("style.css"),
+                    "externalJavascripts" => array("script.js"),
+                    "internalStylesheets" => array(".foo{bar}"),
+                    "internalJavascripts" => array("function foo(){bar}"),
+                ),
+                array(
+                ),
+                false,
             ),
             array(
                 array(

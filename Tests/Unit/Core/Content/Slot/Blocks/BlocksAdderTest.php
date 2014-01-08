@@ -114,6 +114,91 @@ class BlocksAdderTest extends AlContentManagerBase
     }
     
     /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testAddFailsWhenAdjustPositionThrowsAnException()
+    {
+        $slotParam = array(
+            "slotName" => 'foo',
+            "slotOptions" => array("repeated" => 'page'),
+        );
+        
+        $options = array(
+            "idPage"                => 2,
+            "idLanguage"            => 2,
+            "type"                  => 'Text',
+            "referenceBlockId"      => 2,
+            "insertDirection"       => 'bottom',
+            "skipSiteLevelBlocks"   => false,
+            "forceSlotAttributes"   => false,
+        );
+        
+        $block = $this->createBlock();
+        $block->expects($this->once())
+               ->method('getContentPosition')
+               ->will($this->throwException(new \InvalidArgumentException))
+            ;
+        
+        $internalElements = array(
+            "index" => 0,                    
+            "insertAt" => 1,
+            "blockManager" => $this->createBlockManager(),
+            "parts" => array(
+                "left" => array(
+                ),
+                "right" => array(
+                    $this->createBlockManager($block),
+                ),
+            ),
+        );
+        
+        $positions = array(
+            array(
+                'expectedPosition' => array(
+                ),
+                'skip' => true,
+            ),
+        );
+        
+        $blocksManagerCollection = 
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        
+        $blocksManagerCollection->expects($this->once())
+             ->method('getBlockManagerIndex')
+             ->with($options["referenceBlockId"])
+             ->will($this->returnValue($internalElements["index"]))
+        ;
+        
+        $blocksManagerCollection->expects($this->once())
+             ->method('insertAt')
+             ->with($internalElements["blockManager"], $internalElements["insertAt"])
+             ->will($this->returnValue($internalElements["parts"]))
+        ;
+        
+        $this->factory->expects($this->once())
+             ->method('createBlockManager')
+             ->with($options["type"])
+             ->will($this->returnValue($internalElements["blockManager"]))
+        ;
+        
+        $repositoryOptions = array(
+            'expectedCommit' => 0,
+            'expectedRollback' => 2,
+        );
+        
+        $this->initRepository($positions, $repositoryOptions);
+        
+        $slot = new AlSlot($slotParam["slotName"], $slotParam["slotOptions"]);
+        $this->blocksAdder->add($slot, $blocksManagerCollection, $options);
+        
+        $lastAdded = ($repositoryOptions["expectedRollback"] == 0) ? $internalElements["blockManager"] : null;
+        $this->assertSame($lastAdded, $this->blocksAdder->lastAdded());
+    }
+    
+    /**
      * @dataProvider addProvider
      */
     public function testAdd($slotParam, $options, $internalElements, $positions, $repositoryOptions = null)
@@ -726,7 +811,7 @@ class BlocksAdderTest extends AlContentManagerBase
             ;
          }
          
-         if (null !== $values) { 
+         if (null !== $values) {
              $blockManager->expects($this->once())
                 ->method('save')
                 ->with($values)
@@ -751,6 +836,9 @@ class BlocksAdderTest extends AlContentManagerBase
             ;
             $at++;
             
+            if (array_key_exists('skip', $position)) {
+                continue;
+            }
             $this->blockRepository->expects($this->at($at))
                  ->method('save')
                  ->with($position["expectedPosition"])

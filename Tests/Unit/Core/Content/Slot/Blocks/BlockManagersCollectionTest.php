@@ -51,7 +51,11 @@ class BlockManagersCollectionTest extends AlContentManagerBase
         $this->assertSame(array("index" => 0, "manager" => $blockManager1), $this->blocksManagerCollection->getManagerInfoByBlockId(2));
         $this->assertSame(array("index" => 1, "manager" => $blockManager2), $this->blocksManagerCollection->getManagerInfoByBlockId(3));
         $this->assertSame($blockManager2, $this->blocksManagerCollection->getBlockManager(3));
-        $this->assertSame(0, $this->blocksManagerCollection->getBlockManagerIndex(2));        
+        $this->assertSame(0, $this->blocksManagerCollection->getBlockManagerIndex(2));
+        
+        $this->blocksManagerCollection->clear();
+        $this->assertEquals(0, $this->blocksManagerCollection->count());
+        $this->assertNull($this->blocksManagerCollection->getManagerInfoByBlockId(2));
     }
     
     public function testToArray()

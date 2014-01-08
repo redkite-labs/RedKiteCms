@@ -32,6 +32,7 @@ class MigrateThemeCommand extends ContainerAwareCommand
 {
     /**
      * @see Command
+     * @codeCoverageIgnore
      */
     protected function configure()
     {
@@ -45,6 +46,7 @@ class MigrateThemeCommand extends ContainerAwareCommand
 
     /**
      * @see Command
+     * @codeCoverageIgnore
      *
      */
     protected function execute(InputInterface $input, OutputInterface $output)
