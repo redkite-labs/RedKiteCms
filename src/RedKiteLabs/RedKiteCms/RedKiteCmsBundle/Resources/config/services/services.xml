@@ -266,7 +266,6 @@
         <service id="red_kite_cms.theme_changer" class="%red_kite_cms.theme_changer.class%">
             <argument type="service" id="red_kite_cms.template_manager" />
             <argument type="service" id="red_kite_cms.factory_repository" />
-            <argument type="service" id="red_kite_cms.block_manager_factory" />
         </service>
         
         <service id="red_kite_cms.active_theme" class="%red_kite_cms.active_theme.class%">
