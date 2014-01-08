@@ -22,10 +22,13 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
- * @api
+ * @deprecated since 1.1.0
  */
 class AlPageBlocksTemplateChanger extends AlPageBlocks
 {
+    /**
+     * @codeCoverageIgnore
+     */
     protected function fetchBlocks()
     {
         return $this->blockRepository->retrieveContents(array(1, $this->idLanguage), array(1, $this->idPage), null, array(2, 3));
