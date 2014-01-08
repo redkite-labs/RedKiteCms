@@ -41,7 +41,7 @@ class AlPageTreePreview extends AlPageTree
      * @api
      */
     public function addBlockManager($slotName, AlBlockManagerInterface $blockManager)
-    {
+    {   
         $this->blockManagers[$slotName][] = $blockManager;
 
         return $this;
@@ -56,6 +56,10 @@ class AlPageTreePreview extends AlPageTree
      */
     public function getBlockManagers($slotName)
     {
+        if ( ! array_key_exists($slotName, $this->blockManagers)) {
+            return array();
+        }
+        
         return $this->blockManagers[$slotName];
     }
 }

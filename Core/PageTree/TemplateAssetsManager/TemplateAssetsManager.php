@@ -37,6 +37,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 class TemplateAssetsManager
 {
     protected $template = null;
+    protected $availableBlocks = array();
     private $assets = null;
     private $extraAssets = true;
     private $registeredListeners;
@@ -51,6 +52,7 @@ class TemplateAssetsManager
     {
         $this->container = $container;
         $this->blockManagerFactory = $blockManagerFactory;
+        $this->availableBlocks = $this->blockManagerFactory->getAvailableBlocks();
         
         $this->registeredListeners = $this->container->get('red_kite_labs_theme_engine.registed_listeners');
     }
@@ -98,7 +100,6 @@ class TemplateAssetsManager
     public function setUp(AlTemplate $template, array $options)
     {
         $this->template = $template;
-        $this->availableBlocks = $this->blockManagerFactory->getAvailableBlocks();
         
         $this->assets = array();
         $methods = array(

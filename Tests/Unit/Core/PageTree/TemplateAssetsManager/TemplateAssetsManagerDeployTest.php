@@ -17,32 +17,32 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\PageTree\TemplateAssetsManager;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager;
-use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
+use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManagerDeploy;
 
 /**
- * TemplateAssetsManagerTest
+ * TemplateAssetsManagerDeployTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class TemplateAssetsManagerTest extends TemplateAssetsManagerBase
+class TemplateAssetsManagerDeployTest extends TemplateAssetsManagerBase
 {
     protected $container;
     private $assetsCollections = array();
-    private $assetCollectionAt;
-
+    
     /**
      * @dataProvider templateAssetsManagerProvider
      */
-    public function testSetUpTemplateAssetsManager($assetCollections, $listenersAssets, $containerAssets, $availableBlocks, $expectedResult, $options = array())
+    public function testSetUpTemplateAssetsManager($assetCollections, $listenersAssets, $containerAssets, $availableBlocks, $blockTypes, $expectedResult, $options = array())
     {
         $this->assetsCollections = $assetCollections;
         $container = $this->initContainer($listenersAssets, $containerAssets);
         $template = $this->createTemplate($assetCollections);
         $blockManagerFactory = $this->initBlockManagerFactory($availableBlocks);
+        $pageBlocks = $this->initPageBlocks($blockTypes);
         
-        $templateAssetsManager = new TemplateAssetsManager($container, $blockManagerFactory);
+        
+        $templateAssetsManager = new TemplateAssetsManagerDeploy($container, $blockManagerFactory);
+        $templateAssetsManager->setPageBlocks($pageBlocks);
         $templateAssetsManager->setUp($template, $options);
         $this->assertEquals($expectedResult["externalStylesheets"], $templateAssetsManager->getExternalStylesheets());
         $this->assertEquals($expectedResult["externalJavascripts"], $templateAssetsManager->getExternalJavascripts());
@@ -52,83 +52,7 @@ class TemplateAssetsManagerTest extends TemplateAssetsManagerBase
     
     public function templateAssetsManagerProvider()
     {       
-        return array(
-            array(
-                array(
-                    'getExternalStylesheets' => $this->createAssetsCollection(array(
-                        'style.css',
-                    )),
-                    'getExternalJavascripts' => $this->createAssetsCollection(array(
-                        'script.js',
-                    )),
-                    'getInternalStylesheets' => $this->createAssetsCollection(array(
-                        '.foo{bar}',
-                    )),
-                    'getInternalJavascripts' => $this->createAssetsCollection(array(
-                        'function foo(){bar}',
-                    )),
-                ),
-                array(
-                ),
-                array(
-                ),
-                array(
-                ),
-                array(
-                    "externalStylesheets" => array("style.css"),
-                    "externalJavascripts" => array("script.js"),
-                    "internalStylesheets" => array(".foo{bar}"),
-                    "internalJavascripts" => array("function foo(){bar}"),
-                )
-            ),
-            array(
-                array(
-                    'getExternalStylesheets' => $this->createAssetsCollection(array(
-                        'style.css',
-                    )),
-                    'getExternalJavascripts' => $this->createAssetsCollection(array(
-                        'script.js',
-                    )),
-                    'getInternalStylesheets' => $this->createAssetsCollection(array(
-                        '.foo{bar}',
-                    )),
-                    'getInternalJavascripts' => $this->createAssetsCollection(array(
-                        'function foo(){bar}',
-                    )),
-                ),
-                array(
-                ),
-                array(
-                    'getExternalStylesheets' => array(
-                        'bootbusiness_theme.home.external_stylesheets.cms' => array(
-                            'style1.css',
-                        ),  
-                    ),
-                    'getExternalJavascripts' => array(
-                        'bootbusiness_theme.home.external_javascripts.cms' => array(
-                            'script1.js',
-                        ),  
-                    ),
-                    'getInternalStylesheets' => array(
-                        'bootbusiness_theme.home.internal_stylesheets.cms' => array(
-                            '.bar{foo}',
-                        ),  
-                    ),
-                    'getInternalJavascripts' => array(
-                        'bootbusiness_theme.home.internal_javascripts.cms' => array(
-                            'function bar(){foo}',
-                        ),  
-                    ),
-                ),
-                array(
-                ),
-                array(
-                    "externalStylesheets" => array("style.css", "style1.css"),
-                    "externalJavascripts" => array("script.js", "script1.js"),
-                    "internalStylesheets" => array(".foo{bar}", ".bar{foo}"),
-                    "internalJavascripts" => array("function foo(){bar}", "function bar(){foo}"),
-                )
-            ),
+        return array(            
             array(
                 array(
                     'getExternalStylesheets' => $this->createAssetsCollection(array(
@@ -158,6 +82,10 @@ class TemplateAssetsManagerTest extends TemplateAssetsManagerBase
                         ),
                         "menu.external_stylesheets.cms" => array(),              
                     ),
+                ),
+                array(
+                    "BootstrapSliderBlock",
+                    "Menu",
                 ),
                 array(
                     "BootstrapSliderBlock",
@@ -210,6 +138,10 @@ class TemplateAssetsManagerTest extends TemplateAssetsManagerBase
                     "Menu",
                 ),
                 array(
+                    "BootstrapSliderBlock",
+                    "Menu",
+                ),
+                array(
                     "externalStylesheets" => array("style.css", "style1.css", "style2.css", "style7.css", "style3.css", "style4.css", "style8.css", "style5.css", "style6.css", "style9.css"),
                     "externalJavascripts" => array(),
                     "internalStylesheets" => array(),
@@ -234,17 +166,13 @@ class TemplateAssetsManagerTest extends TemplateAssetsManagerBase
                         "acme_web_site.download_listener.page.external_stylesheets" => array(
                             'style7.css',
                         ), 
-                        "acme_web_site.download_listener.en.external_stylesheets" => array(
-                            'style5.css',
-                        ), 
-                        "acme_web_site.download_listener.index.external_stylesheets" => array(
-                            'style6.css',
-                        ), 
                         "bootstrapsliderblock.external_stylesheets" => array(
                             'style3.css',
                             'style4.css',
                         ),
-                        "bootstrapsliderblock.external_stylesheets.cms" => array(),
+                        "bootstrapsliderblock.external_stylesheets.cms" => array(
+                            'style8.css',
+                        ),        
                     ),
                 ),
                 array(
@@ -252,16 +180,30 @@ class TemplateAssetsManagerTest extends TemplateAssetsManagerBase
                     "Menu",
                 ),
                 array(
-                    "externalStylesheets" => array("style.css", "style1.css", "style2.css", "style7.css", "style5.css", "style6.css", "style3.css", "style4.css"),
+                    "BootstrapSliderBlock",
+                ),
+                array(
+                    "externalStylesheets" => array("style.css", "style1.css", "style2.css", "style7.css", "style3.css", "style4.css", "style8.css"),
                     "externalJavascripts" => array(),
                     "internalStylesheets" => array(),
                     "internalJavascripts" => array(),
                 ),
-                array(
-                    'language' => 'en',
-                    'page' => 'index'
-                ),
             ),
         );
+    }
+    
+    private function initPageBlocks($blockTypes)
+    {
+        $pageBlocks = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+                    ->disableOriginalConstructor()
+                    ->getMock()
+        ;
+        
+        $pageBlocks->expects($this->once())
+            ->method('getBlockTypes')
+            ->will($this->returnValue($blockTypes))
+        ;
+        
+        return $pageBlocks;
     }
 }
