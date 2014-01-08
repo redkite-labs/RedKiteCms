@@ -28,7 +28,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 class AlPageBlocksTest extends TestCase
 {
     private $blockRepository;
-    private $pageContentsContainer;
+    private $pageBlocks;
 
     protected function setUp()
     {
@@ -43,18 +43,61 @@ class AlPageBlocksTest extends TestCase
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
 
-        $this->pageContentsContainer = new AlPageBlocks($this->factoryRepository);
+        $this->pageBlocks = new AlPageBlocks($this->factoryRepository);
     }
+    
+    
+    /**
+     * @dataProvider invalidArgumentsProvider
+     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     */
+    public function testAnExceptionIsThrownWhenArgumentsAreNotIntegers($idLanguage, $idPage)
+    {
+        $this->blockRepository->expects($this->never())
+            ->method('retrieveContents')
+        ;
 
+        $this->pageBlocks->refresh($idLanguage, $idPage);
+
+        $this->pageBlocks->getBlocks();
+    }
+    
+    public function invalidArgumentsProvider()
+    {
+        return array(
+            array(
+                "foo",
+                2,
+            ),
+            array(
+                2,
+                "foo",
+            ),
+        );
+    }
+    
+    public function testSetAlBlocks()
+    {
+        $blocks = array(
+            $this->setUpBlock('logo'),
+            $this->setUpBlock('menu'),
+            $this->setUpBlock('logo'),
+        );
+
+        $this->assertCount(0, $this->pageBlocks->getBlocks());
+        $this->pageBlocks->setAlBlocks($blocks);
+        $this->assertCount(2, $this->pageBlocks->getBlocks());
+    }
+    
     public function testAnEmptyArrayIsRetrievedWhenAnyBlockExists()
     {
         $this->blockRepository->expects($this->once())
             ->method('retrieveContents')
             ->will($this->returnValue(array()));
 
-        $this->pageContentsContainer->refresh(2, 2);
+        $this->pageBlocks->refresh(2, 2);
 
-        $this->assertEquals(0, count($this->pageContentsContainer->getBlocks()));
+        $this->assertCount(0, $this->pageBlocks->getBlocks());
     }
 
     public function testContentsAreRetrieved()
@@ -69,56 +112,58 @@ class AlPageBlocksTest extends TestCase
             ->method('retrieveContents')
             ->will($this->returnValue($blocks));
 
-        $this->pageContentsContainer->refresh(2, 2);
+        $this->pageBlocks->refresh(2, 2);
+        $this->pageBlocks->refresh(2, 2);
 
-        $this->assertEquals(2, count($this->pageContentsContainer->getBlocks()));
-        $this->assertEquals(2, count($this->pageContentsContainer->getSlotBlocks('logo')));
-        $this->assertEquals(1, count($this->pageContentsContainer->getSlotBlocks('menu')));
-        $this->assertEquals(array('Text', 'Menu'), $this->pageContentsContainer->getBlockTypes());
+        $this->assertEquals(2, count($this->pageBlocks->getBlocks()));
+        $this->assertEquals(2, count($this->pageBlocks->getSlotBlocks('logo')));
+        $this->assertEquals(1, count($this->pageBlocks->getSlotBlocks('menu')));
+        $this->assertEquals(array('Text', 'Menu'), $this->pageBlocks->getBlockTypes());
+        $this->assertEquals(array('idLanguage' => 2, 'idPage' => 2,), $this->pageBlocks->getPageInformation());
     }
     
     public function testBlockIsAdded()
     {
-        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->add("logo", array('Content' => 'My value')));
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->add("logo", array('Content' => 'My value')));
 
-        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
         $this->checkOneBlock('logo', 'My value');
     }
 
     public function testBlockIsEdited()
     {
-        $this->pageContentsContainer->add("logo", array('Content' => 'My value'));
-        $this->pageContentsContainer->add("logo", array('Content' => 'My new value'), 0);
+        $this->pageBlocks->add("logo", array('Content' => 'My value'));
+        $this->pageBlocks->add("logo", array('Content' => 'My new value'), 0);
 
-        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
         $this->checkOneBlock('logo', 'My new value');
     }
 
     public function testBlockIsAddedWhenAnInvalidPositionNumberIsGiven()
     {
-        $this->pageContentsContainer->add("logo", array('Content' => 'My value'));
-        $this->pageContentsContainer->add("logo", array('Content' => 'My new value'), 5);
+        $this->pageBlocks->add("logo", array('Content' => 'My value'));
+        $this->pageBlocks->add("logo", array('Content' => 'My new value'), 5);
 
-        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
-        $block = $this->pageContentsContainer->getSlotBlocks('logo');
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
+        $block = $this->pageBlocks->getSlotBlocks('logo');
         $this->assertCount(2, $block);
     }
     
     public function testNullContents()
     {
-        $this->pageContentsContainer->addRange(array("logo" => null));
+        $this->pageBlocks->addRange(array("logo" => null));
 
-        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
-        $block = $this->pageContentsContainer->getSlotBlocks('logo');
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
+        $block = $this->pageBlocks->getSlotBlocks('logo');
         $this->assertNull($block);
     }
 
     public function testARangeOfBlocksIsAdded()
     {
-        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value'), array('Content' => 'My new value'))));
+        $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value'), array('Content' => 'My new value'))));
 
-        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
-        $block = $this->pageContentsContainer->getSlotBlocks('logo');
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
+        $block = $this->pageBlocks->getSlotBlocks('logo');
         $this->assertCount(2, $block);
         $this->assertEquals('My value', $block[0]['Content']);
         $this->assertEquals('My new value', $block[1]['Content']);
@@ -126,21 +171,21 @@ class AlPageBlocksTest extends TestCase
     
     public function testARangeOfBlocksIsOverriden()
     {
-        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value'), array('Content' => 'My new value'))));
-        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'Overrided value'))), true);
+        $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value'), array('Content' => 'My new value'))));
+        $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'Overrided value'))), true);
 
-        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
-        $block = $this->pageContentsContainer->getSlotBlocks('logo');
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
+        $block = $this->pageBlocks->getSlotBlocks('logo');
         $this->assertCount(1, $block);
         $this->assertEquals('Overrided value', $block[0]['Content']);
     }
 
     public function testARangeOfBlocksIsAddedOnMoreSlots()
     {
-        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value'), array('Content' => 'My new value')),
+        $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value'), array('Content' => 'My new value')),
             "nav_menu" => array(array('Content' => 'My value'))));
 
-        $this->assertCount(2, $this->pageContentsContainer->getBlocks());
+        $this->assertCount(2, $this->pageBlocks->getBlocks());
     }
 
     /**
@@ -148,29 +193,29 @@ class AlPageBlocksTest extends TestCase
      */
     public function testAnExeptionIsThrowsWhenTryingToClearANonExistentSlot()
     {
-        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->clearSlotBlocks('logo'));
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->clearSlotBlocks('logo'));
     }
 
     public function testASlotIsCleared()
     {
-        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value'))));
-        $this->assertCount(1, $this->pageContentsContainer->getSlotBlocks('logo'));
+        $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value'))));
+        $this->assertCount(1, $this->pageBlocks->getSlotBlocks('logo'));
 
-        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->clearSlotBlocks('logo'));
-        $this->assertCount(0, $this->pageContentsContainer->getSlotBlocks('logo'));
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->clearSlotBlocks('logo'));
+        $this->assertCount(0, $this->pageBlocks->getSlotBlocks('logo'));
     }
 
     public function testAllSlotsAreCleared()
     {
-        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value')), "nav-menu" => array(array('Content' => 'My value'))));
-        $this->assertCount(2, $this->pageContentsContainer->getBlocks());
-        $this->assertCount(1, $this->pageContentsContainer->getSlotBlocks('logo'));
-        $this->assertCount(1, $this->pageContentsContainer->getSlotBlocks('nav-menu'));
+        $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value')), "nav-menu" => array(array('Content' => 'My value'))));
+        $this->assertCount(2, $this->pageBlocks->getBlocks());
+        $this->assertCount(1, $this->pageBlocks->getSlotBlocks('logo'));
+        $this->assertCount(1, $this->pageBlocks->getSlotBlocks('nav-menu'));
 
-        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->clearSlots());
-        $this->assertCount(2, $this->pageContentsContainer->getBlocks());
-        $this->assertCount(0, $this->pageContentsContainer->getSlotBlocks('logo'));
-        $this->assertCount(0, $this->pageContentsContainer->getSlotBlocks('nav-menu'));
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->clearSlots());
+        $this->assertCount(2, $this->pageBlocks->getBlocks());
+        $this->assertCount(0, $this->pageBlocks->getSlotBlocks('logo'));
+        $this->assertCount(0, $this->pageBlocks->getSlotBlocks('nav-menu'));
     }
 
     /**
@@ -178,30 +223,30 @@ class AlPageBlocksTest extends TestCase
      */
     public function testAnExeptionIsThrowsWhenTryingToRemoveANonExistentSlot()
     {
-        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->removeSlot('logo'));
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->removeSlot('logo'));
     }
 
     public function testASlotIsRemoved()
     {
-        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value'))));
-        $this->assertCount(1, $this->pageContentsContainer->getBlocks());
+        $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value'))));
+        $this->assertCount(1, $this->pageBlocks->getBlocks());
 
-        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->removeSlot('logo'));
-        $this->assertCount(0, $this->pageContentsContainer->getBlocks());
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->removeSlot('logo'));
+        $this->assertCount(0, $this->pageBlocks->getBlocks());
     }
 
     public function testAllSlotsAreRemoved()
     {
-        $this->pageContentsContainer->addRange(array("logo" => array(array('Content' => 'My value')), "nav-menu" => array(array('Content' => 'My value'))));
-        $this->assertCount(2, $this->pageContentsContainer->getBlocks());
+        $this->pageBlocks->addRange(array("logo" => array(array('Content' => 'My value')), "nav-menu" => array(array('Content' => 'My value'))));
+        $this->assertCount(2, $this->pageBlocks->getBlocks());
 
-        $this->assertEquals($this->pageContentsContainer, $this->pageContentsContainer->removeSlots());
-        $this->assertCount(0, $this->pageContentsContainer->getBlocks());
+        $this->assertEquals($this->pageBlocks, $this->pageBlocks->removeSlots());
+        $this->assertCount(0, $this->pageBlocks->getBlocks());
     }
 
     private function checkOneBlock($slotName, $expectedContent)
     {
-        $block = $this->pageContentsContainer->getSlotBlocks($slotName);
+        $block = $this->pageBlocks->getSlotBlocks($slotName);
         $this->assertTrue(count($block) == 1);
         $this->assertEquals($expectedContent, $block[0]['Content']);
     }

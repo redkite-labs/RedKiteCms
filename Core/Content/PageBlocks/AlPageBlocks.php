@@ -142,7 +142,7 @@ class AlPageBlocks implements AlPageBlocksInterface
         }
         
         if ($languageId == $this->idLanguage && $pageId == $this->idPage) {
-            return;
+            return $this;
         }
         
         $this->idLanguage = $languageId;
@@ -263,13 +263,7 @@ class AlPageBlocks implements AlPageBlocksInterface
     }
     
     /**
-     * The id of the page to retrieve
-     *
-     * @param  int                                                                                       $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     *
-     * @api
+     * @codeCoverageIgnore
      */
     public function setIdPage($v)
     {
@@ -277,13 +271,7 @@ class AlPageBlocks implements AlPageBlocksInterface
     }
 
     /**
-     * The id of the language to retrieve
-     *
-     * @param  int                                                                                       $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     *
-     * @api
+     * @codeCoverageIgnore
      */
     public function setIdLanguage($v)
     {
@@ -291,11 +279,7 @@ class AlPageBlocks implements AlPageBlocksInterface
     }
 
     /**
-     * Returns the current page id
-     *
-     * @return int
-     *
-     * @api
+     * @codeCoverageIgnore
      */
     public function getIdPage()
     {
@@ -303,11 +287,7 @@ class AlPageBlocks implements AlPageBlocksInterface
     }
 
     /**
-     * Returns the current language id
-     *
-     * @return int
-     *
-     * @deprecated
+     * @codeCoverageIgnore
      */
     public function getIdLanguage()
     {
