@@ -264,17 +264,19 @@ class AlTemplateParserTest extends AlGeneratorBase
         $information = $this->parser->parse(vfsStream::url('root/Theme'), vfsStream::url('root/app'), 'BootbusinessThemeBundle');
         
         
-        $templates = $this->arrangeTemplates($information["templates"]);
+        $templatesInformation = $this->arrangeTemplates($information["templates"]);
         
         $expectedTemplates = array(
-            "empty.html.twig",
-            "product.html.twig",
-            "contacts.html.twig",
-            "two_columns.html.twig",
             "all_products.html.twig",
+            "contacts.html.twig",
+            "empty.html.twig",
             "home.html.twig",
+            "product.html.twig",
+            "two_columns.html.twig",
         );
-        $this->assertEquals($expectedTemplates, array_keys($templates));
+        $templates = array_keys($templatesInformation);
+        sort($templates);
+        $this->assertEquals($expectedTemplates, $templates);
         
         $repeatedSlots = array(
             'navbar',
@@ -302,7 +304,7 @@ class AlTemplateParserTest extends AlGeneratorBase
             "page_title",
             "content",
         );
-        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templates["empty.html.twig"]);
+        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templatesInformation["empty.html.twig"]);
         
         $pageSlots = array(
             "slider_box",
@@ -311,14 +313,14 @@ class AlTemplateParserTest extends AlGeneratorBase
             "content_title_2",
             "content_body_2",
         );
-        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templates["home.html.twig"]);
+        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templatesInformation["home.html.twig"]);
         
         $pageSlots = array(
             "products_title",
             "products",
             "products_pagination",
         );
-        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templates["all_products.html.twig"]);
+        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templatesInformation["all_products.html.twig"]);
         
         $pageSlots = array(
             "left_column",
@@ -326,7 +328,7 @@ class AlTemplateParserTest extends AlGeneratorBase
             'page_title',
             'content',
         );
-        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templates["two_columns.html.twig"]);
+        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templatesInformation["two_columns.html.twig"]);
         
         $pageSlots = array(
             "contacts_title",
@@ -335,7 +337,7 @@ class AlTemplateParserTest extends AlGeneratorBase
             "offices_section_title",
             "offices",
         );        
-        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templates["contacts.html.twig"]);
+        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templatesInformation["contacts.html.twig"]);
         
         $pageSlots = array(
             "product_title",
@@ -346,7 +348,7 @@ class AlTemplateParserTest extends AlGeneratorBase
                     "product_contact",
                     "product_faq",
         );
-        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templates["product.html.twig"]);
+        $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templatesInformation["product.html.twig"]);
         
         //$this->assertEquals($expectedTemplates, $information["templates"]);
         $this->assertCount(43, $information["slots"]);
