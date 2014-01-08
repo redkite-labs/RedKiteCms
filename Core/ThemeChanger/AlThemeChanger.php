@@ -32,26 +32,21 @@ class AlThemeChanger
 {
     protected $templateManager;
     protected $factoryRepository;
-    protected $blocksFactory;
     protected $languagesRepository;
     protected $pagesRepository;
-    protected $blockRepository;
 
     /**
      * Constructor
      *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager              $templateManager
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface    $blocksFactory
      */
-    public function __construct(AlTemplateManager $templateManager, AlFactoryRepositoryInterface $factoryRepository, AlBlockManagerFactoryInterface $blocksFactory)
+    public function __construct(AlTemplateManager $templateManager, AlFactoryRepositoryInterface $factoryRepository)
     {
         $this->templateManager = $templateManager;
         $this->factoryRepository = $factoryRepository;
-        $this->blocksFactory = $blocksFactory;
         $this->languagesRepository = $this->factoryRepository->createRepository('Language');
         $this->pagesRepository = $this->factoryRepository->createRepository('Page');
-        $this->blockRepository = $this->factoryRepository->createRepository('Block');
     }
 
     /**

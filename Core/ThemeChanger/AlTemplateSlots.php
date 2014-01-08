@@ -40,6 +40,7 @@ class AlTemplateSlots
      * Constructor
      *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @codeCoverageIgnore
      */
     public function __construct(ContainerInterface $container)
     {
@@ -50,6 +51,7 @@ class AlTemplateSlots
      * Returns the slots
      *
      * @return array
+     * @codeCoverageIgnore
      */
     public function getSlots()
     {
@@ -62,6 +64,7 @@ class AlTemplateSlots
      * @param  int                                                             $languageId
      * @param  int                                                             $pageId
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\AlTemplateSlots
+     * @codeCoverageIgnore
      */
     public function run($languageId, $pageId)
     {
@@ -93,6 +96,9 @@ class AlTemplateSlots
         return $this;
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function initPagesBlocks($languageId, $pageId)
     {
         $this->pageBlocks = new AlPageBlocksTemplateChanger($this->factoryRepository);
@@ -102,7 +108,10 @@ class AlTemplateSlots
             ->refresh()
         ;
     }
-
+    
+    /**
+     * @codeCoverageIgnore
+     */
     private function initTemplateManager($template)
     {
         $this->templateManager = new AlTemplateManager(
@@ -114,6 +123,9 @@ class AlTemplateSlots
         );
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     private function setUpSlots()
     {
         $viewsRenderer = $this->container->get('red_kite_cms.view_renderer');
