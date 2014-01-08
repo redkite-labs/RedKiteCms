@@ -38,7 +38,7 @@ class AlActiveThemeTest extends TestCase
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');        
     }
-/*
+
     public function testCurrentActiveThemeIsRetrieved()
     {
         $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface');
@@ -79,7 +79,7 @@ class AlActiveThemeTest extends TestCase
         $activeTheme->writeActiveTheme('FakeThemeBundle');
         $bundle = file_get_contents(vfsStream::url('root/.active_theme'));
         $this->assertEquals('FakeThemeBundle', $bundle);
-    }*/
+    }
     
     /**
      * @dataProvider versionsProvider

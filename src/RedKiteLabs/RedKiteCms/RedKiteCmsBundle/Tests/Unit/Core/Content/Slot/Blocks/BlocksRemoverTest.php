@@ -111,6 +111,57 @@ class BlocksRemoverTest extends AlContentManagerBase
     }
     
     /**
+     * @expectedException \RuntimeException
+     */
+    public function testClearFailsBecauseAnUnexpectedExceptionHasThrown()
+    {
+        $blockManager = $this->createBlockManager();
+        $blockManager->expects($this->once())
+            ->method('delete')
+            ->will($this->throwException(new \RuntimeException))
+        ;
+        
+        $blockManagers = array(
+            $blockManager,
+        );
+                
+        $blocksManagerCollection = 
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        
+        $blocksManagerCollection->expects($this->once())
+             ->method('getBlockManagers')
+             ->will($this->returnValue($blockManagers))
+        ;
+        
+        $blocksManagerCollection->expects($this->once())
+             ->method('count')
+             ->will($this->returnValue(count($blockManagers)))
+        ;
+        
+        $repositoryOptions = array(
+            'expectedCommit' => 0,
+            'expectedRollback' => 1,
+        );
+        
+        $blocksManagerCollection->expects($this->exactly($repositoryOptions["expectedCommit"]))
+             ->method('clear')
+        ;
+        
+        $this->blockRepository->expects($this->exactly($repositoryOptions["expectedCommit"]))
+             ->method('commit')
+        ;
+        
+        $this->blockRepository->expects($this->exactly($repositoryOptions["expectedRollback"]))
+             ->method('rollback')
+        ;
+        
+        $this->blocksRemover->clear($blocksManagerCollection);
+    }
+    
+    /**
      * @dataProvider clearProvider
      */
     public function testClear($blockManagers, $repositoryOptions = null)

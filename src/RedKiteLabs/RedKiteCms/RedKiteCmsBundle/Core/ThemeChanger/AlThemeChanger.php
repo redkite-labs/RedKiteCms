@@ -132,6 +132,7 @@ class AlThemeChanger
      * @param  string              $targetSlotName
      * @throws ChangeSlotException
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function changeSlot($sourceSlotName, $targetSlotName)
     {
@@ -178,6 +179,7 @@ class AlThemeChanger
      * @param  string  $action
      * @return boolean
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function finalize($action)
     {

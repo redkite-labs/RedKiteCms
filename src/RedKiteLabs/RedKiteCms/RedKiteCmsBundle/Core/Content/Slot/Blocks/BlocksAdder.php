@@ -182,6 +182,7 @@ class BlocksAdder extends BaseBlocks
     {
         $blockManager = $this->blockManagerFactory->createBlockManager($type);
         if (null === $blockManager) {
+            // @codeCoverageIgnoreStart
             $exception = array(
                 'message' => 'exception_type_not_exists',
                 'parameters' => array(
@@ -190,6 +191,7 @@ class BlocksAdder extends BaseBlocks
             );
 
             throw new InvalidArgumentException(json_encode($exception));
+            // @codeCoverageIgnoreEnd
         }
 
         return $blockManager;

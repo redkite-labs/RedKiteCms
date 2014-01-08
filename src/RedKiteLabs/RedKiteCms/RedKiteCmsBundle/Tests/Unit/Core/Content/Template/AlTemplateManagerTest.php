@@ -36,9 +36,6 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
                            ->disableOriginalConstructor()
                             ->getMock();
-        /*$this->template->expects($this->any())
-            ->method('getTemplateSlots')
-            ->will($this->returnValue($this->themeSlots));*/
 
         $this->pageBlocks = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                            ->disableOriginalConstructor()
@@ -75,7 +72,23 @@ class AlTemplateManagerTest extends AlContentManagerBase
     
     public function testClone()
     { 
+        $this->themeSlots->expects($this->once())
+                ->method('getSlots')
+                ->will($this->returnValue(array()))
+        ;
+
+        $this->template->expects($this->once())
+                ->method('getSlots')
+                ->will($this->returnValue(array()))
+        ;
+            
+        $this->pageBlocks->expects($this->once())
+                        ->method('getBlocks')
+                        ->will($this->returnValue(array()))
+        ;                    
+                    
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager->refresh($this->themeSlots, $this->template, $this->pageBlocks);
         
         $this->assertNotSame($templateManager, clone($templateManager));
     }
@@ -107,7 +120,6 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->assertNull($templateManager->getSlotManager(array()));
     }
     
-    
     /**
      * @expectedException \InvalidArgumentException
      * @expectedExceptionMessage exception_slotToArray_accepts_only_strings
@@ -123,12 +135,22 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $this->assertEmpty($templateManager->slotToArray('fake'));
     }
-
+    
+    public function testSlotManagersAreNotInstantiatedBecauseTheTemplateHasNotBeenSet()
+    {
+        $this->themeSlots->expects($this->never())
+                ->method('getSlots')
+        ;
+        
+        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager->refresh($this->themeSlots);
+    }
+    
     /**
      * @dataProvider slotManagerProvider
      */
     public function testCreatesASlotManagerWhenAnyBlockManagerHasBeenInstantiated($slots, $templateSlots, $slotBlocks, $blocks, $generatedSlotManagers = 1)
-    {return;
+    {
         $this->themeSlots->expects($this->once())
                 ->method('getSlots')
                 ->will($this->returnValue($slots));
@@ -158,12 +180,15 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template, $pageBlocks);
-
+        $this->assertSame($this->themeSlots, $templateManager->getThemeSlots());
+        $this->assertSame($this->template, $templateManager->getTemplate());
+        $this->assertSame($pageBlocks, $templateManager->getPageBlocks());
+        
         $slotManager = $templateManager->getSlotManager('logo');
         $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager', $slotManager);
         $this->assertCount($generatedSlotManagers, $templateManager->getSlotManagers());
         $this->assertCount($generatedSlotManagers, $templateManager->slotsToArray());
-        //$this->assertEmpty($templateManager->slotToArray('test'));
+        $this->assertEquals(array(), $templateManager->slotToArray('logo'));
     }
     
     public function slotManagerProvider()

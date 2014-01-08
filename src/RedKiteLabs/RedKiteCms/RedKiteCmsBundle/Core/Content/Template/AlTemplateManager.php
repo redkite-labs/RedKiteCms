@@ -238,7 +238,7 @@ class AlTemplateManager extends AlTemplateBase
         $this->themeSlots = $themeSlots;
         $this->template = $template;
         $this->pageBlocks = $pageBlocks;
-                
+
         $this->setUpSlotManagers();
 
         return $this;
@@ -401,7 +401,7 @@ class AlTemplateManager extends AlTemplateBase
         if (null === $this->themeSlots || null === $this->template) {
             return;
         }
-        
+
         $this->slotManagers = array();
         $templateSlots = $this->template->getSlots();
         $themeSlots = $this->themeSlots->getSlots();
@@ -460,6 +460,7 @@ class AlTemplateManager extends AlTemplateBase
             return false;
         }
         
+        // @codeCoverageIgnoreStart
         $blockId = $matches[1];
         $slotBlocks = $this->pageBlocks->getBlocks();
         foreach ($slotBlocks as $blocks) {
@@ -471,6 +472,7 @@ class AlTemplateManager extends AlTemplateBase
         }
 
         return false;
+        // @codeCoverageIgnoreEnd
     }
     
     /**
@@ -480,6 +482,7 @@ class AlTemplateManager extends AlTemplateBase
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function setTemplateSlots()
     {
@@ -493,6 +496,7 @@ class AlTemplateManager extends AlTemplateBase
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function setPageBlocks(AlPageBlocksInterface $pageBlocks)
     {
@@ -506,6 +510,7 @@ class AlTemplateManager extends AlTemplateBase
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function setTemplate(AlTemplate $template)
     {
@@ -519,6 +524,7 @@ class AlTemplateManager extends AlTemplateBase
      *
      * @api
      * @deprecated since 1.1.0
+     * @codeCoverageIgnore
      */
     public function getTemplateSlots()
     {
