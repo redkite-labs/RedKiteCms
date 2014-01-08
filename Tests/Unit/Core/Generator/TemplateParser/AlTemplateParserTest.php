@@ -349,8 +349,6 @@ class AlTemplateParserTest extends AlGeneratorBase
                     "product_faq",
         );
         $this->assertEquals(array_merge($pageSlots, $repeatedSlots), $templatesInformation["product.html.twig"]);
-        
-        //$this->assertEquals($expectedTemplates, $information["templates"]);
         $this->assertCount(43, $information["slots"]);
     }
     
@@ -362,17 +360,6 @@ class AlTemplateParserTest extends AlGeneratorBase
         }
         
         return $templates;
-    }
-
-    public function testOverrideTemplate()
-    {
-        $this->markTestIncomplete('This test must be updated');
-        
-        $this->importDefaultTheme(true);
-        $information = $this->parser->parse(vfsStream::url('root/Theme'), vfsStream::url('root/app'), 'MyThemeBundle');
-
-        $template = $information['templates'];print_R($template);
-        $this->assertCount(25, $template['slots']);
     }
 
     protected function importDefaultTheme($overrideTemplate = false)
@@ -388,27 +375,7 @@ class AlTemplateParserTest extends AlGeneratorBase
         }
         
         vfsStream::copyFromFileSystem($baseThemeDir . '/Theme', $this->root->getChild('Theme'));
-        vfsStream::copyFromFileSystem($baseThemeDir . '/Slots', $this->root->getChild('Slots'));
-        
-        if ($overrideTemplate) {
-            $overridingTemplate = vfsStream::url('root/app/Resources/views/MyThemeBundle/home.html.twig');
-
-            copy(vfsStream::url('root/Theme/home.html.twig'), $overridingTemplate);
-            $contents = file_get_contents($overridingTemplate);
-            /*$contents .= '{% block left_sidebar %}
-                    {# BEGIN-SLOT
-                        name: left_sidebar
-                        htmlContent: |
-                            <h1>Title 1</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquid ex ea commodi consequat.</p>
-                    END-SLOT #}
-                    {{ renderSlot(\'left_sidebar\') }}
-                {% endblock %}';*/
-            $contents .= '{% block left_sidebar %}' . PHP_EOL .
-                '  {{ block(\'left_sidebar\') }}' . PHP_EOL .
-                '{% endblock %}';
-            file_put_contents($overridingTemplate, $contents);
-        }
+        vfsStream::copyFromFileSystem($baseThemeDir . '/Slots', $this->root->getChild('Slots'));        
     }
     
     private function checkSlots($information, $slots)
