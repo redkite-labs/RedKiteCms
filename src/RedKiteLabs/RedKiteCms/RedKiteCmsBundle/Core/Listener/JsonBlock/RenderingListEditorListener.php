@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedExce
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
- * @deprecated since 1.1.0
+ * @deprecated RenderingListEditorListener class has been deprecated since RedKite CMS 1.1.0
  * @codeCoverageIgnore
  */
 abstract class RenderingListEditorListener extends BaseRenderingEditorListener

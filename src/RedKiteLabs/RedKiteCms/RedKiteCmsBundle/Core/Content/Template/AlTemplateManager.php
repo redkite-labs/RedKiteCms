@@ -481,7 +481,7 @@ class AlTemplateManager extends AlTemplateBase
      * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface $themeSlots
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlTemplateManager->setTemplateSlots() method has been deprecated and replaced by the AlTemplateManager->refresh() method
      * @codeCoverageIgnore
      */
     public function setTemplateSlots()
@@ -495,7 +495,7 @@ class AlTemplateManager extends AlTemplateBase
      * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface $pageBlocks
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlTemplateManager->setPageBlocks() method has been deprecated and replaced by the AlTemplateManager->refresh() method
      * @codeCoverageIgnore
      */
     public function setPageBlocks(AlPageBlocksInterface $pageBlocks)
@@ -509,7 +509,7 @@ class AlTemplateManager extends AlTemplateBase
      * @param  \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate               $template
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlTemplateManager->setTemplate() method has been deprecated and replaced by the AlTemplateManager->refresh() method
      * @codeCoverageIgnore
      */
     public function setTemplate(AlTemplate $template)
@@ -523,7 +523,7 @@ class AlTemplateManager extends AlTemplateBase
      * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots
      *
      * @api
-     * @deprecated since 1.1.0
+     * @deprecated AlTemplateManager->getTemplateSlots() method has been deprecated and replaced by the AlTemplateManager->getThemeSlots() method
      * @codeCoverageIgnore
      */
     public function getTemplateSlots()

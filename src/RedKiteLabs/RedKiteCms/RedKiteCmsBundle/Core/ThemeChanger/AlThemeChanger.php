@@ -126,7 +126,7 @@ class AlThemeChanger
      * @param  string              $sourceSlotName
      * @param  string              $targetSlotName
      * @throws ChangeSlotException
-     * @deprecated since 1.1.0
+     * @deprecated changeSlot method has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function changeSlot($sourceSlotName, $targetSlotName)
@@ -173,7 +173,7 @@ class AlThemeChanger
      *
      * @param  string  $action
      * @return boolean
-     * @deprecated since 1.1.0
+     * @deprecated finalize method has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function finalize($action)

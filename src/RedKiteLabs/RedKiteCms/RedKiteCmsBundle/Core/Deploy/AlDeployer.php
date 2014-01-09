@@ -186,7 +186,7 @@ abstract class AlDeployer implements AlDeployerInterface
      *
      * @return string
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlDeployer->getTemplatesFolder() has been deprecated
      * @codeCoverageIgnore
      */
     protected function getTemplatesFolder()
@@ -199,7 +199,7 @@ abstract class AlDeployer implements AlDeployerInterface
      *
      * @return string
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlDeployer->getRoutesPrefix() has been deprecated
      * @codeCoverageIgnore
      */
     protected function getRoutesPrefix()
@@ -212,7 +212,7 @@ abstract class AlDeployer implements AlDeployerInterface
      *
      * @return string
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlDeployer->getDeployBundleRealPath() has been deprecated
      * @codeCoverageIgnore
      */
     public function getDeployBundleRealPath()
@@ -226,7 +226,7 @@ abstract class AlDeployer implements AlDeployerInterface
      * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlPageTreeCollection $value
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlDeployer
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlDeployer->setPageTreeCollection() has been deprecated
      * @codeCoverageIgnore
      */
     public function setPageTreeCollection(AlPageTreeCollection $value)
@@ -239,7 +239,7 @@ abstract class AlDeployer implements AlDeployerInterface
      *
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlPageTreeCollection
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlDeployer->getPageTreeCollection() has been deprecated
      * @codeCoverageIgnore
      */
     public function getPageTreeCollection()

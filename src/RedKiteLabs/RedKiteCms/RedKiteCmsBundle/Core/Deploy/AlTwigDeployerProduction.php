@@ -26,7 +26,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
- * @deprecated since 1.1.0
+ * @deprecated AlTwigDeployerProduction class has been deprecated since RedKite CMS 1.1.0
  */
 class AlTwigDeployerProduction extends AlTwigDeployer
 {

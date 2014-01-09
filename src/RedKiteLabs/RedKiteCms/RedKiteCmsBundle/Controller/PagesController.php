@@ -204,7 +204,7 @@ class PagesController extends Base\BaseController
     
 
     /**
-     * @deprecated since 1.1.0     *
+     * @deprecated removePageAttributes method has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     protected function removePageAttributes($request, $pageManager)

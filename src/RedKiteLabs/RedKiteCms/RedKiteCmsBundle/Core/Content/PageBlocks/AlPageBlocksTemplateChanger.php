@@ -22,7 +22,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
- * @deprecated since 1.1.0
+ * @deprecated AlPageBlocksTemplateChanger class has been deprecated since RedKite CMS 1.1.0
  */
 class AlPageBlocksTemplateChanger extends AlPageBlocks
 {
