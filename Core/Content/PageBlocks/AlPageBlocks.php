@@ -20,7 +20,6 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
 
 /**
  * AlPageBlocks is the object deputated to load and handle the blocks for a website
@@ -260,37 +259,5 @@ class AlPageBlocks implements AlPageBlocksInterface
         foreach ($this->alBlocks as $alBlock) {
             $this->blocks[$alBlock->getSlotName()][] = $alBlock;
         }
-    }
-    
-    /**
-     * @codeCoverageIgnore
-     */
-    public function setIdPage($v)
-    {
-        throw new RedKiteDeprecatedException("AlPageBlocks->setIdPage() has been deprecated");
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    public function setIdLanguage($v)
-    {
-        throw new RedKiteDeprecatedException("AlPageBlocks->setIdLanguage() has been deprecated");
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    public function getIdPage()
-    {
-        throw new RedKiteDeprecatedException("AlPageBlocks->getIdPage() has been deprecated.  Use the getPageInformation() method instead this one");
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    public function getIdLanguage()
-    {
-        throw new RedKiteDeprecatedException("AlPageBlocks->getIdLanguage() has been deprecated. Use the getPageInformation() method instead this one");
     }
 }

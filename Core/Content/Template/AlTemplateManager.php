@@ -29,7 +29,6 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInter
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
 use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface;
 
 /**
@@ -473,61 +472,5 @@ class AlTemplateManager extends AlTemplateBase
 
         return false;
         // @codeCoverageIgnoreEnd
-    }
-    
-    /**
-     * Sets the current AlTemplateSlots object
-     *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlotsInterface $themeSlots
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
-     *
-     * @deprecated AlTemplateManager->setTemplateSlots() method has been deprecated and replaced by the AlTemplateManager->refresh() method
-     * @codeCoverageIgnore
-     */
-    public function setTemplateSlots()
-    {
-        throw new RedKiteDeprecatedException('AlTemplateManager->setTemplateSlots() method has been deprecated and replaced by the AlTemplateManager->refresh() method');
-    }
-    
-    /**
-     * Sets the page contents container object
-     *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface $pageBlocks
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
-     *
-     * @deprecated AlTemplateManager->setPageBlocks() method has been deprecated and replaced by the AlTemplateManager->refresh() method
-     * @codeCoverageIgnore
-     */
-    public function setPageBlocks(AlPageBlocksInterface $pageBlocks)
-    {
-        throw new RedKiteDeprecatedException('AlTemplateManager->setPageBlocks() method has been deprecated and replaced by the AlTemplateManager->refresh() method');
-    }
-    
-    /**
-     * Sets the current AlTemplate object
-     *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate               $template
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
-     *
-     * @deprecated AlTemplateManager->setTemplate() method has been deprecated and replaced by the AlTemplateManager->refresh() method
-     * @codeCoverageIgnore
-     */
-    public function setTemplate(AlTemplate $template)
-    {
-        throw new RedKiteDeprecatedException('AlTemplateManager->setTemplate() method has been deprecated and replaced by the AlTemplateManager->refresh() method');        
-    }
-    
-    /**
-     * Returns the current AlTemplateSlots object
-     *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\TemplateSlots\AlTemplateSlots
-     *
-     * @api
-     * @deprecated AlTemplateManager->getTemplateSlots() method has been deprecated and replaced by the AlTemplateManager->getThemeSlots() method
-     * @codeCoverageIgnore
-     */
-    public function getTemplateSlots()
-    {
-        throw new RedKiteDeprecatedException('AlTemplateManager->getTemplateSlots() method has been deprecated and replaced by the AlTemplateManager->getThemeSlots() method');
     }
 }

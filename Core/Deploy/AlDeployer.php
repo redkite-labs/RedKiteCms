@@ -25,7 +25,6 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Event\Deploy;
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
 
 /**
@@ -179,71 +178,5 @@ abstract class AlDeployer implements AlDeployerInterface
         if (null !== $this->dispatcher) {
             $this->dispatcher->dispatch($eventName, $event);
         }
-    }
-    
-    /**
-     * Returns the folder where the template files must be written
-     *
-     * @return string
-     *
-     * @deprecated AlDeployer->getTemplatesFolder() has been deprecated
-     * @codeCoverageIgnore
-     */
-    protected function getTemplatesFolder()
-    {
-        throw new RedKiteDeprecatedException("AlDeployer->getTemplatesFolder() has been deprecated");
-    }
-
-    /**
-     * Returns a prefix for routes
-     *
-     * @return string
-     *
-     * @deprecated AlDeployer->getRoutesPrefix() has been deprecated
-     * @codeCoverageIgnore
-     */
-    protected function getRoutesPrefix()
-    {
-        throw new RedKiteDeprecatedException("AlDeployer->getRoutesPrefix() has been deprecated");
-    }
-    
-    /**
-     * Returns the real path of the deploy bundle
-     *
-     * @return string
-     *
-     * @deprecated AlDeployer->getDeployBundleRealPath() has been deprecated
-     * @codeCoverageIgnore
-     */
-    public function getDeployBundleRealPath()
-    {
-        throw new RedKiteDeprecatedException("AlDeployer->getDeployBundleRealPath() has been deprecated");
-    }
-
-    /**
-     * Sets the pagetree collection
-     *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlPageTreeCollection $value
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlDeployer
-     *
-     * @deprecated AlDeployer->setPageTreeCollection() has been deprecated
-     * @codeCoverageIgnore
-     */
-    public function setPageTreeCollection(AlPageTreeCollection $value)
-    {
-        throw new RedKiteDeprecatedException("AlDeployer->setPageTreeCollection() has been deprecated");
-    }
-
-    /**
-     * Fetches the current page tree collection
-     *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlPageTreeCollection
-     *
-     * @deprecated AlDeployer->getPageTreeCollection() has been deprecated
-     * @codeCoverageIgnore
-     */
-    public function getPageTreeCollection()
-    {
-        throw new RedKiteDeprecatedException("AlDeployer->getPageTreeCollection() has been deprecated");
     }
 }
