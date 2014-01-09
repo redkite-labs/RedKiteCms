@@ -24,6 +24,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\TemplateSectionTwig
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\MetatagSection;
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\AssetSection;
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\ContentSection;
+use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
 
 /**
  * AlTwigTemplateWriter is the object deputated to generate and write a twig template
@@ -133,12 +134,12 @@ class TwigTemplateWriter extends TemplateSectionTwig
      *
      * @return string
      *
-     * @deprecated since 1.1.0
+     * @deprecated getTemplateSection method has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function getTemplateSection()
     {
-        return $this->templateSection;
+        return new RedKiteDeprecatedException('TwigTemplateWriter->getTemplateSection() has been deprecated');
     }
 
     /**
@@ -146,12 +147,12 @@ class TwigTemplateWriter extends TemplateSectionTwig
      *
      * @return string
      *
-     * @deprecated since 1.1.0
+     * @deprecated getMetaTagsSection method has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function getMetaTagsSection()
     {
-        return $this->metatagsSection;
+        return new RedKiteDeprecatedException('TwigTemplateWriter->getMetaTagsSection() has been deprecated');
     }
 
     /**
@@ -159,12 +160,12 @@ class TwigTemplateWriter extends TemplateSectionTwig
      *
      * @return string
      *
-     * @deprecated since 1.1.0
+     * @deprecated getAssetsSection method has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function getAssetsSection()
     {
-        return $this->assetsSection;
+        return new RedKiteDeprecatedException('TwigTemplateWriter->getAssetsSection() has been deprecated');
     }
 
     /**
@@ -172,22 +173,22 @@ class TwigTemplateWriter extends TemplateSectionTwig
      *
      * @return string
      *
-     * @deprecated since 1.1.0
+     * @deprecated getContentsSection method has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function getContentsSection()
     {
-        return $this->contentsSection;
+        return new RedKiteDeprecatedException('TwigTemplateWriter->getContentsSection() has been deprecated');
     }
 
     /**
      * Generates the template extension section
      *
-     * @deprecated since 1.1.0
+     * @deprecated generateTemplateSection method has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     protected function generateTemplateSection()
     {
-        throw new \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException('TwigTemplateWriter->generateTemplate() has been deprecated');
+        throw new RedKiteDeprecatedException('TwigTemplateWriter->generateTemplate() has been deprecated');
     }
 }

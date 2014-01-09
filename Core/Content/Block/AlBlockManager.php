@@ -46,7 +46,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface, AlBlockManagerInterface
 {
     /**
-     * @deprecated since 1.1.0
+     * @deprecated EDITOR_WIDTH constant has been deprecated since RedKite CMS 1.1.0
      */
     const EDITOR_WIDTH = 800;
 
@@ -390,7 +390,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * @return boolean
      *
-     * @deprecated
+     * @deprecated AlBlockManager->getExecuteInternalJavascript has been deprecated. You can implement a new App Block to do the same things
      * @codeCoverageIgnore
      */
     public function getExecuteInternalJavascript()
@@ -403,7 +403,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * @return array
      *
-     * @deprecated
+     * @deprecated AlBlockManager->getExternalJavascript has been deprecated. You can implement a new App Block to do the same things
      * @codeCoverageIgnore
      */
     public function getExternalJavascript()
@@ -416,7 +416,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * @return array
      *
-     * @deprecated
+     * @deprecated AlBlockManager->getExternalStylesheet has been deprecated. You can implement a new App Block to do the same things
      * @codeCoverageIgnore
      */
     public function getExternalStylesheet()
@@ -433,7 +433,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @param boolean
      * @return string
      *
-     * @deprecated
+     * @deprecated AlBlockManager->getInternalJavascript has been deprecated. You can implement a new App Block to do the same things
      * @codeCoverageIgnore
      */
     public function getInternalJavascript($safe = true)
@@ -446,7 +446,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * @return string
      *
-     * @deprecated
+     * @deprecated AlBlockManager->getInternalStylesheet has been deprecated. You can implement a new App Block to do the same things
      * @codeCoverageIgnore
      */
     public function getInternalStylesheet()
@@ -460,9 +460,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * By default the internal javascript is concatenated to the block's html content: this behavior
      * can be changed overriding the getExecuteInternalJavascript() method.
      *
-     * @deprecated
+     * @deprecated AlBlockManager->getHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()
      * @codeCoverageIgnore
-     * @return string
      */
     final public function getHtmlCmsActive()
     {
@@ -483,7 +482,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * Returns the width of the editor that manages the block
      *
      * @return int
-     * @deprecated
+     * @deprecated AlBlockManager->getEditorWidth is no longer used so it has been deprecated
      *
      * @api
      * @codeCoverageIgnore
@@ -507,7 +506,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * @deprecated
+     * @deprecated AlBlockManager->formatHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()
      * @codeCoverageIgnore
      */
     protected function formatHtmlCmsActive()

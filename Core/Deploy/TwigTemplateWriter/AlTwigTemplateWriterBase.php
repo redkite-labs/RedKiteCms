@@ -23,7 +23,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
- * @deprecated since 1.1.0
+ * @deprecated AlTwigTemplateWriterBase class has been deprecated since RedKite CMS 1.1.0
  */
 class AlTwigTemplateWriterBase extends AlTwigTemplateWriter
 {

@@ -28,22 +28,10 @@ use RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
- * @deprecated since 1.1.0
+ * @deprecated AlTwigTemplateWriterPages class has been deprecated since RedKite CMS 1.1.0
  */
 class AlTwigTemplateWriterPages extends AlTwigTemplateWriter
 {
-    /*
-    protected $deployBundle;
-    protected $templatesFolder;
-
-    public function __construct(AlPageTree $pageTree, AlBlockManagerFactoryInterface $blockManagerFactory, AlUrlManagerInterface $urlManager, $deployBundle, $templatesFolder, AlViewRendererInterface $viewRenderer, array $replaceImagesPaths = array())
-    {
-        $this->deployBundle = $deployBundle;
-        $this->templatesFolder = $templatesFolder;
-
-        parent::__construct($pageTree, $blockManagerFactory, $urlManager, $viewRenderer, $replaceImagesPaths);
-    }*/
-
     /**
      * @codeCoverageIgnore
      */

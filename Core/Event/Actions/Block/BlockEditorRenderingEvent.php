@@ -28,7 +28,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
- * @deprecated since 1.1.0
+ * @deprecated BlockEditorRenderingEvent class has been deprecated since RedKite CMS 1.1.0
  * @codeCoverageIgnore
  */
 class BlockEditorRenderingEvent extends Event

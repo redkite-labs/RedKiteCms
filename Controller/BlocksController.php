@@ -237,7 +237,7 @@ class BlocksController extends Base\BaseController
 
 
     /**
-     * @deprecated since 1.1.0
+     * @deprecated showBlocksEditorAction method has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function showBlocksEditorAction()

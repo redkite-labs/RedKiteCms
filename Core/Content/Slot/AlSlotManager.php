@@ -366,7 +366,7 @@ class AlSlotManager
      * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlSlotManager->setBlockRepository has been deprecated
      * @codeCoverageIgnore
      */
     public function setBlockRepository(BlockRepositoryInterface $v)
@@ -379,7 +379,7 @@ class AlSlotManager
      *
      * @return \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlSlotManager->getBlockRepository has been deprecated
      * @codeCoverageIgnore
      */
     public function getBlockRepository()
@@ -392,7 +392,7 @@ class AlSlotManager
      *
      * @return array
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlSlotManager->getBlockManagers has been deprecated and replaced by getBlockManagersCollection->getBlockManagers()
      * @codeCoverageIgnore
      */
     public function getBlockManagers()
@@ -406,7 +406,7 @@ class AlSlotManager
      * @param  type                                                                      $idBlock The id of the block to retrieve
      * @return null|\RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlSlotManager->getBlockManager has been deprecated and replaced by getBlockManagersCollection->getBlockManager()
      * @codeCoverageIgnore
      */
     public function getBlockManager($idBlock)
@@ -420,7 +420,7 @@ class AlSlotManager
      * @param  int $idBlock The id of the block to retrieve
      * @return int
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlSlotManager->getBlockManagerIndex has been deprecated and replaced by getBlockManagersCollection->getBlockManagerIndex()
      * @codeCoverageIgnore
      */
     public function getBlockManagerIndex($idBlock)
@@ -433,7 +433,7 @@ class AlSlotManager
      *
      * @return null|AlBlockManager
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlSlotManager->first has been deprecated and replaced by getBlockManagersCollection->first()
      * @codeCoverageIgnore
      */
     public function first()
@@ -446,7 +446,7 @@ class AlSlotManager
      *
      * @return null|AlBlockManager
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlSlotManager->last has been deprecated and replaced by getBlockManagersCollection->last()
      * @codeCoverageIgnore
      */
     public function last()
@@ -459,7 +459,7 @@ class AlSlotManager
      *
      * @return null|AlBlockManager
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlSlotManager->indexAt has been deprecated and replaced by getBlockManagersCollection->indexAt()
      * @codeCoverageIgnore
      */
     public function indexAt($index)
@@ -472,7 +472,7 @@ class AlSlotManager
      *
      * @return int
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlSlotManager->length has been deprecated. Have the same behavior using getBlockManagersCollection->count()
      * @codeCoverageIgnore
      */
     public function length()
@@ -485,7 +485,7 @@ class AlSlotManager
      *
      * @return array
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlSlotManager->toArray has been deprecated and replaced by getBlockManagersCollection->toArray()
      * @codeCoverageIgnore
      */
     public function toArray()
@@ -499,7 +499,7 @@ class AlSlotManager
      * @param  int        $idBlock The id of the block to retrieve
      * @return null|array
      *
-     * @deprecated since 1.1.0
+     * @deprecated AlSlotManager->getBlockManagers has been deprecated and replaced by getBlockManagersCollection->getManagerInfoByBlockId()
      * @codeCoverageIgnore
      */
     protected function getManagerInfoByBlockId($idBlock)

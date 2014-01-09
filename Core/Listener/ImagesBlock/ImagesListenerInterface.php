@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\ImagesBlock;
 /**
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
- * @deprecated since 1.1.0
+ * @deprecated ImagesListenerInterface interface has been deprecated since RedKite CMS 1.1.0
  */
 interface ImagesListenerInterface
 {

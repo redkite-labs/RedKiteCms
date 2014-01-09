@@ -286,7 +286,7 @@ class AlPageTree
      *
      * @return Symfony\Component\DependencyInjection\ContainerInterface
      * 
-     * @deprecated since 1.1.0
+     * @deprecated pageTree->getContainer() has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function getContainer()
@@ -300,7 +300,7 @@ class AlPageTree
      * @param  AlPageBlocksInterface                                   $v
      * @return \RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree
      * 
-     * @deprecated since 1.1.0
+     * @deprecated pageTree->setPageBlocks() has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function setPageBlocks(AlPageBlocksInterface $v)
@@ -314,7 +314,7 @@ class AlPageTree
      * @param  AlPage                                                 $alPage
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      * 
-     * @deprecated since 1.1.0
+     * @deprecated pageTree->setAlPage() has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function setAlPage(AlPage $alPage)
@@ -328,7 +328,7 @@ class AlPageTree
      * @param  AlLanguage                                             $alLanguage
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      * 
-     * @deprecated since 1.1.0
+     * @deprecated pageTree->setAlLanguage() has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function setAlLanguage(AlLanguage $alLanguage)
@@ -342,7 +342,7 @@ class AlPageTree
      * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      * 
-     * @deprecated since 1.1.0
+     * @deprecated pageTree->setTemplateManager() has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function setTemplateManager(AlTemplateManager $v)
@@ -354,7 +354,7 @@ class AlPageTree
     /**
      * @inheritdoc
      * 
-     * @deprecated since 1.1.0
+     * @deprecated pageTree->setTemplate() has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function setTemplate(AlTemplate $v)
@@ -369,7 +369,7 @@ class AlPageTree
      * @param  int                                                    $idPage
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      * 
-     * @deprecated since 1.1.0
+     * @deprecated pageTree->refresh() has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function refresh($idLanguage, $idPage)
@@ -389,7 +389,7 @@ class AlPageTree
      *
      * @param array $metatags
      * 
-     * @deprecated since 1.1.0
+     * @deprecated pageTree->setMetatags() has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function setMetatags(array $metatags)
@@ -402,7 +402,7 @@ class AlPageTree
      *
      * @return boolean
      *
-     * @deprecated since 1.1.0
+     * @deprecated pageTree->isValid() has been deprecated since RedKite CMS 1.1.0
      * @codeCoverageIgnore
      */
     public function isValid()
