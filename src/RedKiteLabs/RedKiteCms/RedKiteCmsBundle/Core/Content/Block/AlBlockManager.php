@@ -26,7 +26,6 @@ use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 
 /**
@@ -45,11 +44,6 @@ use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
  */
 abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface, AlBlockManagerInterface
 {
-    /**
-     * @deprecated EDITOR_WIDTH constant has been deprecated since RedKite CMS 1.1.0
-     */
-    const EDITOR_WIDTH = 800;
-
     /**
      * @var \RedKiteLabs\RedKiteCmsBundle\Model\AlBlock $alBlock
      */
@@ -380,92 +374,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         $blockManager["Block"] = $this->alBlock->toArray();
 
         return $blockManager;
-    }
-
-    /**
-     * When true, attaches the internal javascript code to html when the editor is active
-     *
-     * Return false to avoid RedKiteCms adds the internal javascript code to html when the content is displayed on the
-     * web page
-     *
-     * @return boolean
-     *
-     * @deprecated AlBlockManager->getExecuteInternalJavascript has been deprecated. You can implement a new App Block to do the same things
-     * @codeCoverageIgnore
-     */
-    public function getExecuteInternalJavascript()
-    {
-        throw new RedKiteDeprecatedException("AlBlockManager->getExecuteInternalJavascript has been deprecated. You can implement a new App Block to do the same things");
-    }
-
-    /**
-     * Returns the current saved ExternalJavascript value as array
-     *
-     * @return array
-     *
-     * @deprecated AlBlockManager->getExternalJavascript has been deprecated. You can implement a new App Block to do the same things
-     * @codeCoverageIgnore
-     */
-    public function getExternalJavascript()
-    {
-        throw new RedKiteDeprecatedException("AlBlockManager->getExternalJavascript has been deprecated. You can implement a new App Block to do the same things");
-    }
-
-    /**
-     * Returns the current saved ExternalStylesheet value as array
-     *
-     * @return array
-     *
-     * @deprecated AlBlockManager->getExternalStylesheet has been deprecated. You can implement a new App Block to do the same things
-     * @codeCoverageIgnore
-     */
-    public function getExternalStylesheet()
-    {
-        throw new RedKiteDeprecatedException("AlBlockManager->getExternalStylesheet has been deprecated. You can implement a new App Block to do the same things");
-    }
-
-    /**
-     * Returns the current saved InternalJavascript.
-     *
-     * By default the values is encapsulated into a try/catch block to avoid breaking the execution.
-     * To get only the internal javascript, call the method with the safe argument as false
-     *
-     * @param boolean
-     * @return string
-     *
-     * @deprecated AlBlockManager->getInternalJavascript has been deprecated. You can implement a new App Block to do the same things
-     * @codeCoverageIgnore
-     */
-    public function getInternalJavascript($safe = true)
-    {
-        throw new RedKiteDeprecatedException("AlBlockManager->getInternalJavascript has been deprecated. You can implement a new App Block to do the same things");
-    }
-
-    /**
-     * Returns the current saved InternalStylesheet
-     *
-     * @return string
-     *
-     * @deprecated AlBlockManager->getInternalStylesheet has been deprecated. You can implement a new App Block to do the same things
-     * @codeCoverageIgnore
-     */
-    public function getInternalStylesheet()
-    {
-        throw new RedKiteDeprecatedException("AlBlockManager->getInternalStylesheet has been deprecated. You can implement a new App Block to do the same things");
-    }
-
-    /**
-     * Returns the html content when RedKiteCms is active.
-     *
-     * By default the internal javascript is concatenated to the block's html content: this behavior
-     * can be changed overriding the getExecuteInternalJavascript() method.
-     *
-     * @deprecated AlBlockManager->getHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()
-     * @codeCoverageIgnore
-     */
-    final public function getHtmlCmsActive()
-    {
-        throw new RedKiteDeprecatedException("AlBlockManager->getHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
     }
 
     /**

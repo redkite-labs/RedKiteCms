@@ -200,38 +200,4 @@ class PagesController extends Base\BaseController
 
         return $factoryRepository->createRepository($repository);
     }
-    
-    
-
-    /**
-     * @deprecated removePageAttributes method has been deprecated since RedKite CMS 1.1.0
-     * @codeCoverageIgnore
-     */
-    protected function removePageAttributes($request, $pageManager)
-    {
-        $pageManager->getPageRepository()->startTransaction();
-        try {
-            $result = $this->container->get('red_kite_cms.seo_manager')->deleteSeoAttributesFromLanguage($request->get('languageId'), $request->get('pageId'));
-            if ($result) {
-                $result = $pageManager->getTemplateManager()->clearPageBlocks($request->get('languageId'), $request->get('pageId'));
-            }
-
-            if (false === $result) {
-                // @codeCoverageIgnoreStart
-                $pageManager->getPageRepository()->rollBack();
-                throw new RuntimeException('pages_controller_nothing_to_delete');
-                // @codeCoverageIgnoreEnd
-            }
-
-            $pageManager->getPageRepository()->commit();
-
-            return $this->buildJSonHeader($this->translate('The page\'s attributes for the selected language has been successfully removed'), $pageManager->get());
-        } catch (\Exception $ex) {
-            // @codeCoverageIgnoreStart
-            $pageManager->getPageRepository()->rollBack();
-
-            throw $ex;
-            // @codeCoverageIgnoreEnd
-        }
-    }
 }

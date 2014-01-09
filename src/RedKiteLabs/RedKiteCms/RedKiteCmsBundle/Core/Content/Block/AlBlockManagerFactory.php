@@ -53,13 +53,6 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     private $blockManagersItems = array();
 
     /**
-     * @var \Symfony\Component\Translation\TranslatorInterface
-     *
-     * @deprecated $translator property has been deprecated since RedKite CMS 1.1.0
-     */
-    private $translator = null;
-
-    /**
      * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
      *
      * @api
