@@ -31,8 +31,6 @@ use Symfony\Component\HttpFoundation\Request;
 class DataManager
 {
     private $factoryRepository = null;
-    private $languageRepository = null;
-    private $pageRepository = null;
     private $seoRepository = null;
     private $language = null;
     private $page = null;
@@ -114,16 +112,13 @@ class DataManager
         $this->language = $language;
         $this->page = $page;
         if (null !== $this->language && null !== $this->page) {
-            $this->setupSeo($this->language->getId(), $this->page->getId(), null);
+            $options = array(           
+                "languageId" => $this->language->getId(), 
+                "pageId" => $this->page->getId(),    
+            );
+            $this->seo = $this->setupSeo($options);
         }
     }
-
-    /**
-     * Sets up the page tree object from current request
-     *
-     * @return null|\RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
-     * @throws \Exception
-     */
     
     /**
      * Initializes the DataManager object from and array of options
@@ -132,78 +127,35 @@ class DataManager
      */
     public function fromOptions(array $options)
     {  
-        $this->setupSeo($options['languageId'], $options['pageId'], $options["languageName"], $options["pageName"]);
-        $this->setupLanguage($options);
-        $this->setupPage($options);
-
-        if (null === $this->seo && null !== $this->language && null !== $this->page) {
-            $this->setupSeo($this->language->getId(), $this->page->getId());
-        }
-    }
-    
-    private function setupSeo($languageId, $pageId, $languageName = null, $pageName = null)
-    {
-        if ($languageId != 0 && $pageId != 0) {
-            $this->seo = $this->seoRepository()->fromPageAndLanguage($languageId, $pageId);
-            
-            return;
-        }
-        
-        if (null !== $languageName) {
-            $this->seo = $this->seoRepository()->fromPermalink($languageName);
-        }
-        
-        if (null !== $this->seo) {
-            return;
-        }
-        
-        if (null !== $pageName) {
-            $this->seo = $this->seoRepository()->fromPermalink($pageName);
-        }
-    }
-
-    private function setupLanguage(array $options)
-    {
+        $this->seo = $this->setupSeo($options);
         if (null !== $this->seo) {
             $this->language = $this->seo->getAlLanguage();
-            
-            return;
-        }
-        
-        $this->language = $this->languageRepository()->fromLanguageName($options["languageName"]);
-    }
-
-    private function setupPage(array $options)
-    {
-        if (null !== $this->seo) {
             $this->page = $this->seo->getAlPage();
+        }
+    }
+    
+    private function setupSeo(array $options)
+    {
+        $seo = null;
+        if ($options["languageId"] != 0 && $options["pageId"] != 0) {
+            $seo = $this->seoRepository()->fromPageAndLanguage($options["languageId"], $options["pageId"]);
             
-            return;
+            if (null !== $seo) {
+                return $seo;
+            }
         }
         
-        if ($options["pageName"] == "backend") {
-            return null;
+        $seo = $this->seoRepository()->fromLanguageAndPageNames($options["languageName"], $options["pageName"]);
+        if (null !== $seo) {
+            return $seo;
         }
         
-        $this->page = $this->pageRepository()->fromPageName($options["pageName"]);
-    }
-    
-    private function languageRepository()
-    {
-        if (null === $this->languageRepository) {
-            $this->languageRepository = $this->factoryRepository->createRepository('Language');
+        $seo = $this->seoRepository()->fromPermalink($options["languageName"]);
+        if (null !== $seo) {
+            return $seo;
         }
         
-        return $this->languageRepository;
-    }
-    
-    private function pageRepository()
-    {
-        if (null === $this->pageRepository) {
-            $this->pageRepository = $this->factoryRepository->createRepository('Page');
-        }
-        
-        return $this->pageRepository;
+        return $this->seoRepository()->fromPermalink($options["pageName"]);
     }
     
     private function seoRepository()
