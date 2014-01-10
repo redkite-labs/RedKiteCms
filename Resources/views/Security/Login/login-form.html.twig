@@ -30,9 +30,10 @@
 
         <div id="rk-signin-form">
             {% include('RedKiteCmsBundle:Bootstrap:3.x/Security/Login/login-form-base.html.twig') %}
+                
+            {% if error %}
+                <div class="text-error">{{ error }}</div>
+            {% endif %}
         </div>
-        {% if error %}
-            <div class="text-error">{{ error }}</div>
-        {% endif %}
     </div>
 {% endblock %}
