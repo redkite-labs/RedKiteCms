@@ -170,9 +170,7 @@
                 },
                 success: function(response)
                 {
-                    if (pageId == null) {
-                        ResetWholeForm();
-                    }
+                    ResetWholeForm();
                     UpdatePagesJSon(response);
                 },
                 error: function(err)
