@@ -25,7 +25,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository;
 interface SeoRepositoryInterface
 {
     /**
-     * Fetches a seo record using its primary key
+     * Fetches a seo record by a primary key
      *
      * @param int       The primary key
      * @return object The fetched object
@@ -33,7 +33,7 @@ interface SeoRepositoryInterface
     public function fromPK($id);
 
     /**
-     * Fetches the seo record found by its page and language ids
+     * Fetches the seo record found by page and language ids
      *
      * @param int       The id of the language
      * @param int       The id of the page
@@ -42,7 +42,7 @@ interface SeoRepositoryInterface
     public function fromPageAndLanguage($languageId, $pageId);
 
     /**
-     * Fetches the seo record found by its permalink
+     * Fetches the seo record by a permalink
      *
      * @param string    The permalink
      * @return object The fetched object
@@ -50,7 +50,7 @@ interface SeoRepositoryInterface
     public function fromPermalink($permalink);
 
     /**
-     * Fetches the seo records found by its page
+     * Fetches the seo records by a page id
      *
      * @param int       The id of the page
      * @return mixed A collection of objects
@@ -58,7 +58,7 @@ interface SeoRepositoryInterface
     public function fromPageId($pageId);
 
     /**
-     * Fetches the seo records found by its language id
+     * Fetches the seo records by a language id
      *
      * @param int       The id of the language
      * @return mixed A collection of objects
@@ -66,7 +66,7 @@ interface SeoRepositoryInterface
     public function fromLanguageId($languageId);
 
     /**
-     * Fetches the seo records found by its page with the languages objects
+     * Fetches the seo records by a page with the languages objects
      *
      * @param int       The id of the page
      * @return mixed A collection of objects
@@ -74,19 +74,27 @@ interface SeoRepositoryInterface
     public function fromPageIdWithLanguages($pageId);
 
     /**
-     * Fetches the seo records found by its page and languages with the
-     * pages and languages objects
-     *
+     * Fetches the seo records by its page and languages with the
+     * pages and languages objects     *
      * @return mixed A collection of objects
      */
     public function fetchSeoAttributesWithPagesAndLanguages();
 
     /**
-     * Fetches the seo records found by a language name
+     * Fetches the seo records by a language name
      *
      * @param string The name of the language
      * @param boolean When true orders by permalink
      * @return mixed A collection of objects
      */
     public function fromLanguageName($languageName, $ordered = true);
+    
+    /**
+     * Fetches the seo records from by a language name
+     *
+     * @param string $languageName The name of the language
+     * @param string $pageName The name of the page
+     * @return object The fetched object
+     */
+    public function fromLanguageAndPageNames($languageName, $pageName);
 }
