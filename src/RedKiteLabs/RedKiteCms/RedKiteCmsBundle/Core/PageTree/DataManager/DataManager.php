@@ -137,25 +137,26 @@ class DataManager
     private function setupSeo(array $options)
     {
         $seo = null;
+        $seoRepository = $this->seoRepository();
         if ($options["languageId"] != 0 && $options["pageId"] != 0) {
-            $seo = $this->seoRepository()->fromPageAndLanguage($options["languageId"], $options["pageId"]);
+            $seo = $seoRepository->fromPageAndLanguage($options["languageId"], $options["pageId"]);
             
             if (null !== $seo) {
                 return $seo;
             }
         }
         
-        $seo = $this->seoRepository()->fromLanguageAndPageNames($options["languageName"], $options["pageName"]);
+        $seo = $seoRepository->fromLanguageAndPageNames($options["languageName"], $options["pageName"]);
         if (null !== $seo) {
             return $seo;
         }
         
-        $seo = $this->seoRepository()->fromPermalink($options["languageName"]);
+        $seo = $seoRepository->fromPermalink($options["languageName"]);
         if (null !== $seo) {
             return $seo;
         }
         
-        return $this->seoRepository()->fromPermalink($options["pageName"]);
+        return $seoRepository->fromPermalink($options["pageName"]);
     }
     
     private function seoRepository()

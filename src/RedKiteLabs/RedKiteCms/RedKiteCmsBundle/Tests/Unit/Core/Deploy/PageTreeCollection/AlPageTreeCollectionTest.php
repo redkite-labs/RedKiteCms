@@ -46,6 +46,10 @@ class AlPageTreeCollectionTest extends TestCase
         
         $this->languageRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
         $this->pageRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface');
+        $this->seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\SeoRepository')
+                                        ->setMethods(array('fromPageAndLanguage'))
+                                        ->disableOriginalConstructor()
+                                        ->getMock();
         $this->blocksRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlocksRepositoryInterface', array('retrieveContents'));        
        
         $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
@@ -92,6 +96,7 @@ class AlPageTreeCollectionTest extends TestCase
         $this->configureLanguagesRepository($languages);
         $this->configurePagesRepository($pages);
         $this->configureBlocksRepository();
+        $this->configureSeoRepository($languages, $pages);
         $this->configureTheme($templates);
         
         $pageTreeCollection = new AlPageTreeCollection($this->assetsManager, $this->activeTheme, $this->templateManager, $this->pageBlocks, $this->factoryRepository);
@@ -257,6 +262,31 @@ class AlPageTreeCollectionTest extends TestCase
         ;
     }
     
+    private function configureSeoRepository($languages, $pages)
+    {
+        $seo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
+        $this->seoRepository->expects($this->any())
+            ->method('fromPageAndLanguage')
+            ->will($this->returnValue($seo))
+        ;
+        
+        $at = 3;
+        foreach($languages as $language) {
+            foreach($pages as $page) {
+                if ( ! $page->getIsPublished()) {
+                    continue;
+                }
+                
+                $this->factoryRepository->expects($this->at($at))
+                    ->method('createRepository')
+                    ->with('Seo')
+                    ->will($this->returnValue($this->seoRepository))
+                ;
+                $at++;
+            }
+        }
+    }
+    
     protected function createPage($pageName, $isPublished = true)
     {
         $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
@@ -269,6 +299,10 @@ class AlPageTreeCollectionTest extends TestCase
             ->method('getIsPublished')
             ->will($this->returnValue($isPublished));
         
+        $page->expects($this->atLeastOnce())
+            ->method('getId')
+            ->will($this->returnValue(2));
+        
         return $page;
     }
 
@@ -279,6 +313,10 @@ class AlPageTreeCollectionTest extends TestCase
         $language->expects($this->atLeastOnce())
             ->method('getLanguageName')
             ->will($this->returnValue($languageName));
+        
+        $language->expects($this->atLeastOnce())
+            ->method('getId')
+            ->will($this->returnValue(2));
 
         return $language;
     }
