@@ -28,6 +28,9 @@ use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager;
 class DataManagerTest extends TestCase
 {
     protected $factoryRepository;
+    private $seo;
+    private $page;
+    private $language;
 
     protected function setUp()
     {
@@ -40,20 +43,9 @@ class DataManagerTest extends TestCase
     /**
      * @dataProvider seoProvider
      */
-    public function testFromSeo($options)
+    public function testFromSeo($options, $queryResults)
     {
-        $this->fromSeo($options);
-        
-        $this->dataManager->fromOptions($options);
-        $this->doTest();
-    }
-    
-    /**
-     * @dataProvider languagesAndPagesProvider
-     */
-    public function testFromLanguageAndPageNames($options)
-    {
-        $this->fromLanguageAndPageNames($options);
+        $this->fromSeo($options, $queryResults);
         
         $this->dataManager->fromOptions($options);
         $this->doTest();
@@ -62,24 +54,25 @@ class DataManagerTest extends TestCase
     /**
      * @dataProvider seoRequestProvider
      */
-    public function testFromSeoRequest($options)
+    public function testFromSeoRequest($options, $queryResults)
     {
         $request = $this->createRequest($options);
         
-        $this->fromSeo($options);
+        $this->fromSeo($options, $queryResults);
         
-        $this->dataManager->fromRequest($request);
-        $this->doTest();
-    } 
-    
-    /**
-     * @dataProvider seoRequestProvider
-     */
-    public function testFromLanguageAndPageRequest($options)
-    {
-        $request = $this->createRequest($options);
-        
-        $this->fromLanguageAndPageNames($options);
+        if (null !== $this->seo) {
+            $this->language = $this->createLanguage();
+            $this->page = $this->createPage();
+
+            $this->seo->expects($this->once())
+                ->method('getAlLanguage')
+                ->will($this->returnValue($this->language))
+            ;
+            $this->seo->expects($this->once())
+                ->method('getAlPage')
+                ->will($this->returnValue($this->page))
+            ;
+        }
         
         $this->dataManager->fromRequest($request);
         $this->doTest();
@@ -126,13 +119,41 @@ class DataManagerTest extends TestCase
     
     public function seoProvider()
     {
-        return array(
+        return array(/*
+            array(
+                array(
+                    "pageId" => 0,            
+                    "languageId" => 2,
+                    "languageName" => "en",
+                    "pageName" => "page-removed",
+                ),
+                array(
+                    "fromPageAndLanguage" => null,
+                    "fromLanguageAndPageNames" => null,
+                    "fromPermalinkLanguage" => null,
+                    "fromPermalinkPage" => null,
+                ),
+            ),*/
             array(
                 array(
                     "pageId" => 2,            
                     "languageId" => 2,
                     "languageName" => "en",
                     "pageName" => "index",
+                ),
+                array(
+                    "fromPageAndLanguage" => $this->createSeo(),
+                ),
+            ),
+            array(
+                array(
+                    "pageId" => 0,            
+                    "languageId" => 0,
+                    "languageName" => "en",
+                    "pageName" => "index",
+                ),
+                array(
+                    "fromLanguageAndPageNames" => $this->createSeo(),
                 ),
             ),
             array(
@@ -141,6 +162,10 @@ class DataManagerTest extends TestCase
                     "languageId" => 0,
                     "languageName" => "welcome-to-our-website",
                     "pageName" => "index",
+                ),
+                array(
+                    "fromLanguageAndPageNames" => null,
+                    "fromPermalinkLanguage" => $this->createSeo(),
                 ),
             ),
             array(
@@ -150,27 +175,10 @@ class DataManagerTest extends TestCase
                     "languageName" => "en",
                     "pageName" => "welcome-to-our-website",
                 ),
-            ),
-        );
-    }
-    
-    public function languagesAndPagesProvider()
-    {
-        return array(
-            array(
                 array(
-                    "pageId" => 0,            
-                    "languageId" => 0,
-                    "pageName" => "index",            
-                    "languageName" => "en",
-                ),
-            ),
-            array(
-                array(
-                    "pageId" => 0,            
-                    "languageId" => 0,
-                    "pageName" => "backend",            
-                    "languageName" => "en",
+                    "fromLanguageAndPageNames" => null,
+                    "fromPermalinkLanguage" => null,
+                    "fromPermalinkPage" => $this->createSeo(),
                 ),
             ),
         );
@@ -179,54 +187,75 @@ class DataManagerTest extends TestCase
     public function seoRequestProvider()
     {
         return array(
-           array(
+            array(
                 array(
                     "pageId" => 0,            
-                    "languageId" => 0,              
+                    "languageId" => 2,
                     "_locale" => "en",
-                    "page" => "index",              
+                    "page" => "page-removed",
                     "languageName" => "en",
-                    "pageName" => "index", 
+                    "pageName" => "page-removed",
+                ),
+                array(
+                    "fromPageAndLanguage" => null,
+                    "fromLanguageAndPageNames" => null,
+                    "fromPermalinkLanguage" => null,
+                    "fromPermalinkPage" => null,
                 ),
             ),
             array(
-                array(   
-                    "pageId" => 0,            
-                    "languageId" => 0,                  
-                    "_locale" => "welcome-to-our-website",
-                    "page" => "index",             
-                    "languageName" => "welcome-to-our-website",
-                    "pageName" => "index", 
-                ),
-            ),
-            array(
-                array(   
-                    "pageId" => 0,            
-                    "languageId" => 0,                  
+                array(
+                    "pageId" => 2,            
+                    "languageId" => 2,
                     "_locale" => "en",
-                    "page" => "welcome-to-our-website",             
+                    "page" => "index",
                     "languageName" => "en",
-                    "pageName" => "welcome-to-our-website", 
+                    "pageName" => "index",
+                ),
+                array(
+                    "fromPageAndLanguage" => $this->createSeo(),
                 ),
             ),
             array(
-                 array(
-                     "pageId" => 2,            
-                     "languageId" => 2,              
-                     "_locale" => "en",
-                     "page" => "index",              
-                    "languageName" => "en",
-                    "pageName" => "index", 
-                 ),
-             ),
-            array(
-                array(   
+                array(
                     "pageId" => 0,            
-                    "languageId" => 0,                  
+                    "languageId" => 0,
+                    "_locale" => "en",
+                    "page" => "index",
+                    "languageName" => "en",
+                    "pageName" => "index",
+                ),
+                array(
+                    "fromLanguageAndPageNames" => $this->createSeo(),
+                ),
+            ),
+            array(
+                array(
+                    "pageId" => 0,            
+                    "languageId" => 0,
                     "_locale" => "welcome-to-our-website",
-                    "page" => "backend",             
+                    "page" => "index",
                     "languageName" => "welcome-to-our-website",
-                    "pageName" => "backend", 
+                    "pageName" => "index",
+                ),
+                array(
+                    "fromLanguageAndPageNames" => null,
+                    "fromPermalinkLanguage" => $this->createSeo(),
+                ),
+            ),
+            array(
+                array(
+                    "pageId" => 0,            
+                    "languageId" => 0,
+                    "_locale" => "en",
+                    "page" => "welcome-to-our-website",
+                    "languageName" => "en",
+                    "pageName" => "welcome-to-our-website",
+                ),
+                array(
+                    "fromLanguageAndPageNames" => null,
+                    "fromPermalinkLanguage" => null,
+                    "fromPermalinkPage" => $this->createSeo(),
                 ),
             ),
         );
@@ -239,7 +268,7 @@ class DataManagerTest extends TestCase
                 array(
                     "language" => $this->createLanguage(),            
                     "page" => $this->createPage(),       
-                    "seo" => $this->createSeo(),
+                    "seo" => $this->getMock("RedKiteLabs\RedKiteCmsBundle\Model\AlSeo"),
                 ),
             ),
             array(
@@ -252,90 +281,45 @@ class DataManagerTest extends TestCase
         );
     }
     
-    private function fromSeo($options)
+    private function fromSeo($options, $queryResults)
     {
-       $this->seo = $this->createSeo();
-       $seoRepository = $this->initSeoRepository(0);
-
-       if (array_key_exists("languageId", $options) && $options["languageId"] !== 0) {
-           $seoRepository->expects($this->once())
-               ->method('fromPageAndLanguage')
-               ->with($options["languageId"], $options["pageId"])
-               ->will($this->returnValue($this->seo))
-           ;
-
-           $seoRepository->expects($this->never())
-               ->method('fromPermalink')
-           ;
-       } else {
-            $seoRepository->expects($this->never())
-            ->method('fromPageAndLanguage')
+        $seoRepository = $this->initSeoRepository(0);
+        if ($options["languageId"] != 0 && $options["pageId"] != 0) {
+            $this->seo = $queryResults["fromPageAndLanguage"];
+            $seoRepository->expects($this->once())
+                ->method('fromPageAndLanguage')
+                ->with($options["languageId"], $options["pageId"])
+                ->will($this->returnValue($this->seo))
             ;
-           
-            $seo = $this->seo;
-            if ($options["languageName"] != "welcome-to-our-website") {
-                 $seo = null;
-            }
-           
-            $seoRepository->expects($this->at(0))
-                 ->method('fromPermalink')
-                 ->with($options["languageName"])
-                 ->will($this->returnValue($seo))
-            ;
-           
-            if (null === $seo) {
-                $seoRepository->expects($this->at(1))
-                     ->method('fromPermalink')
-                     ->with($options["pageName"])
-                     ->will($this->returnValue($this->seo))
-                ;
-            }
-       }
-
-       $this->language = $this->createLanguage();
-       $this->seo->expects($this->once())
-           ->method('getAlLanguage')
-           ->will($this->returnValue($this->language))
-       ;
-
-       $this->page = $this->createPage();
-       $this->seo->expects($this->once())
-           ->method('getAlPage')
-           ->will($this->returnValue($this->page))
-       ;
-    }
-
-    private function fromLanguageAndPageNames($options)
-    {
-        $seoRepository = $this->initSeoRepository(0);        
-        $languageRepository = $this->initLanguageRepository(1);
-        
-        $seoRepository->expects($this->any())
-            ->method('fromPermalink')
-            ->will($this->returnValue(null))
-        ;
-        
-        $pageName = (array_key_exists('pageName', $options)) ? $options["pageName"] : $options["page"];
-        $languageName = (array_key_exists('languageName', $options)) ? $options["languageName"] : $options["_locale"];
-        
-        $this->seo = null;
-        $this->page = null;
-        if ($pageName != "backend") {
-            $this->page = $this->createPage();
             
-            $pageRepository = $this->initPageRepository(2);
-            $pageRepository->expects($this->once())
-                ->method('fromPageName')
-                ->with($pageName)
-                ->will($this->returnValue($this->page))
-            ;
+            return;
         }
         
-        $this->language = $this->createLanguage();
-        $languageRepository->expects($this->once())
-            ->method('fromLanguageName')
-            ->with($languageName)
-            ->will($this->returnValue($this->language))
+        $this->seo = $queryResults["fromLanguageAndPageNames"];
+        $seoRepository->expects($this->once())
+            ->method('fromLanguageAndPageNames')
+            ->with($options["languageName"], $options["pageName"])
+            ->will($this->returnValue($this->seo))
+        ;
+        if (null !== $this->seo) {
+            return;
+        }
+        
+        $this->seo = $queryResults["fromPermalinkLanguage"];
+        $seoRepository->expects($this->at(1))
+            ->method('fromPermalink')
+            ->with($options["languageName"])
+            ->will($this->returnValue($this->seo))
+        ;
+        if (null !== $this->seo) {
+            return;
+        }
+        
+        $this->seo = $queryResults["fromPermalinkPage"];
+        $seoRepository->expects($this->at(2))
+            ->method('fromPermalink')
+            ->with($options["pageName"])
+            ->will($this->returnValue($this->seo))
         ;
     }
     
@@ -375,32 +359,6 @@ class DataManagerTest extends TestCase
         $this->assertSame($this->language, $this->dataManager->getLanguage());
         $this->assertSame($this->page, $this->dataManager->getPage());
     }
-
-    private function initLanguageRepository($at = null)
-    {
-        $languageRepository = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface");
-        
-        $this->factoryRepository->expects($this->at($at))
-            ->method('createRepository')
-            ->with('Language')
-            ->will($this->returnValue($languageRepository))
-        ;
-        
-        return $languageRepository;
-    }
-    
-    private function initPageRepository($at = null)
-    {
-        $pageRepository = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface");
-        
-        $this->factoryRepository->expects($this->at($at))
-            ->method('createRepository')
-            ->with('Page')
-            ->will($this->returnValue($pageRepository))
-        ;
-        
-        return $pageRepository;
-    }
     
     private function initSeoRepository($at = null)
     {
@@ -428,5 +386,8 @@ class DataManagerTest extends TestCase
     private function createSeo()
     {
         return $this->getMock("RedKiteLabs\RedKiteCmsBundle\Model\AlSeo");
+        
+        
+        return $seo;
     }
 }
