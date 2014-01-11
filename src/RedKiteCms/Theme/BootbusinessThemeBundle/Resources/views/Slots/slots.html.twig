@@ -602,7 +602,7 @@ END-SLOT #}
     {# BEGIN-SLOT
         name: content_body_1
         repeated: page
-        blockType: BootstrapThumbnailBlock
+        blockType: BootstrapThumbnailsBlock
     END-SLOT #}
     {{ renderSlot('content_body_1') }}
 {% endblock %}
@@ -620,9 +620,8 @@ END-SLOT #}
 {% block content_body_2 %} 
     {# BEGIN-SLOT
         name: content_body_2
-        repeated: page
-        
-        blockType: BootstrapThumbnailBlock
+        repeated: page        
+        blockType: BootstrapThumbnailsBlock
     END-SLOT #}
     {{ renderSlot('content_body_2') }}   
 {% endblock %}

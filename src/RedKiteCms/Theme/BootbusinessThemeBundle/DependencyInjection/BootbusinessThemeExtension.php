@@ -33,11 +33,11 @@ class BootbusinessThemeExtension extends BaseExtension
                 'templates' =>
                 array(
                     'templates/empty.xml',
+                    'templates/home.xml',
+                    'templates/all_products.xml',
                     'templates/product.xml',
                     'templates/contacts.xml',
                     'templates/two_columns.xml',
-                    'templates/all_products.xml',
-                    'templates/home.xml',
                 ),
                 'slots' =>
                 array(
