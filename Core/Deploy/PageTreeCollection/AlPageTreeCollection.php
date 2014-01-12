@@ -17,7 +17,6 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection;
 
-
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager;
@@ -46,13 +45,13 @@ class AlPageTreeCollection
 
     /**
      * Constructor
-     * 
+     *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager $templateAssetsManager
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface $activeTheme
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface $pageBlocks
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * 
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface                   $activeTheme
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager                   $templateManager
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface             $pageBlocks
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface      $factoryRepository
+     *
      * @api
      */
     public function __construct(TemplateAssetsManager $templateAssetsManager, AlActiveThemeInterface $activeTheme, AlTemplateManager $templateManager, AlPageBlocksInterface $pageBlocks, AlFactoryRepositoryInterface $factoryRepository)
@@ -67,20 +66,20 @@ class AlPageTreeCollection
         $this->pageRepository = $this->factoryRepository->createRepository('Page');
         $this->blockRepository = $this->factoryRepository->createRepository('Block');
     }
-    
+
     /**
      * Return the PageTree to generate base templates
-     * 
+     *
      * @return array
      */
     public function getBasePages()
     {
         return $this->pages['base'];
     }
-    
+
     /**
      * Return the PageTree to generate page templates
-     * 
+     *
      * @return array
      */
     public function getPages()
@@ -97,7 +96,7 @@ class AlPageTreeCollection
         $this->initPages($languages);
         $this->initBasePages($languages);
     }
-    
+
     private function initPages($languages)
     {
         $pages = $this->pageRepository->activePages();
@@ -114,7 +113,7 @@ class AlPageTreeCollection
             }
         }
     }
-    
+
     private function initBasePages($languages)
     {
         $templates = $this->theme->getTemplates();
@@ -122,12 +121,12 @@ class AlPageTreeCollection
             $blocks = $this->blockRepository->retrieveContents(array(1, $language->getId()), 1);
             foreach ($templates as $template) {
                 $this->pageBlocks->setAlBlocks($blocks);
-                
+
                 $this->pages['base'][] = $this->initPageTree($language, null, $template);
             }
         }
     }
-    
+
     private function initPageTree(AlLanguage $language, AlPage $page = null, AlTemplate $template = null)
     {
         $dataManager = new DataManager($this->factoryRepository);
@@ -137,10 +136,10 @@ class AlPageTreeCollection
         if (null !== $page) {
             $pageBlocks->refresh($language->getId(), $page->getId());
         }
-        
+
         $assetsManager = clone($this->assetsManager);
         $assetsManager->setPageBlocks($pageBlocks);
-        
+
         $pageTree = new AlPageTree(
             $assetsManager,
             null,
@@ -151,7 +150,7 @@ class AlPageTreeCollection
             ->productionMode(true)
             ->setUp($this->theme, clone($this->templateManager), $pageBlocks, $template)
         ;
-        
+
         return $pageTree;
     }
 }

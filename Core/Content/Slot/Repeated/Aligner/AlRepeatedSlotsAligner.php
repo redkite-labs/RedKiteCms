@@ -125,7 +125,7 @@ class AlRepeatedSlotsAligner
         if (empty($templateSlots) || empty($slots)) {
             return null;
         }
-        
+
         $templateName = strtolower($template->getTemplateName());
         $templateSlots = array_intersect_key($templateSlots, $slots);
 

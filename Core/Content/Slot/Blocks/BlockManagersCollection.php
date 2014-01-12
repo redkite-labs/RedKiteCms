@@ -59,7 +59,7 @@ class BlockManagersCollection implements \Countable
      *
      * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
-     * @codeCoverageIgnore
+     *             @codeCoverageIgnore
      */
     public function count()
     {

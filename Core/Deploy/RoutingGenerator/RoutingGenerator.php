@@ -28,7 +28,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollec
  * @api
  */
 abstract class RoutingGenerator implements RoutingGeneratorInterface
-{   
+{
     private $pageTreeCollection = null;
     private $routes = array();
     private $routing = "";
@@ -38,23 +38,22 @@ abstract class RoutingGenerator implements RoutingGeneratorInterface
     /**
      * Returns a prefix for routes
      *
-     * @param string $deployBundle The name of the deploy bundle
-     * @param string $deployBundle The name of the deploy controller
+     * @param  string $deployBundle The name of the deploy bundle
+     * @param  string $deployBundle The name of the deploy controller
      * @return string
      */
     abstract protected function defineRouteSchema($deployBundle, $deployController);
-    
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection $pageTreeCollection
      */
     public function __construct(AlPageTreeCollection $pageTreeCollection)
     {
         $this->pageTreeCollection = $pageTreeCollection;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -69,14 +68,14 @@ abstract class RoutingGenerator implements RoutingGeneratorInterface
     public function generateRouting($deployBundle, $deployController)
     {
         $schema = $this->defineRouteSchema($deployBundle, $deployController);
-        
+
         foreach ($this->pageTreeCollection->getPages() as $pageTree) {
             $language = $pageTree->getAlLanguage();
             $page = $pageTree->getAlPage();
             if ( ! $page->getIsPublished()) {
                 continue;
             }
-            
+
             $pageName = $this->fetchPageName($page);
             $languageName = $this->fetchLanguageName($language);
 
@@ -85,39 +84,39 @@ abstract class RoutingGenerator implements RoutingGeneratorInterface
             if ($this->homePage != $pageName || $this->mainLanguage != $languageName) {
                 $permalink = $seo->getPermalink();
             }
-            
+
             $name = str_replace('-', '_', $languageName) . '_' . str_replace('-', '_', $pageName);
             $this->routes[] = $this->writeRoute($schema, $name, $permalink, $languageName, $pageName);
         }
         // Defines the main route
         $this->routes[] = $this->writeRoute($schema, 'home', '', $this->mainLanguage, $this->homePage); //\sprintf($schema, '', $this->mainLanguage, $this->homePage, 'home', $controllerPrefix, $prefix);
         $this->routing = implode("\n\n", $this->routes);
-        
+
         return $this;
     }
-    
+
     private function writeRoute($schema, $name, $permalink, $languageName, $pageName)
     {
         return \sprintf($schema, $permalink, $languageName, $pageName, $name);
     }
-    
+
     private function fetchPageName($page)
     {
         $pageName = $page->getPageName();
         if ($page->getIsHome()) {
             $this->homePage = $pageName;
         }
-        
+
         return $pageName;
     }
-    
+
     private function fetchLanguageName($language)
     {
         $languageName = $language->getLanguageName();
         if ($language->getMainLanguage()) {
             $this->mainLanguage = $languageName;
         }
-        
+
         return $languageName;
     }
 }

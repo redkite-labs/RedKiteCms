@@ -17,7 +17,6 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
 
@@ -44,7 +43,7 @@ class ThemePreviewController extends AlCmsController
         $theme = $this->themes->getTheme($themeName);
         $template = ($templateName == 'none') ? $theme->getHomeTemplate() : $theme->getTemplate($templateName);
 
-        $this->pageTree = $this->container->get('red_kite_cms.page_tree_preview'); 
+        $this->pageTree = $this->container->get('red_kite_cms.page_tree_preview');
         $this->pageTree->setTemplateAssetsManager($assetsManager);
         $slotContents = $this->fetchSlotContents($theme);
         $pageBlocks = new AlPageBlocks($this->factoryRepository);

@@ -30,7 +30,7 @@ class AlTemplateParser
     {
         $this->templateLocator = $templateLocator;
         $this->nameParser = $nameParser;
-        
+
         $this->ymlParser = new Yaml();
     }
 
@@ -45,9 +45,9 @@ class AlTemplateParser
         $this->templatesDir = $templatesDir;
         $this->kernelDir = $kernelDir;
         $this->themeName = $themeName;
-        
+
         $directories = $this->initDirectories();
-        
+
         $slotsDirectory = dirname($this->templatesDir) . '/Slots';
         $slots = $this->parseSlots($slotsDirectory);
         $finder = new Finder();
@@ -57,7 +57,7 @@ class AlTemplateParser
         foreach ($templateFiles as $template) {
             $templateName = basename((string) $template);
             $templateContents[$templateName]["content"] =  file_get_contents($template);
-            
+
             // Generate templates only in the theme top folder
             $generate = false;
             if (strpos($template, $this->kernelDir) === false && dirname($template) == $this->templatesDir) {
@@ -65,24 +65,24 @@ class AlTemplateParser
             }
             $templateContents[$templateName]["generate"] = $generate;
         }
-        
+
         $templates = array();
         foreach ($templateFiles as $template) {
             $templateName = basename((string) $template);
-            if ( ! $templateContents[$templateName]["generate"]) {
+            if (! $templateContents[$templateName]["generate"]) {
                 continue;
             }
-            
+
             $fileContents = $templateContents[$templateName]["content"];
             $contents = $this->joinTemplates($templateContents, $fileContents);
             $templateSlots = $this->parseBlocks(implode("\n", $contents), array_keys($slots));
-            
+
             $templates[] = array(
                 'name' => $templateName,
                 'slots' => $templateSlots,
             );
         }
-        
+
         return array(
             "templates" => $templates,
             "slots" => $slots,
@@ -99,14 +99,14 @@ class AlTemplateParser
         if (is_dir($globalResourcesFolder)) {
             $directories[] = $globalResourcesFolder;
         }
-        
+
         return $directories;
     }
-    
+
     private function joinTemplates($templateContents, $fileContents, $contents = array())
     {
         $contents[] = $fileContents;
-        
+
         preg_match('/extends["\'\s]+(.*?)["\']+?/s', $fileContents, $matches);
         if ( ! array_key_exists(1, $matches)) {
             return $contents;
@@ -116,62 +116,62 @@ class AlTemplateParser
         if ( ! array_key_exists(2, $tokens)) {
             return $contents;
         }
-        
+
         $fileContents = $templateContents[basename($tokens[2])]["content"];
-        
+
         return $this->joinTemplates($templateContents, $fileContents, $contents);
     }
-    
+
     private function parseBlocks($templateContents, $slots)
     {
         preg_match_all('/\{\{ block\([\'"]([^\)]+)[\'"]\)/s', $templateContents, $matches);
         if ( ! array_key_exists(1, $matches)) {
             return array();
         }
-        
+
         // Ignore blocks not included in found slots
         $templateSlots = array();
-        foreach($matches[1] as $slotName) {
-            if ( ! in_array($slotName, $slots)) { 
+        foreach ($matches[1] as $slotName) {
+            if ( ! in_array($slotName, $slots)) {
                 continue;
             }
-            
+
             $templateSlots[] = $slotName;
         }
-        
+
         return $templateSlots;
     }
-    
+
     private function parseSlots($slotsDirectory)
     {
         $finder = new Finder();
         $templateFiles = $finder->files('*.twig')->in($slotsDirectory);
-        
-        $slots = array();        
+
+        $slots = array();
         foreach ($templateFiles as $template) {
             $template = (string) $template;
-            $templateContents = file_get_contents($template);        
+            $templateContents = file_get_contents($template);
             $slots = array_merge($slots, $this->fetchSlots($templateContents), $this->parseTemplateForSlots($templateContents));
         }
-        
+
         return $slots;
     }
-    
+
     private function parseTemplateForSlots($templateContents)
     {
         $slots = array();
-            
+
         preg_match_all('/use["\'\s]+([^"\']+)["\']+?/s', $templateContents, $matches);
         if ( ! array_key_exists(1, $matches)) {
             return array();
         }
 
-        foreach($matches[1] as $file) {
+        foreach ($matches[1] as $file) {
             $template = $this->templateLocator->locate($this->nameParser->parse($file));
             $templateContents = file_get_contents($template);
             $slots = array_merge($slots, $this->fetchSlots($templateContents), $this->parseTemplateForSlots($templateContents));
         }
-        
+
         return $slots;
     }
 
@@ -188,20 +188,20 @@ class AlTemplateParser
             'blockType' => '',
             'htmlContent' => ''
         );
-        
+
         preg_match_all('/BEGIN-SLOT[^\w]*[\r\n](.*?)END-SLOT/si', $templateContents, $matches, PREG_SET_ORDER);
         $slots = array();
-        foreach ($matches as $slotAttributes) {            
+        foreach ($matches as $slotAttributes) {
             $attributes = "\n" . $slotAttributes[1];
             preg_match('/([\r\n][^\w]+)/', $attributes, $spacesMatch);
             $attributes = str_replace($spacesMatch[1], "\n", $attributes);
-            
+
             try {
                 $parsedAttributes = $this->ymlParser->parse($attributes);
                 if ( ! array_key_exists('name', $parsedAttributes)) {
                     continue;
                 }
-            } catch(ParseException $ex) {
+            } catch (ParseException $ex) {
                 continue;
             }
 

@@ -27,7 +27,7 @@ class AlSlotsGenerator extends Generator
     /**
      * Generates the slot file
      *
-     * @param  string $dir          The directory where the generated file must be saved
+     * @param  string $dir       The directory where the generated file must be saved
      * @param  string $themeName
      * @param  array  $slots
      * @return string A message formatted to be displayed on the console

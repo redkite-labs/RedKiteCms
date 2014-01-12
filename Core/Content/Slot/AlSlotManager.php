@@ -48,7 +48,7 @@ class AlSlotManager
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot                          $slot
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot                             $slot
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface   $blockManagerFactory
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksAdder                $blocksAdder|null
@@ -80,7 +80,7 @@ class AlSlotManager
     /**
      * Sets the slot object
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot      $v
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot         $v
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      *
      * @api

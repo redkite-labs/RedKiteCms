@@ -30,23 +30,23 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\TemplateSectionTwig
  * @api
  */
 class MetatagSection extends TemplateSectionTwig
-{    
+{
     /**
      * Defines the base method to generate a section
-     * 
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree $pageTree
+     *
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree     $pageTree
      * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param array $options
+     * @param array                                                      $options
      */
     public function generateSection(AlPageTree $pageTree, AlThemeInterface $theme, array $options)
     {
         parent::generateSection($pageTree, $theme, $options);
-        
+
         $metatagsSection = $this->writeComment("Metatags section");
         $metatagsSection .= $this->writeInlineBlock('title', $this->pageTree->getMetaTitle());
         $metatagsSection .= $this->writeInlineBlock('description', $this->pageTree->getMetaDescription());
         $metatagsSection .= $this->writeInlineBlock('keywords', $this->pageTree->getMetaKeywords());
-        
+
         return $metatagsSection;
     }
 }

@@ -78,7 +78,7 @@ abstract class TemplateSectionTwig extends TemplateSection
         if (empty($blockContent)) {
             return "";
         }
-        
+
         $parentToken = "";
         if ($parent) {
             $parentToken = '{{ parent() }} ';
@@ -98,11 +98,11 @@ abstract class TemplateSectionTwig extends TemplateSection
         if (null !== $filter) {
             $section .= " filter=\"$filter\"";
         }
-        
+
         if (null !== $output) {
             $section .= " output=\"$output\"";
         }
-        
+
         $block = "  {% $section %}" . PHP_EOL;
         $block .= $this->identateContent($sectionContent) . "" . PHP_EOL;
         $block .= "  {% end$sectionName %}";

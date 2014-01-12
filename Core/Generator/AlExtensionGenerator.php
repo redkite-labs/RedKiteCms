@@ -37,9 +37,9 @@ class AlExtensionGenerator extends Generator
     {
         $themeBasename = str_replace('Bundle', '', $themeName);
         $extensionAlias = Container::underscore($themeBasename);
-        
+
         $templateFiles = array_map(function ($template) { return basename($template["name"], '.html.twig'); }, $templates);
-        
+
         $parameters = array(
             'namespace' => $namespace,
             'bundle_basename' => $themeBasename,

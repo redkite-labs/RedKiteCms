@@ -28,9 +28,9 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
 
 /**
- * AlDeployer is the base object deputated to deploy the website from development to 
+ * AlDeployer is the base object deputated to deploy the website from development to
  * production.
- * 
+ *
  * Website is deployed inside the deploy bundle.
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
@@ -46,20 +46,20 @@ abstract class AlDeployer implements AlDeployerInterface
      * Save the page from an AlPageTree object
      *
      * @param  RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree $pageTree
-     * @param  RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme $theme
-     * @param array $options
+     * @param  RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme      $theme
+     * @param  array                                                 $options
      * @return boolean
      *
      * @api
      */
     abstract protected function save(AlPageTree $pageTree, AlTheme $theme, array $options);
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface $routingGenerator
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface $sitemapGenerator
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface                          $dispatcher
      *
      * @api
      */
@@ -82,31 +82,31 @@ abstract class AlDeployer implements AlDeployerInterface
         $deployFolder = $options["deployDir"];
         $this->fileSystem->remove($deployFolder);
         $this->checkTargetFolders($options);
-        
+
         $this->pageTreeCollection->fill();
         if ( ! $this->savePages($theme, $options)) {
             return false;
         }
-        
+
         $this->copyAssets($options);
         $this->routingGenerator
             ->generateRouting($options["deployBundle"], $options["deployController"])
             ->writeRouting($options["configDir"])
         ;
-        
+
         if (null !== $this->sitemapGenerator) {
             $this->sitemapGenerator->writeSiteMap($options["webFolderPath"], $options["websiteUrl"]);
         }
-        
+
         $this->dispatch(Deploy\DeployEvents::AFTER_DEPLOY, new Deploy\AfterDeployEvent($this));
-        
+
         return true;
     }
 
     /**
-     * Checks if the mandatory folders for the pubblication exist and creates them 
+     * Checks if the mandatory folders for the pubblication exist and creates them
      * when required
-     * 
+     *
      * @param array $options An array of options
      */
     protected function checkTargetFolders(array $options)
@@ -118,21 +118,21 @@ abstract class AlDeployer implements AlDeployerInterface
 
     /**
      * Saves the pages instantiating an AlPageTreeCollection object
-     * 
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme $theme
-     * @param array $options An array of options
+     *
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme $theme
+     * @param  array                                             $options An array of options
      * @return boolean
      */
     protected function savePages(AlTheme $theme, array $options)
     {
         $pages = $this->pageTreeCollection->getPages();
         $basePages = $this->pageTreeCollection->getBasePages();
-        
+
         $options["type"] = "Pages";
         if ( ! $this->doSavePages($pages, $theme, $options)) {
             return false;
         }
-        
+
         $options["type"] = "Base";
         if ( ! $this->doSavePages($basePages, $theme, $options)) {
             return false;
@@ -148,7 +148,7 @@ abstract class AlDeployer implements AlDeployerInterface
      * everything when user is working with assets folders hardlinked, while the
      * target folder is the deploy bundle's Resources/public folder to be sure to
      * copy the assets under the sorce assets folder.
-     * 
+     *
      * @param array $options An array of options
      */
     protected function copyAssets(array $options)
@@ -172,7 +172,7 @@ abstract class AlDeployer implements AlDeployerInterface
 
         return true;
     }
-    
+
     private function dispatch($eventName, $event)
     {
         if (null !== $this->dispatcher) {

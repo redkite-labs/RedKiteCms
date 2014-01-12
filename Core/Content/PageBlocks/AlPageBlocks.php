@@ -82,10 +82,10 @@ class AlPageBlocks implements AlPageBlocksInterface
     {
         return (array_key_exists($slotName, $this->blocks)) ? $this->blocks[$slotName] : array();
     }
-    
+
     /**
-     * Returns an array which containt the handled page information 
-     * 
+     * Returns an array which containt the handled page information
+     *
      * @return array
      */
     public function getPageInformation()
@@ -126,7 +126,7 @@ class AlPageBlocks implements AlPageBlocksInterface
 
         return $types;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -135,18 +135,18 @@ class AlPageBlocks implements AlPageBlocksInterface
         if (!is_numeric($languageId)) {
             throw new General\InvalidArgumentTypeException('exception_invalid_value_for_page_id');
         }
-        
+
         if (!is_numeric($pageId)) {
             throw new General\InvalidArgumentTypeException('exception_invalid_value_for_language_id');
         }
-        
+
         if ($languageId == $this->idLanguage && $pageId == $this->idPage) {
             return $this;
         }
-        
+
         $this->idLanguage = $languageId;
         $this->idPage = $pageId;
-        
+
         $this->alBlocks = $this->blockRepository->retrieveContents(array(1, $languageId), array(1, $pageId));
         $this->arrangeBlocks();
 
@@ -238,8 +238,8 @@ class AlPageBlocks implements AlPageBlocksInterface
 
     /**
      * Checks the requested slot exists
-     * 
-     * @param string $slotName
+     *
+     * @param  string                   $slotName
      * @throws InvalidArgumentException
      */
     protected function checkSlotExists($slotName)
@@ -250,7 +250,7 @@ class AlPageBlocks implements AlPageBlocksInterface
     }
 
     /**
-     * Arranges the blocks retrieved from the database into an array where blocks are 
+     * Arranges the blocks retrieved from the database into an array where blocks are
      * grouped by slot name
      */
     protected function arrangeBlocks()

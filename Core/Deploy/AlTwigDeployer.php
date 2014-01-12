@@ -38,19 +38,19 @@ class AlTwigDeployer extends AlDeployer
 
     /**
      * Constructor
-     * 
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter $twigTemplateWriter
+     *
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter      $twigTemplateWriter
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface $routingGenerator
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface $sitemapGenerator
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface                          $dispatcher
      */
     public function __construct(TwigTemplateWriter $twigTemplateWriter, RoutingGeneratorInterface $routingGenerator, SitemapGeneratorInterface $sitemapGenerator = null, EventDispatcherInterface $dispatcher = null)
     {
         parent::__construct($routingGenerator, $sitemapGenerator, $dispatcher);
-        
+
         $this->twigTemplateWriter = $twigTemplateWriter;
     }
-    
+
     /**
      * @inheritdoc
      */

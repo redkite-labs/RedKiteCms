@@ -32,7 +32,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
  * Defines an object which stores all the web page information as a tree
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
- * 
+ *
  * @method     AlPageTree getTheme() Returns the handled AlTheme object
  * @method     AlPageTree getTemplate() Returns the handled AlTemplate object
  * @method     AlPageTree getTemplateManager() Returns the handled AlTemplateManager object
@@ -64,10 +64,10 @@ class AlPageTree
 
     /**
      * Constructor
-     * 
+     *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager $templateAssetsManager
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $eventsDispatcher
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager $dataManager
+     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface                             $eventsDispatcher
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager                     $dataManager
      */
     public function __construct(TemplateAssetsManager $templateAssetsManager, EventDispatcherInterface $eventsDispatcher = null, DataManager $dataManager = null)
     {
@@ -77,30 +77,30 @@ class AlPageTree
             $this->dataManager = $dataManager;
         }
     }
-    
+
     /**
      * Sets the TemplateAssetsManager
-     *  
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager $templateAssetsManager
+     *
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager $templateAssetsManager
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      */
     public function setTemplateAssetsManager(TemplateAssetsManager $templateAssetsManager)
     {
         $this->assetsManager = $templateAssetsManager;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the DataManager
-     *  
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager $templateAssetsManager
+     *
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager $templateAssetsManager
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      */
     public function setDataManager(DataManager $dataManager)
     {
         $this->dataManager = $dataManager;
-        
+
         return $this;
     }
 
@@ -119,7 +119,7 @@ class AlPageTree
             if (null === $assets) {
                 $assets = array();
             }
-            
+
             return $assets;
         }
 
@@ -129,7 +129,7 @@ class AlPageTree
             if (null === $assets) {
                 return "";
             }
-            
+
             return implode("\n", $assets);
         }
 
@@ -138,17 +138,17 @@ class AlPageTree
 
             return $this->$property;
         }
-        
+
         if (preg_match('/^(get)?Al?([Page|Language|Seo]+)$/', $name, $matches)) {
             $property = strtolower($matches[1]) . $matches[2];
-            
+
             if (null === $this->dataManager) {
                 return null;
             }
-            
+
             return $this->dataManager->$property();
         }
-        
+
         if (preg_match('/^(get)?([Theme|Template|TemplateManager|PageBlocks]+)$/', $name, $matches)) {
             $property = lcfirst($matches[2]);
 
@@ -167,17 +167,17 @@ class AlPageTree
     {
         return $this->cmsMode;
     }
-    
+
     /**
      * Sets the RedKiteCms mode
-     * 
-     * @param boolean $value
+     *
+     * @param  boolean                                                $value
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      */
     public function productionMode($value)
     {
         $this->cmsMode = ! $value;
-        
+
         return $this;
     }
 
@@ -188,15 +188,15 @@ class AlPageTree
      *
      * @api
      */
-    
+
     /**
      * Returns the block managers handled by the PageTree object
-     * 
-     * @param string $slotName
+     *
+     * @param  string $slotName
      * @return array
      */
     public function getBlockManagers($slotName)
-    {        
+    {
         $slotManager = $this->templateManager->getSlotManager($slotName);
         if (null === $slotManager) {
             return array();
@@ -207,11 +207,11 @@ class AlPageTree
 
     /**
      * Sets up the PageTree object
-     * 
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlTheme $theme
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface $pageBlocks
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate $template
+     *
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlTheme                         $theme
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager       $templateManager
+     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface $pageBlocks
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate                     $template
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
      */
     public function setUp(AlThemeInterface $theme, AlTemplateManager $templateManager, AlPageBlocksInterface $pageBlocks, AlTemplate $template = null)
@@ -219,11 +219,11 @@ class AlPageTree
         $this->templateManager = $templateManager;
         $this->pageBlocks = $pageBlocks;
         $this->theme = $theme;
-            
+
         $this->dispatch(PageTree\PageTreeEvents::BEFORE_PAGE_TREE_SETUP, new PageTree\BeforePageTreeSetupEvent($this));
 
         $language = $this->getAlLanguage();
-        $page = $this->getAlPage();        
+        $page = $this->getAlPage();
         if (null !== $language && null !== $page) {
             $this->pageBlocks->refresh($language->getId(), $page->getId());
         }
@@ -236,7 +236,7 @@ class AlPageTree
         $templateName = "";
         if (null !== $page) {
             $options["page"] = $page->getPageName();
-            $templateName = $page->getTemplateName();            
+            $templateName = $page->getTemplateName();
         }
 
         $this->template = (null === $template) ? $this->theme->getTemplate($templateName) : $template;
@@ -265,14 +265,14 @@ class AlPageTree
     protected function setUpMetaTags()
     {
         $seo = $this->getAlSeo();
-                
+
         if (null !== $seo) {
             $this->metaTitle = $seo->getMetaTitle();
             $this->metaDescription = $seo->getMetaDescription();
             $this->metaKeywords = $seo->getMetaKeywords();
         }
     }
-    
+
     private function dispatch($eventName, $event)
     {
         if (null !== $this->dispatcher) {

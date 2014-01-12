@@ -32,7 +32,7 @@ class RegisterCmsListenersPass implements CompilerPassInterface
      * Registers the RedKiteCms events
      *
      * @param \Symfony\Component\DependencyInjection\ContainerBuilder $container
-     * @codeCoverageIgnore
+     *                                                                           @codeCoverageIgnore
      */
     public function process(ContainerBuilder $container)
     {

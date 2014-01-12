@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * DataManager is the objected deputated to handle the information related to a website 
+ * DataManager is the objected deputated to handle the information related to a website
  * page, retrieved from a database
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
@@ -38,14 +38,14 @@ class DataManager
 
     /**
      * Constructor
-     * 
+     *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository)
     {
         $this->factoryRepository = $factoryRepository;
     }
-    
+
     /**
      * Returns the current AlPage object
      *
@@ -69,7 +69,7 @@ class DataManager
     {
         return $this->language;
     }
-    
+
     /**
      * Returns the current AlSeo object
      *
@@ -81,10 +81,10 @@ class DataManager
     {
         return $this->seo;
     }
-    
+
     /**
      * Initializes the DataManager object from a request
-     * 
+     *
      * @param type $request
      */
     public function fromRequest(Request $request)
@@ -92,79 +92,79 @@ class DataManager
         $pageName = $request->get('page');
         $language = $request->get('_locale');
         $options = array(
-            "pageName" => $pageName,            
-            "languageName" => $language,        
-            "pageId" => (int)$request->get('pageId'),            
-            "languageId" => (int)$request->get('languageId'),    
+            "pageName" => $pageName,
+            "languageName" => $language,
+            "pageId" => (int) $request->get('pageId'),
+            "languageId" => (int) $request->get('languageId'),
         );
-        
+
         $this->fromOptions($options);
     }
-    
+
     /**
      * Initializes the DataManager object from the database entities
-     * 
+     *
      * @param \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage $language
-     * @param \RedKiteLabs\RedKiteCmsBundle\Model\AlPage $page
+     * @param \RedKiteLabs\RedKiteCmsBundle\Model\AlPage     $page
      */
     public function fromEntities(AlLanguage $language = null, AlPage $page = null)
     {
         $this->language = $language;
         $this->page = $page;
         if (null !== $this->language && null !== $this->page) {
-            $options = array(           
-                "languageId" => $this->language->getId(), 
-                "pageId" => $this->page->getId(),    
+            $options = array(
+                "languageId" => $this->language->getId(),
+                "pageId" => $this->page->getId(),
             );
             $this->seo = $this->setupSeo($options);
         }
     }
-    
+
     /**
      * Initializes the DataManager object from and array of options
-     * 
+     *
      * @param array $options
      */
     public function fromOptions(array $options)
-    {  
+    {
         $this->seo = $this->setupSeo($options);
         if (null !== $this->seo) {
             $this->language = $this->seo->getAlLanguage();
             $this->page = $this->seo->getAlPage();
         }
     }
-    
+
     private function setupSeo(array $options)
     {
         $seo = null;
         $seoRepository = $this->seoRepository();
         if ($options["languageId"] != 0 && $options["pageId"] != 0) {
             $seo = $seoRepository->fromPageAndLanguage($options["languageId"], $options["pageId"]);
-            
+
             if (null !== $seo) {
                 return $seo;
             }
         }
-        
+
         $seo = $seoRepository->fromLanguageAndPageNames($options["languageName"], $options["pageName"]);
         if (null !== $seo) {
             return $seo;
         }
-        
+
         $seo = $seoRepository->fromPermalink($options["languageName"]);
         if (null !== $seo) {
             return $seo;
         }
-        
+
         return $seoRepository->fromPermalink($options["pageName"]);
     }
-    
+
     private function seoRepository()
     {
         if (null === $this->seoRepository) {
             $this->seoRepository = $this->factoryRepository->createRepository('Seo');
         }
-        
+
         return $this->seoRepository;
     }
 }

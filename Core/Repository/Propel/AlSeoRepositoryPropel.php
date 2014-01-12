@@ -153,12 +153,12 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
                     ->_endif()
                     ->find();
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function fromLanguageAndPageNames($languageName, $pageName)
-    {   
+    {
         return AlSeoQuery::create('a')
                 ->useAlLanguageQuery()
                     ->filterByLanguageName($languageName)

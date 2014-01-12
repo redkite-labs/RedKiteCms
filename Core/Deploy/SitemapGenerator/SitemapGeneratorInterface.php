@@ -17,7 +17,6 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator;
 
-
 /**
  * The object deputated to deploy the website from development, RedKiteCms, to production,
  * the deploy bundle.
@@ -27,12 +26,12 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator;
  * @api
  */
 interface SitemapGeneratorInterface
-{    
+{
     /**
      * Writes the sitemap inside the given path for the provided website url
-     * 
+     *
      * @param string $path
      * @param string $websiteUrl
      */
-    function writeSiteMap($path, $websiteUrl);
+    public function writeSiteMap($path, $websiteUrl);
 }

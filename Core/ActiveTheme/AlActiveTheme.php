@@ -32,7 +32,7 @@ class AlActiveTheme implements AlActiveThemeInterface
 
     /**
      * Constructor
-     * 
+     *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
@@ -50,7 +50,7 @@ class AlActiveTheme implements AlActiveThemeInterface
         }
 
         $themes = $this->container->get('red_kite_labs_theme_engine.themes');
-        
+
         $activeThemeFile = $this->getActiveThemeFile();
         if ( ! file_exists($activeThemeFile)) {
             foreach ($themes as $theme) break;
@@ -62,8 +62,8 @@ class AlActiveTheme implements AlActiveThemeInterface
         }
 
         $themeName = trim(file_get_contents($activeThemeFile));
-        $this->activeTheme = $themes->getTheme($themeName); 
-        
+        $this->activeTheme = $themes->getTheme($themeName);
+
         return $this->activeTheme;
     }
 
@@ -77,7 +77,7 @@ class AlActiveTheme implements AlActiveThemeInterface
 
     /**
      * Returns the Twitter Bootstrap version for the theme requested as argument
-     * @param string $themeName
+     * @param  string $themeName
      * @return string
      */
     public function getThemeBootstrapVersion($themeName = null)
