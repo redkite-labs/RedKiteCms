@@ -27,7 +27,7 @@ use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlTwigDeployerProduction;
+use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlTwigDeployer;
 
 /**
  * Implements the object deputated to boostrap the database
@@ -121,9 +121,9 @@ abstract class BaseDbBootstrapper
         $theme = $this->themes->getTheme($themeName);
         $template = $theme->getTemplate('home');
 
-        $pageContentsContainer = new AlPageBlocks($factoryRepository);
-        $templateManager = new AlTemplateManager($this->eventsHandler, $factoryRepository, $template, $pageContentsContainer, $this->blockManagerFactory);
-        $templateManager->refresh();
+        $pageBlocks = new AlPageBlocks($factoryRepository);
+        $templateManager = new AlTemplateManager($this->eventsHandler, $factoryRepository, $this->blockManagerFactory);
+        $templateManager->refresh($theme->getThemeSlots(), $template, $pageBlocks);
         
         $languageManager = new AlLanguageManager($this->eventsHandler, $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
         $pageManager = new AlPageManager($this->eventsHandler, $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
@@ -142,7 +142,7 @@ abstract class BaseDbBootstrapper
         
         try
         {
-            $deployer = new AlTwigDeployerProduction($this->container);
+            $deployer = new AlTwigDeployer($this->container);
             $deployer->deploy();
         }
         catch(\Exception $ex)
