@@ -428,7 +428,7 @@ class PagesControllerTest extends WebTestCaseFunctional
         $seo = $this->seoRepository->fromPageAndLanguage(2, 2);
         $this->assertNotNull($seo);
         
-        $this->assertCount(9, $this->blockRepository->retrieveContents(2, 2));
+        $this->assertCount(17, $this->blockRepository->retrieveContents(2, 2));
         
         $params = array('page' => 'page-2-edited',
                         'language' => 'en',
