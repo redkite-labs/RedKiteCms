@@ -86,14 +86,14 @@ class PagesController extends Base\BaseController
             $pageRepository = $this->createRepository('Page');
             $alPage = $pageRepository->fromPk($request->get('pageId'));
         }
-        
+
         $activeTheme = $this->container->get('red_kite_cms.active_theme');
         $theme = $activeTheme->getActiveTheme();
         $templateManager = $this->container
             ->get('red_kite_cms.template_manager')
             ->refresh($theme->getThemeSlots(), $theme->getTemplate($request->get('templateName')), $this->container->get('red_kite_cms.page_blocks'))
         ;
-        
+
         $pageManager = $this->container->get('red_kite_cms.page_manager');
         $pageManager->set($alPage)->setTemplateManager($templateManager);
         $templateName = ($request->get('templateName') != "none") ? $request->get('templateName') : '';

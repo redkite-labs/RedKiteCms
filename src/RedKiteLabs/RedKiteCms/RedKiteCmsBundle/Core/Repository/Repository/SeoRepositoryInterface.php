@@ -88,12 +88,12 @@ interface SeoRepositoryInterface
      * @return mixed A collection of objects
      */
     public function fromLanguageName($languageName, $ordered = true);
-    
+
     /**
      * Fetches the seo records from by a language name
      *
-     * @param string $languageName The name of the language
-     * @param string $pageName The name of the page
+     * @param  string $languageName The name of the language
+     * @param  string $pageName     The name of the page
      * @return object The fetched object
      */
     public function fromLanguageAndPageNames($languageName, $pageName);

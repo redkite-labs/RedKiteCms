@@ -39,7 +39,7 @@ class TwigTemplateWriter extends TemplateSectionTwig
     private $metatagsSection;
     private $assetsSection;
     private $contentSection;
-    
+
     public function __construct(MetatagSection $metatagsSection, AssetSection $assetsSection, ContentSection $contentSection)
     {
         $this->metatagsSection = $metatagsSection;
@@ -74,10 +74,10 @@ class TwigTemplateWriter extends TemplateSectionTwig
         if (!is_dir($fileDir)) {
             mkdir($fileDir);
         }
-        
+
         return @file_put_contents($fileDir . '/' . $this->fileName . '.html.twig', $this->twigTemplate);
     }
-    
+
     /**
      * Generates the template's subsections and the full template itself
      */
@@ -98,7 +98,7 @@ class TwigTemplateWriter extends TemplateSectionTwig
                 $this->fileName = $this->page->getPageName();
                 break;
         }
-        
+
         return $this;
     }
 
@@ -110,10 +110,10 @@ class TwigTemplateWriter extends TemplateSectionTwig
         $options["filter"] = array('site', 'language');
         $this->twigTemplate = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $theme->getThemeName(), $this->template->getTemplateName());
         $this->twigTemplate .= $this->contentSection->generateSection($pageTree, $theme, $options);
-       
+
         return $this;
     }
-    
+
     /**
      * Generates the template's subsections and the full template itself
      */
@@ -124,11 +124,11 @@ class TwigTemplateWriter extends TemplateSectionTwig
         $this->twigTemplate .= $this->metatagsSection->generateSection($pageTree, $theme, $options);
         $this->twigTemplate .= $this->assetsSection->generateSection($pageTree, $theme, $options);
         $this->twigTemplate .= $this->contentSection->generateSection($pageTree, $theme, $options);
-        
+
         return $this;
     }
-    
-    
+
+
     /**
      * Returns the template extend directive
      *

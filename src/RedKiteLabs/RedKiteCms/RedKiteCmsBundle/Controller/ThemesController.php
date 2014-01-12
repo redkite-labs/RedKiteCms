@@ -61,7 +61,7 @@ class ThemesController extends Base\BaseController
             $map[$templateName] = $mappedTemplateName;
             $c += 2;
         }
-        
+
         $themeName = $request->get('themeName');
         $currentTheme = $this->getActiveTheme();
         $themeChanger = $this->container->get('red_kite_cms.theme_changer');
@@ -82,7 +82,7 @@ class ThemesController extends Base\BaseController
         $themes = $this->container->get('red_kite_labs_theme_engine.themes');
         $theme = $themes->getTheme($themeName);
         $template = $theme->getHomeTemplate();
-        
+
         $pageBlocks = $this->container->get('red_kite_cms.page_blocks');
         $templateManager = $this->container->get('red_kite_cms.template_manager');
         $templateManager->refresh($theme->getThemeSlots(), $template, $pageBlocks);

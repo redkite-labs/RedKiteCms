@@ -37,51 +37,51 @@ class ContentSection extends TemplateSectionTwig
     private $credits;
     private $metatags = array();
     private $contents = array();
-    
+
     /**
      * Constructor
-     * 
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface $urlManager
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface $viewRenderer
+     *
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface             $urlManager
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface         $viewRenderer
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
      */
     public function __construct(AlUrlManagerInterface $urlManager, AlViewRendererInterface $viewRenderer, AlBlockManagerFactoryInterface $blockManagerFactory)
     {
         parent::__construct($urlManager, $viewRenderer);
-        
+
         $this->blockManagerFactory = $blockManagerFactory;
         $this->viewRenderer = $viewRenderer;
     }
 
     /**
      * Defines the base method to generate a section
-     * 
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree $pageTree
+     *
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree     $pageTree
      * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param array $options
+     * @param array                                                      $options
      */
     public function generateSection(AlPageTree $pageTree, AlThemeInterface $theme, array $options)
     {
         parent::generateSection($pageTree, $theme, $options);
-        
+
         $this->credits = $options["credits"] == "no" ? true : false;
         $this->parseSlots($options["filter"]);
-        
+
         return $this->createSections();
     }
-    
+
     private function createSections()
     {
         $section = $this->writeComment("Contents section");
-        foreach($this->contents as $slotName => $contents) {
+        foreach ($this->contents as $slotName => $contents) {
             $section .= $this->writeBlock($slotName, $this->writeContent($slotName, implode("\n" . PHP_EOL, $contents)));
         }
-        
+
         $section .= $this->writeComment("Metatags extra section");
-        foreach($this->metatags as $metatags) {
+        foreach ($this->metatags as $metatags) {
             $section .= $this->writeBlock('metatags', $metatags, true);
         }
-        
+
         if ($this->credits) {
             $section .= '{% block internal_header_stylesheets %}' . PHP_EOL;
             $section .= '  {{ parent() }}' . PHP_EOL. PHP_EOL;
@@ -92,15 +92,15 @@ class ContentSection extends TemplateSectionTwig
             $section .= '  <div class="al-credits"><a href="http://redkite-labs.com">Powered by RedKiteCms</div>' . PHP_EOL;
             $section .= '{% endblock %}' . PHP_EOL;
         }
-        
+
         return $section;
     }
-    
+
     private function parseSlots(array $filter)
     {
         $slots = array_keys($this->themeSlots->getSlots());
         $pageBlocks = $this->pageTree->getPageBlocks()->getBlocks();
-        
+
         $blocks = (null !== $filter) ? $this->filterBlocks($pageBlocks, $filter) : $pageBlocks;
         foreach ($blocks as $slotName => $slotBlocks) {
             if ( ! in_array($slotName, $slots)) {
@@ -112,19 +112,19 @@ class ContentSection extends TemplateSectionTwig
             $this->parseBlocks($slotName, $slotBlocks);
         }
     }
-    
+
     private function parseBlocks($slotName, $blocks)
     {
         $contents = array();
         foreach ($blocks as $block) {
-            
+
             $blockManager = $this->blockManagerFactory->createBlockManager($block);
             if (null === $blockManager) {
                 // @codeCoverageIgnoreStart
                 continue;
                 // @codeCoverageIgnoreEnd
             }
-            
+
             $blockManager->setPageTree($this->pageTree);
             $blockManager->setEditorDisabled(true);
             $content = $this->renderContent($blockManager);
@@ -142,13 +142,13 @@ class ContentSection extends TemplateSectionTwig
                     $this->metatags[] = $metatag;
                  }
             }
-                
+
             $contents[] = $content;
         }
-        
+
         $this->contents[$slotName] = $contents;
     }
-    
+
     private function renderContent($blockManager)
     {
         $content = $blockManager->getHtml();
@@ -158,31 +158,32 @@ class ContentSection extends TemplateSectionTwig
 
         $content = $this->rewriteImagesPathForProduction($content);
         $content = $this->rewriteLinksForProduction($content);
-        
+
         return $content;
     }
 
     protected function filterBlocks(array $blocks, array $filter)
     {
         $themeSlots = $this->themeSlots;
+
         return array_filter($blocks, function ($slotBlocks) use ($themeSlots, $filter) {
-            
+
             if (count($slotBlocks) == 0) {
                 // @codeCoverageIgnoreStart
                 return false;
                 // @codeCoverageIgnoreEnd
             }
-            
+
             $slotName = $slotBlocks[0]->getSlotName();
             $slot = $themeSlots->getSlot($slotName);
 
             if (null === $slot) {
                 return true;
             }
-            
+
             $forcedRepeated = $slot->getForceRepeatedDuringDeploying();
             $repeated = (null !== $forcedRepeated) ? $forcedRepeated : $slot->getRepeated();
-            
+
             return in_array($repeated, $filter);
         });
     }

@@ -31,34 +31,33 @@ class SitemapGenerator implements SitemapGeneratorInterface
 {
     private $pageTreeCollection;
     private $templating;
-    
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection $pageTreeCollection
-     * @param \Symfony\Component\Templating\EngineInterface $templating
+     * @param \Symfony\Component\Templating\EngineInterface                                     $templating
      */
     public function __construct(AlPageTreeCollection $pageTreeCollection, EngineInterface $templating)
     {
         $this->pageTreeCollection = $pageTreeCollection;
         $this->templating = $templating;
     }
-    
+
     /**
      * {@inheritdoc}
      */
     public function writeSiteMap($path, $websiteUrl)
-    {   
+    {
         $sitemap = $this->generateSiteMap($websiteUrl);
-        
+
         return @file_put_contents($path . '/sitemap.xml', $sitemap);
     }
 
     /**
      * Generated the site map
-     * 
-     * @param string $websiteUrl
+     *
+     * @param  string $websiteUrl
      * @return string
      */
     protected function generateSiteMap($websiteUrl)
@@ -77,12 +76,12 @@ class SitemapGenerator implements SitemapGeneratorInterface
             }
 
             $urls[] = array(
-                'href' => $websiteUrl . $permalink, 
-                'frequency' => $seo->getSitemapChangefreq(), 
+                'href' => $websiteUrl . $permalink,
+                'frequency' => $seo->getSitemapChangefreq(),
                 'priority' => $seo->getSitemapPriority()
             );
         }
-        
+
         return $this->templating->render('RedKiteCmsBundle:Sitemap:sitemap.html.twig', array('urls' => $urls));
     }
 }

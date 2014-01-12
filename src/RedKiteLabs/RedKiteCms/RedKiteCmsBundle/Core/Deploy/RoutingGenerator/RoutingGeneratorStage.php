@@ -25,7 +25,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator;
  * @api
  */
 class RoutingGeneratorStage extends RoutingGenerator
-{   
+{
     /**
      * {@inheritdoc}
      */
@@ -33,16 +33,17 @@ class RoutingGeneratorStage extends RoutingGenerator
     {
         @file_put_contents(sprintf('%s/site_routing_stage.yml', $path), $this->getRouting());
     }
-    
+
     /**
      * {@inheritdoc}
      */
-    protected function defineRouteSchema($deployBundle, $deployController) {
+    protected function defineRouteSchema($deployBundle, $deployController)
+    {
         $schema = "# Route << %1\$s >> generated for language << %2\$s >> and page << %3\$s >>\n";
         $schema .= "_stage_%4\$s:\n";
         $schema .= "  pattern: /%1\$s\n";
         $schema .= "  defaults: { _controller: $deployBundle:$deployController:stage, _locale: %2\$s, page: %3\$s }";
-        
+
         return $schema;
     }
 }

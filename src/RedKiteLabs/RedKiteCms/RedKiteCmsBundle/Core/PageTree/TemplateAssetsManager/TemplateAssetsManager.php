@@ -24,11 +24,11 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterfa
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 
 /**
- * TemplateAssetsManager is the object deputated to collect assets parsing RedKite 
+ * TemplateAssetsManager is the object deputated to collect assets parsing RedKite
  * CMS blocks and themes in use in the current website
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
- * 
+ *
  * @method     TemplateAssetsManager getExternalStylesheets() Returns the handled external stylesheets
  * @method     TemplateAssetsManager getInternalStylesheets() Returns the handled internal stylesheets
  * @method     TemplateAssetsManager getExternalJavascripts() Returns the handled external javascripts
@@ -45,18 +45,18 @@ class TemplateAssetsManager
     /**
      * Constructor
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface                            $container
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface   $factoryRepository
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface                          $container
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      */
     public function __construct(ContainerInterface $container, AlBlockManagerFactoryInterface $blockManagerFactory)
     {
         $this->container = $container;
         $this->blockManagerFactory = $blockManagerFactory;
         $this->availableBlocks = $this->blockManagerFactory->getAvailableBlocks();
-        
+
         $this->registeredListeners = $this->container->get('red_kite_labs_theme_engine.registed_listeners');
     }
-    
+
     /**
      * Creates magic methods
      *
@@ -69,38 +69,38 @@ class TemplateAssetsManager
         if (null === $this->assets) {
             return null;
         }
-        
+
         if (array_key_exists($name, $this->assets)) {
             return $this->assets[$name];
         }
-        
+
         throw new \RuntimeException('TemplateAssetsManager does not support the method: ' . $name);
     }
-    
+
     /**
      * Forces the TemplateAssetsManager to look for the requested parameter suffixed
      * by the cms siffix.
-     *  
-     * @param boolean $value
+     *
+     * @param  boolean                                                                                 $value
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager
      */
     public function withExtraAssets($value)
     {
         $this->extraAssets = $value;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets up the object
-     * 
+     *
      * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate $template
-     * @param array $options
+     * @param array                                                   $options
      */
     public function setUp(AlTemplate $template, array $options)
     {
         $this->template = $template;
-        
+
         $this->assets = array();
         $methods = array(
             'getExternalStylesheets',
@@ -108,17 +108,17 @@ class TemplateAssetsManager
             'getInternalStylesheets',
             'getInternalJavascripts',
         );
-        foreach($methods as $method) {
+        foreach ($methods as $method) {
             $this->assets[$method] = $this->initAssets($method, $template, $options);
         }
     }
 
     /**
      * Merge assets for the method passed as argument
-     * 
-     * @param string $method
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate $template
-     * @param array $options
+     *
+     * @param  string                                                     $method
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate    $template
+     * @param  array                                                      $options
      * @return RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection
      */
     protected function mergeAssets($method, AlTemplate $template, array $options)
@@ -136,21 +136,21 @@ class TemplateAssetsManager
 
         return $assetsCollection;
     }
-    
+
     /**
      * Returns an array that contains the absolute path of each asset
-     * 
-     * @param string $method
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate $template
-     * @param array $options
+     *
+     * @param  string                                                  $method
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate $template
+     * @param  array                                                   $options
      * @return array
      */
     protected function initAssets($method, AlTemplate $template, array $options)
     {
         preg_match_all('/[^A-Z]?[A-Z]?[a-z]+/', $method, $matches);
-        $options["type"] = strtolower($matches[0][1]); 
+        $options["type"] = strtolower($matches[0][1]);
         $options["assetType"] = strtolower($matches[0][2]);
-        
+
         $assetsCollection = $this->mergeAssets($method, $template, $options);
         if (null === $assetsCollection) {
             return array();
@@ -164,13 +164,13 @@ class TemplateAssetsManager
         }
 
         return $assets;
-    }    
+    }
 
     /**
      * Merges the app block assets to the given collection
-     * 
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
-     * @param array $options
+     *
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
+     * @param  array                                                       $options
      * @return \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection
      */
     protected function mergeAppBlocksAssets(AlAssetCollection $assetsCollection, array $options)
@@ -179,7 +179,7 @@ class TemplateAssetsManager
         $appsAssets = array();
 
         // merges assets from installed apps
-        
+
         foreach ($this->availableBlocks as $className) {
             if ( ! in_array($className, $appsAssets)) {
                 $parameterSchema = '%s.%s_%s';
@@ -190,7 +190,7 @@ class TemplateAssetsManager
                 $appsAssets[] = $className;
             }
         }
-        
+
         return $assetsCollection;
     }
 
@@ -205,7 +205,7 @@ class TemplateAssetsManager
         if ( ! $this->container->hasParameter($parameter)) {
             return;
         }
-        
+
         $assets = $this->container->getParameter($parameter);
         $assetsCollection->addRange($assets);
     }
@@ -218,14 +218,14 @@ class TemplateAssetsManager
      */
     protected function addExtraAssets(&$assetsCollection, $baseParam)
     {
-        if ( ! $this->extraAssets) {
+        if (! $this->extraAssets) {
             return;
         }
-        
+
         $parameter = sprintf('%s.cms', $baseParam);
         $this->addAssetsFromContainer($assetsCollection, $parameter);
     }
-    
+
     private function mergeFromTheme($assetsCollection, $template, array $options)
     {
         $themeName = $template->getThemeName();
@@ -233,10 +233,10 @@ class TemplateAssetsManager
         $extensionAlias = Container::underscore($themeBasename);
         $parameter = sprintf('%s.%s.%s_%s', $extensionAlias, $template->getTemplateName(), $options["type"], $options["assetType"]);
         $this->addExtraAssets($assetsCollection, $parameter);
-        
+
         return $assetsCollection;
     }
-    
+
     private function mergeFromListener($assetsCollection, array $options)
     {
         // merges assets for theme engine registered listeners
@@ -257,7 +257,7 @@ class TemplateAssetsManager
                 $this->addAssetsFromContainer($assetsCollection, $parameter);
             }
         }
-        
+
         return $assetsCollection;
     }
 }

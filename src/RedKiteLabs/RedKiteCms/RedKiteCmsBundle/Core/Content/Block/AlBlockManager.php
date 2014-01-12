@@ -390,7 +390,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * Returns the width of the editor that manages the block
      *
      * @return int
-     * @deprecated AlBlockManager->getEditorWidth is no longer used so it has been deprecated
+     *             @deprecated AlBlockManager->getEditorWidth is no longer used so it has been deprecated
      *
      * @api
      * @codeCoverageIgnore

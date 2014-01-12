@@ -35,7 +35,7 @@ class BlocksController extends Base\BaseController
     {
         $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
         $this->areValidAttributes($request, $factoryRepository);
-        
+
         $slotName = $request->get('slotName');
         $blockRepository = $factoryRepository->createRepository('Block');
 
@@ -212,13 +212,13 @@ class BlocksController extends Base\BaseController
     {
         $dataManager = new \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager($factoryRepository);
         $options = array(
-            "pageName" => "",            
-            "languageName" => "",        
-            "pageId" => (int)$request->get('pageId'),            
-            "languageId" => (int)$request->get('languageId'),            
+            "pageName" => "",
+            "languageName" => "",
+            "pageId" => (int) $request->get('pageId'),
+            "languageId" => (int) $request->get('languageId'),
             "permalink" => "",
         );
-        
+
         $dataManager->fromOptions($options);
         if (null === $dataManager->getPage() || null === $dataManager->getLanguage()) {
             throw new RuntimeException("blocks_controller_page_does_not_exists");

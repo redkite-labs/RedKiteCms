@@ -28,18 +28,18 @@ use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 class TemplateAssetsManagerDeploy extends TemplateAssetsManager
 {
     private $pageBlocks = null;
-    
+
     public function setPageBlocks(\RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface $pageBlocks)
     {
         $this->pageBlocks = $pageBlocks;
-        
+
         return $this;
     }
 
     protected function mergeAppBlocksAssets(AlAssetCollection $assetsCollection, array $options)
     {
         $blockTypes = $this->pageBlocks->getBlockTypes();
-        
+
         // When a block has examined, it is saved in this array to avoid parsing it again
         $appsAssets = array();
 
@@ -48,7 +48,7 @@ class TemplateAssetsManagerDeploy extends TemplateAssetsManager
             if ( ! in_array($className, $blockTypes)) {
                 continue;
             }
-            
+
             if ( ! in_array($className, $appsAssets)) {
                 $parameterSchema = '%s.%s_%s';
                 $parameter = sprintf($parameterSchema, strtolower($className), $options["type"], $options["assetType"]);
@@ -58,7 +58,7 @@ class TemplateAssetsManagerDeploy extends TemplateAssetsManager
                 $appsAssets[] = $className;
             }
         }
-        
+
         return $assetsCollection;
     }
 }

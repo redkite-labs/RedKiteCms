@@ -98,7 +98,7 @@ class CmsBootstrapListener
     {
         $dataManager = $this->container->get('red_kite_cms.data_manager');
         $dataManager->fromRequest($this->container->get('request'));
-        
+
         $this->pageTree
             ->setDataManager($dataManager)
             ->setUp(
@@ -120,7 +120,7 @@ class CmsBootstrapListener
         $page = $this->pageTree->getAlPage();
         $languageId = (null !== $language) ? $language->getId() : null;
         $pageId = (null !== $page) ? $page->getId() : null;
-        
+
         $slotsAligner = $this->container->get('red_kite_cms.repeated_slots_aligner');
         $slotsAligner
             ->setLanguageId($languageId)

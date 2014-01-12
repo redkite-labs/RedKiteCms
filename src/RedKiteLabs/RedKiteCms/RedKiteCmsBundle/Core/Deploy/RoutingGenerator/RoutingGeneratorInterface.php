@@ -26,26 +26,26 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator;
  * @api
  */
 interface RoutingGeneratorInterface
-{  
+{
     /**
      * Generates the routing from the given PageTreeCollection
-     * 
-     * @param string $deployBundle The name of the deploy bundle
-     * @param string $deployBundle The name of the deploy controller
+     *
+     * @param  string $deployBundle The name of the deploy bundle
+     * @param  string $deployBundle The name of the deploy controller
      * @return string
      */
     public function generateRouting($deployBundle, $deployController);
-    
+
     /**
      * Returns the generated routing
-     * 
+     *
      * @return string
      */
     public function getRouting();
-    
+
     /**
      * Writes the generated routing
-     * 
+     *
      * @return string
      */
     public function writeRouting($path);

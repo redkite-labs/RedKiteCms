@@ -19,9 +19,7 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger\Exception\ChangeSlotException;
 
 /**
  * AlThemeChanger is deputated to change the website template
