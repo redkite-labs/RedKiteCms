@@ -87,6 +87,8 @@ function initTinyMCE()
         selector: ".al-editable-inline",
         inline: true,
         image_advtab: true,
+        convert_urls: false,
+        relative_urls: true,
         fixed_toolbar_container: "#rk-tinymce-container",
         plugins: [
             "advlist autolink lists link image charmap print preview anchor",
