@@ -12,4 +12,8 @@ notifications:
   email:
     - info@redkite-labs.com
 
-#script: phpunit --coverage-text
+script: 
+  #phpunit --coverage-text
+  - phpunit --coverage-clover=coverage.clover
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
