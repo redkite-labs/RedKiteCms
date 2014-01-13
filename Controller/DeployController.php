@@ -17,6 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
+
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
 
@@ -26,7 +27,7 @@ class DeployController extends Base\BaseController
     {
         try {
             $activeTheme = $this->container->get('red_kite_cms.active_theme');
-
+            
             $deployer = $this->container->get('red_kite_cms.production_deployer');
             $templatesFolder =  $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder');
             $pageTreeCollection = $this->container->get('red_kite_cms.page_tree_collection');
@@ -45,7 +46,7 @@ class DeployController extends Base\BaseController
     {
         try {
             $activeTheme = $this->container->get('red_kite_cms.active_theme');
-
+            
             $deployer = $this->container->get('red_kite_cms.stage_deployer');
             $templatesFolder =  $this->container->getParameter('red_kite_labs_theme_engine.deploy.stage_templates_folder');
             $pageTreeCollection = $this->container->get('red_kite_cms.page_tree_collection');
@@ -73,7 +74,7 @@ class DeployController extends Base\BaseController
             'cache:clear --env=' . $environment => null,
         ));
     }
-
+    
     private function getOptions($templatesFolder)
     {
         $kernel = $this->container->get('kernel');
@@ -81,7 +82,7 @@ class DeployController extends Base\BaseController
         $deployBundleAsset = new AlAsset($kernel, $deployBundle);
         $deployBundlePath = $deployBundleAsset->getRealPath();
         $viewsDir = $deployBundlePath . '/Resources/views';
-
+        
         return array(
             "deployBundle" => $deployBundle,
             "configDir" => $deployBundlePath . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.config_dir'),
@@ -91,6 +92,7 @@ class DeployController extends Base\BaseController
             "deployDir" => $viewsDir . '/' . $templatesFolder,
             "uploadAssetsFullPath" => $this->container->getParameter('red_kite_cms.upload_assets_full_path'),
             "uploadAssetsAbsolutePath" => AlAssetsPath::getAbsoluteUploadFolder($this->container),
+            "deployBundleAssetsPath" => "/" . $deployBundleAsset->getAbsolutePath(),
             "deployController" => $this->container->getParameter('red_kite_cms.deploy_bundle.controller'),
             "webFolderPath" => $this->container->getParameter('red_kite_cms.web_folder_full_path'),
             "websiteUrl" => $this->container->getParameter('red_kite_cms.website_url'),
