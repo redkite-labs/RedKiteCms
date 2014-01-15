@@ -1,3 +1,15 @@
+RedKite CMS 1.1.0
+f22eacd login errors were displayed in a wrong position: fixed
+31bec90 cleaned the page attributes form after a page is edited
+802fc72 added the fromLanguageAndPageNames method to fetch a SEO object from language and page names
+c9ebf1f removed deprecated classes and methods
+56c2850 refactored and adapted due to deploy and page tree objects refactoring and slots decupling
+3ad3274 added a command to migrate themes
+64afe8f refactored PageTree object
+053b372 refactored deploy objectes
+1d59527 renamed TemplateSlots objects because of they have been changed in ThemeEngineBUndle
+cadc0c1 refactoring themes management; slots have been decouplead from templates so the services that handles all the objects involved with themes are generated in a diffent way
+
 RedKite CMS 1.1.Release Candidate 2 (2013/12/18)
 eb72840 fixed a bug that does not immediatly activate an editor that handles a list, when one of the items it manages was added or removed
 9139c37 fixed manual route path generation
