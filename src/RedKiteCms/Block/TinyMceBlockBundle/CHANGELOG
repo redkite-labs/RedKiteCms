@@ -1,2 +1,11 @@
+RedKite CMS TinyMCE 1.1.0 (2014/01/18)
+7987670 updated tinymce to 4.0.12
+db6fc97 configured tinymce to work with relative urls and forced to not convert urls
+2cd455a removed themes_panel option from configuration files
+0f63212 updated events names and reinitialized tinyMCE instances when block is edited or deleted
+4724c25 updated alphalemon_internals to redkitecms_internals
+e885c59 added a fixed width and height to tinyMCE container
+a455557 rendered tinymce inside a div created on the fly; that div is then positioned to correctly flip when the editor overlays the screen width
+
 2013-07-11
-Created bundle
+d56b606 first import
