@@ -1,3 +1,11 @@
+RedKite CMS Twitter Bootstrap Blocks 1.1.0 (2014/01/18)
+a704b09 added unit test for AlBlockManagerBootstrapAccordionPanelBlock class
+fa17426 hide blocks menu for accordion panel
+8b9c956 AlBlockManagerBootstrapNavbarDropdownBlock editor now renders the permalinks combobox
+6469990 changed the thumbnails list target
+c514696 refactored accordion block which now is handles a list of AlBlockManagerBootstrapAccordionPanelBlock
+b0b61b1 fixed default values for some blocks
+
 RedKite CMS Twitter Bootstrap Blocks 1.1.Release Cansidate 1 (2013/11/24)
 cfdf1c9 changed the minimum thumbnail width for bootstrap 3
 c7020d0 fixed a bug to avoid page scrolls to to when start editing toolbar items
