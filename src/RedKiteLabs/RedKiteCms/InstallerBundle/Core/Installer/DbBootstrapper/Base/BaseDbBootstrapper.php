@@ -142,7 +142,9 @@ abstract class BaseDbBootstrapper
         
         try
         {
-            $deployer = new AlTwigDeployer($this->container);
+            $twigTemplateWrites = $this->container->get('red_kite_cms.twig_template_writer');
+            $routingGenerator = $this->container->get('red_kite_cms.routing_generator_production');
+            $deployer = new AlTwigDeployer($twigTemplateWrites, $routingGenerator);
             $deployer->deploy();
         }
         catch(\Exception $ex)
