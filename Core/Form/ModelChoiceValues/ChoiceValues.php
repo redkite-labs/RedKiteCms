@@ -60,11 +60,14 @@ class ChoiceValues
     {
         $theme = $themes->getTheme($activeTheme->getActiveTheme()->getThemeName());
 
-        $templates = array("none" => " ");
+        $templates = array();
         foreach ($theme as $template) {
             $templateName = $template->getTemplateName();
             $templates[$templateName] = $templateName;
         }
+        
+        ksort($templates);
+        $templates = array_merge(array("none" => " "), $templates);
 
         return $templates;
     }
