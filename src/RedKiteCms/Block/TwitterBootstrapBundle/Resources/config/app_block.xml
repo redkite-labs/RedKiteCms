@@ -90,7 +90,9 @@
         <parameter key="bootstrap_simple_thumbnails.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\AlBlockManagerBootstrapSimpleThumbnailsBlock</parameter>      
         <parameter key="bootstrap_thumbnails.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\AlBlockManagerBootstrapThumbnailsBlock</parameter>
         
-        
+        <!-- PAGE HEADER --> 
+        <parameter key="bootstrap_page_header_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\PageHeader\AlBlockManagerBootstrapPageHeaderBlock</parameter>
+        <parameter key="bootstrap_page_header_block.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\PageHeader\AlPageHeaderType</parameter>
     </parameters>
 
     <services>
@@ -211,5 +213,16 @@
             <tag name="red_kite_cms.blocks_factory.block" description="Rich thumbnails list" type="BootstrapThumbnailsBlock" group="bootstrap,Twitter Bootstrap" />
             <argument type="service" id="service_container" />
         </service>
+        
+        <!-- PAGE HEADER -->        
+        <service id="bootstrap_page_header_block.block" class="%bootstrap_page_header_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Page Header" type="BootstrapPageHeaderBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_page_header_block.form" class="%bootstrap_page_header_block.form.class%">
+        </service>
+        
+        
     </services>
 </container>

@@ -170,9 +170,21 @@
             <source>thumbnail_editor_title</source>
             <target>Editor delle miniature (Thumbnail)</target>
         </trans-unit>
-        <trans-unit id="thumbnail-2">
-            <source>thumbnail_width_attribute</source>
-            <target>Larghezza</target>
+        <trans-unit id="page_header_1">
+            <source>page_header_editor_title</source>
+            <target>Page Header editor</target>
+        </trans-unit>
+        <trans-unit id="page_header_2">
+            <source>page_header_title</source>
+            <target>Title</target>
+        </trans-unit>
+        <trans-unit id="page_header_3">
+            <source>page_header_subtitle</source>
+            <target>Subtitle</target>
+        </trans-unit>
+        <trans-unit id="page_header_4">
+            <source>page_header_tag</source>
+            <target>Tag</target>
         </trans-unit>
         <trans-unit id="common-1">
             <source>common_label_save</source>

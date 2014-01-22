@@ -168,11 +168,27 @@
         </trans-unit>
         <trans-unit id="thumbnail-1">
             <source>thumbnail_editor_title</source>
-            <target>Thumbnail editor</target>
+            <target>Editor delle miniature (Thumbnail)</target>
         </trans-unit>
         <trans-unit id="thumbnail-2">
             <source>thumbnail_width_attribute</source>
-            <target>Width</target>
+            <target>Larghezza</target>
+        </trans-unit>
+        <trans-unit id="page_header_1">
+            <source>page_header_editor_title</source>
+            <target>Editor dei titoli delle pagine</target>
+        </trans-unit>
+        <trans-unit id="page_header_2">
+            <source>page_header_title</source>
+            <target>Titolo</target>
+        </trans-unit>
+        <trans-unit id="page_header_3">
+            <source>page_header_subtitle</source>
+            <target>Sottotitolo</target>
+        </trans-unit>
+        <trans-unit id="page_header_4">
+            <source>page_header_tag</source>
+            <target>Tag</target>
         </trans-unit>
         <trans-unit id="common-1">
             <source>common_label_save</source>
