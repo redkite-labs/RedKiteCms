@@ -41,8 +41,7 @@ class AlBlockManagerBootstrapPageHeaderBlock extends AlBlockManagerJsonBlockCont
                         "page_header_subtitle": "An awesome component",
                         "page_header_tag": "h1"
                     }
-                }
-            ';
+                }';
 
         return array('Content' => $value);
     }
