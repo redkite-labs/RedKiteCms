@@ -26,7 +26,6 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJson
  */
 class AlBlockManagerBootstrapLabelBlock extends AlBlockManagerJsonBlockContainer
 {
-    protected $formParam = 'bootstraplabelblock.form';
     protected $blockTemplate = 'TwitterBootstrapBundle:Content:Label/label.html.twig';
     protected $editorTemplate = 'TwitterBootstrapBundle:Editor:Label/label_editor.html.twig';
 
