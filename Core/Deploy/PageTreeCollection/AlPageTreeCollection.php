@@ -105,10 +105,6 @@ class AlPageTreeCollection
         foreach ($languages as $language) {
             // Cycles all the website's pages
             foreach ($pages as $page) {
-                if ( ! $page->getIsPublished()) {
-                    continue;
-                }
-
                 $this->pages['page'][] = $this->initPageTree($language, $page);
             }
         }

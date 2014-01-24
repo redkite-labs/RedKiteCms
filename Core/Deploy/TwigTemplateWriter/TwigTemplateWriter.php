@@ -119,6 +119,12 @@ class TwigTemplateWriter extends TemplateSectionTwig
      */
     protected function generatePageTemplate(AlPageTree $pageTree, AlThemeInterface $theme, array $options)
     {
+        if ( ! $this->page->getIsPublished()) {
+            $this->twigTemplate = "{% extends 'RedKiteLabsThemeEngineBundle:Frontend:unpublished.html.twig' %}";
+            
+            return $this;
+        }
+        
         $options["filter"] = array('page');
         $this->twigTemplate = sprintf("{%% extends '%s:%s:%s/base/%s.html.twig' %%}" . PHP_EOL, $options["deployBundle"], $options["templatesDir"], $this->language->getLanguageName(), $this->page->getTemplateName());
         $this->twigTemplate .= $this->metatagsSection->generateSection($pageTree, $theme, $options);

@@ -32,19 +32,11 @@ class TwigTemplateWriterTest extends TestCase
     protected $metatagManager;
     protected $assetManager;
     protected $contentManager;
-
-
-    protected function setUp()
-    {
-        parent::setUp();
-        
-        
-    }
     
     /**
      * @dataProvider templateOptionsProvider
      */
-    public function testGenerateTemplate($options, $expectedResult, $filename)
+    public function testGenerateTemplate($options, $expectedResult, $filename, $isPublished)
     {
         $times = 1;
         $theme = $this->getMock("RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface");
@@ -56,12 +48,12 @@ class TwigTemplateWriterTest extends TestCase
                 ->will($this->returnValue("BootbusinessThemeBundle"))
             ;
         }
-        $metatagManager = $this->createMetatagManager($times);
-        $assetManager = $this->createAssetManager($times);
-        $contentManager = $this->createContentManager();
+        $metatagManager = $this->createMetatagManager($times, $isPublished);
+        $assetManager = $this->createAssetManager($times, $isPublished);
+        $contentManager = $this->createContentManager($isPublished);
         
         $root = vfsStream::setup('root');
-        $pageTree = $this->createPageTree((boolean) ! $times);
+        $pageTree = $this->createPageTree((boolean) ! $times, $isPublished);
         
         $twigTemplateWrite = new TwigTemplateWriter($metatagManager, $assetManager, $contentManager);
         $twigTemplateWrite->generateTemplate($pageTree, $theme, $options)->writeTemplate(vfsStream::url('root'));
@@ -83,6 +75,17 @@ class TwigTemplateWriterTest extends TestCase
                 "Assets section generated" . PHP_EOL .
                 "Contents section generated",
                 'root/en/index.html.twig',
+                true,
+            ),
+            array(
+                array(
+                    "type" => "Pages",
+                    "deployBundle" => "AcmeWebSiteBundle",
+                    "templatesDir" => "RedKite",
+                ),
+                "{% extends 'RedKiteLabsThemeEngineBundle:Frontend:unpublished.html.twig' %}",
+                'root/en/index.html.twig',
+                false,
             ),
             array(
                 array(
@@ -91,11 +94,12 @@ class TwigTemplateWriterTest extends TestCase
                 "{% extends 'BootbusinessThemeBundle:Theme:home.html.twig' %}" . PHP_EOL .
                 "Contents section generated",
                 'root/base/home.html.twig',
+                null,
             ),
         );
     }
     
-    private function createPageTree($isBasePage)
+    private function createPageTree($isBasePage, $isPublished)
     {
         $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                                 ->disableOriginalConstructor()
@@ -108,7 +112,7 @@ class TwigTemplateWriterTest extends TestCase
             ->will($this->returnValue($language))
         ;
         
-        $page = $this->createPage();
+        $page = $this->createPage($isPublished);
         $pageTree->expects($this->once())
             ->method('getAlPage')
             ->will($this->returnValue($page))
@@ -138,10 +142,16 @@ class TwigTemplateWriterTest extends TestCase
                 ->will($this->returnValue("index"))
             ;
             
-            $page->expects($this->once())
-                ->method('getTemplateName')
-                ->will($this->returnValue("home"))
-            ;
+            if (false === $isPublished) {
+                $page->expects($this->never())
+                    ->method('getTemplateName')
+                ;
+            } else {
+                $page->expects($this->once())
+                    ->method('getTemplateName')
+                    ->will($this->returnValue("home"))
+                ;
+            }
         }
         
         return $pageTree;
@@ -152,48 +162,76 @@ class TwigTemplateWriterTest extends TestCase
         return $this->getMock("RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage");
     }
     
-    private function createPage()
+    private function createPage($isPublished)
     {
-        return $this->getMock("RedKiteLabs\RedKiteCmsBundle\Model\AlPage");
+        $page = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Model\AlPage");
+        
+        if (null !== $isPublished) {
+            $page->expects($this->once())
+                ->method('getIsPublished')
+                ->will($this->returnValue($isPublished))
+            ;
+        }
+        
+        return $page;
     }
     
     
-    private function createMetatagManager($times = 1)
+    private function createMetatagManager($times = 1, $isPublished = true)
     {
         $metatagManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\MetatagSection')
                                 ->disableOriginalConstructor()
                                 ->getMock();
         
-        $metatagManager->expects($this->exactly($times))
-            ->method('generateSection')
-            ->will($this->returnValue("Metatags section generated" . PHP_EOL))
-        ;
+        if (false === $isPublished) {
+            $metatagManager->expects($this->never())
+                ->method('generateSection')
+            ;
+        } else {
+            $metatagManager->expects($this->exactly($times))
+                ->method('generateSection')
+                ->will($this->returnValue("Metatags section generated" . PHP_EOL))
+            ;
+        }
         
         return $metatagManager;
     }
     
-    private function createAssetManager($times = 1)
+    private function createAssetManager($times = 1, $isPublished = true)
     {
         $assetManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\AssetSection')
                                 ->disableOriginalConstructor()
                                 ->getMock();       
-        $assetManager->expects($this->exactly($times))
-            ->method('generateSection')
-            ->will($this->returnValue("Assets section generated" . PHP_EOL))
-        ;
+        if (false === $isPublished) {
+            $assetManager->expects($this->never())
+                ->method('generateSection')
+            ;
+        } else {
+            $assetManager->expects($this->exactly($times))
+                ->method('generateSection')
+                ->will($this->returnValue("Assets section generated" . PHP_EOL))
+            ;
+        }
         
         return $assetManager;
     }
     
-    private function createContentManager()
+    private function createContentManager($isPublished)
     {
         $contentManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\ContentSection')
                                 ->disableOriginalConstructor()
                                 ->getMock();       
-        $contentManager->expects($this->once())
-            ->method('generateSection')
-            ->will($this->returnValue("Contents section generated"))
-        ;
+        
+        if (false === $isPublished) {
+            $contentManager->expects($this->never())
+                ->method('generateSection')
+            ;
+        } else {
+            $contentManager->expects($this->once())
+                ->method('generateSection')
+                ->will($this->returnValue("Contents section generated"))
+            ;
+        }
         
         return $contentManager;
     }

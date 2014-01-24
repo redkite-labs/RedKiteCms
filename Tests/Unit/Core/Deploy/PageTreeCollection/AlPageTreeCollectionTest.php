@@ -138,20 +138,6 @@ class AlPageTreeCollectionTest extends TestCase
             array(
                 array(
                     $this->createLanguage('en'),
-                ),
-                array(
-                    $this->createPage('index', false),
-                    $this->createPage('internal'),
-                ),
-                array(
-                    $this->createTemplate(),
-                ),
-                1,
-                1,
-            ),
-            array(
-                array(
-                    $this->createLanguage('en'),
                     $this->createLanguage('it'),
                 ),
                 array(
@@ -162,21 +148,6 @@ class AlPageTreeCollectionTest extends TestCase
                     $this->createTemplate(),
                 ),
                 4,
-                2,
-            ),
-            array(
-                array(
-                    $this->createLanguage('en'),
-                    $this->createLanguage('it'),
-                ),
-                array(
-                    $this->createPage('index'),
-                    $this->createPage('internal', false),
-                ),
-                array(
-                    $this->createTemplate(),
-                ),
-                2,
                 2,
             ),
             array(
@@ -209,23 +180,6 @@ class AlPageTreeCollectionTest extends TestCase
                 ),
                 4,
                 4,
-            ),
-            array(
-                array(
-                    $this->createLanguage('en'),
-                    $this->createLanguage('it'),
-                ),
-                array(
-                    $this->createPage('index'),
-                    $this->createPage('internal', false),
-                ),
-                array(
-                    $this->createTemplate(),
-                    $this->createTemplate(),
-                    $this->createTemplate(),
-                ),
-                2,
-                6,
             ),
         );
     }
@@ -272,11 +226,7 @@ class AlPageTreeCollectionTest extends TestCase
         
         $at = 3;
         foreach($languages as $language) {
-            foreach($pages as $page) {
-                if ( ! $page->getIsPublished()) {
-                    continue;
-                }
-                
+            foreach($pages as $page) {                
                 $this->factoryRepository->expects($this->at($at))
                     ->method('createRepository')
                     ->with('Seo')
@@ -287,17 +237,13 @@ class AlPageTreeCollectionTest extends TestCase
         }
     }
     
-    protected function createPage($pageName, $isPublished = true)
+    protected function createPage($pageName)
     {
         $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
 
         $page->expects($this->atLeastOnce())
             ->method('getPageName')
             ->will($this->returnValue($pageName));
-        
-        $page->expects($this->atLeastOnce())
-            ->method('getIsPublished')
-            ->will($this->returnValue($isPublished));
         
         $page->expects($this->atLeastOnce())
             ->method('getId')
