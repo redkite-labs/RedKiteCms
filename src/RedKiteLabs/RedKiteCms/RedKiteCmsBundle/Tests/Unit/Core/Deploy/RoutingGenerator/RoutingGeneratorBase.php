@@ -111,37 +111,9 @@ abstract class RoutingGeneratorBase extends TestCase
             ),
             array(
                 array(
-                    $this->createPageTree($this->createLanguage('en', 1), $this->createPage('index', 1), $this->createSeo('an-awesome-permalink')),                    
-                    $this->createPageTree($this->createLanguage('en'), $this->createPage('internal'), $this->createSeo('another-awesome-permalink')),                    
-                    $this->createPageTree($this->createLanguage('en'), $this->createPage('internal-1', 0, false), $this->createSeo('page-not-published')),
-                ),
-                array(
-                    $this->createSeoAttributes('an-awesome-permalink', 'en', 'index', true),
-                    $this->createSeoAttributes('another-awesome-permalink', 'en', 'internal', false),
-                ),
-            ),
-            array(
-                array(
-                    $this->createPageTree($this->createLanguage('en'), $this->createPage('index'), $this->createSeo('an-awesome-permalink')),                           
-                    $this->createPageTree($this->createLanguage('en'), $this->createPage('internal-1', 0, false), $this->createSeo('page-not-published')),             
-                    $this->createPageTree($this->createLanguage('en', 1), $this->createPage('internal', 1), $this->createSeo('another-awesome-permalink')),
-                ),
-                array(
-                    $this->createSeoAttributes('an-awesome-permalink', 'en', 'index', false),
-                    $this->createSeoAttributes('another-awesome-permalink', 'en', 'internal', true),
-                ),
-                array(
-                    "language" => "en",
-                    "page" => "internal",
-                ),
-            ),
-            array(
-                array(
-                    $this->createPageTree($this->createLanguage('en', 1), $this->createPage('index', 1), $this->createSeo('an-awesome-permalink')),                           
-                    $this->createPageTree($this->createLanguage('en'), $this->createPage('internal-1', 0, false), $this->createSeo('page-not-published')),             
+                    $this->createPageTree($this->createLanguage('en', 1), $this->createPage('index', 1), $this->createSeo('an-awesome-permalink')),                
                     $this->createPageTree($this->createLanguage('en'), $this->createPage('internal'), $this->createSeo('another-awesome-permalink')),
-                    $this->createPageTree($this->createLanguage('it'), $this->createPage('index'), $this->createSeo('it-an-awesome-permalink')),                           
-                    $this->createPageTree($this->createLanguage('it'), $this->createPage('internal-1', 0, false), $this->createSeo('it-page-not-published')),             
+                    $this->createPageTree($this->createLanguage('it'), $this->createPage('index'), $this->createSeo('it-an-awesome-permalink')),                  
                     $this->createPageTree($this->createLanguage('it'), $this->createPage('internal'), $this->createSeo('it-another-awesome-permalink')),
                 ),
                 array(
@@ -153,11 +125,9 @@ abstract class RoutingGeneratorBase extends TestCase
             ),
             array(
                 array(
-                    $this->createPageTree($this->createLanguage('en'), $this->createPage('index'), $this->createSeo('an-awesome-permalink')),                           
-                    $this->createPageTree($this->createLanguage('en'), $this->createPage('internal-1', 0, false), $this->createSeo('page-not-published')),             
+                    $this->createPageTree($this->createLanguage('en'), $this->createPage('index'), $this->createSeo('an-awesome-permalink')),                
                     $this->createPageTree($this->createLanguage('en', 0), $this->createPage('internal', 0), $this->createSeo('another-awesome-permalink')),
-                    $this->createPageTree($this->createLanguage('it'), $this->createPage('index'), $this->createSeo('it-an-awesome-permalink')),                           
-                    $this->createPageTree($this->createLanguage('it'), $this->createPage('internal-1', 0, false), $this->createSeo('it-page-not-published')),             
+                    $this->createPageTree($this->createLanguage('it'), $this->createPage('index'), $this->createSeo('it-an-awesome-permalink')),                
                     $this->createPageTree($this->createLanguage('it', 1), $this->createPage('internal', 1), $this->createSeo('it-another-awesome-permalink')),
                 ),
                 array(
@@ -199,7 +169,7 @@ abstract class RoutingGeneratorBase extends TestCase
         return $pageTree;
     }
     
-    protected function createPage($pageName, $isHome = 0, $isPublished = true)
+    protected function createPage($pageName, $isHome = 0)
     {
         $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
 
@@ -211,11 +181,6 @@ abstract class RoutingGeneratorBase extends TestCase
         $page->expects($this->once())
             ->method('getIsHome')
             ->will($this->returnValue($isHome))
-        ;
-        
-        $page->expects($this->once())
-            ->method('getIsPublished')
-            ->will($this->returnValue($isPublished))
         ;
         
         return $page;

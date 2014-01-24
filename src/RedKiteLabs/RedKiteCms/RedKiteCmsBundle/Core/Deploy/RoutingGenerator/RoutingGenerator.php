@@ -72,9 +72,6 @@ abstract class RoutingGenerator implements RoutingGeneratorInterface
         foreach ($this->pageTreeCollection->getPages() as $pageTree) {
             $language = $pageTree->getAlLanguage();
             $page = $pageTree->getAlPage();
-            if ( ! $page->getIsPublished()) {
-                continue;
-            }
 
             $pageName = $this->fetchPageName($page);
             $languageName = $this->fetchLanguageName($language);
