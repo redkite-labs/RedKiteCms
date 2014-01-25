@@ -62,6 +62,8 @@ class ContentSection extends TemplateSectionTwig
      */
     public function generateSection(AlPageTree $pageTree, AlThemeInterface $theme, array $options)
     {
+        $this->contents = array();
+        
         parent::generateSection($pageTree, $theme, $options);
 
         $this->credits = $options["credits"] == "no" ? true : false;
@@ -100,7 +102,7 @@ class ContentSection extends TemplateSectionTwig
     {
         $slots = array_keys($this->themeSlots->getSlots());
         $pageBlocks = $this->pageTree->getPageBlocks()->getBlocks();
-
+        
         $blocks = (null !== $filter) ? $this->filterBlocks($pageBlocks, $filter) : $pageBlocks;
         foreach ($blocks as $slotName => $slotBlocks) {
             if ( ! in_array($slotName, $slots)) {
@@ -183,7 +185,7 @@ class ContentSection extends TemplateSectionTwig
 
             $forcedRepeated = $slot->getForceRepeatedDuringDeploying();
             $repeated = (null !== $forcedRepeated) ? $forcedRepeated : $slot->getRepeated();
-
+            
             return in_array($repeated, $filter);
         });
     }
