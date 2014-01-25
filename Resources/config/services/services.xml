@@ -205,11 +205,33 @@
             <argument type="service" id="red_kite_cms.view_renderer" />
             <argument type="service" id="red_kite_cms.block_manager_factory" />
         </service>
+        
+        <service id="red_kite_cms.metatag_section_stage" class="%red_kite_cms.metatag_section.class%" public="false">
+            <argument type="service" id="red_kite_cms.url_manager_stage" />
+            <argument type="service" id="red_kite_cms.view_renderer" />
+        </service>
+        
+        <service id="red_kite_cms.asset_section_stage" class="%red_kite_cms.asset_section.class%" public="false">
+            <argument type="service" id="red_kite_cms.url_manager_stage" />
+            <argument type="service" id="red_kite_cms.view_renderer" />
+        </service>
+        
+        <service id="red_kite_cms.content_section_stage" class="%red_kite_cms.content_section.class%" public="false">
+            <argument type="service" id="red_kite_cms.url_manager_stage" />
+            <argument type="service" id="red_kite_cms.view_renderer" />
+            <argument type="service" id="red_kite_cms.block_manager_factory" />
+        </service>
 
         <service id="red_kite_cms.twig_template_writer" class="%red_kite_cms.twig_template_writer.class%" public="false">
             <argument type="service" id="red_kite_cms.metatag_section" />
             <argument type="service" id="red_kite_cms.asset_section" />
             <argument type="service" id="red_kite_cms.content_section" />
+        </service>
+        
+        <service id="red_kite_cms.twig_template_writer_stage" class="%red_kite_cms.twig_template_writer.class%" public="false">
+            <argument type="service" id="red_kite_cms.metatag_section_stage" />
+            <argument type="service" id="red_kite_cms.asset_section_stage" />
+            <argument type="service" id="red_kite_cms.content_section_stage" />
         </service>
         
         <service id="red_kite_cms.routing_generator_production" class="%red_kite_cms.routing_generator_production.class%" public="false">
@@ -239,7 +261,7 @@
         </service>
         
         <service id="red_kite_cms.stage_deployer" class="%red_kite_cms.deployer.class%">
-            <argument type="service" id="red_kite_cms.twig_template_writer" />
+            <argument type="service" id="red_kite_cms.twig_template_writer_stage" />
             <argument type="service" id="red_kite_cms.routing_generator_stage" />
             <argument>null</argument>
             <argument type="service" id="event_dispatcher" />
