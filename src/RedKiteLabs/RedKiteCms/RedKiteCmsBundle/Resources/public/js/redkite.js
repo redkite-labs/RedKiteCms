@@ -293,6 +293,7 @@
                 collision: "flipfit none"
             });
             
+            
             $('.arrow').position({
                 my: "left+20px top",
                 at: "left bottom",
@@ -314,6 +315,12 @@
         });
         
         $(document).trigger("popoverShow", [ element ]);
+        
+        $('.al-popover:visible').find('select').each(function(){
+            $(this).on('click', function(event) {
+                event.stopPropagation();
+            });
+        });
     }
     
     function activateEditableInlineContents()
