@@ -21,12 +21,16 @@ use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
 use RedKiteLabs\RedKiteCmsBundle\Model\AlPage;
 
 /**
- *
+ * Defines the object to format an url to be used when the CMS editor is active or for
+ * the stage environment
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlUrlManagerStage extends AlUrlManager
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function generateRoute(AlLanguage $language, AlPage $page)
     {
         return '_stage' . parent::generateRoute($language, $page);
