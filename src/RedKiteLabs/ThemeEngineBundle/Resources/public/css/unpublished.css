@@ -32,7 +32,7 @@ a:hover {
   border-top: 1px solid #010101;
 }
 
-#content.note {
+#content .note {
     font-style: italic;
 }
 
