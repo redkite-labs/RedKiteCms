@@ -61,8 +61,16 @@ class GenericDsnBuilder extends Base\BaseDsnBuilder
      */
     public function testConnection()
     {
-        if( ! @mysql_connect($this->options["host"], $this->options["user"], $this->options["password"])) {
-            throw new \RuntimeException("I cannot connect to the database using the given parameters");
+        $user = $this->options["user"];
+        $password = $this->options["password"];
+        $mysqli = new \mysqli($this->options["host"], $user, $password);
+        
+        if (empty($password)) {
+            $query = sprintf('SELECT * FROM mysql.user WHERE User = "%s"', $user);
+            $result = $mysqli->query($query);
+            if (false === $result || $result->num_rows == 0) {
+                throw new \InvalidArgumentException(sprintf("It seems that user %s with blank password is not configured on this mysql server", $user));
+            }
         }
     }
 }
