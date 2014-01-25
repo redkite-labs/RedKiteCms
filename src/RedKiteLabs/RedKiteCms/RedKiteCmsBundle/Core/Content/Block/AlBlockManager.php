@@ -387,20 +387,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Returns the width of the editor that manages the block
-     *
-     * @return int
-     *             @deprecated AlBlockManager->getEditorWidth is no longer used so it has been deprecated
-     *
-     * @api
-     * @codeCoverageIgnore
-     */
-    protected function getEditorWidth()
-    {
-        throw new RedKiteDeprecatedException("AlBlockManager->getEditorWidth is no longer used so it has been deprecated");
-    }
-
-    /**
      * Implements a method to let the derived class override it to format the content
      * to display when the Cms is active
      *
@@ -411,15 +397,6 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     protected function replaceHtmlCmsActive()
     {
         return null;
-    }
-
-    /**
-     * @deprecated AlBlockManager->formatHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()
-     * @codeCoverageIgnore
-     */
-    protected function formatHtmlCmsActive()
-    {
-        throw new RedKiteDeprecatedException("AlBlockManager->formatHtmlCmsActive has been deprecated and replaced by replaceHtmlCmsActive()");
     }
 
     /**
