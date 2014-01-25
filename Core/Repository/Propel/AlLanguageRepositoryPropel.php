@@ -95,6 +95,8 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
         return AlLanguageQuery::create()
                 ->filterByToDelete(0)
                 ->where('id > 1')
+                ->orderBy( 'main_language', \Criteria::DESC )
+                ->orderBy( 'id' )
                 ->find();
     }
 

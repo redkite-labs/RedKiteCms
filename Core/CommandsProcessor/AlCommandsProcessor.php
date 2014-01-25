@@ -42,7 +42,8 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
     {
         $this->consoleDir = $consoleDir;
         $phpFinder = new PhpExecutableFinder;
-        $this->php = escapeshellarg($phpFinder->find());
+        $pathToPhp = $phpFinder->find();
+        $this->php = $pathToPhp ? escapeshellarg($pathToPhp) : '';
         $this->console = realpath($this->consoleDir . '/console');
         if(empty($this->console)) $this->console = $this->consoleDir . '/console';
     }
