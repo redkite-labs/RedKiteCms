@@ -1,3 +1,6 @@
+RedKite CMS Installer 1.1.1 (2014/01/26)
+fc072b9 upgraded method that check if a connection with a mysql server could be made
+
 RedKite CMS Installer 1.1.0 (2014/01/18)
 3c91cc1 updated website bootstrap due to changes in RedKite CMS
 
