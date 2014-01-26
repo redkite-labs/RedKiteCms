@@ -1,4 +1,12 @@
-RedKite CMS 1.1.0
+RedKite CMS 1.1.1 (2014/01/26)
+dd8c634 fixed unwanted behavior in google chrome preventing default event when clicking on a select box inside the avtive popovered editor
+d2df726 PHP executable path can be empty. Language sort must be by main flag first [alexkvak]
+caa2af8 reset internal content variable when generating a new section to prevent the generaton of duplicated blocks sections when deploying
+481ea2f the stage environment did not work properly: fixed
+0ced19c changed how RedKite CMS manages unpublished pages when the website is deployed. Now all pages are published and unpublished pages will inherit from a default under-construction template
+79a20f3 sorted templates in pages manager form
+
+RedKite CMS 1.1.1 (2014/01/18)
 f22eacd login errors were displayed in a wrong position: fixed
 31bec90 cleaned the page attributes form after a page is edited
 802fc72 added the fromLanguageAndPageNames method to fetch a SEO object from language and page names
