@@ -1,3 +1,6 @@
+RedKite CMS Twitter Bootstrap Blocks 1.1.1 (2014/01/26)
+344df54 added page header block
+
 RedKite CMS Twitter Bootstrap Blocks 1.1.0 (2014/01/18)
 a704b09 added unit test for AlBlockManagerBootstrapAccordionPanelBlock class
 fa17426 hide blocks menu for accordion panel
