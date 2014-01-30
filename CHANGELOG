@@ -1,5 +1,5 @@
 RedKite CMS 1.1.1 (2014/01/26)
-dd8c634 fixed unwanted behavior in google chrome preventing default event when clicking on a select box inside the avtive popovered editor
+dd8c634 fixed unwanted behavior in google chrome preventing default event when clicking on a select box inside the active popovered editor
 d2df726 PHP executable path can be empty. Language sort must be by main flag first [alexkvak]
 caa2af8 reset internal content variable when generating a new section to prevent the generaton of duplicated blocks sections when deploying
 481ea2f the stage environment did not work properly: fixed
