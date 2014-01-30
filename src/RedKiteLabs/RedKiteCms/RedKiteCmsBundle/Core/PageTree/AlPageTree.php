@@ -21,8 +21,6 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\PageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlPage;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager;
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager;
