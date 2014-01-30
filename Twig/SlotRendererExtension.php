@@ -188,29 +188,30 @@ class SlotRendererExtension extends \Twig_Extension
         );
     }
 
-    public function renderIncludedBlock($key, AlBlockManager $parent = null, $type = "Text", $addWhenEmpty = false, $defaultContent = "", $extraAttributes = "")
+    public function renderIncludedBlock($key, AlBlockManager $parent = null, $type = "Text", $addWhenEmpty = false, $defaultContent = "", $editorExtraAttributes = "", $blockExtraOptions = array())
     {
         $blocksRepository = $this->container->get('red_kite_cms.factory_repository');
         $repository = $blocksRepository->createRepository('Block');
-        $blocks = $repository->retrieveContents(null,  null, $key, array(0, 2, 3));
+        $blocks = $repository->retrieveContents(null,  null, $key);
         $blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
 
-        $extraOptions = array('parent_slot_name' => $key);
+        $extraOptions = array('parent_slot_name' => $key); //array_merge(array('parent_slot_name' => $key), $extraOptions);
         if (null !== $parent && preg_match('/' . $parent->get()->getId() .  '\-([0-9]+)/', $key, $matches)) {
             $extraOptions['key'] = $matches[1];
         }
-
+        
         if (count($blocks) > 0) {
             $alBlock = $blocks[0];
             $type = $alBlock->getType();
             $blockManager = $blockManagerFactory->createBlockManager($type);
             if (null !== $blockManager) {
                 $blockManager->set($alBlock);
+                $blockManager->setBlockExtraOptions($blockExtraOptions);
                 if (null !== $parent) {
                     $blockManager->setEditorDisabled($parent->getEditorDisabled());
                 }
 
-                return $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes, $extraOptions);
+                return $this->renderBlock($blockManager, '_included_block.html.twig', true, $editorExtraAttributes, $extraOptions);
             }
         // @codeCoverageIgnoreStart
         }
@@ -224,6 +225,7 @@ class SlotRendererExtension extends \Twig_Extension
             $blockManager = $blockManagerFactory->createBlockManager($type);
             if (null !== $blockManager) {
                 $blockManager->setEditorDisabled($parent->getEditorDisabled());
+                $blockManager->setBlockExtraOptions($blockExtraOptions);
                 $parentBlock = $parent->get();
 
                 $values = array(
@@ -240,7 +242,7 @@ class SlotRendererExtension extends \Twig_Extension
 
                 $blockManager->save($values);
 
-                return $this->renderBlock($blockManager, '_included_block.html.twig', true, $extraAttributes, $extraOptions);
+                return $this->renderBlock($blockManager, '_included_block.html.twig', true, $editorExtraAttributes, $extraOptions);
             }
         // @codeCoverageIgnoreStart
         }

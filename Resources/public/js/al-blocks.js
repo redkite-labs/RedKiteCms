@@ -91,6 +91,7 @@
         try {
             var activeBlock = $('body').data('activeBlock');
             var item = (activeBlock != null) ? activeBlock.attr('data-item') : null;
+            var parent = (activeBlock != null) ? activeBlock.attr('data-parent') : null;
             this.each(function()
             {
                 value = (value == null) ? encodeURIComponent($(this).val()) : value;
@@ -106,6 +107,7 @@
                            'key'        : key,
                            'value'      : value,
                            'included'   : $('body').data('included'),
+                           'parent'     : parent,
                            'item'       : item,
                            'options'    : options
                     },
@@ -124,6 +126,10 @@
                         }
                         
                         if (editedBlock != null) {
+                            if (parent != null) {
+                                editedBlock.attr('data-parent', parent);
+                            }
+                            
                             $(document).trigger("blockEdited", [ editedBlock ]);                      
                         }
                     },
