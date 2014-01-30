@@ -324,6 +324,9 @@ class AlSlotManager
     {
         foreach ($blocks as $block) {
             $blockManager = $this->blockManagerFactory->createBlockManager($block);
+            if (null === $blockManager) {
+                continue;
+            }
             $this->blockManagersCollection->addBlockManager($blockManager);
         }
     }
