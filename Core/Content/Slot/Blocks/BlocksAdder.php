@@ -197,7 +197,7 @@ class BlocksAdder extends BaseBlocks
         return $blockManager;
     }
 
-    private function saveBlockmanager(AlSlot $slot, $blockManager, array $options)
+    private function saveBlockmanager(AlSlot $slot, AlBlockManagerInterface $blockManager, array $options)
     {
         $values = array(
             "PageId"          => $options["idPage"],
@@ -205,10 +205,15 @@ class BlocksAdder extends BaseBlocks
             "SlotName"        => $slot->getSlotName(),
             "Type"            => $options["type"],
             "ContentPosition" => $options["position"],
-            //"CreatedAt"       => date("Y-m-d H:i:s"),
         );
 
         if ($options["forceSlotAttributes"]) {
+            
+            $blockDefinition = $slot->getBlockDefinition();
+            if (null !== $blockDefinition) {
+                 return $this->generateFromBlockDefinition($blockDefinition, $blockManager, $values);
+            }
+            
             $content = $slot->getContent();
             if (null !== $content) {
                 $values["Content"] = $content;
@@ -218,5 +223,54 @@ class BlocksAdder extends BaseBlocks
         $blockManager->set(null);
 
         return $blockManager->save($values);
+    }
+    
+    public function generateFromBlockDefinition($blockDefinition, AlBlockManagerInterface $blockManager, array $values)
+    {
+        $default = $blockManager->getDefaultValue();
+        $blockDefinitionDecoded = json_decode($blockDefinition, true);
+        
+        $nextItems = null;
+        if (array_key_exists("items", $blockDefinitionDecoded)) {
+            $nextItems = $blockDefinitionDecoded["items"];
+            $items = array();
+            foreach($nextItems as $nextItem) {
+                $items[] = array_intersect_key($nextItem, array('blockType' => ''));
+            }
+            $blockDefinitionDecoded["items"] = $items;
+        }
+        
+        if (array_key_exists("blockType", $blockDefinitionDecoded)) {
+            unset($blockDefinitionDecoded["blockType"]);
+        }
+        
+        $defaultValue = json_decode($default["Content"], true);
+        if ( !is_array($defaultValue)) {
+            return true;
+        }
+        $values["Content"] = json_encode(array_replace_recursive($defaultValue, $blockDefinitionDecoded));
+        
+        $blockManager->set(null);
+        if ( ! $blockManager->save($values)) {
+            return false;
+        }
+        
+        if (null !== $nextItems) {
+            $i = 0;
+            $blockId = $blockManager->get()->getId();
+            foreach($nextItems as $nextItem) {
+                $values["SlotName"] = $blockId . '-' . $i;
+                $values["Type"] = $nextItem["blockType"];
+                $blockManager = $this->blockManagerFactory->createBlockManager($nextItem["blockType"]);
+                if ( ! $this->generateFromBlockDefinition(json_encode($nextItem), $blockManager, $values))
+                {
+                    return false;
+                }
+                
+                $i++;
+            }
+        }
+        
+        return true;
     }
 }

@@ -186,7 +186,8 @@ class AlTemplateParser
         $validAttributes = array(
             'repeated' => '',
             'blockType' => '',
-            'htmlContent' => ''
+            'htmlContent' => '',
+            'blockDefinition' => ''
         );
 
         preg_match_all('/BEGIN-SLOT[^\w]*[\r\n](.*?)END-SLOT/si', $templateContents, $matches, PREG_SET_ORDER);
@@ -201,6 +202,10 @@ class AlTemplateParser
                 if ( ! array_key_exists('name', $parsedAttributes)) {
                     continue;
                 }
+                
+                if ( array_key_exists('blockDefinition', $parsedAttributes)) {
+                    $parsedAttributes['blockDefinition'] = json_encode($parsedAttributes['blockDefinition']);
+                }
             } catch (ParseException $ex) {
                 continue;
             }
@@ -214,7 +219,7 @@ class AlTemplateParser
                 $slots[$slotName]['errors'] = $wrongAttributes;
             }
         }
-
+        
         return $slots;
     }
 }
