@@ -242,11 +242,12 @@
     function startEdit(element)
     {
         element.highligther('activate', {'cssClass' : 'on-editing'});
-        
+        var parent = (element.attr('data-parent') != null && element.attr('data-parent').length > 0) ? element.attr('data-parent') : null;
         $('body')
             .data('idBlock', element.attr('data-block-id'))
             .data('slotName', element.attr('data-slot-name'))            
-            .data('included', element.attr('data-included'))
+            .data('included', element.attr('data-included'))         
+            .data('parent', parent)
             .data('activeBlock', element)
         ;
         $('#al_block_menu_toolbar').hide();

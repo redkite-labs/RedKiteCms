@@ -144,12 +144,23 @@ class BlocksController extends Base\BaseController
         }
 
         if (null === $response) {
-            $template = ($request->get('included')) ? 'RedKiteCmsBundle:Slot:Render/_included_block.html.twig' :  'RedKiteCmsBundle:Slot:Render/_block.html.twig';
+            $template = 'RedKiteCmsBundle:Slot:Render/_block.html.twig';
+            if ($request->get('included')) {
+                $template = 'RedKiteCmsBundle:Slot:Render/_included_block.html.twig';
+            }
+            
+            $blockOptions = array();
+            if ($request->get('parent')) {
+                $blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
+                $parentBlockManager = $blockManagerFactory->createBlockManager($request->get('parent'));
+                $blockOptions = $parentBlockManager->blockExtraOptions();
+            }
+            
             $values = array(
                 array("key" => "message", "value" => $this->translate("blocks_controller_block_edited")),
                 array("key" => "edit-block",
                       "blockName" => "block_" . $blockManager->get()->getId(),
-                      "value" => $this->container->get('templating')->render($template, array("blockManager" => $blockManager, 'item' => $request->get('item'))),
+                      "value" => $this->container->get('templating')->render($template, array("blockManager" => $blockManager, 'item' => $request->get('item'), 'options' => $blockOptions)),
                 ),
             );
 

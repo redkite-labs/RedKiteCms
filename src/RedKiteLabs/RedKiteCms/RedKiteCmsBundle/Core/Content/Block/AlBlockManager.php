@@ -68,6 +68,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @var Boolean
      */
     protected $editorDisabled = false;
+    
+    protected $extraOptions = array();
 
     /**
      * Constructor
@@ -241,6 +243,28 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     public function getReloadSuggested()
     {
         return false;
+    }
+    
+    /**
+     * Returns the block manager's extra options.
+     * 
+     * @return array
+     */
+    public function blockExtraOptions()
+    {
+        return array();
+    }
+    
+    /**
+     * Sets extra options for rendering the block.
+     * 
+     * This method should be used to pass options from a parent block to children blocks
+     * 
+     * @param array $options
+     */
+    public function setBlockExtraOptions(array $options)
+    {
+        $this->extraOptions = $options;
     }
 
     /**

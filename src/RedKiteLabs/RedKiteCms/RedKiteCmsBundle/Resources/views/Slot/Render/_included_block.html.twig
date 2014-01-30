@@ -14,7 +14,11 @@
 #}
 
 {% if (item is defined and item is not null) %}
+{% if (options is defined) %}
+{{ renderIncludedBlock(blockManager.get.SlotName, blockManager, "Text", false,  "", "data-item=" ~ item, options) }}
+{% else %}
 {{ renderIncludedBlock(blockManager.get.SlotName, blockManager, "Text", false,  "", "data-item=" ~ item) }}
+{% endif %}
 {% else %}
 {{ renderIncludedBlock(blockManager.get.SlotName, blockManager) }}
 {% endif %}
