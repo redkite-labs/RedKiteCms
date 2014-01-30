@@ -20,6 +20,9 @@
                     <![CDATA[{% spaceless %}{{ attributes.htmlContent }}{% endspaceless %}]]>
                 </argument>
 {% endif %}
+{% if attributes.blockDefinition is defined %}
+                <argument key="blockDefinition">{{ attributes.blockDefinition }}</argument>
+{% endif %}
             </argument>
 {% endif %}
             <tag name="{{ theme_name }}.theme.template.slot" />
