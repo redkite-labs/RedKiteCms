@@ -86,7 +86,7 @@
         </service>
         
         <service id="bootstrap_link.form" class="%bootstrap_link.form.class%">
-        </service>
+        </service>        
         
         <!-- FILE -->
         <service id="el_finder.file_connector" class="%el_finder.file_connector%" >

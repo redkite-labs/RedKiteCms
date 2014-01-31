@@ -1,7 +1,7 @@
 {% extends "RedKiteCmsBundle:Editor:base_editor.html.twig" %}
 
 {% block body %}
-<ul class="nav nav-pills al-menu-list inline-list" {{ editor|raw }}>    
-{% include "RedKiteCmsBaseBlocksBundle:Content:Menu/_menu_items.html.twig" %}
+<ul class="nav nav-pills al-menu-list inline-list" {{ editor|raw }}>  
+    {% include "RedKiteCmsBaseBlocksBundle:Content:Menu/_menu_items.html.twig" %}
 </ul>
 {% endblock %}

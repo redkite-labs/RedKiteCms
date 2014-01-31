@@ -27,7 +27,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
  */
 class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
 {
-    protected $cmsLanguage;
+    protected $blockTemplate = 'RedKiteCmsBaseBlocksBundle:Content:Link/link.html.twig';
 
     /**
      * Defines the App-Block's default value
@@ -41,7 +41,7 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
                 {
                     "0" : {
                         "href": "#",
-                        "value": "Link"
+                        "value": "This is a link"
                     }
                 }
             ';
@@ -58,13 +58,13 @@ class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
         $link = $items[0];
-
+        
         return array('RenderView' => array(
-            'view' => 'RedKiteCmsBaseBlocksBundle:Content:Link/link.html.twig',
-            'options' => array(
+            'view' => $this->blockTemplate,
+            'options' => array_merge($this->extraOptions, array(
                 'link' => $link,
                 'block_manager' => $this,
-            ),
+            )),
         ));
     }
 

@@ -47,6 +47,17 @@ class AlBlockManagerMenu extends AlBlockManagerJsonBlockCollection
 
         return array("Content" => $value);
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function blockExtraOptions()
+    {
+        return array(                    
+            'active_page' => $this->getActivePage(),
+            'wrapper_tag' => 'li',
+        );
+    }
 
     /**
      * Renders the App-Block's content view
@@ -56,12 +67,25 @@ class AlBlockManagerMenu extends AlBlockManagerJsonBlockCollection
     protected function renderHtml()
     {
         $items = $this->decodeJsonContent($this->alBlock->getContent());
-
+                
         return array('RenderView' => array(
             'view' => $this->blocksTemplate,
             'options' => array(
                 'items' => $items,
+                'blockOptions' => $this->blockExtraOptions(),
             ),
         ));
+    }
+    
+    private function getActivePage()
+    {
+        $permalink = "";
+        $pageTree = $this->container->get('red_kite_cms.page_tree');
+        $seo = $pageTree->getAlSeo();
+        if (null !== $seo) {
+            $permalink = $seo->getPermalink();
+        }
+        
+        return $permalink;
     }
 }
