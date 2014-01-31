@@ -86,6 +86,10 @@
             <source>common_label_load</source>
             <target>Carica</target>
         </trans-unit>
+        <trans-unit id="common_label_3">
+            <source>common_label_class</source>
+            <target>Classe</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>

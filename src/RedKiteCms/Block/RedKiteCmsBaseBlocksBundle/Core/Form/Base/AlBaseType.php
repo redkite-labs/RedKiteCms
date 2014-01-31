@@ -19,6 +19,7 @@ namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Implements a base form to defines the translation domain for this bundle
@@ -26,7 +27,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  * @author RedKite Labs <info@redkite-labs.com>
  */
 abstract class AlBaseType extends JsonBlockType
-{
+{   
     /**
      * Sets the default options for this type
      *
@@ -38,5 +39,10 @@ abstract class AlBaseType extends JsonBlockType
             'translation_domain' => 'RedKiteCmsBaseBlocksBundle',
             'csrf_protection' => false,
         ));
+    }
+    
+    protected function addClassAttribute(FormBuilderInterface $builder)
+    {
+        $builder->add('class', 'text', array('label' => 'common_label_class'));
     }
 }

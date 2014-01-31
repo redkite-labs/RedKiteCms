@@ -41,6 +41,7 @@ class AlLinkType extends AlBaseType
         $builder->add('value', null, array(
             'label' => 'link_block_displayed_value',
         ));
+        $this->addClassAttribute($builder);
 
         parent::buildForm($builder, $options);
     }

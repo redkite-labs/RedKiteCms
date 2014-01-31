@@ -46,6 +46,7 @@ class AlImageType extends AlBaseType
             'attr' => array('class' => 'rk-file'),
             'label' => 'image_block_file_attribute',
         ));
+        $this->addClassAttribute($builder);
 
         parent::buildForm($builder, $options);
     }

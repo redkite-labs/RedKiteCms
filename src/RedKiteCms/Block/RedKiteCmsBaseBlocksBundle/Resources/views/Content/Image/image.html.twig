@@ -3,7 +3,7 @@
 {% block body %}
 {% spaceless %}
 <a href="{{ link }}" >
-    <img {% if src != "" %}src="{{ src }}"{% endif %} title="{{ title }}" alt="{{ alt }}" {% if data_src != "" %}data-src="{{ data_src }}"{% endif %} {{ editor|raw }}/>
+    <img {% if src != "" %}src="{{ src }}"{% endif %} title="{{ title }}" alt="{{ alt }}"{% if data_src != "" %} data-src="{{ data_src }}"{% endif %}{% if(image.class is defined and image.class != "") %} class="{{ image.class }}"{% endif %} {{ editor|raw }}/>
 </a>
 {% endspaceless %}
 {% endblock %}

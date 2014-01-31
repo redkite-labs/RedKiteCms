@@ -40,6 +40,12 @@
                 {{ form_errors(form.file) }} {{ form_widget(form.file) }}
             </td>
         </tr>
+        <tr>
+            <td>{{ form_label(form.class) }}</td>
+            <td colspan="2">                
+                {{ form_errors(form.class) }} {{ form_widget(form.class) }}
+            </td>
+        </tr>
         {{ form_rest(form) }}
     </table>
 </form>

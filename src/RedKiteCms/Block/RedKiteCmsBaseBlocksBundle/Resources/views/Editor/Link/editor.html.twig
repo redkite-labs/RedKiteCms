@@ -13,6 +13,12 @@
                 {{ form_errors(form.value) }} {{ form_widget(form.value) }}
             </td>
         </tr>
+        <tr>
+            <td>{{ form_label(form.class) }}</td>
+            <td colspan="2">                
+                {{ form_errors(form.class) }} {{ form_widget(form.class) }}
+            </td>
+        </tr>
         {{ form_rest(form) }}
     </table>
 </form>
