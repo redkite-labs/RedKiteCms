@@ -83,10 +83,13 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
     protected function renderHtml()
     {
         $items = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
-
+        
         return array('RenderView' => array(
             'view' => $this->blockTemplate,
-            'options' => array('data' => $items[0]),
+            'options' => array_merge(
+                $this->extraOptions, 
+                array('data' => $items[0])
+            ),
         ));
     }
 

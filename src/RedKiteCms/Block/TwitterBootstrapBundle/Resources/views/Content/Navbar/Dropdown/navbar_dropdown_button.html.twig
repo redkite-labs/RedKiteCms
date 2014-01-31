@@ -1,7 +1,7 @@
 {% extends "TwitterBootstrapBundle:Content:DropdownButton/_dropdown_button_params.html.twig" %}
 
 {% block body %}
-<li class="dropdown al-navbar-menu-list" {{ editor|raw }}>
+<li class="dropdown al-navbar-menu-list"{% if item is defined %} data-item="{{ item }}"{% endif %} {{ editor|raw }}>
     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
         {{ button_text }}
         <span class="caret"></span>

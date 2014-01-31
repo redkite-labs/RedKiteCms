@@ -93,6 +93,13 @@
         <!-- PAGE HEADER --> 
         <parameter key="bootstrap_page_header_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\PageHeader\AlBlockManagerBootstrapPageHeaderBlock</parameter>
         <parameter key="bootstrap_page_header_block.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\PageHeader\AlPageHeaderType</parameter>
+        
+        <!-- BREADCRUMB -->
+        <parameter key="bootstrapbreadcrumbblock.external_javascripts.cms" type="collection">
+            <parameter>@TwitterBootstrapBundle/Resources/public/breadcrumb/js/breadcrumb.js</parameter>
+        </parameter>
+        
+        <parameter key="bootstrap_breadcrumb_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Breadcrumb\AlBlockManagerBootstrapBreadcrumbBlock</parameter>
     </parameters>
 
     <services>
@@ -223,6 +230,10 @@
         <service id="bootstrap_page_header_block.form" class="%bootstrap_page_header_block.form.class%">
         </service>
         
-        
+        <!-- BREADCRUMB -->        
+        <service id="bootstrap_breadcrumb_block.block" class="%bootstrap_breadcrumb_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Breadcrumb" type="BootstrapBreadcrumbBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
     </services>
 </container>
