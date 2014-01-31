@@ -40,6 +40,7 @@ class AlButtonType extends AlBaseType
         $builder->add('button_block', 'choice', array('label' => 'button_block_attribute_block', 'choices' => array("" => "normal", "btn-block" => "block")));
         $builder->add('button_enabled', 'choice', array('label' => 'button_block_enabled', 'choices' => array("" => "enabled", "disabled" => "disabled")));
         $builder->add('button_href', "text", array('label' => 'button_block_href', 'attr' => array('class' => "input-medium")));
+        $this->addClassAttribute($builder);
 
         parent::buildForm($builder, $options);
     }

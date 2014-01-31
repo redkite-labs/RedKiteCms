@@ -36,6 +36,7 @@ class AlBadgeType extends AlBaseType
     {
         $builder->add('badge_text', null, array('label' => 'badge_block_text'));
         $builder->add('badge_type', 'choice', array('label' => 'badge_block_type', 'choices' => array('' => 'base', 'badge-info' => 'info', 'badge-success' => 'success', 'badge-warning' => 'warning', 'badge-important' => 'important', 'badge-inverse' => 'inverse')));
+        $this->addClassAttribute($builder);
 
         parent::buildForm($builder, $options);
     }

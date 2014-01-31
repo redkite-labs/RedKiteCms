@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\AlBaseType as BaseJson;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -25,7 +25,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-abstract class AlBaseType extends JsonBlockType
+abstract class AlBaseType extends BaseJson
 {
     /**
      * Sets the default options for this type

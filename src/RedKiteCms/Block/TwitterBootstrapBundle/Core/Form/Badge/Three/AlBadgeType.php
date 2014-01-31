@@ -35,6 +35,7 @@ class AlBadgeType extends AlBaseType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('badge_text', null, array('label' => 'badge_block_text'));
+        $this->addClassAttribute($builder);
 
         parent::buildForm($builder, $options);
     }

@@ -198,6 +198,10 @@
             <source>common_label_new</source>
             <target>Nuovo</target>
         </trans-unit>
+        <trans-unit id="common-3">
+            <source>common_label_class</source>
+            <target>Classe</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>

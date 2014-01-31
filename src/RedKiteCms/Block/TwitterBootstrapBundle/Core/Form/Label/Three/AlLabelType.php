@@ -46,6 +46,7 @@ class AlLabelType extends AlBaseType
                 'label-danger' => 'danger',
             )
         ));
+        $this->addClassAttribute($builder);
 
         parent::buildForm($builder, $options);
     }

@@ -1,5 +1,5 @@
 {% extends "TwitterBootstrapBundle:Content:Label/_label_params.html.twig" %}
 
 {% block body %}
-<span class="label{{ label_type }}" {{ editor|raw }}>{{ label_text }}</span>
+<span class="label{{ label_type }}{% if(data.class is defined and data.class != "") %} {{ data.class }}{% endif %}" {{ editor|raw }}>{{ label_text }}</span>
 {% endblock %}

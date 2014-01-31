@@ -21,7 +21,7 @@ use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base\AlBaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
- * Defines the form to edit a label block
+ * Defines the form to edit a Page Header block
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
@@ -47,6 +47,7 @@ class AlPageHeaderType extends AlBaseType
                 'h6' => 'h6',
             )
         ));
+        $this->addClassAttribute($builder);
 
         parent::buildForm($builder, $options);
     }
