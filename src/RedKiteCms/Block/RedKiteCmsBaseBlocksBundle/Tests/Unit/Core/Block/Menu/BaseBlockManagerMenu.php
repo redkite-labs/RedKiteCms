@@ -62,6 +62,27 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
             }';
 
         $this->initContainer();
+        
+        $seo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
+        $seo->expects($this->once())
+              ->method('getPermalink')
+              ->will($this->returnValue('homepage'))
+        ;
+        
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+                        ->setMethods(array('getAlSeo'))
+                        ->disableOriginalConstructor()
+                        ->getMock();
+        $pageTree->expects($this->at(0))
+              ->method('getAlSeo')
+              ->will($this->returnValue($seo))
+        ;
+        
+        $this->container->expects($this->at(3))
+                      ->method('get')
+                      ->with('red_kite_cms.page_tree')
+                      ->will($this->returnValue($pageTree))
+        ;
         $block = $this->initBlock($blockContent);
         $blockManager = $this->getBlockManager();
         $blockManager->set($block);
@@ -76,6 +97,11 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
                     array(
                         "blockType" => "Link"
                     ),
+                ),
+                'blockOptions' => array(
+                    'active_page' => 'homepage',
+                    'wrapper_tag' => 'li',
+
                 ),
                 'block_manager' => $blockManager
             ),

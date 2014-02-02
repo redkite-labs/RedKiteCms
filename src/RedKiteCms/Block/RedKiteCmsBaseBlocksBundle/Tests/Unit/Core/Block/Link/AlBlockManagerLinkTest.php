@@ -43,7 +43,7 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
                 {
                     "0" : {
                         "href": "#",
-                        "value": "Link"
+                        "value": "This is a link"
                     }
                 }
             '
@@ -60,7 +60,7 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
             {
                 "0" : {
                     "href": "#",
-                    "value": "Link"
+                    "value": "This is a link"
                 }
             }
         ';
@@ -71,7 +71,7 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
             'options' => array(
                 'link' => array(
                     'href' => '#',
-                    'value' => 'Link',
+                    'value' => 'This is a link',
                 ),
                 'block_manager' => $this->blockManager
             ),
