@@ -40,6 +40,7 @@ class AlBadgeTypeTest extends AlBaseType
                     'label' => 'badge_block_type', 
                     'choices' => array('' => 'base', 'badge-info' => 'info', 'badge-success' => 'success', 'badge-warning' => 'warning', 'badge-important' => 'important', 'badge-inverse' => 'inverse')),
             ),
+            'class',
             array(
                 'name' => 'save',
                 'type' => 'submit',

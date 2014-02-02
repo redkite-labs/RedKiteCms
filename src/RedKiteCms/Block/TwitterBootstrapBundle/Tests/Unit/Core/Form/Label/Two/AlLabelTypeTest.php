@@ -41,6 +41,7 @@ class AlLabelTypeTest extends AlBaseType
                     'choices' => array('' => 'base', 'label-info' => 'info', 'label-success' => 'success', 'label-warning' => 'warning', 'label-important' => 'important', 'label-inverse' => 'inverse')
                 ),
             ),
+            'class',
             array(
                 'name' => 'save',
                 'type' => 'submit',

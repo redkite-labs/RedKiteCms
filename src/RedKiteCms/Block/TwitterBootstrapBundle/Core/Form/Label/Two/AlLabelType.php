@@ -36,7 +36,8 @@ class AlLabelType extends AlBaseType
     {
         $builder->add('label_text', null, array('label' => 'label_block_text',));
         $builder->add('label_type', 'choice', array('label' => 'label_block_type', 'choices' => array('' => 'base', 'label-info' => 'info', 'label-success' => 'success', 'label-warning' => 'warning', 'label-important' => 'important', 'label-inverse' => 'inverse')));
-
+        $this->addClassAttribute($builder);
+        
         parent::buildForm($builder, $options);
     }
 }

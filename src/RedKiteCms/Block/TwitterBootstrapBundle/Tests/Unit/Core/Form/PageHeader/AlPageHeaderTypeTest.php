@@ -49,6 +49,7 @@ class AlPageHeaderTypeTest extends AlBaseType
                     )
                 ),
             ),
+            'class',
             array(
                 'name' => 'save',
                 'type' => 'submit',

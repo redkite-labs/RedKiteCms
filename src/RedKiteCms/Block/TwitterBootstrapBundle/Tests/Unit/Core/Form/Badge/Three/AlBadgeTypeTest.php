@@ -33,6 +33,7 @@ class AlBadgeTypeTest extends AlBaseType
     {
         return array(
             'badge_text',
+            'class',
             array(
                 'name' => 'save',
                 'type' => 'submit',

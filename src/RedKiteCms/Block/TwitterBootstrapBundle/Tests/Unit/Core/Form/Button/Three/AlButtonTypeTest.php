@@ -54,6 +54,7 @@ class AlButtonTypeTest extends AlBaseType
                 'options' => array('label' => 'button_block_enabled', 'choices' => array("" => "enabled", "disabled" => "disabled")),
             ),
             'button_href',
+            'class',
             array(
                 'name' => 'save',
                 'type' => 'submit',

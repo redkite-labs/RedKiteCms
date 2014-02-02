@@ -48,6 +48,7 @@ class AlLabelTypeTest extends AlBaseType
                     )
                 ),
             ),
+            'class',
             array(
                 'name' => 'save',
                 'type' => 'submit',
