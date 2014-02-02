@@ -29,6 +29,7 @@ class AlSlot
     private $slotName;
     private $blockType = 'Text';
     private $htmlContent = null;
+    private $blockDefinition = null;
     private $forceRepeatedDuringDeploying = null;
 
     /**
@@ -90,6 +91,11 @@ class AlSlot
     {
         return $this->htmlContent;
     }
+    
+    public function getBlockDefinition()
+    {
+        return $this->blockDefinition;
+    }
 
     public function toArray()
     {
@@ -98,6 +104,7 @@ class AlSlot
             'repeated' => $this->repeated,
             'blockType' => $this->blockType,
             'htmlContent' => $this->htmlContent,
+            'blockDefinition' => $this->blockDefinition,
         );
     }
 
@@ -119,6 +126,14 @@ class AlSlot
         $blockType = (array_key_exists('blockType', $options)) ? ucfirst($options['blockType']) : 'Text';
         $this->blockType = $blockType;
 
-        if(array_key_exists('htmlContent', $options)) $this->setContent($options['htmlContent']);
+        if (array_key_exists('htmlContent', $options)) {
+            $this->setContent($options['htmlContent']);
+        }
+        
+        if (array_key_exists('blockDefinition', $options)) {
+            $this->blockDefinition = $options['blockDefinition'];
+        }
+        
+        
     }
 }
