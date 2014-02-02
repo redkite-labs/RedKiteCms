@@ -82,6 +82,7 @@ class AlSlotTest extends TestCase
             'repeated' => 'site',
             'blockType' => 'Script',
             'htmlContent' => 'my fancy content',
+            'blockDefinition' => 'definition'
         );
         $slot = new AlSlot('logo', $values);
         $values['slotName'] = 'logo';
