@@ -203,6 +203,13 @@ class DeployControllerTest extends TestCase
         $at++;
         $this->container->expects($this->at($at))
             ->method('getParameter')
+            ->with('red_kite_labs_theme_engine.web_path')
+            ->will($this->returnValue(""))
+        ;
+        
+        $at++;
+        $this->container->expects($this->at($at))
+            ->method('getParameter')
             ->with('red_kite_cms.deploy_bundle.config_dir')
         ;
         
