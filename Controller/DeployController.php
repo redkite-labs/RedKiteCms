@@ -68,9 +68,10 @@ class DeployController extends Base\BaseController
         $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';
         $command = sprintf('assets:install %s %s', $this->container->getParameter('red_kite_cms.web_folder_full_path'), $symlink);
         $commandProcessor = $this->container->get('red_kite_cms.commands_processor');
+        
         $commandProcessor->executeCommands(array(
             $command => null,
-            'assetic:dump' => null,
+            'assetic:dump --env=rkcms' => null,
             'cache:clear --env=' . $environment => null,
         ));
     }
@@ -79,7 +80,7 @@ class DeployController extends Base\BaseController
     {
         $kernel = $this->container->get('kernel');
         $deployBundle = $this->container->getParameter('red_kite_labs_theme_engine.deploy_bundle');
-        $deployBundleAsset = new AlAsset($kernel, $deployBundle);
+        $deployBundleAsset = new AlAsset($kernel, $deployBundle, $this->container->getParameter('red_kite_labs_theme_engine.web_path'));
         $deployBundlePath = $deployBundleAsset->getRealPath();
         $viewsDir = $deployBundlePath . '/Resources/views';
         
