@@ -8,6 +8,7 @@
         <parameter key="red_kite_labs_theme_engine.base_template">RedKiteLabsThemeEngineBundle:Frontend:base.html.twig</parameter>
         <parameter key="red_kite_labs_theme_engine.deploy.templates_folder">RedKiteCms</parameter>
         <parameter key="red_kite_labs_theme_engine.deploy.stage_templates_folder">RedKiteCmsStage</parameter>
+        <parameter key="red_kite_labs_theme_engine.web_path"></parameter>
         <parameter key="red_kite_labs_theme_engine.info_valid_entries" type="collection">
             <parameter>title</parameter>
             <parameter>description</parameter>

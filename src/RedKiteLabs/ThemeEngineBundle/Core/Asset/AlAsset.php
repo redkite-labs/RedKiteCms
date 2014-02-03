@@ -30,17 +30,23 @@ class AlAsset
     protected $asset = null;
     protected $realPath = null;
     protected $absolutePath = null;
+    protected $webPath = null;
 
     /**
      * Constructor
      *
      * @param KernelInterface $kernel
-     * @param string          $asset  The asset
+     * @param string          $asset    The asset
+     * @param string          $webPath  Defines the folders path inside the web folder: web/my/webfolder -> my/webfolder
      */
-    public function __construct(KernelInterface $kernel, $asset)
+    public function __construct(KernelInterface $kernel, $asset, $webPath = '')
     {
         $this->kernel = $kernel;
         $this->asset = $asset;
+        $this->webPath = $webPath;
+        if ( ! empty($this->webPath)) {
+            $this->webPath .= '/';
+        }
 
         $this->setUp();
     }
@@ -116,7 +122,7 @@ class AlAsset
     protected function retrieveBundleWebFolder()
     {
         $asset = $this->asset;
-
+        
         $namespacesFile = $this->kernel->getRootDir() . '/../vendor/composer/autoload_namespaces.php';
         if (file_exists($namespacesFile)) {
             $map = require $namespacesFile;
@@ -146,11 +152,11 @@ class AlAsset
         if (!empty($matches)) {
             return $matches[1];
         }
-
+        
         $asset = str_replace("@", "", strtolower($asset));
         $bundleDir = preg_replace('/bundle$/', '', $asset);
-
-        return ($bundleDir !== $asset) ? 'bundles/' . $bundleDir : null;
+        
+        return ($bundleDir !== $asset) ? $this->webPath . 'bundles/' . $bundleDir : null;
     }
 
     /**

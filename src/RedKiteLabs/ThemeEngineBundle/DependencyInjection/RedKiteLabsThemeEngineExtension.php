@@ -57,6 +57,10 @@ class RedKiteLabsThemeEngineExtension extends Extension
         if (isset($config['templates_folder'])) {
             $container->setParameter('red_kite_labs_theme_engine.deploy.templates_folder', $config['templates_folder']);
         }
+        
+        if (isset($config['web_path'])) {
+            $container->setParameter('red_kite_labs_theme_engine.web_path', $config['web_path']);
+        }
 
         if (isset($config['bootstrap'])) {
             $bootstrapThemes = array();

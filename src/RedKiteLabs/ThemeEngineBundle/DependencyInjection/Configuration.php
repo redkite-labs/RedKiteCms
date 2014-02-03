@@ -45,6 +45,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('render_slot_class')->end()
                 ->scalarNode('templates_folder')->end()
                 ->scalarNode('stage_templates_folder')->end()
+                ->scalarNode('web_path')->end()
                 ->arrayNode('bootstrap')
                     ->children()
                         ->arrayNode('theme')
