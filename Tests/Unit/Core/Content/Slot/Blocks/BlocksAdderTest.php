@@ -244,6 +244,60 @@ class BlocksAdderTest extends AlContentManagerBase
     }
     
     /**
+     * @dataProvider addFromDefinitionProvider
+     */
+    public function testAddFromDefinition($slotParam, $options, $internalElements, $positions, $items = array(), $repositoryOptions = null)
+    {
+        $blocksManagerCollection = 
+            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
+                 ->disableOriginalConstructor()
+                 ->getMock()
+        ;
+        
+        $blocksManagerCollection->expects($this->once())
+             ->method('getBlockManagerIndex')
+             ->with($options["referenceBlockId"])
+             ->will($this->returnValue($internalElements["index"]))
+        ;
+        
+        $blocksManagerCollection->expects($this->once())
+             ->method('insertAt')
+             ->with($internalElements["blockManager"], $internalElements["insertAt"])
+             ->will($this->returnValue($internalElements["parts"]))
+        ;
+        
+        $this->factory->expects($this->at(0))
+             ->method('createBlockManager')
+             ->with($options["type"])
+             ->will($this->returnValue($internalElements["blockManager"]))
+        ;
+        
+        $c = 1;
+        foreach ($items as $item) {
+            $this->factory->expects($this->at($c))
+                ->method('createBlockManager')
+                ->with($item["type"])
+                ->will($this->returnValue($item['blockManager']))
+           ;
+        }
+        
+        if (null === $repositoryOptions) {
+            $repositoryOptions = array(
+                'expectedCommit' => 2,
+                'expectedRollback' => 0,
+            );
+        }
+        
+        $this->initRepository($positions, $repositoryOptions);
+        
+        $slot = new AlSlot($slotParam["slotName"], $slotParam["slotOptions"]);
+        $this->blocksAdder->add($slot, $blocksManagerCollection, $options);
+        
+        $lastAdded = ($repositoryOptions["expectedRollback"] == 0) ? $internalElements["blockManager"] : null;
+        $this->assertSame($lastAdded, $this->blocksAdder->lastAdded());
+    }
+    
+    /**
      * @expectedException \RuntimeException
      */
     public function testEditProviderFails()
@@ -307,6 +361,159 @@ class BlocksAdderTest extends AlContentManagerBase
         );
     }
     
+    public function addFromDefinitionProvider()
+    {
+        return array(
+            
+            array(
+                array(
+                    "slotName" => 'foo',
+                    "slotOptions" => array(
+                        "repeated" => 'page', 
+                        'blockDefinition' => '{"data_src":"holder.js/700x250"}',
+                    ),
+                ),
+                array(
+                    "idPage"                => 2,
+                    "idLanguage"            => 2,
+                    "type"                  => 'Text',
+                    "referenceBlockId"      => 2,
+                    "insertDirection"       => 'bottom',
+                    "skipSiteLevelBlocks"   => false,
+                    "forceSlotAttributes"   => true,
+                ),
+                array(
+                    "index" => 0,                    
+                    "insertAt" => 1,
+                    "blockManager" => $this->createBlockManager(null, array(
+                                "PageId"                => 2,
+                                "LanguageId"            => 2,
+                                "SlotName"              => 'foo',
+                                "Type"                  => 'Text',
+                                "ContentPosition"       => 2,
+                            ), true, array("Content" => "Default text",)),
+                    "parts" => array(
+                        "left" => array(
+                        ),
+                        "right" => array(
+                            $this->createBlockManager($this->createBlock(1)),
+                        ),
+                    ),
+                ),
+                array(
+                    array(
+                        'expectedPosition' => array(
+                            "ContentPosition"  => 2,
+                        ),
+                        'result' => true,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    "slotName" => 'foo',
+                    "slotOptions" => array(
+                        "repeated" => 'page', 
+                        'blockDefinition' => '{"data_src":"holder.js/700x250"}',
+                    ),
+                ),
+                array(
+                    "idPage"                => 2,
+                    "idLanguage"            => 2,
+                    "type"                  => 'Text',
+                    "referenceBlockId"      => 2,
+                    "insertDirection"       => 'bottom',
+                    "skipSiteLevelBlocks"   => false,
+                    "forceSlotAttributes"   => true,
+                ),
+                array(
+                    "index" => 0,                    
+                    "insertAt" => 1,
+                    "blockManager" => $this->createBlockManager(null, array(
+                                "PageId"                => 2,
+                                "LanguageId"            => 2,
+                                "SlotName"              => 'foo',
+                                "Type"                  => 'Text',
+                                "ContentPosition"       => 2,
+                                "Content"               => '{"data_src":"holder.js\/700x250"}',
+                            ), true, array("Content" => '{"data_src": "holder.js/200x150"}',)),
+                    "parts" => array(
+                        "left" => array(
+                        ),
+                        "right" => array(
+                            $this->createBlockManager($this->createBlock(1)),
+                        ),
+                    ),
+                ),
+                array(
+                    array(
+                        'expectedPosition' => array(
+                            "ContentPosition"  => 2,
+                        ),
+                        'result' => true,
+                    ),
+                ),
+            ),
+            array(
+                array(
+                    "slotName" => 'foo',
+                    "slotOptions" => array(
+                        "repeated" => 'page', 
+                        'blockDefinition' => '{"data_src":"holder.js/700x250", "items":{"0":{"blockType":"Link"}}}',
+                    ),
+                ),
+                array(
+                    "idPage"                => 2,
+                    "idLanguage"            => 2,
+                    "type"                  => 'Text',
+                    "referenceBlockId"      => 2,
+                    "insertDirection"       => 'bottom',
+                    "skipSiteLevelBlocks"   => false,
+                    "forceSlotAttributes"   => true,
+                ),
+                array(
+                    "index" => 0,                    
+                    "insertAt" => 1,
+                    "blockManager" => $this->createBlockManager($this->createBlock(2), array(
+                                "PageId"                => 2,
+                                "LanguageId"            => 2,
+                                "SlotName"              => 'foo',
+                                "Type"                  => 'Text',
+                                "ContentPosition"       => 2,
+                                "Content"               => '{"data_src":"holder.js\/700x250","items":[{"blockType":"Link"}]}',
+                            ), true, array("Content" => '{"data_src": "holder.js/200x150"}',)),
+                    "parts" => array(
+                        "left" => array(
+                        ),
+                        "right" => array(
+                            $this->createBlockManager($this->createBlock(1)),
+                        ),
+                    ),
+                ),
+                array(
+                    array(
+                        'expectedPosition' => array(
+                            "ContentPosition"  => 2,
+                        ),
+                        'result' => true,
+                    ),
+                ),
+                array(
+                    array(
+                        "type" => "Link",
+                        "blockManager" => $this->createBlockManager($this->createBlock(2), array(
+                            "PageId"                => 2,
+                            "LanguageId"            => 2,
+                            "SlotName"              => 'foo',
+                            "Type"                  => 'Link',
+                            "ContentPosition"       => 2,
+                        )),
+                    ),    
+                ),
+            ),
+        );
+    }
+    
     public function addProvider()
     {
         return array(
@@ -350,7 +557,7 @@ class BlocksAdderTest extends AlContentManagerBase
                         'result' => true,
                     ),
                 ),
-            ), 
+            ),
             array(
                 array(
                     "slotName" => 'foo',
@@ -796,13 +1003,20 @@ class BlocksAdderTest extends AlContentManagerBase
          return $block;
     }
     
-    private function createBlockManager($block = null, $values = null, $saveResult = true)
+    private function createBlockManager($block = null, $values = null, $saveResult = true, $defaultValue = null)
     {
          $blockManager = 
             $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService')
                  ->disableOriginalConstructor()
                  ->getMock()
          ;
+         
+         if (null !== $defaultValue) {
+             $blockManager->expects($this->once())
+                ->method('getDefaultValue')
+                ->will($this->returnValue($defaultValue))
+            ;
+         }
          
          if (null !== $block) {
              $blockManager->expects($this->once())
@@ -851,9 +1065,9 @@ class BlocksAdderTest extends AlContentManagerBase
         $this->blockRepository->expects($this->exactly($repositoryOptions["expectedCommit"]))
              ->method('commit')
         ;
-        
+        /*
         $this->blockRepository->expects($this->exactly($repositoryOptions["expectedRollback"]))
              ->method('rollback')
-        ;
+        ;*/
     }
 }

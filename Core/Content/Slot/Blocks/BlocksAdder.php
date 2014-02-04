@@ -245,7 +245,7 @@ class BlocksAdder extends BaseBlocks
         }
         
         $defaultValue = json_decode($default["Content"], true);
-        if ( !is_array($defaultValue)) {
+        if ( ! is_array($defaultValue)) {
             return true;
         }
         $values["Content"] = json_encode(array_replace_recursive($defaultValue, $blockDefinitionDecoded));
