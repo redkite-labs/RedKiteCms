@@ -76,6 +76,8 @@ class AlTemplateParserTest extends AlGeneratorBase
                 '{% block logo %}' . PHP_EOL .
                 '{# BEGIN-SLOT' . PHP_EOL .
                 '   name: logo' . PHP_EOL .
+                '   blockDefinition:' . PHP_EOL .
+                '     data_src: holder.js/1900x350' . PHP_EOL .
                 'END-SLOT #}' . PHP_EOL .
                 '{{ renderSlot(\'logo\') }}' . PHP_EOL .
                 '{% endblock %}' . PHP_EOL,

@@ -501,7 +501,7 @@ class BlocksAdderTest extends AlContentManagerBase
                 array(
                     array(
                         "type" => "Link",
-                        "blockManager" => $this->createBlockManager($this->createBlock(2), array(
+                        "blockManager" => $this->createBlockManager($this->createBlock(3), array(
                             "PageId"                => 2,
                             "LanguageId"            => 2,
                             "SlotName"              => 'foo',
@@ -513,6 +513,9 @@ class BlocksAdderTest extends AlContentManagerBase
             ),
         );
     }
+    
+    
+                
     
     public function addProvider()
     {
