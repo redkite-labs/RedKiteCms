@@ -152,6 +152,16 @@ class AlAssetTest extends TestCase
         $this->assertEquals($asset, $alAsset->getRealPath());
         $this->assertEquals('bundles/fake', $alAsset->getAbsolutePath());
     }
+    
+    public function testWebPath()
+    {
+        $asset = 'FakeBundle';
+        $this->setUpKernel($asset);
+
+        $alAsset = new AlAsset($this->kernel, $asset, 'foo');
+        $this->assertEquals($asset, $alAsset->getRealPath());
+        $this->assertEquals('foo/bundles/fake', $alAsset->getAbsolutePath());
+    }
 
     private function setUpKernel($asset, $numberOfCalls = 1)
     {
