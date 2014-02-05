@@ -16,6 +16,8 @@ class TwitterBootstrapExtension extends Extension
 {
     /**
      * {@inheritdoc}
+     * 
+     * @codeCoverageIgnore
      */
     public function load(array $configs, ContainerBuilder $container)
     {
