@@ -101,7 +101,6 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
                 'blockOptions' => array(
                     'active_page' => 'homepage',
                     'wrapper_tag' => 'li',
-
                 ),
                 'block_manager' => $blockManager
             ),
@@ -164,7 +163,7 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
         $this->setUpEventsHandler($event, 2);
     }
     
-    private function initBlock($value)
+    protected function initBlock($value)
     {
         $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
