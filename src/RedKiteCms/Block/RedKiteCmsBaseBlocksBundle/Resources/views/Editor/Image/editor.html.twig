@@ -8,7 +8,7 @@
         <tr>
             <td>{{ form_label(form.src) }}</td>
             <td valign="top">                 
-                <button class="btn btn-default rk-upload-image">{{ upload_icon|raw }} {{ "common_label_load"|trans({}, 'RedKiteCmsBaseBlocksBundle', cms_language) }}</button>
+                <button class="btn btn-default rk-upload-image"><i class="fa fa-fw fa-upload"></i> {{ "common_label_load"|trans({}, 'RedKiteCmsBaseBlocksBundle', cms_language) }}</button>
             </td>
             <td>                
                 {{ form_errors(form.src) }} {{ form_widget(form.src) }}
@@ -34,7 +34,7 @@
         <tr>
             <td>{{ form_label(form.file) }}</td>
             <td valign="top">                
-                <button class="btn btn-default rk-upload-file">{{ upload_icon|raw }} {{ "common_label_load"|trans({}, 'RedKiteCmsBaseBlocksBundle', cms_language) }}</button>
+                <button class="btn btn-default rk-upload-file"><i class="fa fa-fw fa-upload"></i> {{ "common_label_load"|trans({}, 'RedKiteCmsBaseBlocksBundle', cms_language) }}</button>
             </td>
             <td>                
                 {{ form_errors(form.file) }} {{ form_widget(form.file) }}
