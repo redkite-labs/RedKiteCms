@@ -279,7 +279,7 @@
 
                     break;
                 case "pages":
-                    $('#al_pages_navigator_box').html(item.value);
+                    $('.rk-pages-navigator-box').html(item.value);
                     $('.al_page_item').click(function()
                     {
                         Navigate($('#al_languages_navigator').html(), $(this).attr('rel'));

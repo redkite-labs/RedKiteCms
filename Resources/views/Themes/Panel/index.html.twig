@@ -17,6 +17,7 @@
 
 {% block body %}
 <div id="al_themes">
+    {% include 'RedKiteCmsBundle:Panels:_panel_header.html.twig' with { 'title' : 'Themes manager'|trans({}, 'RedKiteCmsBundle', cms_language) } %}
     <table width=100% id="al_themes_table">
       <tr id="al_themes_sections">
         {% include 'RedKiteCmsBundle:Themes:Panel/theme_panel_sections.html.twig' with {'values': values} %}

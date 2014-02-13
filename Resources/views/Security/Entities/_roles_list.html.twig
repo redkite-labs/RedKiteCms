@@ -27,14 +27,14 @@
             </thead>
             {% for role in roles %}
             <tr>
-                <td>{{ page_icon|raw }}</td>
+                <td><i class="fa fa-legal"></i></td>
                 <td width="100%">
                     <a href="#" data-entity-id="{{ role.id }}" rel="{{ role.id }}" class="al_edit_role">{{ role.role }}</a>
                 </td>
                 <td>
                     <a href="#">
                         <button class="btn btn-xs btn-danger al_delete_role btn-mini" data-entity-id="{{ role.id }}">
-                            {{ trash_icon|raw }}
+                            <i class="fa fa-trash-o fa-lg"></i>
                         </button>
                     </a>
                 </td>

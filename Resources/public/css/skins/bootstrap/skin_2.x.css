@@ -9,3 +9,21 @@
 #al_sidebar_left {
   width: 550px;
 }
+
+.rk-cp-row {
+  height: 24px;
+  padding: 6px;
+}
+
+.rk-user {
+  width: 146px;
+  height: 90px;
+}
+
+.rk-navigation-panel {
+  height: 110px;
+}
+
+#rk-cp-nav-button {
+  height: 25px;
+}

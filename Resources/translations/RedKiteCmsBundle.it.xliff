@@ -512,7 +512,7 @@
         </trans-unit>
         <trans-unit id="cms-controller-20">
             <source>cms_controller_label_edit</source>
-            <target>Mod.</target>
+            <target>Modifica</target>
         </trans-unit>
         <trans-unit id="cms-controller-21">
             <source>cms_controller_stop_edit_page</source>
@@ -527,24 +527,16 @@
             <target>Nav</target>
         </trans-unit>
         <trans-unit id="cms-controller-25">
-            <source>cms_controller_edit_slots</source>
-            <target>Edita gli slots del template</target>
+            <source>cms_controller_welcome_back</source>
+            <target>Bentornato</target>
         </trans-unit>
         <trans-unit id="cms-controller-26">
-            <source>cms_controller_label_slots</source>
-            <target>Slots</target>
+            <source>cms_controller_choose_language</source>
+            <target>Scegli la tua lingua</target>
         </trans-unit>
         <trans-unit id="cms-controller-27">
-            <source>cms_controller_stop_edit_slots</source>
-            <target>Interrompe la modifica degli slots</target>
-        </trans-unit>
-        <trans-unit id="cms-controller-28">
-            <source>cms_controller_finalize_slots</source>
-            <target>Finalizza il cambiamento del tema del sito. Questo comando dovrebbe essere usato quando tutti gli slots dei template sono stati mappati</target>
-        </trans-unit>
-        <trans-unit id="cms-controller-29">
-            <source>cms_controller_label_finalize</source>
-            <target>Finalizza</target>
+            <source>cms_controller_minimize</source>
+            <target>Minimizza</target>
         </trans-unit>
 
         <!-- CONFIGURATION CONTROLLER -->

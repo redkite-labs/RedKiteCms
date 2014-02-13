@@ -32,7 +32,7 @@
                 {% set class = "" %}
             {% endif %}
             <tr>
-                <td>{{ page_icon|raw }}</td>
+                <td><i class="fa fa-flag"></i></td>
                 {% if active_page is defined and page == active_page %}
                 <td width="100%"><a href="#" class="al_element_selector active-language {{ class }}" data-language-id="{{ key }}">{{ language }}</a></td>
                 {% else %}
@@ -40,7 +40,7 @@
                 {% endif %}
                 <td>
                     <button class="btn btn-xs btn-danger rk-language-remover btn-mini" data-language-id="{{ key }}">
-                        {{ trash_icon|raw }}
+                        <i class="fa fa-trash-o fa-lg"></i>
                     </button>
                 </td>
             </tr>
