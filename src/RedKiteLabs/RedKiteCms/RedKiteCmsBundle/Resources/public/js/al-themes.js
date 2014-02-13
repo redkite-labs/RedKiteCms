@@ -179,6 +179,7 @@
         {
             $('.al_themes_changer').unbind().manageTheme('change');
             $('.al_start_from_theme').unbind().manageTheme('scratch');
+            $('#al_available_themes_information').css('height', $('#al_panel').height() - 100 + 'px');
         },
         change: function()
         {

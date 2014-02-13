@@ -2,73 +2,155 @@
 
 {% block body %}
 
-{% block toolbar %} 
-<div id="al_control_panel">
-    <div id="al_control_panel_body">
-        <div id="al_commands" class="pull-left">
-            <ul class="{{ list_inline }} al-brand pull-left">
-                <li><img src="/bundles/redkitecms/css/skins/bootstrap/images/tb-logo.png" class="pull-left" /></li>
-            </ul>
-            <ul class="{{ list_inline }} al-commands pull-left">
-                <li><a href="#" id="al_open_pages_panel" rel="tooltip" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_pages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#" id="al_open_languages_panel" rel="tooltip" title="{{ 'cms_controller_open_languages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_languages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#" id="al_open_themes_panel" rel="tooltip" title="{{ 'cms_controller_open_themes_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_themes'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#" id="al_open_media_library" rel="tooltip" title="{{ 'cms_controller_open_media_library_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_media_library'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#" class="al_deployer" rel="stage" rel="tooltip" title="{{ 'cms_controller_deploy_stage'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_deploy_stage'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#" class="al_deployer" rel="production" rel="tooltip" title="{{ 'cms_controller_deploy_production'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_deploy_production'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                {% if is_secure %}
-                <li><a href="#" id="al_open_users_manager" rel="tooltip" title="{{ 'cms_controller_open_users_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_deploy_security'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                <li><a href="#" id="al_logout" rel="tooltip" title="{{ 'cms_controller_log_out'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_deploy_logout'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a></li>
-                {% endif %} 
-            </ul>
-        </div>
-        <div id="al_languages" class="pull-right"> 
-            {% include 'RedKiteCmsBundle:Partials:_select.html.twig' with {'id': 'al_available_languages', 'select_options' : available_languages, 'selected' : cms_language}  %}
-        </div>
+{% block control_panel %} 
+<div class="rk-control-panel">
+    <div id="rk-up">
+        <a href="#"><div class="arrow arrow-up"></div></a>
     </div>
-    <div class="clearfix"></div>    
-</div>
-<div id="al_tab">
-    <div class="al_tab al_tab_open">&nbsp;</div>
-    <div class="al_tab al_tab_close" style="display: none">&nbsp;</div>
-</div>
-{% endblock %}
-
-{% block main_commands %}
-<div id="al_main_commands">
-    {% block block_edit_buttons %}
-    <div id="al_toggle_edit_buttons">
-        {% block edit_button %}
-        <a href="#" id="al_start_editor">
-            <span class="al_img_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'cms_controller_edit_page'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_edit'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
-        </a>
-        {% endblock %}
-            
-        {% block stop_button %}
-        <a href="#" id="al_stop_editor" style="display: none">
-            <span class="al_img_stop_edit al_tab_text pull-left"><p rel="tooltip" title="{{ 'cms_controller_stop_edit_page'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'common_label_stop'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
-        </a>        
-        {% endblock %}
-        <div class="clearfix"></div>    
-    </div>
-    {% endblock %}
-    
-    {% block quick_nav %}
-    <div>
-        <div id="al_toggle_nav_button" class="pull-left">
-            <ul class="list-inline inline al-navigation">
-                <li id="al_languages_navigator_box">{% include 'RedKiteCmsBundle:Partials:_dropdown_menu.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'text' : language_name, 'value' : language, 'type' : 'al_language_item'}  %}</li>
-                <li id="al_pages_navigator_box">{% include 'RedKiteCmsBundle:Partials:_dropdown_menu.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'text' : page_name, 'value' : page, 'type' : 'al_page_item'}  %}</li>                
-            </ul>
-        </div>
+    <div class="rk-brand">
         <div class="pull-left">
-            <a href="#" id="al_show_navigation">
-                <span class="al_img_nav pull-left al_tab_text"><p rel="tooltip" title="{{ 'cms_controller_open_nav_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">{{ 'cms_controller_label_nav'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p></span>
-            </a>
-        </div>     
-        <div class="clearfix"></div>  
+            <button class="rk-navbar-toggle">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="rk-cp-logo rk-hide-minimized pull-left">
+            <img src="/bundles/redkitecms/css/skins/bootstrap/images/control_panel/logo_internal_3.png" />
+        </div>
+        <div class="clearfix"></div>
     </div>
-    {% endblock %}
+    <div class="rk-control-panel-mini">  
+        <div>
+        <ul>
+            <li class="rk-cp-row">
+                <a href="#" class="rk-start-editor" rel="tooltip" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                    <i class="fa fa-fw fa-edit"></i>
+                </a>
+                <a href="#" class="rk-stop-editor" rel="tooltip" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                    <i class="fa fa-fw fa-times-circle"></i>                   
+                </a>
+            </li>
+            <li class="rk-cp-row">
+                <a id="rk-navigation-minimized" href="#" rel="tooltip" class="rk-navigation" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                    <i class="fa fa-fw fa-link"></i>
+                </a>
+            </li>
+        </ul></div>
+        <div id="rk-down">
+            <a href="#" ><div class="arrow arrow-bottom"></div></a>
+        </div>       
+    </div>
+    
+    <div id="rk-control-panel-full">
+        <div class="rk-user rk-cp-background rk-hide-minimized">
+            <p class="rk-user-title">{{ 'cms_controller_welcome_back'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p>
+            <p class="rk-user-name">{{ app.user.username|capitalize }}</p>
+            <div id="rk-languages"> 
+                <div>{{ 'cms_controller_choose_language'|trans({}, 'RedKiteCmsBundle', cms_language) }}</div>
+                <div>
+                {% include 'RedKiteCmsBundle:Partials:_select.html.twig' with {'id': 'al_available_languages', 'select_options' : available_languages, 'selected' : cms_language, 'class': 'input-sm'}  %}
+                </div>
+            </div>
+        </div>
+        <div class="rk-navigation-panel rk-cp-background rk-hide-minimized">
+            <div class="rk-caption">{{ 'pages_controller_label_languages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</div>
+            <div class="rk-languages-navigator-box">
+                {% include 'RedKiteCmsBundle:Partials:_dropdown_menu.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'text' : language_name, 'value' : language, 'type' : 'al_language_item'}  %}
+            </div>
+            <div class="rk-caption">{{ 'pages_controller_label_site_pages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</div>
+            <div class="rk-pages-navigator-box">
+                {% include 'RedKiteCmsBundle:Partials:_dropdown_menu.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'text' : page_name, 'value' : page, 'type' : 'al_page_item', truncate_text : '20'}  %}
+            </div>     
+        </div>
+        <div class="rk-commands">
+            <ul>
+                <li class="rk-cp-row">
+                    <a href="#" class="rk-start-editor" rel="tooltip" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                        <i class="fa fa-fw fa-edit"></i>
+                        <span class="rk-cm-command-description rk-hide-minimized">{{ 'cms_controller_label_edit'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
+                    </a>
+                    <a href="#" class="rk-stop-editor" rel="tooltip" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                        <i class="fa fa-fw fa-times-circle"></i>
+                        <span class="rk-cm-command-description rk-hide-minimized">{{ 'common_label_stop'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>                        
+                    </a>
+                </li>
+                <li class="rk-cp-row" id="rk-navigation-full-container">
+                    <a href="#" id="rk-navigation-full" rel="tooltip" class="rk-navigation" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                        <i class="fa fa-fw fa-link"></i>
+                    </a>
+                </li>
+                <li class="rk-cp-row">
+                    <a href="#" id="al_open_pages_panel" rel="tooltip" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                        <i class="fa fa-fw fa-files-o"></i>
+                        <span class="rk-cm-command-description rk-hide-minimized">{{ 'cms_controller_label_pages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
+                    </a>
+                </li>
+                <li class="rk-cp-row">
+                    <a href="#" id="al_open_languages_panel" rel="tooltip" title="{{ 'cms_controller_open_languages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                        <i class="fa fa-fw fa-flag"></i>
+                        <span class="rk-cm-command-description rk-hide-minimized">{{ 'cms_controller_label_languages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
+                    </a>
+                </li>
+                <li class="rk-cp-row">
+                    <a href="#" id="al_open_themes_panel" rel="tooltip" title="{{ 'cms_controller_open_themes_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                        <i class="fa fa-fw fa-leaf"></i>
+                        <span class="rk-cm-command-description rk-hide-minimized">{{ 'cms_controller_label_themes'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
+                    </a>
+                </li>
+                {% if is_secure %}
+                <li class="rk-cp-row">                    
+                    <a href="#" id="al_open_users_manager" rel="tooltip" title="{{ 'cms_controller_open_users_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                        <i class="fa fa-fw fa-user"></i>
+                        <span class="rk-cm-command-description rk-hide-minimized">{{ 'cms_controller_label_deploy_security'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
+                    </a>
+                </li>
+                {% endif %} 
+                <li class="rk-cp-row">                    
+                    <a href="#" id="al_open_media_library" rel="tooltip" title="{{ 'cms_controller_open_media_library_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                        <i class="fa fa-fw fa-folder-open"></i>
+                        <span class="rk-cm-command-description rk-hide-minimized">{{ 'cms_controller_label_media_library'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
+                    </a>
+                </li>
+                <li class="rk-cp-row">
+                    <a href="#" class="al_deployer" rel="stage" rel="tooltip" title="{{ 'cms_controller_deploy_stage'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                        <i class="fa fa-fw fa-flask"></i>
+                        <span class="rk-cm-command-description rk-hide-minimized">{{ 'cms_controller_label_deploy_stage'|trans({}, 'RedKiteCmsBundle', cms_language) }}
+                    </a>
+                </li>
+                <li class="rk-cp-row">
+                    <a href="#" class="al_deployer" rel="production" rel="tooltip" title="{{ 'cms_controller_deploy_production'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                        <i class="fa fa-fw fa-upload"></i>
+                        <span class="rk-cm-command-description rk-hide-minimized">{{ 'cms_controller_label_deploy_production'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
+                    </a>
+                </li>
+                {% if is_secure %}
+                <li class="rk-cp-row">
+                    <a href="#" id="al_logout" rel="tooltip" title="{{ 'cms_controller_log_out'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                        <i class="fa fa-fw fa-power-off"></i>
+                        <span class="rk-cm-command-description rk-hide-minimized">{{ 'cms_controller_label_deploy_logout'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
+                    </a>
+                </li>
+                {% endif %} 
+                <li class="rk-cp-row">
+                    <a href="#" id="rk-minimize" rel="tooltip" title="Minimize">
+                        <i class="fa fa-fw fa-caret-left"></i>
+                        <span class="rk-cm-command-description rk-hide-minimized">{{ 'cms_controller_minimize'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
+                    </a>
+                    <a href="#" id="rk-maximize" rel="tooltip" title="Maximize">
+                        <i class="fa fa-fw fa-caret-right"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>    
+</div>
+
+<div id="rk-cp-nav-button">
+    <ul class="list-inline inline al-navigation">
+        <li class="rk-languages-navigator-box">{% include 'RedKiteCmsBundle:Partials:_dropdown_menu.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'text' : language_name, 'value' : language, 'type' : 'al_language_item'}  %}</li>
+        <li class="rk-pages-navigator-box">{% include 'RedKiteCmsBundle:Partials:_dropdown_menu.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'text' : page_name, 'value' : page, 'type' : 'al_page_item'}  %}</li>                
+    </ul>
 </div>
 {% endblock %}
 

@@ -27,7 +27,7 @@
             </thead>
             {% for user in users %}
             <tr>
-                <td>{{ page_icon|raw }}</td>
+                <td><i class="fa fa-user"></i></td>
                 <td width="60%">
                     <a href="#" data-entity-id="{{ user.id }}" class="al_edit_user">{{ user.username }}</a>
                 </td>
@@ -41,7 +41,7 @@
                     {% endif %}
                     <a href="#" {{ deletable }} data-entity-id="{{ user.id }}">
                         <button class="btn btn-xs btn-danger btn-mini {{ disabled }}">
-                            {{ trash_icon|raw }}
+                            <i class="fa fa-trash-o fa-lg"></i>
                         </button>
                     </a>
                 </td>

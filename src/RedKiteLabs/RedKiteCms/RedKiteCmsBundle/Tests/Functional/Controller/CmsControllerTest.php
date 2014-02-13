@@ -156,17 +156,26 @@ class CmsControllerTest extends WebTestCaseFunctional
 
     private function checkToolbar($crawler)
     {
-        $this->assertEquals(1, $crawler->filter('#al_control_panel')->count());
-        $this->check($crawler, '#al_start_editor', "/cms_controller_label_edit|Edit/si");
-        $this->check($crawler, '#al_stop_editor', "/cms_controller_label_stop|Stop/si");
+        $this->assertEquals(1, $crawler->filter('.rk-control-panel')->count());
+        $this->assertEquals(1, $crawler->filter('#rk-up')->count());
+        $this->assertEquals(1, $crawler->filter('#rk-down')->count());
+        $this->assertEquals(1, $crawler->filter('.rk-control-panel-mini')->count());
+        $this->assertEquals(1, $crawler->filter('#rk-control-panel-full')->count());
+        $this->assertEquals(2, $crawler->filter('.rk-start-editor')->count());
+        $this->assertEquals(2, $crawler->filter('.rk-stop-editor')->count());
+        $this->assertEquals(1, $crawler->filter('#rk-navigation-minimized')->count());
+        $this->assertEquals(1, $crawler->filter('.rk-user')->count());
+        $this->assertEquals(1, $crawler->filter('.rk-navigation-panel')->count());
+        $this->assertEquals(3, $crawler->filter('.rk-languages-navigator-box')->count());
+        $this->assertEquals(3, $crawler->filter('.rk-pages-navigator-box')->count());
+        $this->assertEquals(1, $crawler->filter('.rk-commands')->count());
+        $this->assertEquals(1, $crawler->filter('#rk-navigation-full-container')->count());        
         $this->check($crawler, '#al_open_pages_panel', "/cms_controller_label_pages|Pages/si");
         $this->check($crawler, '#al_open_languages_panel', "/cms_controller_label_languages|Languages/si");
         $this->check($crawler, '#al_open_themes_panel', "/cms_controller_label_themes|Themes/si");
-        $this->check($crawler, '#al_open_media_library', "/cms_controller_label_media_library|Media Library/si");        
-        $this->check($crawler, '#al_languages_navigator', "/en/si");        
+        $this->check($crawler, '#al_open_media_library', "/cms_controller_label_media_library|Media Library/si");  
         $el = $crawler->filter('.al_deployer');
         $this->assertEquals(2, $el->count());
-        $this->check($crawler, '#al_pages_navigator', "/index/si");
         $this->check($crawler, '#al_available_languages', "/EnglishItalian/si");
     }
 
@@ -186,10 +195,10 @@ class CmsControllerTest extends WebTestCaseFunctional
         //TODO $this->assertCount(14, $assets);
     }
 
-    private function check($crawler, $element, $value)
+    private function check($crawler, $element, $value, $elements = 1)
     {
         $el = $crawler->filter($element);
-        $this->assertEquals(1, $el->count());
+        $this->assertEquals($elements, $el->count());
         $this->assertRegExp(
             $value,
             trim($el->text())

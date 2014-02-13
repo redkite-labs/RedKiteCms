@@ -18,6 +18,7 @@
 {% block external_stylesheets %}
     {% if enable_yui_compressor is defined and enable_yui_compressor %}
         {% stylesheets filter='?yui_css,cssrewrite' 'components/redkitecms/twitter-bootstrap/3.x/css/bootstrap.min.css'
+                                                    'components/redkitecms/font-awesome/css/font-awesome.min.css'
                                                     'bundles/redkitecms/css/skins/bootstrap/skin.css'
                                                     'bundles/redkitecms/css/skins/bootstrap/skin_3.x.css'
                                                     'components/redkitecms/jquery-ui/themes/smoothness/*'   
@@ -29,6 +30,7 @@
         {% endstylesheets %}
     {% else %}
         {% stylesheets filter='?cssrewrite' 'components/redkitecms/twitter-bootstrap/3.x/css/bootstrap.min.css'
+                                            'components/redkitecms/font-awesome/css/font-awesome.min.css'
                                             'bundles/redkitecms/css/skins/bootstrap/skin.css'
                                             'bundles/redkitecms/css/skins/bootstrap/skin_3.x.css'
                                             'components/redkitecms/jquery-ui/themes/smoothness/*'   

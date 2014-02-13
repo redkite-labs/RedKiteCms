@@ -18,6 +18,7 @@
 {% set panel_class = 'al_panel_contents_width' %}   
 
 <div class="panel-container">
+    {% include 'RedKiteCmsBundle:Panels:_panel_header.html.twig' with { 'title' : 'Languages manager'|trans({}, 'RedKiteCmsBundle', cms_language) } %}
     <div id="al_sidebar_left" class="pull-left pages-left panel-column">
         {% include 'RedKiteCmsBundle:Languages:languages_list.html.twig' %}
     </div>

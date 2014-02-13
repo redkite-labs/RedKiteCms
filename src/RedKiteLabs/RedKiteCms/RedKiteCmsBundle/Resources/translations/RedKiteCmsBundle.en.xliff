@@ -528,24 +528,16 @@
             <target>Nav</target>
         </trans-unit>
         <trans-unit id="cms-controller-25">
-            <source>cms_controller_edit_slots</source>
-            <target>Starts to edit the template slots</target>
+            <source>cms_controller_welcome_back</source>
+            <target>Welcome back</target>
         </trans-unit>
         <trans-unit id="cms-controller-26">
-            <source>cms_controller_label_slots</source>
-            <target>Slots</target>
+            <source>cms_controller_choose_language</source>
+            <target>Choose your language</target>
         </trans-unit>
         <trans-unit id="cms-controller-27">
-            <source>cms_controller_stop_edit_slots</source>
-            <target>Stops to edit the template slots</target>
-        </trans-unit>
-        <trans-unit id="cms-controller-28">
-            <source>cms_controller_finalize_slots</source>
-            <target>Finalizes the change of the website theme. This command should be used when all the templates slots have been mapped each other</target>
-        </trans-unit>
-        <trans-unit id="cms-controller-29">
-            <source>cms_controller_label_finalize</source>
-            <target>Finalize</target>
+            <source>cms_controller_minimize</source>
+            <target>Minimize</target>
         </trans-unit>
         
         <!-- CONFIGURATION CONTROLLER -->

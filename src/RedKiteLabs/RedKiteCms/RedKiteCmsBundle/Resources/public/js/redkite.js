@@ -14,6 +14,8 @@
  *
  */
 
+
+
 ;(function( $ ){    
     var stopBlocksMenu = false;
     var isCursorOverEditor = false;
@@ -394,43 +396,11 @@ function translate(value, placeholders)
 
 $(document).ready(function(){
     try
-    {   
-        $('#al_finalize_theme').click(function() {  
-            try{
-                $.ajax({
-                    type: 'POST',
-                    url: frontController + 'backend/' + $('#al_available_languages option:selected').val() + '/al_showThemesFinalizer',
-                    data: {
-                        'page' :  $('#al_pages_navigator').html(),
-                        'language' : $('#al_languages_navigator').html()
-                    },
-                    beforeSend: function()
-                    {
-                        $('body').AddAjaxLoader();
-                    },
-                    success: function(html)
-                    {
-                        $('body').showDialog(html, {buttons: null});
-                    },
-                    error: function(err)
-                    {
-                        $('body').showAlert(err.responseText, 0, 'alert-error alert-danger');
-                    },
-                    complete: function()
-                    {
-                        $('body').RemoveAjaxLoader();
-                    }
-                });
-            }
-            catch(e){
-                $('body').showAlert('An unespected error occoured in redkite.js file while finalizing the theme. Here is the error from the server:<br/><br/>' + e + '<br/><br/>Please open an issue at <a href="https://github.com/redkite-labs/RedKiteCmsBundle/issues">Github</a> reporting this entire message.', 0, 'alert-error alert-danger');
-            }
-
-            return false;
-        });
+    { 
+        $('body').controlPanel('init');
         
         $('#al_start_slots_management').click(function() {
-            if ($('#al_stop_editor').is(':visible')) {    
+            if ($('.rk-stop-editor').is(':visible')) {    
                 alert(translate("This operation is not allowed when you are editing the contents"));
                 
                 return false;
@@ -472,25 +442,23 @@ $(document).ready(function(){
             return false;
         });
             
-        $('#al_start_editor').click(function()
-        {
-            if ($('#al_stop_slots_management').is(':visible')) {
-                alert(translate("This operation is not allowed when you are editing the slots"));
-                
-                return false;
-            }
-            
+        $('.rk-start-editor').click(function()
+        {   
             $('[data-editor="enabled"]').blocksEditor('start');
+            $('.rk-stop-editor').show();
+            $('.rk-start-editor').hide();
 
             return false;
         });
 
-        $('#al_stop_editor').click(function()
+        $('.rk-stop-editor').click(function()
         {
             $('[data-editor="enabled"]').trigger("editorStopping").blocksEditor('stop');
             $('.al_block_menu').hide();
             $('#al_block_menu_toolbar').hide();
             $('.al_blocks_list').hide();
+            $('.rk-start-editor').show();
+            $('.rk-stop-editor').hide();
 
             return false;
         });
@@ -515,7 +483,7 @@ $(document).ready(function(){
         
         $("#al_toggle_slots_changer a").click(function ()
         {
-            if ($('#al_stop_editor').is(':visible')) {    
+            if ($('.rk-stop-editor').is(':visible')) {    
                 return false;
             }
             
@@ -652,7 +620,6 @@ $(document).ready(function(){
                     success: function(html)
                     {
                         $('#al_panel').OpenPanel(html, function(){
-                            //ObserveThemeCommands();
                             $('body').manageTheme('init');
                         });
                     },

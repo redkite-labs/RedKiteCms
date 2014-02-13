@@ -203,7 +203,7 @@
                     });
                     break;
                 case "languages_menu":
-                    $('#al_languages_navigator_box').html(item.value);
+                    $('.rk-languages-navigator-box').html(item.value);
                     $('.al_language_item').click(function()
                     {
                         Navigate($(this).attr('rel'), $('#al_pages_navigator').html());

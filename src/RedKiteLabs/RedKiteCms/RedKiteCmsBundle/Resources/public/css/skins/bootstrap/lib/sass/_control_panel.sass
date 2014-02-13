@@ -11,122 +11,192 @@
 //
 // @license    GPL LICENSE Version 2.0
 
+$cp_color: #e8e6e3
+$cp_brand_color: #252525
+$cp_brand_bottom_border_color: #fff
+$cp_user_color: #d7d7d7
+$cp_dark_row_border: #909090
+$cp_medium_row_border: #d1d1d1
+$cp_light_row_border: #eaeaea
+$cp_commands_color: #323222
+$cp_width: 170px
+$cp_row_max_width: 166px
+$cp_row_min_width: 36px
+$cp_icons_size: 22px
+$cp_command_link_size: 16px
+$cp_mini_width: 40px
+$cp_start_editor_color: #369600
+$cp_stop_editor_color: #c20000
+$cp_navigation_menu_color: $cp_dark_row_border
+$cp_arrow_up_color: $cp_commands_color
+$cp_link_hover: #ee6600
 
-
-#al_control_panel
+.rk-control-panel
     :position fixed
-    :top 0
     :left 0
-    :width 100%
     :z-index $toolbar-zindex
     :font $toolbarFont
+    :color $cp_commands_color
+    :background $cp_color 
+    :border-top 1px solid $cp_dark_row_border
+    :border-bottom 1px solid $cp_dark_row_border
+    :z-index $toolbar-zindex
+    +box-shadow($cp_dark_row_border -2px -2px 4px inset)
+    
+    .fa
+        font-size: $cp_icons_size
+        color: $cp_commands_color
+        +text-shadow(#fff 1px 1px 0, #fff 2px 2px 0, #fff 1px 1px 0)
 
-#al_control_panel_body   
-    :height 40px
-    :display none
-    :background-color #333
+    ul
+        :margin 0
+        :padding 0
 
-#al_commands
-    :height 20px
-    :padding 10px
+        a
+            :color $cp_commands_color
+            :font-size $cp_command_link_size
 
     a
-        color: white
+        :text-decoration none
 
-    a:hover
-        color: #FF9900
+    a:hover, a:hover .fa
+        :color $cp_link_hover
 
-    .al-brand 
-        :font-size 20px
+    .rk-cp-row
+        :border-top 1px solid $cp_light_row_border
+        :border-bottom 1px solid $cp_medium_row_border
+
+.rk-control-panel-mini
+    :width $cp_mini_width
+
+.rk-control-panel-minimized
+    :width $cp_mini_width
+    :height 100%
+
+.rk-control-panel-maximized
+    :width $cp_width
+    :height 100%
+
+.rk-panel-commands
+    :width $cp_row_max_width
+    :height 30px
+    :padding 4px
+
+.rk-brand
+    :padding 10px 8px
+
+    .rk-cp-logo
+        :padding-left 4px
+        :display none
+
+    button
+        padding: 0
+        margin: 0 
+        border: 0
+        background-color: transparent
+
+    .icon-bar 
+        display: block
+        width: 22px
+        height: 4px
+        border-radius: 2px
+        background-color: $cp_commands_color
+
+    .icon-bar + .icon-bar
+        margin-top: 3px
+
+
+.rk-user
+    :border-top 1px solid $cp_dark_row_border
+    :border-bottom 1px solid $cp_dark_row_border
+    :background-color $cp_user_color
+    :width $cp_row_max_width
+    :height 110px 
+    :padding 6px 10px
+
+    .rk-user-title
         :font-weight bold
-        :color #fff
-        :margin-right 8px
+        :font-size 16px
+        :margin-bottom 8px
 
-#al_languages
-    :height 15px
-    :padding 4px 14px 0  0
+    .rk-user-name
+        :font-size 14px
+        :margin-bottom 2px
 
-#al_main_commands
+    .rk-user-role
+        :font-style italic
+        :font-size 12px
+        :margin-bottom 6px
+
+#rk-languages    
+    :margin-top 8px
+    :font-size 12px
+
+    select
+        :padding 2px
+        :height 24px
+        :margin-top 4px
+        :font-size 12px
+
+.rk-navigation-panel
+    :border-top 1px solid $cp_light_row_border
+    :border-bottom 1px solid $cp_medium_row_border
+    :width $cp_row_max_width
+    :height 120px
+    :padding 4px
+
+    .rk-caption
+        :margin-top 6px
+
+    > div
+        :padding 2px
+
+#rk-cp-nav-button
+    :background $cp_navigation_menu_color
+    :width auto
+    :height 37px
+    :padding 6px
     :position fixed
-    :top 120px
-    :left 0
-    :display block
-    :z-index $toolbar-commands-zindex
-
-    p
-        color: white
-        :font bold 16px Arial, Verdana, Helvetica, sans-serif
-
-    .al_img_edit, .al_img_stop_edit, .al_img_slots, .al_img_finalize, .al_img_back
-        :width 93px
-        :height 47px
-
-        p
-            :padding-left 38px
-            :padding-top 10px
-
-    .al_img_edit
-        :background transparent url('images/toolbar/edit.png') top left no-repeat
-
-    .al_img_stop_edit
-        :background transparent url('images/toolbar/stop.png') top left no-repeat
-
-        p
-            :padding-left 34px
-
-    .al_img_slots
-        :background transparent url('images/toolbar/slots.png') top left no-repeat
-
-    .al_img_finalize
-        :background transparent url('images/toolbar/finalize.png') top left no-repeat
-        
-        p
-            :font-size 12px
-            :padding-top 14px
-
-    .al_img_back
-        :background transparent url('images/toolbar/back.png') top left no-repeat
-
-    .al_img_nav
-        :width 93px
-        :height 47px
-        :background transparent url('images/toolbar/nav.png') top left no-repeat
-
-        p
-            :padding-left 38px
-            :padding-top 10px
-
-    .al_tab_text
-        :font $panelFontH3
-        :color white
-
-#al_toggle_nav_button
-    :padding 5px 6px
-    :height 47px
-    :background transparent url('images/toolbar/nav-body.png') top left repeat-x
+    :border-top 1px solid $cp_light_row_border
+    :border-right 1px solid $cp_light_row_border
+    :border-bottom 1px solid $cp_light_row_border
     :display none
-    
-#al_tab
-    :position fixed
-    :top 0
-    :left 0
-    :width 100%
-    :height 2px
-    :background-color #333
-    :border-bottom 1px solid #ccc
-    +box-shadow(#333 3px 3px 3px)   
-    :z-index $toolbar-tab-zindex    
+    :z-index $toolbar-zindex
+    +border-radius(0 10px 10px 0)
+ 
+.rk-start-editor
+    .fa
+        :color $cp_start_editor_color
+        :font-weight bold
 
-    .al_tab
-        :position relative
-        :width 68px   
-        :margin 0 auto
-        :background-color trasparent
-        :height 30px 
-        :cursor pointer
-
-    .al_tab_open
-        :background transparent url('images/toolbar/tab.png') top left no-repeat
+    .fa:hover
+        :color $cp_stop_editor_color
     
-    .al_tab_close
-        :background transparent url('images/toolbar/tab-close.png') top left no-repeat
+.rk-stop-editor
+    :display none
+    .fa
+        :color $cp_stop_editor_color
+        :font-weight bold
+
+    .fa:hover
+        :color $cp_start_editor_color
+
+#rk-up, #rk-down
+    :width $cp_row_min_width
+    :height 14px
+    :background $cp_color
+
+.arrow
+    width: 0
+    height: 0 
+    padding: 2px 0
+    border-left: 6px solid transparent 
+    border-right: 6px solid transparent
+    position: absolute
+    left: 35%
+
+.arrow-up
+    border-bottom: 10px solid $cp_arrow_up_color
+
+.arrow-bottom
+    border-top: 10px solid $cp_arrow_up_color
