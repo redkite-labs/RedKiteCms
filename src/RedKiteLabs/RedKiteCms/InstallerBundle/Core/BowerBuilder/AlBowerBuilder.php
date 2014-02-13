@@ -41,18 +41,27 @@ class AlBowerBuilder
     }
 
     /**
-     * Builds the component.json file
+     * Build bower files
      *
-     * @param string $filePath
+     * @param string $webPath The path to the web directory
+     * @param string|null $projectRoot The project root directory where the files saved
      */
-    public function build($filePath)
+    public function build($webPath, $projectRoot=null)
     {
+        if (empty($projectRoot)) {
+            $projectRoot = dirname($this->kernel->getRootDir());
+        }
+
         $components = array(
             "name" => "RedKite CMS",
             "dependencies" => $this->parse(),
         );
+        @file_put_contents($projectRoot.'/bower.json', json_encode($components));
 
-        @file_put_contents($filePath, json_encode($components));
+        $bowerrc = array(
+            "directory" => $webPath
+        );
+        @file_put_contents($projectRoot.'/.bowerrc', json_encode($bowerrc));
     }
 
     /**
