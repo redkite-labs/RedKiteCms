@@ -1,0 +1,1255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="modern_business_theme.theme.template.slots.navbar_box" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">navbar_box</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="blockType">BootstrapNavbarBlock</argument>
+                <argument key="blockDefinition">{"inverted":"navbar-inverse","items":[{"blockType":"BootstrapNavbarMenuBlock","alignment":"navbar-right","items":[{"blockType":"Link","0":{"value":"About"}},{"blockType":"Link","0":{"value":"Services"}},{"blockType":"Link","0":{"value":"Contact"}}]}]}</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.copyright_box" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">copyright_box</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<p>Copyright &copy; Company 2013</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.slider_box" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">slider_box</argument>
+            <argument type="collection" >
+                <argument key="repeated">language</argument>
+                <argument key="blockType">BootstrapSliderBlock</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/1900x350"},{"data_src":"holder.js\/1900x350"},{"data_src":"holder.js\/1900x350"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.hp_content_box_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">hp_content_box_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h3><i class="fa fa-check-circle"></i> Bootstrap 3 Built</h3><p>The 'Modern Business' website template by <a href="http://startbootstrap.com">Start Bootstrap</a> is built with <a href="http://getbootstrap.com">Bootstrap 3</a>. Make sure you're up to date with latest Bootstrap documentation!</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.hp_content_box_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">hp_content_box_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h3><i class="fa fa-pencil"></i> Ready to Style &amp; Edit</h3><p>You're ready to go with this pre-built page structure, now all you need to do is add your own custom stylings! You can see some free themes over at <a href="http://bootswatch.com">Bootswatch</a>, or come up with your own using <a href="http://getbootstrap.com/customize/">the Bootstrap customizer</a>!</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.hp_content_box_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">hp_content_box_3</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h3><i class="fa fa-folder-open"></i> Many Page Options</h3><p>This template features many common pages that you might see on a business website. Pages include: about, contact, portfolio variations, blog, pricing, FAQ, 404, services, and general multi-purpose pages.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.hp_content_box_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">hp_content_box_4</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Modern Business: A Clean &amp; Simple Full Website Template by Start Bootstrap</h2><p>A complete website design featuring various single page templates from Start Bootstraps library of free HTML starter templates.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_title_box" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_title_box</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Display Some Work on the Home Page Portfolio</h2>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_box_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_box_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250","class":"img-responsive img-home-portfolio"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_box_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_box_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250","class":"img-responsive img-home-portfolio"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_box_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_box_3</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250","class":"img-responsive img-home-portfolio"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_box_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_box_4</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250","class":"img-responsive img-home-portfolio"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_box_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_box_5</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250","class":"img-responsive img-home-portfolio"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_box_6" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_box_6</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250","class":"img-responsive img-home-portfolio"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.hp_content_box_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">hp_content_box_5</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Modern Business Features Include:</h2><ul><li>Bootstrap 3 Framework</li><li>Mobile Responsive Design</li><li>Predefined File Paths</li><li>Working PHP Contact Page</li><li>Minimal Custom CSS Styles</li><li>Unstyled: Add Your Own Style and Content!</li><li>Font-Awesome fonts come pre-installed!</li><li>100% <strong>Free</strong> to Use</li><li>Open Source: Use for any project, private or commercial!</li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.hp_content_box_6" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">hp_content_box_6</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250\/#fff:#999","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.hp_content_box_7" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">hp_content_box_7</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250\/#fff:#999","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.hp_content_box_8" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">hp_content_box_8</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Modern Business Features Include:</h2><ul><li>Bootstrap 3 Framework</li><li>Mobile Responsive Design</li><li>Predefined File Paths</li><li>Working PHP Contact Page</li><li>Minimal Custom CSS Styles</li><li>Unstyled: Add Your Own Style and Content!</li><li>Font-Awesome fonts come pre-installed!</li><li>100% <strong>Free</strong> to Use</li><li>Open Source: Use for any project, private or commercial!</li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.hp_content_box_9" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">hp_content_box_9</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h4>'Modern Business' is a ready-to-use, Bootstrap 3 updated, multi-purpose HTML theme!</h4><p>For more templates and more page options that you can integrate into this website template, visit Start Bootstrap!</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.hp_content_box_10" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">hp_content_box_10</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapButtonBlock</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_page_header" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_page_header</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapPageHeaderBlock</argument>
+                <argument key="blockDefinition">[{"page_header_title":"About","page_header_subtitle":"It's Nice to Meet You!"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_bread_crumb" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_bread_crumb</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapBreadcrumbBlock</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_team_title" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_team_title</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapPageHeaderBlock</argument>
+                <argument key="blockDefinition">[{"page_header_title":"Our Team","page_header_subtitle":null,"page_header_tag":"h2"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_picture_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_picture_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250\/#fff:#999","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_description_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_description_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h3>John Smith
+    <small>Job Title</small></h3><p>What does this team member do? Keep it short! This is also a great spot for social links!</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_social_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_social_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<strong>Replace me with social icons for this member team</strong>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_picture_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_picture_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250\/#fff:#999","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_description_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_description_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h3>John Smith
+    <small>Job Title</small></h3><p>What does this team member do? Keep it short! This is also a great spot for social links!</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_social_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_social_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<strong>Replace me with social icons for this member team</strong>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_picture_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_picture_3</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250\/#fff:#999","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_description_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_description_3</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h3>John Smith
+    <small>Job Title</small></h3><p>What does this team member do? Keep it short! This is also a great spot for social links!</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_social_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_social_3</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<strong>Replace me with social icons for this member team</strong>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_picture_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_picture_4</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250\/#fff:#999","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_description_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_description_4</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h3>John Smith
+    <small>Job Title</small></h3><p>What does this team member do? Keep it short! This is also a great spot for social links!</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_social_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_social_4</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<strong>Replace me with social icons for this member team</strong>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_picture_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_picture_5</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250\/#fff:#999","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_description_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_description_5</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h3>John Smith
+    <small>Job Title</small></h3><p>What does this team member do? Keep it short! This is also a great spot for social links!</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_social_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_social_5</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<strong>Replace me with social icons for this member team</strong>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_picture_6" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_picture_6</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x250\/#fff:#999","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_description_6" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_description_6</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h3>John Smith
+    <small>Job Title</small></h3><p>What does this team member do? Keep it short! This is also a great spot for social links!</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_member_social_6" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_member_social_6</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<strong>Replace me with social icons for this member team</strong>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_customers_title" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_customers_title</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapPageHeaderBlock</argument>
+                <argument key="blockDefinition">[{"page_header_title":"Our Customers","page_header_subtitle":null,"page_header_tag":"h2"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_content_box_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_content_box_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/700x350","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_content_box_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_content_box_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<h2>Welcome to 'Modern Business'</h2><p>This is a great place to introduce your company or project and describe what you do. This about page features general company information, employee bios, and other helpful elements.</p><p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets.. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_customers_box_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_customers_box_1</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/500x100","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_customers_box_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_customers_box_2</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/500x100","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_customers_box_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_customers_box_3</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/500x100","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_customers_box_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_customers_box_4</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/500x100","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_customers_box_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_customers_box_5</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/500x100","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.about_customers_box_6" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">about_customers_box_6</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/500x100","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.faq_page_header" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">faq_page_header</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapPageHeaderBlock</argument>
+                <argument key="blockDefinition">[{"page_header_title":"FAQ","page_header_subtitle":"Frequently Asked Questions"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.faq_bread_crumb" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">faq_bread_crumb</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapBreadcrumbBlock</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.faq_box" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">faq_box</argument>
+            <argument type="collection" >
+                <argument key="blockType">BootstrapAccordionBlock</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.services_page_header" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">services_page_header</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapPageHeaderBlock</argument>
+                <argument key="blockDefinition">[{"page_header_title":"Services","page_header_subtitle":"What We Do"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.services_images_page_header" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">services_images_page_header</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapPageHeaderBlock</argument>
+                <argument key="blockDefinition">[{"page_header_title":"Service Images","page_header_subtitle":null,"page_header_tag":"h2"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.services_bread_crumb" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">services_bread_crumb</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapBreadcrumbBlock</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.services_top_image_box" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">services_top_image_box</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/1200x300","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.services_content_box_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">services_content_box_1</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h2 class="page-header">Our Premium Services</h2><p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.services_content_box_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">services_content_box_2</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h2 class="page-header">Something More</h2><p>Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets.</p><a class="btn btn-primary" href="#">Click Me!</a>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.services_image_box_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">services_image_box_1</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.services_content_box_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">services_content_box_3</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3>Service One</h3><p>Service one description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst.</p><a class="btn btn-link btn-sm pull-right">More <i class="fa fa-angle-right"></i></a>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.services_image_box_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">services_image_box_2</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.services_content_box_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">services_content_box_4</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3>Service Two</h3><p>Service two description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst.</p><a class="btn btn-link btn-sm pull-right">More <i class="fa fa-angle-right"></i></a>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.services_image_box_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">services_image_box_3</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.services_content_box_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">services_content_box_5</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3>Service Three</h3><p>Service three description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst.</p><a class="btn btn-link btn-sm pull-right">More <i class="fa fa-angle-right"></i></a>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_1_page_header" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_1_page_header</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapPageHeaderBlock</argument>
+                <argument key="blockDefinition">[{"page_header_title":"One Column Portfolio","page_header_subtitle":"Showcase Your Work"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_1_bread_crumb" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_1_bread_crumb</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapBreadcrumbBlock</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_1_image_box_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_1_image_box_1</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_1_content_box_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_1_content_box_1</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3>Project Name</h3><h4>Subheading</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p><a class="btn btn-primary" href="portfolio-item.html">View Project <i class="fa fa-angle-right"></i></a>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_1_image_box_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_1_image_box_2</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_1_content_box_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_1_content_box_2</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3>Project Name</h3><h4>Subheading</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p><a class="btn btn-primary" href="portfolio-item.html">View Project <i class="fa fa-angle-right"></i></a>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_1_image_box_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_1_image_box_3</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_1_content_box_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_1_content_box_3</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3>Project Name</h3><h4>Subheading</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p><a class="btn btn-primary" href="portfolio-item.html">View Project <i class="fa fa-angle-right"></i></a>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_1_image_box_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_1_image_box_4</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_1_content_box_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_1_content_box_4</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3>Project Name</h3><h4>Subheading</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p><a class="btn btn-primary" href="portfolio-item.html">View Project <i class="fa fa-angle-right"></i></a>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_1_image_box_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_1_image_box_5</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_1_content_box_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_1_content_box_5</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3>Project Name</h3><h4>Subheading</h4><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p><a class="btn btn-primary" href="portfolio-item.html">View Project <i class="fa fa-angle-right"></i></a>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_1_pagination" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_1_pagination</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="pagination"><li><a href="#">&laquo;</a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li><a href="#">&raquo;</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_page_header" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_page_header</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapPageHeaderBlock</argument>
+                <argument key="blockDefinition">[{"page_header_title":"Two Column Portfolio","page_header_subtitle":"Showcase Your Work"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_bread_crumb" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_bread_crumb</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapBreadcrumbBlock</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_image_item_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_image_item_1</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_item_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_item_1</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_image_item_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_image_item_2</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_item_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_item_2</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_image_item_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_image_item_3</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_item_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_item_3</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_image_item_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_image_item_4</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_item_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_item_4</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_image_item_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_image_item_5</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_item_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_item_5</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_image_item_6" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_image_item_6</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x250","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_item_6" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_item_6</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_2_pagination" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_2_pagination</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="pagination"><li><a href="#">&laquo;</a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li><a href="#">&raquo;</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_page_header" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_page_header</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapPageHeaderBlock</argument>
+                <argument key="blockDefinition">[{"page_header_title":"Three Column Portfolio","page_header_subtitle":"Showcase Your Work"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_bread_crumb" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_bread_crumb</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapBreadcrumbBlock</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_image_item_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_image_item_1</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_item_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_item_1</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_image_item_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_image_item_2</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_item_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_item_2</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_image_item_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_image_item_3</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_item_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_item_3</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_image_item_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_image_item_4</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_item_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_item_4</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_image_item_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_image_item_5</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_item_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_item_5</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_image_item_6" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_image_item_6</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_item_6" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_item_6</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_image_item_7" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_image_item_7</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_item_7" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_item_7</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_image_item_8" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_image_item_8</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_item_8" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_item_8</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_image_item_9" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_image_item_9</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_item_9" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_item_9</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3><a href="portfolio-item.html">Project Name</a></h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_3_pagination" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_3_pagination</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<ul class="pagination"><li><a href="#">&laquo;</a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li><a href="#">3</a></li><li><a href="#">4</a></li><li><a href="#">5</a></li><li><a href="#">&raquo;</a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_page_header" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_page_header</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapPageHeaderBlock</argument>
+                <argument key="blockDefinition">[{"page_header_title":"Four Column Portfolio","page_header_subtitle":"Showcase Your Work"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_bread_crumb" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_bread_crumb</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapBreadcrumbBlock</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_item_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_item_1</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_item_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_item_2</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_item_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_item_3</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_item_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_item_4</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_item_5" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_item_5</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_item_6" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_item_6</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_item_7" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_item_7</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_item_8" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_item_8</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_item_9" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_item_9</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_item_10" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_item_10</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_item_11" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_item_11</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_4_item_12" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_4_item_12</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x200","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_item_page_header" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_item_page_header</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapPageHeaderBlock</argument>
+                <argument key="blockDefinition">[{"page_header_title":"Single Portfolio Item","page_header_subtitle":"Explain Your Work"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_item_bread_crumb" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_item_bread_crumb</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapBreadcrumbBlock</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_item_image" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_item_image</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/750x300","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_item_description" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_item_description</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3>Project Description</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p><h3>Project Details</h3><ul><li>Lorem Ipsum</li><li>Dolor Sit Amet</li><li>Consectetur</li><li>Adipiscing Elit</li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_item_related_project_box_1" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_item_related_project_box_1</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/500x150","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_item_related_project_box_2" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_item_related_project_box_2</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/500x150","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_item_related_project_box_3" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_item_related_project_box_3</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/500x150","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.portfolio_item_related_project_box_4" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">portfolio_item_related_project_box_4</argument>
+            <argument type="collection" >
+                <argument key="blockType">Image</argument>
+                <argument key="blockDefinition">[{"data_src":"holder.js\/500x150","class":"img-responsive"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.contact_page_header" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">contact_page_header</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapPageHeaderBlock</argument>
+                <argument key="blockDefinition">[{"page_header_title":"Contact","page_header_subtitle":"We'd Love to Hear From You!"}]</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.contact_bread_crumb" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">contact_bread_crumb</argument>
+            <argument type="collection" >
+                <argument key="repeated">page</argument>
+                <argument key="blockType">BootstrapBreadcrumbBlock</argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.contact_map" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">contact_map</argument>
+            <argument type="collection" >
+                <argument key="blockType">Script</argument>
+                <argument key="htmlContent">
+                    <![CDATA[<iframe width="100%" height="400px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?hl=en&amp;ie=UTF8&amp;ll=37.0625,-95.677068&amp;spn=56.506174,79.013672&amp;t=m&amp;z=4&amp;output=embed"></iframe>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.contact_form" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">contact_form</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3>Let's Get In Touch!</h3><p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p><form role="form" method="POST" action="contact-form-submission.php"><div class="row"><div class="form-group col-lg-4"><label for="input1">Name</label><input type="text" name="contact_name" class="form-control" id="input1"></div><div class="form-group col-lg-4"><label for="input2">Email Address</label><input type="email" name="contact_email" class="form-control" id="input2"></div><div class="form-group col-lg-4"><label for="input3">Phone Number</label><input type="phone" name="contact_phone" class="form-control" id="input3"></div><div class="clearfix"></div><div class="form-group col-lg-12"><label for="input4">Message</label><textarea name="contact_message" class="form-control" rows="6" id="input4"></textarea></div><div class="form-group col-lg-12"><input type="hidden" name="save" value="contact"><button type="submit" class="btn btn-primary">Submit</button></div></div></form>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+        <service id="modern_business_theme.theme.template.slots.contact_address" class="%red_kite_labs_theme_engine.slot.class%" public="false">
+            <argument type="string">contact_address</argument>
+            <argument type="collection" >
+                <argument key="htmlContent">
+                    <![CDATA[<h3>Modern Business</h3><h4>A Start Bootstrap Template</h4><p>
+  5555 44th Street N.<br>
+  Bootstrapville, CA 32323<br></p><p><i class="fa fa-phone"></i><abbr title="Phone">P</abbr>: (555) 984-3600</p><p><i class="fa fa-envelope-o"></i><abbr title="Email">E</abbr>: <a href="mailto:feedback@startbootstrap.com">feedback@startbootstrap.com</a></p><p><i class="fa fa-clock-o"></i><abbr title="Hours">H</abbr>: Monday - Friday: 9:00 AM to 5:00 PM</p><ul class="list-unstyled list-inline list-social-icons"><li class="tooltip-social facebook-link"><a href="#facebook-page" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook-square fa-2x"></i></a></li><li class="tooltip-social linkedin-link"><a href="#linkedin-company-page" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i class="fa fa-linkedin-square fa-2x"></i></a></li><li class="tooltip-social twitter-link"><a href="#twitter-profile" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter-square fa-2x"></i></a></li><li class="tooltip-social google-plus-link"><a href="#google-plus-page" data-toggle="tooltip" data-placement="top" title="Google+"><i class="fa fa-google-plus-square fa-2x"></i></a></li></ul>]]>
+                </argument>
+            </argument>
+            <tag name="modern_business_theme.theme.template.slot" />
+        </service>
+    </services>
+</container>

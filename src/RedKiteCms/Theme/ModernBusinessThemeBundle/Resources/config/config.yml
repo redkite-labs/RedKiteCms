@@ -1,0 +1,6 @@
+assetic:
+  bundles: [ ModernBusinessThemeBundle ]
+  
+red_kite_labs_theme_engine:
+  bootstrap:
+    theme: [{theme: ModernBusinessThemeBundle, version: 3.x}]

@@ -1,0 +1,8 @@
+{
+    "autoload": {
+        "psr-0": { "RedKiteCms\\Theme\\ModernBusinessThemeBundle": ""
+        }
+    },
+    "target-dir" : "RedKiteCms/Theme/ModernBusinessThemeBundle",
+    "minimum-stability": "dev"
+}

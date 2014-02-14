@@ -1,0 +1,23 @@
+{% extends 'ModernBusinessThemeBundle:Theme:base/base.html.twig' %}
+
+{% use 'ModernBusinessThemeBundle:Slots:slots.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                {{ block('faq_page_header') }}
+                {{ block('faq_bread_crumb') }} 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                {{ block('faq_box') }}
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+{% endblock %}

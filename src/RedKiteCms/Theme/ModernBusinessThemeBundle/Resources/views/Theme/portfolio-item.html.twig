@@ -1,0 +1,59 @@
+{% extends 'ModernBusinessThemeBundle:Theme:base/base.html.twig' %}
+
+{% use 'ModernBusinessThemeBundle:Slots:slots.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                {{ block('portfolio_item_page_header') }}
+                {{ block('portfolio_item_bread_crumb') }} 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                {{ block('portfolio_item_image') }}
+            </div>
+
+            <div class="col-md-4">
+                {{ block('portfolio_item_description') }}
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                <h3 class="page-header">Related Projects</h3>
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                {{ block('portfolio_item_related_project_box_1') }}                
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                {{ block('portfolio_item_related_project_box_2') }}  
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                {{ block('portfolio_item_related_project_box_3') }}  
+            </div>
+
+            <div class="col-sm-3 col-xs-6">
+                {{ block('portfolio_item_related_project_box_4') }}  
+            </div>
+
+        </div>
+        
+        <hr>
+        
+        <div class="row text-center">
+            <div class="col-lg-12">
+                {{ block('portfolio_3_pagination') }}                
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+{% endblock %}

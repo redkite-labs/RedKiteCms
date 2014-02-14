@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="modern_business_theme.services.slots" type="collection">
+            <parameter>services_page_header</parameter>
+            <parameter>services_bread_crumb</parameter>
+            <parameter>services_top_image_box</parameter>
+            <parameter>services_content_box_1</parameter>
+            <parameter>services_content_box_2</parameter>
+            <parameter>services_images_page_header</parameter>
+            <parameter>services_image_box_1</parameter>
+            <parameter>services_content_box_3</parameter>
+            <parameter>services_image_box_2</parameter>
+            <parameter>services_content_box_4</parameter>
+            <parameter>services_image_box_3</parameter>
+            <parameter>services_content_box_5</parameter>
+            <parameter>navbar_box</parameter>
+            <parameter>copyright_box</parameter>
+        </parameter>
+    </parameters>
+
+    <services>
+        <service id="modern_business_theme.theme.template_assets.services" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">
+        </service>
+
+        <service id="modern_business_theme.theme.template.services" class="%red_kite_labs_theme_engine.template.class%" public="false">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="modern_business_theme.theme.template_assets.services" />
+            <tag name="modern_business_theme.theme.template" />
+
+            <call method="setThemeName">
+                <argument type="string">ModernBusinessThemeBundle</argument>
+            </call>
+            <call method="setTemplateName">
+                <argument type="string">services</argument>
+            </call>
+            <call method="setSlots">
+                <argument>%modern_business_theme.services.slots%</argument>
+            </call>
+        </service>
+    </services>
+</container>

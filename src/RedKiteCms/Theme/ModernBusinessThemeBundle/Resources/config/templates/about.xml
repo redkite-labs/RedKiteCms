@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="modern_business_theme.about.slots" type="collection">
+            <parameter>about_page_header</parameter>
+            <parameter>about_bread_crumb</parameter>
+            <parameter>about_content_box_1</parameter>
+            <parameter>about_content_box_2</parameter>
+            <parameter>about_team_title</parameter>
+            <parameter>about_member_picture_1</parameter>
+            <parameter>about_member_description_1</parameter>
+            <parameter>about_member_social_1</parameter>
+            <parameter>about_member_picture_2</parameter>
+            <parameter>about_member_description_2</parameter>
+            <parameter>about_member_social_2</parameter>
+            <parameter>about_member_picture_3</parameter>
+            <parameter>about_member_description_3</parameter>
+            <parameter>about_member_social_3</parameter>
+            <parameter>about_member_picture_4</parameter>
+            <parameter>about_member_description_4</parameter>
+            <parameter>about_member_social_4</parameter>
+            <parameter>about_member_picture_5</parameter>
+            <parameter>about_member_description_5</parameter>
+            <parameter>about_member_social_5</parameter>
+            <parameter>about_member_picture_6</parameter>
+            <parameter>about_member_description_6</parameter>
+            <parameter>about_member_social_6</parameter>
+            <parameter>about_customers_title</parameter>
+            <parameter>about_customers_box_1</parameter>
+            <parameter>about_customers_box_2</parameter>
+            <parameter>about_customers_box_3</parameter>
+            <parameter>about_customers_box_4</parameter>
+            <parameter>about_customers_box_5</parameter>
+            <parameter>about_customers_box_6</parameter>
+            <parameter>navbar_box</parameter>
+            <parameter>copyright_box</parameter>
+        </parameter>
+    </parameters>
+
+    <services>
+        <service id="modern_business_theme.theme.template_assets.about" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">
+        </service>
+
+        <service id="modern_business_theme.theme.template.about" class="%red_kite_labs_theme_engine.template.class%" public="false">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="modern_business_theme.theme.template_assets.about" />
+            <tag name="modern_business_theme.theme.template" />
+
+            <call method="setThemeName">
+                <argument type="string">ModernBusinessThemeBundle</argument>
+            </call>
+            <call method="setTemplateName">
+                <argument type="string">about</argument>
+            </call>
+            <call method="setSlots">
+                <argument>%modern_business_theme.about.slots%</argument>
+            </call>
+        </service>
+    </services>
+</container>

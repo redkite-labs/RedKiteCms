@@ -1,0 +1,62 @@
+{% extends 'ModernBusinessThemeBundle:Theme:base/base.html.twig' %}
+
+{% use 'ModernBusinessThemeBundle:Slots:slots.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                {{ block('services_page_header') }}
+                {{ block('services_bread_crumb') }} 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                {{ block('services_top_image_box') }}
+            </div>
+        </div>
+        
+        <!-- Service Paragraphs -->
+
+        <div class="row">
+
+            <div class="col-md-8">
+                {{ block('services_content_box_1') }}
+            </div>
+
+            <div class="col-md-4">
+                {{ block('services_content_box_2') }}                
+            </div>
+
+        </div>
+        
+        <!-- Service Images -->
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                {{ block('services_images_page_header') }}
+            </div>
+
+            <div class="col-sm-4">                
+                {{ block('services_image_box_1') }} 
+                {{ block('services_content_box_3') }}                
+            </div>
+
+            <div class="col-sm-4">               
+                {{ block('services_image_box_2') }}              
+                {{ block('services_content_box_4') }}                
+            </div>
+
+            <div class="col-sm-4">               
+                {{ block('services_image_box_3') }}             
+                {{ block('services_content_box_5') }}                
+            </div>
+
+        </div>
+    </div>
+    <!-- /.container -->
+{% endblock %}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="modern_business_theme.portfolio-1-col.slots" type="collection">
+            <parameter>portfolio_1_page_header</parameter>
+            <parameter>portfolio_1_bread_crumb</parameter>
+            <parameter>portfolio_1_image_box_1</parameter>
+            <parameter>portfolio_1_content_box_1</parameter>
+            <parameter>portfolio_1_image_box_2</parameter>
+            <parameter>portfolio_1_content_box_2</parameter>
+            <parameter>portfolio_1_image_box_3</parameter>
+            <parameter>portfolio_1_content_box_3</parameter>
+            <parameter>portfolio_1_image_box_4</parameter>
+            <parameter>portfolio_1_content_box_4</parameter>
+            <parameter>portfolio_1_image_box_5</parameter>
+            <parameter>portfolio_1_content_box_5</parameter>
+            <parameter>portfolio_1_pagination</parameter>
+            <parameter>navbar_box</parameter>
+            <parameter>copyright_box</parameter>
+        </parameter>
+    </parameters>
+
+    <services>
+        <service id="modern_business_theme.theme.template_assets.portfolio-1-col" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">
+        </service>
+
+        <service id="modern_business_theme.theme.template.portfolio-1-col" class="%red_kite_labs_theme_engine.template.class%" public="false">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="modern_business_theme.theme.template_assets.portfolio-1-col" />
+            <tag name="modern_business_theme.theme.template" />
+
+            <call method="setThemeName">
+                <argument type="string">ModernBusinessThemeBundle</argument>
+            </call>
+            <call method="setTemplateName">
+                <argument type="string">portfolio-1-col</argument>
+            </call>
+            <call method="setSlots">
+                <argument>%modern_business_theme.portfolio-1-col.slots%</argument>
+            </call>
+        </service>
+    </services>
+</container>
