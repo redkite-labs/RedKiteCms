@@ -83,7 +83,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
         $page = $pageRepository->fromPageName('page1');
         $this->assertEquals('empty', $page->getTemplateName());
         
-        $params = array("themeName" => "SunshineThemeBundle", "data" => "al-template=home&al-mapped-template=home&al-template=empty&al-mapped-template=internal");
+        $params = array("themeName" => "ModernBusinessThemeBundle", "data" => "al-template=home&al-mapped-template=home&al-template=empty&al-mapped-template=internal");
         $crawler = $this->client->request('POST', 'backend/en/al_changeTheme', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
@@ -103,7 +103,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
     
     public function testStartFromScratch()
     {
-        $params = array('themeName' => 'SunshineThemeBundle');
+        $params = array('themeName' => 'ModernBusinessThemeBundle');
         $crawler = $this->client->request('POST', 'backend/en/startFromTheme', $params);
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode()); 
