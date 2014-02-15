@@ -59,7 +59,7 @@ class AlBowerBuilder
         @file_put_contents($projectRoot.'/bower.json', json_encode($components));
 
         $bowerrc = array(
-            "directory" => $webPath
+            "directory" => $webPath . '/components',
         );
         @file_put_contents($projectRoot.'/.bowerrc', json_encode($bowerrc));
     }
