@@ -51,8 +51,8 @@ class BowerBuildCommand extends ContainerAwareCommand
     {
         $container = $this->getContainer();
         $bower = new AlBowerBuilder($container->get('kernel'));
-        $bower->build($input->getOption('web-folder') . '/component.json');
+        $bower->build($input->getOption('web-folder'));
         
-        $output->writeln("Bower component.json file has been generated");
+        $output->writeln("Bower bower.json and .bowerrc files have been generated");
     }
 }
