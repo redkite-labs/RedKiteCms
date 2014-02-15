@@ -116,7 +116,7 @@ abstract class BaseDbBootstrapper
         $user->setEmail('user@aserver.com');
         $user->save();
 
-        $themeName = 'BootbusinessThemeBundle';
+        $themeName = 'ModernBusinessThemeBundle';
         $factoryRepository = $this->factoryReporsitory;
         $theme = $this->themes->getTheme($themeName);
         $template = $theme->getTemplate('home');
