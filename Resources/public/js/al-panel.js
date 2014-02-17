@@ -74,9 +74,13 @@
             $('.rk-navigation').on('click', function() {
                 $('#rk-cp-nav-button').toggle();
                 
+                var left = 34;
+                if (cpPanelState == "maximized") {
+                    left += 130;
+                }
                 $('#rk-cp-nav-button').position({
-                    my: "left+6px top-11px",
-                    at: "right top",
+                    my: "left+" + left + "px top-11px",
+                    at: "left top",
                     of: this
                 });
             });
@@ -182,7 +186,7 @@
             
             $('.rk-hide-minimized').hide();
             $('.rk-navigation-minimized').show();
-            $('#rk-navigation-full-container').show();
+            //$('#rk-navigation-full-container').show();
             showMaximizeCommands();
         } else {
             $('.rk-control-panel')
@@ -192,7 +196,7 @@
             $('.rk-hide-minimized').show();
             $('.rk-navigation-minimized').hide();
             $('#rk-cp-nav-button').hide();
-            $('#rk-navigation-full-container').hide();
+            //$('#rk-navigation-full-container').hide();
             showMinimizeCommands();
         }
         $('.rk-control-panel').css('bottom', '').css('top', '0px');

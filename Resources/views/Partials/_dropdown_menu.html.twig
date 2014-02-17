@@ -18,7 +18,7 @@
 {% block body %}
 <div class="btn-group">
     <button class="btn {{ button_type is defined ? button_type : 'btn-default' }} dropdown-toggle btn-xs btn-mini" data-toggle="dropdown">
-        {% if text is defined %}<span id="{{ id }}">{{ truncate_text is defined ? text[:truncate_text] : text }}</span>{% else %}{{ items|first }}{% endif %} <span class="caret"></span>
+        {% if text is defined %}<span id="{{ id }}" {% if value is defined %}rel="{{ value }}"{% endif %}>{{ truncate_text is defined ? text[:truncate_text] : text }}</span>{% else %}{{ items|first }}{% endif %} <span class="caret"></span>
     </button>
     <ul class="dropdown-menu dropdown-height">
     {% for id, name in items %}

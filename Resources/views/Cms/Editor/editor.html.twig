@@ -45,15 +45,16 @@
     <div id="rk-control-panel-full">
         <div class="rk-user rk-cp-background rk-hide-minimized">
             <p class="rk-user-title">{{ 'cms_controller_welcome_back'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p>
-            <p class="rk-user-name">{{ app.user.username|capitalize }}</p>
+            <p class="rk-user-name">{{ app.user.username|capitalize }}</p>            
+        </div>
+        <div class="rk-navigation-panel rk-cp-background rk-hide-minimized">
             <div id="rk-languages"> 
                 <div>{{ 'cms_controller_choose_language'|trans({}, 'RedKiteCmsBundle', cms_language) }}</div>
                 <div>
                 {% include 'RedKiteCmsBundle:Partials:_select.html.twig' with {'id': 'al_available_languages', 'select_options' : available_languages, 'selected' : cms_language, 'class': 'input-sm'}  %}
                 </div>
             </div>
-        </div>
-        <div class="rk-navigation-panel rk-cp-background rk-hide-minimized">
+            {#
             <div class="rk-caption">{{ 'pages_controller_label_languages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</div>
             <div class="rk-languages-navigator-box">
                 {% include 'RedKiteCmsBundle:Partials:_dropdown_menu.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'text' : language_name, 'value' : language, 'type' : 'al_language_item'}  %}
@@ -61,7 +62,7 @@
             <div class="rk-caption">{{ 'pages_controller_label_site_pages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</div>
             <div class="rk-pages-navigator-box">
                 {% include 'RedKiteCmsBundle:Partials:_dropdown_menu.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'text' : page_name, 'value' : page, 'type' : 'al_page_item', truncate_text : '20'}  %}
-            </div>     
+            </div>    #} 
         </div>
         <div class="rk-commands">
             <ul>
@@ -78,6 +79,7 @@
                 <li class="rk-cp-row" id="rk-navigation-full-container">
                     <a href="#" id="rk-navigation-full" rel="tooltip" class="rk-navigation" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
                         <i class="fa fa-fw fa-link"></i>
+                        <span class="rk-cm-command-description rk-hide-minimized">Navigation</span>
                     </a>
                 </li>
                 <li class="rk-cp-row">
