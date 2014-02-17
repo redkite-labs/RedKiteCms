@@ -109,15 +109,9 @@
                     },
                     success: function(html)
                     {
-                        if ( ! $('#al_panel').is(":visible")) {
-                            html = '<div id="al_panel_contents">' + html  + '</div>';
-                            $('#al_panel').OpenPanel(html, function(){
-                                $('body').security('init');
-                            });
-                        } else {
-                            $('#al_panel_contents').html(html);
+                        $('#al_panel').OpenPanel(html, function(){
                             $('body').security('init');
-                        }
+                        });
                     },
                     error: function(err)
                     {
