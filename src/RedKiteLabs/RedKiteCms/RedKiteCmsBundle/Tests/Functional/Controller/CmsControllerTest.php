@@ -166,8 +166,8 @@ class CmsControllerTest extends WebTestCaseFunctional
         $this->assertEquals(1, $crawler->filter('#rk-navigation-minimized')->count());
         $this->assertEquals(1, $crawler->filter('.rk-user')->count());
         $this->assertEquals(1, $crawler->filter('.rk-navigation-panel')->count());
-        $this->assertEquals(3, $crawler->filter('.rk-languages-navigator-box')->count());
-        $this->assertEquals(3, $crawler->filter('.rk-pages-navigator-box')->count());
+        $this->assertEquals(2, $crawler->filter('.rk-languages-navigator-box')->count());
+        $this->assertEquals(2, $crawler->filter('.rk-pages-navigator-box')->count());
         $this->assertEquals(1, $crawler->filter('.rk-commands')->count());
         $this->assertEquals(1, $crawler->filter('#rk-navigation-full-container')->count());        
         $this->check($crawler, '#al_open_pages_panel', "/cms_controller_label_pages|Pages/si");
