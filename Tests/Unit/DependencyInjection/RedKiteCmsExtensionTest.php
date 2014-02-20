@@ -36,7 +36,6 @@ class RedKiteCmsExtensionTest extends TestCase
         $this->assertEquals('%kernel.root_dir%/../%red_kite_cms.web_folder%', $this->container->getParameter('red_kite_cms.web_folder_full_path'));
         $this->assertEquals(array('en' => 'English', 'it' => 'Italian',), $this->container->getParameter('red_kite_cms.available_languages'));
         $this->assertEquals('uploads/assets', $this->container->getParameter('red_kite_cms.upload_assets_dir'));
-        $this->assertFalse($this->container->getParameter('red_kite_cms.enable_yui_compressor'));
         $this->assertEquals('Resources', $this->container->getParameter('red_kite_cms.deploy_bundle.resources_dir'));
         $this->assertEquals('%red_kite_cms.deploy_bundle.resources_dir%/config', $this->container->getParameter('red_kite_cms.deploy_bundle.config_dir'));
         $this->assertEquals('%red_kite_cms.deploy_bundle.resources_dir%/views', $this->container->getParameter('red_kite_cms.deploy_bundle.views_dir'));
@@ -72,11 +71,6 @@ class RedKiteCmsExtensionTest extends TestCase
     public function testUploadAssetsDir()
     {
         $this->scalarNodeParameter('red_kite_cms.upload_assets_dir', 'upload_assets_dir', 'new/upload/path');
-    }
-
-    public function testEnableYuiCompressor()
-    {
-        $this->scalarNodeParameter('red_kite_cms.enable_yui_compressor', 'enable_yui_compressor', true);
     }
 
     public function testDeployResourcesDir()

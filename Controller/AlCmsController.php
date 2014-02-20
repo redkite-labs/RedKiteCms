@@ -49,7 +49,6 @@ class AlCmsController extends BaseFrontendController
 
         $params = array(
             'template' => 'RedKiteCmsBundle:Cms:Welcome/welcome.html.twig',
-            'enable_yui_compressor' => $this->container->getParameter('red_kite_cms.enable_yui_compressor'),
             'templateStylesheets' => null,
             'templateJavascripts' => null,
             'available_blocks' => null,

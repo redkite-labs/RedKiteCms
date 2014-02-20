@@ -49,7 +49,6 @@ class RedKiteCmsExtension extends Extension
         $container->setParameter('red_kite_cms.web_folder_full_path', $config['web_folder_dir_full_path']);
         $container->setParameter('red_kite_cms.upload_assets_dir', $config['upload_assets_dir']);
         $container->setParameter('red_kite_cms.love', $config['love']);
-        $container->setParameter('red_kite_cms.enable_yui_compressor', $config['enable_yui_compressor']);
         $container->setParameter('red_kite_cms.theme_structure_file', $config['theme_structure_file']);
         $container->setParameter('red_kite_cms.website_url', $config['website_url']);
         $container->setParameter('red_kite_cms.bootstrap_version', $config['bootstrap_version']);

@@ -97,7 +97,6 @@ class DeployController extends Base\BaseController
             "deployController" => $this->container->getParameter('red_kite_cms.deploy_bundle.controller'),
             "webFolderPath" => $this->container->getParameter('red_kite_cms.web_folder_full_path'),
             "websiteUrl" => $this->container->getParameter('red_kite_cms.website_url'),
-            "yuiCompressorEnabled" => $this->container->getParameter('red_kite_cms.enable_yui_compressor'),
             "credits" => $this->container->getParameter('red_kite_cms.love'),
         );
     }

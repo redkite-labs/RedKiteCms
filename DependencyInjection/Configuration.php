@@ -49,7 +49,6 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('upload_assets_full_path')->defaultValue('%red_kite_cms.web_folder_full_path%/uploads/assets')->end()
                 ->scalarNode('upload_assets_absolute_path')->defaultValue('/%red_kite_cms.web_folder%/uploads/assets')->end()
                 ->scalarNode('theme_structure_file')->defaultValue('%kernel.root_dir%/Resources/.theme_structure')->end()
-                ->booleanNode('enable_yui_compressor')->defaultFalse()->end()
                 ->scalarNode('love')->defaultValue('yes')->end()
                 ->scalarNode('website_url')->defaultValue('')->end()
                 ->scalarNode('bootstrap_version')->defaultValue('3.x')->end()
