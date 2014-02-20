@@ -202,9 +202,9 @@ class TemplateSectionTwigTest extends TestCase
                 'stylesheets',
                 'file1.css file2.css',
                 '<link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />',
-                '?yui_css,cssrewrite',
+                'cssrewrite',
                 null,
-                '  {% stylesheets file1.css file2.css filter="?yui_css,cssrewrite" %}' . PHP_EOL .
+                '  {% stylesheets file1.css file2.css filter="cssrewrite" %}' . PHP_EOL .
                 '    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />' . PHP_EOL .
                 '  {% endstylesheets %}'
             ),
@@ -212,9 +212,9 @@ class TemplateSectionTwigTest extends TestCase
                 'stylesheets',
                 'file1.css file2.css',
                 '<link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />',
-                '?yui_css,cssrewrite',
+                'cssrewrite',
                 'style.css',
-                '  {% stylesheets file1.css file2.css filter="?yui_css,cssrewrite" output="style.css" %}' . PHP_EOL .
+                '  {% stylesheets file1.css file2.css filter="cssrewrite" output="style.css" %}' . PHP_EOL .
                 '    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />' . PHP_EOL .
                 '  {% endstylesheets %}'
             ),

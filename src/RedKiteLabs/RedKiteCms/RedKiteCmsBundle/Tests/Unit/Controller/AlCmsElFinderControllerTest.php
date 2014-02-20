@@ -44,22 +44,13 @@ class AlCmsElFinderControllerTest extends TestCase
         $templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');        
         $templating->expects($this->once())
             ->method('renderResponse')
-            ->with('RedKiteCmsBundle:Elfinder:file_manager.html.twig', 
-                    array(
-                        'enable_yui_compressor' => true,
-                    )
-            )
+            ->with('RedKiteCmsBundle:Elfinder:file_manager.html.twig')
         ;
         $container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $container->expects($this->at(0))
              ->method('get')
              ->with('templating')
              ->will($this->returnValue($templating));
-        
-        $container->expects($this->at(1))
-             ->method('getParameter')
-             ->with('red_kite_cms.enable_yui_compressor')
-             ->will($this->returnValue(true));
 
         $controller = new AlCmsElFinderController();
         $controller->setContainer($container);

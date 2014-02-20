@@ -65,7 +65,6 @@ class ThemePreviewController extends AlCmsController
             'templateJavascripts' => $this->fixAssets($this->pageTree->getExternalJavascripts()),
             'templates' => array_keys($theme->getTemplates()),
             'frontController' => $this->getFrontcontroller(),
-            'enable_yui_compressor' => $this->container->getParameter('red_kite_cms.enable_yui_compressor'),
             'language_name' => $languageName,
             'page_name' => $pageName,
         );
