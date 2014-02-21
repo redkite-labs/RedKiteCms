@@ -31,7 +31,7 @@ class AssetSectionTest extends TestCase
     /**
      * @dataProvider assetsProvider
      */
-    public function testAssets($yuiCompressorEnabled, $expectedResult, $externalStylesheets, $internalStylesheets = "", $externalJavascripts = "", $internalJavascripts = "")
+    public function testAssets($expectedResult, $externalStylesheets, $internalStylesheets = "", $externalJavascripts = "", $internalJavascripts = "")
     {
         $urlManager = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface");
         $theme = $this->getMockBuilder("RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme")
@@ -72,8 +72,7 @@ class AssetSectionTest extends TestCase
         $metatagsSection = new AssetSection($urlManager);
         $options = array(
             "uploadAssetsFullPath" => "",
-            "uploadAssetsAbsolutePath" => "",
-            "yuiCompressorEnabled" => $yuiCompressorEnabled,
+            "uploadAssetsAbsolutePath" => ""
         );
         
         $this->assertEquals($expectedResult, $metatagsSection->generateSection($pageTree, $theme, $options));
@@ -83,66 +82,24 @@ class AssetSectionTest extends TestCase
     {
         return array(
             array(
-                true,
                  PHP_EOL . '{#--------------  ASSETS SECTION  --------------#}' . PHP_EOL,
                 array(),
             ),
             array(
-                true,
                  PHP_EOL . '{#--------------  ASSETS SECTION  --------------#}' . PHP_EOL .
                 '{% block external_stylesheets %}' . PHP_EOL .
                 '{{ parent() }}' . PHP_EOL .
-                '  {% stylesheets "asset.css" filter="?yui_css,cssrewrite" %}' . PHP_EOL .
+                '  {% stylesheets "asset.css" filter="cssrewrite" %}' . PHP_EOL .
                 '    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />' . PHP_EOL .
                 '  {% endstylesheets %}' . PHP_EOL .
                 '{% endblock %}' . PHP_EOL . PHP_EOL,
                 array('asset.css'),
             ),
             array(
-                false,
                  PHP_EOL . '{#--------------  ASSETS SECTION  --------------#}' . PHP_EOL .
                 '{% block external_stylesheets %}' . PHP_EOL .
                 '{{ parent() }}' . PHP_EOL .
-                '  {% stylesheets "asset.css" filter="?cssrewrite" %}' . PHP_EOL .
-                '    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />' . PHP_EOL .
-                '  {% endstylesheets %}' . PHP_EOL .
-                '{% endblock %}' . PHP_EOL . PHP_EOL,
-                array('asset.css'),
-            ),
-            array(
-                true,
-                 PHP_EOL . '{#--------------  ASSETS SECTION  --------------#}' . PHP_EOL .
-                '{% block external_stylesheets %}' . PHP_EOL .
-                '{{ parent() }}' . PHP_EOL .
-                '  {% stylesheets "asset.css" filter="?yui_css,cssrewrite" %}' . PHP_EOL .
-                '    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />' . PHP_EOL .
-                '  {% endstylesheets %}' . PHP_EOL .
-                '{% endblock %}' . PHP_EOL . PHP_EOL .                
-                '{% block external_javascripts %}' . PHP_EOL .
-                '{{ parent() }}' . PHP_EOL .
-                '  {% javascripts "stylesheets.js" filter="?yui_js" %}' . PHP_EOL .
-                '    <script src="{{ asset_url }}"></script>' . PHP_EOL .
-                '  {% endjavascripts %}' . PHP_EOL .
-                '{% endblock %}' . PHP_EOL . PHP_EOL .
-                '{% block internal_header_stylesheets %}' . PHP_EOL .
-                '{{ parent() }}' . PHP_EOL .
-                '<style>.foo{bar}</style>' . PHP_EOL .
-                '{% endblock %}' . PHP_EOL . PHP_EOL .
-                '{% block internal_header_javascripts %}' . PHP_EOL .
-                '{{ parent() }}' . PHP_EOL .
-                '<script>$(document).ready(function () {foo(bar){}});</script>' . PHP_EOL .
-                '{% endblock %}' . PHP_EOL . PHP_EOL,
-                array('asset.css'),
-                '.foo{bar}',
-                array('stylesheets.js'),                
-                'foo(bar){}',
-            ),
-            array(
-                false,
-                 PHP_EOL . '{#--------------  ASSETS SECTION  --------------#}' . PHP_EOL .
-                '{% block external_stylesheets %}' . PHP_EOL .
-                '{{ parent() }}' . PHP_EOL .
-                '  {% stylesheets "asset.css" filter="?cssrewrite" %}' . PHP_EOL .
+                '  {% stylesheets "asset.css" filter="cssrewrite" %}' . PHP_EOL .
                 '    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />' . PHP_EOL .
                 '  {% endstylesheets %}' . PHP_EOL .
                 '{% endblock %}' . PHP_EOL . PHP_EOL .                

@@ -42,17 +42,16 @@ class AssetSection extends TemplateSectionTwig
     {
         parent::generateSection($pageTree, $theme, $options);
 
-        $yuiEnabled = $options["yuiCompressorEnabled"];
         $assetsSection = $this->writeComment("Assets section");
-        $assetsSection .= $this->generateExternalStylesheet($yuiEnabled);
-        $assetsSection .= $this->generateExternalJavascripts($yuiEnabled);
+        $assetsSection .= $this->generateExternalStylesheet();
+        $assetsSection .= $this->generateExternalJavascripts();
         $assetsSection .= $this->generateInternalStylesheet();
         $assetsSection .= $this->generateInternalJavascripts();
 
         return $assetsSection;
     }
 
-    private function generateExternalStylesheet($yuiEnabled)
+    private function generateExternalStylesheet()
     {
         $externalStylesheets = $this->pageTree->getExternalStylesheets();
         if (empty($externalStylesheets)) {
@@ -60,12 +59,12 @@ class AssetSection extends TemplateSectionTwig
         }
 
         $sectionContent = '<link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />';
-        $filter = $yuiEnabled ? '?yui_css,cssrewrite' : '?cssrewrite';
+        $filter = 'cssrewrite';
 
         return $this->writeBlock('external_stylesheets', $this->writeAssetic('stylesheets', implode(' ', array_map(function ($value) { return '"' . $value . '"'; }, $externalStylesheets )), $sectionContent, $filter), true);
     }
 
-    private function generateExternalJavascripts($yuiEnabled)
+    private function generateExternalJavascripts()
     {
         $externalJavascripts = $this->pageTree->getExternalJavascripts();
         if (empty($externalJavascripts)) {
@@ -73,9 +72,8 @@ class AssetSection extends TemplateSectionTwig
         }
 
         $sectionContent = '<script src="{{ asset_url }}"></script>';
-        $filter = $yuiEnabled ? '?yui_js' : '';
 
-        return $this->writeBlock('external_javascripts', $this->writeAssetic('javascripts', implode(' ', array_map(function ($value) { return '"' . $value . '"'; }, $externalJavascripts )), $sectionContent, $filter), true);
+        return $this->writeBlock('external_javascripts', $this->writeAssetic('javascripts', implode(' ', array_map(function ($value) { return '"' . $value . '"'; }, $externalJavascripts )), $sectionContent), true);
     }
 
     private function generateInternalStylesheet()

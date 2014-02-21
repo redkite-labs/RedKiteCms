@@ -256,13 +256,7 @@ class DeployControllerTest extends TestCase
             ->method('getParameter')
             ->with('red_kite_cms.website_url')
         ;
-        
-        $at++;
-        $this->container->expects($this->at($at))
-            ->method('getParameter')
-            ->with('red_kite_cms.enable_yui_compressor')
-        ;
-        
+
         $at++;
         $this->container->expects($this->at($at))
             ->method('getParameter')
