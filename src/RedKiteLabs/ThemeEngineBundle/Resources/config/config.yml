@@ -2,7 +2,3 @@ assetic:
     bundles: [ RedKiteLabsThemeEngineBundle ]
     filters:
         cssrewrite: ~
-        yui_css:
-            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
-        yui_js:
-            jar: %kernel.root_dir%/Resources/java/yuicompressor.jar
