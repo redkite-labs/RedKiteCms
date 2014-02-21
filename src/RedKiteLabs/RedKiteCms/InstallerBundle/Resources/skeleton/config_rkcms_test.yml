@@ -3,7 +3,7 @@ imports:
     - { resource: "@RedKiteCmsBundle/Resources/config/config_rkcms_test.yml" }
 
 red_kite_labs_theme_engine:
-    deploy_bundle: {{ company ~ bundle }}
+    deploy_bundle: {{ bundle }}
 
 propel:
     path:       "%kernel.root_dir%/../vendor/propel/propel1"

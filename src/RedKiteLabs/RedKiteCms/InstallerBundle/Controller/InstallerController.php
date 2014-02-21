@@ -39,8 +39,7 @@ class InstallerController extends Controller
     {
         $type = new RedKiteCmsParametersType();
         $form = $this->container->get('form.factory')->create($type, array(
-            'company' => 'Acme',
-            'bundle' => 'WebSiteBundle',
+            'bundle' => 'AcmeWebSiteBundle',
             'host' => 'localhost',
             'database' => 'redkite',
             'user' => 'root',

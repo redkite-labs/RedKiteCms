@@ -77,7 +77,7 @@
 <div>  
     Please notice that the installation could take some time. 
 </div>
-<div>
+<div style="margin-top: 30px">
     <form action="{{ path('_install') }}" method="POST" class="form-horizontal">
         {% if app.session.getFlashBag().has('error') %}
         <div id="al_process_errors">
@@ -89,21 +89,28 @@
             {% endfor %}
         </div>
         {% endif %}
-        <div>
+        {#<div>
             <div class="pull-left">
-                <h2>Bundle data</h2>
+                <h2>Bundle</h2>
             </div>
             <div class="pull-left rkinfo-img">
-                <a href="#" class="rk-popover" data-content="<p>Before you begin, you'll need to create a bundle. In Symfony2, a bundle is nothing more than a directory that houses everything related to a specific feature: in this case it will house your website.</p><p><a href='http://symfony.com/doc/current/book/page_creation.html#before-you-begin-create-the-bundle'>Learn more about this topic</a></p>" data-placement="bottom" rel="popover" data-title="Bundle" data-html="true">
+                <a href="#" class="rk-popover" data-content="<p>Before you begin, you'll need to create a bundle. In Symfony2, a bundle is nothing more than a directory that houses everything related to a specific feature: in this case it will house your website.<br /><br />If you are installing using the RedKite CMS Sandbox, bundle configuration is already fine for you.</p><p><a href='http://symfony.com/doc/current/book/page_creation.html#before-you-begin-create-the-bundle'>Learn more about this topic</a></p>" data-placement="bottom" rel="popover" data-title="Bundle" data-html="true">
                    <i class="icon-info-sign"></i>
                 </a>
             </div>
             <div class="clearfix"></div>
+        </div>#}
+        <div>    
+            <div class="control-group"> 
+            {{ form_label(form.bundle) }}   
+                <a href="#" class="rk-popover pull-left" data-content="<p>Before you begin, you'll need to create a bundle. In Symfony2, a bundle is nothing more than a directory that houses everything related to a specific feature: in this case it will house your website.<br /><br />If you are installing using the RedKite CMS Sandbox, bundle configuration is already fine for you.</p><p><a href='http://symfony.com/doc/current/book/page_creation.html#before-you-begin-create-the-bundle'>Learn more about this topic</a></p>" data-placement="bottom" rel="popover" data-title="Bundle" data-html="true">
+                   <i class="icon-info-sign"></i>
+                </a>
+            {{ form_errors(form.bundle) }}
+            {{ form_widget(form.bundle) }}
+            </div>
         </div>
-        <div id="al_bundle_section">
-            {{ form_row(form.company) }}
-            {{ form_row(form.bundle) }}
-        </div>
+            {#
         <div>
             <div class="pull-left">
                 <h2>Database</h2>
@@ -114,9 +121,16 @@
                 </a>
             </div>
             <div class="clearfix"></div>
-        </div>
+        </div>#}
         <div>
-            {{ form_row(form.driver) }}
+            <div class="control-group"> 
+            {{ form_label(form.driver) }}   
+                <a href="#" class="rk-popover pull-left" data-content="<p>Please provide the information required below, to access your database.<p></p>All information are required except the password which could be an empty value.</p>" data-placement="bottom" rel="popover" data-title="Database information" data-html="true">
+                    <i class="icon-info-sign"></i>
+                </a>
+            {{ form_errors(form.driver) }}
+            {{ form_widget(form.driver) }}
+            </div>
         </div>
         <div>
             {{ form_row(form.host) }}

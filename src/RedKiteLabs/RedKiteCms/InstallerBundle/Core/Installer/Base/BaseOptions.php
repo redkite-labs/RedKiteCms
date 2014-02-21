@@ -137,7 +137,6 @@ abstract class BaseOptions
      */
     protected function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $resolver->setRequired(array('company'));
         $resolver->setRequired(array('bundle'));
         $resolver->setRequired(array('host'));
         $resolver->setRequired(array('driver'));

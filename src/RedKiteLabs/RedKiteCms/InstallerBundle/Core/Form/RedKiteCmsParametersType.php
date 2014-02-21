@@ -30,7 +30,6 @@ class RedKiteCmsParametersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('company', 'text')
             ->add('bundle', 'text')
             ->add('driver', 'choice', array('choices' => array('mysql' => 'mysql', 'pgsql' => 'postgres', 'sqlite' => 'sqlite')))
             ->add('host', 'text')

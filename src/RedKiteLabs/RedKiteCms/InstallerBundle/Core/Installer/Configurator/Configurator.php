@@ -147,7 +147,6 @@ class Configurator extends BaseOptions
 
             file_put_contents($configFile, $config . $contents);
 
-            //$siteRoutingFile = $this->vendorDir . "/../src/$this->companyName/$this->bundleName/Resources/config/site_routing.yml";
             $siteRoutingFile = $this->kernel->locateResource("@" . $this->deployBundle) . '/Resources/config/site_routing.yml' ;
             file_put_contents($siteRoutingFile, "");
         }

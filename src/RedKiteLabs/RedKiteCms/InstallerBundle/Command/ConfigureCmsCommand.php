@@ -87,7 +87,6 @@ class ConfigureCmsCommand extends ContainerAwareCommand
     protected function getBaseOptions()
     {
         return array(
-            new InputOption('company', '', InputOption::VALUE_REQUIRED, 'Your company name, where the main bundle that manages your site lives', 'Acme'),
             new InputOption('bundle', '', InputOption::VALUE_REQUIRED, 'The bundle that manages your site', 'WebSiteBundle'),
             new InputOption('driver', '', InputOption::VALUE_REQUIRED, 'The database driver to use', 'mysql'),
             new InputOption('host', '', InputOption::VALUE_REQUIRED, 'The database host', 'localhost'),
@@ -103,7 +102,6 @@ class ConfigureCmsCommand extends ContainerAwareCommand
     protected function inputOptionsToArray(InputInterface $input)
     {
         return array(
-            "company" => $input->getOption('company'),
             "bundle" => $input->getOption('bundle'),
             "driver" => $input->getOption('driver'),
             "host" => $input->getOption('host'),
@@ -117,14 +115,6 @@ class ConfigureCmsCommand extends ContainerAwareCommand
     
     protected function baseInteraction(InputInterface $input, OutputInterface $output)
     {
-        /*
-        $defaultValue = "Acme";
-        $question = array(
-            "<info>Company name:</info> [<comment>$defaultValue</comment>] ",
-        );
-        $company = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateCompanyName'), false, $defaultValue);
-        $input->setOption('company', $company);*/
-        
         $defaultValue = "AcmeWebSiteBundle";
         $question = array(
             "<info>Bundle name:</info> [<comment>$defaultValue</comment>] ",

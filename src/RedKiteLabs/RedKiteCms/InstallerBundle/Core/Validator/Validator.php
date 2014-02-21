@@ -23,18 +23,7 @@ namespace RedKiteCms\InstallerBundle\Core\Validator;
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class Validator
-{
-    /**
-     * Validates company name
-     * 
-     * @param string $input
-     * @return string
-     */
-    public static function validateCompanyName($input)
-    {
-        return self::validateString($input, 'company');;
-    }
-    
+{   
     /**
      * Validates bundle name
      * 

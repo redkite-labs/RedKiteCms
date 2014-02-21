@@ -29,49 +29,6 @@ require_once __DIR__ . '/project/src/Acme/WebSiteBundle/AcmeWebSiteBundle.php';
 class InstallerControllerTest extends WebTestCase
 {
     private static $filesystem;
-/*
-    public static function setUpBeforeClass()
-    {
-        self::$languages = array(array('Language'      => 'en',));
-
-        self::$pages = array(array('PageName'      => 'index',
-                                    'TemplateName'  => 'home',
-                                    'IsHome'        => '1',
-                                    'Permalink'     => 'this is a website fake page',
-                                    'MetaTitle'         => 'page title',
-                                    'MetaDescription'   => 'page description',
-                                    'MetaKeywords'      => 'key'),
-                            array('PageName'      => 'page1',
-                                    'TemplateName'  => 'fullpage',
-                                    'Permalink'     => 'page-1',
-                                    'MetaTitle'         => 'page 1 title',
-                                    'MetaDescription'   => 'page 1 description',
-                                    'MetaKeywords'      => ''));
-        self::populateDb();
-    }
-
-    protected function setUp()
-    {
-        parent::setUp();
-
-        $this->pageRepository = new AlPageRepositoryPropel();
-        $this->seoRepository = new AlSeoRepositoryPropel();
-        $this->blockRepository = new AlBlockRepositoryPropel();
-    }
-
-    public static function setUpBeforeClass()
-    {
-        self::$filesystem = new \Symfony\Component\Filesystem\Filesystem();
-        self::$filesystem->mirror(__DIR__ . '/project', __DIR__ . '/project-bck');
-    }
-
-    public static function tearDownAfterClass()
-    {return;
-        self::$filesystem->remove(__DIR__ . '/project');
-        self::$filesystem->mirror(__DIR__ . '/project-bck', __DIR__ . '/project');
-        self::$filesystem->remove(__DIR__ . '/project-bck');
-    }*/
-
     protected function setUp()
     {
         $this->client = static::createClient(array(
@@ -86,7 +43,6 @@ class InstallerControllerTest extends WebTestCase
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertTrue($crawler->filter('html:contains("RedKiteCms CMS requires a bundle where RedKiteCms CMS will save the contents you insert")')->count() > 0);
-        $this->assertEquals(1, $crawler->filter('#red_kite_cms_parameters_company')->count());
         $this->assertEquals(1, $crawler->filter('#red_kite_cms_parameters_bundle')->count());
         $this->assertEquals(1, $crawler->filter('#red_kite_cms_parameters_driver')->count());
         $this->assertEquals(1, $crawler->filter('#red_kite_cms_parameters_host')->count());

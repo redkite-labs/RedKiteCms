@@ -30,7 +30,6 @@ class RedKiteCmsParametersTest extends AlBaseType
     protected function configureFields()
     {
         return array(
-            'company',
             'bundle',
             'driver',
             'host',
