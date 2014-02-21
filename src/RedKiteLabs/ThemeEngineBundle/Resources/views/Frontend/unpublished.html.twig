@@ -1,8 +1,9 @@
 {% extends 'RedKiteLabsThemeEngineBundle:Frontend:base.html.twig' %}
 
 {% block external_stylesheets %}
-    {% stylesheets  filter='?yui_css,cssrewrite' 'components/redkitecms/twitter-bootstrap/3.x/css/bootstrap.min.css' 
-                                                 'bundles/redkitelabsthemeengine/css/unpublished.css'
+    {% stylesheets  filter='cssrewrite'
+        'components/redkitecms/twitter-bootstrap/3.x/css/bootstrap.min.css'
+         'bundles/redkitelabsthemeengine/css/unpublished.css'
     %}   
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
     {% endstylesheets %}
@@ -13,7 +14,7 @@
 <div id="header">    
     <div class="container">
         <div class="row">
-            <div id="logo"
+            <div id="logo">
                 <p><img src="/bundles/redkitelabsthemeengine/images/logo-home.png" alt="" width="388" height="96" /></p>
             </div>
         </div>        
