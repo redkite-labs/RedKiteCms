@@ -58,10 +58,11 @@ class Validator
      * @param string $input
      * @return string
      */
-    public static function validateDeployBundle($kernelDir, $companyName, $bundleName)
+    public static function validateDeployBundle($kernelDir, $bundleName)
     {
         $contents = file_get_contents($kernelDir . '/AppKernel.php');
-        if( ! preg_match("/[\s|\t]+new " . $companyName . "\\\\" . $bundleName . "/s", $contents))
+        //if( ! preg_match("/[\s|\t]+new " . $companyName . "\\\\" . $bundleName . "/s", $contents))
+        if( ! preg_match("/" . $bundleName . "/s", $contents))
         {
             $message = "\nRedKite CMS requires an existing bundle to work with. You enter as working bundle the following: $companyName\\$bundleName but, the bundle is not enable in AppKernel.php file. Please add the bundle or enable it ther run the script again.\n";
 

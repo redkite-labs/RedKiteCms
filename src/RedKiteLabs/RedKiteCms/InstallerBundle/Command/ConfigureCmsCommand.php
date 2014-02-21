@@ -52,7 +52,7 @@ class ConfigureCmsCommand extends ContainerAwareCommand
             $container = $this->getContainer();
             $options = $this->inputOptionsToArray($input);
 
-            $configuration = new Configurator($container->getParameter('kernel.root_dir'), $options);
+            $configuration = new Configurator($container->get('kernel'), $options);
             $this->writeMessages($output, $configuration->configure(), true);        
             $output->writeln("<info>The configuration has been written</info>");
 
@@ -117,14 +117,15 @@ class ConfigureCmsCommand extends ContainerAwareCommand
     
     protected function baseInteraction(InputInterface $input, OutputInterface $output)
     {
+        /*
         $defaultValue = "Acme";
         $question = array(
             "<info>Company name:</info> [<comment>$defaultValue</comment>] ",
         );
         $company = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateCompanyName'), false, $defaultValue);
-        $input->setOption('company', $company);
+        $input->setOption('company', $company);*/
         
-        $defaultValue = "WebSiteBundle";
+        $defaultValue = "AcmeWebSiteBundle";
         $question = array(
             "<info>Bundle name:</info> [<comment>$defaultValue</comment>] ",
         );
@@ -132,7 +133,7 @@ class ConfigureCmsCommand extends ContainerAwareCommand
         $bundle = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateBundleName'), false, $defaultValue);
         $input->setOption('bundle', $bundle);
         
-        Validator::validateDeployBundle($this->getContainer()->get('kernel')->getRootDir(), $company, $bundle);
+        Validator::validateDeployBundle($this->getContainer()->get('kernel')->getRootDir(), $bundle);
         
         $defaultValue = "mysql";
         $question = array(

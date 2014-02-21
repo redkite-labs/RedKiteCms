@@ -29,11 +29,13 @@ use RedKiteCms\InstallerBundle\Core\Generator\ConfigurationGenerator;
 class Configurator extends BaseOptions
 {
     private $generator;
+    private $kernel;
     
-    public function __construct($kernelDir, array $options = array())
+    public function __construct(\Symfony\Component\HttpKernel\KernelInterface $kernel, array $options = array())
     {
-        parent::__construct($kernelDir, $options);
-                
+        parent::__construct($kernel->getRootDir(), $options);
+        
+        $this->kernel = $kernel;
         $this->generator = new ConfigurationGenerator($this->kernelDir, $this->options);
     }
     
@@ -98,7 +100,7 @@ class Configurator extends BaseOptions
 
     private function writeConfigurationFiles()
     {
-        $configFile = $this->kernelDir . '//config/config.yml';
+        $configFile = $this->kernelDir . '/config/config.yml';
         $this->checkFile($configFile);
         $this->backUpFile($configFile);
         
@@ -145,7 +147,8 @@ class Configurator extends BaseOptions
 
             file_put_contents($configFile, $config . $contents);
 
-            $siteRoutingFile = $this->vendorDir . "/../src/$this->companyName/$this->bundleName/Resources/config/site_routing.yml";
+            //$siteRoutingFile = $this->vendorDir . "/../src/$this->companyName/$this->bundleName/Resources/config/site_routing.yml";
+            $siteRoutingFile = $this->kernel->locateResource("@" . $this->deployBundle) . '/Resources/config/site_routing.yml' ;
             file_put_contents($siteRoutingFile, "");
         }
 

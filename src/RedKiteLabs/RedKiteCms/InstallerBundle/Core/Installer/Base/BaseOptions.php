@@ -55,9 +55,8 @@ abstract class BaseOptions
         
         $this->kernelDir = $this->normalizePath($kernelDir);
         $this->vendorDir = $this->kernelDir . '/../vendor';
-        $this->companyName = Validator::validateCompanyName($this->options["company"]);
         $this->bundleName = Validator::validateBundleName($this->options["bundle"]);        
-        $this->deployBundle = $this->companyName . $this->bundleName;        
+        $this->deployBundle = $this->bundleName;        
         if (empty($this->deployBundle) || !preg_match('/.*?Bundle$/', $this->deployBundle)) { 
             throw new \InvalidArgumentException("Something was wrong with the values you entered to define the deploy bundle. Please refer to http://redkite-labs.com/how-to-install-redkite-cms#the-deploy-bundle to learn more about this topic.");
         }
@@ -124,7 +123,7 @@ abstract class BaseOptions
         $this->checkClass('ElFinderBundle', 'RedKiteLabs\ElFinderBundle\RedKiteLabsElFinderBundle');
         $this->checkClass('ThemeEngineBundle', 'RedKiteLabs\ThemeEngineBundle\RedKiteLabsThemeEngineBundle');
         
-        Validator::validateDeployBundle($this->kernelDir, $this->companyName, $this->bundleName);
+        Validator::validateDeployBundle($this->kernelDir, $this->bundleName);
         
         $this->prerequisitesVerified = true;
     }
