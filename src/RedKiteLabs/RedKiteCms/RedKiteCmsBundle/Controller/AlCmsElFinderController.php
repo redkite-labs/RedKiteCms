@@ -28,9 +28,7 @@ class AlCmsElFinderController extends ContainerAware
 {
     public function showFilesManagerAction()
     {
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Elfinder:file_manager.html.twig', array(
-            'enable_yui_compressor' => $this->container->getParameter('red_kite_cms.enable_yui_compressor'),
-        ));
+        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Elfinder:file_manager.html.twig');
     }
 
     public function connectMediaAction()

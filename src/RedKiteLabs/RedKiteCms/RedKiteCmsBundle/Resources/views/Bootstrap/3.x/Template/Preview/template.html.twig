@@ -22,44 +22,25 @@
     <link href="{{ asset(value) }}" rel="stylesheet" type="text/css" media="all" />
     {% endfor %}
 
-    {% if enable_yui_compressor is defined and enable_yui_compressor %}
-        {% stylesheets filter='?yui_css,cssrewrite' 'components/redkitecms/twitter-bootstrap/3.x/css/bootstrap.min.css'
-                                                    'bundles/redkitecms/vendor/vendor-adapter.css' 
-                                                    'bundles/redkitecms/css/skins/bootstrap/skin.css'
-        %}
-        <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
-        {% endstylesheets %}
-    {% else %}
-        {% stylesheets filter='?cssrewrite' 'components/redkitecms/twitter-bootstrap/3.x/css/bootstrap.min.css'
-                                            'bundles/redkitecms/vendor/vendor-adapter.css' 
-                                            'bundles/redkitecms/css/skins/bootstrap/skin.css'
-        %}
-        <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="screen" />
-        {% endstylesheets %}
-    {% endif %}
+    {% stylesheets filter='cssrewrite'
+        'components/redkitecms/twitter-bootstrap/3.x/css/bootstrap.min.css'
+        'bundles/redkitecms/vendor/vendor-adapter.css'
+        'bundles/redkitecms/css/skins/bootstrap/skin.css'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="screen" />
+    {% endstylesheets %}
 {% endblock %}
 
 {% block external_javascripts %}
-    {% if enable_yui_compressor is defined and enable_yui_compressor %}
-    {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js'
-                                     'components/redkitecms/jquery-ui/js/jquery-ui.min.js'
-                                     'components/redkitecms/twitter-bootstrap/3.x/js/bootstrap.js'
-                                     'components/jquery-easing/jquery.easing.min.js'
-                                     'components/holderjs/holder.js'
-    %} 
-    
-    <script src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-    {% else %}
-    {% javascripts  'components/jquery/jquery.min.js'
-                    'components/redkitecms/jquery-ui/js/jquery-ui.min.js'
-                    'components/redkitecms/twitter-bootstrap/3.x/js/bootstrap.js'
-                    'components/jquery-easing/jquery.easing.min.js'
-                    'components/holderjs/holder.js'
+    {% javascripts
+        'components/jquery/jquery.min.js'
+        'components/redkitecms/jquery-ui/js/jquery-ui.min.js'
+        'components/redkitecms/twitter-bootstrap/3.x/js/bootstrap.js'
+        'components/jquery-easing/jquery.easing.min.js'
+        'components/holderjs/holder.js'
     %}
     <script src="{{ asset_url }}"></script>
     {% endjavascripts %}
-    {% endif %}
     
     {% for value in templateJavascripts %}
     <script src="{{ asset(value) }}"></script>
