@@ -189,6 +189,7 @@
             <argument type="collection" >
                 <argument key="repeated">page</argument>
                 <argument key="blockType">BootstrapButtonBlock</argument>
+                <argument key="blockDefinition">[{"button_text":"See more templates","button_type":"btn-primary","button_attribute":"btn-lg"}]</argument>
             </argument>
             <tag name="modern_business_theme.theme.template.slot" />
         </service>
