@@ -57,15 +57,15 @@ class AlBlockManagerFactoryTest extends TestCase
         $blocks = $this->blockManagerFactory->getBlocks();
         $this->assertCount(2, $blocks);
         $this->assertTrue(array_key_exists('Default', $blocks));        
-        $this->assertTrue(array_key_exists('Text', $blocks));
+        $this->assertTrue(array_key_exists('Text', $blocks["Ungrouped"]));
     }
     
     /**
      * @dataProvider blocksProvider
      */
-    public function testGetBlocks($isInternal, $expectedBlocks)
+    public function testGetBlocks($isInternal, $expectedBlocks, array $attributes = null)
     {
-        $this->initBlockManager();
+        $this->initBlockManager($attributes);
         
         $blockManager = $this->createBlockManager();
         $blockManager->expects($this->once())
@@ -76,39 +76,12 @@ class AlBlockManagerFactoryTest extends TestCase
             'id' => 'app_fake.block', 
             'description' => 'Script block',  
             'type' => 'Script', 
-            'group' => 'group_1'
+            'group' => 'redkitecms_internals',
         );
         $this->blockManagerFactory->addBlockManager($blockManager, $attributes);
         
         $blocks = $this->blockManagerFactory->getBlocks();
-        $this->assertCount(count($expectedBlocks), $blocks);
         $this->assertEquals($expectedBlocks, $blocks);
-    }
-    
-    public function testABlockNotAssignedToAnyGroupIsRenderedAtTheBottomOfTheArray()
-    {
-        $this->initBlockManager();
-        
-        $attributes = array('id' => 'app_not_grouped.block', 'description' => 'Script block',  'type' => 'Script', 'group' => '');
-        $this->blockManagerFactory->addBlockManager($this->createBlockManager(), $attributes);
-        
-        $blocks = $this->blockManagerFactory->getBlocks();
-        $this->assertCount(3, $blocks);
-        
-        $expectedResult = array
-        (
-            "Default" => array(),
-            "Script" => array(
-                "description" => "Script block",
-                "filter" => "none",
-            ),
-            "Text" => array(
-                "description" => "Fake block",
-                "filter" => "none",
-            ),
-        );
-        
-        $this->assertEquals($expectedResult, $blocks);
     }
     
     /**
@@ -174,24 +147,54 @@ class AlBlockManagerFactoryTest extends TestCase
                 false,
                 array
                 (
-                    "Default" => array(),
-                    "Script" => array(
-                        "description" => "Script block",
-                        "filter" => "none",
+                    "Default" => array(                        
+                        "Script" => array(
+                            "description" => "Script block",
+                            "filter" => "none",
+                        ),
                     ),
-                    "Text" => array(
-                        "description" => "Fake block",
-                        "filter" => "none",
+                    "Ungrouped" => array(
+                        "Text" => array(
+                            "description" => "Fake block",
+                            "filter" => "none",
+                        ),
                     ),
                 ),
-            ),array(
+            ),
+            array(
+                false,
+                array
+                (
+                    "Default" => array(                        
+                        "Script" => array(
+                            "description" => "Script block",
+                            "filter" => "none",
+                        ),
+                    ),
+                    "Twitter Bootstrap" => array(
+                        "Text" => array(
+                            "description" => "Fake block",
+                            "filter" => "none",
+                        ),
+                    ),
+                ),
+                array(
+                    'id' => 'app_fake.block', 
+                    'description' => 'Fake block',  
+                    'type' => 'Text',
+                    'group' => 'bootstrap,Twitter Bootstrap'
+                )
+            ),
+            array(
                 true,
                 array
                 (
                     "Default" => array(),
-                    "Text" => array(
-                        "description" => "Fake block",
-                        "filter" => "none",
+                    "Ungrouped" => array( 
+                        "Text" => array(
+                            "description" => "Fake block",
+                            "filter" => "none",
+                        ),
                     ),
                 ),
             ),
