@@ -61,7 +61,7 @@ class AlCmsController extends BaseFrontendController
             'available_languages' => $this->container->getParameter('red_kite_cms.available_languages'),
             'frontController' => $this->getFrontcontroller($request),
         );
-
+        
         if (null !== $pageTree) {
             $pageId = 0;
             $languageId = 0;

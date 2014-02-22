@@ -105,7 +105,7 @@ class AssetSectionTest extends TestCase
                 '{% endblock %}' . PHP_EOL . PHP_EOL .                
                 '{% block external_javascripts %}' . PHP_EOL .
                 '{{ parent() }}' . PHP_EOL .
-                '  {% javascripts "stylesheets.js" filter="" %}' . PHP_EOL .
+                '  {% javascripts "stylesheets.js" %}' . PHP_EOL .
                 '    <script src="{{ asset_url }}"></script>' . PHP_EOL .
                 '  {% endjavascripts %}' . PHP_EOL .
                 '{% endblock %}' . PHP_EOL . PHP_EOL .
