@@ -87,7 +87,7 @@ class ConfigureCmsCommand extends ContainerAwareCommand
     protected function getBaseOptions()
     {
         return array(
-            new InputOption('bundle', '', InputOption::VALUE_REQUIRED, 'The bundle that manages your site', 'WebSiteBundle'),
+            new InputOption('bundle', '', InputOption::VALUE_REQUIRED, 'The bundle that manages your site', 'AcmeWebSiteBundle'),
             new InputOption('driver', '', InputOption::VALUE_REQUIRED, 'The database driver to use', 'mysql'),
             new InputOption('host', '', InputOption::VALUE_REQUIRED, 'The database host', 'localhost'),
             new InputOption('database', '', InputOption::VALUE_REQUIRED, 'The database name', 'redkite'),
