@@ -365,7 +365,7 @@ class ThemePreviewControllerTest extends TestCase
         ;
         
         $this->container
-             ->expects($this->at(14))
+             ->expects($this->at(13))
              ->method('get')
              ->with('templating')
              ->will($this->returnValue($this->templating))
