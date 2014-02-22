@@ -7,7 +7,7 @@
 {% endblock %}  
     
 {% block external_stylesheets %}
-    {% stylesheets  filter='?yui_css,cssrewrite' 'components/redkitecms/twitter-bootstrap/3.x/css/bootstrap.min.css' 
+    {% stylesheets  filter='cssrewrite' 'components/redkitecms/twitter-bootstrap/3.x/css/bootstrap.min.css' 
     %}   
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
     {% endstylesheets %}
@@ -21,7 +21,7 @@
 {% endblock %}
     
 {% block external_javascripts %}
-    {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js' 
+    {% javascripts 'components/jquery/jquery.min.js' 
                                      'components/redkitecms/twitter-bootstrap/3.x/js/bootstrap.min.js' 
     %}
         <script src="{{ asset_url }}"></script>
