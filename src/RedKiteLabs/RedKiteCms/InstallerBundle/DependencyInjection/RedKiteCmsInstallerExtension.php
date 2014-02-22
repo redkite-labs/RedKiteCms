@@ -39,5 +39,12 @@ class RedKiteCmsInstallerExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        
+        $container->setParameter('red_kite_cms_installer.default_theme', $config['default_theme']);
+    }
+    
+    public function getAlias()
+    {
+        return 'red_kite_cms_installer';
     }
 }

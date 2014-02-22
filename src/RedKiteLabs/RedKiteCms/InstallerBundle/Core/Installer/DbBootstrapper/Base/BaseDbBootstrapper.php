@@ -115,8 +115,13 @@ abstract class BaseDbBootstrapper
         $user->setUsername('admin');
         $user->setEmail('user@aserver.com');
         $user->save();
-
-        $themeName = 'ModernBusinessThemeBundle';
+        
+        $bundles = $this->container->getParameter('kernel.bundles');
+        $themeName = $this->container->getParameter('red_kite_cms_installer.default_theme');
+        if (!array_key_exists($themeName, $bundles)) {
+            throw new \RuntimeException(sprintf("It seems the %s theme is not registered as valid bundle. Please check your configuration.", $themeName));
+        }
+        
         $factoryRepository = $this->factoryReporsitory;
         $theme = $this->themes->getTheme($themeName);
         $template = $theme->getTemplate('home');

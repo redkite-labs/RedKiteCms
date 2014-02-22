@@ -15,7 +15,8 @@
         "php": ">=5.3.2"
   },
   "require-dev": {
-        "redkite-labs/redkite-cms-bundle": "dev-master"
+        "redkite-labs/redkite-cms-bundle": "dev-master",
+        "redkite-labs/modern-business-theme-bundle": "dev-master"
   },
   "autoload": {
     "psr-0": {
