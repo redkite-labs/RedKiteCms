@@ -4,7 +4,7 @@
 
 
 {% block external_stylesheets %}
-    {% stylesheets  filter='?yui_css,cssrewrite' 'components/redkitecms/twitter-bootstrap/2.x/css/bootstrap.min.css' 
+    {% stylesheets  filter='cssrewrite' 'components/redkitecms/twitter-bootstrap/2.x/css/bootstrap.min.css' 
                                                  'components/redkitecms/twitter-bootstrap/2.x/css/bootstrap-responsive.min.css'
     %}        
     <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block post_external_stylesheets %}
-    {% stylesheets  filter='?yui_css,cssrewrite' 'bundles/bootbusinesstheme/css/font-awesome.css' 
+    {% stylesheets  filter='cssrewrite' 'bundles/bootbusinesstheme/css/font-awesome.css' 
                                                  'bundles/bootbusinesstheme/css/font-awesome-ie7.css'
                                                  'bundles/bootbusinesstheme/css/boot-business.css'
     %}        
@@ -21,7 +21,7 @@
 {% endblock %}
 
 {% block external_javascripts %}
-    {% javascripts  filter='?yui_js' 'components/jquery/jquery.min.js' 
+    {% javascripts 'components/jquery/jquery.min.js' 
                                      'components/redkitecms/twitter-bootstrap/2.x/js/bootstrap.min.js' 
     %}
         <script src="{{ asset_url }}"></script>
