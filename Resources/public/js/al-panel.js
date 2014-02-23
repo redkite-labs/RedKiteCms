@@ -75,7 +75,7 @@
                 $('#rk-cp-nav-button').toggle();
                 
                 var left = 34;
-                if (cpPanelState == "maximized") {
+                if (cpPanelState == "maximized" && cpControlPanelType == "full") {
                     left += 130;
                 }
                 $('#rk-cp-nav-button').position({
