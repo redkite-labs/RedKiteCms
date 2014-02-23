@@ -54,15 +54,6 @@
                 {% include 'RedKiteCmsBundle:Partials:_select.html.twig' with {'id': 'al_available_languages', 'select_options' : available_languages, 'selected' : cms_language, 'class': 'input-sm'}  %}
                 </div>
             </div>
-            {#
-            <div class="rk-caption">{{ 'pages_controller_label_languages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</div>
-            <div class="rk-languages-navigator-box">
-                {% include 'RedKiteCmsBundle:Partials:_dropdown_menu.html.twig' with {'id': 'al_languages_navigator', 'items' : languages, 'text' : language_name, 'value' : language, 'type' : 'al_language_item'}  %}
-            </div>
-            <div class="rk-caption">{{ 'pages_controller_label_site_pages'|trans({}, 'RedKiteCmsBundle', cms_language) }}</div>
-            <div class="rk-pages-navigator-box">
-                {% include 'RedKiteCmsBundle:Partials:_dropdown_menu.html.twig' with {'id': 'al_pages_navigator', 'items' : pages, 'text' : page_name, 'value' : page, 'type' : 'al_page_item', truncate_text : '20'}  %}
-            </div>    #} 
         </div>
         <div class="rk-commands">
             <ul>
