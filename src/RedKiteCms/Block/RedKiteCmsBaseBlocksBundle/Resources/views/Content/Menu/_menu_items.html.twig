@@ -1,6 +1,7 @@
 {% if items|length > 0 %}
 {% for key, item in items %}
     {% set base_key = block_manager.get.getId ~ "-" ~ key %} 
+    {% set options = {} %}
     {% if block_manager.getEditorDisabled == false %}
         {% set options = blockOptions|merge({'item': key}) %}
         {% set options = options|merge({'slot_name': base_key}) %}
