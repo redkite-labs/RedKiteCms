@@ -165,9 +165,10 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
                   ->endUse()
                 ->useAlPageQuery()
                     ->filterByPageName($pageName)
-                  ->endUse()
-                  ->with('AlLanguage')
-                  ->with('AlPage')
-                  ->findOne();
+                ->endUse()
+                ->with('AlLanguage')
+                ->with('AlPage')
+                ->filterByToDelete(0)
+                ->findOne();
     }
 }
