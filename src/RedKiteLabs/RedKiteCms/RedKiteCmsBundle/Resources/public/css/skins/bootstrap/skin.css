@@ -810,7 +810,7 @@
 }
 
 #al_panel_contents {
-  margin-left: 200px;
+  margin: 0 auto;
   width: 1000px;
   font: normal 14px/18px Arial, Verdana, Helvetica, sans-serif;
   color: #525252;
