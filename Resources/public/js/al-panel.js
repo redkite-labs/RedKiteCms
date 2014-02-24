@@ -54,6 +54,8 @@
                 }
                 
                 localStorage.setItem("cpPanelVerticalAlign", cpPanelVerticalAlign);
+                
+                return false;
             });
             
             $('#rk-down').on('click', function() {
@@ -69,6 +71,8 @@
                 }
                 
                 localStorage.setItem("cpPanelVerticalAlign", cpPanelVerticalAlign);
+                
+                return false;
             });
             
             $('.rk-navigation').on('click', function() {
@@ -83,6 +87,8 @@
                     at: "left top",
                     of: this
                 });
+                
+                return false;
             });
 
             $('.rk-navbar-toggle').on('click', function(){
@@ -95,18 +101,24 @@
                     cpControlPanelType = 'mini';
                     localStorage.setItem("cpControlPanelType", cpControlPanelType);
                 }
+                
+                return false;
             });
             
             $('#rk-maximize').on('click', function() {
                 cpPanelState = "maximized";
                 showControlPanelFull();
                 localStorage.setItem("cpPanelState", cpPanelState);
+                
+                return false;
             });
 
             $('#rk-minimize').on('click', function() {
                 cpPanelState = "minimized";
                 showControlPanelFull();
                 localStorage.setItem("cpPanelState", cpPanelState);
+                
+                return false;
             });
         }
     };
