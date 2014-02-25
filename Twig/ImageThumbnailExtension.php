@@ -44,13 +44,13 @@ class ImageThumbnailExtension extends \Twig_Extension
      * @param  string $image
      * @param  int    $targetWidth
      * @param  int    $targetHeight
-     * @return string
+     * @return string|null
      */
     public function thumbnail($image, $targetWidth = 100, $targetHeight = 100)
     {
         $imagePath = $this->container->getParameter('red_kite_cms.web_folder_full_path') . $image;
         if (!is_file($imagePath)) {
-            return '';
+            return null;
         }
         $thumbnailer = $this->container->get('red_kite_cms.images_thumbnailer');
         $thumbnailer->create($imagePath, $targetWidth, $targetHeight);
