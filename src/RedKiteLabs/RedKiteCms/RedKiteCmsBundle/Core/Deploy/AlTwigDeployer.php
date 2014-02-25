@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of the RedKiteCmsBunde Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
@@ -34,15 +33,16 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWrit
  */
 class AlTwigDeployer extends AlDeployer
 {
+    /** @var TwigTemplateWriter */
     protected $twigTemplateWriter;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter      $twigTemplateWriter
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface $routingGenerator
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface $sitemapGenerator
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface                          $dispatcher
+     * @param TwigTemplateWriter        $twigTemplateWriter
+     * @param RoutingGeneratorInterface $routingGenerator
+     * @param SitemapGeneratorInterface $sitemapGenerator
+     * @param EventDispatcherInterface  $dispatcher
      */
     public function __construct(TwigTemplateWriter $twigTemplateWriter, RoutingGeneratorInterface $routingGenerator, SitemapGeneratorInterface $sitemapGenerator = null, EventDispatcherInterface $dispatcher = null)
     {

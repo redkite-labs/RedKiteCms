@@ -43,7 +43,6 @@ interface AlEventsHandlerInterface
      * @param  string                                                           $eventName
      * @param  string                                                           $class
      * @param  array                                                            $args
-     * @param  boolean                                                          $overrideIfExists
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler
      *
      * @api

@@ -30,9 +30,9 @@ interface RoutingGeneratorInterface
     /**
      * Generates the routing from the given PageTreeCollection
      *
-     * @param  string $deployBundle The name of the deploy bundle
-     * @param  string $deployBundle The name of the deploy controller
-     * @return string
+     * @param  string $deployBundle     The name of the deploy bundle
+     * @param  string $deployController The name of the deploy controller
+     * @return self
      */
     public function generateRouting($deployBundle, $deployController);
 
@@ -46,6 +46,7 @@ interface RoutingGeneratorInterface
     /**
      * Writes the generated routing
      *
+     * @param  string $path
      * @return string
      */
     public function writeRouting($path);

@@ -3,7 +3,6 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Generator;
 
 use Symfony\Component\DependencyInjection\Container;
-use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlBaseGenerator;
 
 /**
  * AlAppBlockGenerator generates an App-Block bundle

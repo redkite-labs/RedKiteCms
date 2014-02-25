@@ -17,14 +17,14 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
-use Symfony\Component\Security\Core\SecurityContext;
-use Symfony\Component\HttpFoundation\Response;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlUser;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlRole;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\Security\AlUserType;
 use RedKiteLabs\RedKiteCmsBundle\Core\Form\Security\AlRoleType;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlUser;
+use RedKiteLabs\RedKiteCmsBundle\Model\AlRole;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\SecurityContext;
 
 /**
  * Implements the authentication action to grant the use of the CMS.
@@ -33,17 +33,15 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SecurityController extends Base\BaseController
 {
-    private $factoryRepository = null;
     private $userRepository = null;
     private $roleRepository;
 
-    public function loginAction()
+    public function loginAction(Request $request)
     {
         $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
         $this->container->get('twig')->addGlobal('bootstrap_version', $bootstrapVersion);
 
-        $request = $this->container->get('request');
-        $params = $this->checkRequestError();
+        $params = $this->checkRequestError($request);
 
         $response = null;
         $template = 'RedKiteCmsBundle:Security:Login/login-form.html.twig';
@@ -53,15 +51,14 @@ class SecurityController extends Base\BaseController
             $template = sprintf('RedKiteCmsBundle:Bootstrap:%s/Security/Login/login-form-ajax.html.twig', $bootstrapVersion);
         }
 
-        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
-        $pageReporitory = $factoryRepository->createRepository('Page');
-        $languageReporitory = $factoryRepository->createRepository('Language');
+        $pageRepository = $this->createRepository('Page');
+        $languageRepository = $this->createRepository('Language');
 
-        $alPage = $pageReporitory->homePage();
-        $alLanguage = $languageReporitory->mainLanguage();
+        $alPage = $pageRepository->homePage();
+        $alLanguage = $languageRepository->mainLanguage();
         $params['target'] = '/backend/' . $alLanguage->getLanguageName() . '/' . $alPage->getPageName();
 
-        return $this->container->get('templating')->renderResponse($template, $params, $response);
+        return $this->render($template, $params, $response);
     }
 
     /**
@@ -121,7 +118,6 @@ class SecurityController extends Base\BaseController
     public function saveUserAction(Request $request)
     {
         $message = '';
-        $errors = array();
         if ('POST' === $request->getMethod()) {
             $userId = $request->get('userId');
             $isNewUser = (null !== $userId && $userId != 0) ? false : true;
@@ -140,7 +136,7 @@ class SecurityController extends Base\BaseController
             $validator = $this->container->get('validator');
             $errors = $validator->validate($user);
             if (count($errors) > 0) {
-                $message = $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_errors.html.twig', array(
+                $message = $this->renderView('RedKiteCmsBundle:Security:Entities/_errors.html.twig', array(
                     'errors' => $errors,
                 ));
 
@@ -193,7 +189,7 @@ class SecurityController extends Base\BaseController
             $validator = $this->container->get('validator');
             $errors = $validator->validate($role);
             if (count($errors) > 0) {
-                $message = $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_errors.html.twig', array(
+                $message = $this->renderView('RedKiteCmsBundle:Security:Entities/_errors.html.twig', array(
                     'errors' => $errors,
                 ));
 
@@ -276,9 +272,8 @@ class SecurityController extends Base\BaseController
     /**
      * @codeCoverageIgnore
      */
-    protected function checkRequestError()
+    protected function checkRequestError(Request $request)
     {
-        $request = $this->container->get('request');
         $session = $request->getSession();
 
         // get the error if any (works with forward and redirect -- see below)
@@ -306,9 +301,9 @@ class SecurityController extends Base\BaseController
 
     private function loadUsers()
     {
-        $form = $this->container->get('form.factory')->create(new AlUserType(), new AlUser());
+        $form = $this->createForm(new AlUserType(), new AlUser());
 
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/users_panel.html.twig', array(
+        return $this->render('RedKiteCmsBundle:Security:Entities/users_panel.html.twig', array(
             'users' => $this->userRepository()->activeUsers(),
             'form' => $form->createView(),
         ));
@@ -316,9 +311,9 @@ class SecurityController extends Base\BaseController
 
     private function loadRoles()
     {
-        $form = $this->container->get('form.factory')->create(new AlRoleType(), new AlRole());
+        $form = $this->createForm(new AlRoleType(), new AlRole());
 
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Security:Entities/roles_panel.html.twig', array(
+        return $this->render('RedKiteCmsBundle:Security:Entities/roles_panel.html.twig', array(
             'roles' => $this->roleRepository()->activeRoles(),
             'form' => $form->createView(),
         ));
@@ -326,40 +321,37 @@ class SecurityController extends Base\BaseController
 
     private function loadUsersList()
     {
-        return $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_users_list.html.twig', array(
+        return $this->renderView('RedKiteCmsBundle:Security:Entities/_users_list.html.twig', array(
             'users' => $this->userRepository()->activeUsers(),
         ));
     }
 
     private function loadRolesList()
     {
-        return $this->container->get('templating')->render('RedKiteCmsBundle:Security:Entities/_roles_list.html.twig', array(
+        return $this->renderView('RedKiteCmsBundle:Security:Entities/_roles_list.html.twig', array(
             'roles' => $this->roleRepository()->activeRoles(),
         ));
     }
 
-    private function factoryRepository()
-    {
-        if (null === $this->factoryRepository) {
-            $this->factoryRepository = $this->container->get('red_kite_cms.factory_repository');
-        }
-
-        return $this->factoryRepository;
-    }
-
+    /**
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\UserRepositoryInterface
+     */
     private function userRepository()
     {
         if (null === $this->userRepository) {
-            $this->userRepository = $this->factoryRepository()->createRepository('User');
+            $this->userRepository = $this->createRepository('User');
         }
 
         return $this->userRepository;
     }
 
+    /**
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\RoleRepositoryInterface
+     */
     private function roleRepository()
     {
         if (null === $this->roleRepository) {
-            $this->roleRepository = $this->factoryRepository()->createRepository('Role');
+            $this->roleRepository = $this->createRepository('Role');
         }
 
         return $this->roleRepository;

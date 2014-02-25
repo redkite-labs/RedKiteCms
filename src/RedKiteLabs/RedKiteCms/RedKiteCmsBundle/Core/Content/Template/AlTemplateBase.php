@@ -31,14 +31,15 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
  */
 abstract class AlTemplateBase extends AlContentManagerBase
 {
+    /** @var AlBlockManagerFactoryInterface */
     protected $blockManagerFactory;
 
     /**
-     * Contructor
+     * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface     $blockManagerFactory
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param AlEventsHandlerInterface       $eventsHandler
+     * @param AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param AlParametersValidatorInterface $validator
      *
      * @api
      */
@@ -52,8 +53,8 @@ abstract class AlTemplateBase extends AlContentManagerBase
     /**
      * Sets the blockManager factory object
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateBase
+     * @param  AlBlockManagerFactoryInterface $blockManagerFactory
+     * @return self
      *
      * @api
      */

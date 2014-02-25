@@ -33,15 +33,16 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface;
  */
 abstract class AlBlockManagerInlineTextBlock extends AlBlockManager
 {
+    /** @var null|AlTranslatorInterface */
     protected $translator;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface                 $translator
+     * @param null|AlEventsHandlerInterface       $eventsHandler
+     * @param null|AlFactoryRepositoryInterface   $factoryRepository
+     * @param null|AlParametersValidatorInterface $validator
+     * @param null|AlTranslatorInterface          $translator
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler = null, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null, AlTranslatorInterface $translator = null)
     {

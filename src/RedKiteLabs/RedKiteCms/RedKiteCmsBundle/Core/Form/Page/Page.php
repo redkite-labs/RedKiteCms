@@ -36,9 +36,9 @@ class Page
         return $this->pageName;
     }
 
-    public function setPageName($v)
+    public function setPageName($pageName)
     {
-        $this->pageName = $v;
+        $this->pageName = $pageName;
     }
 
     public function getTemplate()
@@ -46,9 +46,9 @@ class Page
         return $this->template;
     }
 
-    public function setTemplate($v)
+    public function setTemplate($template)
     {
-        $this->template = $v;
+        $this->template = $template;
     }
 
     public function getIsHome()
@@ -56,9 +56,9 @@ class Page
         return $this->isHome;
     }
 
-    public function setIsHome($v)
+    public function setIsHome($home)
     {
-        $this->isHome = $v;
+        $this->isHome = $home;
     }
 
     public function getIsPublished()
@@ -66,8 +66,8 @@ class Page
         return $this->isPublished;
     }
 
-    public function setIsPublished($v)
+    public function setIsPublished($published)
     {
-        $this->isPublished = $v;
+        $this->isPublished = $published;
     }
 }

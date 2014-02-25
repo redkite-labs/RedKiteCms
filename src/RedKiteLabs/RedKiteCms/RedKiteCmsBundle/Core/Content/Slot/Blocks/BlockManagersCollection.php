@@ -28,12 +28,13 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
  */
 class BlockManagersCollection implements \Countable
 {
+    /** @var AlBlockManagerInterface[] */
     protected $blockManagers = array();
 
     /**
      * Adds an AlBlockManagerInterface object to the collection
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
+     * @param AlBlockManagerInterface $blockManager
      *
      * @api
      */
@@ -45,7 +46,7 @@ class BlockManagersCollection implements \Countable
     /**
      * Returns the array managed by the collection
      *
-     * @return array
+     * @return AlBlockManagerInterface[]
      *
      * @api
      */
@@ -59,7 +60,8 @@ class BlockManagersCollection implements \Countable
      *
      * @link http://php.net/manual/en/countable.count.php
      * @return int The custom count as an integer.
-     *             @codeCoverageIgnore
+     *
+     * @codeCoverageIgnore
      */
     public function count()
     {
@@ -69,7 +71,7 @@ class BlockManagersCollection implements \Countable
     /**
      * Returns the first block manager placed on the slot
      *
-     * @return null|AlBlockManager
+     * @return null|AlBlockManagerInterface
      *
      * @api
      */
@@ -81,7 +83,7 @@ class BlockManagersCollection implements \Countable
     /**
      * Returns the last block manager placed on the slot
      *
-     * @return null|AlBlockManager
+     * @return null|AlBlockManagerInterface
      *
      * @api
      */
@@ -95,7 +97,8 @@ class BlockManagersCollection implements \Countable
     /**
      * Returns the block manager at the given index.
      *
-     * @return null|AlBlockManager
+     * @param  int                          $index
+     * @return null|AlBlockManagerInterface
      *
      * @api
      */
@@ -134,8 +137,8 @@ class BlockManagersCollection implements \Countable
     /**
      * Retrieves the block manager by the block's id
      *
-     * @param  type                                                                      $idBlock The id of the block to retrieve
-     * @return null|\RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface
+     * @param  int                          $idBlock The id of the block to retrieve
+     * @return null|AlBlockManagerInterface
      *
      * @api
      */
@@ -183,8 +186,8 @@ class BlockManagersCollection implements \Countable
     /**
      * Inserts a block manager at the specified index
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $element
-     * @param  int                                                                      $at
+     * @param  AlBlockManagerInterface $element
+     * @param  int                     $at
      * @return array
      */
     public function insertAt(AlBlockManagerInterface $element, $at)

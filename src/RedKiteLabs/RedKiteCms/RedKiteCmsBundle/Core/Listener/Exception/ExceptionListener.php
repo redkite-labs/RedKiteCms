@@ -29,7 +29,9 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface;
  */
 class ExceptionListener
 {
+    /** @var EngineInterface */
     protected $templating;
+    /** @var AlTranslatorInterface */
     protected $translator;
 
     public function __construct(EngineInterface $templating, AlTranslatorInterface $translator)

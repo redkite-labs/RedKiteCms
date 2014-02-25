@@ -43,8 +43,8 @@ interface AlSiteBootstrapInterface
     /**
      * Sets the language manager
      *
-     * @param  AlLanguageManager                                                $value
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     * @param  AlLanguageManager $value
+     * @return self
      *
      * @api
      */
@@ -53,8 +53,8 @@ interface AlSiteBootstrapInterface
     /**
      * Sets the page manager
      *
-     * @param  AlPageManager                                                    $value
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     * @param  AlPageManager $value
+     * @return self
      *
      * @api
      */
@@ -63,8 +63,8 @@ interface AlSiteBootstrapInterface
     /**
      * Sets the template manager
      *
-     * @param  AlTemplateManager                                                $value
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     * @param  AlTemplateManager $value
+     * @return self
      *
      * @api
      */
@@ -73,8 +73,8 @@ interface AlSiteBootstrapInterface
     /**
      * Sets the default language's values used to add the new language
      *
-     * @param  array                                                            $value
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     * @param  array $value
+     * @return self
      *
      * @api
      */
@@ -83,8 +83,8 @@ interface AlSiteBootstrapInterface
     /**
      * Sets the default page's values used to add the new language
      *
-     * @param  array                                                            $value
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap
+     * @param  array $value
+     * @return self
      *
      * @api
      */

@@ -29,13 +29,16 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface;
  */
 class AlTranslator implements AlTranslatorInterface
 {
+    /** @var TranslatorInterface */
     protected $translator;
+    /** @var AlConfigurationInterface */
     protected $configuration;
 
     /**
      * Constructor
      *
-     * @param \Symfony\Component\Translation\TranslatorInterface $translator
+     * @param TranslatorInterface      $translator
+     * @param AlConfigurationInterface $configuration
      *
      * @api
      */
@@ -48,8 +51,8 @@ class AlTranslator implements AlTranslatorInterface
     /**
      * Sets the tranlator object
      *
-     * @param  \Symfony\Component\Translation\TranslatorInterface         $translator
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslator
+     * @param  TranslatorInterface $translator
+     * @return AlTranslator
      *
      * @api
      */
@@ -63,7 +66,7 @@ class AlTranslator implements AlTranslatorInterface
     /**
      * Returns the Translator object
      *
-     * @return \Symfony\Component\Translation\TranslatorInterface
+     * @return TranslatorInterface
      *
      * @api
      */
@@ -75,8 +78,8 @@ class AlTranslator implements AlTranslatorInterface
     /**
      * Sets the configuration object
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface $configuration
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslator
+     * @param  AlConfigurationInterface $configuration
+     * @return AlTranslator
      */
     public function setConfiguration(AlConfigurationInterface $configuration)
     {
@@ -88,7 +91,7 @@ class AlTranslator implements AlTranslatorInterface
     /**
      * Returns the Configuration object
      *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface
+     * @return AlConfigurationInterface
      *
      * @api
      */

@@ -26,7 +26,7 @@ interface AlActiveThemeInterface
 {
     /**
      * Returns the active theme
-     * @return null|string
+     * @return null|\RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme
      */
     public function getActiveTheme();
 

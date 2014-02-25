@@ -37,7 +37,7 @@ class EditSeoListener
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
+     * @param AlSeoManager $seoManager
      *
      * @api
      */
@@ -49,10 +49,10 @@ class EditSeoListener
     /**
      * Edits the seo attributes when a new page is edited
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent $event
+     * @param  BeforeEditPageCommitEvent $event
      * @return boolean
-     * @throws \InvalidArgumentException
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\Exception
+     * @throws InvalidArgumentException
+     * @throws \Exception
      *
      * @api
      */
@@ -71,7 +71,6 @@ class EditSeoListener
         }
 
         try {
-            //$idPage = $pageManager->get()->getId();
             $pageInformation = $pageManager->getTemplateManager()
                     ->getPageBlocks()
                     ->getPageInformation();

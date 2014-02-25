@@ -29,8 +29,9 @@ class BlocksRemover extends BaseBlocks
     /**
      * Removes the block manager that handles the given block id
      *
-     * @param  int                                                                            $idBlock
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection $blockManagers
+     * @param  int                     $idBlock
+     * @param  BlockManagersCollection $blockManagersCollection
+     * @throws \Exception
      * @return null|boolean
      */
     public function remove($idBlock, BlockManagersCollection $blockManagersCollection)
@@ -39,7 +40,7 @@ class BlocksRemover extends BaseBlocks
         $blockManager = $blockManagerInfo['manager'];
         // @codeCoverageIgnoreStart
         if (null === $blockManager) {
-            return;
+            return null;
         }
         // @codeCoverageIgnoreEnd
 
@@ -72,8 +73,9 @@ class BlocksRemover extends BaseBlocks
     /**
      * Deletes all the blocks managed by the slot
      *
+     * @param  BlockManagersCollection $blockManagersCollection
+     * @throws \Exception
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      *
      * @api
      */
@@ -81,7 +83,7 @@ class BlocksRemover extends BaseBlocks
     {
         // @codeCoverageIgnoreStart
         if ($blockManagersCollection->count() == 0) {
-            return;
+            return null;
         }
         // @codeCoverageIgnoreEnd
 

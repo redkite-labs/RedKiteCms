@@ -52,11 +52,12 @@ class Language
     /**
      * Sets the language
      *
+     * @param $language
      * @return string
      */
-    public function setLanguage($v)
+    public function setLanguage($language)
     {
-        $this->language = $v;
+        $this->language = $language;
     }
 
     public function getIsMain()
@@ -64,8 +65,8 @@ class Language
         return $this->isMain;
     }
 
-    public function setIsMain($v)
+    public function setIsMain($main)
     {
-        $this->isMain = $v;
+        $this->isMain = $main;
     }
 }

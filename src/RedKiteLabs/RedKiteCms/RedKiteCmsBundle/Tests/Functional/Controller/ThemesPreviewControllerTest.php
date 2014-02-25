@@ -31,7 +31,7 @@ class ThemesPreviewControllerTest extends WebTestCaseFunctional
         $crawler = $this->client->request('GET', '/backend/en/al_previewTheme/en/index/ModernBusinessThemeBundle');
         $response = $this->client->getResponse();
         $this->assertEquals(200, $response->getStatusCode());
-        
+
         $this->assertCount(1, $crawler->filter('#al_main_commands'));
         $this->assertCount(1, $crawler->filter('#al_show_navigation'));
         $this->assertCount(1, $crawler->filter('#al_templates_navigator'));

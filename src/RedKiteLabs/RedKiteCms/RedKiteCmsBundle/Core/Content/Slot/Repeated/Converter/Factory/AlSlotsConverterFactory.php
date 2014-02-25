@@ -31,14 +31,16 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ClassNotFoundExc
  */
 class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
 {
+    /** @var null|AlPageBlocksInterface */
     protected $pageContentsContainer = null;
+    /** @var null|AlFactoryRepositoryInterface */
     protected $factoryRepository = null;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface        $pageContentsContainer
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param AlPageBlocksInterface        $pageContentsContainer
+     * @param AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
@@ -51,10 +53,10 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot                                $slot
-     * @param  string                                                                               $newRepeatedStatus
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\className
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ClassNotFoundException
+     * @param  AlSlot                                                                                      $slot
+     * @param  string                                                                                      $newRepeatedStatus
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface
+     * @throws ClassNotFoundException
      */
     public function createConverter(AlSlot $slot, $newRepeatedStatus)
     {

@@ -17,21 +17,22 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\PagesForm;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\SeoForm;
-use Symfony\Component\HttpFoundation\Response;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\PagesForm;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\SeoForm;
+use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class PagesController extends Base\BaseController
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $pagesForm = $this->container->get('form.factory')->create(new PagesForm($this->container->get('red_kite_cms.active_theme'), $this->container->get('red_kite_labs_theme_engine.themes')));
-        $seoForm = $this->container->get('form.factory')->create(new SeoForm($this->createRepository('Language')));
+        $pagesForm = $this->createForm(new PagesForm($this->container->get('red_kite_cms.active_theme'), $this->container->get('red_kite_labs_theme_engine.themes')));
+        $seoForm = $this->createForm(new SeoForm($this->createRepository('Language')));
 
-        $request = $this->container->get('request');
         $params = array(
             'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
             'pages' => $this->getPages(),
@@ -41,13 +42,12 @@ class PagesController extends Base\BaseController
             'active_page' => $request->get('page'),
         );
 
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Pages:panel.html.twig', $params);
+        return $this->render('RedKiteCmsBundle:Pages:panel.html.twig', $params);
     }
 
-    public function loadSeoAttributesAction()
+    public function loadSeoAttributesAction(Request $request)
     {
         $values = array();
-        $request = $this->container->get('request');
         $pageId = $request->get('pageId');
         $languageId = $request->get('languageId');
         if ($pageId != 'none' && $languageId != 'none') {
@@ -74,9 +74,8 @@ class PagesController extends Base\BaseController
         return $response;
     }
 
-    public function savePageAction()
+    public function savePageAction(Request $request)
     {
-        $request = $this->container->get('request');
         if ('al_' === substr($request->get('pageName'), 0, 3)) {
             throw new InvalidArgumentException('pages_controller_al_prefix_not_permitted');
         }
@@ -120,12 +119,11 @@ class PagesController extends Base\BaseController
 
         $page = $pageManager->getPageRepository()->fromPageName($request->get('page'));
 
-        return $this->buildJSonHeader($this->translate('pages_controller_page_saved'), $page);
+        return $this->buildJSonHeader($request, $this->translate('pages_controller_page_saved'), $page);
     }
 
-    public function deletePageAction()
+    public function deletePageAction(Request $request)
     {
-        $request = $this->container->get('request');
         $pageManager = $this->container->get('red_kite_cms.page_manager');
 
         $alPage = null;
@@ -139,10 +137,10 @@ class PagesController extends Base\BaseController
 
         $pageManager->set($alPage);
 
-        return $this->removePage($pageManager);
+        return $this->removePage($request, $pageManager);
     }
 
-    protected function removePage($pageManager)
+    protected function removePage(Request $request, AlContentManagerInterface $pageManager)
     {
         $result = $pageManager->delete();
         if (! $result) {
@@ -151,30 +149,29 @@ class PagesController extends Base\BaseController
             // @codeCoverageIgnoreEnd
         }
 
-        return $this->buildJSonHeader($this->translate('pages_controller_page_removed'), $pageManager->get());
+        return $this->buildJSonHeader($request, $this->translate('pages_controller_page_removed'), $pageManager->get());
     }
 
-    protected function buildJSonHeader($message, $page = null)
+    protected function buildJSonHeader(Request $request, $message, $page = null)
     {
         $pages = $pagesList = $this->getPages();
         unset($pagesList['none']);
-        $request = $this->container->get('request');
 
         $permalinks = ChoiceValues::getPermalinks($this->createRepository('Seo'), $request->get('_locale'));
 
         $values = array();
         $values[] = array("key" => "message", "value" => $message);
-        $values[] = array("key" => "pages_list", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Pages:pages_list.html.twig', array(
+        $values[] = array("key" => "pages_list", "value" => $this->renderView('RedKiteCmsBundle:Pages:pages_list.html.twig', array(
             'pages' => $pagesList,
             'active_page' => $request->get('page'),
             'languages' => ChoiceValues::getLanguages($this->createRepository('Language'), false),
         )));
-        $values[] = array("key" => "permalinks", "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_permalink_select.html.twig', array(
+        $values[] = array("key" => "permalinks", "value" => $this->renderView('RedKiteCmsBundle:Partials:_permalink_select.html.twig', array(
             'permalinks' => $permalinks,)
         ));
         $values[] = array(
             "key" => "pages",
-            "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Partials:_dropdown_menu.html.twig', array(
+            "value" => $this->renderView('RedKiteCmsBundle:Partials:_dropdown_menu.html.twig', array(
                 'id' => 'al_pages_navigator',
                 'type' => 'al_page_item',
                 'value' => (null !== $page) ? $page->getId() : 0,
@@ -192,12 +189,5 @@ class PagesController extends Base\BaseController
     protected function getPages()
     {
         return ChoiceValues::getPages($this->createRepository('Page'), false);
-    }
-
-    private function createRepository($repository)
-    {
-        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
-
-        return $factoryRepository->createRepository($repository);
     }
 }

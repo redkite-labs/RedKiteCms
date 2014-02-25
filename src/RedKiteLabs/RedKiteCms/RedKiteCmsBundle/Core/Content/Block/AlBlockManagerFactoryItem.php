@@ -41,9 +41,9 @@ class AlBlockManagerFactoryItem
     /**
      * Constructor
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface               $blockManager
-     * @param  array                                                                                  $attributes
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @param  AlBlockManagerInterface   $blockManager
+     * @param  array                     $attributes
+     * @throws ArgumentExpectedException
      *
      * @api
      */
@@ -72,7 +72,7 @@ class AlBlockManagerFactoryItem
     /**
      * Returns the handled block manager
      *
-     * @return RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface
+     * @return AlBlockManagerInterface
      *
      * @api
      */

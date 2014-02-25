@@ -27,12 +27,13 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
  */
 class DeleteLanguageSeoListener extends Base\DeleteLanguageBaseListener
 {
+    /** @var AlSeoManager */
     private $seoManager;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
+     * @param AlSeoManager $seoManager
      */
     public function __construct(AlSeoManager $seoManager)
     {

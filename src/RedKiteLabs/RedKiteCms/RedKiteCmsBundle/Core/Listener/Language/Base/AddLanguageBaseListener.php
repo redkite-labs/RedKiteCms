@@ -29,16 +29,21 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 abstract class AddLanguageBaseListener
 {
+    /** @var null|ContainerInterface */
     protected $container = null;
-    protected $mainLanguage = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager */
     protected $languageManager = null;
-    private $sourceObjects = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage */
+    protected $mainLanguage = null;
+    /** @var null|\Symfony\Component\HttpFoundation\Request */
     private $request = null;
+    /** @var null|array|\PropelCollection */
+    private $sourceObjects = null;
 
     /**
      * Implement this method to set up the source objects
      *
-     * @return A model collection instance depending on the used ORM (i.e PropelCollection)
+     * @return \PropelCollection A model collection instance depending on the used ORM (i.e PropelCollection)
      *
      * @api
      */
@@ -57,7 +62,7 @@ abstract class AddLanguageBaseListener
     /**
      * Constructor
      *
-     * @param Request $request
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      *
      * @api
      */
@@ -72,9 +77,9 @@ abstract class AddLanguageBaseListener
     /**
      * Listen the onBeforeAddLanguageCommit event to copy the source object to the new language
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent $event
+     * @param  BeforeAddLanguageCommitEvent $event
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\Base\Exception
+     * @throws \Exception
      *
      * @api
      */
@@ -128,7 +133,7 @@ abstract class AddLanguageBaseListener
     /**
      * Fetches the base language used to copy the entities
      *
-     * @return RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage
+     * @return \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage
      */
     protected function getBaseLanguage()
     {

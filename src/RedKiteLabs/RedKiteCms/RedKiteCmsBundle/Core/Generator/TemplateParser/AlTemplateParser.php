@@ -16,15 +16,19 @@ use Symfony\Component\Yaml\Exception\ParseException;
  */
 class AlTemplateParser
 {
+    private $templateLocator;
+    private $nameParser;
+    private $ymlParser;
     private $templatesDir;
     private $kernelDir;
     private $themeName;
-    private $ymlParser;
 
     /**
      * Constructor
      *
-     * @param string $templatesDir
+     * @param TemplateLocator             $templateLocator
+     * @param TemplateNameParserInterface $nameParser
+     * @internal param string $templatesDir
      */
     public function __construct(TemplateLocator $templateLocator, TemplateNameParserInterface $nameParser)
     {
@@ -38,6 +42,9 @@ class AlTemplateParser
      * Parses the templates folder and returns the retrieved information
      * as array
      *
+     * @param  string $templatesDir
+     * @param  string $kernelDir
+     * @param  string $themeName
      * @return array
      */
     public function parse($templatesDir, $kernelDir, $themeName)
@@ -202,7 +209,7 @@ class AlTemplateParser
                 if ( ! array_key_exists('name', $parsedAttributes)) {
                     continue;
                 }
-                
+
                 if ( array_key_exists('blockDefinition', $parsedAttributes)) {
                     $parsedAttributes['blockDefinition'] = json_encode($parsedAttributes['blockDefinition']);
                 }
@@ -219,7 +226,7 @@ class AlTemplateParser
                 $slots[$slotName]['errors'] = $wrongAttributes;
             }
         }
-        
+
         return $slots;
     }
 }

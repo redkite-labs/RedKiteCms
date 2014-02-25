@@ -31,15 +31,18 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInte
  */
 class DeleteSeoListener
 {
+    /** @var null|AlFactoryRepositoryInterface */
     protected $factoryRepository = null;
+    /** @var null|AlSeoManager */
     private $seoManager = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     private $languageRepository = null;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager                        $seoManager
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param AlSeoManager                 $seoManager
+     * @param AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
@@ -53,9 +56,9 @@ class DeleteSeoListener
     /**
      * Deletes the page's seo attributes, for all the languages of the site
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent $event
+     * @param  BeforeDeletePageCommitEvent $event
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\Exception
+     * @throws \Exception
      *
      * api
      */

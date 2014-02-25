@@ -37,7 +37,7 @@ class SeoForm extends BaseBlockType
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel $languageRepository
+     * @param AlLanguageRepositoryPropel $languageRepository
      */
     public function __construct(AlLanguageRepositoryPropel $languageRepository)
     {

@@ -34,12 +34,13 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInter
  */
 abstract class BaseBlocks
 {
+    /** @var BlockRepositoryInterface */
     protected $blockRepository;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
+     * @param BlockRepositoryInterface $blockRepository
      */
     public function __construct(BlockRepositoryInterface $blockRepository)
     {
@@ -55,16 +56,15 @@ abstract class BaseBlocks
      * When in *del* mode, decrements by 1 the position of the blocks placed below the
      * removing block
      *
-     * @param  string                                                                                    $op       The operation to do. It accepts add or del as valid values
-     * @param  array                                                                                     $managers An array of block managers
+     * @param  string     $op       The operation to do. It accepts add or del as valid values
+     * @param  array      $managers An array of block managers
+     * @throws \Exception
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @throws InvalidArgumentException
      */
     protected function adjustPosition($op, array $managers)
     {
         if (count($managers) == 0) {
-            return;
+            return null;
         }
 
         $this->checkValidOperation($op);

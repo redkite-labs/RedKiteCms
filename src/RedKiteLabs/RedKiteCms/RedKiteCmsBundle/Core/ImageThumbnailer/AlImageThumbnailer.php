@@ -25,10 +25,8 @@ class AlImageThumbnailer
     /**
      * Constructor
      *
-     * @param string  $image
-     * @param int     $thumbnailWidth
-     * @param int     $thumbnailHeight
-     * @param Imagine $imagine
+     * @param Image\ImagineInterface $imagine
+     * @param Transformation         $transformation
      */
     public function __construct(Image\ImagineInterface $imagine = null, Transformation $transformation = null)
     {

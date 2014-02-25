@@ -39,15 +39,23 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollec
  */
 abstract class AlDeployer implements AlDeployerInterface
 {
+    /** @var RoutingGeneratorInterface */
+    protected $routingGenerator;
+    /** @var SitemapGeneratorInterface  */
+    protected $sitemapGenerator;
+    /** @var null|EventDispatcherInterface  */
     protected $dispatcher = null;
+    /** @var Filesystem */
+    protected $fileSystem;
+    /** @var null|AlPageTreeCollection  */
     protected $pageTreeCollection = null;
 
     /**
      * Save the page from an AlPageTree object
      *
-     * @param  RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree $pageTree
-     * @param  RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme      $theme
-     * @param  array                                                 $options
+     * @param  AlPageTree $pageTree
+     * @param  AlTheme    $theme
+     * @param  array      $options
      * @return boolean
      *
      * @api
@@ -57,9 +65,9 @@ abstract class AlDeployer implements AlDeployerInterface
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface $routingGenerator
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface $sitemapGenerator
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface                          $dispatcher
+     * @param RoutingGeneratorInterface     $routingGenerator
+     * @param SitemapGeneratorInterface     $sitemapGenerator
+     * @param EventDispatcherInterface|null $dispatcher
      *
      * @api
      */

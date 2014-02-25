@@ -32,14 +32,16 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
  */
 class AlResourcesLocker
 {
+    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LockedResourceRepositoryInterface */
     private $lockedResourceRepository;
+    /** @var int */
     private $expiringTime;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * @param int                                                                                $expiringTime      The time after a not updated resource is expired
+     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param int                          $expiringTime      The time after a not updated resource is expired
      *
      * @api
      */
@@ -54,8 +56,8 @@ class AlResourcesLocker
      * Locks a resource for the current user when it is free or updates the expiring
      * time when it is locked by the same user
      *
-     * @param  type                     $userId
-     * @param  type                     $resourceName
+     * @param  int                      $userId
+     * @param  string                   $resourceName
      * @throws ResourceNotFreeException
      * @throws \RuntimeException
      *

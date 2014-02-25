@@ -38,9 +38,9 @@ class BlockEditedEvent extends Event
     /**
      * Construct
      *
-     * @param \Symfony\Component\HttpFoundation\Request                                $request
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
-     * @param \Symfony\Component\HttpFoundation\Response                               $response
+     * @param Request                 $request
+     * @param AlBlockManagerInterface $blockManager
+     * @param Response                $response
      *
      * @api
      */
@@ -54,7 +54,7 @@ class BlockEditedEvent extends Event
     /**
      * Returns the handled request object
      *
-     * @return \Symfony\Component\HttpFoundation\Request
+     * @return Request
      *
      * @api
      */
@@ -66,19 +66,19 @@ class BlockEditedEvent extends Event
     /**
      * Sets the request
      *
-     * @param \Symfony\Component\HttpFoundation\Request $v
+     * @param Request $request
      *
      * @api
      */
-    public function setRequest(Request $v)
+    public function setRequest(Request $request)
     {
-        $this->request = $v;
+        $this->request = $request;
     }
 
     /**
      * Returns the handled block manager object
      *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface
+     * @return AlBlockManagerInterface
      *
      * @api
      */
@@ -90,19 +90,19 @@ class BlockEditedEvent extends Event
     /**
      * Sets the block manager
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $v
+     * @param AlBlockManagerInterface $manager
      *
      * @api
      */
-    public function setBlockManager(AlBlockManagerInterface $v)
+    public function setBlockManager(AlBlockManagerInterface $manager)
     {
-        $this->blockManager = $v;
+        $this->blockManager = $manager;
     }
 
     /**
      * Returns the handled response object
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @api
      */
@@ -114,12 +114,12 @@ class BlockEditedEvent extends Event
     /**
      * Sets the response
      *
-     * @param \Symfony\Component\HttpFoundation\Response $v
+     * @param Response $response
      *
      * @api
      */
-    public function setResponse(Response $v)
+    public function setResponse(Response $response)
     {
-        $this->response = $v;
+        $this->response = $response;
     }
 }

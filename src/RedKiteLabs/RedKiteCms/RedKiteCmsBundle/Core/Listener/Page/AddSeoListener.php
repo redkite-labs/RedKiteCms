@@ -32,14 +32,16 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
  */
 class AddSeoListener
 {
+    /** @var AlSeoManager */
     private $seoManager;
+    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     private $languageRepository;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager                        $seoManager
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param AlSeoManager                 $seoManager
+     * @param AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
@@ -53,10 +55,10 @@ class AddSeoListener
      * Adds the page's seo attributes when a new page is added, for each language of
      * the site
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent $event
+     * @param  BeforeAddPageCommitEvent $event
      * @return boolean
-     * @throws \InvalidArgumentException
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\Exception
+     * @throws InvalidArgumentException
+     * @throws \Exception
      *
      * @api
      */

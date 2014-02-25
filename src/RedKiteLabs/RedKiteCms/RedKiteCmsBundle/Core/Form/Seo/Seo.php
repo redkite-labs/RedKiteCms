@@ -38,9 +38,9 @@ class Seo
         return $this->idPage;
     }
 
-    public function setIdPage($v)
+    public function setIdPage($idPage)
     {
-        $this->idPage = $v;
+        $this->idPage = $idPage;
     }
 
     public function getIdLanguage()
@@ -48,9 +48,9 @@ class Seo
         return $this->idLanguage;
     }
 
-    public function setIdLanguage($v)
+    public function setIdLanguage($idLanguage)
     {
-        $this->idLanguage = $v;
+        $this->idLanguage = $idLanguage;
     }
 
     public function getPermalink()
@@ -58,9 +58,9 @@ class Seo
         return $this->permalink;
     }
 
-    public function setPermalink($v)
+    public function setPermalink($permalink)
     {
-        $this->permalink = $v;
+        $this->permalink = $permalink;
     }
 
     public function getTitle()
@@ -68,9 +68,9 @@ class Seo
         return $this->title;
     }
 
-    public function setTitle($v)
+    public function setTitle($title)
     {
-        $this->title = $v;
+        $this->title = $title;
     }
 
     public function getDescription()
@@ -78,9 +78,9 @@ class Seo
         return $this->description;
     }
 
-    public function setDescription($v)
+    public function setDescription($description)
     {
-        $this->description = $v;
+        $this->description = $description;
     }
 
     public function getKeywords()
@@ -88,8 +88,8 @@ class Seo
         return $this->keywords;
     }
 
-    public function setKeywords($v)
+    public function setKeywords($keywords)
     {
-        $this->keywords = $v;
+        $this->keywords = $keywords;
     }
 }

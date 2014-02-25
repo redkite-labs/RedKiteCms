@@ -17,7 +17,6 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
-
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
 
@@ -27,12 +26,12 @@ class DeployController extends Base\BaseController
     {
         try {
             $activeTheme = $this->container->get('red_kite_cms.active_theme');
-            
+
             $deployer = $this->container->get('red_kite_cms.production_deployer');
             $templatesFolder =  $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder');
             $pageTreeCollection = $this->container->get('red_kite_cms.page_tree_collection');
             $deployer->deploy($pageTreeCollection, $activeTheme->getActiveTheme(), $this->getOptions($templatesFolder));
-            $response = $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
+            $response = $this->render('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
 
             $this->clearEnvironment('prod');
 
@@ -46,14 +45,14 @@ class DeployController extends Base\BaseController
     {
         try {
             $activeTheme = $this->container->get('red_kite_cms.active_theme');
-            
+
             $deployer = $this->container->get('red_kite_cms.stage_deployer');
             $templatesFolder =  $this->container->getParameter('red_kite_labs_theme_engine.deploy.stage_templates_folder');
             $pageTreeCollection = $this->container->get('red_kite_cms.page_tree_collection');
             $options = $this->getOptions($templatesFolder);
             $options["assetsDir"] = $options["assetsDir"] . "/stage";
             $deployer->deploy($pageTreeCollection, $activeTheme->getActiveTheme(), $options);
-            $response = $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => 'The staging site has been deployed'));
+            $response = $this->render('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => 'The staging site has been deployed'));
 
             $this->clearEnvironment('stage');
 
@@ -68,14 +67,14 @@ class DeployController extends Base\BaseController
         $symlink = (in_array(strtolower(PHP_OS), array('unix', 'linux'))) ? '--symlink' : '';
         $command = sprintf('assets:install %s %s', $this->container->getParameter('red_kite_cms.web_folder_full_path'), $symlink);
         $commandProcessor = $this->container->get('red_kite_cms.commands_processor');
-        
+
         $commandProcessor->executeCommands(array(
             $command => null,
             'assetic:dump --env=rkcms' => null,
             'cache:clear --env=' . $environment => null,
         ));
     }
-    
+
     private function getOptions($templatesFolder)
     {
         $kernel = $this->container->get('kernel');
@@ -83,7 +82,7 @@ class DeployController extends Base\BaseController
         $deployBundleAsset = new AlAsset($kernel, $deployBundle, $this->container->getParameter('red_kite_labs_theme_engine.web_path'));
         $deployBundlePath = $deployBundleAsset->getRealPath();
         $viewsDir = $deployBundlePath . '/Resources/views';
-        
+
         return array(
             "deployBundle" => $deployBundle,
             "configDir" => $deployBundlePath . '/' . $this->container->getParameter('red_kite_cms.deploy_bundle.config_dir'),
