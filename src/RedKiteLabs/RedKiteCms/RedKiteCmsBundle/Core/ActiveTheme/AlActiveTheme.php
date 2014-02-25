@@ -54,6 +54,7 @@ class AlActiveTheme implements AlActiveThemeInterface
 
         $activeThemeFile = $this->getActiveThemeFile();
         if (!file_exists($activeThemeFile)) {
+            $themes = is_array($themes) ? $themes : iterator_to_array($themes);
             $this->activeTheme = end($themes);
             $this->writeActiveTheme($this->activeTheme->getThemeName());
         } else {

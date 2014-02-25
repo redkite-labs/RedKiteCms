@@ -113,7 +113,7 @@ class AlCmsControllerTest extends TestCase
             ->with('language')
         ;
         
-        $at = 8;
+        $at = 7;
         $this->container->expects($this->at($at))
             ->method('get')
             ->with('red_kite_cms.configuration')
@@ -144,7 +144,7 @@ class AlCmsControllerTest extends TestCase
             ->with('event_dispatcher')
             ->will($this->returnValue($dispatcher));
         
-        $this->controller->showAction();        
+        $this->controller->showAction($this->request);
     }
     
     public function testAFlashMessageIsSetWhenTemplateDoesNotExist()
@@ -219,7 +219,7 @@ class AlCmsControllerTest extends TestCase
             ->with('language')
         ;
         
-        $at = 8;
+        $at = 7;
         $this->container->expects($this->at($at))
             ->method('get')
             ->with('red_kite_cms.configuration')
@@ -270,32 +270,27 @@ class AlCmsControllerTest extends TestCase
             ->method('activePages')
             ->will($this->returnValue(array()));
         
-        $this->controller->showAction();        
+        $this->controller->showAction($this->request);
     }
 
     private function initContainer($pageTree)
     {
         $this->container->expects($this->at(0))
             ->method('get')
-            ->with('request')
-            ->will($this->returnValue($this->request));
-        
-        $this->container->expects($this->at(1))
-            ->method('get')
             ->with('kernel')
             ->will($this->returnValue($this->kernel));
         
-        $this->container->expects($this->at(2))
+        $this->container->expects($this->at(1))
             ->method('get')
             ->with('red_kite_cms.page_tree')
             ->will($this->returnValue($pageTree));
 
-        $this->container->expects($this->at(3))
+        $this->container->expects($this->at(2))
             ->method('get')
             ->with('security.context')
             ->will($this->returnValue($this->securityContext));
         
-        $this->container->expects($this->at(4))
+        $this->container->expects($this->at(3))
             ->method('get')
             ->with('red_kite_cms.factory_repository')
             ->will($this->returnValue($this->factoryRepository));
@@ -305,7 +300,7 @@ class AlCmsControllerTest extends TestCase
             ->method('getThemeBootstrapVersion')
             ->will($this->returnValue('2.x'));
         
-        $this->container->expects($this->at(5))
+        $this->container->expects($this->at(4))
             ->method('get')
             ->with('red_kite_cms.active_theme')
             ->will($this->returnValue($activeTheme));
