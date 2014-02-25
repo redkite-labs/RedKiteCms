@@ -25,7 +25,6 @@
  */
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Model\AlBlock;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
@@ -162,8 +161,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
             $group = $blockManagerItem->getGroup();
             if ($group != "") {
                 $groups = explode(",", $group);
-                if ($group != "redkitecms_internals" && count($groups) == 1)
-                {
+                if ($group != "redkitecms_internals" && count($groups) == 1) {
                     $groups = array($ungroupedKey);
                 }
             }
@@ -174,7 +172,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
             }
             $blockGroups = array_merge_recursive($blockGroups, $blockGroup);
         }
-        
+
         // First displayed group
         $redKiteBlocks = array("Default" => $this->extractGroup('redkitecms_internals', $blockGroups));
         // Last displayed group
@@ -197,7 +195,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
         if ( ! empty($notGrouped)) {
             $blocks = array_merge($blocks, array($ungroupedKey => $notGrouped));
         }
-        
+
         return $blocks;
     }
 

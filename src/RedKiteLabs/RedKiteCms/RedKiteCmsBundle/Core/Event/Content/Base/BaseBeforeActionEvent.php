@@ -42,9 +42,9 @@ abstract class BaseBeforeActionEvent extends BaseActionEvent
         return $this->values;
     }
 
-    public function setValues(array $v)
+    public function setValues(array $values)
     {
-        $this->values = $v;
+        $this->values = $values;
     }
 
     /**

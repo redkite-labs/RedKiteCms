@@ -29,14 +29,16 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollec
  */
 class SitemapGenerator implements SitemapGeneratorInterface
 {
+    /** @var AlPageTreeCollection */
     private $pageTreeCollection;
+    /** @var EngineInterface */
     private $templating;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection $pageTreeCollection
-     * @param \Symfony\Component\Templating\EngineInterface                                     $templating
+     * @param AlPageTreeCollection $pageTreeCollection
+     * @param EngineInterface      $templating
      */
     public function __construct(AlPageTreeCollection $pageTreeCollection, EngineInterface $templating)
     {

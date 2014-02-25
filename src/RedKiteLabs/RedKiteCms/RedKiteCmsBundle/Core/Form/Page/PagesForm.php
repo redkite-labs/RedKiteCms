@@ -39,8 +39,8 @@ class PagesForm extends BaseBlockType
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface   $activeTheme
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection $themes
+     * @param AlActiveThemeInterface $activeTheme
+     * @param AlThemesCollection     $themes
      */
     public function __construct(AlActiveThemeInterface $activeTheme, AlThemesCollection $themes)
     {

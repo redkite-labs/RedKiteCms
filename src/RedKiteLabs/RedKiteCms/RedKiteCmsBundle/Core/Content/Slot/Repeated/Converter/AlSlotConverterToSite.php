@@ -20,7 +20,6 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter;
 /**
  * Converts a slot to site repeated status
  *
- *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 class AlSlotConverterToSite extends AlSlotConverterBase
@@ -28,37 +27,38 @@ class AlSlotConverterToSite extends AlSlotConverterBase
     /**
      * {@inheritdoc}
      *
-     * @return type
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Exception
+     * @return null|boolean
+     * @throws \Exception
      *
      * @api
      */
     public function convert()
     {
-        if (count($this->arrayBlocks) > 0) {
-            try {
-                $this->blockRepository->startTransaction();
-                $result = $this->deleteBlocks();
-                if (false !== $result) {
-                    foreach ($this->arrayBlocks as $block) {
-                        $result = $this->updateBlock($block, 1, 1);
-                    }
-
-                    if ($result) {
-                        $this->blockRepository->commit();
-                    } else {
-                        $this->blockRepository->rollBack();
-                    }
+        if (count($this->arrayBlocks) <= 0) {
+            return null;
+        }
+        try {
+            $this->blockRepository->startTransaction();
+            $result = $this->deleteBlocks();
+            if (false !== $result) {
+                foreach ($this->arrayBlocks as $block) {
+                    $result = $this->updateBlock($block, 1, 1);
                 }
 
-                return $result;
-            } catch (\Exception $e) {
-                if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                if ($result) {
+                    $this->blockRepository->commit();
+                } else {
                     $this->blockRepository->rollBack();
                 }
-
-                throw $e;
             }
+
+            return $result;
+        } catch (\Exception $e) {
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
+            }
+
+            throw $e;
         }
     }
 }

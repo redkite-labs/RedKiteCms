@@ -23,39 +23,40 @@ class AlSlotConverterToLanguage extends AlSlotConverterBase
      * {@inheritdoc}
      *
      * @return null|boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Exception
+     * @throws \Exception
      *
      * @api
      */
     public function convert()
     {
-        if (count($this->arrayBlocks) > 0) {
-            try {
-                $this->blockRepository->startTransaction();
-                $result = $this->deleteBlocks();
-                if (false !== $result) {
-                    $languages = $this->languageRepository->activeLanguages();
-                    foreach ($this->arrayBlocks as $block) {
-                        foreach ($languages as $language) {
-                            $result = $this->updateBlock($block, $language->getId(), 1);
-                        }
-                    }
-
-                    if ($result) {
-                        $this->blockRepository->commit();
-                    } else {
-                        $this->blockRepository->rollBack();
+        if (count($this->arrayBlocks) <= 0) {
+            return null;
+        }
+        try {
+            $this->blockRepository->startTransaction();
+            $result = $this->deleteBlocks();
+            if (false !== $result) {
+                $languages = $this->languageRepository->activeLanguages();
+                foreach ($this->arrayBlocks as $block) {
+                    foreach ($languages as $language) {
+                        $result = $this->updateBlock($block, $language->getId(), 1);
                     }
                 }
 
-                return $result;
-            } catch (\Exception $e) {
-                if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                if ($result) {
+                    $this->blockRepository->commit();
+                } else {
                     $this->blockRepository->rollBack();
                 }
-
-                throw $e;
             }
+
+            return $result;
+        } catch (\Exception $e) {
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
+            }
+
+            throw $e;
         }
     }
 }

@@ -18,7 +18,6 @@
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
@@ -35,8 +34,8 @@ abstract class AlBlockManagerJsonBlockContainer extends AlBlockManagerJsonBlock
     /**
      * Constructor
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface                           $container
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param ContainerInterface             $container
+     * @param AlParametersValidatorInterface $validator
      *
      * @api
      */

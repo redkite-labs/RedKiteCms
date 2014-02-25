@@ -31,7 +31,7 @@ interface AlBlockManagerFactoryInterface
      *
      * @param mixed string | \RedKiteLabs\RedKiteCmsBundle\Model\AlBlock $block
      *
-     * @return null|\RedKiteLabs\RedKiteCmsBundle\Core\Content\Block;AlBlockManagerInterface
+     * @return null|AlBlockManagerInterface
      *
      * @api
      */

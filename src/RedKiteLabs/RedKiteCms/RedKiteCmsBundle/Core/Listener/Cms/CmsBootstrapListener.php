@@ -31,9 +31,13 @@ use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
  */
 class CmsBootstrapListener
 {
+    /** @var ContainerInterface */
     private $container;
+    /** @var \Symfony\Component\HttpKernel\KernelInterface */
     private $kernel;
+    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree */
     private $pageTree;
+    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface */
     private $activeTheme;
 
     /**
@@ -86,7 +90,7 @@ class CmsBootstrapListener
         $fs->mkdir($folders);
     }
 
-    private function locate($asset, $message = null)
+    private function locate($asset)
     {
         $asset = new AlAsset($this->kernel, $asset);
         $assetPath = $asset->getRealPath();

@@ -27,8 +27,8 @@ interface RepositoryInterface
     /**
      * Sets the repository object
      *
-     * @param object The repository object
-     * @return object The active object to implement fluent interface
+     * @param  \BaseObject $object The repository object
+     * @return self        The active object to implement fluent interface
      */
     public function setRepositoryObject($object = null);
 

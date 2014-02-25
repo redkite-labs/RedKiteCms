@@ -105,7 +105,7 @@ class ThemesController extends Base\BaseController
         $response = new Response();
         $response->setStatusCode($statusCode);
 
-        return $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => $message), $response);
+        return $this->render('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => $message), $response);
     }
 
     protected function renderThemeChanger($error = null)
@@ -115,8 +115,7 @@ class ThemesController extends Base\BaseController
 
         $themes = $this->container->get('red_kite_labs_theme_engine.themes');
 
-        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
-        $pagesRepository = $factoryRepository->createRepository('Page');
+        $pagesRepository = $this->createRepository('Page');
 
         $currentTemplates = array();
         $templatesInUse = $pagesRepository->templatesInUse();
@@ -131,7 +130,7 @@ class ThemesController extends Base\BaseController
         }
 
         $status = null === $error ? 200 : 404;
-        $output = $this->container->get('templating')->render('RedKiteCmsBundle:Themes:Changer/theme_changer.html.twig', array(
+        $output = $this->renderView('RedKiteCmsBundle:Themes:Changer/theme_changer.html.twig', array(
             'templates' => $templates,
             'current_templates' => $currentTemplates,
             'themeName' => $themeName,
@@ -156,7 +155,7 @@ class ThemesController extends Base\BaseController
             $values['available_themes']["themes"][] = $this->retrieveThemeInfo($theme);
         }
 
-        $responseContent = $this->container->get('templating')->renderResponse('RedKiteCmsBundle:Themes:Panel/index.html.twig', array(
+        $responseContent = $this->render('RedKiteCmsBundle:Themes:Panel/index.html.twig', array(
             'values' => $values,
         ));
 

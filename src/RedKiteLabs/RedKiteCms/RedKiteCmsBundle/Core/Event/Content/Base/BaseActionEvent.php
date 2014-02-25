@@ -27,6 +27,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
  */
 abstract class BaseActionEvent extends Event
 {
+    /** @var AlContentManagerInterface */
     protected $alManager;
 
     /**
@@ -42,7 +43,7 @@ abstract class BaseActionEvent extends Event
     /**
      * Returns the current AlContentManager object
      *
-     * @return AlBlockManager
+     * @return AlContentManagerInterface
      */
     public function getContentManager()
     {
@@ -52,7 +53,7 @@ abstract class BaseActionEvent extends Event
     /**
      * Sets the current AlContentManager object
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface $value
+     * @param AlContentManagerInterface $value
      */
     public function setContentManager(AlContentManagerInterface $value)
     {

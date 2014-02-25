@@ -17,6 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
+use RedKiteLabs\RedKiteCmsBundle\Model\AlBlock;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
@@ -30,15 +31,18 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInt
  */
 abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonBase
 {
+    /** @var ContainerInterface */
     protected $container;
+    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
     protected $blocksRepository;
+    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface  */
     protected $translator;
 
     /**
      * Constructor
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface                           $container
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param ContainerInterface             $container
+     * @param AlParametersValidatorInterface $validator
      *
      * @api
      */
@@ -58,6 +62,8 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
      * block
      *
      * @param  array         $values
+     * @param  null|array    $savedValues
+     * @param  null          $blockKey
      * @return array|boolean
      */
     protected function manageCollection(array $values, $savedValues = null, $blockKey = null)
@@ -186,7 +192,7 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
         return $result;
     }
 
-    protected function updateSlotName($block, $blockSlotName)
+    protected function updateSlotName(AlBlock $block, $blockSlotName)
     {
         $block->setSlotName($blockSlotName);
 

@@ -37,20 +37,34 @@ use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
  */
 class AlPageTreeCollection
 {
-    private $container = null;
     private $pages = array();
+    /** @var TemplateAssetsManager */
+    private $assetsManager;
+    /** @var AlActiveThemeInterface */
+    private $activeTheme;
+    /** @var null|\RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface */
+    private $theme;
+    /** @var AlTemplateManager */
+    private $templateManager;
+    /** @var AlPageBlocksInterface */
+    private $pageBlocks;
+    /** @var null|AlFactoryRepositoryInterface */
     private $factoryRepository = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     private $languageRepository = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface */
     private $pageRepository = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
+    private $blockRepository = null;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager $templateAssetsManager
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface                   $activeTheme
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager                   $templateManager
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface             $pageBlocks
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface      $factoryRepository
+     * @param TemplateAssetsManager        $templateAssetsManager
+     * @param AlActiveThemeInterface       $activeTheme
+     * @param AlTemplateManager            $templateManager
+     * @param AlPageBlocksInterface        $pageBlocks
+     * @param AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
@@ -80,7 +94,7 @@ class AlPageTreeCollection
     /**
      * Return the PageTree to generate page templates
      *
-     * @return array
+     * @return AlPageTree[]
      */
     public function getPages()
     {

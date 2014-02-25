@@ -37,7 +37,7 @@ class DeletePageBlocksListener
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
@@ -51,9 +51,9 @@ class DeletePageBlocksListener
     /**
      * Deletes the page's contents, for all the languages of the site
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent $event
+     * @param  BeforeDeletePageCommitEvent $event
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\Exception
+     * @throws \Exception
      *
      * @api
      */

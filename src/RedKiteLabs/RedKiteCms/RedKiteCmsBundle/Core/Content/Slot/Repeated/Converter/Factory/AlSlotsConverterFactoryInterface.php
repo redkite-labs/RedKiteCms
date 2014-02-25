@@ -30,6 +30,10 @@ interface AlSlotsConverterFactoryInterface
 {
     /**
      * Creates the appropriate conver using the given parameter
+     *
+     * @param  AlSlot                                                                                      $slot
+     * @param  string                                                                                      $newRepeatedStatus
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface
      */
     public function createConverter(AlSlot $slot, $newRepeatedStatus);
 }

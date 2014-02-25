@@ -20,7 +20,6 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection;
 
 use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\TemplateSectionTwig;
 
 /**
  * AssetSection is the object deputated to generate the asset sections of a twig template

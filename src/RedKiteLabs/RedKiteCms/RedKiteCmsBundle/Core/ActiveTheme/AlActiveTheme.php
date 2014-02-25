@@ -27,6 +27,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class AlActiveTheme implements AlActiveThemeInterface
 {
     private $container = null;
+    /** @var null|\RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface */
     private $activeTheme = null;
     private $bootstrapVersion = null;
 
@@ -52,17 +53,13 @@ class AlActiveTheme implements AlActiveThemeInterface
         $themes = $this->container->get('red_kite_labs_theme_engine.themes');
 
         $activeThemeFile = $this->getActiveThemeFile();
-        if ( ! file_exists($activeThemeFile)) {
-            foreach ($themes as $theme) break;
-
-            $this->activeTheme = $theme;
+        if (!file_exists($activeThemeFile)) {
+            $this->activeTheme = end($themes);
             $this->writeActiveTheme($this->activeTheme->getThemeName());
-
-            return $this->activeTheme;
+        } else {
+            $themeName = trim(file_get_contents($activeThemeFile));
+            $this->activeTheme = $themes->getTheme($themeName);
         }
-
-        $themeName = trim(file_get_contents($activeThemeFile));
-        $this->activeTheme = $themes->getTheme($themeName);
 
         return $this->activeTheme;
     }

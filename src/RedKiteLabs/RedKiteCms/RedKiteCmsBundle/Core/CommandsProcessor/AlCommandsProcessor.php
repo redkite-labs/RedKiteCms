@@ -51,8 +51,8 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
     /**
      * Sets the console dir path
      *
-     * @param  type                                                                     $consoleDir
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessor
+     * @param  string              $consoleDir
+     * @return AlCommandsProcessor
      *
      * @api
      */

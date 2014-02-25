@@ -33,11 +33,10 @@ class BlocksController extends Base\BaseController
 {
     public function addBlockAction(Request $request)
     {
-        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
-        $this->areValidAttributes($request, $factoryRepository);
+        $this->areValidAttributes($request, $this->container->get('red_kite_cms.factory_repository'));
 
         $slotName = $request->get('slotName');
-        $blockRepository = $factoryRepository->createRepository('Block');
+        $blockRepository = $this->createRepository('Block');
 
         if (null !== $request->get('included') && count($blockRepository->retrieveContentsBySlotName($slotName)) > 0 && filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)) {
             throw new InvalidOperationException('blocks_controller_included_blocks_accept_only_a_block');
@@ -97,7 +96,7 @@ class BlocksController extends Base\BaseController
                 "insertAfter" => "block_" . $idBlock,
                 "blockId" => "block_" . $blockManager->get()->getId(),
                 "slotName" => $blockManager->get()->getSlotName(),
-                "value" => $this->container->get('templating')->render(
+                "value" => $this->renderView(
                     $template,
                     array("blockManager" => $blockManager, 'add' => true)
                 )
@@ -148,19 +147,19 @@ class BlocksController extends Base\BaseController
             if ($request->get('included')) {
                 $template = 'RedKiteCmsBundle:Slot:Render/_included_block.html.twig';
             }
-            
+
             $blockOptions = array();
             if ($request->get('parent')) {
                 $blockManagerFactory = $this->container->get('red_kite_cms.block_manager_factory');
                 $parentBlockManager = $blockManagerFactory->createBlockManager($request->get('parent'));
                 $blockOptions = $parentBlockManager->blockExtraOptions();
             }
-            
+
             $values = array(
                 array("key" => "message", "value" => $this->translate("blocks_controller_block_edited")),
                 array("key" => "edit-block",
                       "blockName" => "block_" . $blockManager->get()->getId(),
-                      "value" => $this->container->get('templating')->render($template, array("blockManager" => $blockManager, 'item' => $request->get('item'), 'options' => $blockOptions)),
+                      "value" => $this->renderView($template, array("blockManager" => $blockManager, 'item' => $request->get('item'), 'options' => $blockOptions)),
                 ),
             );
 
@@ -180,8 +179,8 @@ class BlocksController extends Base\BaseController
         if (null !== $res) {
             $message = 'blocks_controller_block_removed';
             // @codeCoverageIgnoreStart
-            if (! $res) {
-                'blocks_controller_block_not_removed';
+            if (!$res) {
+                $message = 'blocks_controller_block_not_removed';
             }
             // @codeCoverageIgnoreEnd
 
@@ -202,7 +201,7 @@ class BlocksController extends Base\BaseController
                 "key" => "redraw-slot",
                 "slotName" => $request->get('slotName'),
                 "blockId" => 'block_' . $request->get('idBlock'),
-                "value" => $this->container->get('templating')->render('RedKiteCmsBundle:Slot:Render/_slot.html.twig', array("slotName" => $request->get('slotName'), "included" => filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)))
+                "value" => $this->renderView('RedKiteCmsBundle:Slot:Render/_slot.html.twig', array("slotName" => $request->get('slotName'), "included" => filter_var($request->get('included'), FILTER_VALIDATE_BOOLEAN)))
             );
 
             return $this->buildJSonResponse($values);
@@ -219,7 +218,7 @@ class BlocksController extends Base\BaseController
         return $response;
     }
 
-    private function areValidAttributes($request, $factoryRepository)
+    private function areValidAttributes(Request $request, $factoryRepository)
     {
         $dataManager = new \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager($factoryRepository);
         $options = array(
@@ -236,6 +235,12 @@ class BlocksController extends Base\BaseController
         }
     }
 
+    /**
+     * @param  Request                                                       $request
+     * @param  bool                                                          $throwExceptionWhenNull
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
+     * @throws RuntimeException
+     */
     private function fetchSlotManager(Request $request, $throwExceptionWhenNull = true)
     {
         $slotManager = $this->container->get('red_kite_cms.template_manager')->getSlotManager($request->get('slotName'));

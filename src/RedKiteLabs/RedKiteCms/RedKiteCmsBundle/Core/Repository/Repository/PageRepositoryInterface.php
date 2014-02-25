@@ -17,6 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository;
 
+use RedKiteLabs\RedKiteCmsBundle\Model\AlPage;
+
 /**
  * Defines the methods used to fetch page records
  *
@@ -27,23 +29,23 @@ interface PageRepositoryInterface
     /**
      * Fetches a page record using its primary key
      *
-     * @param int       The primary key
-     * @return object The fetched object
+     * @param  int         $id The primary key
+     * @return AlPage|null A page instance
      */
     public function fromPK($id);
 
     /**
      *  Fetches all the active pages
      *
-     *  @return mixed A collection of objects
+     *  @return \Iterator|AlPage[] A collection of pages
      */
     public function activePages();
 
     /**
      * Fetches a page record from its name
      *
-     * @param string    The page name
-     * @return object The fetched object
+     * @param  string      $pageName The page name
+     * @return AlPage|null A page instance
      */
     public function fromPageName($pageName);
 
@@ -53,22 +55,23 @@ interface PageRepositoryInterface
      * When the $once argument is true just the first record is fetched, otherwise
      * all are fetched
      *
-     * @param string    The page name
-     * @return object The fetched object
+     * @param  string             $templateName The page name
+     * @param  boolean            $once         Indicated to only return the first object
+     * @return \Iterator|AlPage[] A collection of pages or a page instance
      */
     public function fromTemplateName($templateName, $once = false);
 
     /**
      * Fetches all the templates used by the current theme.
      *
-     * @return object The fetched object
+     * @return \Iterator|string[] A collection of template names
      */
     public function templatesInUse();
 
     /**
      * Fetches the site home page
      *
-     * @return object The fetched object
+     * @return AlPage|null The fetched object
      */
     public function homePage();
 }

@@ -27,12 +27,13 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
  */
 class DeleteLanguageBlocksListener extends Base\DeleteLanguageBaseListener
 {
+    /** @var AlBlockManagerInterface */
     private $blockManager;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
+     * @param AlBlockManagerInterface $blockManager
      */
     public function __construct(AlBlockManagerInterface $blockManager)
     {

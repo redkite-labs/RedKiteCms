@@ -44,7 +44,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
                 return parent::edit($values);
             }
 
-            if ( ! array_key_exists("al_json_block", $unserializedData)) {
+            if (!array_key_exists("al_json_block", $unserializedData)) {
                 $exception = array(
                     'message' => 'exception_json_configuration_error',
                     'parameters' => array(
@@ -77,7 +77,7 @@ abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
 
     private function checkValidItemId($itemId, $content)
     {
-        if ( ! array_key_exists($itemId, $content)) {
+        if (!array_key_exists($itemId, $content)) {
             $exception = array(
                 'message' => 'exception_item_not_exists',
                 'domain' => 'exceptions',

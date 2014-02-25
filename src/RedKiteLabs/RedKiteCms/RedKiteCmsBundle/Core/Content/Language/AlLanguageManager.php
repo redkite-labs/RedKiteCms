@@ -23,7 +23,6 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
 use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\LanguageEvents;
 use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException;
 use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
 use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language;
@@ -42,26 +41,26 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryIn
 class AlLanguageManager extends AlContentManagerBase implements AlContentManagerInterface
 {
     /**
-     * @var \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage
+     * @var AlLanguage
      */
     protected $alLanguage = null;
 
     /**
-     * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     * @var AlFactoryRepositoryInterface
      */
     protected $factoryRepository = null;
 
     /**
-     * @var RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface
+     * @var LanguageRepositoryInterface
      */
     protected $languageRepository = null;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface                 $eventsHandler
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface        $factoryRepository
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager $validator
+     * @param AlEventsHandlerInterface             $eventsHandler
+     * @param AlFactoryRepositoryInterface         $factoryRepository
+     * @param AlParametersValidatorLanguageManager $validator
      *
      * @api
      */
@@ -75,6 +74,8 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
 
     /**
      * {@inheritdoc}
+     *
+     * @return AlLanguage
      *
      * @api
      */
@@ -103,8 +104,8 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      * Sets the language model object
      *
      *
-     * @param  LanguageRepositoryInterface                                           $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager
+     * @param  LanguageRepositoryInterface $v
+     * @return AlLanguageManager
      *
      * @api
      */
@@ -143,9 +144,9 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      * {@inheritdoc}
      *
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\RemoveMainLanguageException
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException
+     * @throws General\ArgumentIsEmptyException
+     * @throws Language\RemoveMainLanguageException
+     * @throws Language\LanguageExistsException
      *
      * @api
      */
@@ -206,12 +207,9 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     /**
      * Adds a new AlLanguage object from the given params
      *
-     * @param  array                                                                                 $values
-     * @return type
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException
-     * @throws LanguageExistsException
-     * @throws General\ArgumentIsEmptyException
-     *
+     * @param  array      $values
+     * @throws \Exception
+     * @return boolean
      * @api
      */
     protected function add(array $values)
@@ -290,9 +288,9 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     /**
      * Edits the managed language object
      *
-     * @param  array                                                                                 $values
-     * @return type
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException
+     * @param  array      $values
+     * @throws \Exception
+     * @return boolean
      *
      * @api
      */
@@ -379,8 +377,8 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     /**
      * Degrades the main language to normal language
      *
+     * @throws \Exception
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException
      *
      * @api
      */

@@ -33,8 +33,11 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
  */
 class AlUrlManager implements AlUrlManagerInterface
 {
+    /** @var null|KernelInterface */
     protected $kernel = null;
+    /** @var null|AlFactoryRepositoryInterface */
     protected $factoryRepository = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface */
     protected $seoRepository = null;
     protected $permalink = null;
     protected $internalUrl = null;
@@ -44,8 +47,8 @@ class AlUrlManager implements AlUrlManagerInterface
     /**
      * Constructor
      *
-     * @param \Symfony\Component\HttpKernel\KernelInterface                                      $kernel
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param KernelInterface              $kernel
+     * @param AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
@@ -153,8 +156,8 @@ class AlUrlManager implements AlUrlManagerInterface
     /**
      * Generates an internal route name, from the language and the page
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage $language
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Model\AlPage     $page
+     * @param  AlLanguage $language
+     * @param  AlPage     $page
      * @return string
      */
     protected function generateRoute(AlLanguage $language, AlPage $page)
@@ -169,6 +172,11 @@ class AlUrlManager implements AlUrlManagerInterface
         return sprintf('/%s/backend/', $frontController);
     }
 
+    /**
+     * @param  string|int|AlLanguage    $language
+     * @return AlLanguage
+     * @throws InvalidArgumentException
+     */
     private function fetchAlLanguage($language)
     {
         if ($language instanceof AlLanguage) {
@@ -194,6 +202,11 @@ class AlUrlManager implements AlUrlManagerInterface
         throw new InvalidArgumentException('exception_language_not_retrieved');
     }
 
+    /**
+     * @param  string|int|AlPage        $page
+     * @return AlPage
+     * @throws InvalidArgumentException
+     */
     private function fetchAlPage($page)
     {
         if ($page instanceof AlPage) {

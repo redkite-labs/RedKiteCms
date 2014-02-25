@@ -56,9 +56,10 @@ class AlSiteBootstrap
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager $languageManager
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager         $pageManager
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
+     * @param AlLanguageManager $languageManager
+     * @param AlPageManager     $pageManager
+     * @param AlBlockManager    $blockManager
+     * @param AlTemplateManager $templateManager
      *
      * @api
      */

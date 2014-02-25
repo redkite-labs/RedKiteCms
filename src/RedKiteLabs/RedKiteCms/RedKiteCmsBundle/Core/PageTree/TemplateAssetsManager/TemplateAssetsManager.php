@@ -29,10 +29,10 @@ use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
- * @method     TemplateAssetsManager getExternalStylesheets() Returns the handled external stylesheets
- * @method     TemplateAssetsManager getInternalStylesheets() Returns the handled internal stylesheets
- * @method     TemplateAssetsManager getExternalJavascripts() Returns the handled external javascripts
- * @method     TemplateAssetsManager getInternalJavascripts() Returns the handled internal javascripts
+ * @method TemplateAssetsManager getExternalStylesheets() Returns the handled external stylesheets
+ * @method TemplateAssetsManager getInternalStylesheets() Returns the handled internal stylesheets
+ * @method TemplateAssetsManager getExternalJavascripts() Returns the handled external javascripts
+ * @method TemplateAssetsManager getInternalJavascripts() Returns the handled internal javascripts
  */
 class TemplateAssetsManager
 {
@@ -45,8 +45,8 @@ class TemplateAssetsManager
     /**
      * Constructor
      *
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface                          $container
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param ContainerInterface             $container
+     * @param AlBlockManagerFactoryInterface $blockManagerFactory
      */
     public function __construct(ContainerInterface $container, AlBlockManagerFactoryInterface $blockManagerFactory)
     {
@@ -116,10 +116,10 @@ class TemplateAssetsManager
     /**
      * Merge assets for the method passed as argument
      *
-     * @param  string                                                     $method
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate    $template
-     * @param  array                                                      $options
-     * @return RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection
+     * @param  string                                                      $method
+     * @param  AlTemplate                                                  $template
+     * @param  array                                                       $options
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection
      */
     protected function mergeAssets($method, AlTemplate $template, array $options)
     {
@@ -140,9 +140,9 @@ class TemplateAssetsManager
     /**
      * Returns an array that contains the absolute path of each asset
      *
-     * @param  string                                                  $method
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate $template
-     * @param  array                                                   $options
+     * @param  string     $method
+     * @param  AlTemplate $template
+     * @param  array      $options
      * @return array
      */
     protected function initAssets($method, AlTemplate $template, array $options)
@@ -169,9 +169,9 @@ class TemplateAssetsManager
     /**
      * Merges the app block assets to the given collection
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
-     * @param  array                                                       $options
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection
+     * @param  AlAssetCollection $assetsCollection
+     * @param  array             $options
+     * @return AlAssetCollection
      */
     protected function mergeAppBlocksAssets(AlAssetCollection $assetsCollection, array $options)
     {
@@ -197,8 +197,8 @@ class TemplateAssetsManager
     /**
      * Adds a range of assets to the assets collection fetching from the container
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
-     * @param string                                                      $parameter        The parameter to fetch from the Container
+     * @param AlAssetCollection $assetsCollection
+     * @param string            $parameter        The parameter to fetch from the Container
      */
     protected function addAssetsFromContainer(AlAssetCollection &$assetsCollection, $parameter)
     {
@@ -213,8 +213,8 @@ class TemplateAssetsManager
     /**
      * Adds to the assets collection the extra parameters defined by extraAssetsSuffixes
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection $assetsCollection
-     * @param string                                                      $baseParam
+     * @param AlAssetCollection $assetsCollection
+     * @param string            $baseParam
      */
     protected function addExtraAssets(&$assetsCollection, $baseParam)
     {

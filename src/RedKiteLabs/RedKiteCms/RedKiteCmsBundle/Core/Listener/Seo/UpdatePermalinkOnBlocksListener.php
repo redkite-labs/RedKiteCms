@@ -32,15 +32,18 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
  */
 class UpdatePermalinkOnBlocksListener
 {
-    protected $factoryRepository = null;
-    private $blockRepository = null;
-    private $blocksFactory = null;
+    /** @var AlFactoryRepositoryInterface */
+    protected $factoryRepository;
+    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
+    private $blockRepository;
+    /** @var null|AlBlockManagerFactoryInterface */
+    private $blocksFactory;
 
     /**
      * Construct
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface    $blocksFactory
+     * @param AlFactoryRepositoryInterface   $factoryRepository
+     * @param AlBlockManagerFactoryInterface $blocksFactory
      *
      * @api
      */
@@ -54,10 +57,10 @@ class UpdatePermalinkOnBlocksListener
     /**
      * Adds the page attributes when a new page is added, for each language of the site
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent $event
+     * @param  BeforeEditSeoCommitEvent $event
      * @return boolean
-     * @throws \InvalidArgumentException
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Listener\Seo\Exception
+     * @throws InvalidArgumentException
+     * @throws \Exception
      *
      * @api
      */

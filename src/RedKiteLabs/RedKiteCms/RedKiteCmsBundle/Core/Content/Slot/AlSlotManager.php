@@ -48,12 +48,12 @@ class AlSlotManager
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot                             $slot
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface   $blockManagerFactory
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksAdder                $blocksAdder|null
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksRemover              $blocksRemover|null
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection    $blockManagersCollection|null
+     * @param AlSlot                         $slot
+     * @param BlockRepositoryInterface       $blockRepository
+     * @param AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param Blocks\BlocksAdder             $blocksAdder|null
+     * @param Blocks\BlocksRemover           $blocksRemover|null
+     * @param BlockManagersCollection        $blockManagersCollection|null
      */
     public function __construct(AlSlot $slot, BlockRepositoryInterface $blockRepository, AlBlockManagerFactoryInterface $blockManagerFactory, Blocks\BlocksAdder $blocksAdder = null, Blocks\BlocksRemover $blocksRemover = null, BlockManagersCollection $blockManagersCollection = null)
     {
@@ -80,14 +80,14 @@ class AlSlotManager
     /**
      * Sets the slot object
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot         $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
+     * @param  AlSlot        $slot
+     * @return AlSlotManager
      *
      * @api
      */
-    public function setSlot(AlSlot $v)
+    public function setSlot(AlSlot $slot)
     {
-        $this->slot = $v;
+        $this->slot = $slot;
 
         return $this;
     }
@@ -95,7 +95,7 @@ class AlSlotManager
     /**
      * Returns the slot object
      *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot
+     * @return AlSlot
      *
      * @api
      */
@@ -110,19 +110,19 @@ class AlSlotManager
      * When true forces the add operation to use the default AlSlot attributes for
      * the new block type
      *
-     * @param  boolean                                                       $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
+     * @param  boolean                   $forceSlotAttributes
+     * @return AlSlotManager
      * @throws \InvalidArgumentException
      *
      * @api
      */
-    public function setForceSlotAttributes($v)
+    public function setForceSlotAttributes($forceSlotAttributes)
     {
-        if ( ! is_bool($v)) {
+        if (!is_bool($forceSlotAttributes)) {
             throw new InvalidArgumentException('exception_boolean_value_required_for_setForceSlotAttributes');
         }
 
-        $this->forceSlotAttributes = $v;
+        $this->forceSlotAttributes = $forceSlotAttributes;
 
         return $this;
     }
@@ -131,19 +131,19 @@ class AlSlotManager
      * Skips adding a new block when the slot is repeated at site level and the block
      * has been already added
      *
-     * @param  boolean                                                       $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
+     * @param  boolean                   $skipSiteLevelBlocks
+     * @return AlSlotManager
      * @throws \InvalidArgumentException
      *
      * @api
      */
-    public function setSkipSiteLevelBlocks($v)
+    public function setSkipSiteLevelBlocks($skipSiteLevelBlocks)
     {
-        if ( ! is_bool($v)) {
+        if (!is_bool($skipSiteLevelBlocks)) {
             throw new InvalidArgumentException('exception_boolean_value_required_for_setSkipSiteLevelBlocks');
         }
 
-        $this->skipSiteLevelBlocks = $v;
+        $this->skipSiteLevelBlocks = $skipSiteLevelBlocks;
 
         return $this;
     }
@@ -187,7 +187,7 @@ class AlSlotManager
     /**
      * Returns the block managers collection associated with the slot manager
      *
-     * @return array
+     * @return BlockManagersCollection|null
      *
      * @api
      */
@@ -199,7 +199,7 @@ class AlSlotManager
     /**
      * Returns the last block manager added to the slot manager
      *
-     * @return AlBlockManager object or null
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager|null
      *
      * @api
      */
@@ -211,7 +211,7 @@ class AlSlotManager
     /**
      * Returns the last edited block manager
      *
-     * @return AlBlockManager object or null
+     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager|null
      *
      * @api
      */
@@ -234,15 +234,11 @@ class AlSlotManager
         $this->checkInteger($options["idLanguage"], 'exception_invalid_value_for_language_id');
         $this->checkInteger($options["idPage"], 'exception_invalid_value_for_page_id');
 
-        try {
-            $options = $this->normalizeOptions($options);
-            $options["skipSiteLevelBlocks"] = $this->skipSiteLevelBlocks;
-            $options["forceSlotAttributes"] = $this->forceSlotAttributes;
+        $options = $this->normalizeOptions($options);
+        $options["skipSiteLevelBlocks"] = $this->skipSiteLevelBlocks;
+        $options["forceSlotAttributes"] = $this->forceSlotAttributes;
 
-            $result = $this->blocksAdder->add($this->slot, $this->blockManagersCollection, $options);
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        $result = $this->blocksAdder->add($this->slot, $this->blockManagersCollection, $options);
 
         return $result;
     }
@@ -250,10 +246,9 @@ class AlSlotManager
     /**
      * Edits the block
      *
-     * @param  int                                                                                       $idBlock The id of the block to edit
-     * @param  array                                                                                     $values  The new values
-     * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @param  int          $idBlock The id of the block to edit
+     * @param  array        $values  The new values
+     * @return boolean|null
      *
      * @api
      */
@@ -261,35 +256,23 @@ class AlSlotManager
     {
         $blockManager = $this->blockManagersCollection->getBlockManager($idBlock);
         if (null === $blockManager) {
-            return;
+            return null;
         }
 
-        try {
-            return $this->blocksAdder->edit($blockManager, $values);
-
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        return $this->blocksAdder->edit($blockManager, $values);
     }
 
     /**
      * Deletes the block from the slot
      *
-     * @param  int                                                                                       $idBlock The id of the block to remove
+     * @param  int     $idBlock The id of the block to remove
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      *
      * @api
      */
     public function deleteBlock($idBlock)
     {
-        try {
-            return $this->blocksRemover->remove($idBlock, $this->blockManagersCollection);
-
-        } catch (\Exception $e) {
-
-            throw $e;
-        }
+        return $this->blocksRemover->remove($idBlock, $this->blockManagersCollection);
     }
 
     /**
@@ -302,13 +285,7 @@ class AlSlotManager
      */
     public function deleteBlocks()
     {
-        try {
-            return $this->blocksRemover->clear($this->blockManagersCollection);
-
-        } catch (\Exception $e) {
-
-            throw $e;
-        }
+        return $this->blocksRemover->clear($this->blockManagersCollection);
     }
 
     /**
