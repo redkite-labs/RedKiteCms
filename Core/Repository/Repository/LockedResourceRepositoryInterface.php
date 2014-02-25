@@ -17,6 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository;
 
+use RedKiteLabs\RedKiteCmsBundle\Model\AlLockedResource;
+
 /**
  * Defines the methods used to fetch locked resources records
  *
@@ -25,26 +27,26 @@ namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository;
 interface LockedResourceRepositoryInterface
 {
     /**
-     * Fetches a resource  record using its primary key
+     * Fetches a resource record using its primary key
      *
-     * @param string    The resource
-     * @return object The fetched object
+     * @param  string           $resource The resource
+     * @return AlLockedResource The fetched object
      */
     public function fromResourceName($resource);
 
     /**
      * Fetches a resource locked by an user
      *
-     * @param int       The id ot the user
-     * @param string    The resource
-     * @return object The fetched object
+     * @param  int              $userId   The id ot the user
+     * @param  string           $resource The resource
+     * @return AlLockedResource The fetched object
      */
     public function fromResourceNameByUser($userId, $resource);
 
     /**
      * Deletes from the database the resource locked by an user
      *
-     * @param   int     The id ot the user
+     * @param  int $userId The id ot the user
      * @return int The affected records
      */
     public function freeUserResource($userId);
@@ -52,15 +54,15 @@ interface LockedResourceRepositoryInterface
     /**
      * Deletes from the database a resource
      *
-     * @param   string  The resource
-     * @return int The affected records
+     * @param  string $resource The resource
+     * @return int    The affected records
      */
     public function freeLockedResource($resource);
 
     /**
      * Deletes from the database the resources older than the expired time
      *
-     * @param   int     The timestamp
+     * @param  int $expiredTime The timestamp
      * @return int The affected records
      */
     public function removeExpiredResources($expiredTime);
@@ -68,8 +70,8 @@ interface LockedResourceRepositoryInterface
     /**
      * Fetches the active resources
      *
-     * @param   int|null    The id ot the user or null for all the active resources
-     * @return int The fetched resources
+     * @param  int|null $userId The id ot the user or null for all the active resources
+     * @return int      The fetched resources
      */
     public function fetchResources($userId = null);
 }

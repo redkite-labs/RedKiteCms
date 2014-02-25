@@ -65,7 +65,7 @@ class ChoiceValues
             $templateName = $template->getTemplateName();
             $templates[$templateName] = $templateName;
         }
-        
+
         ksort($templates);
         $templates = array_merge(array("none" => " "), $templates);
 

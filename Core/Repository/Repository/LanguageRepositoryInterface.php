@@ -17,6 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository;
 
+use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
+
 /**
  * Defines the methods used to fetch language records
  *
@@ -27,37 +29,37 @@ interface LanguageRepositoryInterface
     /**
      * Fetches a language record using its primary key
      *
-     * @param int       The primary key
-     * @return object The fetched object
+     * @param  int        $id The primary key
+     * @return AlLanguage The fetched object
      */
     public function fromPK($id);
 
     /**
      * Fetches the main language record
      *
-     * @return object The fetched object
+     * @return AlLanguage|null The fetched object
      */
     public function mainLanguage();
 
     /**
      * Fetches a language record from its name
      *
-     * @param string    The language name
-     * @return object The fetched object
+     * @param  string     $languageName The language name
+     * @return AlLanguage The fetched object
      */
     public function fromLanguageName($languageName);
 
     /**
      *  Fetches all the active languages
      *
-     *  @return mixed A collection of objects
+     *  @return \Iterator|AlLanguage[] A collection of objects
      */
     public function activeLanguages();
 
     /**
      * Fetches the first language record
      *
-     * @return object The fetched object
+     * @return \Iterator|AlLanguage[] The fetched object
      */
     public function firstOne();
 }

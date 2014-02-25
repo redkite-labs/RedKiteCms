@@ -27,7 +27,7 @@ interface OrmInterface
     /**
      * Sets the current connection
      *
-     * @param object A valid connection object
+     * @param object $connection A valid connection object
      */
     public function setConnection($connection);
 
@@ -56,8 +56,8 @@ interface OrmInterface
     /**
      * The orm saves the object
      *
-     * @param array An array of values
-     * @param object The model object to use
+     * @param array  $values      An array of values
+     * @param object $modelObject The model object to use
      *
      * @returns boolean
      */
@@ -66,7 +66,7 @@ interface OrmInterface
     /**
      * The orm deletes the object
      *
-     * @param object The model object to use
+     * @param object $modelObject The model object to use
      *
      * @returns boolean
      */

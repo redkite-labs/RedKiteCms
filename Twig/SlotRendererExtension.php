@@ -54,7 +54,6 @@ class SlotRendererExtension extends \Twig_Extension
     {
         $this->checkSlotName($slotName);
 
-        $content = "";
         try {
             $slotContents = array();
             $pageTree = $this->container->get('red_kite_cms.page_tree');
@@ -85,10 +84,13 @@ class SlotRendererExtension extends \Twig_Extension
     /**
      * Renders a block
      *
-     * @param  array                     $block
-     * @param  boolean                   $add   Returns the slot as new editable block
+     * @param  AlBlockManager $blockManager
+     * @param  string|null    $template
+     * @param  bool           $included
+     * @param  string         $extraAttributes
+     * @param  array          $extraOptions
+     * @throws \Exception
      * @return string
-     * @throws \InvalidArgumentException
      */
     public function renderBlock(AlBlockManager $blockManager, $template = null, $included = false, $extraAttributes = '', array $extraOptions = null)
     {
@@ -147,7 +149,8 @@ class SlotRendererExtension extends \Twig_Extension
     /**
      * Converts a block's content to html
      *
-     * @param  array|string $block
+     * @param  string $content
+     * @param  array  $extraOptions
      * @return string
      */
     public function blockContentToHtml($content, array $extraOptions = null)
@@ -199,7 +202,7 @@ class SlotRendererExtension extends \Twig_Extension
         if (null !== $parent && preg_match('/' . $parent->get()->getId() .  '\-([0-9]+)/', $key, $matches)) {
             $extraOptions['key'] = $matches[1];
         }
-        
+
         if (count($blocks) > 0) {
             $alBlock = $blocks[0];
             $type = $alBlock->getType();
@@ -253,8 +256,8 @@ class SlotRendererExtension extends \Twig_Extension
     /**
      * Validates the slot name
      *
-     * @param  string                                                                       $slotName
-     * @throws RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
+     * @param  string                                                                        $slotName
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
      */
     protected function checkSlotName($slotName)
     {

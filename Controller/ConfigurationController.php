@@ -17,17 +17,16 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ConfigurationController extends Base\BaseController
 {
-    public function changeCmsLanguageAction()
+    public function changeCmsLanguageAction(Request $request)
     {
-        $request = $this->container->get('request');
         $languageName = $request->get('languageName');
 
-        $factoryRepository = $this->container->get('red_kite_cms.factory_repository');
-        $configurationRepository = $factoryRepository->createRepository('Configuration');
+        $configurationRepository = $this->createRepository('Configuration');
         $configuration = $configurationRepository->fetchParameter('language');
         $result = $configurationRepository
             ->setRepositoryObject($configuration)

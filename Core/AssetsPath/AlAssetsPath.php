@@ -30,7 +30,7 @@ class AlAssetsPath
     /**
      * Returns the upload folder path
      *
-     * @param  \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param  ContainerInterface $container
      * @return string
      */
     public static function getUploadFolder(ContainerInterface $container)
@@ -49,7 +49,7 @@ class AlAssetsPath
     /**
      * Returns the upload folder absolute path
      *
-     * @param  \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param  ContainerInterface $container
      * @return string
      */
     public static function getAbsoluteUploadFolder(ContainerInterface $container)

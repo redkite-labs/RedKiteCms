@@ -30,10 +30,15 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DataManager
 {
+    /** @var null|AlFactoryRepositoryInterface */
     private $factoryRepository = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface */
     private $seoRepository = null;
+    /** @var null|AlLanguage */
     private $language = null;
+    /** @var null|AlPage */
     private $page = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Model\AlSeo */
     private $seo = null;
 
     /**
@@ -73,7 +78,7 @@ class DataManager
     /**
      * Returns the current AlSeo object
      *
-     * @return AlSeo instance
+     * @return \RedKiteLabs\RedKiteCmsBundle\Model\AlSeo instance
      *
      * @api
      */
@@ -85,7 +90,7 @@ class DataManager
     /**
      * Initializes the DataManager object from a request
      *
-     * @param type $request
+     * @param Request $request
      */
     public function fromRequest(Request $request)
     {
@@ -104,8 +109,8 @@ class DataManager
     /**
      * Initializes the DataManager object from the database entities
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage $language
-     * @param \RedKiteLabs\RedKiteCmsBundle\Model\AlPage     $page
+     * @param AlLanguage $language
+     * @param AlPage     $page
      */
     public function fromEntities(AlLanguage $language = null, AlPage $page = null)
     {

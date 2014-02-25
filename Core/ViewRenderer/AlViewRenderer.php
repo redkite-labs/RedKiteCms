@@ -28,12 +28,13 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
  */
 class AlViewRenderer implements AlViewRendererInterface
 {
+    /** @var EngineInterface */
     protected $templating;
 
     /**
      * Constructor
      *
-     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $templating
+     * @param EngineInterface $templating
      */
     public function __construct(EngineInterface $templating)
     {
@@ -75,12 +76,12 @@ class AlViewRenderer implements AlViewRendererInterface
      *
      * When the "options" option is not specified an empty array is used as options array.
      *
-     * @param  array $views
-     * @return type
+     * @param  array  $views
+     * @return string
      */
     public function render(array $views)
     {
-        if ( ! array_key_exists('views', $views)) {
+        if (!array_key_exists('views', $views)) {
             $views['views'] = array($views);
         }
 
@@ -95,12 +96,12 @@ class AlViewRenderer implements AlViewRendererInterface
     /**
      * Renders a view
      *
-     * @param  string $view
+     * @param  array  $view
      * @return string
      */
     protected function renderView(array $view)
     {
-        if ( ! array_key_exists('view', $view)) {
+        if (!array_key_exists('view', $view)) {
             return "";
         }
         $options = (array_key_exists('options', $view)) ? $view['options'] : array();

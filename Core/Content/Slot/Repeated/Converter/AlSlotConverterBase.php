@@ -31,20 +31,26 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInte
  */
 abstract class AlSlotConverterBase implements AlSlotConverterInterface
 {
+    /** @var AlPageBlocksInterface */
     protected $pageContentsContainer;
+    /** @var AlFactoryRepositoryInterface */
     protected $factoryRepository = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     protected $languageRepository = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface */
     protected $pageRepository = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
     protected $blockRepository = null;
+    /** @var AlSlot */
     protected $slot;
     protected $arrayBlocks = array();
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot                              $slot
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface        $pageContentsContainer
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param AlSlot                       $slot
+     * @param AlPageBlocksInterface        $pageContentsContainer
+     * @param AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
@@ -64,38 +70,39 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
      * Removes the blocks placed on the current slot from the database
      *
      * @return null|boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Exception
+     * @throws \Exception
      */
     protected function deleteBlocks()
     {
         $blocks = $this->blockRepository->retrieveContentsBySlotName($this->slot->getSlotName());
-        if (count($blocks) > 0) {
-            try {
-                $result = null;
+        if (count($blocks) <= 0) {
+            return null;
+        }
+        try {
+            $result = null;
 
-                $this->blockRepository->startTransaction();
-                foreach ($blocks as $block) {
-                    $result = $this->blockRepository
-                                ->setRepositoryObject($block)
-                                ->delete();
+            $this->blockRepository->startTransaction();
+            foreach ($blocks as $block) {
+                $result = $this->blockRepository
+                            ->setRepositoryObject($block)
+                            ->delete();
 
-                    if(!$result) break;
-                }
-
-                if ($result) {
-                    $this->blockRepository->commit();
-                } else {
-                    $this->blockRepository->rollBack();
-                }
-
-                return $result;
-            } catch (\Exception $e) {
-                if (isset($this->blockRepository) && $this->blockRepository !== null) {
-                    $this->blockRepository->rollBack();
-                }
-
-                throw $e;
+                if(!$result) break;
             }
+
+            if ($result) {
+                $this->blockRepository->commit();
+            } else {
+                $this->blockRepository->rollBack();
+            }
+
+            return $result;
+        } catch (\Exception $e) {
+            if (isset($this->blockRepository) && $this->blockRepository !== null) {
+                $this->blockRepository->rollBack();
+            }
+
+            throw $e;
         }
     }
 

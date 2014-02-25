@@ -28,16 +28,20 @@ use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
  */
 class AlThemeChanger
 {
+    /** @var AlTemplateManager */
     protected $templateManager;
+    /** @var AlFactoryRepositoryInterface */
     protected $factoryRepository;
+    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     protected $languagesRepository;
+    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface */
     protected $pagesRepository;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager              $templateManager
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param AlTemplateManager            $templateManager
+     * @param AlFactoryRepositoryInterface $factoryRepository
      */
     public function __construct(AlTemplateManager $templateManager, AlFactoryRepositoryInterface $factoryRepository)
     {
@@ -50,10 +54,10 @@ class AlThemeChanger
     /**
      * Changes the current theme
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $previousTheme
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param string                                                     $path
-     * @param array                                                      $templatesMap
+     * @param AlThemeInterface $previousTheme
+     * @param AlThemeInterface $theme
+     * @param string           $path
+     * @param array            $templatesMap
      */
     public function change(AlThemeInterface $previousTheme, AlThemeInterface $theme, $path, array $templatesMap)
     {
@@ -65,8 +69,8 @@ class AlThemeChanger
      * Changes the website templates with the new ones provided into the $templatesMap
      * array
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param  array                                                      $templatesMap
+     * @param  AlThemeInterface $theme
+     * @param  array            $templatesMap
      * @throws \Exception
      */
     protected function changeTemplate(AlThemeInterface $theme, array $templatesMap)
@@ -95,8 +99,8 @@ class AlThemeChanger
     /**
      * Saves the current theme structure into a file
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param  type                                                       $themeStructureFile
+     * @param  AlThemeInterface $theme
+     * @param  string           $themeStructureFile
      * @throws \Exception
      */
     protected function saveThemeStructure(AlThemeInterface $theme, $themeStructureFile)

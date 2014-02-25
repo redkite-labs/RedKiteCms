@@ -49,12 +49,13 @@ class ImageThumbnailExtension extends \Twig_Extension
     public function thumbnail($image, $targetWidth = 100, $targetHeight = 100)
     {
         $imagePath = $this->container->getParameter('red_kite_cms.web_folder_full_path') . $image;
-        if (is_file($imagePath)) {
-            $thumbnailer = $this->container->get('red_kite_cms.images_thumbnailer');
-            $thumbnailer->create($imagePath, $targetWidth, $targetHeight);
-
-            return sprintf('<img src="%s" width="%s" height="%s" rel="%s" />', dirname($image) .  '/' . $thumbnailer->getThumbnailFolder() . '/' . $thumbnailer->getThumbnailImageName(), $thumbnailer->getThumbnailWidth(), $thumbnailer->getThumbnailHeight(), $image);
+        if (!is_file($imagePath)) {
+            return '';
         }
+        $thumbnailer = $this->container->get('red_kite_cms.images_thumbnailer');
+        $thumbnailer->create($imagePath, $targetWidth, $targetHeight);
+
+        return sprintf('<img src="%s" width="%s" height="%s" rel="%s" />', dirname($image) .  '/' . $thumbnailer->getThumbnailFolder() . '/' . $thumbnailer->getThumbnailImageName(), $thumbnailer->getThumbnailWidth(), $thumbnailer->getThumbnailHeight(), $image);
     }
 
     /**

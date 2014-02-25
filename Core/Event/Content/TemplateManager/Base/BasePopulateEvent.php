@@ -29,12 +29,13 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
  */
 abstract class BasePopulateEvent extends Event
 {
+    /** @var AlTemplateManager  */
     protected $templateManager;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
+     * @param AlTemplateManager $templateManager
      *
      * @api
      */
@@ -46,7 +47,7 @@ abstract class BasePopulateEvent extends Event
     /**
      * Returns the template manager
      *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
+     * @return AlTemplateManager $templateManager
      *
      * @api
      */
@@ -58,7 +59,7 @@ abstract class BasePopulateEvent extends Event
     /**
      * Sets the template manager
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
+     * @param AlTemplateManager $templateManager
      *
      * @api
      */

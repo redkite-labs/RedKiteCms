@@ -35,7 +35,7 @@ class AddPageBlocksListener
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
@@ -49,7 +49,7 @@ class AddPageBlocksListener
      *
      * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent $event
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page\Exception
+     * @throws \Exception
      *
      * @api
      */

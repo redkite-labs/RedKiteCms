@@ -30,13 +30,14 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class AddLanguageSeoListener extends Base\AddLanguageBaseListener
 {
+    /** @var AlSeoManager */
     private $seoManager;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager $seoManager
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface   $container
+     * @param AlSeoManager       $seoManager
+     * @param ContainerInterface $container
      *
      * @api
      */

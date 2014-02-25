@@ -30,6 +30,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
 {
+    /** @var AlBlockManager */
     private $blockManager;
 
     /**
@@ -101,7 +102,5 @@ class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
 
             return (null !== $url) ? $matches[1] . $languageName . '-' . $url . $matches[3] : $matches[1] . $matches[2] . $matches[3];
         }, $content);
-
-        return $content;
     }
 }

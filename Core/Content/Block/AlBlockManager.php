@@ -45,12 +45,12 @@ use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface, AlBlockManagerInterface
 {
     /**
-     * @var \RedKiteLabs\RedKiteCmsBundle\Model\AlBlock $alBlock
+     * @var AlBlock $alBlock
      */
     protected $alBlock = null;
 
     /**
-     * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @var AlFactoryRepositoryInterface $factoryRepository
      */
     protected $factoryRepository = null;
 
@@ -60,7 +60,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     protected $blockRepository = null;
 
     /**
-     * @var \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree $pageTree
+     * @var AlPageTree $pageTree
      */
     protected $pageTree = null;
 
@@ -68,15 +68,15 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * @var Boolean
      */
     protected $editorDisabled = false;
-    
+
     protected $extraOptions = array();
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param AlEventsHandlerInterface       $eventsHandler
+     * @param AlFactoryRepositoryInterface   $factoryRepository
+     * @param AlParametersValidatorInterface $validator
      *
      * @api
      */
@@ -244,22 +244,22 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
         return false;
     }
-    
+
     /**
      * Returns the block manager's extra options.
-     * 
+     *
      * @return array
      */
     public function blockExtraOptions()
     {
         return array();
     }
-    
+
     /**
      * Sets extra options for rendering the block.
-     * 
+     *
      * This method should be used to pass options from a parent block to children blocks
-     * 
+     *
      * @param array $options
      */
     public function setBlockExtraOptions(array $options)
@@ -444,10 +444,10 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Adds a new block to the AlBlock table
      *
-     * @param  array                                                                                             $values An array where keys are the AlBlockField definition and values are the values to add
+     * @param  array                        $values An array where keys are the AlBlockField definition and values are the values to add
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\General\InvalidArgumentTypeException
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws InvalidArgumentTypeException
+     * @throws \Exception
      *
      * @api
      */

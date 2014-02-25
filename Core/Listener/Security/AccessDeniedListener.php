@@ -33,14 +33,16 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverIn
  */
 class AccessDeniedListener
 {
+    /** @var SecurityContextInterface */
     private $context;
+    /** @var AuthenticationTrustResolverInterface */
     private $authenticationTrustResolver;
 
     /**
      * Construct
      *
-     * @param \Symfony\Component\Security\Core\SecurityContextInterface                            $context
-     * @param \Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface $trustResolver
+     * @param SecurityContextInterface             $context
+     * @param AuthenticationTrustResolverInterface $trustResolver
      *
      * @api
      */

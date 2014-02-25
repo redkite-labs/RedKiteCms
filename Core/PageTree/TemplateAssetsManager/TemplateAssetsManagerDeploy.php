@@ -17,6 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager;
 
+use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 
 /**
@@ -27,9 +28,10 @@ use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
  */
 class TemplateAssetsManagerDeploy extends TemplateAssetsManager
 {
+    /** @var null|AlPageBlocksInterface */
     private $pageBlocks = null;
 
-    public function setPageBlocks(\RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface $pageBlocks)
+    public function setPageBlocks(AlPageBlocksInterface $pageBlocks)
     {
         $this->pageBlocks = $pageBlocks;
 

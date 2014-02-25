@@ -31,56 +31,59 @@ use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
- * @method     AlPageTree getTheme() Returns the handled AlTheme object
- * @method     AlPageTree getTemplate() Returns the handled AlTemplate object
- * @method     AlPageTree getTemplateManager() Returns the handled AlTemplateManager object
- * @method     AlPageTree getPageBlocks() Returns the handled AlPageBlocks object
- * @method     AlPageTree getAlPage() Returns the handled AlPage object
- * @method     AlPageTree getAlLanguage() Returns the handled AlLanguage object
- * @method     AlPageTree getAlSeo() Returns the handled AlSeo object
- * @method     AlPageTree getExternalStylesheets() Returns the handled external stylesheets
- * @method     AlPageTree getInternalStylesheets() Returns the handled internal stylesheets
- * @method     AlPageTree getExternalJavascripts() Returns the handled external javascripts
- * @method     AlPageTree getInternalJavascripts() Returns the handled internal javascripts
- * @method     AlPageTree getMetaTitle() Returns the metatag Title attribute
- * @method     AlPageTree getMetaDescription() Returns the metatag Description attribute
- * @method     AlPageTree getMetaKeywords() Returns the metatag Keywords attribute
+ * @method \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme getTheme() Returns the handled AlTheme object
+ * @method AlTemplate getTemplate() Returns the handled AlTemplate object
+ * @method AlTemplateManager getTemplateManager() Returns the handled AlTemplateManager object
+ * @method \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks getPageBlocks() Returns the handled AlPageBlocks object
+ * @method \RedKiteLabs\RedKiteCmsBundle\Model\AlPage getAlPage() Returns the handled AlPage object
+ * @method \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage getAlLanguage() Returns the handled AlLanguage object
+ * @method \RedKiteLabs\RedKiteCmsBundle\Model\AlSeo getAlSeo() Returns the handled AlSeo object
+ * @method AlPageTree getExternalStylesheets() Returns the handled external stylesheets
+ * @method AlPageTree getInternalStylesheets() Returns the handled internal stylesheets
+ * @method AlPageTree getExternalJavascripts() Returns the handled external javascripts
+ * @method AlPageTree getInternalJavascripts() Returns the handled internal javascripts
+ * @method string getMetaTitle() Returns the metatag Title attribute
+ * @method string getMetaDescription() Returns the metatag Description attribute
+ * @method string getMetaKeywords() Returns the metatag Keywords attribute
  */
 class AlPageTree
 {
+    /** @var TemplateAssetsManager */
+    private $assetsManager;
+    /** @var null|EventDispatcherInterface */
+    private $dispatcher = null;
+    /** @var null|DataManager */
+    private $dataManager = null;
+
     private $template = null;
     private $pageBlocks;
     private $metaTitle = "";
     private $metaDescription = "";
     private $metaKeywords = "";
     private $theme = null;
-    private $templateManager;
-    private $dispatcher;
-    private $assetsManager;
+    /** @var null|AlTemplateManager */
+    private $templateManager = null;
     private $cmsMode = true;
-    private $dataManager;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager $templateAssetsManager
-     * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface                             $eventsDispatcher
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager                     $dataManager
+     * @param TemplateAssetsManager    $templateAssetsManager
+     * @param EventDispatcherInterface $eventsDispatcher
+     * @param DataManager              $dataManager
      */
     public function __construct(TemplateAssetsManager $templateAssetsManager, EventDispatcherInterface $eventsDispatcher = null, DataManager $dataManager = null)
     {
         $this->assetsManager = $templateAssetsManager;
         $this->dispatcher = $eventsDispatcher;
-        if (null !== $dataManager) {
-            $this->dataManager = $dataManager;
-        }
+        $this->dataManager = $dataManager;
     }
 
     /**
      * Sets the TemplateAssetsManager
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager $templateAssetsManager
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
+     * @param  TemplateAssetsManager $templateAssetsManager
+     * @return self
      */
     public function setTemplateAssetsManager(TemplateAssetsManager $templateAssetsManager)
     {
@@ -92,8 +95,8 @@ class AlPageTree
     /**
      * Sets the DataManager
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager $templateAssetsManager
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
+     * @param  DataManager $dataManager
+     * @return self
      */
     public function setDataManager(DataManager $dataManager)
     {
@@ -105,9 +108,10 @@ class AlPageTree
     /**
      * Creates magic methods
      *
-     * @param  string $name   the method name
-     * @param  mixed  $params the values to pass to the called method
-     * @return mixed  Depends on method called
+     * @param  string            $name   the method name
+     * @param  mixed             $params the values to pass to the called method
+     * @throws \RuntimeException
+     * @return mixed             Depends on method called
      */
     public function __call($name, $params)
     {
@@ -169,8 +173,8 @@ class AlPageTree
     /**
      * Sets the RedKiteCms mode
      *
-     * @param  boolean                                                $value
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
+     * @param  boolean $value
+     * @return self
      */
     public function productionMode($value)
     {
@@ -206,11 +210,11 @@ class AlPageTree
     /**
      * Sets up the PageTree object
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlTheme                         $theme
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager       $templateManager
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface $pageBlocks
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate                     $template
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree
+     * @param  AlThemeInterface      $theme
+     * @param  AlTemplateManager     $templateManager
+     * @param  AlPageBlocksInterface $pageBlocks
+     * @param  AlTemplate            $template
+     * @return self
      */
     public function setUp(AlThemeInterface $theme, AlTemplateManager $templateManager, AlPageBlocksInterface $pageBlocks, AlTemplate $template = null)
     {
@@ -239,7 +243,7 @@ class AlPageTree
 
         $this->template = (null === $template) ? $this->theme->getTemplate($templateName) : $template;
         if (null === $this->template) {
-            return;
+            return $this;
         }
 
         $this->assetsManager

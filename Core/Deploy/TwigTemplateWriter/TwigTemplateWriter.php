@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of the RedKiteCmsBunde Application and it is distributed
  * under the GPL LICENSE Version 2.0. To use this application you must leave
@@ -24,7 +23,6 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\TemplateSectionTwig
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\MetatagSection;
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\AssetSection;
 use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\ContentSection;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedException;
 
 /**
  * AlTwigTemplateWriter is the object deputated to generate and write a twig template
@@ -36,9 +34,25 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated\RedKiteDeprecatedExce
  */
 class TwigTemplateWriter extends TemplateSectionTwig
 {
+    /** @var MetatagSection */
     private $metatagsSection;
+    /** @var AssetSection  */
     private $assetsSection;
+    /** @var ContentSection */
     private $contentSection;
+
+    /** @var string|null */
+    private $twigTemplate = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage */
+    private $language = null;
+    /** @var null|\RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate  */
+    private $template = null;
+    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Model\AlPage */
+    private $page = null;
+    /** @var string|null */
+    private $baseFolder = null;
+    /** @var string|null */
+    private $fileName = null;
 
     public function __construct(MetatagSection $metatagsSection, AssetSection $assetsSection, ContentSection $contentSection)
     {
@@ -121,10 +135,10 @@ class TwigTemplateWriter extends TemplateSectionTwig
     {
         if ( ! $this->page->getIsPublished()) {
             $this->twigTemplate = "{% extends 'RedKiteLabsThemeEngineBundle:Frontend:unpublished.html.twig' %}";
-            
+
             return $this;
         }
-        
+
         $options["filter"] = array('page');
         $this->twigTemplate = sprintf("{%% extends '%s:%s:%s/base/%s.html.twig' %%}" . PHP_EOL, $options["deployBundle"], $options["templatesDir"], $this->language->getLanguageName(), $this->page->getTemplateName());
         $this->twigTemplate .= $this->metatagsSection->generateSection($pageTree, $theme, $options);

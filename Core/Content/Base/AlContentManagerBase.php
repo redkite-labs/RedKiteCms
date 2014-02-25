@@ -46,8 +46,8 @@ abstract class AlContentManagerBase
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param AlEventsHandlerInterface       $eventsHandler
+     * @param AlParametersValidatorInterface $validator
      *
      * @api
      */
@@ -60,8 +60,8 @@ abstract class AlContentManagerBase
     /**
      * Sets the event dispatcher object
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface $eventsHandler
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase
+     * @param  AlEventsHandlerInterface $eventsHandler
+     * @return AlContentManagerBase
      *
      * @api
      */
@@ -75,8 +75,8 @@ abstract class AlContentManagerBase
     /**
      * Sets the parameters validator object
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase
+     * @param  AlParametersValidatorInterface $validator
+     * @return AlContentManagerBase
      *
      * @api
      */
@@ -90,7 +90,7 @@ abstract class AlContentManagerBase
     /**
      * Returns the Event dispatcher object
      *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface
+     * @return AlEventsHandlerInterface
      *
      * @api
      */
@@ -102,7 +102,7 @@ abstract class AlContentManagerBase
     /**
      * Returns the ParameterValidator object
      *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface
+     * @return AlParametersValidatorInterface
      *
      * @api
      */

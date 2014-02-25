@@ -29,8 +29,18 @@ use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
  */
 abstract class TemplateSection
 {
+    /** @var null|AlUrlManagerInterface */
     protected $urlManager = null;
+    /** @var null|AlPageTree */
     protected $pageTree = null;
+    /** @var null|AlThemeInterface */
+    protected $theme = null;
+    /** @var null|string */
+    protected $imagesSourcePath = null;
+    /** @var null|string */
+    protected $imagesTargetPath = null;
+    /** @var null|\RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface */
+    protected $themeSlots = null;
 
     /**
      * Writes a comment section
@@ -87,70 +97,72 @@ abstract class TemplateSection
      * @return string
      */
     abstract protected function identateContent($content);
-    
+
     /**
      * Constructor
-     * 
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface $urlManager
+     *
+     * @param AlUrlManagerInterface $urlManager
      */
-    public function __construct(AlUrlManagerInterface $urlManager) 
+    public function __construct(AlUrlManagerInterface $urlManager)
     {
         $this->urlManager = $urlManager;
     }
-    
+
     /**
      * Defines the base method to generate a section
-     * 
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree $pageTree
+     *
+     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree     $pageTree
      * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
-     * @param array $options
+     * @param array                                                      $options
      */
     public function generateSection(AlPageTree $pageTree, AlThemeInterface $theme, array $options)
     {
         // Writes page contentsSection
         $this->pageTree = $pageTree;
-        $this->theme= $theme;
+        $this->theme = $theme;
         $this->themeSlots = $theme->getThemeSlots();
-        
+
         $this->imagesSourcePath = $options["uploadAssetsAbsolutePath"];
-        $this->imagesTargetPath = $options["deployBundleAssetsPath"];        
+        $this->imagesTargetPath = $options["deployBundleAssetsPath"];
     }
-    
+
     /**
      * Rewrites the images to be correctly displayed in the production environment
-     * 
-     * @param string $content
+     *
+     * @param  string $content
+     * @return string
      */
     protected function rewriteImagesPathForProduction($content)
     {
         $imagesSourcePath = $this->imagesSourcePath;
         $imagesTargetPath = $this->imagesTargetPath;
-        
+
         return preg_replace_callback('/([\/]?)(' . str_replace('/', '\/', $imagesSourcePath) . ')/s', function ($matches) use ($imagesTargetPath) {return $matches[1].$imagesTargetPath;}, $content);
     }
 
     /**
      * Rewrites the website links for the production environment
-     * 
-     * @param string $content
+     *
+     * @param  string $content
+     * @return string
      */
     protected function rewriteLinksForProduction($content)
     {
         $urlManager = $this->urlManager;
-        
+
         $content = preg_replace_callback('/(\<a[^\>]+href[="\s]+)([^"\s]+)?([^\>]+\>)/s', function ($matches) use ($urlManager) {
             $url = $matches[2];
-            
+
             if (preg_match('/route:([^"]+)/i', $url, $route)) {
                 $url = sprintf("{{ path(%s) }}", html_entity_decode($route[1], ENT_QUOTES));
 
                 return $matches[1] . $url . $matches[3];
             }
-            
+
             $route = $urlManager
                 ->fromUrl($url)
                 ->getProductionRoute();
-            
+
             if (null !== $route) {
                 $url = sprintf("{{ path('%s') }}", $route);
             }

@@ -41,9 +41,9 @@ class AlRepeatedSlotsAligner
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection                                     $themesCollection
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface $slotsConverterFactory
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface                          $factoryRepository
+     * @param AlThemesCollection               $themesCollection
+     * @param AlSlotsConverterFactoryInterface $slotsConverterFactory
+     * @param AlFactoryRepositoryInterface     $factoryRepository
      *
      * @api
      */
@@ -58,8 +58,8 @@ class AlRepeatedSlotsAligner
     /**
      * Sets the id of the language
      *
-     * @param  int                                                                                     $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner
+     * @param  int  $v
+     * @return self
      *
      * @api
      */
@@ -73,8 +73,8 @@ class AlRepeatedSlotsAligner
     /**
      * Sets the id of the page
      *
-     * @param  int                                                                                     $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner
+     * @param  int  $v
+     * @return self
      *
      * @api
      */
@@ -112,8 +112,8 @@ class AlRepeatedSlotsAligner
     /**
      * Compares the slots and updates the contents according the new status
      *
-     * @param string $templateName  The current template to check
-     * @param array  $templateSlots The template's slots
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate $template
+     * @param array                                                   $templateSlots The template's slots
      *
      * @return null|boolean null is returned when any update is made
      *
@@ -171,10 +171,10 @@ class AlRepeatedSlotsAligner
     /**
      * Updates the slot status for the given slots
      *
-     * @param  array                                                                      $templateSlots
-     * @param  array                                                                      $changedSlots
+     * @param  array      $templateSlots
+     * @param  array      $changedSlots
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\Exception
+     * @throws \Exception
      *
      * @api
      */
@@ -213,7 +213,7 @@ class AlRepeatedSlotsAligner
      * Converts the slots to an array where the key is the slot name and the value is the repeated status
      *
      * @param  array $slots
-     * @return type
+     * @return array
      *
      * @api
      */

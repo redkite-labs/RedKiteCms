@@ -33,8 +33,8 @@ interface AlPageBlocksInterface
      * saved at the key identified by the position is edited
      *
      * @param  string                    $slotName
-     * @param  array                     $values
-     * @param  int                       $position The first element has a position equals to 0
+     * @param  mixed                     $value
+     * @param  int|null                  $position The first element has a position equals to 0
      * @throws \InvalidArgumentException
      */
     public function add($slotName, $value, $position = null);
@@ -53,8 +53,8 @@ interface AlPageBlocksInterface
      *          'slotname1' => ...
      *         )
      *
-     * @param array $values
-     * @param type  $override When true, the slot is cleared and repopulated by the new blocks
+     * @param array   $values
+     * @param boolean $override When true, the slot is cleared and repopulated by the new blocks
      */
     public function addRange(array $values, $override = false);
 
@@ -92,6 +92,7 @@ interface AlPageBlocksInterface
     /**
      * Return all blocks placed on the given slot name
      *
+     * @param  string $slotName
      * @return array
      */
     public function getSlotBlocks($slotName);
@@ -99,10 +100,10 @@ interface AlPageBlocksInterface
     /**
      * Refreshes the blocks for the given language and page
      *
-     * @param  int                                                                $languageId
-     * @param  int                                                                $pageId
+     * @param  int                                                                                       $languageId
+     * @param  int                                                                                       $pageId
      * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
-     * @throws General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      *
      * @api
      */

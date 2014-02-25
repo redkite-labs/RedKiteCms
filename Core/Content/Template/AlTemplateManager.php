@@ -42,20 +42,28 @@ use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface;
  */
 class AlTemplateManager extends AlTemplateBase
 {
+    /** @var AlSlotManager[] */
     protected $slotManagers = array();
+    /** @var AlFactoryRepositoryInterface */
+    protected $factoryRepository;
+    /** @var AlTemplate */
     protected $template;
+    /** @var BlockRepositoryInterface */
     protected $blockRepository;
+    /** @var AlPageBlocksInterface */
     protected $pageBlocks;
+    /** @var AlThemeSlotsInterface */
     protected $themeSlots;
+    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
     protected $dispatcher;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface     $blockManagerFactory
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param AlEventsHandlerInterface       $eventsHandler
+     * @param AlFactoryRepositoryInterface   $factoryRepository
+     * @param AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param AlParametersValidatorInterface $validator
      */
     public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
     {
@@ -94,7 +102,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the current AlTemplateobject
      *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
+     * @return AlTemplate
      *
      * @api
      */
@@ -106,7 +114,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the current AlThemeSlots object
      *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlots
+     * @return AlThemeSlotsInterface
      *
      * @api
      */
@@ -130,14 +138,14 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Sets the block model interface
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
+     * @param  BlockRepositoryInterface $blockRepository
+     * @return self
      *
      * @api
      */
-    public function setBlockRepository(BlockRepositoryInterface $v)
+    public function setBlockRepository(BlockRepositoryInterface $blockRepository)
     {
-        $this->blockRepository = $v;
+        $this->blockRepository = $blockRepository;
 
         return $this;
     }
@@ -156,8 +164,8 @@ class AlTemplateManager extends AlTemplateBase
 
     /**
      * Returns the managed slot managers
-     * @param  boolean $removeIncludedSlots
-     * @return type
+     * @param  boolean         $removeIncludedSlots
+     * @return AlSlotManager[]
      *
      * @api
      */
@@ -169,8 +177,8 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the slot manager that matches the given parameter
      *
-     * @param  string     $slotName
-     * @return null|array
+     * @param  string             $slotName
+     * @return null|AlSlotManager
      *
      * @api
      */
@@ -227,10 +235,10 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Refreshes the TemplateManager
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface        $themeSlots
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate                     $template
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface $pageBlocks
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
+     * @param  AlThemeSlotsInterface $themeSlots
+     * @param  AlTemplate            $template
+     * @param  AlPageBlocksInterface $pageBlocks
+     * @return self
      */
     public function refresh(AlThemeSlotsInterface $themeSlots, AlTemplate $template = null, AlPageBlocksInterface $pageBlocks = null)
     {
@@ -250,11 +258,11 @@ class AlTemplateManager extends AlTemplateBase
      * are filled up using the dafault values provided by each single slot.
      *
      *
-     * @param  int                                                           $idLanguage   The id that identified the language to add
-     * @param  int                                                           $idPage       The id that identified the page to add
-     * @param  boolean                                                       $skipRepeated True skips the slots that are repeated on page
+     * @param  int        $idLanguage   The id that identified the language to add
+     * @param  int        $idPage       The id that identified the page to add
+     * @param  boolean    $skipRepeated True skips the slots that are repeated on page
+     * @throws \Exception
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\Exception
      *
      * @api
      */
@@ -308,9 +316,9 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Removes the blocks from the whole slot managers managed by the template manager
      *
-     * @param  boolean                                                       $skipRepeated When true skips the slots with a repeated status
+     * @param  boolean    $skipRepeated When true skips the slots with a repeated status
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\Exception
+     * @throws \Exception
      *
      * @api
      */
@@ -354,11 +362,11 @@ class AlTemplateManager extends AlTemplateBase
      * Clear the blocks from the whole slot managers managed by the template manager,
      * for a page identified by the required parameters
      *
-     * @param  int                                                           $languageId
-     * @param  int                                                           $pageId
-     * @param  boolean                                                       $skipRepeated
+     * @param  int        $languageId
+     * @param  int        $pageId
+     * @param  boolean    $skipRepeated
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\Exception
+     * @throws \Exception
      *
      * @api
      */
@@ -393,7 +401,6 @@ class AlTemplateManager extends AlTemplateBase
      * Creates the slot managers from the current template slot class
      *
      * @return null|boolean
-     * @throws Exception\EmptyTemplateSlotsException
      */
     protected function setUpSlotManagers()
     {
@@ -431,8 +438,8 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Creates the slot manager for the given slot
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot         $slot
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
+     * @param  AlSlot        $slot
+     * @return AlSlotManager
      */
     protected function createSlotManager(AlSlot $slot)
     {

@@ -17,7 +17,6 @@
 
 namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 
 /**
@@ -34,9 +33,9 @@ class AlPageTreePreview extends AlPageTree
     /**
      * Adds a block manager
      *
-     * @param  type                                                                     $slotName
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface $blockManager
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview
+     * @param  string                  $slotName
+     * @param  AlBlockManagerInterface $blockManager
+     * @return AlPageTreePreview
      *
      * @api
      */
@@ -50,7 +49,8 @@ class AlPageTreePreview extends AlPageTree
     /**
      * Overrides the base method to return the Block Managers.
      *
-     * @return array
+     * @param  string                    $slotName
+     * @return AlBlockManagerInterface[]
      *
      * @api
      */
