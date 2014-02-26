@@ -149,6 +149,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      */
     public function getBlocks()
     {
+        $ungroupedKey = 'Ungrouped';
         $blockGroups = array();
         foreach ($this->blockManagersItems as $blockManagerItem) {
 
@@ -156,7 +157,6 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
                 continue;
             }
 
-            $ungroupedKey = 'Ungrouped';
             $groups = array($ungroupedKey);
             $group = $blockManagerItem->getGroup();
             if ($group != "") {
