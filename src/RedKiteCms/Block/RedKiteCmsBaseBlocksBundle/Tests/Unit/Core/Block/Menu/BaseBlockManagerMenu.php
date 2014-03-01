@@ -49,7 +49,101 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
     
-    public function testHtmlViewOutput()
+    /**
+     * @dataProvider linksProvider
+     */
+    public function testGetHtml($links, $productionRoute, $html)
+    {
+        $this->initContainer();
+        
+        $seo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
+        $seo->expects($this->once())
+              ->method('getPermalink')
+              ->will($this->returnValue('homepage'))
+        ;
+        
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+                        ->setMethods(array('getAlSeo'))
+                        ->disableOriginalConstructor()
+                        ->getMock();
+        $pageTree->expects($this->at(0))
+              ->method('getAlSeo')
+              ->will($this->returnValue($seo))
+        ;
+        
+        $this->container->expects($this->at(3))
+                      ->method('get')
+                      ->with('red_kite_cms.page_tree')
+                      ->will($this->returnValue($pageTree))
+        ;
+        
+        $blocksRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface');        
+        $blocksRepository->expects($this->once())
+              ->method('retrieveContentsBySlotName')
+              ->will($this->returnValue($links))
+        ;
+        
+        $factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $factoryRepository->expects($this->once())
+              ->method('createRepository')
+              ->with('Block')
+              ->will($this->returnValue($blocksRepository))
+        ;
+        
+        $this->container->expects($this->at(4))
+                      ->method('get')
+                      ->with('red_kite_cms.factory_repository')
+                      ->will($this->returnValue($factoryRepository))
+        ;
+        
+        $urlManager = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        $urlManager->expects($this->once())
+              ->method('getProductionRoute')
+              ->will($this->returnValue($productionRoute))
+        ;
+        $this->container->expects($this->at(5))
+                      ->method('get')
+                      ->with('red_kite_cms.url_manager')
+                      ->will($this->returnValue($urlManager))
+        ;
+        
+        $blockContent = 
+            '{
+                "0": {
+                    "blockType" : "Link"
+                },
+                "1": {
+                    "blockType" : "Link"
+                }
+            }';
+        $block = $this->initBlock($blockContent);
+        $blockManager = $this->getBlockManager();
+        $blockManager->set($block);
+        
+        $this->assertEquals($html, $blockManager->getHtml());
+    }
+    
+    public function linksProvider()
+    {
+        return array(
+            array(
+                array(
+                    $this->initLinkBlock()
+                ),
+                null,
+                '<ol class="nav nav-pills"><li ><a href="#">This is a link</a></li></ol>'
+            ),
+            array(
+                array(
+                    $this->initLinkBlock()
+                ),
+                'welcome-to-redkite-cms',
+                '<ol class="nav nav-pills"><li {% if path(\'welcome-to-redkite-cms\') == app.request.getBaseUrl ~ app.request.getPathInfo %}class="active"{% endif %}><a href="#">This is a link</a></li></ol>'
+            ),
+        );
+    }
+
+    public function testContentReplaced()
     {
         $blockContent = 
             '{
@@ -104,9 +198,10 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
                 ),
                 'block_manager' => $blockManager
             ),
-        ));
+        )); 
+        $blockManagerArray = $blockManager->toArray();
         
-        $this->assertEquals($expectedResult, $blockManager->getHtml());
+        $this->assertEquals($expectedResult, $blockManagerArray["Content"]);
     }
     
     protected function initContainer()
@@ -175,5 +270,18 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
               ->will($this->returnValue(2));
 
         return $block;
+    }
+    
+    protected function initLinkBlock()
+    {
+        $linkBlockContent =
+            '{
+                "0" : {
+                    "href": "#",
+                    "value": "This is a link"
+                }
+            }';        
+        
+        return $this->initBlock($linkBlockContent);
     }
 }

@@ -13,17 +13,4 @@
 {% else %}
 <a href="{{ link.href }}" {{ editor|raw }}>{{ link.value }}</a>
 {% endif %}
-
-
-{# if wrapper_tag is defined %}
-<{{ wrapper_tag }} {{ editor|raw }} {% if(active_page is defined and link.href == active_page) %} class="active"{% endif %}{% if item is defined %} data-item="{{ item }}"{% endif %}{% if slot_name is defined %} data-slot-name="{{ slot_name }}"{% endif %}>
-{% endif %}
-{% if no_link_when_active is defined and active_page is defined and no_link_when_active and link.href == active_page %}
-<span {{ editor|raw }}>{{ link.value }}</span>
-{% else %}
-<a href="{{ link.href }}" >{{ link.value }}</a>
-{% endif %}
-{% if wrapper_tag is defined %}
-</{{ wrapper_tag }}>
-{% endif #}
 {% endblock %}
