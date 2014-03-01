@@ -27,6 +27,7 @@ use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMe
 class AlBlockManagerBootstrapBreadcrumbBlock extends AlBlockManagerMenu
 {
     protected $blocksTemplate = 'TwitterBootstrapBundle:Content:Breadcrumb/breadcrumb.html.twig';
+    protected $listClass = "breadcrumb";
     
     /**
      * {@inheritdoc}

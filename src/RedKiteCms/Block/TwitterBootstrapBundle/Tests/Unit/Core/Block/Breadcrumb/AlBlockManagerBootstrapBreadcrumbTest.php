@@ -40,7 +40,27 @@ class AlBlockManagerBootstrapBreadcrumbBlockTest extends BaseBlockManagerMenu
         return new AlBlockManagerBootstrapBreadcrumbBlock($this->container, $this->validator);
     }
     
-    public function testHtmlViewOutput()
+    public function linksProvider()
+    {
+        return array(
+            array(
+                array(
+                    $this->initLinkBlock()
+                ),
+                null,
+                '<ol class="breadcrumb"><li><a href="#">This is a link</a></li></ol>'
+            ),
+            array(
+                array(
+                    $this->initLinkBlock()
+                ),
+                'welcome-to-redkite-cms',
+                '<ol class="breadcrumb"><li {% if path(\'welcome-to-redkite-cms\') == app.request.getBaseUrl ~ app.request.getPathInfo %}<li><span>This is a link</span></li>{% else %}<li><a href="#">This is a link</a></li>{% endif %}</ol>'
+            ),
+        );
+    }
+    
+    public function testContentReplaced()
     {
         $blockContent = 
             '{
@@ -96,8 +116,9 @@ class AlBlockManagerBootstrapBreadcrumbBlockTest extends BaseBlockManagerMenu
                 ),
                 'block_manager' => $blockManager
             ),
-        ));
+        )); 
+        $blockManagerArray = $blockManager->toArray();
         
-        $this->assertEquals($expectedResult, $blockManager->getHtml());
+        $this->assertEquals($expectedResult, $blockManagerArray["Content"]);
     }
 }
