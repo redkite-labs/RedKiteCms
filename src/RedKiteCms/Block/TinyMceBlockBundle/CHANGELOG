@@ -1,3 +1,6 @@
+RedKite CMS TinyMCE 1.1.1 (2014/03/02)
+c227f14 Removed all YUI references Related to https://github.com/redkite-labs/RedKiteCmsBundle/pull/18  (boekkooi)
+
 RedKite CMS TinyMCE 1.1.0 (2014/01/18)
 7987670 updated tinymce to 4.0.12
 db6fc97 configured tinymce to work with relative urls and forced to not convert urls
