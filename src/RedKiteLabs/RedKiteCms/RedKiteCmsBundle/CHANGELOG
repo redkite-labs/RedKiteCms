@@ -1,3 +1,23 @@
+RedKite CMS 1.1.2 (2014/03/02)
+8036141 Fixed failing test; Did dos2unix; Updated controller test to use Request param; Updated Twig/ImageThumbnail to allow for null returns; 
+        Fixed `end` call in AlActiveTheme where a iterator was given (boekkooi)
+756359c DocBlock and code cleanup (boekkooi)
+22ec6dd Routes updated to use prefix (boekkooi)
+9ea4411 centered base panel for pages, languages, security and themes; avoid default browser event for panel buttons
+bb5cf02 [bug] fromLanguageAndPageNames filtered by toDelete
+554afe8 fixed block definition with a single group throws an exception
+317c1e4 Removed all YUI references. This commit removes the `enable_yui_compressor` option and all related assetic yui filters. (boekkooi)
+194f977 Delete vendor/vendors.php (boekkooi)
+17e42a3 redesigned RedKite CMS interface. The top toolbar and left buttons have been removed and replaced by a control panel placed on the left. 
+        This control panel is displayed minimized by default and it can be opened to full minimized screen height where all commands are iconized 
+        and available. From this status it can be maximized to have all commands descripted. The control panel status is saved, so each time the 
+        CMS is opened the control panel is positioned as left
+1e50c18 passed the red_kite_labs_theme_engine.web_path to the asset that handles the deploy bundle path; dumped assets for rkcms env instead of prod e
+a07d75f Fixed `Variable "domain" does not exist` (boekkooi)
+e84c48d added the blockExtraOptions argument to renderIncludedBlock twig function to pass extra options from a parent block to children
+339647e added blockDefinition property to AlSlot to define a value from the theme overriding the block default content
+963fa25 skipped block assignment to collection, when the block is null
+
 RedKite CMS 1.1.1 (2014/01/26)
 dd8c634 fixed unwanted behavior in google chrome preventing default event when clicking on a select box inside the active popovered editor
 d2df726 PHP executable path can be empty. Language sort must be by main flag first [alexkvak]
