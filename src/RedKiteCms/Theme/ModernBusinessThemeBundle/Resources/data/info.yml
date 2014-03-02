@@ -1,7 +1,8 @@
 info:
   title:  ModernBusinessTheme
   description: |
-    This is the default description for a new RedKiteCms Theme
-  author: Insert here your name or remove this option
-  website: Insert here your website name or remove this option
-  license: MIT
+    Modern Business is a full website template by Start Bootstrap, built on top of
+    Twitter Bootstrap 3
+  author: Start Bootstrap / RedKite Labs (twig porting)
+  website: http://startbootstrap.com/modern-business
+  license: Apache License v2.0. / MIT
