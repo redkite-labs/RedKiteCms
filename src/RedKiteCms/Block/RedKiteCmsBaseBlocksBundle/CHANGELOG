@@ -7,8 +7,8 @@ RedKite CMS Base Blocks 1.1.1 (2014/03/02)
 1db3457 active link on a menu is now highlighted
 cd9e577 added a method to add the css class attribute to an editor to AlBaseType object; added css class attribute to Image and Link blocks
 
-RedKite CMS Base Blocks 1.1.0
--
+RedKite CMS Base Blocks 1.1.0 (2014/01/18)
+----
 
 RedKite CMS Base Blocks 1.1.Release Cansidate 2 (2013/12/18)
 62ad3fb fixed a bug with ScriptBlock which was not correctly saved when the script contained the "&" char
