@@ -1,3 +1,12 @@
+RedKite CMS Installer 1.1.2 (2014/03/02)
+9cd6372 added a parameter to define the default theme and added ModernBusinessThemeBundle as the default one.
+7e9a792 removed company name: now to install RedKite CMS you just need to provide the bundle name
+9e86a20 removed company option
+03489f4 changed default theme
+6952135 fixed .bowerrc target path
+99cd599 Merge pull request #1 from boekkooi/bower-1
+2b4a396 Updated bower file generation; changed component.json to bower.json; added .bowerrc generation; moved file generation to the project root, (boekkooi)
+
 RedKite CMS Installer 1.1.1 (2014/01/26)
 fc072b9 upgraded method that check if a connection with a mysql server could be made
 
