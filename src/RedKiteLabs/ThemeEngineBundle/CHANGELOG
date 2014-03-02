@@ -1,3 +1,8 @@
+RedKiteThemeEngineBundle 1.1.2 (2014-03-02)
+65c8988 Removed all YUI references. Related to https://github.com/redkite-labs/RedKiteCmsBundle/pull/18 (boekkooi)
+bf90ca4 added blockDefinition property
+dc1fb87 fixed extendig template path
+
 RedKiteThemeEngineBundle 1.1.1 (2014-01-18)
 2b8a3f7 added a template for unpublished pages
 
