@@ -15,15 +15,15 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Controller;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
-use RedKiteCms\InstallerBundle\Core\Form\RedKiteCmsParametersType;
-use RedKiteCms\InstallerBundle\Core\Installer\Installer;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Form\RedKiteCmsParametersType;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\Installer;
 
-use RedKiteCms\InstallerBundle\Core\CommandsAgent\CommandsAgent;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\CommandsAgent\CommandsAgent;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -69,7 +69,7 @@ class InstallerController extends Controller
                 );
 
                 ob_start();
-                $commandsProcessor = new \RedKiteLabs\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessor($kernelRootDir);
+                $commandsProcessor = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessor($kernelRootDir);
                 $result = $commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });                
                 $log = ob_get_contents();
                 ob_end_clean();

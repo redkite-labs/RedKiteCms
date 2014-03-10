@@ -20,7 +20,7 @@ framework:
     
 alpha_lemon_theme_engine:
     base_theme_manager_template: RedKiteCmsBundle:Themes:index.html.twig
-    render_slot_class: RedKiteLabs\RedKiteCmsBundle\Twig\SlotRendererExtension
+    render_slot_class: RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Twig\SlotRendererExtension
     theme_skeleton_template: RedKiteCmsBundle:Themes:theme_skeleton.html.twig
 
 propel:

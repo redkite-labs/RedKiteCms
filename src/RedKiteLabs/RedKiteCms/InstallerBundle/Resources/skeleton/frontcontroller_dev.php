@@ -22,9 +22,9 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 
 $loader = require_once __DIR__.'/../app/bootstrap.php.cache';
 Debug::enable();
-require_once __DIR__.'/../app/AppKernel.php';
+require_once __DIR__.'/../app/RedKiteCmsAppKernel.php';
 
-$kernel = new AppKernel('{{ environment }}', true);
+$kernel = new RedKiteCmsAppKernel('{{ environment }}', true);
 $kernel->loadClassCache();
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);

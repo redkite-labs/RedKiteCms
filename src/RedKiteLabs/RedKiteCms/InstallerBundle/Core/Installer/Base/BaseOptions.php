@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Core\Installer\Base;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\Base;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Filesystem\Filesystem;
-use RedKiteCms\InstallerBundle\Core\Validator\Validator;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Validator\Validator;
 
 /**
  * Implements a base class to define the base options required to install RedKite Cms
@@ -70,8 +70,8 @@ abstract class BaseOptions
         }
         $this->websiteUrl = Validator::validateUrl($this->options["website-url"]);
         
-        $dsnBuilderClassName = '\RedKiteCms\InstallerBundle\Core\DsnBuilder\GenericDsnBuilder';
-        $specificDsnBuilderClassName = '\RedKiteCms\InstallerBundle\Core\DsnBuilder\\' . ucfirst($this->driver) . 'DsnBuilder';
+        $dsnBuilderClassName = '\RedKiteLabs\RedKiteCms\InstallerBundle\Core\DsnBuilder\GenericDsnBuilder';
+        $specificDsnBuilderClassName = '\RedKiteLabs\RedKiteCms\InstallerBundle\Core\DsnBuilder\\' . ucfirst($this->driver) . 'DsnBuilder';
         if (class_exists($specificDsnBuilderClassName)) {
             $dsnBuilderClassName = $specificDsnBuilderClassName;
         }
@@ -119,9 +119,6 @@ abstract class BaseOptions
         $this->checkClass('propel', '\Propel');
         $this->checkFolder($this->vendorDir . '/phing');
         $this->checkClass('PropelBundle', 'Propel\PropelBundle\PropelBundle');
-        $this->checkClass('RedKiteCmsBundle', 'RedKiteLabs\RedKiteCmsBundle\RedKiteCmsBundle');
-        $this->checkClass('ElFinderBundle', 'RedKiteLabs\ElFinderBundle\RedKiteLabsElFinderBundle');
-        $this->checkClass('ThemeEngineBundle', 'RedKiteLabs\ThemeEngineBundle\RedKiteLabsThemeEngineBundle');
         
         Validator::validateDeployBundle($this->kernelDir, $this->bundleName);
         

@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Core\DsnBuilder;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\DsnBuilder;
 
 /**
  * Implements the object to generate the dsn for a mysql database

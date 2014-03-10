@@ -15,7 +15,7 @@
  * 
  */
 
-namespace RedKiteCms\InstallerBundle;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

@@ -15,7 +15,7 @@
  * 
  */
 
-namespace RedKiteCms\InstallerBundle\DependencyInjection;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Tests\Unit\Core\form;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Tests\Unit\Core\form;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\InstallerBundle\Core\Form\RedKiteCmsParametersType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Form\RedKiteCmsParametersType;
 
 /**
  * RedKiteCmsParametersTest

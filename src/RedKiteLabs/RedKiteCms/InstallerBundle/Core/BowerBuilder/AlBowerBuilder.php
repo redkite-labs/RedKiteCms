@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Core\BowerBuilder;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\BowerBuilder;
 
 use Symfony\Component\HttpKernel\KernelInterface;
 

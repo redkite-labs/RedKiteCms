@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Core\DsnBuilder;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\DsnBuilder;
 
 /**
  * Defines the base interface to build a dsn string

@@ -12,9 +12,9 @@ $loader = new ApcClassLoader('sf2', $loader);
 $loader->register(true);
 */
 
-require_once __DIR__.'/../app/AppKernel.php';
+require_once __DIR__.'/../app/RedKiteCmsAppKernel.php';
 
-$kernel = new AppKernel('{{ environment }}', false);
+$kernel = new RedKiteCmsAppKernel('{{ environment }}', false);
 $kernel->loadClassCache();
 
 $request = Request::createFromGlobals();

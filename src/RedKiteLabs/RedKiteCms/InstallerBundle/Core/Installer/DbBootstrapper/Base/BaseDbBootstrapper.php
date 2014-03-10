@@ -15,19 +15,19 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Core\Installer\DbBootstrapper\Base;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\DbBootstrapper\Base;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\Base\AlPropelOrm;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlUser;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlRole;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base\AlPropelOrm;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlTwigDeployer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlTwigDeployer;
 
 /**
  * Implements the object deputated to boostrap the database
@@ -61,8 +61,8 @@ abstract class BaseDbBootstrapper
             'password' =>  $this->password,
         );
         
-        $dsnBuilderClassName = '\RedKiteCms\InstallerBundle\Core\DsnBuilder\GenericDsnBuilder';
-        $specificDsnBuilderClassName = '\RedKiteCms\InstallerBundle\Core\DsnBuilder\\' . ucfirst($this->driver) . 'DsnBuilder';
+        $dsnBuilderClassName = '\RedKiteLabs\RedKiteCms\InstallerBundle\Core\DsnBuilder\GenericDsnBuilder';
+        $specificDsnBuilderClassName = '\RedKiteLabs\RedKiteCms\InstallerBundle\Core\DsnBuilder\\' . ucfirst($this->driver) . 'DsnBuilder';
         if (class_exists($specificDsnBuilderClassName)) {
             $dsnBuilderClassName = $specificDsnBuilderClassName;
         }
@@ -81,15 +81,15 @@ abstract class BaseDbBootstrapper
         $this->siteBootstrap = $this->container->get('red_kite_cms.site_bootstrap');
         $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
         
-        $language = new \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage();
+        $language = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage();
         $language->setLanguageName('-');
         $language->save();
                 
-        $language = new \RedKiteLabs\RedKiteCmsBundle\Model\AlPage();
+        $language = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage();
         $language->setPageName('-');
         $language->save();
         
-        $language = new \RedKiteLabs\RedKiteCmsBundle\Model\AlConfiguration();
+        $language = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfiguration();
         $language->setParameter('language');        
         $language->setValue('en');
         $language->save();

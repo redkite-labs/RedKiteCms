@@ -1,6 +1,6 @@
 <?php
 
-namespace RedKiteCms\InstallerBundle\Core\Generator;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\Generator;
 
 
 use Sensio\Bundle\GeneratorBundle\Generator\Generator;
@@ -25,8 +25,8 @@ class ConfigurationGenerator extends Generator
         $this->kernelDir = $kernelDir;
         $this->skeletonDir = __DIR__ . '/../../Resources/skeleton';
         
-        $dsnBuilderClassName = '\RedKiteCms\InstallerBundle\Core\DsnBuilder\GenericDsnBuilder';
-        $specificDsnBuilderClassName = '\RedKiteCms\InstallerBundle\Core\DsnBuilder\\' . ucfirst($options["driver"]) . 'DsnBuilder';
+        $dsnBuilderClassName = '\RedKiteLabs\RedKiteCms\InstallerBundle\Core\DsnBuilder\GenericDsnBuilder';
+        $specificDsnBuilderClassName = '\RedKiteLabs\RedKiteCms\InstallerBundle\Core\DsnBuilder\\' . ucfirst($options["driver"]) . 'DsnBuilder';
         if (class_exists($specificDsnBuilderClassName)) {
             $dsnBuilderClassName = $specificDsnBuilderClassName;
         }

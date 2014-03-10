@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Core\Installer\DbBootstrapper;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\DbBootstrapper;
 
 /**
  * Implements the generic object to bootstrap the database

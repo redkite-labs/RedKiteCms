@@ -1,6 +1,6 @@
 <?php
 
-namespace RedKiteCms\InstallerBundle\Core\Generator;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\Generator;
 
 
 use Sensio\Bundle\GeneratorBundle\Generator\Generator;

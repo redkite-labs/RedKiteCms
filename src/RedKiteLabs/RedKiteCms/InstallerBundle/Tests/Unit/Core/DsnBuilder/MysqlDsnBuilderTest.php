@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Tests\Unit\Core\DsnBuilder;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Tests\Unit\Core\DsnBuilder;
 
 /**
  * MysqlDsnBuilderTest

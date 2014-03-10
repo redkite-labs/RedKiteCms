@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Command;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -59,8 +59,8 @@ class InstallCommand extends ContainerAwareCommand
             throw new \RuntimeException('This command must run in rkcms environment. Please run it again adding the --env=rkcms switch');
         }
         
-        $className = '\RedKiteCms\InstallerBundle\Core\Installer\DbBootstrapper\GenericDbBootstrapper';        
-        $specificClassName = sprintf('\RedKiteCms\InstallerBundle\Core\Installer\DbBootstrapper\%sDbBootstrapper', ucfirst($container->getParameter('rkcms_database_driver')));
+        $className = '\RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\DbBootstrapper\GenericDbBootstrapper';
+        $specificClassName = sprintf('\RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\DbBootstrapper\%sDbBootstrapper', ucfirst($container->getParameter('rkcms_database_driver')));
         if (class_exists($specificClassName)) {
             $className = $specificClassName;
         }

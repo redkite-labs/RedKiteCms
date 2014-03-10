@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Tests\Unit\Core\DsnBuilder;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Tests\Unit\Core\DsnBuilder;
 
-use RedKiteCms\InstallerBundle\Core\DsnBuilder\GenericDsnBuilder;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\DsnBuilder\GenericDsnBuilder;
 
 /**
  * GenericDsnBuilderTest

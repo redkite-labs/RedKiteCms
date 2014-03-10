@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Core\Validator;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\Validator;
 
 /**
  * Validates input params

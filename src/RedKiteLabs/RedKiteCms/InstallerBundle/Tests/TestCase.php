@@ -14,7 +14,7 @@
  * @license    MIT LICENSE
  *
  */
-namespace RedKiteCms\InstallerBundle\Tests;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Tests;
 
 class TestCase extends \PHPUnit_Framework_TestCase
 {

@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\PageTree;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\PageTree;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -33,7 +33,7 @@ class AlBowerBuilderTest extends TestCase
 
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
         
-        $this->bower = new \RedKiteLabs\RedKiteCmsBundle\Core\BowerBuilder\AlBowerBuilder($this->kernel);
+        $this->bower = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\BowerBuilder\AlBowerBuilder($this->kernel);
     }
     
     /**

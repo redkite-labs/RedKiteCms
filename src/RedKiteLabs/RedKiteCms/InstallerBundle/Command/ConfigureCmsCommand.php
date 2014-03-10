@@ -15,15 +15,15 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Command;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use RedKiteCms\InstallerBundle\Core\Installer\Configurator\Configurator;
-use RedKiteCms\InstallerBundle\Core\Installer\Environments\Environments;
-use RedKiteCms\InstallerBundle\Core\Validator\Validator;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\Configurator\Configurator;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\Environments\Environments;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Validator\Validator;
 
 /**
  * Prepares the RedKite CMS configuration files
@@ -120,7 +120,7 @@ class ConfigureCmsCommand extends ContainerAwareCommand
             "<info>Bundle name:</info> [<comment>$defaultValue</comment>] ",
         );
         
-        $bundle = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateBundleName'), false, $defaultValue);
+        $bundle = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteLabs\RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateBundleName'), false, $defaultValue);
         $input->setOption('bundle', $bundle);
         
         Validator::validateDeployBundle($this->getContainer()->get('kernel')->getRootDir(), $bundle);
@@ -129,14 +129,14 @@ class ConfigureCmsCommand extends ContainerAwareCommand
         $question = array(
             "<info>Database driver (mysql, pgsql, sqlite):</info> [<comment>$defaultValue</comment>]  ",
         );
-        $driver = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateDriver'), false, $defaultValue);
+        $driver = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteLabs\RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateDriver'), false, $defaultValue);
         $input->setOption('driver', $driver);
 
         $defaultValue = "localhost";
         $question = array(
             "<info>Database host:</info> [<comment>$defaultValue</comment>]  ",
         );
-        $host = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateHost'), false, $defaultValue);
+        $host = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteLabs\RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateHost'), false, $defaultValue);
         $input->setOption('host', $host);
 
         $databaseRegex = '/^(?:[a-zA-Z_\-$\&\x7f-\xff][a-zA-Z0-9_\-$\&\x7f-\xff]*\\\?)+$/';
@@ -144,7 +144,7 @@ class ConfigureCmsCommand extends ContainerAwareCommand
         $question = array(
             "<info>Database name:</info> [<comment>$defaultValue</comment>]  ",
         );
-        $database = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateDatabaseName'), false, $defaultValue);
+        $database = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteLabs\RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateDatabaseName'), false, $defaultValue);
         $input->setOption('database', $database);
 
         if ($driver != 'sqlite') {
@@ -155,7 +155,7 @@ class ConfigureCmsCommand extends ContainerAwareCommand
             $question = array(
                 "<info>Database port:</info> [<comment>$defaultValue</comment>]  ",
             );
-            $port = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validatePort'), false, $defaultValue);
+            $port = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteLabs\RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validatePort'), false, $defaultValue);
             $input->setOption('port', $port);
 
             $defaultValue = "root";
@@ -165,14 +165,14 @@ class ConfigureCmsCommand extends ContainerAwareCommand
             $question = array(
                 "<info>Database user:</info> [<comment>$defaultValue</comment>]  ",
             );
-            $user = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateUser'), false, $defaultValue);
+            $user = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteLabs\RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateUser'), false, $defaultValue);
             $input->setOption('user', $user);
 
             $defaultValue = "";
             $question = array(
                 "<info>Database password:</info> [<comment>$defaultValue</comment>]  ",
             );
-            $password = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validatePassword'), false, $defaultValue);
+            $password = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteLabs\RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validatePassword'), false, $defaultValue);
             $input->setOption('password', $password);
         }
             
@@ -180,7 +180,7 @@ class ConfigureCmsCommand extends ContainerAwareCommand
         $question = array(
             "<info>Website url:</info> [<comment>$defaultValue</comment>] ",
         );         
-        $website = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateUrl'), false, $defaultValue);
+        $website = $this->getHelper('dialog')->askAndValidate($output, $question, array('RedKiteLabs\RedKiteCms\InstallerBundle\Core\Validator\Validator', 'validateUrl'), false, $defaultValue);
         $input->setOption('website-url', $website);    
     }
     

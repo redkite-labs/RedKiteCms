@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Core\Installer\Environments;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\Environments;
 
-use RedKiteCms\InstallerBundle\Core\Installer\Base\BaseOptions;
-use RedKiteCms\InstallerBundle\Core\Generator\EnvironmentsGenerator;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\Base\BaseOptions;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Generator\EnvironmentsGenerator;
 
 /**
  * Implements the base object to prepare RedKite CMS environments
@@ -49,17 +49,30 @@ class Environments extends BaseOptions
         $this->backUpFile($kernelFile);
         $contents = file_get_contents($kernelFile);
 
-        if(strpos($contents, 'new RedKiteLabs\BootstrapBundle\RedKiteLabsBootstrapBundle()') === false)
+        if( ! preg_match('/\/\/ RedKiteCms Active Theme(.*?)\/\/ End RedKiteCms Active Theme/is', $contents))
         {
-            $cmsBundles = "\n            new RedKiteLabs\BootstrapBundle\RedKiteLabsBootstrapBundle(),\n";
+            $cmsBundles = PHP_EOL . PHP_EOL . '        // RedKiteCms Active Theme';
+            $cmsBundles .= PHP_EOL . '        $bundles[] = new RedKiteLabs\ThemeEngineBundle\RedKiteLabsThemeEngineBundle();';
+            $cmsBundles .= PHP_EOL . '        $bundles[] = new RedKiteCms\Theme\ModernBusinessThemeBundle\ModernBusinessThemeBundle();';
+            $cmsBundles .= PHP_EOL . '        // End RedKiteCms Active Theme';
+            $cmsBundles .= PHP_EOL . PHP_EOL . '        return $bundles;';
+
+            $contents = preg_replace('/[\s]+return \$bundles;/s', $cmsBundles, $contents);
+            $updateFile = true;
+        }
+
+        /* DO NOT REMOVE YET
+        if(strpos($contents, 'new RedKiteLabs\RedKiteCms\BootstrapBundle\RedKiteLabsBootstrapBundle()') === false)
+        {
+            $cmsBundles = "\n            new RedKiteLabs\RedKiteCms\BootstrapBundle\RedKiteLabsBootstrapBundle(),\n";
             $cmsBundles .= "        );";
             $contents = preg_replace('/[\s]+\);/s', $cmsBundles, $contents);
             $updateFile = true;
         }
 
-        if(strpos($contents, 'new \RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader') === false)
+        if(strpos($contents, 'new \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Autoloader\BundlesAutoloader') === false)
         {
-            $cmsBundles = "\n\n        \$bootstrapper = new \RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, \$this->getEnvironment(), \$bundles);\n";
+            $cmsBundles = "\n\n        \$bootstrapper = new \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, \$this->getEnvironment(), \$bundles);\n";
             $cmsBundles .= "        \$bundles = \$bootstrapper->getBundles();\n\n";
             $cmsBundles .= "        return \$bundles;";
             $contents = preg_replace('/[\s]+return \$bundles;/s', $cmsBundles, $contents);
@@ -80,9 +93,11 @@ class Environments extends BaseOptions
 
             $contents = preg_replace('/[\s]+\$loader\-\>load\(__DIR__\.\'\/config\/config_\'\.\$this\-\>getEnvironment\(\).\'.yml\'\);/s', $cmsBundles, $contents);
             $updateFile = true;
-        }
+        }*/
 
-        if ($updateFile) file_put_contents($kernelFile, $contents);
+        if ($updateFile) {
+            file_put_contents($kernelFile, $contents);
+        }
 
         return;
     }

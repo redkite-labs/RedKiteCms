@@ -15,14 +15,14 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Command;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Command;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use RedKiteCms\InstallerBundle\Core\BowerBuilder\AlBowerBuilder;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\BowerBuilder\AlBowerBuilder;
 
 /**
  * Builds the bower component.json file

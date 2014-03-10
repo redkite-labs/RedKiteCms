@@ -15,7 +15,7 @@
  * 
  */
 
-namespace RedKiteCms\InstallerBundle\DependencyInjection;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

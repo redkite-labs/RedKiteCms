@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Core\DsnBuilder\Base;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\DsnBuilder\Base;
 
-use RedKiteCms\InstallerBundle\Core\DsnBuilder\DsnBuilderInterface;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\DsnBuilder\DsnBuilderInterface;
 
 /**
  * Implements the base object to generate the dsn string to connect to a database

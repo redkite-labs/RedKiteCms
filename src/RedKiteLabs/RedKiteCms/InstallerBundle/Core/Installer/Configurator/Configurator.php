@@ -15,11 +15,11 @@
  *
  */
 
-namespace RedKiteCms\InstallerBundle\Core\Installer\Configurator;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\Configurator;
 
 use Symfony\Component\Yaml\Yaml;
-use RedKiteCms\InstallerBundle\Core\Installer\Base\BaseOptions;
-use RedKiteCms\InstallerBundle\Core\Generator\ConfigurationGenerator;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\Base\BaseOptions;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Generator\ConfigurationGenerator;
 
 /**
  * Implements the base object to prepare RedKite CMS configuration
