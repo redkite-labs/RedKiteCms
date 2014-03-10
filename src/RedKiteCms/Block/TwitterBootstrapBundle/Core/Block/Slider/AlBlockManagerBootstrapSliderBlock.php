@@ -17,8 +17,8 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Slider;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBase;
 
 /**
  * Defines the Block Manager to handle a Bootstrap Carousel slider

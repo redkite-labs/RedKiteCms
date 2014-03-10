@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollectionBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollectionBase;
 
 /**
  * Defines the Block Manager to handle the Bootstrap Navbar

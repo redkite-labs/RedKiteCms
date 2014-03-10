@@ -74,13 +74,13 @@ class AlBlockManagerBootstrapBreadcrumbBlockTest extends BaseBlockManagerMenu
 
         $this->initContainer();
         
-        $seo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
         $seo->expects($this->once())
               ->method('getPermalink')
               ->will($this->returnValue('homepage'))
         ;
         
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                         ->setMethods(array('getAlSeo'))
                         ->disableOriginalConstructor()
                         ->getMock();

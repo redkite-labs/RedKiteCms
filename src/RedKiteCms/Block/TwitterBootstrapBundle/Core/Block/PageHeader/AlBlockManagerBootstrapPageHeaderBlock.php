@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\PageHeader;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
 
 /**
  * Defines the Block Manager to handle the Bootstrap Page Header component

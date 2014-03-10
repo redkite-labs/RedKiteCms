@@ -6,7 +6,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Factory;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Factory\BootstrapFormFactory;
 
 /**
@@ -20,14 +20,14 @@ class BootstrapFormFactoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+        $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
         $this->formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
 
         $this->factory = new BootstrapFormFactory($this->activeTheme, $this->formFactory);
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException
      * @expectedExceptionMessage Something went wrong: I cannot find any valid form for 1.x Twitter Bootstrap version
      */
     public function testAnExceptionIsThrownWhenAnyValidBootstrapVersionExists()

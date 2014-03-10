@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\PageHeader;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
 use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\PageHeader\AlPageHeaderType;
 
 /**

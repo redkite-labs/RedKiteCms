@@ -19,7 +19,7 @@ namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button\AlBlockManagerBootstrapButtonBlock;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * Defines the Block Manager to handle a Bootstrap navbar button

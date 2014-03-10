@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\ButtonsGroup;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollection;
 
 /**
  * Defines the Block Manager to handle a Bootstrap Buttons group

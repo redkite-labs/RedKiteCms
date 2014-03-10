@@ -32,7 +32,7 @@ class AlBlockManagerBootstrapAccordionPanelBlockTest extends BaseTestBlock
     {
         parent::setUp();
 
-        $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+        $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
     }
     
     public function testDefaultValue()

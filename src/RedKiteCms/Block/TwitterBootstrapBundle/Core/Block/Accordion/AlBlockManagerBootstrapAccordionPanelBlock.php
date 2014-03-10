@@ -17,9 +17,9 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Accordion;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * Defines the Block Manager to handle the Bootstrap Thumbnail
@@ -36,7 +36,7 @@ class AlBlockManagerBootstrapAccordionPanelBlock extends AlBlockManagerJsonBlock
      * Constructor
      *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface                           $container
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      */
     public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
     {

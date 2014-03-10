@@ -18,7 +18,7 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * Defines the Block Manager to handle the Bootstrap Thumbnail
@@ -31,7 +31,7 @@ class AlBlockManagerBootstrapThumbnailBlock extends AlBlockManagerBootstrapSimpl
      * Constructor
      *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface                           $container
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
      *
      * @api
      */

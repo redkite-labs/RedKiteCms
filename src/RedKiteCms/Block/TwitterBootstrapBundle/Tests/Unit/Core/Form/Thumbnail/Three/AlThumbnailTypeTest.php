@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Three\Thumbnail;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
 use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Thumbnail\Three\AlThumbnailType;
 
 /**

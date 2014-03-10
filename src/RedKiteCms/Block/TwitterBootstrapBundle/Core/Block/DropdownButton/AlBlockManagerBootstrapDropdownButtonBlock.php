@@ -17,9 +17,9 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerContainer;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerContainer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 
 /**
  * Defines the Block Manager to handle a Bootstrap Dropdown Button

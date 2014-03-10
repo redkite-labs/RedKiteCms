@@ -7,8 +7,8 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Factory;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 use Symfony\Component\Form\FormFactoryInterface;
 
 /**

@@ -127,7 +127,7 @@ class AlBlockManagerBootstrapNavbarDropdownBlockTest extends BaseTestBlock
                         ->will($this->returnValue($formFactory))
         ;
         
-        $seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
                               ->disableOriginalConstructor()
                               ->getMock()
         ;
@@ -153,7 +153,7 @@ class AlBlockManagerBootstrapNavbarDropdownBlockTest extends BaseTestBlock
     
     protected function initRepository()
     {
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->at(0))
             ->method('createRepository')
             ->with('Block')
