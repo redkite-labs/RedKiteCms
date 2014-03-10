@@ -14,9 +14,9 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Core\Json\Bundle;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\Bundle;
 
-use RedKiteLabs\BootstrapBundle\Core\Exception\InvalidJsonParameterException;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Exception\InvalidJsonParameterException;
 
 /**
  * Parses a json autoloader and converts it into an object
@@ -53,7 +53,7 @@ class Bundle
      * Sets the bundle class
      *
      * @param  string                                               $class
-     * @return \RedKiteLabs\BootstrapBundle\Core\Json\Bundle\Bundle
+     * @return \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\Bundle\Bundle
      * @throws InvalidJsonParameterException
      */
     public function setClass($class)
@@ -82,7 +82,7 @@ class Bundle
      * Sets the overrides bundles
      *
      * @param  array                                                $overrides
-     * @return \RedKiteLabs\BootstrapBundle\Core\Json\Bundle\Bundle
+     * @return \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\Bundle\Bundle
      */
     public function setOverrides(array $overrides)
     {

@@ -14,10 +14,10 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Core\Json;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json;
 
-use RedKiteLabs\BootstrapBundle\Core\Json\Bundle\Bundle;
-use RedKiteLabs\BootstrapBundle\Core\Exception\InvalidJsonFormatException;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\Bundle\Bundle;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Exception\InvalidJsonFormatException;
 
 /**
  * Parses a json autoloader and converts it into an object

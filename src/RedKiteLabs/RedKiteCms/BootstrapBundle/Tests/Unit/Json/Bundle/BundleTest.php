@@ -14,11 +14,11 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Json;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\Unit\Json;
 
 use org\bovigo\vfs\vfsStream;
-use RedKiteLabs\BootstrapBundle\Tests\TestCase;
-use RedKiteLabs\BootstrapBundle\Core\Json\Bundle\Bundle;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\Bundle\Bundle;
 
 
 /**
@@ -38,7 +38,7 @@ class BundleTest extends TestCase
     }
     
     /**
-     * @expectedException \RedKiteLabs\BootstrapBundle\Core\Exception\InvalidJsonParameterException
+     * @expectedException \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Exception\InvalidJsonParameterException
      * @expectedExceptionMessage The class RedKiteLabs\Block\BusinessCarouselFakeBundle\BusinessCarouselBundl does not seem to be a valid bundle class. Check your autoloader.json file
      */
     public function testAnExceptionIsThrownWhenTheGivenClassIsInvalid()

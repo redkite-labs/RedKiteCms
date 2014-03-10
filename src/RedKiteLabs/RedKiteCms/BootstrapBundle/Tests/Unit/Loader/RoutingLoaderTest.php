@@ -14,17 +14,17 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Json;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\Unit\Json;
 
 use org\bovigo\vfs\vfsStream;
-use RedKiteLabs\BootstrapBundle\Core\Loader\RoutingLoader;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Loader\RoutingLoader;
 
 /**
  * RoutingLoaderTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class RoutingLoaderTest extends \RedKiteLabs\BootstrapBundle\Tests\Unit\Base\BaseFilesystem
+class RoutingLoaderTest extends \RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\Unit\Base\BaseFilesystem
 {
     private $locator;
     private $root;
@@ -37,7 +37,7 @@ class RoutingLoaderTest extends \RedKiteLabs\BootstrapBundle\Tests\Unit\Base\Bas
         
         $this->locator = $this->getMock('Symfony\Component\Config\FileLocatorInterface');
         $this->jsonCollection = $this
-            ->getMockBuilder('RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloaderCollection')
+            ->getMockBuilder('RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\JsonAutoloaderCollection')
             ->disableOriginalConstructor()
             ->getMock()
         ;
@@ -76,7 +76,7 @@ class RoutingLoaderTest extends \RedKiteLabs\BootstrapBundle\Tests\Unit\Base\Bas
         $c = 1;
         foreach($bundles as $bundle) {
             $autoloader = $this
-                ->getMockBuilder('RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloader')
+                ->getMockBuilder('RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\JsonAutoloader')
                 ->disableOriginalConstructor()
                 ->getMock()
             ;

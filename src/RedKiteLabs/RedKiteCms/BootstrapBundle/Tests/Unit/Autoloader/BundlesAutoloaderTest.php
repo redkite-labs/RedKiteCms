@@ -14,12 +14,12 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Autoloader;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\Unit\Autoloader;
 
-use RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Autoloader\BundlesAutoloader;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
-use RedKiteLabs\BootstrapBundle\Tests\Unit\Base\BaseFilesystem;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\Unit\Base\BaseFilesystem;
 
 /**
  * BundlesAutoloaderTest
@@ -50,7 +50,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
     }
 
     /**
-     * @expectedException \RedKiteLabs\BootstrapBundle\Core\Exception\InvalidProjectException
+     * @expectedException \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Exception\InvalidProjectException
      * @expectedExceptionMessage "composer" folder has not been found. Be sure to use this bundle on a project managed by Composer
      */
     public function testAnExceptionIsThrownWhenTheProjectIsNotManagedByComposer()
@@ -127,7 +127,7 @@ class BundlesAutoloaderTest extends BaseFilesystem
     }
 
     /**
-     * @expectedException \RedKiteLabs\BootstrapBundle\Core\Exception\InvalidAutoloaderException
+     * @expectedException \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Exception\InvalidAutoloaderException
      * @expectedExceptionMessage The bundle class RedKiteLabs\Block\BusinessCarouselFakeBundle\BusinessCarousellBundle does not exist. Check the bundle's autoload.json to fix the problem
      */
     public function testAnExceptionIsThrownWhenTheClassGIvenInTheAutoloaderHasNotBeenFound()

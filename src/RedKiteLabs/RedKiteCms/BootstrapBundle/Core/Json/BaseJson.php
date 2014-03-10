@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Core\Json;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json;
 
 /**
  * Implemens some basic functions to manage the json format

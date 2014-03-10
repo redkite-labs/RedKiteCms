@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\DependencyInjection;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

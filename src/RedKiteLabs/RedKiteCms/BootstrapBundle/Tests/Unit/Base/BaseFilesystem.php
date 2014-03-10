@@ -14,9 +14,9 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Base;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\Unit\Base;
 
-use RedKiteLabs\BootstrapBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
 
 /**

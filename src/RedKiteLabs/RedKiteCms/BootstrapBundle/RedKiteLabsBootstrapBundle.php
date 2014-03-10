@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

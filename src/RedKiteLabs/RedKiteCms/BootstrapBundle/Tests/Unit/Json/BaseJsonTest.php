@@ -14,11 +14,11 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Json;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\Unit\Json;
 
 use org\bovigo\vfs\vfsStream;
-use RedKiteLabs\BootstrapBundle\Tests\TestCase;
-use RedKiteLabs\BootstrapBundle\Core\Json\BaseJson;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\BaseJson;
 
 
 /**

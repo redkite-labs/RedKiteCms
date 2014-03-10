@@ -14,10 +14,10 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Autoloader;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\Unit\Autoloader;
 
-use RedKiteLabs\BootstrapBundle\Tests\Unit\Base\BaseFilesystem;
-use RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloaderCollection;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\Unit\Base\BaseFilesystem;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\JsonAutoloaderCollection;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -28,7 +28,7 @@ use org\bovigo\vfs\vfsStream;
 class JsonAutoloaderCollectionTest extends BaseFilesystem
 {
     /**
-     * @expectedException \RedKiteLabs\BootstrapBundle\Core\Exception\InvalidProjectException
+     * @expectedException \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Exception\InvalidProjectException
      * @expectedExceptionMessage "composer" folder has not been found. Be sure to use this bundle on a project managed by Composer
      */
     public function testAnExceptionIsThrownWhenTheComposerFolderDoesNotExist()

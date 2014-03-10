@@ -14,11 +14,11 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Tests\Unit\Json;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\Unit\Json;
 
 use org\bovigo\vfs\vfsStream;
-use RedKiteLabs\BootstrapBundle\Tests\TestCase;
-use RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloader;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\JsonAutoloader;
 
 
 /**
@@ -38,7 +38,7 @@ class JsonAutoloaderTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\BootstrapBundle\Core\Exception\InvalidJsonFormatException
+     * @expectedException \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Exception\InvalidJsonFormatException
      * @expectedExceptionMessage The json file vfs://root/autoload.json is malformed. Please check the file syntax to fix the problem
      */
     public function testAnExceptionIsThrownWhenTheJsonIsMalformed()
@@ -55,7 +55,7 @@ class JsonAutoloaderTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\BootstrapBundle\Core\Exception\InvalidJsonFormatException
+     * @expectedException \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Exception\InvalidJsonFormatException
      * @expectedExceptionMessage The json file vfs://root/autoload.json requires the bundles section. Please add that section to fix the problem
      */
     public function testAnExceptionIsThrownWhenTheBundlesSectionDoesNotExists()

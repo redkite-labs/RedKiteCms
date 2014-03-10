@@ -14,13 +14,13 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Core\Loader;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Loader;
 
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Config\Resource\FileResource;
-use RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloaderCollection;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\JsonAutoloaderCollection;
 
 /**
  * Defines a routing loader object to automatically load routes from a predefined
@@ -34,7 +34,7 @@ class RoutingLoader extends YamlFileLoader
      * Constructor
      *
      * @param \Symfony\Component\Config\FileLocatorInterface                  $locator
-     * @param \RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloaderCollection $autoloaderCollection
+     * @param \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\JsonAutoloaderCollection $autoloaderCollection
      * @param string                                                          $routingDir
      */
     public function __construct(FileLocatorInterface $locator, JsonAutoloaderCollection $autoloaderCollection, $routingDir)

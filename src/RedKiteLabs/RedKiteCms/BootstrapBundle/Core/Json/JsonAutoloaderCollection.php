@@ -14,9 +14,9 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Core\Json;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json;
 
-use RedKiteLabs\BootstrapBundle\Core\Exception\InvalidProjectException;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Exception\InvalidProjectException;
 use Symfony\Component\Finder\Finder;
 
 /**

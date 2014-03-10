@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Core\Exception;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Exception;
 
 /**
  * Defines the InvalidAutoloaderException exception

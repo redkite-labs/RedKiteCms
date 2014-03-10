@@ -14,13 +14,13 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\BootstrapBundle\Core\Autoloader;
+namespace RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Autoloader;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Filesystem\Filesystem;
-use RedKiteLabs\BootstrapBundle\Core\Exception\InvalidAutoloaderException;
-use RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloader;
-use RedKiteLabs\BootstrapBundle\Core\Json\JsonAutoloaderCollection;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Exception\InvalidAutoloaderException;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\JsonAutoloader;
+use RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\JsonAutoloaderCollection;
 
 /**
  * Parses bundles installed by composer, checks if the bundle has an autoload.json
@@ -98,7 +98,7 @@ class BundlesAutoloader
      * Sets the vendor directory path
      *
      * @param  type                                                           $vendorDir
-     * @return \RedKiteLabs\BootstrapBundle\Core\Autoloader\BundlesAutoloader
+     * @return \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Autoloader\BundlesAutoloader
      * @codeCoverageIgnore
      */
     public function setVendorDir($vendorDir)
