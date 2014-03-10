@@ -33,5 +33,5 @@ red_kite_cms:
     active_theme_file: %kernel.root_dir%/Resources/.tests_active_theme
 
 red_kite_labs_theme_engine:
-    render_slot_class: RedKiteLabs\RedKiteCmsBundle\Twig\SlotRendererExtension
+    render_slot_class: RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Twig\SlotRendererExtension
     deploy_bundle: AcmeWebSiteBundle

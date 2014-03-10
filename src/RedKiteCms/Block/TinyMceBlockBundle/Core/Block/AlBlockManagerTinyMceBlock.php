@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TinyMceBlockBundle\Core\Block;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\InlineTextBlock\AlBlockManagerInlineTextBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\InlineTextBlock\AlBlockManagerInlineTextBlock;
 
 /**
  * Defines the Block Manager to handle a hypertext block managed by the tinyMce editor
