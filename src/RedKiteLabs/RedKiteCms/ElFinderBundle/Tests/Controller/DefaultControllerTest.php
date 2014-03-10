@@ -1,6 +1,6 @@
 <?php
 
-namespace RedKiteLabs\ElFinderBundle\Tests\Controller;
+namespace RedKiteLabs\RedKiteCms\ElFinderBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

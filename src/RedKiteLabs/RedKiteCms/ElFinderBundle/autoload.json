@@ -1,6 +1,6 @@
 {
     "bundles" : {
-        "RedKiteLabs\\ElFinderBundle\\RedKiteLabsElFinderBundle" : {
+        "RedKiteLabs\\RedKiteCms\\ElFinderBundle\\RedKiteLabsElFinderBundle" : {
             "environments" : ["all"]
         }
     }

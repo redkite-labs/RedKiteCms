@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\ElFinderBundle;
+namespace RedKiteLabs\RedKiteCms\ElFinderBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

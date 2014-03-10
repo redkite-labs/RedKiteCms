@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\ElFinderBundle\Core\Connector;
+namespace RedKiteLabs\RedKiteCms\ElFinderBundle\Core\Connector;
 
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\DependencyInjection\ContainerInterface;

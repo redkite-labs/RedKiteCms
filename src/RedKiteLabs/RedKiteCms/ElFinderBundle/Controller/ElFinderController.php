@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\ElFinderBundle\Controller;
+namespace RedKiteLabs\RedKiteCms\ElFinderBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

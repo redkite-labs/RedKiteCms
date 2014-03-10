@@ -14,7 +14,7 @@
  * @license    MIT License
  */
 
-namespace RedKiteLabs\ElFinderBundle\Core\Connector;
+namespace RedKiteLabs\RedKiteCms\ElFinderBundle\Core\Connector;
 
 /**
  * Configures the connector
