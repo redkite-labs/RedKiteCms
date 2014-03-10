@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Block\LanguagesMenu;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\LanguagesMenu\AlBlockManagerLanguagesMenu;
 use org\bovigo\vfs\vfsStream;
 
@@ -34,7 +34,7 @@ class AlBlockManagerLanguagesMenuTester extends AlBlockManagerLanguagesMenu
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase
+class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase
 {
     protected function setUp()
     {
@@ -57,19 +57,19 @@ class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCmsBundle\Test
             );
         $this->root = vfsStream::setup('root', null, $folders);
         
-        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
 
-        $this->languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->at(1))
             ->method('createRepository')
             ->with('Language')
             ->will($this->returnValue($this->languageRepository));
 
-        $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->urlManager->expects($this->any())
             ->method('buildInternalUrl')
             ->will($this->returnSelf());
@@ -307,7 +307,7 @@ class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCmsBundle\Test
     
     protected function initBlock($content)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue($content));
@@ -317,7 +317,7 @@ class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCmsBundle\Test
 
     protected function initLanguage($value = 'en')
     {
-        $language = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
         $language->expects($this->once())
             ->method('getLanguageName')
             ->will($this->returnValue($value));
@@ -327,8 +327,8 @@ class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCmsBundle\Test
     
     protected function initPageTree()
     {
-        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
-        $pageTree = $this->getMockBuilder('\RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $pageTree = $this->getMockBuilder('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $pageTree->expects($this->any())

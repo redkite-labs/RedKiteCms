@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\DependencyInjection;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\DependencyInjection\RedKiteCmsBaseBlocksExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 

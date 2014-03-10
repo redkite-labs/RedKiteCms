@@ -18,7 +18,7 @@
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Controller;
 
 use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Controller\ElFinderFileController;
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Controller\AlCmsElFinderControllerTest;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Controller\AlCmsElFinderControllerTest;
 
 /**
  * ElFinderControllerTest

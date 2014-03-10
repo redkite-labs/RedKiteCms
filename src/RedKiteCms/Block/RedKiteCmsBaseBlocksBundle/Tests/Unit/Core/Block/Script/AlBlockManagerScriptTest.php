@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Block\Script;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
 use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript;
 
 /**
@@ -54,7 +54,7 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
 
     public function testHtmlViewOutput()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $this->blockManager->set($block);        
         $expectedResult = array('RenderView' => array(
             'view' => 'RedKiteCmsBaseBlocksBundle:Content:Script/script.html.twig',
@@ -68,7 +68,7 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
     
     public function testEditorParameters()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
               ->method('getExternalJavascript')
               ->will($this->returnValue('javascript-1.js,javascript-2.js'))

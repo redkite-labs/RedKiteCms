@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\ElFinder\File;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\ElFinder\Base\ElFinderBaseConnector;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ElFinder\Base\ElFinderBaseConnector;
 
 /**
  * ElFinderMarkdownConnector implements the ElFinder connector to handle files
