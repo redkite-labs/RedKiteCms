@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception\General;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when the given argument is not valid

@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository;
 
 /**
  * Defines the methods required by a model object

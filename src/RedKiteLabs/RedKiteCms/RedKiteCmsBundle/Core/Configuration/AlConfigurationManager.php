@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Configuration;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * Implements the AlConfigurationInterface to manage a set of configration parameters
@@ -30,7 +30,7 @@ class AlConfigurationManager implements AlConfigurationInterface
 {
     /** @var AlFactoryRepositoryInterface */
     protected $factoryRepository;
-    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\ConfigurationRepositoryInterface */
+    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\ConfigurationRepositoryInterface */
     protected $configurationRepository;
     /** @var array */
     private $cachedValues = array();
@@ -79,7 +79,7 @@ class AlConfigurationManager implements AlConfigurationInterface
      * Fetches the configuration record for the requested parameter
      *
      * @param  string                                              $parameter
-     * @return \RedKiteLabs\RedKiteCmsBundle\Model\AlConfiguration
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfiguration
      * @throws InvalidArgumentException
      */
     protected function fetchConfiguration($parameter)

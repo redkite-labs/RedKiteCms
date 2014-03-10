@@ -15,14 +15,14 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Controller\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller\Base;
 
 use Symfony\Component\DependencyInjection\ContainerAware;
 use Symfony\Component\HttpFoundation\Response;
 
 abstract class BaseController extends ContainerAware
 {
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface */
     protected $translator = null;
 
     protected function renderDialogMessage($message, $statusCode = 404)
@@ -91,7 +91,7 @@ abstract class BaseController extends ContainerAware
      * Create a repository for the specified model
      *
      * @param  string                                                                       $modelName The model name
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\RepositoryInterface A repository instance
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\RepositoryInterface A repository instance
      */
     protected function createRepository($modelName)
     {

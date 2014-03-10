@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Controller;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Controller;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Controller\AlCmsController;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller\AlCmsController;
 
 
 /**
@@ -37,25 +37,25 @@ class AlCmsControllerTest extends TestCase
         $this->securityContext = $this->getMock('Symfony\Component\Security\Core\SecurityContextInterface');
         
         $this->languageRepository =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->pageRepository =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->seoRepository =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->factoryRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -106,7 +106,7 @@ class AlCmsControllerTest extends TestCase
             ->will($this->returnValue($flashBag))
         ;
         
-        $configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
         $configuration
             ->expects($this->once())
             ->method('read')
@@ -150,7 +150,7 @@ class AlCmsControllerTest extends TestCase
     public function testAFlashMessageIsSetWhenTemplateDoesNotExist()
     {
         $pageTree = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                  ->setMethods(array('getAlPage', 'getAlLanguage', 'getTemplate', 'getInternalStylesheets', 'getInternalJavascripts', 'getExternalStylesheets', 'getExternalJavascripts'))
                  ->disableOriginalConstructor()
                  ->getMock()
@@ -195,7 +195,7 @@ class AlCmsControllerTest extends TestCase
             ->will($this->returnValue($flashBag))
         ;
         
-        $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+        $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -212,7 +212,7 @@ class AlCmsControllerTest extends TestCase
             ->will($this->returnValue('The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme'))
         ;
         
-        $configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
         $configuration
             ->expects($this->once())
             ->method('read')
@@ -295,7 +295,7 @@ class AlCmsControllerTest extends TestCase
             ->with('red_kite_cms.factory_repository')
             ->will($this->returnValue($this->factoryRepository));
         
-        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
         $activeTheme->expects($this->once())
             ->method('getThemeBootstrapVersion')
             ->will($this->returnValue('2.x'));

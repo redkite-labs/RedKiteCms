@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator;
 
 use Symfony\Component\Templating\EngineInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
 
 /**
  * SitemapGenerator is the object deputated to generate and write the website sitemap

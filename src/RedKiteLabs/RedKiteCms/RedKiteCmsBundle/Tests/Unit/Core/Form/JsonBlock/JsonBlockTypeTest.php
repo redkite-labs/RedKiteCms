@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\JsonBlock;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\JsonBlock;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 
 class jsonFormTester extends JsonBlockType
 {

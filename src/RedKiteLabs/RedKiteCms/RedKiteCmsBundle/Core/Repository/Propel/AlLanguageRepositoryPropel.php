@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguageQuery;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguageQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the LanguageRepositoryInterface to work with Propel
@@ -34,7 +34,7 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage';
     }
 
     /**

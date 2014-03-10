@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Page;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\Page;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when someone tries to remove the website homepage

@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\Exception;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\Exception;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when the FactoryRepository cannot create a new repository

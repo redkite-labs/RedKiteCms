@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use RedKiteLabs\RedKiteCmsBundle\DependencyInjection\Compiler\RegisterCmsListenersPass;
-use RedKiteLabs\RedKiteCmsBundle\Core\Compiler\AlBlocksCompilerPass;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\DependencyInjection\Compiler\RegisterCmsListenersPass;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Compiler\AlBlocksCompilerPass;
 
 /**
  * RedKiteCmsBundle

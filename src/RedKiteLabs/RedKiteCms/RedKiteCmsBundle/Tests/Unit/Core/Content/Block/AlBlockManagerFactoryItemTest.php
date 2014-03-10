@@ -15,11 +15,11 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryItem;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryItem;
 
 /**
  * AlBlockManagerFactoryItemTest
@@ -32,14 +32,14 @@ class AlBlockManagerFactoryItemTest extends TestCase
 
     protected function setUp()
     {
-        $this->blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
+        $this->blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      */
     public function testFactoryItemObjectThrowsAnExceptionWhenAnyOfTheExpectedAttributesAreNotGiven()
     {
@@ -47,7 +47,7 @@ class AlBlockManagerFactoryItemTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      */
     public function testFactoryItemObjectThrowsAnExceptionWhenAtLeastOneOfTheExpectedAttributesAreNotGiven()
     {

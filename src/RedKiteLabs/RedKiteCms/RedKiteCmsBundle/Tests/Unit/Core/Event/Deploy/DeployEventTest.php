@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Event\Content\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Event\Content\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Deploy\Base\BaseDeployEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Deploy\Base\BaseDeployEvent;
 
 class DeployEventTester extends BaseDeployEvent
 {
@@ -35,10 +35,10 @@ class DeployEventTest extends TestCase
 
     public function testDeployerProperty()
     {
-        $this->deployer = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlDeployerInterface');
+        $this->deployer = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlDeployerInterface');
 
         $this->event = new DeployEventTester($this->deployer);
-        $deployer = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlDeployerInterface');
+        $deployer = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlDeployerInterface');
         $this->event->setDeployer($deployer);
         $this->assertSame($deployer, $this->event->getDeployer());        
         $this->assertNotSame($this->deployer, $this->event->getDeployer());

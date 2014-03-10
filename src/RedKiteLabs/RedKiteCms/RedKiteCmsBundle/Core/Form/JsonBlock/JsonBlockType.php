@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\JsonBlock;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**

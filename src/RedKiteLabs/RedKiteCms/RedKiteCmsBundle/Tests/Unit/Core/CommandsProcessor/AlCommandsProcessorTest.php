@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessor;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessor;
 use org\bovigo\vfs\vfsStream;
 
 /**

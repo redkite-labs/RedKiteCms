@@ -1,8 +1,8 @@
 <?php
 
-namespace RedKiteLabs\RedKiteCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlConfigurationPeer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlConfigurationPeer;
 
 class AlConfigurationPeer extends BaseAlConfigurationPeer
 {

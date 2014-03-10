@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Deploy\TwigTemplateWriter;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Deploy\TwigTemplateWriter;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter;
 use org\bovigo\vfs\vfsStream;
 
 
@@ -101,7 +101,7 @@ class TwigTemplateWriterTest extends TestCase
     
     private function createPageTree($isBasePage, $isPublished)
     {
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                                 ->disableOriginalConstructor()
                                 ->setMethods(array('getAlLanguage', 'getAlPage', 'getTemplate'))
                                 ->getMock();
@@ -159,12 +159,12 @@ class TwigTemplateWriterTest extends TestCase
     
     private function createLanguage()
     {
-        return $this->getMock("RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage");
+        return $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage");
     }
     
     private function createPage($isPublished)
     {
-        $page = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Model\AlPage");
+        $page = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage");
         
         if (null !== $isPublished) {
             $page->expects($this->once())
@@ -179,7 +179,7 @@ class TwigTemplateWriterTest extends TestCase
     
     private function createMetatagManager($times = 1, $isPublished = true)
     {
-        $metatagManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\MetatagSection')
+        $metatagManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\MetatagSection')
                                 ->disableOriginalConstructor()
                                 ->getMock();
         
@@ -199,7 +199,7 @@ class TwigTemplateWriterTest extends TestCase
     
     private function createAssetManager($times = 1, $isPublished = true)
     {
-        $assetManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\AssetSection')
+        $assetManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\AssetSection')
                                 ->disableOriginalConstructor()
                                 ->getMock();       
         if (false === $isPublished) {
@@ -218,7 +218,7 @@ class TwigTemplateWriterTest extends TestCase
     
     private function createContentManager($isPublished)
     {
-        $contentManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\ContentSection')
+        $contentManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\ContentSection')
                                 ->disableOriginalConstructor()
                                 ->getMock();       
         

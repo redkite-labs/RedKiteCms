@@ -23,11 +23,11 @@
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlBlock;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
 
 /**
  * AlBlockManagerFactory is the object responsible to create a new AlBlockManager object
@@ -52,14 +52,14 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     private $blockManagersItems = array();
 
     /**
-     * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     * @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
      *
      * @api
      */
     private $factoryRepository;
 
     /**
-     * @var \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface
+     * @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface
      *
      * @api
      */
@@ -68,8 +68,8 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface          $eventsHandler
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface          $eventsHandler
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
      */

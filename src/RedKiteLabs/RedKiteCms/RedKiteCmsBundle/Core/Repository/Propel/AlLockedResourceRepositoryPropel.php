@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlLockedResource;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlLockedResourceQuery;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LockedResourceRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLockedResource;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLockedResourceQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LockedResourceRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the UserRepositoryInterface to work with Propel
@@ -34,7 +34,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCmsBundle\Model\AlLockedResource';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLockedResource';
     }
 
     /**

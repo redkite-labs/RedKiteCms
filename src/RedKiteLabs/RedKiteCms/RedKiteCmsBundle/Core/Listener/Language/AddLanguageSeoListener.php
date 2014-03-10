@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Language;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

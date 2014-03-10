@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Security;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Security;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -49,7 +49,7 @@ class AlRoleType extends BaseBlockType
         parent::setDefaultOptions($resolver);
 
         $resolver->setDefaults(array(
-            'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Model\AlRole',
+            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole',
         ));
     }
 

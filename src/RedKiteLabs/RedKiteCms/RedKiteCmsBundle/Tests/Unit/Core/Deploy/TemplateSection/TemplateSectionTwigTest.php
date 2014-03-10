@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Deploy\TemplateSection;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Deploy\TemplateSection;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\TemplateSectionTwig;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\TemplateSectionTwig;
 
 class TemplateSectionTwigTester extends TemplateSectionTwig
 {
@@ -75,7 +75,7 @@ class TemplateSectionTwigTest extends TestCase
 {
     protected function setUp()
     {
-        $this->urlManager = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface");
+        $this->urlManager = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface");
         
         $this->templateSectionTwig = new TemplateSectionTwigTester($this->urlManager);
     }

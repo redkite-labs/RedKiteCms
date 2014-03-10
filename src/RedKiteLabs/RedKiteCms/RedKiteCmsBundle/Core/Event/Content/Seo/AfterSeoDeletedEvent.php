@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Base\BaseActionEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Base\BaseActionEvent;
 
 /**
  * Defines the AfterSeoDeletedEvent event

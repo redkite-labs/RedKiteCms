@@ -15,18 +15,18 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Language;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\LanguageEvents;
-use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\LanguageEvents;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\Language;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 
 /**
  * AlLanguageManager is the base object that wraps an AlLanguage object
@@ -161,7 +161,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         }
 
         $this->dispatchBeforeOperationEvent(
-                '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent',
+                '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent',
                 LanguageEvents::BEFORE_DELETE_LANGUAGE,
                 array(),
                 'exception_language_deleting_aborted'
@@ -176,7 +176,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             if ($result) {
                 $eventName = LanguageEvents::BEFORE_DELETE_LANGUAGE_COMMIT;
                 $result = !$this->eventsHandler
-                                ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent', array($this, array()))
+                                ->createEvent($eventName, '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent', array($this, array()))
                                 ->dispatch()
                                 ->getEvent($eventName)
                                 ->isAborted();
@@ -186,7 +186,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $this->languageRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(LanguageEvents::AFTER_DELETE_LANGUAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\AfterLanguageDeletedEvent', array($this))
+                     ->createEvent(LanguageEvents::AFTER_DELETE_LANGUAGE, '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\AfterLanguageDeletedEvent', array($this))
                      ->dispatch();
 
                 return $result;
@@ -216,7 +216,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     {
         $values =
                 $this->dispatchBeforeOperationEvent(
-                        '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent',
+                        '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent',
                         LanguageEvents::BEFORE_ADD_LANGUAGE,
                         $values,
                         array(
@@ -256,7 +256,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 if (false !== $result) {
                     $eventName = LanguageEvents::BEFORE_ADD_LANGUAGE_COMMIT;
                     $result = !$this->eventsHandler
-                                    ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent', array($this, $values))
+                                    ->createEvent($eventName, '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent', array($this, $values))
                                     ->dispatch()
                                     ->getEvent($eventName)
                                     ->isAborted();
@@ -267,7 +267,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $this->languageRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(LanguageEvents::AFTER_ADD_LANGUAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\AfterLanguageAddedEvent', array($this))
+                     ->createEvent(LanguageEvents::AFTER_ADD_LANGUAGE, '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\AfterLanguageAddedEvent', array($this))
                      ->dispatch();
 
                 return $result;
@@ -298,7 +298,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     {
         $values =
             $this->dispatchBeforeOperationEvent(
-                    '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent',
+                    '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent',
                     LanguageEvents::BEFORE_EDIT_LANGUAGE,
                     $values,
                     array(
@@ -344,7 +344,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 if (false != $result) {
                     $eventName = LanguageEvents::BEFORE_EDIT_LANGUAGE_COMMIT;
                     $result = !$this->eventsHandler
-                        ->createEvent($eventName, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent', array($this, $values))
+                        ->createEvent($eventName, '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent', array($this, $values))
                         ->dispatch()
                         ->getEvent($eventName)
                         ->isAborted()
@@ -356,7 +356,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
                 $this->languageRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(LanguageEvents::AFTER_EDIT_LANGUAGE, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\AfterLanguageEditedEvent', array($this))
+                     ->createEvent(LanguageEvents::AFTER_EDIT_LANGUAGE, '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\AfterLanguageEditedEvent', array($this))
                      ->dispatch();
 
                 return $result;

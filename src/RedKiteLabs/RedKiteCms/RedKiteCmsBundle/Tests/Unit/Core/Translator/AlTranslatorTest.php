@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Translator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Translator;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslator;
 
 
 /**
@@ -36,12 +36,12 @@ class AlTranslatorTest extends TestCase
         parent::setUp();
 
         $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
-        $this->configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');        
+        $this->configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
     }
     
     public function testPageRepositoryInjectedBySetters()
     {
-        $configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');        
+        $configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
         $translator = new AlTranslator($this->translator, $this->configuration);
         $this->assertEquals($translator, $translator->setConfiguration($configuration));
         $this->assertEquals($configuration, $translator->getConfiguration());

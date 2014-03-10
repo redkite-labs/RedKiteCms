@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksRemover;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksRemover;
 
 /**
  * BlocksRemoverTest
@@ -31,10 +31,10 @@ class BlocksRemoverTest extends AlContentManagerBase
     {
         parent::setUp();
 
-        $this->factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $this->factory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
 
         $this->blockRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -50,7 +50,7 @@ class BlocksRemoverTest extends AlContentManagerBase
         $idBlock = 2 ;
         
         $blocksManagerCollection = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -82,7 +82,7 @@ class BlocksRemoverTest extends AlContentManagerBase
         $idBlock = 2 ;
         
         $blocksManagerCollection = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -126,7 +126,7 @@ class BlocksRemoverTest extends AlContentManagerBase
         );
                 
         $blocksManagerCollection = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -167,7 +167,7 @@ class BlocksRemoverTest extends AlContentManagerBase
     public function testClear($blockManagers, $repositoryOptions = null)
     {
         $blocksManagerCollection = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -347,7 +347,7 @@ class BlocksRemoverTest extends AlContentManagerBase
     
     private function createBlock($position = null)
     {
-         $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+         $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
          
          if (null !== $position) {
             $block->expects($this->once())
@@ -362,7 +362,7 @@ class BlocksRemoverTest extends AlContentManagerBase
     private function createBlockManager($block = null, $saveResult = null, $deleteResult = null)
     {
          $blockManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService')
                  ->disableOriginalConstructor()
                  ->getMock()
          ;

@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ServiceBlock;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ServiceBlock;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
  * AlBlockManagerService represent an empty BlockManager

@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory;
 
 /**
  * AlBlockManagerFactoryTest
@@ -35,9 +35,9 @@ class AlBlockManagerFactoryTest extends TestCase
 
     protected function setUp()
     {
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
-        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
 
         $this->blockManagerFactory = new AlBlockManagerFactory($this->eventsHandler, $this->factoryRepository, $this->translator);
     }
@@ -123,20 +123,20 @@ class AlBlockManagerFactoryTest extends TestCase
         $this->setEventsHandler();
         
         $blockManager = $this->blockManagerFactory->createBlockManager('Text');
-        $this->assertInstanceOf('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager', $blockManager);
+        $this->assertInstanceOf('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager', $blockManager);
         $this->assertNotSame($this->blockManager, $blockManager);
     }
 
     public function testFactoryCreateANewBlockManagerFromAnAlBlockObject()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
               ->method('getType')
               ->will($this->returnValue('Text'));
         $this->initBlockManager();
         $this->setEventsHandler();
         $blockManager = $this->blockManagerFactory->createBlockManager($block);
-        $this->assertInstanceOf('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager', $blockManager);
+        $this->assertInstanceOf('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager', $blockManager);
         $this->assertNotSame($this->blockManager, $blockManager);
     }
     
@@ -244,7 +244,7 @@ class AlBlockManagerFactoryTest extends TestCase
 
     private function createBlockManager()
     {
-        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
+        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 

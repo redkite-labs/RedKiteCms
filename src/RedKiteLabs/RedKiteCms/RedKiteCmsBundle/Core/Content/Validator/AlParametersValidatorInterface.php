@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator;
 
 /**
  * AlParametersValidator

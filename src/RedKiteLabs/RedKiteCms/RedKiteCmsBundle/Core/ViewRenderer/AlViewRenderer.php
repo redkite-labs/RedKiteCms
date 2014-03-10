@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer;
 
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 

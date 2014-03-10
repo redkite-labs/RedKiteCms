@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content;
 
 /**
  * Defines the names for the page events

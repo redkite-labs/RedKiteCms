@@ -29,7 +29,7 @@ EOT
     );
 }
 
-//require_once __DIR__ . '/../vendor/propel/propel1/runtime/lib/Propel.php';
+
 if (0 === strncasecmp(PHP_SAPI, 'cli', 3)) {
     set_include_path(__DIR__ . '/../vendor/propel/propel1'.PATH_SEPARATOR.get_include_path());
     set_include_path(__DIR__ . '/../vendor/phing/phing/classes'.PATH_SEPARATOR.get_include_path());

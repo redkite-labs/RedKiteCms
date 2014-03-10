@@ -15,11 +15,11 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\UrlManager;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\UrlManager;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerStage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerStage;
 use Symfony\Component\HttpKernel\KernelInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
  * AlUrlManagerStageTest

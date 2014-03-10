@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Actions\Block;
 
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 
 /**
  * Defines the BlockEditedEvent event

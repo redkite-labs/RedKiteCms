@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\PageTree;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\PageTree;
 
 /**
  * Defines the names for the PageTree events

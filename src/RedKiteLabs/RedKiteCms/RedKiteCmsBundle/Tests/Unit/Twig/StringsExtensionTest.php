@@ -1,9 +1,9 @@
 <?php
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Twig;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Twig;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Twig\StringsExtension;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Twig\StringsExtension;
 
 /**
  * StringExtensionTest

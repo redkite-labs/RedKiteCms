@@ -15,10 +15,10 @@
  * 
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\JsonBlock;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\JsonBlock;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollection;
 
 class AlBlockManagerJsonBlockCollectionTester extends AlBlockManagerJsonBlockCollection
 {
@@ -44,7 +44,7 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
     {
         parent::setUp();
         
-        $this->blocksRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel');
+        $this->blocksRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel');
     }
     
     public function testManageJsonCollection()
@@ -68,7 +68,7 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
             ),
         );
         
-        $repository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $repository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->container->expects($this->at(1))
                       ->method('get')
                       ->will($this->returnValue($repository));
@@ -106,8 +106,8 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
             }
         }';
         
-        $this->blocksRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel');
-        $repository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->blocksRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel');
+        $repository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $repository->expects($this->any())
               ->method('createRepository')
               ->with('Block')
@@ -345,7 +345,7 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
     
     protected function initBlockSimple($slotName)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         
         $block->expects($this->any())
               ->method('getSlotName')
@@ -365,7 +365,7 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
     
     protected function initBlock($slotName, $newSlotName = null, $toDetete = null, $result = null, $id = 2)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         
         $block->expects($this->any())
               ->method('getId')
@@ -441,7 +441,7 @@ class AlBlockManagerJsonBlockCollectionTest extends AlBlockManagerContainerBase
             ;
         }
 
-        $repository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $repository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $repository->expects($this->any())
               ->method('createRepository')
               ->with('Block')

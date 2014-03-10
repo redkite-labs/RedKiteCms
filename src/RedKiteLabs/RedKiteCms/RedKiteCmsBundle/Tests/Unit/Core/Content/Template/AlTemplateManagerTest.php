@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Template;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Template;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
 
 /**
@@ -37,7 +37,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                            ->disableOriginalConstructor()
                             ->getMock();
 
-        $this->pageBlocks = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+        $this->pageBlocks = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
                            ->disableOriginalConstructor()
                             ->getMock();
 
@@ -49,22 +49,22 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('getIdLanguage')
             ->will($this->returnValue(2));
 
-        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->blockManager = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage')
                                 ->disableOriginalConstructor()
                                 ->getMock();
-        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                             ->disableOriginalConstructor()
                             ->getMock();
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
 
-        $this->factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $this->factory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $this->factory->expects($this->any())
             ->method('createBlockManager')
             ->will($this->returnValue($this->blockManager));
@@ -95,7 +95,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
     
     public function testBlockManagerFactoryInjectedBySetters()
     {        
-        $blockManagerFactory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');        
+        $blockManagerFactory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         
         $this->assertEquals($templateManager, $templateManager->setBlockManagerFactory($blockManagerFactory));
@@ -106,7 +106,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
     public function testBlockRepositoryInjectedBySetters()
     {
         $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
-        $blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface')
+        $blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface')
                                 ->disableOriginalConstructor()
                                 ->getMock();
         $this->assertEquals($templateManager, $templateManager->setBlockRepository($blockRepository));
@@ -185,7 +185,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->assertSame($pageBlocks, $templateManager->getPageBlocks());
         
         $slotManager = $templateManager->getSlotManager('logo');
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager', $slotManager);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager', $slotManager);
         $this->assertCount($generatedSlotManagers, $templateManager->getSlotManagers());
         $this->assertCount($generatedSlotManagers, $templateManager->slotsToArray());
         $this->assertEquals(array(), $templateManager->slotToArray('logo'));
@@ -257,12 +257,12 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->will($this->returnValue($slots));
 
         
-        $block1= $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block1= $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block1->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $block2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block2->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(2));
@@ -312,7 +312,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test',)));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -362,7 +362,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('content','logo')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -408,7 +408,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -450,7 +450,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -496,7 +496,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -545,7 +545,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test', 'test1', 'test2', 'test3')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -594,7 +594,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test', 'test1', 'test2', 'test3')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -637,7 +637,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -683,7 +683,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -729,7 +729,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));

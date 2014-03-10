@@ -1,10 +1,10 @@
 <?php
 
-namespace RedKiteLabs\RedKiteCmsBundle\Command\Generate;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlAppThemeGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlAppThemeGenerator;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class GenerateAppThemeBundleCommand extends BaseGenerateBundle

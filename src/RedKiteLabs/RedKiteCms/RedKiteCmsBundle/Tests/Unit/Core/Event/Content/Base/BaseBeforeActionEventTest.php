@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Event\Content\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Event\Content\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent;
 
 class BaseBeforeActionEventTester extends BaseBeforeActionEvent
 {
@@ -38,7 +38,7 @@ class BaseBeforeActionEventTest extends TestCase
     {
         parent::setUp();
 
-        $this->blockManager = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface');
+        $this->blockManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface');
 
         $this->event = new BaseBeforeActionEventTester($this->blockManager, $this->values);
     }

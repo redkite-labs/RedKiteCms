@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * Provides the Container for the AlBlockManager

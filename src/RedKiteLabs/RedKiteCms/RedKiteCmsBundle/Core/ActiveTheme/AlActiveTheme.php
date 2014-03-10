@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

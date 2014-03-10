@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\PageTree;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\PageTree;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\PageTree\Base\BasePageTreeEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\PageTree\Base\BasePageTreeEvent;
 
 /**
  * Defines the BeforePageTreeSetupEvent event

@@ -15,13 +15,13 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlPage;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlPageQuery;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPageQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the PageRepositoryInterface to work with Propel
@@ -35,7 +35,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCmsBundle\Model\AlPage';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage';
     }
 
     /**

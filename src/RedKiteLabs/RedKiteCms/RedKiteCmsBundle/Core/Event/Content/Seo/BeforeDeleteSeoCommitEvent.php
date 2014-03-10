@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent;
 
 /**
  * Defines the BeforeDeleteSeoCommitEvent event

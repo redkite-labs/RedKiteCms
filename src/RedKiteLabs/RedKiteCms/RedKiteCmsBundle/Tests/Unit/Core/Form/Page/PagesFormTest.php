@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Page;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Page;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\PagesForm;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Page\PagesForm;
 
 /**
  * PagesFormTest
@@ -50,7 +50,7 @@ class PagesFormTest extends AlBaseType
         ;
         
         $activeTheme = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -79,7 +79,7 @@ class PagesFormTest extends AlBaseType
         $this->setBaseResolver();
 
         $options = array(
-            'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\Page',
+            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Page\Page',
         );
         $this->resolver
             ->expects($this->at(1))

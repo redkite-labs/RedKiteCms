@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\ImagesBlock;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\ImagesBlock;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Listener\ImagesBlock\ImagesBlockEditedListener;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\ImagesBlock\ImagesBlockEditedListener;
 
 /**
  * ImagesBlockEditedListenerTest
@@ -34,7 +34,7 @@ class ImagesBlockEditedListenerTest extends TestCase
     {
         parent::setUp();
 
-        $this->event = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditedEvent')
+        $this->event = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditedEvent')
                             ->disableOriginalConstructor()
                             ->getMock();
 
@@ -47,7 +47,7 @@ class ImagesBlockEditedListenerTest extends TestCase
         $this->event->expects($this->never())
             ->method('setResponse');
 
-        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock')
+        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock')
                              ->disableOriginalConstructor()
                              ->getMock();
         $this->event->expects($this->once())
@@ -62,12 +62,12 @@ class ImagesBlockEditedListenerTest extends TestCase
         $this->event->expects($this->once())
             ->method('setResponse');
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(2));
 
-        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages')
+        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages')
                              ->disableOriginalConstructor()
                              ->getMock();
         $blockManager->expects($this->once())

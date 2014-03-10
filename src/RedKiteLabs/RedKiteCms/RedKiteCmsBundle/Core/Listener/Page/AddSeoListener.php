@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Page;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * Listen to the onBeforeAddPageCommit event to add the page's seo attributes, when
@@ -34,7 +34,7 @@ class AddSeoListener
 {
     /** @var AlSeoManager */
     private $seoManager;
-    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
+    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     private $languageRepository;
 
     /**

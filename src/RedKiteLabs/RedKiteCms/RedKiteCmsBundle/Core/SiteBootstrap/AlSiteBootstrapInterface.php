@@ -15,11 +15,11 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\SiteBootstrap;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 
 /**
  * AlSiteBootstrapInterface defines the methos to boostrap a RedKiteCms website from

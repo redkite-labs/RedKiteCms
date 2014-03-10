@@ -16,10 +16,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
 
 /**
@@ -111,7 +111,7 @@ abstract class TemplateSection
     /**
      * Defines the base method to generate a section
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree     $pageTree
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree     $pageTree
      * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
      * @param array                                                      $options
      */

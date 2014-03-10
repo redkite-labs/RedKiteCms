@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme;
 
 /**
  * Defined the methods the active theme manager object must defin

@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 
 /**
  * Extends RedKiteCms AlPageTree object to display the page in preview mode

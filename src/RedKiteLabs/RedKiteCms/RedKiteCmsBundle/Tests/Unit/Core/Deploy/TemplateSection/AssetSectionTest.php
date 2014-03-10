@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Deploy\TemplateSection;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Deploy\TemplateSection;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\AssetSection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\AssetSection;
 
 
 /**
@@ -33,7 +33,7 @@ class AssetSectionTest extends TestCase
      */
     public function testAssets($expectedResult, $externalStylesheets, $internalStylesheets = "", $externalJavascripts = "", $internalJavascripts = "")
     {
-        $urlManager = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface");
+        $urlManager = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface");
         $theme = $this->getMockBuilder("RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme")
                         ->disableOriginalConstructor()
                         ->getMock();
@@ -44,7 +44,7 @@ class AssetSectionTest extends TestCase
             ->will($this->returnValue($themeSlots))
         ;
         
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                                 ->disableOriginalConstructor()
                                 ->setMethods(array('getExternalStylesheets', 'getInternalStylesheets', 'getExternalJavascripts', 'getInternalJavascripts'))
                                 ->getMock();

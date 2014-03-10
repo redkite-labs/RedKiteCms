@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Validator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Validator;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager;
 
 /**
  * AlParametersValidatorLanguagesManager
@@ -33,10 +33,10 @@ class AlParametersValidatorPagesManager extends TestCase
 
     protected function setUp()
     {
-        $this->pageRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface');
-        $this->languageRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
+        $this->pageRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface');
+        $this->languageRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->onConsecutiveCalls($this->languageRepository, $this->pageRepository));
@@ -46,7 +46,7 @@ class AlParametersValidatorPagesManager extends TestCase
 
     public function testPageRepositoryInjectedBySetters()
     {
-        $pageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface')
+        $pageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->assertEquals($this->validator, $this->validator->setPageRepository($pageRepository));

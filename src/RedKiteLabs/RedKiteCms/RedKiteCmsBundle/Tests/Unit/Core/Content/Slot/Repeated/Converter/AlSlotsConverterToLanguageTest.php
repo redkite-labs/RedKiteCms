@@ -15,11 +15,11 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot\Repeated\Converter;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot\Repeated\Converter;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
 use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterToLanguage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterToLanguage;
 
 /**
  * AlSlotsConverterToLanguageTest
@@ -338,7 +338,7 @@ class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
 
     private function setUpBlock()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
             ->method('toArray')
             ->will($this->returnValue(array("Id" => 2, "Type" => "Text")));
@@ -348,7 +348,7 @@ class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
 
     private function setUpLanguage($id)
     {
-        $language = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
         $language->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($id));

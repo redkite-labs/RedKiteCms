@@ -15,14 +15,14 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Controller;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\BlockEvents;
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Actions\BlockEvents;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Actions\Block;
 use Symfony\Component\HttpFoundation\Request;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidOperationException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidOperationException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 
 /**
  * Implements the actions to manage the blocks on a slot's page
@@ -220,7 +220,7 @@ class BlocksController extends Base\BaseController
 
     private function areValidAttributes(Request $request, $factoryRepository)
     {
-        $dataManager = new \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager($factoryRepository);
+        $dataManager = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager($factoryRepository);
         $options = array(
             "pageName" => "",
             "languageName" => "",
@@ -238,7 +238,7 @@ class BlocksController extends Base\BaseController
     /**
      * @param  Request                                                       $request
      * @param  bool                                                          $throwExceptionWhenNull
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
      * @throws RuntimeException
      */
     private function fetchSlotManager(Request $request, $throwExceptionWhenNull = true)

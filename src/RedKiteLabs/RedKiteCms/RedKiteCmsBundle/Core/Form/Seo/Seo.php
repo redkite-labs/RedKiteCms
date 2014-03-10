@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Seo;
 
 /**
  * Defines the page attributes form fields

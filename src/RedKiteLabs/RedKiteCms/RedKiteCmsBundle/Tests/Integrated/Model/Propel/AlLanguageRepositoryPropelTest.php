@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
 
 /**
  * AlLanguageRepositoryPropelTest
@@ -36,18 +36,18 @@ class AlLanguageRepositoryPropelTest extends Base\BaseModelPropel
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage exception_only_propel_language_objects_are_accepted
      */
     public function testRepositoryAcceptsOnlyAlLanguageObjects()
     {
-        $this->languageRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCmsBundle\Model\AlPage());
+        $this->languageRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage());
     }
 
     public function testALanguageIsRetrievedFromItsPrimaryKey()
     {
         $language = $this->languageRepository->fromPk(2);
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage', $language);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage', $language);
         $this->assertEquals(2, $language->getId());
     }
 

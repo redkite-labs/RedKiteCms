@@ -1,6 +1,6 @@
 <?php
 
-namespace RedKiteLabs\RedKiteCmsBundle\Command\Generate;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Command\Generate;
 
 use Sensio\Bundle\GeneratorBundle\Command\GenerateBundleCommand;
 use Symfony\Component\Console\Input\InputInterface;

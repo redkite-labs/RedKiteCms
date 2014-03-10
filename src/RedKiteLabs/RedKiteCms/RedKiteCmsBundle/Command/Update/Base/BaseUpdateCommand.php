@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Command\Update\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Command\Update\Base;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\Base\AlPropelOrm;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base\AlPropelOrm;
 use Propel\PropelBundle\Command\ModelBuildCommand;
 
 /**

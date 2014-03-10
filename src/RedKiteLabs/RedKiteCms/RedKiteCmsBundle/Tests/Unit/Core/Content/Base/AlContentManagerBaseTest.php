@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
 
 
 class AlContentManagerTester extends AlContentManagerBase
@@ -41,9 +41,9 @@ class AlContentManagerBaseTest extends TestCase
     {
         parent::setUp();
 
-        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
 
-        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->contentManager = new AlContentManagerTester($this->eventsHandler, $this->validator);
@@ -56,7 +56,7 @@ class AlContentManagerBaseTest extends TestCase
 
     public function testEventsHandlerBySetters()
     {
-        $eventsHandler = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
         $this->assertSame($this->contentManager, $this->contentManager->setEventsHandler($eventsHandler));
         $this->assertSame($eventsHandler, $this->contentManager->getEventsHandler());
         $this->assertNotSame($this->eventsHandler, $this->contentManager->getEventsHandler());
@@ -69,7 +69,7 @@ class AlContentManagerBaseTest extends TestCase
 
     public function testValidatorInjectedBySetters()
     {
-        $validator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->assertSame($this->contentManager, $this->contentManager->setValidator($validator));

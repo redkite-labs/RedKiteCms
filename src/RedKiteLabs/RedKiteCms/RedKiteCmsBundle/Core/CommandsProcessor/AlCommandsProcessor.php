@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\CommandsProcessor;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\CommandsProcessor;
 
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\PhpExecutableFinder;

@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Controller;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Controller\BaseFrontendController;
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,15 +32,15 @@ class AlCmsController extends BaseFrontendController
 {
     /** @var null|\Symfony\Component\HttpKernel\KernelInterface */
     protected $kernel = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface */
     protected $factoryRepository = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface */
     protected $pageRepository = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     protected $languageRepository = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface */
     protected $seoRepository = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface */
     protected $configuration = null;
 
     public function showAction(Request $request)

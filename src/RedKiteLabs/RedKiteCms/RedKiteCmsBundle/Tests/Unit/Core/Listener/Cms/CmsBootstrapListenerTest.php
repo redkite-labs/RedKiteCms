@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Cms;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\Cms;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms\CmsBootstrapListener;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Cms\CmsBootstrapListener;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\visitor\vfsStreamStructureVisitor;
 
@@ -34,16 +34,16 @@ class CmsBootstrapListenerTest extends TestCase
         parent::setUp();
 
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $this->pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                             ->setMethods(array('getTemplate', 'getAlLanguage', 'getAlPage', 'setDataManager', 'setUp'))
                             ->disableOriginalConstructor()
                             ->getMock();
 
-        $this->aligner = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner')
+        $this->aligner = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner')
                             ->disableOriginalConstructor()
                             ->getMock();
         
-        $this->dataManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager')
+        $this->dataManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager')
                             ->disableOriginalConstructor()
                             ->getMock();
         
@@ -64,7 +64,7 @@ class CmsBootstrapListenerTest extends TestCase
             ->method('getSlots')
             ->will($this->returnValue(array()));
         
-        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
         $activeTheme->expects($this->once())
             ->method('getThemeBootstrapVersion')
             ->will($this->returnValue('2.x'));
@@ -141,7 +141,7 @@ class CmsBootstrapListenerTest extends TestCase
             ->with('request')
             ->will($this->returnValue($request));
         
-        $templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+        $templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                             ->disableOriginalConstructor()
                             ->getMock();
         $this->container->expects($this->at(14))
@@ -150,7 +150,7 @@ class CmsBootstrapListenerTest extends TestCase
             ->will($this->returnValue($templateManager));
         
         
-        $pageBlocks = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface");
+        $pageBlocks = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface");
         $this->container->expects($this->at(15))
             ->method('get')
             ->with('red_kite_cms.page_blocks')
@@ -176,7 +176,7 @@ class CmsBootstrapListenerTest extends TestCase
             ->with('twig')
             ->will($this->returnValue($twig));
         
-        $configuration = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
         $configuration
             ->expects($this->once())
             ->method('read')

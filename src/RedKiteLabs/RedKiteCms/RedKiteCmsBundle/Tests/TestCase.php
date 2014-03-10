@@ -14,7 +14,7 @@
  * @license    GPL LICENSE Version 2.0
  *
  */
-namespace RedKiteLabs\RedKiteCmsBundle\Tests;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests;
 
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {

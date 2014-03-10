@@ -1,6 +1,6 @@
 <?php
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Generator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator;
 
 use Symfony\Component\DependencyInjection\Container;
 

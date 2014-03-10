@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Controller;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller;
 
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
-use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
 
 class DeployController extends Base\BaseController
 {

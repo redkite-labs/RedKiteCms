@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlUser;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser;
 
 /**
  * Defines the methods used to fetch user records

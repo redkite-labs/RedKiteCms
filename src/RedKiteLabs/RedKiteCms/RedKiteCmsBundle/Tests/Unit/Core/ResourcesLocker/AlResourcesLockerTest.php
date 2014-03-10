@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\PageTree;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\PageTree;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
 
 /**
  * AlResourcesLockerTest
@@ -37,12 +37,12 @@ class AlResourcesLockerTest extends TestCase
         parent::setUp();
 
         $this->lockedResourceRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLockedResourceRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLockedResourceRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
-        $factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $factoryRepository
              ->expects($this->once())
              ->method('createRepository')
@@ -54,7 +54,7 @@ class AlResourcesLockerTest extends TestCase
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException
      * @expectedExceptionMessage exception_resource_locked
      */
     public function testAnExceptionIsThrownWhenTheRequestedResourceIsNotFree()
@@ -248,7 +248,7 @@ class AlResourcesLockerTest extends TestCase
     
     private function initResource()
     {
-        return $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Model\AlLockedResource');
+        return $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Model\AlLockedResource');
     }
     
     private function lockedResourceByUser($returnValue)
@@ -276,7 +276,7 @@ class AlResourcesLockerTest extends TestCase
         $this->lockedResourceRepository
              ->expects($this->once())
              ->method('getRepositoryObjectClassName')
-             ->will($this->returnValue('\RedKiteLabs\RedKiteCmsBundle\Model\AlLockedResource'))
+             ->will($this->returnValue('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLockedResource'))
         ;
     }
 }

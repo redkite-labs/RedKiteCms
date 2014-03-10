@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks;
 
 /**
  * Defines the methods to manage page blocks objects
@@ -102,8 +102,8 @@ interface AlPageBlocksInterface
      *
      * @param  int                                                                                       $languageId
      * @param  int                                                                                       $pageId
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
+     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      *
      * @api
      */

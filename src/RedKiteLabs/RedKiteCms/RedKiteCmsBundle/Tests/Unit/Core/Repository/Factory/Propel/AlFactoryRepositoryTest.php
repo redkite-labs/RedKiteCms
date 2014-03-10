@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Factory\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Factory\Propel;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository;
 
 /**
  * AlFactoryRepositoryTest
@@ -37,7 +37,7 @@ class AlFactoryRepositoryTest extends TestCase
     }
 
     /**
-     *@expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\Exception\RepositoryNotFoundException
+     *@expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\Exception\RepositoryNotFoundException
      */
     public function testAnExceptionIsThrownWhenTheRepositoryClassDoesNotExist()
     {
@@ -47,12 +47,12 @@ class AlFactoryRepositoryTest extends TestCase
     public function testARepositoryIsCreated()
     {
         $repository = $this->factoryRepository->createRepository('Block');
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel', $repository);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel', $repository);
     }
 
     public function testARepositoryPlacedOnACusyomNamespaceAndWithoutAlPefixed()
     {
-        $repository = $this->factoryRepository->createRepository('Test', '\RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository');
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\TestRepositoryPropel', $repository);
+        $repository = $this->factoryRepository->createRepository('Test', '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository');
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\TestRepositoryPropel', $repository);
     }
 }

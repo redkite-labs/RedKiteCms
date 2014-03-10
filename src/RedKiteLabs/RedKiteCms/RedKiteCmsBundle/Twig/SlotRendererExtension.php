@@ -15,13 +15,13 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Twig;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * Adds the renderSlot function to Twig engine
@@ -257,7 +257,7 @@ class SlotRendererExtension extends \Twig_Extension
      * Validates the slot name
      *
      * @param  string                                                                        $slotName
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
+     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
      */
     protected function checkSlotName($slotName)
     {

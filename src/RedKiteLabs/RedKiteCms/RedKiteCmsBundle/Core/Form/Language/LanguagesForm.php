@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Language;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Language;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -56,7 +56,7 @@ class LanguagesForm extends BaseBlockType
         parent::setDefaultOptions($resolver);
 
         $resolver->setDefaults(array(
-            'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Language\Language',
+            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Language\Language',
         ));
     }
 

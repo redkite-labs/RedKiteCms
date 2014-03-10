@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator;
 
 /**
  * RoutingGeneratorProduction generated the routing for the production environment

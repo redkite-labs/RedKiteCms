@@ -1,11 +1,11 @@
 <?php
 
-namespace RedKiteLabs\RedKiteCmsBundle\Command\Generate;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class GenerateAppBlockBundleCommand extends BaseGenerateBundle

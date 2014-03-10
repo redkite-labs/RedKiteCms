@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\Exception;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when any a locked resource is not free

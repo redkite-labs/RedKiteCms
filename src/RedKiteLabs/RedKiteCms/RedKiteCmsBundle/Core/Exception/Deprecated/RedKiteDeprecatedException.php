@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception\Deprecated;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Deprecated;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 
 /**
  * Thrown when a method or a class has been deprecated

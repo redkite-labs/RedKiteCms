@@ -15,13 +15,13 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Command;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Command;
 
 use Symfony\Component\DependencyInjection\Container;
 use Sensio\Bundle\GeneratorBundle\Tests\Command\GenerateCommandTest;
 use Symfony\Component\Console\Tester\CommandTester;
 use org\bovigo\vfs\vfsStream;
-use RedKiteLabs\RedKiteCmsBundle\Command\Generate\GenerateTemplatesCommand;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Command\Generate\GenerateTemplatesCommand;
 
 /**
  * GenerateAppThemeBundleCommandTest
@@ -38,7 +38,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     
     public function testTemplateParserInjectedBySetters()
     {
-        $templateParser = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\TemplateParser\AlTemplateParser')
+        $templateParser = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\TemplateParser\AlTemplateParser')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $command = new GenerateTemplatesCommand();
@@ -48,7 +48,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     
     public function testTemplateGeneratorInjectedBySetters()
     {
-        $templateGenerator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlTemplateGenerator')
+        $templateGenerator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlTemplateGenerator')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $command = new GenerateTemplatesCommand();
@@ -58,7 +58,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     
     public function testSlotsGeneratorInjectedBySetters()
     {
-        $slotsGenerator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlSlotsGenerator')
+        $slotsGenerator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlSlotsGenerator')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $command = new GenerateTemplatesCommand();
@@ -68,7 +68,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     
     public function testExtensionGeneratorInjectedBySetters()
     {
-        $extensionGenerator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlExtensionGenerator')
+        $extensionGenerator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlExtensionGenerator')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $command = new GenerateTemplatesCommand();
@@ -213,7 +213,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     protected function getCommand($templateParser, $templateGenerator, $slotsGenerator, $input)
     {
         $command = $this
-            ->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Command\Generate\GenerateTemplatesCommand')
+            ->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Command\Generate\GenerateTemplatesCommand')
             ->setMethods(array('checkAutoloader', 'updateKernel'))
             ->getMock()
         ;
@@ -259,7 +259,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     protected function getTemplateParser($values)
     {
         $templateParser = $this
-            ->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\TemplateParser\AlTemplateParser')
+            ->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\TemplateParser\AlTemplateParser')
             ->disableOriginalConstructor()
             ->setMethods(array('parse'))
             ->getMock()
@@ -277,7 +277,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     protected function getTemplateGenerator()
     {
         return $this
-            ->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlTemplateGenerator')
+            ->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlTemplateGenerator')
             ->disableOriginalConstructor()
             ->setMethods(array('generateTemplate'))
             ->getMock()
@@ -287,7 +287,7 @@ class GenerateTemplatesCommandTest extends GenerateCommandTest
     protected function getSlotsGenerator()
     {
         return $this
-            ->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlSlotsGenerator')
+            ->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlSlotsGenerator')
             ->disableOriginalConstructor()
             ->setMethods(array('generateSlots'))
             ->getMock()

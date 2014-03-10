@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
 /**
  * AlBlockManagerJsonBlockCollection is the base object deputated to handle a json content

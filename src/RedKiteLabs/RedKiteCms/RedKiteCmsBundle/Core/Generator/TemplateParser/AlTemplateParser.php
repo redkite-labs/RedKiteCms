@@ -1,6 +1,6 @@
 <?php
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Generator\TemplateParser;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\TemplateParser;
 
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Yaml\Yaml;

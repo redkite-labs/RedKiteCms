@@ -15,14 +15,14 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy;
 
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter;
 
 /**
  * AlTwigDeployer extends the base deployer class to save a PageTree to a twig template

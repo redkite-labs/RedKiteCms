@@ -15,20 +15,20 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Template;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager;
 use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory;
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface;
 
 /**
@@ -126,7 +126,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the current page contents container object
      *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
      *
      * @api
      */

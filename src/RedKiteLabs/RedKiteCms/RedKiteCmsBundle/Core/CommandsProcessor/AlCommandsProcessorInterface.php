@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\CommandsProcessor;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\CommandsProcessor;
 
 /**
  * Defines the methods to execute one or more console commands

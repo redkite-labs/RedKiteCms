@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Language\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent;
 
 /**
  * Provides a base class to listen to onBeforeDeleteLanguageCommit event

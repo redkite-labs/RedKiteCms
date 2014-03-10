@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\RepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\RepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the RepositoryInterface to define the base class any propel model must inherit
@@ -33,7 +33,7 @@ abstract class AlPropelRepository extends AlPropelOrm implements RepositoryInter
      * {@inheritdoc}
      *
      * @param  BaseObject                                                                   $object
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\Base\AlPropelRepository
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base\AlPropelRepository
      * @throws General\InvalidArgumentTypeException
      */
     public function setRepositoryObject($object = null)

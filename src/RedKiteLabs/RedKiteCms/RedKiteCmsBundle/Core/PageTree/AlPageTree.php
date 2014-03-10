@@ -15,15 +15,15 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\PageTree;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\PageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager;
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
 
 /**
@@ -34,10 +34,10 @@ use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
  * @method \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme getTheme() Returns the handled AlTheme object
  * @method AlTemplate getTemplate() Returns the handled AlTemplate object
  * @method AlTemplateManager getTemplateManager() Returns the handled AlTemplateManager object
- * @method \RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks getPageBlocks() Returns the handled AlPageBlocks object
- * @method \RedKiteLabs\RedKiteCmsBundle\Model\AlPage getAlPage() Returns the handled AlPage object
- * @method \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage getAlLanguage() Returns the handled AlLanguage object
- * @method \RedKiteLabs\RedKiteCmsBundle\Model\AlSeo getAlSeo() Returns the handled AlSeo object
+ * @method \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks getPageBlocks() Returns the handled AlPageBlocks object
+ * @method \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage getAlPage() Returns the handled AlPage object
+ * @method \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage getAlLanguage() Returns the handled AlLanguage object
+ * @method \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo getAlSeo() Returns the handled AlSeo object
  * @method AlPageTree getExternalStylesheets() Returns the handled external stylesheets
  * @method AlPageTree getInternalStylesheets() Returns the handled internal stylesheets
  * @method AlPageTree getExternalJavascripts() Returns the handled external javascripts

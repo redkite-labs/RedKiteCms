@@ -1,8 +1,8 @@
 <?php
 
-namespace RedKiteLabs\RedKiteCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlLanguageQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlLanguageQuery;
 
 class AlLanguageQuery extends BaseAlLanguageQuery
 {

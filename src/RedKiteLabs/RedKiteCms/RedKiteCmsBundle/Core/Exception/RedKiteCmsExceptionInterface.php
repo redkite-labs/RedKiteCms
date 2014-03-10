@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Exception;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception;
 
 /**
  * Defines a generic RedKite Cms exception

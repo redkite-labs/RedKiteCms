@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Seo;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Seo;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * Listen to the onBeforeEditSeoCommit event and parsers the blocks to look for the old
@@ -34,7 +34,7 @@ class UpdatePermalinkOnBlocksListener
 {
     /** @var AlFactoryRepositoryInterface */
     protected $factoryRepository;
-    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
+    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
     private $blockRepository;
     /** @var null|AlBlockManagerFactoryInterface */
     private $blocksFactory;

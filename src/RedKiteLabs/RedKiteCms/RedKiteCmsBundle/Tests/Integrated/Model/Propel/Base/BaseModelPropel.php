@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Integrated\Model\Propel\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Integrated\Model\Propel\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
 /**
  * BaseModelPropel
  *

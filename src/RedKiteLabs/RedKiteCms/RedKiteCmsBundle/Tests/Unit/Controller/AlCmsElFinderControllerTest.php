@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Controller;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Controller;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Controller\AlCmsElFinderController;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller\AlCmsElFinderController;
 
 /**
  * ElFinderControllerTest
@@ -31,7 +31,7 @@ class AlCmsElFinderControllerTest extends TestCase
     {
         $container = $this->initContainer(
             'el_finder_media_connector',
-            'RedKiteLabs\RedKiteCmsBundle\Core\ElFinder\ElFinderMediaConnector'
+            'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ElFinder\ElFinderMediaConnector'
         );
 
         $controller = new AlCmsElFinderController();

@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content;
 
 /**
  * The interface used to describe a Content Manager object.

@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Command\Generate;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Command\Generate;
 
 use Sensio\Bundle\GeneratorBundle\Tests\Command\GenerateCommandTest;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -121,7 +121,7 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
     protected function getCommand($generator, $input)
     {
         $command = $this
-            ->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Command\Generate\GenerateAppBlockBundleCommand')
+            ->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Command\Generate\GenerateAppBlockBundleCommand')
             ->setMethods(array('checkAutoloader', 'updateKernel'))
             ->getMock()
         ;
@@ -139,7 +139,7 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
     {
         // get a noop generator
         return $this
-            ->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator')
+            ->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator')
             ->disableOriginalConstructor()
             ->setMethods(array('generateExt'))
             ->getMock()

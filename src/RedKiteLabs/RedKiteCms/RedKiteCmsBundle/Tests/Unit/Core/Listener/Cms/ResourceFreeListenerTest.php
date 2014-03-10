@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Cms;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\Cms;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms\ResourceFreeListener;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Cms\ResourceFreeListener;
 
 /**
  * ResourceFreeListenerTest
@@ -38,7 +38,7 @@ class ResourceFreeListenerTest extends TestCase
         ;
         
         $this->resourcesLocker = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -76,7 +76,7 @@ class ResourceFreeListenerTest extends TestCase
     }
     
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException
      * @expectedExceptionMessage Unknown propel error
      */
     public function testSomethingGoesWrongUnlockingTheExpiredResources()
@@ -96,7 +96,7 @@ class ResourceFreeListenerTest extends TestCase
     }
     
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException
      * @expectedExceptionMessage Unknown propel error
      */
     public function testSomethingGoesWrongUnlockingTheResource()
@@ -155,7 +155,7 @@ class ResourceFreeListenerTest extends TestCase
     }
     
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException
      * @expectedExceptionMessage exception_resource_was_free_but_someone_locked_it
      */
     public function testSomethingGoesWrongLockingTheExpiredResources()
@@ -248,7 +248,7 @@ class ResourceFreeListenerTest extends TestCase
     {
         return array(
             array(new \PropelException('Unknown propel error')),
-            array(new \RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException('exception_resource_locked')),
+            array(new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException('exception_resource_locked')),
             array(new \RuntimeException('Unespected error')),
         );
     }
@@ -285,7 +285,7 @@ class ResourceFreeListenerTest extends TestCase
     
     private function initUser()
     {
-        $user = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlUser');
+        $user = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser');
         $user
             ->expects($this->once())
             ->method('getId')

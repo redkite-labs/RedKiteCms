@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * AlBlockManagerJsonBlockContainer extends the AlBlockManagerJson base object with

@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\PageTree\TemplateAssetsManager;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\PageTree\TemplateAssetsManager;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 
 /**
@@ -32,7 +32,7 @@ abstract class TemplateAssetsManagerBase extends TestCase
     
     protected function initBlockManagerFactory($availableBlocks)
     {
-        $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+        $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
                     ->disableOriginalConstructor()
                     ->getMock()
         ;
@@ -160,7 +160,7 @@ abstract class TemplateAssetsManagerBase extends TestCase
     
     protected function createBlock($slotName)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         
         $block->expects($this->once())
             ->method('getSlotName')

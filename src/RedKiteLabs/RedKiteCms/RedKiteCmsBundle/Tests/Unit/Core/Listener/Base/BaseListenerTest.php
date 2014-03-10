@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 
 /**
  * BaseTestListener
@@ -28,7 +28,7 @@ abstract class BaseListenerTest extends TestCase
 {
     protected function setUpLanguage($returnId)
     {
-        $language = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
         $language->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($returnId));
@@ -42,7 +42,7 @@ abstract class BaseListenerTest extends TestCase
 
     protected function setUpPage($returnId)
     {
-        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
         $page->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($returnId));

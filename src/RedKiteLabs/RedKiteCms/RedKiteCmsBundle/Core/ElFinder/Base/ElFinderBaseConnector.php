@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\ElFinder\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ElFinder\Base;
 
-use RedKiteLabs\ElFinderBundle\Core\Connector\RedKiteLabsElFinderBaseConnector;
-use RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
+use RedKiteLabs\RedKiteCms\ElFinderBundle\Core\Connector\RedKiteLabsElFinderBaseConnector;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
 
 /**
  * Configures the ElFinder library to manage media files, like images, flash, pdf and more

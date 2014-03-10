@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Language;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
 
 /**
  * Listen to the onBeforeDeleteLanguageCommit event to delete the blocks which

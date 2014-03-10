@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Generator\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -37,7 +37,7 @@ class AlAppGeneratorBase extends TestCase
         
         $sensioDir = __DIR__ . '/../../../../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton/bundle';
         if ( ! is_dir($sensioDir)) {
-            $sensioDir = __DIR__ . '/../../../../../vendor/sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton/bundle';
+            $sensioDir = __DIR__ . '/../../../../../../../../../vendor/sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton/bundle';
             if ( ! is_dir($sensioDir)) {
                 $this->markTestSkipped(
                     'Sension Generator bundle is not available.'

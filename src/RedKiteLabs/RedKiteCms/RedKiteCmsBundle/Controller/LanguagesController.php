@@ -15,11 +15,11 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Controller;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Language\LanguagesForm;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Language\LanguagesForm;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -156,7 +156,7 @@ class LanguagesController extends Base\BaseController
     }
 
     /**
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface
      */
     private function createLanguageRepository()
     {
@@ -165,8 +165,8 @@ class LanguagesController extends Base\BaseController
 
     /**
      * @param $id
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager|null $languageManager
-     * @return \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage|null
+     * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager|null $languageManager
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage|null
      */
     private function fetchLanguage($id, $languageManager = null)
     {

@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\EventsHandler;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\EventsHandler;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler;
 
 /**
  * Implements the AlEventsHandler to hanled events for Content objects

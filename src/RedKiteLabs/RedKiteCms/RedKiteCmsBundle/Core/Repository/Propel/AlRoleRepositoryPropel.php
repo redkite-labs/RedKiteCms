@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlRole;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlRoleQuery;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\RoleRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRoleQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\RoleRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the UserRepositoryInterface to work with Propel
@@ -34,7 +34,7 @@ class AlRoleRepositoryPropel extends Base\AlPropelRepository implements RoleRepo
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCmsBundle\Model\AlRole';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole';
     }
 
     /**

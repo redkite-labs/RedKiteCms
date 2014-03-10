@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\UrlManager;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager;
 
 /**
  * Defines the methods to manages an url to be used when in CMS mode and for production mode
@@ -56,8 +56,8 @@ interface AlUrlManagerInterface
      * Builds and internal url to be used when in CMS mode and fetches the information about the
      * url itself
      *
-     * @param  int|string|\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage $language
-     * @param  int|string|\RedKiteLabs\RedKiteCmsBundle\Model\AlPage     $page
+     * @param  int|string|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage $language
+     * @param  int|string|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage     $page
      * @return self
      */
     public function buildInternalUrl($language, $page);

@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\ImagesBlock;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\ImagesBlock;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\InlineTextBlock\AlBlockManagerInlineTextBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\InlineTextBlock\AlBlockManagerInlineTextBlock;
 
 class AlBlockManagerInlineTextTester extends AlBlockManagerInlineTextBlock
 {    
@@ -43,7 +43,7 @@ class AlBlockManagerInlineTextBlockTest extends TestCase
     
     public function testDefaultValueIsTranslated()
     {
-        $this->translator = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->translator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
         $this->translator
             ->expects($this->once())
             ->method('translate')

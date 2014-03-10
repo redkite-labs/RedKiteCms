@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 
 /**
  * AlSlotManager represents a slot on a page.

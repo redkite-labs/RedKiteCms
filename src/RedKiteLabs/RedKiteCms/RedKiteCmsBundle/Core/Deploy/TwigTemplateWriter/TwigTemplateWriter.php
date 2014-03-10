@@ -15,14 +15,14 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\TemplateSectionTwig;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\MetatagSection;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\AssetSection;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\ContentSection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\TemplateSectionTwig;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\MetatagSection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\AssetSection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\ContentSection;
 
 /**
  * AlTwigTemplateWriter is the object deputated to generate and write a twig template
@@ -43,11 +43,11 @@ class TwigTemplateWriter extends TemplateSectionTwig
 
     /** @var string|null */
     private $twigTemplate = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage */
     private $language = null;
     /** @var null|\RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate  */
     private $template = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Model\AlPage */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage */
     private $page = null;
     /** @var string|null */
     private $baseFolder = null;

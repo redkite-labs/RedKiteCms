@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Deploy;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Deploy;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlTwigDeployer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlTwigDeployer;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -31,7 +31,7 @@ class AlTwigDeployerTest extends AlDeployerTest
     {
         parent::setUp();
         
-        $this->twigTemplateWriter = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter')
+        $this->twigTemplateWriter = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter')
                                         ->disableOriginalConstructor()
                                         ->getMock();
     }
@@ -123,7 +123,7 @@ class AlTwigDeployerTest extends AlDeployerTest
         
         $this->verifyFoldersBeforeDeploy();
         
-        $this->deployer = new \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\AlTwigDeployer($this->twigTemplateWriter, $this->routingGenerator, $sitemapGenerator, $dispatcher);
+        $this->deployer = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlTwigDeployer($this->twigTemplateWriter, $this->routingGenerator, $sitemapGenerator, $dispatcher);
         $this->assertEquals($result, $this->deployer->deploy($this->pageTreeCollection, $this->theme, $options));
         
         $this->verifyFoldersAfterDeploy('RedKiteCmsStage');        

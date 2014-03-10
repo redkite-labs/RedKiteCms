@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Page;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
  * Listen to the onBeforeAddPageCommit event to add the page's contents, when a new
@@ -47,7 +47,7 @@ class AddPageBlocksListener
     /**
      * Adds the contents for the page when a new page is added, for each language of the site
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent $event
+     * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent $event
      * @return boolean
      * @throws \Exception
      *

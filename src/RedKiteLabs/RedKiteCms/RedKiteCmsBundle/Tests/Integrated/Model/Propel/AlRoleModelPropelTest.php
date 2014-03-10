@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
 
 /**
  * AlRoleRepositoryPropelTest
@@ -36,18 +36,18 @@ class AlRoleRepositoryPropelTest extends Base\BaseModelPropel
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage exception_only_propel_role_objects_are_accepted
      */
     public function testRepositoryAcceptsOnlyAlRoleObjects()
     {
-        $this->roleRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCmsBundle\Model\AlPage());
+        $this->roleRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage());
     }
 
     public function testARoleObjectIsRetrievedFromItsPrimaryKey()
     {
         $role = $this->roleRepository->fromPk(1);
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Model\AlRole', $role);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole', $role);
         $this->assertEquals(1, $role->getId());
     }
 

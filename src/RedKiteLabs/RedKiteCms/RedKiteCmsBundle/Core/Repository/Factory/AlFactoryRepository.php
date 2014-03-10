@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\Exception\RepositoryNotFoundException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\Exception\RepositoryNotFoundException;
 
 /**
  * AlFactoryRepository object instantiates repository objects according with the orm
@@ -28,7 +28,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\Exception\RepositoryNot
 class AlFactoryRepository implements AlFactoryRepositoryInterface
 {
     private $orm = null;
-    private $namespace = 'RedKiteLabs\RedKiteCmsBundle\Core\Repository';
+    private $namespace = 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository';
 
     /**
      * Constructor

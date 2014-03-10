@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Translator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator;
 
 /**
  * Defines the base interface to translate a message to another language

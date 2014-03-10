@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Language\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\Language\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 
 /**
  * DeleteLanguageBaseListenerTest
@@ -39,15 +39,15 @@ abstract class DeleteLanguageBaseListenerTest extends BaseListenerTest
     {
         parent::setUp();
 
-        $this->event = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent')
+        $this->event = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->languageManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager')
+        $this->languageManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 

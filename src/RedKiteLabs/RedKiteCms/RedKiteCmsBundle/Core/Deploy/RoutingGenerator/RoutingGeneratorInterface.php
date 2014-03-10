@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator;
 
 /**
  * Defines the interface that must be implemented to generate the routes required

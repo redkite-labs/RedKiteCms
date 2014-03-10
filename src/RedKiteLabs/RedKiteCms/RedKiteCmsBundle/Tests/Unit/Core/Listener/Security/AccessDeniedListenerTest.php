@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Security;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\Security;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Listener\Security\AccessDeniedListener;
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Security\AccessDeniedListener;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 
 /**
  * AccessDeniedListenerTest

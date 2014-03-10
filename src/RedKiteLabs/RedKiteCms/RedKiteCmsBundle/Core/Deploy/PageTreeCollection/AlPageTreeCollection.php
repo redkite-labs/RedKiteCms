@@ -15,17 +15,17 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlPage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
 
 /**
@@ -50,11 +50,11 @@ class AlPageTreeCollection
     private $pageBlocks;
     /** @var null|AlFactoryRepositoryInterface */
     private $factoryRepository = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     private $languageRepository = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface */
     private $pageRepository = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
     private $blockRepository = null;
 
     /**

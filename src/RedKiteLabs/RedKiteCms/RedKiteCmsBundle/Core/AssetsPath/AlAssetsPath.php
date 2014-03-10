@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\AssetsPath;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\AssetsPath;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

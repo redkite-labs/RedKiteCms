@@ -16,7 +16,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection;
 
 /**
  * TemplateSectionTwig is the object deputated to implement the base methods to write

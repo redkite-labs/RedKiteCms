@@ -15,11 +15,11 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Seo;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Seo;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
 
 /**
  * AlSeoManagerTest
@@ -34,19 +34,19 @@ class AlSeoManagerTest extends AlContentManagerBase
     {
         parent::setUp();
 
-        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $this->seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
         $this->seoRepository->expects($this->any())
             ->method('getRepositoryObjectClassName')
-            ->will($this->returnValue('\RedKiteLabs\RedKiteCmsBundle\Model\AlSeo'));
+            ->will($this->returnValue('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo'));
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->seoRepository));
@@ -56,7 +56,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testSeoRepositoryInjectedBySetters()
     {
-        $seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface')
+        $seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface')
                               ->disableOriginalConstructor()
                               ->getMock();
         $this->assertEquals($this->seoManager, $this->seoManager->setSeoRepository($seoRepository));
@@ -65,11 +65,11 @@ class AlSeoManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      */
     public function testSetFailsWhenANotValidPropelObjectIsGiven()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
 
         $this->seoManager->set($block);
     }
@@ -82,14 +82,14 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testSetAlPageObject()
     {
-        $seo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
         $this->seoManager->set($seo);
         $this->assertEquals($seo, $this->seoManager->get());
     }
 
     public function testAddIsSkippedWhenAnyParameterIsGiven()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -102,7 +102,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testAddIsSkippedWhenAnyExpectedParamIsGiven()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -116,7 +116,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testAddIsSkippedWhenExpectedPageNameParamIsMissing()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
         $this->setUpEventsHandler($event);
 
         $params = array('LanguageId' => '',
@@ -127,7 +127,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testAddIsSkippedWhenExpectedLanguageIdParamIsMissing()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
         $this->setUpEventsHandler($event);
 
         $params = array('PageId' => '',
@@ -138,7 +138,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testAddIsSkippedWhenExpectedPermalinkParamIsMissing()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
         $this->setUpEventsHandler($event);
 
         $params = array('PageId' => '',
@@ -149,7 +149,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testAddIsSkippedWhenExpectedLanguageIdParamIsEmpty()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
         $this->setUpEventsHandler($event);
 
         $params = array('PageId'      => '2',
@@ -164,7 +164,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testAddIsSkippedWhenExpectedPermalinkParamIsEmpty()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
         $this->setUpEventsHandler($event);
 
         $params = array('PageId'      => '2',
@@ -182,7 +182,7 @@ class AlSeoManagerTest extends AlContentManagerBase
      */
     public function testAddThrownAnUnespectedException()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->seoRepository->expects($this->once())
@@ -210,7 +210,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testAddNewSeoFailsBecauseSaveFailsAtLast()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->seoRepository->expects($this->once())
@@ -238,8 +238,8 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testAddSeo()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeAddSeoCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeAddSeoCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -275,12 +275,12 @@ class AlSeoManagerTest extends AlContentManagerBase
     }
     
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
      * @expectedExceptionMessage exception_seo_adding_aborted
      */
     public function testAddActionIsInterruptedWhenEventHasBeenAborted()
     {
-        $event = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
         $event->expects($this->once())
             ->method('isAborted')
             ->will($this->returnValue(true));
@@ -321,8 +321,8 @@ class AlSeoManagerTest extends AlContentManagerBase
             'Keywords'      => ''
         );
 
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
         $event1->expects($this->once())
                 ->method('getValues')
                 ->will($this->returnValue($changedParams));
@@ -361,8 +361,8 @@ class AlSeoManagerTest extends AlContentManagerBase
     
     public function testAListenerHasAbortedTheAddAction()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Page\BeforePageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent');
         $event2->expects($this->once())
                 ->method('isAborted')
                 ->will($this->returnValue(true));
@@ -400,7 +400,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testEditIsSkippedWhenAnyParamIsGiven()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -418,7 +418,7 @@ class AlSeoManagerTest extends AlContentManagerBase
     {
         $seo = $this->setUpSeoObject();
 
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -440,7 +440,7 @@ class AlSeoManagerTest extends AlContentManagerBase
     {
         $seo = $this->setUpSeoObject();
 
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
         $this->setUpEventsHandler($event);
 
         $this->seoRepository->expects($this->once())
@@ -471,7 +471,7 @@ class AlSeoManagerTest extends AlContentManagerBase
     {
         $seo = $this->setUpSeoObject();
 
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
         $this->setUpEventsHandler($event);
 
         $this->seoRepository->expects($this->once())
@@ -500,8 +500,8 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testEditPermalink()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -542,12 +542,12 @@ class AlSeoManagerTest extends AlContentManagerBase
     }
     
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
      * @expectedExceptionMessage exception_seo_editing_aborted
      */
     public function testEditActionIsInterruptedWhenEventHasBeenAborted()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
         $event->expects($this->once())
             ->method('isAborted')
             ->will($this->returnValue(true));
@@ -581,8 +581,8 @@ class AlSeoManagerTest extends AlContentManagerBase
             'Permalink' => 'permalink changed by event',
         );
 
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent');
         $event1->expects($this->once())
                 ->method('getValues')
                 ->will($this->returnValue($changedParams));
@@ -627,8 +627,8 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testAListenerHasAbortedTheEditAction()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent');
         $event2->expects($this->once())
                 ->method('isAborted')
                 ->will($this->returnValue(true));
@@ -673,7 +673,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testWhenAParameterHasTheSameValueOfTheOneSaveIsremovedFromTheValuesArray()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
         $this->setUpEventsHandler($event);
 
         $seo = $this->setUpSeoObject();
@@ -740,8 +740,8 @@ class AlSeoManagerTest extends AlContentManagerBase
             ->method('getMetaKeywords')
             ->will($this->returnValue('some keywords'));
 
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoEditingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -774,7 +774,7 @@ class AlSeoManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testDeleteFailsWhenTheManagedSeoIsNull()
     {
@@ -792,7 +792,7 @@ class AlSeoManagerTest extends AlContentManagerBase
     {
         $seo = $this->setUpSeoObject();
 
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
         $this->setUpEventsHandler($event);
 
         $this->seoRepository->expects($this->once())
@@ -817,7 +817,7 @@ class AlSeoManagerTest extends AlContentManagerBase
     {
         $seo = $this->setUpSeoObject();
 
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
         $this->setUpEventsHandler($event);
 
         $this->seoRepository->expects($this->once())
@@ -841,8 +841,8 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testDelete()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -872,12 +872,12 @@ class AlSeoManagerTest extends AlContentManagerBase
     }
     
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
      * @expectedExceptionMessage exception_seo_deleting_aborted
      */
     public function testDeleteActionIsInterruptedWhenEventHasBeenAborted()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
         $event->expects($this->once())
             ->method('isAborted')
             ->will($this->returnValue(true));
@@ -905,8 +905,8 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testAListenerHasAbortedTheDeleteAction()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent');
         $event2->expects($this->once())
                 ->method('isAborted')
                 ->will($this->returnValue(true));
@@ -951,8 +951,8 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     public function testDeleteSeoAttributesFromLanguage()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoDeletingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeDeleteSeoCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -986,7 +986,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     private function setUpSeoObject()
     {
-        $seo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
         $seo->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(2));

@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Event\Actions\Block;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Event\Actions\Block;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditedEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditedEvent;
 
 /**
  * BlockEditorEventTest
@@ -38,7 +38,7 @@ class BlockEditorEventTest extends TestCase
 
         $this->request = $this->getMock('Symfony\Component\HttpFoundation\Request');
         $this->response = $this->getMock('Symfony\Component\HttpFoundation\Response');
-        $this->blockManager = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface');
+        $this->blockManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface');
 
         $this->event = new BlockEditedEvent($this->request, $this->blockManager, $this->response);
     }
@@ -54,7 +54,7 @@ class BlockEditorEventTest extends TestCase
     public function testBlockManager()
     {
         $this->assertSame($this->blockManager, $this->event->getBlockManager());
-        $blockManager = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface');
+        $blockManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface');
         $this->event->setBlockManager($blockManager);
         $this->assertSame($blockManager, $this->event->getBlockManager());
     }

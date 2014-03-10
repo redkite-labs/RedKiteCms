@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Exception;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Exception;
 
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface;
 
 /**
  * Listens for kernel exception

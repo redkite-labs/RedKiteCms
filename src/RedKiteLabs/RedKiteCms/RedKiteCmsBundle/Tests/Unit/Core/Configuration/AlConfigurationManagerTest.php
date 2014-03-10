@@ -15,24 +15,24 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Configuration;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Configuration;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationManager;
 
 /**
  * AlConfigurationManagerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlConfigurationManagerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\TestCase
+class AlConfigurationManagerTest extends \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase
 {
     protected function setUp()
     {
         parent::setUp();
 
-        $this->configurationRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\ConfigurationRepositoryInterface');
+        $this->configurationRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\ConfigurationRepositoryInterface');
 
-        $factoryRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+        $factoryRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $factoryRepository->expects($this->at(0))
@@ -45,7 +45,7 @@ class AlConfigurationManagerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\Tes
     
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
      * @expectedExceptionMessage {"message":"exception_parameter_does_not_exist","parameters":{"%parameter%":"language"}}
      */
     public function testReadParameterThrownAnExceptionWhenrequestedParameterDoesNotExist()
@@ -64,7 +64,7 @@ class AlConfigurationManagerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\Tes
     public function testReadParameter()
     {
         $expectedValue = 'en';
-        $repository = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Model\AlConfiguration");
+        $repository = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfiguration");
         $repository
             ->expects($this->once())
             ->method('getValue')
@@ -104,7 +104,7 @@ class AlConfigurationManagerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\Tes
     public function testWriteParameter()
     {
         $newValue = 'it';
-        $repository = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Model\AlConfiguration");
+        $repository = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfiguration");
         $repository
             ->expects($this->once())
             ->method('setValue')

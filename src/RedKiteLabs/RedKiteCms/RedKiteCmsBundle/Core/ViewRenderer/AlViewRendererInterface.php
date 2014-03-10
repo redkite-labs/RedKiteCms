@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer;
 
 /**
  * Defines the methods to render a set of views

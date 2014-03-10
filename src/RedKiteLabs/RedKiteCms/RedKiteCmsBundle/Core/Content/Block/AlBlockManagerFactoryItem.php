@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException;
 
 /**
  * AlBlockManagerFactoryItem saves the block manager, the id used to identify the block

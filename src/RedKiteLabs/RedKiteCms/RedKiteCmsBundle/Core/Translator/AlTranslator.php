@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Translator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator;
 
 use Symfony\Component\Translation\TranslatorInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface;
 
 /**
  * A base class to add translation capabilities to derived objects

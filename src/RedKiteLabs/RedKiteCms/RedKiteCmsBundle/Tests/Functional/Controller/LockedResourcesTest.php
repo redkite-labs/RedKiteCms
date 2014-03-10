@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Functional\Controller;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Functional\Controller;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLockedResourceRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLockedResourceRepositoryPropel;
 
 /**
  * LockedResourcesTest

@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\DependencyInjection\Compiler\RegisterCmsListenersPass;
-use RedKiteLabs\RedKiteCmsBundle\Core\Compiler\AlBlocksCompilerPass;
-use RedKiteLabs\RedKiteCmsBundle\RedKiteCmsBundle;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\DependencyInjection\Compiler\RegisterCmsListenersPass;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Compiler\AlBlocksCompilerPass;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\RedKiteCmsBundle;
 
 /**
  * RedKiteCmsBundleTest

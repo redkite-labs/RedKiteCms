@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Controller;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Controller;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Controller\ThemePreviewController;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller\ThemePreviewController;
 
 
 /**
@@ -48,7 +48,7 @@ class ThemePreviewControllerTest extends TestCase
         ;
         
         $this->blockRepository =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -56,11 +56,11 @@ class ThemePreviewControllerTest extends TestCase
         $this->blockRepository
              ->expects($this->any())
              ->method('getRepositoryObjectClassName')
-             ->will($this->returnValue('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock'))
+             ->will($this->returnValue('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock'))
         ;
         
         $this->factoryRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -73,13 +73,13 @@ class ThemePreviewControllerTest extends TestCase
         ;
         
         $this->blocksFactory = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->activeTheme = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -254,7 +254,7 @@ class ThemePreviewControllerTest extends TestCase
     protected function initBlockManager($content)
     {
         $blockManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -303,7 +303,7 @@ class ThemePreviewControllerTest extends TestCase
              ->will($this->returnValue($this->activeTheme));
         
         $templateManager =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -315,7 +315,7 @@ class ThemePreviewControllerTest extends TestCase
              ->will($this->returnValue($templateManager));
         
         $templateAssetsManager =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -327,7 +327,7 @@ class ThemePreviewControllerTest extends TestCase
              ->will($this->returnValue($templateAssetsManager));
         
         $pageTreePreview =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview')
                  ->setMethods(array('getInternalStylesheets', 'getInternalJavascripts', 'getExternalStylesheets', 'getExternalJavascripts', 'setUp'))
                  ->disableOriginalConstructor()
                  ->getMock()

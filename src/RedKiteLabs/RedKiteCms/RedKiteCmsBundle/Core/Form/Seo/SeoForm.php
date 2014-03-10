@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Seo;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -121,7 +121,7 @@ class SeoForm extends BaseBlockType
         parent::setDefaultOptions($resolver);
 
         $resolver->setDefaults(array(
-            'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\Seo',
+            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Seo\Seo',
         ));
     }
 

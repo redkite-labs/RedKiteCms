@@ -48,7 +48,7 @@
   "minimum-stability": "dev",
   "autoload": {
     "psr-0": {
-        "RedKiteLabs\\RedKiteCmsBundle": ""
+        "RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle": ""
     }
   },
   "target-dir" : "RedKiteLabs/RedKiteCmsBundle"

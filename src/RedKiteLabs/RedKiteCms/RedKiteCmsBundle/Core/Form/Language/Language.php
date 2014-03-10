@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Language;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Language;
 
 use Symfony\Component\Validator\Validator;
 use Symfony\Component\Validator\Constraints as Assert;

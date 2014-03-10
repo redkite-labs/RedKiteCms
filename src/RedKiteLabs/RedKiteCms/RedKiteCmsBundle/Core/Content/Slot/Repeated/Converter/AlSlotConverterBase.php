@@ -15,11 +15,11 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter;
 
 use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
  * AlSlotConverterBase is the base object deputated to align the blocks placed on a slot
@@ -35,11 +35,11 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
     protected $pageContentsContainer;
     /** @var AlFactoryRepositoryInterface */
     protected $factoryRepository = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     protected $languageRepository = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface */
     protected $pageRepository = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
     protected $blockRepository = null;
     /** @var AlSlot */
     protected $slot;

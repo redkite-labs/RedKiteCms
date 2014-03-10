@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Configuration;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration;
 
 /**
  * Defines the interface to write/read to/from a parameter -> value entity

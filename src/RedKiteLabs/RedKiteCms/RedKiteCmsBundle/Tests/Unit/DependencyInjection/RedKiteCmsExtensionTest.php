@@ -1,9 +1,9 @@
 <?php
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\DependencyInjection;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\DependencyInjection;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\DependencyInjection\RedKiteCmsExtension;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\DependencyInjection\RedKiteCmsExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
@@ -44,7 +44,7 @@ class RedKiteCmsExtensionTest extends TestCase
         $this->assertEquals('css', $this->container->getParameter('red_kite_cms.deploy_bundle.css_dir'));
         $this->assertEquals('WebSite', $this->container->getParameter('red_kite_cms.deploy_bundle.controller'));
         $this->assertEquals('', $this->container->getParameter('red_kite_cms.website_url'));
-        $this->assertEquals('RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme', $this->container->getParameter('red_kite_cms.active_theme.class'));
+        $this->assertEquals('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme', $this->container->getParameter('red_kite_cms.active_theme.class'));
         $this->assertEquals('%kernel.root_dir%/Resources/.active_theme', $this->container->getParameter('red_kite_cms.active_theme_file'));
     }
 

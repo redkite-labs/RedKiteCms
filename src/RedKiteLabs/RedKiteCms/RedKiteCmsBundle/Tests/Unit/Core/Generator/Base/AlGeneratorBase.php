@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Generator\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Generator\TemplateParser\AlTemplateParser;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\TemplateParser\AlTemplateParser;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -47,7 +47,7 @@ class AlGeneratorBase extends TestCase
 
     protected function importDefaultTheme()
     {
-        $baseThemeDir = __DIR__ . '/../../../../../vendor/redkite-labs/bootbusiness-theme-bundle/RedKiteCms/Theme/BootbusinessThemeBundle/Resources/views/Theme';
+        $baseThemeDir = __DIR__ . '/../../../../../../../../../src/RedKiteCms/Theme/BootbusinessThemeBundle/Resources/views/Theme';
         if ( ! is_dir($baseThemeDir)) { 
             $baseThemeDir = __DIR__ . '/../../../../../../../../../redkite-labs/bootbusiness-theme-bundle/RedKiteCms/Theme/BootbusinessThemeBundle/Resources/views/Theme';
             if ( ! is_dir($baseThemeDir)) {

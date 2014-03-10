@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Validator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Validator;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator;
 
 /**
  * AlParametersValidator
@@ -35,7 +35,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      * @expectedExceptionMessage Any parameter has been given
      */
     public function testCheckEmptyParamsThrownAnExceptionWhenTheParameterIsEmpty()
@@ -44,7 +44,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      * @expectedExceptionMessage Empty array
      */
     public function testCheckEmptyParamsThrownAnExceptionWhenTheParameterIsEmptyWithCustomErrorMessage()
@@ -58,7 +58,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      * @expectedExceptionMessage exception_any_parameter_given_to_AlValidatorn
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenRequiredParametersAreEmpty()
@@ -67,7 +67,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      * @expectedExceptionMessage exception_any_value_to_check_when_only_a_param_exists
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenValuesAreEmpty()
@@ -76,7 +76,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * @expectedExceptionMessage {"message":"exception_any_valid_option_provided","parameters":{"%required%":"param","%values%":"param1"}}
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFound()
@@ -85,7 +85,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * @expectedExceptionMessage Any espected parameter has been given
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFoundWithCustomErrorMessage()
@@ -99,7 +99,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      * @expectedExceptionMessage exception_any_param_to_check_when_all_params_exist
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenRequiredParametersAreEmpty()
@@ -108,7 +108,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      * @expectedExceptionMessage exception_any_value_provided_to_check_when_all_params_exist
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenValuesAreEmpty()
@@ -117,7 +117,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * @expectedExceptionMessage exception_some_required_options_are_not_provided
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFoundWithCustomErroraMessage()
@@ -126,7 +126,7 @@ class AlParametersValidatorTest extends TestCase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      * @expectedExceptionMessage The espected parameters are missing
      */
     public function testCheckRequiredParamsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFoundWithCustomErroraMessageWithCustomErrorMessage()

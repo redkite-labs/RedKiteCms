@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\ImagesBlock;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\ImagesBlock;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages;
 
 /**
  * AlBlockManagerJsonBlockTest
@@ -30,7 +30,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
     protected $blockManager;
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\Exception\InvalidJsonFormatException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\Exception\InvalidJsonFormatException
      */
     public function testAnExceptionIsThrownWhenTheSavedJsonContentIsNotDecodable()
     {
@@ -49,7 +49,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException
      */
     public function testAnExceptionIsThrownWhenTheImageAlreadyExists()
     {
@@ -133,7 +133,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
             }
         }';
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
                 ->method('getId')
                 ->will($this->returnValue($id));

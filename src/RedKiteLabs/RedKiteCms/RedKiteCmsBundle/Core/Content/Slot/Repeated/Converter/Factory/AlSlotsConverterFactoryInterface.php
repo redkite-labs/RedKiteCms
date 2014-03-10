@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory;
 
 use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
 
@@ -33,7 +33,7 @@ interface AlSlotsConverterFactoryInterface
      *
      * @param  AlSlot                                                                                      $slot
      * @param  string                                                                                      $newRepeatedStatus
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface
      */
     public function createConverter(AlSlot $slot, $newRepeatedStatus);
 }

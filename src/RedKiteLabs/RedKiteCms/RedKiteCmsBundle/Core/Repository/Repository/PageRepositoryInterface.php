@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlPage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage;
 
 /**
  * Defines the methods used to fetch page records

@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlSeo;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlSeoQuery;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeoQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the SeoRepositoryInterface to work with Propel
@@ -34,7 +34,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCmsBundle\Model\AlSeo';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo';
     }
 
     /**

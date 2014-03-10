@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
 use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
 
 /**
@@ -82,7 +82,7 @@ class TemplateAssetsManager
      * by the cms siffix.
      *
      * @param  boolean                                                                                 $value
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager
      */
     public function withExtraAssets($value)
     {

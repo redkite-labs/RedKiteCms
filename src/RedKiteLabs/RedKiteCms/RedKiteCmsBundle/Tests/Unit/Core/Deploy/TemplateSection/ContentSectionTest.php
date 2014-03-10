@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Deploy\TemplateSection;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Deploy\TemplateSection;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection\ContentSection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\ContentSection;
 
 
 /**
@@ -33,8 +33,8 @@ class ContentSectionTest extends TestCase
      */
     public function testGenerateContents($filter, $slots, $blocks, $credits, $expectedResult)
     {
-        $urlManager = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface");
-        $viewRenderer = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface");
+        $urlManager = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface");
+        $viewRenderer = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface");
         
         $theme = $this->initTheme($slots, $filter);
         $pageBlocks = $this->initPageBlocks($blocks);
@@ -331,7 +331,7 @@ class ContentSectionTest extends TestCase
     
     private function initPageBlocks($blocks)
     {
-        $pageBlocks = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface");
+        $pageBlocks = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface");
         $pageBlocks->expects($this->once())
             ->method('getBlocks')
             ->will($this->returnValue($blocks))
@@ -342,7 +342,7 @@ class ContentSectionTest extends TestCase
     
     private function initPageTree($pageBlocks)
     {
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                                 ->disableOriginalConstructor()
                                 ->setMethods(array('getPageBlocks'))
                                 ->getMock();
@@ -358,10 +358,10 @@ class ContentSectionTest extends TestCase
     private function initBlocksFactory($pageTree, $blocks, $viewRenderer)
     {
         $at = 0;
-        $blocksManagerFactory = $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface");
+        $blocksManagerFactory = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface");
         foreach($blocks as $slotName => $slotBlocks) {
             foreach($slotBlocks as $block) {
-                $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
+                $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -420,7 +420,7 @@ class ContentSectionTest extends TestCase
     
     private function createBlock($slotName, $html, $metatags = null)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock', array('getSlotName', 'getHtml', 'getMetaTags', '__toString'));
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock', array('getSlotName', 'getHtml', 'getMetaTags', '__toString'));
         
         $block->expects($this->once())
             ->method('getSlotName')

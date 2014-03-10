@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Language;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Language;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Language\LanguagesForm;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Language\LanguagesForm;
 
 /**
  * LanguagesFormTest
@@ -45,7 +45,7 @@ class LanguagesFormTest extends AlBaseType
         $this->setBaseResolver();
 
         $options = array(
-            'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Language\Language',
+            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Language\Language',
         );
         $this->resolver
             ->expects($this->at(1))

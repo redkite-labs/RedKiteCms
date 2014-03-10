@@ -15,11 +15,11 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 
 /**
  * AlResourcesLocker is responsible to manage the locked resources.
@@ -32,7 +32,7 @@ use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
  */
 class AlResourcesLocker
 {
-    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LockedResourceRepositoryInterface */
+    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LockedResourceRepositoryInterface */
     private $lockedResourceRepository;
     /** @var int */
     private $expiringTime;

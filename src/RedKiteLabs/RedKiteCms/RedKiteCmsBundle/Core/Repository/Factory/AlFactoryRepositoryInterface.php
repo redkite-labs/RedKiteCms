@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory;
 
 /**
  * Defines the methods to create a repository object
@@ -28,7 +28,7 @@ interface AlFactoryRepositoryInterface
      * Creates the repository
      *
      * @param  string                                                                       $repository
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\RepositoryInterface
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\RepositoryInterface
      */
     public function createRepository($repository);
 }

@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
 
 /**
  * AlBlockRepositoryPropelTest
@@ -36,18 +36,18 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage exception_only_propel_blocks_are_accepted
      */
     public function testRepositoryAcceptsOnlyAlBlockObjects()
     {
-        $this->blockRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCmsBundle\Model\AlPage());
+        $this->blockRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage());
     }
 
     public function testABlockIsRetrievedFromItsPrimaryKey()
     {
         $block = $this->blockRepository->fromPk(2);
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Model\AlBlock', $block);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock', $block);
         $this->assertEquals(2, $block->getId());
     }
 
@@ -147,7 +147,7 @@ class AlBlockRepositoryPropelTest extends Base\BaseModelPropel
     
     private function getDeletedBlocks($idLanguage, $idPage)
     {
-        return \RedKiteLabs\RedKiteCmsBundle\Model\AlBlockQuery::create()
+        return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlockQuery::create()
                 ->filterByPageId($idPage)
                 ->filterByLanguageId($idLanguage)
                 ->orderBySlotName()

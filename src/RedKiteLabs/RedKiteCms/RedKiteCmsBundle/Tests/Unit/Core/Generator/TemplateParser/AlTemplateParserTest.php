@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Generator\TemplateParser;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator\TemplateParser;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Generator\Base\AlGeneratorBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator\Base\AlGeneratorBase;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -366,7 +366,7 @@ class AlTemplateParserTest extends AlGeneratorBase
 
     protected function importDefaultTheme($overrideTemplate = false)
     {
-        $baseThemeDir = __DIR__ . '/../../../../../vendor/redkite-labs/bootbusiness-theme-bundle/RedKiteCms/Theme/BootbusinessThemeBundle/Resources/views';
+        $baseThemeDir = __DIR__ . '/../../../../../../../../../src/RedKiteCms/Theme/BootbusinessThemeBundle/Resources/views';
         if ( ! is_dir($baseThemeDir)) { 
             $baseThemeDir = __DIR__ . '/../../../../../../../../../redkite-labs/bootbusiness-theme-bundle/RedKiteCms/Theme/BootbusinessThemeBundle/Resources/views';
             if ( ! is_dir($baseThemeDir)) {

@@ -15,14 +15,14 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot;
 
 use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection;
 
 /**
  * AlSlotManager is the object deputaed to manage the page's slots.
@@ -199,7 +199,7 @@ class AlSlotManager
     /**
      * Returns the last block manager added to the slot manager
      *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager|null
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager|null
      *
      * @api
      */
@@ -211,7 +211,7 @@ class AlSlotManager
     /**
      * Returns the last edited block manager
      *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager|null
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager|null
      *
      * @api
      */
@@ -279,7 +279,7 @@ class AlSlotManager
      * Deletes all the blocks managed by the slot
      *
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      *
      * @api
      */

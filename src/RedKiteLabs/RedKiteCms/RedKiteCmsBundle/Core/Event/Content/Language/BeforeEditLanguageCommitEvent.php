@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent;
 
 /**
  * Defines the AfterPageAddedEvent event

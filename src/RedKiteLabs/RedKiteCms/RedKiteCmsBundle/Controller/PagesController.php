@@ -15,14 +15,14 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Controller;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\PagesForm;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\SeoForm;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Page\PagesForm;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Seo\SeoForm;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

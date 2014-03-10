@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\TemplateManager\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\TemplateManager\Base;
 
 use Symfony\Component\EventDispatcher\Event;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
 
 /**
  * Defines the base event raised when the website is deployed

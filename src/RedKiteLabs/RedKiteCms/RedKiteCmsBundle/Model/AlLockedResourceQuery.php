@@ -1,8 +1,8 @@
 <?php
 
-namespace RedKiteLabs\RedKiteCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlLockedResourceQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlLockedResourceQuery;
 
 class AlLockedResourceQuery extends BaseAlLockedResourceQuery
 {

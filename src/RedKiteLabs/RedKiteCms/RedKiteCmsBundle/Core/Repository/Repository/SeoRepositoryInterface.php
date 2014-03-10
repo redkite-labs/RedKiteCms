@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlSeo;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo;
 
 /**
  * Defines the methods used to fetch seo page attributes records

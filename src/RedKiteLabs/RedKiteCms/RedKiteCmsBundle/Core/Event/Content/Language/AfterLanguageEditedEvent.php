@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Base\BaseActionEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Base\BaseActionEvent;
 
 /**
  * Defines the AfterLanguageEditedEvent event

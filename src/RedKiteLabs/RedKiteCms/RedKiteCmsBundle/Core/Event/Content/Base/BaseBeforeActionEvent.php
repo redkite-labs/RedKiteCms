@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Base;
 
 use Symfony\Component\EventDispatcher\Event;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
 
 /**
  * Defines a base event raised by a Content before an action occours

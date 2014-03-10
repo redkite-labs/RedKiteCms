@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
 
 /**
  * RoutingGenerator is a base object deputated to generate the routes required
@@ -47,7 +47,7 @@ abstract class RoutingGenerator implements RoutingGeneratorInterface
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection $pageTreeCollection
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection $pageTreeCollection
      */
     public function __construct(AlPageTreeCollection $pageTreeCollection)
     {

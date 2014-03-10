@@ -15,13 +15,13 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Page;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Page;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
-use RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -83,7 +83,7 @@ class PagesForm extends BaseBlockType
         parent::setDefaultOptions($resolver);
 
         $resolver->setDefaults(array(
-            'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\Page',
+            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Page\Page',
         ));
     }
 

@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection;
 
 /**
  * BlockManagersCollectionTest
@@ -131,7 +131,7 @@ class BlockManagersCollectionTest extends AlContentManagerBase
     private function createBlockManager($block = null)
     {
          $blockManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService')
                  ->disableOriginalConstructor()
                  ->getMock()
          ;
@@ -148,7 +148,7 @@ class BlockManagersCollectionTest extends AlContentManagerBase
     
     private function createBlock($id)
     {
-         $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');         
+         $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
          $block->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($id))

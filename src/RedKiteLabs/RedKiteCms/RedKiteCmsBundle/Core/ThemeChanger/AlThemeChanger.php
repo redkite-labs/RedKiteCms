@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\ThemeChanger;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ThemeChanger;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
 
 /**
@@ -32,9 +32,9 @@ class AlThemeChanger
     protected $templateManager;
     /** @var AlFactoryRepositoryInterface */
     protected $factoryRepository;
-    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
+    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     protected $languagesRepository;
-    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface */
+    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface */
     protected $pagesRepository;
 
     /**

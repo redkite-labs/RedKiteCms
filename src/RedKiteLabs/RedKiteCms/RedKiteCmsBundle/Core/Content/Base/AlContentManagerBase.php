@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException;
 
 /**
  * The base class that defines a content manager object

@@ -15,11 +15,11 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\DataManager;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlPage;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -32,19 +32,19 @@ class DataManager
 {
     /** @var null|AlFactoryRepositoryInterface */
     private $factoryRepository = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface */
     private $seoRepository = null;
     /** @var null|AlLanguage */
     private $language = null;
     /** @var null|AlPage */
     private $page = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Model\AlSeo */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo */
     private $seo = null;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      */
     public function __construct(AlFactoryRepositoryInterface $factoryRepository)
     {
@@ -78,7 +78,7 @@ class DataManager
     /**
      * Returns the current AlSeo object
      *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Model\AlSeo instance
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo instance
      *
      * @api
      */

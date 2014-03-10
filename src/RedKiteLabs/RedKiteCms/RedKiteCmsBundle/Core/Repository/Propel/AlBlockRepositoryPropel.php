@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlBlock;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlBlockQuery;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlockQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the BlockRepositoryInterface to work with Propel
@@ -34,7 +34,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCmsBundle\Model\AlBlock';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock';
     }
 
     /**

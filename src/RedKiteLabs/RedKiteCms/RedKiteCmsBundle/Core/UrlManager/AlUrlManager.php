@@ -15,13 +15,13 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\UrlManager;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager;
 
 use Symfony\Component\HttpKernel\KernelInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlPage;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
  * This object is deputaed to format an url to be used when the CMS editor is active or for
@@ -37,7 +37,7 @@ class AlUrlManager implements AlUrlManagerInterface
     protected $kernel = null;
     /** @var null|AlFactoryRepositoryInterface */
     protected $factoryRepository = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface */
     protected $seoRepository = null;
     protected $permalink = null;
     protected $internalUrl = null;

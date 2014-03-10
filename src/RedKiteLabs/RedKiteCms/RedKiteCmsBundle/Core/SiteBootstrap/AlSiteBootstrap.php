@@ -15,15 +15,15 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\SiteBootstrap;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\SiteBootstrap;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
  * AlSiteBootstrap is responsibile to boostrap a web site from the scratch, for a
@@ -172,7 +172,7 @@ class AlSiteBootstrap
     /**
      * Removes the active languages
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface $languageRepository
+     * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface $languageRepository
      * @return boolean
      */
     protected function removeActiveLanguages(LanguageRepositoryInterface $languageRepository)
@@ -194,7 +194,7 @@ class AlSiteBootstrap
     /**
      * Removes the active pages
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface $pageRepository
+     * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface $pageRepository
      * @return boolean
      */
     protected function removeActivePages(PageRepositoryInterface $pageRepository)
@@ -269,7 +269,7 @@ class AlSiteBootstrap
     /**
      * Rollbacks the saving operation
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface $repository
+     * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface $repository
      * @return boolean
      */
     protected function fails(OrmInterface $repository)

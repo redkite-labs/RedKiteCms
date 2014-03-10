@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 
 /**
  * AlParametersValidatorLanguageManager adds specific validations for languages
@@ -35,7 +35,7 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
@@ -48,8 +48,8 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
     /**
      * Sets the language model
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface                 $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManagerConstructor
+     * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface                 $v
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManagerConstructor
      *
      * @api
      */
@@ -63,7 +63,7 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
     /**
      * Gets the language model
      *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface
      *
      * @api
      */

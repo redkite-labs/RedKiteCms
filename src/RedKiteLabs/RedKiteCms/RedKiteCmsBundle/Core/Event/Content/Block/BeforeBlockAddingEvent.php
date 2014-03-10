@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Base\BaseBeforeActionEvent;
 
 /**
  * Defines the BeforeBlockAddingEvent event

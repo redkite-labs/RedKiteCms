@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Deploy;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Deploy;
 
 /**
  * Defines the names for the deploy events

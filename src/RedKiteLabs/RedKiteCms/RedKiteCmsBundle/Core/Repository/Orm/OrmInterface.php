@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Orm;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Orm;
 
 /**
  * OrmInterface defines the shared methods required to use an orm with RedKiteCms

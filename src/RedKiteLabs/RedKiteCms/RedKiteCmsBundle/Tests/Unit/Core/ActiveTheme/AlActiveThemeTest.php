@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\ActiveTheme;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\ActiveTheme;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme;
 use org\bovigo\vfs\vfsStream;
 
 /**

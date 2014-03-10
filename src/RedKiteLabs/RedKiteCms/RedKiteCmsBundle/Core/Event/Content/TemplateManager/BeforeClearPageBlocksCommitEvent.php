@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\TemplateManager;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\TemplateManager;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\TemplateManager\Base\BasePopulateEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\TemplateManager\Base\BasePopulateEvent;
 
 /**
  * Defines the BeforePopulateCommitEvent event

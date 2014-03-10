@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Seo;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Seo;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\SeoForm;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Seo\SeoForm;
  
 /**
  * SeoFormTest
@@ -44,7 +44,7 @@ class SeoFormTest extends AlBaseType
     protected function getForm()
     {
         $languagesRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -63,7 +63,7 @@ class SeoFormTest extends AlBaseType
         $this->setBaseResolver();
 
         $options = array(
-            'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\Seo',
+            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Seo\Seo',
         );
         $this->resolver
             ->expects($this->at(1))

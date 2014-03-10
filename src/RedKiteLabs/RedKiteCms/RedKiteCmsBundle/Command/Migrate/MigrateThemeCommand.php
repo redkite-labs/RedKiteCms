@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Command\Migrate;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Command\Migrate;
 
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

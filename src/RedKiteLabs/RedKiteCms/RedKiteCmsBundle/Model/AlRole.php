@@ -1,8 +1,8 @@
 <?php
 
-namespace RedKiteLabs\RedKiteCmsBundle\Model;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\om\BaseAlRole;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlRole;
 
 class AlRole extends BaseAlRole
 {

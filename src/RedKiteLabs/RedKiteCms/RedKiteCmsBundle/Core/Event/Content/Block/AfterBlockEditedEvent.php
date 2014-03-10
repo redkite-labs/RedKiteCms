@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Base\BaseActionEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Base\BaseActionEvent;
 
 /**
  * Defines the AfterBlockEditedEvent event

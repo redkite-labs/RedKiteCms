@@ -15,11 +15,11 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
 
 /**
  * AlBlockManagerJsonBlockCollectionBase is the base object deputated to implement the
@@ -33,9 +33,9 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
 {
     /** @var ContainerInterface */
     protected $container;
-    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
+    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
     protected $blocksRepository;
-    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface  */
+    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface  */
     protected $translator;
 
     /**

@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\PageBlocks;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\PageBlocks;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
 
 /**
  * AlPageBlocksTest
@@ -34,11 +34,11 @@ class AlPageBlocksTest extends TestCase
     {
         parent::setUp();
 
-        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
@@ -49,7 +49,7 @@ class AlPageBlocksTest extends TestCase
     
     /**
      * @dataProvider invalidArgumentsProvider
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      */
     public function testAnExceptionIsThrownWhenArgumentsAreNotIntegers($idLanguage, $idPage)
     {
@@ -189,7 +189,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
      */
     public function testAnExeptionIsThrowsWhenTryingToClearANonExistentSlot()
     {
@@ -219,7 +219,7 @@ class AlPageBlocksTest extends TestCase
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
      */
     public function testAnExeptionIsThrowsWhenTryingToRemoveANonExistentSlot()
     {
@@ -253,7 +253,7 @@ class AlPageBlocksTest extends TestCase
 
     private function setUpBlock($slotName, $type = null)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('getSlotName')
             ->will($this->returnValue($slotName));

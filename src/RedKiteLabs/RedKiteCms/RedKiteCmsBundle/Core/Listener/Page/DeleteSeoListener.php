@@ -15,11 +15,11 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Page;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Page;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
 
 /**
  * Listen to the onBeforeDeletePageCommit event to delete the page's seo attributes, when
@@ -35,7 +35,7 @@ class DeleteSeoListener
     protected $factoryRepository = null;
     /** @var null|AlSeoManager */
     private $seoManager = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     private $languageRepository = null;
 
     /**

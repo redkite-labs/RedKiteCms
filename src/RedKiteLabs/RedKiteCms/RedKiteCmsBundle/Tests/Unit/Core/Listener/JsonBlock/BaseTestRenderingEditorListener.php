@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\JsonBlock;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\JsonBlock;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 
 /**
  * RenderingListEditorListenerTest
@@ -37,13 +37,13 @@ class BaseTestRenderingEditorListener extends TestCase
     {
         parent::setUp();
 
-        $this->event = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent')
+        $this->event = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Actions\Block\BlockEditorRenderingEvent')
                             ->disableOriginalConstructor()
                             ->getMock();
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $this->engine = $this->getMock('Symfony\Component\Templating\EngineInterface');
-        $this->blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
+        $this->blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
                             ->disableOriginalConstructor()
                             ->getMock();
     }
@@ -68,7 +68,7 @@ class BaseTestRenderingEditorListener extends TestCase
                 }
             }';
 
-        $this->block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $this->block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
 
         $this->block->expects($this->once())
             ->method('getType')

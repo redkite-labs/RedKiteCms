@@ -4,9 +4,9 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="twig.extension.render_slot.class"> RedKiteLabs\RedKiteCmsBundle\Twig\SlotRendererExtension</parameter>
-        <parameter key="twig.extension.strings.class">RedKiteLabs\RedKiteCmsBundle\Twig\StringsExtension</parameter>
-        <parameter key="twig.extension.images.class">RedKiteLabs\RedKiteCmsBundle\Twig\ImageThumbnailExtension</parameter>
+        <parameter key="twig.extension.render_slot.class"> RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Twig\SlotRendererExtension</parameter>
+        <parameter key="twig.extension.strings.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Twig\StringsExtension</parameter>
+        <parameter key="twig.extension.images.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Twig\ImageThumbnailExtension</parameter>
     </parameters>
 
     <services>

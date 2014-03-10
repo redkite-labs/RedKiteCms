@@ -15,13 +15,13 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Controller;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Security\AlUserType;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Security\AlRoleType;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlUser;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlRole;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Security\AlUserType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Security\AlRoleType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -334,7 +334,7 @@ class SecurityController extends Base\BaseController
     }
 
     /**
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\UserRepositoryInterface
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\UserRepositoryInterface
      */
     private function userRepository()
     {
@@ -346,7 +346,7 @@ class SecurityController extends Base\BaseController
     }
 
     /**
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\RoleRepositoryInterface
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\RoleRepositoryInterface
      */
     private function roleRepository()
     {

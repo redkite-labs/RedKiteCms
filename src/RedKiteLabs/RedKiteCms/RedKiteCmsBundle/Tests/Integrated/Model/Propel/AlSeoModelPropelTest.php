@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
 
 /**
  * AlSeoRepositoryPropelTest
@@ -36,18 +36,18 @@ class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage exception_only_propel_seo_objects_are_accepted
      */
     public function testRepositoryAcceptsOnlyAlSeoObjects()
     {
-        $this->seoRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCmsBundle\Model\AlPage());
+        $this->seoRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage());
     }
 
     public function testASeoObjectIsRetrievedFromItsPrimaryKey()
     {
         $seoAttribute = $this->seoRepository->fromPk(2);
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Model\AlSeo', $seoAttribute);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo', $seoAttribute);
         $this->assertEquals(2, $seoAttribute->getId());
     }
 

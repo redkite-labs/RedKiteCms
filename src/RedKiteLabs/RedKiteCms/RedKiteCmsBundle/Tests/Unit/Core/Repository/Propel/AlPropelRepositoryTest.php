@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 
 /**
  * AlFactoryRepositoryTest
@@ -33,21 +33,21 @@ class AlPropelRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->pdo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
+        $this->pdo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
         $this->propelRepository = new TestRepositoryPropel($this->pdo);
-        $this->modelObject = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $this->modelObject = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
     }
 
     public function testPdoConnectionInjectedBySetters()
     {
-        $pdo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
+        $pdo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
         $this->assertEquals($this->propelRepository, $this->propelRepository->setConnection($pdo));
         $this->assertEquals($pdo, $this->propelRepository->getConnection());
         $this->assertNotSame($this->pdo, $this->propelRepository->getConnection());
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage AlPropelRepository accepts only objects derived from propel \BaseObject
      */
     public function testModelObjectRequiresABaseObject()
@@ -57,7 +57,7 @@ class AlPropelRepositoryTest extends TestCase
 
     public function testModelObjectInjectedBySetters()
     {
-        $modelObject = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $modelObject = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $this->assertEquals($this->propelRepository, $this->propelRepository->setRepositoryObject($modelObject));
         $this->assertEquals($modelObject, $this->propelRepository->getModelObject());
         $this->assertNotSame($this->modelObject, $this->propelRepository->getModelObject());
@@ -204,7 +204,7 @@ class AlPropelRepositoryTest extends TestCase
 
     public function testExecuteRawQuery()
     {
-        $this->pdoStatement = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDOStatement');
+        $this->pdoStatement = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDOStatement');
         $this->pdoStatement->expects($this->once())
                   ->method('execute')
                   ->will($this->returnValue(1));

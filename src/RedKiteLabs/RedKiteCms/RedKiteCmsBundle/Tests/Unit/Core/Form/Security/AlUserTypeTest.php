@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Security;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Security;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Security\AlUserType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Security\AlUserType;
 
 /**
  * AlUserTypeFormTest
@@ -48,7 +48,7 @@ class AlUserTypeFormTest extends AlBaseType
         $this->setBaseResolver();
 
         $options = array(
-            'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Model\AlUser',
+            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser',
         );
         $this->resolver
             ->expects($this->at(1))

@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlUser;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlUserQuery;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\UserRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUserQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\UserRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
 /**
  *  Implements the UserRepositoryInterface to work with Propel
@@ -34,7 +34,7 @@ class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepo
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCmsBundle\Model\AlUser';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser';
     }
 
     /**

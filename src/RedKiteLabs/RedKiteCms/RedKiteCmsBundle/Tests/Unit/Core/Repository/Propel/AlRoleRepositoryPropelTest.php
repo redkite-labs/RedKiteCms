@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlRoleRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlRoleRepositoryPropel;
 
 /**
  * AlRoleRepositoryTest
@@ -34,28 +34,28 @@ class AlRoleRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->pdo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
+        $this->pdo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
         $this->roleRepository = new AlRoleRepositoryPropel($this->pdo);
     }
 
     public function testGetRepositoryObjectClassName()
     {
-        $this->assertEquals('\RedKiteLabs\RedKiteCmsBundle\Model\AlRole', $this->roleRepository->getRepositoryObjectClassName());
+        $this->assertEquals('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole', $this->roleRepository->getRepositoryObjectClassName());
     }
     
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage exception_only_propel_role_objects_are_accepted
      */
     public function testModelObjectInjectedBySettersIsInvalid()
     {
-        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $this->roleRepository->setRepositoryObject($modelObject);
     }
 
     public function testModelObjectInjectedBySetters()
     {
-        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlRole');
+        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole');
         $this->assertEquals($this->roleRepository, $this->roleRepository->setRepositoryObject($modelObject));
         $this->assertEquals($modelObject, $this->roleRepository->getModelObject());
     }

@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Language;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\Language;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\AddLanguageBlocksListener;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Language\AddLanguageBlocksListener;
 
 /**
  * AddLanguageBlocksListenerTest
@@ -28,11 +28,11 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
 {
     protected function setUp()
     {
-        $this->objectModel = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->objectModel = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->manager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
+        $this->manager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -40,7 +40,7 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
             ->method('getBlockRepository')
             ->will($this->returnValue($this->objectModel));
 
-        $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
         $this->urlManager->expects($this->any())
             ->method('fromUrl')
             ->will($this->returnSelf());
@@ -78,7 +78,7 @@ class AddLanguageBlocksListenerTest extends Base\AddLanguageBaseListenerTest
 
     protected function setUpObject()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->once())
             ->method('toArray')
             ->will($this->returnValue(array('Id' => 2, 'CreatedAt' => 'fake', "Content" => '<a href="my-awesome-homepage" >aaa</a>')));

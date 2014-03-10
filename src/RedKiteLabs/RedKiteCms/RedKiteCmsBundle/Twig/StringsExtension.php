@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Twig;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Twig;
 
 /**
  * Adds some functions to Twig engine to manupulate strings from twig

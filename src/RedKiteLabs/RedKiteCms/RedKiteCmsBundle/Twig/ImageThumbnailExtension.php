@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Twig;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 

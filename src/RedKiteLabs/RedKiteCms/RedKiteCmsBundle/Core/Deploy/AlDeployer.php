@@ -15,17 +15,17 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Deploy;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Deploy;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
 
 /**
  * AlDeployer is the base object deputated to deploy the website from development to

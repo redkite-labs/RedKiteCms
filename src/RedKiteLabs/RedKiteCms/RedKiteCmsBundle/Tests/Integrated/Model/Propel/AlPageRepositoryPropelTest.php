@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
 
 /**
  * AlPageRepositoryPropelTest
@@ -36,18 +36,18 @@ class AlPageRepositoryPropelTest extends Base\BaseModelPropel
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage exception_only_propel_page_objects_are_accepted
      */
     public function testRepositoryAcceptsOnlyAlPageObjects()
     {
-        $this->pageRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage());
+        $this->pageRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage());
     }
 
     public function testAPageIsRetrievedFromItsPrimaryKey()
     {
         $page = $this->pageRepository->fromPk(2);
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Model\AlPage', $page);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage', $page);
         $this->assertEquals(2, $page->getId());
     }
 
@@ -93,6 +93,6 @@ class AlPageRepositoryPropelTest extends Base\BaseModelPropel
     public function testOnlyFirstPageIsRetrievedFromTemplateName()
     {
         $page = $this->pageRepository->fromTemplateName('home', true);
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCmsBundle\Model\AlPage', $page);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage', $page);
     }
 }

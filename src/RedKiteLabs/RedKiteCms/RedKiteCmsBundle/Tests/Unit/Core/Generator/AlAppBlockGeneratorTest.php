@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Generator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Generator\Base\AlAppGeneratorBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator\Base\AlAppGeneratorBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -52,7 +52,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= PHP_EOL;
         $expected .= 'namespace RedKiteCms\Block\FakeBlockBundle\Core\Block;' . PHP_EOL;
         $expected .= PHP_EOL;
-        $expected .= 'use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;' . PHP_EOL;
+        $expected .= 'use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '/**' . PHP_EOL;
         $expected .= ' * Description of AlBlockManagerFakeBlock' . PHP_EOL;
@@ -110,7 +110,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= PHP_EOL;    
         $expected .= 'namespace RedKiteCms\Block\FakeBlockBundle\Core\Form;' . PHP_EOL;
         $expected .= PHP_EOL;    
-        $expected .= 'use RedKiteLabs\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;' . PHP_EOL;
+        $expected .= 'use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;' . PHP_EOL;
         $expected .= 'use Symfony\Component\Form\FormBuilderInterface;' . PHP_EOL;
         $expected .= PHP_EOL;    
         $expected .= 'class AlFakeBlockType extends JsonBlockType' . PHP_EOL;

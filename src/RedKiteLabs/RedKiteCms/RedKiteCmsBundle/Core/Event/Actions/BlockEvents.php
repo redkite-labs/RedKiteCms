@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Event\Actions;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Actions;
 
 /**
  * Defines the names for the block actions events

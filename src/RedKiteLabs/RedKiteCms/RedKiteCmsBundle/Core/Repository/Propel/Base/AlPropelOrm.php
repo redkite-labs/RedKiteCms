@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface;
 
 /**
  *  Implements the OrmInterface for Propel Orm

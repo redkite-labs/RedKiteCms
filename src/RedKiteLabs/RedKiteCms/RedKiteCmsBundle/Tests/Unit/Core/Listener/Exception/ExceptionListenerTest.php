@@ -15,17 +15,17 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Exception;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\Exception;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Configuration\AlConfigurationManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Listener\Exception\ExceptionListener;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Exception\ExceptionListener;
 
 /**
  * ExceptionListenerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class ExceptionListenerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\TestCase
+class ExceptionListenerTest extends \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase
 {
     protected $container;
     protected $dispatcher;
@@ -37,7 +37,7 @@ class ExceptionListenerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\TestCase
         parent::setUp();
 
         $this->templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
-        $this->translator = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->translator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
 
         $this->event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent')
                             ->disableOriginalConstructor()
@@ -146,7 +146,7 @@ class ExceptionListenerTest extends \RedKiteLabs\RedKiteCmsBundle\Tests\TestCase
 
     private function setupException($message)
     {
-        $exception = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface', array('getMessage'));
+        $exception = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface', array('getMessage'));
         $exception
             ->expects($this->once())
             ->method('getMessage')

@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlLockedResource;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLockedResource;
 
 /**
  * Defines the methods used to fetch locked resources records

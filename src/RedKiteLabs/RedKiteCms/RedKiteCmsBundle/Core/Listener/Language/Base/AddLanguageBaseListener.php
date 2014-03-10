@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Language\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Language\Base;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -31,9 +31,9 @@ abstract class AddLanguageBaseListener
 {
     /** @var null|ContainerInterface */
     protected $container = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager */
     protected $languageManager = null;
-    /** @var null|\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage */
     protected $mainLanguage = null;
     /** @var null|\Symfony\Component\HttpFoundation\Request */
     private $request = null;
@@ -133,7 +133,7 @@ abstract class AddLanguageBaseListener
     /**
      * Fetches the base language used to copy the entities
      *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage
      */
     protected function getBaseLanguage()
     {

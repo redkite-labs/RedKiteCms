@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Base;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Base;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;

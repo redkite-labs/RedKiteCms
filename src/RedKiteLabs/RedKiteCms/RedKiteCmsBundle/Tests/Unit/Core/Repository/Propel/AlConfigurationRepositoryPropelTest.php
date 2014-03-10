@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlConfigurationRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlConfigurationRepositoryPropel;
 
 /**
  * AlConfigurationRepositoryTest
@@ -34,28 +34,28 @@ class AlConfigurationRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->pdo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
+        $this->pdo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
         $this->configurationRepository = new AlConfigurationRepositoryPropel($this->pdo);
     }
 
     public function testGetRepositoryObjectClassName()
     {
-        $this->assertEquals('\RedKiteLabs\RedKiteCmsBundle\Model\AlConfiguration', $this->configurationRepository->getRepositoryObjectClassName());
+        $this->assertEquals('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfiguration', $this->configurationRepository->getRepositoryObjectClassName());
     }
     
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage exception_only_propel_configuration_objects_are_accepted
      */
     public function testModelObjectInjectedBySettersIsInvalid()
     {
-        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $this->configurationRepository->setRepositoryObject($modelObject);
     }
 
     public function testModelObjectInjectedBySetters()
     {
-        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlConfiguration');
+        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfiguration');
         $this->assertEquals($this->configurationRepository, $this->configurationRepository->setRepositoryObject($modelObject));
         $this->assertEquals($modelObject, $this->configurationRepository->getModelObject());
     }

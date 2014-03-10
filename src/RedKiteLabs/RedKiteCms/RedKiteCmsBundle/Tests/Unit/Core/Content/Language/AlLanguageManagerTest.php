@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Language;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Language;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
 
 /**
  * AlLanguageManagerTest
@@ -35,19 +35,19 @@ class AlLanguageManagerTest extends AlContentManagerBase
     {
         parent::setUp();
 
-        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
         $this->languageRepository->expects($this->any())
             ->method('getRepositoryObjectClassName')
-            ->will($this->returnValue('\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage'));
+            ->will($this->returnValue('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage'));
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->languageRepository));
@@ -57,7 +57,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testLanguageRepositoryInjectedBySetters()
     {
-        $languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface')
+        $languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->assertEquals($this->languageManager, $this->languageManager->setLanguageRepository($languageRepository));
@@ -66,11 +66,11 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      */
     public function testSetFailsWhenANotValidPropelObjectIsGiven()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
 
         $this->languageManager->set($block);
     }
@@ -83,17 +83,17 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testSetAlPageObject()
     {
-        $language =$this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage');
+        $language =$this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
         $this->languageManager->set($language);
         $this->assertEquals($language, $this->languageManager->get());
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      */
     public function testAddFailsWhenAnyParamIsGiven()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -105,11 +105,11 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      */
     public function testAddFailsWhenAnyExpectedParamIsGiven()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -122,11 +122,11 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\Language\LanguageExistsException
      */
     public function testAddThrownAnExceptionWhenTheLanguageAlreadyExists()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -141,11 +141,11 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testAddThrownAnExceptionWhenTheLanguageAIsEmpty()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -164,7 +164,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
      */
     public function testAddThrownAnUnespectedException()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
@@ -187,7 +187,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testAddNewLanguageFailsBecauseSaveFailsAtLast()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
@@ -210,8 +210,8 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testAddLanguage()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -243,8 +243,8 @@ class AlLanguageManagerTest extends AlContentManagerBase
     
     public function testResetMainIsSkippedBecauseAnyMainLanguageHasBeenDefined()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -283,12 +283,12 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
      * @expectedExceptionMessage exception_language_adding_aborted
      */
     public function testAddActionIsInterruptedWhenEventHasBeenAborted()
     {
-        $event = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
         $event->expects($this->once())
             ->method('isAborted')
             ->will($this->returnValue(true));
@@ -317,8 +317,8 @@ class AlLanguageManagerTest extends AlContentManagerBase
     {
         $changedParams = array('LanguageName'  => 'es');
 
-        $event1 = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
+        $event1 = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
         $event1->expects($this->once())
                 ->method('getValues')
                 ->will($this->returnValue($changedParams));
@@ -351,8 +351,8 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testAListenerHasAbortedTheAddAction()
     {
-        $event1 = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
+        $event1 = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
         $event2->expects($this->once())
                 ->method('isAborted')
                 ->will($this->returnValue(true));
@@ -386,7 +386,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testAddMainLanguageFailsBecauseMainLanguageHasNotBeenResetted()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
@@ -409,7 +409,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
 
         $params = array('LanguageName'  => 'en', 'MainLanguage' => 1);
         $this->assertFalse($this->languageManager->save($params));
@@ -420,7 +420,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
      */
     public function testAddMainLanguageFailsBecauseAnUnexpectedExceptionIsThrownWhenTheMainLanguageIsResetted()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
@@ -443,7 +443,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
 
         $params = array('LanguageName'  => 'en',
                         'MainLanguage' => 1);
@@ -452,7 +452,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testAddMainLanguageFailsBecauseMainLanguageHasBeenResettedButSaveFailsAtLast()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
         $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
@@ -471,7 +471,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
 
         $this->languageRepository->expects($this->exactly(2))
                 ->method('save')
@@ -483,8 +483,8 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testAddMainLanguage()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
         $this->setUpEventsHandler(null, 3);
 
         $this->eventsHandler->expects($this->exactly(2))
@@ -510,7 +510,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
 
         $params = array(
             'LanguageName'  => 'en', 
@@ -524,11 +524,11 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      */
     public function testEditFailsWhenAnyParamIsGiven()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -543,13 +543,13 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      */
     public function testEditFailsWhenAnyoneOfTheExpectedParamIsGiven()
     {
         $language = $this->setUpLanguageObject();
 
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
         $this->setUpEventsHandler($event);
 
         $this->validator->expects($this->once())
@@ -571,7 +571,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
     {
         $language =$this->setUpLanguageObject();
 
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
         $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
@@ -597,7 +597,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
     {
         $language =$this->setUpLanguageObject();
 
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
         $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
@@ -621,7 +621,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testEditDoesNothingWhenTheSameParameterIsGiven()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
         $this->setUpEventsHandler($event);
 
         $language =$this->setUpLanguageObject();
@@ -649,8 +649,8 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testEdit()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent');
         $this->setUpEventsHandler(null, 3);
         $this->eventsHandler->expects($this->exactly(2))
                         ->method('getEvent')
@@ -686,12 +686,12 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
      * @expectedExceptionMessage exception_language_editing_aborted
      */
     public function testEditActionIsInterruptedWhenEventHasBeenAborted()
     {
-        $event = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
         $event->expects($this->once())
             ->method('isAborted')
             ->will($this->returnValue(true));
@@ -726,8 +726,8 @@ class AlLanguageManagerTest extends AlContentManagerBase
     {
         $changedParams = array('LanguageName'  => 'es');
 
-        $event1 = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent');
+        $event1 = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent');
         $event1->expects($this->once())
                 ->method('getValues')
                 ->will($this->returnValue($changedParams));
@@ -768,8 +768,8 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testAListenerHasAbortedTheEditAction()
     {
-        $event1 = $this->getMock('\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
+        $event1 = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageAddingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeAddLanguageCommitEvent');
         $event2->expects($this->once())
                 ->method('isAborted')
                 ->will($this->returnValue(true));
@@ -809,7 +809,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testEditMainLanguageFailsWhenResetMainLanguageFails()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
         $this->setUpEventsHandler($event);
 
         $language =$this->setUpLanguageObject();
@@ -819,7 +819,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
 
         $this->languageRepository->expects($this->once())
                 ->method('setRepositoryObject')
@@ -846,7 +846,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
      */
     public function testEditMainLanguageFailsWhenResetMainLanguageThrowsAnUnexpectedException()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
         $this->setUpEventsHandler($event);
 
         $language =$this->setUpLanguageObject();
@@ -856,7 +856,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
 
         $this->languageRepository->expects($this->once())
                 ->method('setRepositoryObject')
@@ -880,7 +880,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testEditMainLanguageFails()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
         $this->setUpEventsHandler($event);
 
         $language =$this->setUpLanguageObject();
@@ -890,7 +890,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
 
         $this->languageRepository->expects($this->exactly(2))
                 ->method('setRepositoryObject')
@@ -914,8 +914,8 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testEditMainLanguage()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageEditingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeEditLanguageCommitEvent');
         $this->setUpEventsHandler(null, 3);
 
         $this->eventsHandler->expects($this->exactly(2))
@@ -929,7 +929,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
 
         $this->languageRepository->expects($this->exactly(2))
                 ->method('setRepositoryObject')
@@ -955,7 +955,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      */
     public function testDeleteFailsWhenTheManagedLanguageIsNull()
     {
@@ -967,7 +967,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\Language\RemoveMainLanguageException
+     * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\Language\RemoveMainLanguageException
      */
     public function testTryingToDeleteTheMainLanguageThrowsAnException()
     {
@@ -994,7 +994,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
     {
         $language =$this->setUpLanguageObject();
 
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
         $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
@@ -1019,7 +1019,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
     {
         $language =$this->setUpLanguageObject();
 
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
         $this->setUpEventsHandler($event);
 
         $this->languageRepository->expects($this->once())
@@ -1043,8 +1043,8 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testDelete()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent');
         $this->setUpEventsHandler(null, 3);
 
         $language =$this->setUpLanguageObject();
@@ -1075,12 +1075,12 @@ class AlLanguageManagerTest extends AlContentManagerBase
     }
 
     /**
-     * @expectedException \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
+     * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException
      * @expectedExceptionMessage exception_language_deleting_aborted
      */
     public function testDeleteActionIsInterruptedWhenEventHasBeenAborted()
     {
-        $event = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
         $event->expects($this->once())
             ->method('isAborted')
             ->will($this->returnValue(true));
@@ -1108,8 +1108,8 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     public function testAListenerHasAbortedTheDeleteAction()
     {
-        $event1 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
-        $event2 = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent');
+        $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeLanguageDeletingEvent');
+        $event2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Language\BeforeDeleteLanguageCommitEvent');
         $event2->expects($this->once())
                 ->method('isAborted')
                 ->will($this->returnValue(true));
@@ -1148,7 +1148,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     private function setUpLanguageObject()
     {
-        $language = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
         $language->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(2));

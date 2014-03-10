@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Security;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Security;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -41,7 +41,7 @@ class AlUserType extends BaseBlockType
         $builder->add('email');
 
         $builder->add('AlRole', 'model', array(
-            'class'     => 'RedKiteLabs\RedKiteCmsBundle\Model\AlRole',
+            'class'     => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole',
             'property'  => 'Role',
             'label' => 'security_controller_label_roles',
         ));
@@ -57,7 +57,7 @@ class AlUserType extends BaseBlockType
         parent::setDefaultOptions($resolver);
 
         $resolver->setDefaults(array(
-            'data_class' => 'RedKiteLabs\RedKiteCmsBundle\Model\AlUser',
+            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser',
         ));
     }
 

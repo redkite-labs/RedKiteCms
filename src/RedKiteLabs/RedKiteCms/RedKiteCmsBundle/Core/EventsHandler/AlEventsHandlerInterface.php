@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler;
 
 /**
  * Defines the interface to implement a EventDispatcher wrapper to handle and dispatch several
@@ -43,7 +43,7 @@ interface AlEventsHandlerInterface
      * @param  string                                                           $eventName
      * @param  string                                                           $class
      * @param  array                                                            $args
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler
      *
      * @api
      */
@@ -53,7 +53,7 @@ interface AlEventsHandlerInterface
      * Dispatches the event
      *
      * @param  string                                                           $eventName
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler
      *
      * @api
      */

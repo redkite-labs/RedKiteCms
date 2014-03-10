@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
 
 /**
  * AlBlockManagerJson is the base object deputated to handle a json content
@@ -31,7 +31,7 @@ abstract class AlBlockManagerJsonBase extends AlBlockManager
     /**
      * Decodes a json content
      *
-     * @param  string|\RedKiteLabs\RedKiteCmsBundle\Model\AlBlock $block
+     * @param  string|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock $block
      * @param  boolean                                            $assoc
      * @return array|object                                       depends on assoc param
      * @throws Exception\InvalidJsonFormatException

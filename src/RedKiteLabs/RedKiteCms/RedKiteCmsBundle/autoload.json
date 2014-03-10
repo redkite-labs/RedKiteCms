@@ -1,6 +1,6 @@
 {
     "bundles" : {
-        "RedKiteLabs\\RedKiteCmsBundle\\RedKiteCmsBundle" : {
+        "RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle\\RedKiteCmsBundle" : {
             "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
         },
         "Propel\\PropelBundle\\PropelBundle" : {

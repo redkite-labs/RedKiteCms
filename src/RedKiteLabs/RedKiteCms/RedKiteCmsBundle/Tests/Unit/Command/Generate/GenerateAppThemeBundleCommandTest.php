@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Command;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Command;
 
 use Sensio\Bundle\GeneratorBundle\Tests\Command\GenerateCommandTest;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -81,7 +81,7 @@ class GenerateAppThemeBundleCommandTest extends GenerateCommandTest
     protected function getCommand($generator, $input)
     {
         $command = $this
-            ->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Command\Generate\GenerateAppThemeBundleCommand')
+            ->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Command\Generate\GenerateAppThemeBundleCommand')
             ->setMethods(array('checkAutoloader', 'updateKernel'))
             ->getMock()
         ;
@@ -97,7 +97,7 @@ class GenerateAppThemeBundleCommandTest extends GenerateCommandTest
     {
         // get a noop generator
         return $this
-            ->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlAppThemeGenerator')
+            ->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlAppThemeGenerator')
             ->disableOriginalConstructor()
             ->setMethods(array('generateExt'))
             ->getMock()

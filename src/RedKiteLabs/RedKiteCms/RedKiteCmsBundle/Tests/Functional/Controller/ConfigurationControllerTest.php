@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Functional\Controller;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Functional\Controller;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
 
 /**
  * ConfigurationControllerTest
@@ -60,7 +60,7 @@ class ConfigurationControllerTest extends WebTestCaseFunctional
      */
     public function testChangeLanguage($params, $currentLanguage, $newLanguage, $statusCode, $message)
     {
-        $configurationRepository = new \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlConfigurationRepositoryPropel();
+        $configurationRepository = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlConfigurationRepositoryPropel();
         $this->assertEquals($currentLanguage, $configurationRepository->fetchParameter('language')->getValue());
         
         $crawler = $this->client->request('POST', '/backend/en/al_changeCmsLanguage', $params);

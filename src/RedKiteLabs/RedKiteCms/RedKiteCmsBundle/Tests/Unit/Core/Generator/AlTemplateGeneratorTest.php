@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Generator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlTemplateGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlTemplateGenerator;
 use org\bovigo\vfs\vfsStream;
 
 /**

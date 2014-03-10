@@ -15,18 +15,18 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlBlock;
-use RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\BlockEvents;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
-use RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\BlockEvents;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 
 /**
  * AlBlockManager is the base object that wraps an AlBlock object and implements a
@@ -55,7 +55,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     protected $factoryRepository = null;
 
     /**
-     * @var \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
+     * @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface $blockRepository
      */
     protected $blockRepository = null;
 
@@ -123,8 +123,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Sets the factory repository
      *
-     * @param  \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $v
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManager
+     * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $v
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager
      *
      * @api
      */
@@ -160,7 +160,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Returns the factory repository object associated with this object
      *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
      *
      * @api
      */
@@ -172,7 +172,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Returns the block repository object associated with this object
      *
-     * @return \RedKiteLabs\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface
      *
      * @api
      */
@@ -326,8 +326,8 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      * {@inheritdoc}
      *
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      *
      * @api
      */
@@ -338,7 +338,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
         }
 
         $this->dispatchBeforeOperationEvent(
-            '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent',
+            '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent',
             BlockEvents::BEFORE_DELETE_BLOCK,
             array(),
             'exception_block_removing_aborted'
@@ -353,7 +353,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             if ($result) {
                 $this->blockRepository->commit();
                 $this->eventsHandler
-                     ->createEvent(BlockEvents::AFTER_DELETE_BLOCK, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\AfterBlockDeletedEvent', array($this))
+                     ->createEvent(BlockEvents::AFTER_DELETE_BLOCK, '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\AfterBlockDeletedEvent', array($this))
                      ->dispatch();
 
                 return true;
@@ -455,7 +455,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
         $values =
             $this->dispatchBeforeOperationEvent(
-                '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent',
+                '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent',
                 BlockEvents::BEFORE_ADD_BLOCK,
                 $values,
                 'exception_block_adding_aborted'
@@ -505,7 +505,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
             if (false !== $result) {
                 $this->blockRepository->commit();
                 $this->eventsHandler
-                     ->createEvent(BlockEvents::AFTER_ADD_BLOCK, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\AfterBlockAddedEvent', array($this))
+                     ->createEvent(BlockEvents::AFTER_ADD_BLOCK, '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\AfterBlockAddedEvent', array($this))
                      ->dispatch();
 
                 return $result;
@@ -528,7 +528,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * @param  array                                                                                     $values An array where keys are the AlBlockField definition and values are the values to edit
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
+     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      *
      * @api
      */
@@ -536,7 +536,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     {
          $values =
             $this->dispatchBeforeOperationEvent(
-                '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent',
+                '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent',
                 BlockEvents::BEFORE_EDIT_BLOCK,
                 $values,
                 'exception_block_editing_aborted'
@@ -553,7 +553,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
                 $this->blockRepository->commit();
 
                 $this->eventsHandler
-                     ->createEvent(BlockEvents::AFTER_EDIT_BLOCK, '\RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Block\AfterBlockEditedEvent', array($this))
+                     ->createEvent(BlockEvents::AFTER_EDIT_BLOCK, '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\AfterBlockEditedEvent', array($this))
                      ->dispatch();
 
                 return $result;

@@ -16,12 +16,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy\TemplateSection;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
 
 /**
@@ -40,9 +40,9 @@ class ContentSection extends TemplateSectionTwig
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface             $urlManager
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface         $viewRenderer
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface             $urlManager
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface         $viewRenderer
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
      */
     public function __construct(AlUrlManagerInterface $urlManager, AlViewRendererInterface $viewRenderer, AlBlockManagerFactoryInterface $blockManagerFactory)
     {
@@ -55,7 +55,7 @@ class ContentSection extends TemplateSectionTwig
     /**
      * Defines the base method to generate a section
      *
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree     $pageTree
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree     $pageTree
      * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
      * @param array                                                      $options
      */

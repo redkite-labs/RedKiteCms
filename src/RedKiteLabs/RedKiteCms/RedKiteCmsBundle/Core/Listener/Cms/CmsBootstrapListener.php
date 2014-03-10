@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Cms;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -35,9 +35,9 @@ class CmsBootstrapListener
     private $container;
     /** @var \Symfony\Component\HttpKernel\KernelInterface */
     private $kernel;
-    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree */
+    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree */
     private $pageTree;
-    /** @var \RedKiteLabs\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface */
+    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface */
     private $activeTheme;
 
     /**

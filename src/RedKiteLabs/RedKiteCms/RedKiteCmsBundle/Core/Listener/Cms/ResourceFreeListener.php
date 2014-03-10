@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Listener\Cms;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Cms;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\SecurityContext;
-use RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
-use RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
 
 /**
  * Checks that the requested resource is not used by any other user. When it is not free,
@@ -40,7 +40,7 @@ class ResourceFreeListener
      * Contructor
      *
      * @param \Symfony\Component\Security\Core\SecurityContext                     $securityContext
-     * @param \RedKiteLabs\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker $resourcesLocker
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker $resourcesLocker
      *
      * @api
      */

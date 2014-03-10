@@ -1,16 +1,16 @@
 <?php
 
-namespace RedKiteLabs\RedKiteCmsBundle\Command\Generate;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Command\Generate;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlTemplateGenerator;
-use RedKiteLabs\RedKiteCmsBundle\Core\Generator\TemplateParser\AlTemplateParser;
-use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlSlotsGenerator;
-use RedKiteLabs\RedKiteCmsBundle\Core\Generator\AlExtensionGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlTemplateGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\TemplateParser\AlTemplateParser;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlSlotsGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlExtensionGenerator;
 
 class GenerateTemplatesCommand extends ContainerAwareCommand
 {

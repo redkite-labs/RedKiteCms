@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\PageTree;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\PageTree;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview;
 
 /**
  * AlPageTreeTest
@@ -31,19 +31,19 @@ class AlPageTreePreviewTest extends TestCase
     {
         parent::setUp();
         
-        $this->dataManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager')
+        $this->dataManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager')
                                             ->disableOriginalConstructor()
                                             ->getMock();
         
-        $this->templateAssetsManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager')                
+        $this->templateAssetsManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager')
                                             ->disableOriginalConstructor()
                                             ->getMock();
         
-        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
                                             ->disableOriginalConstructor()
                                             ->getMock();
         
-        $this->pageBlocks = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface');        
+        $this->pageBlocks = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface');
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         
         $themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface');
@@ -87,6 +87,6 @@ class AlPageTreePreviewTest extends TestCase
     
     private function createBlockManager()
     {
-        return $this->getMock("RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface");
+        return $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface");
     }
 }

@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Deploy\RoutingGenerator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Deploy\RoutingGenerator;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -38,7 +38,7 @@ abstract class RoutingGeneratorBase extends TestCase
      */
     public function testRoutingGenerator($pages, $seoAttributes, $seoHomeAttributes = null)
     {     
-        $pageTreeCollection = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection')
+        $pageTreeCollection = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection')
                                         ->disableOriginalConstructor()
                                         ->getMock();
         $pageTreeCollection->expects($this->once())
@@ -146,7 +146,7 @@ abstract class RoutingGeneratorBase extends TestCase
 
     protected function createPageTree($language, $page, $seo)
     {
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
                                 ->disableOriginalConstructor()
                                 ->setMethods(array('getAlLanguage', 'getAlPage', 'getAlSeo'))
                                 ->getMock();
@@ -171,7 +171,7 @@ abstract class RoutingGeneratorBase extends TestCase
     
     protected function createPage($pageName, $isHome = 0)
     {
-        $page = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
 
         $page->expects($this->once())
             ->method('getPageName')
@@ -188,7 +188,7 @@ abstract class RoutingGeneratorBase extends TestCase
     
     protected function createLanguage($languageName, $isMain = 0)
     {
-        $language = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
 
         $language->expects($this->once())
             ->method('getLanguageName')
@@ -205,7 +205,7 @@ abstract class RoutingGeneratorBase extends TestCase
     
     protected function createSeo($permalink)
     {
-        $seo = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
 
         $seo->expects($this->once())
             ->method('getPermalink')

@@ -1,4 +1,4 @@
-RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\Page:
+RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Page\Page:
   properties:
     pageName:
       - Length: { max: 255  }
@@ -10,7 +10,7 @@ RedKiteLabs\RedKiteCmsBundle\Core\Form\Page\Page:
     isPublished:
       - Type: boolean
 
-RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\Seo:
+RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Seo\Seo:
   properties:
     idLanguage:
       - NotBlank: { message: "The language id, which the seo attributes belongs, is mandatory" }
@@ -25,7 +25,7 @@ RedKiteLabs\RedKiteCmsBundle\Core\Form\Seo\Seo:
     description:
       - NotBlank: { message: "The metatag description value should not be blank" }
 
-RedKiteLabs\RedKiteCmsBundle\Model\AlUser:
+RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser:
   properties:
     username:
       - NotBlank: { message: Username field can not be empty }
@@ -37,7 +37,7 @@ RedKiteLabs\RedKiteCmsBundle\Model\AlUser:
       - NotBlank: { message: "Email field can not be empty" }
       - Email: { message: "The email you entered is not valid" }
 
-RedKiteLabs\RedKiteCmsBundle\Model\AlRole:
+RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole:
   properties:
     role:
       - NotBlank: { message: "Role field can not be empty" }

@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\UrlManager;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager;
 
-use RedKiteLabs\RedKiteCmsBundle\Model\AlLanguage;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlPage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage;
 
 /**
  * Defines the object to format an url to be used when the CMS editor is active or for

@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
 
 /**
  * AlParametersValidator validates consistence of array parameters
@@ -30,7 +30,7 @@ class AlParametersValidator implements AlParametersValidatorInterface
 {
     /**
      * {@inheritdoc}
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
+     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
      *
      * @api
      */
@@ -47,7 +47,7 @@ class AlParametersValidator implements AlParametersValidatorInterface
 
     /**
      * {@inheritdoc}
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      *
      * @api
      */
@@ -76,7 +76,7 @@ class AlParametersValidator implements AlParametersValidatorInterface
 
     /**
      * {@inheritdoc}
-     * @throws \RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
+     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
      *
      * @api
      */

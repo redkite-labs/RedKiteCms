@@ -15,12 +15,12 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\EventsHandler;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
-use RedKiteLabs\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 use Symfony\Component\EventDispatcher\Event;
 
 /**

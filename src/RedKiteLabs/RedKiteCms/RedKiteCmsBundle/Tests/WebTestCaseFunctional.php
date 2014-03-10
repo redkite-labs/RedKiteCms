@@ -15,16 +15,16 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Validator;
-use RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository;
-use RedKiteLabs\RedKiteCmsBundle\Model\AlRole;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole;
 
 /**
  * WebTestCase
@@ -61,6 +61,17 @@ abstract class WebTestCaseFunctional extends WebTestCase
         );
 
         self::populateDb();
+    }
+
+    protected static function getKernelClass()
+    {
+        $dir = isset($_SERVER['KERNEL_DIR']) ? $_SERVER['KERNEL_DIR'] : static::getPhpUnitXmlDir();
+        $class = 'RedKiteCmsAppKernel';
+        $file = sprintf('%s/%s.php', $dir, $class);
+
+        require_once $file;
+
+        return $class;
     }
 
     protected function setUp()
@@ -187,7 +198,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
     
     protected static function addUser($username, $password, $adminRoleId)
     {
-        $user = new \RedKiteLabs\RedKiteCmsBundle\Model\AlUser();
+        $user = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser();
         $encoder = new \Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder();
         $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
         $password = $encoder->encodePassword($password, $salt);

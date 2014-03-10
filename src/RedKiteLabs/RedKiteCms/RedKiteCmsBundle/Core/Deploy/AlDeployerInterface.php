@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Deploy;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy;
 
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
-use RedKiteLabs\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
 
 /**
  * Defines the mehods to deploy a website

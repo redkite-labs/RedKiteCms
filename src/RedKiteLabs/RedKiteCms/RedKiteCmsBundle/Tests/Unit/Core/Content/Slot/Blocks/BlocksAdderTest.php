@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
 
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksAdder;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlocksAdder;
 use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
 
 /**
@@ -32,10 +32,10 @@ class BlocksAdderTest extends AlContentManagerBase
     {
         parent::setUp();
 
-        $this->factory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $this->factory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
 
         $this->blockRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -46,7 +46,7 @@ class BlocksAdderTest extends AlContentManagerBase
     public function testSkipSlotsRepeatedAtSiteLevel()
     {
         $blocksManagerCollection = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -85,7 +85,7 @@ class BlocksAdderTest extends AlContentManagerBase
     public function testAddFailsBecauseUnexpctedExceptionHadThrown()
     {
         $blocksManagerCollection = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -161,7 +161,7 @@ class BlocksAdderTest extends AlContentManagerBase
         );
         
         $blocksManagerCollection = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -204,7 +204,7 @@ class BlocksAdderTest extends AlContentManagerBase
     public function testAdd($slotParam, $options, $internalElements, $positions, $repositoryOptions = null)
     {
         $blocksManagerCollection = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -249,7 +249,7 @@ class BlocksAdderTest extends AlContentManagerBase
     public function testAddFromDefinition($slotParam, $options, $internalElements, $positions, $items = array(), $repositoryOptions = null)
     {
         $blocksManagerCollection = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -994,7 +994,7 @@ class BlocksAdderTest extends AlContentManagerBase
     
     private function createBlock($position = null)
     {
-         $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+         $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
          
          if (null !== $position) {
             $block->expects($this->once())
@@ -1009,7 +1009,7 @@ class BlocksAdderTest extends AlContentManagerBase
     private function createBlockManager($block = null, $values = null, $saveResult = true, $defaultValue = null)
     {
          $blockManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService')
                  ->disableOriginalConstructor()
                  ->getMock()
          ;
@@ -1068,9 +1068,5 @@ class BlocksAdderTest extends AlContentManagerBase
         $this->blockRepository->expects($this->exactly($repositoryOptions["expectedCommit"]))
              ->method('commit')
         ;
-        /*
-        $this->blockRepository->expects($this->exactly($repositoryOptions["expectedRollback"]))
-             ->method('rollback')
-        ;*/
     }
 }

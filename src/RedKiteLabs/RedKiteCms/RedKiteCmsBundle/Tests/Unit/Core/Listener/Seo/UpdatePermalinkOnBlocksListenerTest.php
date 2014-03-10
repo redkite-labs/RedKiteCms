@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Seo;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\Seo;
 
-use RedKiteLabs\RedKiteCmsBundle\Core\Listener\Seo\UpdatePermalinkOnBlocksListener;
-use RedKiteLabs\RedKiteCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Seo\UpdatePermalinkOnBlocksListener;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\Base\BaseListenerTest;
 
 /**
  * UpdatePermalinkOnBlocksListenerTest
@@ -38,16 +38,16 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
 
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 
-        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
 
-        $this->event = $this->getMockBuilder('RedKiteLabs\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent')
+        $this->event = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -55,7 +55,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
                                 ->disableOriginalConstructor()
                                 ->getMock();
 
-        $this->blockManagerFactory = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $this->blockManagerFactory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
 
         $this->testListener = new UpdatePermalinkOnBlocksListener($this->factoryRepository ,$this->blockManagerFactory);
     }
@@ -303,7 +303,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
 
     private function setUpBlock()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
         $block->expects($this->any())
             ->method('toArray')
             ->will($this->returnValue(array("Id" => 2, "Type" => "Text")));

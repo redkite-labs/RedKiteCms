@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Form\Page;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Page;
 
 /**
  * Defines the pages form fields

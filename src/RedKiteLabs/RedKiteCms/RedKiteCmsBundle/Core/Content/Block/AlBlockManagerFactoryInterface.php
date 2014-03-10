@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCmsBundle\Core\Content\Block;
+namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block;
 
 /**
  * AlBlockManagerFactory creates a BlockManager object
@@ -29,7 +29,7 @@ interface AlBlockManagerFactoryInterface
     /**
      * Creates an instance of an AlBlockManager object
      *
-     * @param mixed string | \RedKiteLabs\RedKiteCmsBundle\Model\AlBlock $block
+     * @param mixed string | \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock $block
      *
      * @return null|AlBlockManagerInterface
      *
