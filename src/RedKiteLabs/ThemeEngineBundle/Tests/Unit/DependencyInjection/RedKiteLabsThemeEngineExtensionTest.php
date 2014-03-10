@@ -73,7 +73,7 @@ class RedKiteLabsThemeEngineExtensionTest extends TestCase
     
     public function testRenderSlotClass()
     {
-        $this->scalarNodeParameter('twig.extension.render_slot.class', 'render_slot_class', 'RedKiteLabs\RedKiteCmsBundle\Twig\SlotRendererExtension');
+        $this->scalarNodeParameter('twig.extension.render_slot.class', 'render_slot_class', 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Twig\SlotRendererExtension');
     }
     
     public function testRenderStageTemplatesFolder()
