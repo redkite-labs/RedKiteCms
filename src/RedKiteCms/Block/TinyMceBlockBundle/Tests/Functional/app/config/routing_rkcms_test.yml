@@ -1,0 +1,5 @@
+routing:
+    resource: routing_rkcms_dev.yml
+
+_redkitecms:
+    resource: "@RedKiteCmsBundle/Resources/config/routing.yml"

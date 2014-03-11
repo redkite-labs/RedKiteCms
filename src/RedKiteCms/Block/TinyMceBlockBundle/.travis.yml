@@ -1,0 +1,19 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+
+before_script:
+  - wget http://getcomposer.org/composer.phar
+  - php composer.phar install --dev
+
+notifications:
+  email:
+    - info@redkite-labs.com
+
+script: 
+  #phpunit --coverage-text
+  - phpunit --coverage-clover=coverage.clover
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
