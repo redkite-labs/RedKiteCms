@@ -1,0 +1,35 @@
+{% extends 'BootbusinessThemeBundle:Theme:base/base.html.twig' %}
+
+{% use 'BootbusinessThemeBundle:Slots:slots.html.twig' %}
+
+
+{% block contents %}
+<!-- Start: MAIN CONTENT -->
+<div class="content">
+  <!-- Start: slider -->
+  <div class="slider">
+    <div class="container-fluid">
+        {{ block('slider_box') }}
+    </div>
+  </div>
+  
+  <!-- End: slider -->
+  <!-- Start: PRODUCT LIST -->
+    <div class="container">
+      <div class="content-title-1">    
+        {{ block('content_title_1') }}
+      </div>
+      <div class="row-fluid">   
+        {{ block('content_body_1') }}
+      </div>
+      <div class="page-header">  
+        {{ block('content_title_2') }}
+      </div>
+      <div class="row-fluid">
+        {{ block('content_body_2') }}     
+      </div>
+    </div>
+  <!-- End: PRODUCT LIST -->
+</div>
+<!-- End: MAIN CONTENT -->
+{% endblock %}

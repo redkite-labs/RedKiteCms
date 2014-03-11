@@ -1,0 +1,6 @@
+assetic:
+  bundles: [ BootbusinessThemeBundle ]
+    
+red_kite_labs_theme_engine:
+  bootstrap:
+    theme: [{theme: BootbusinessThemeBundle, version: 2.x}]

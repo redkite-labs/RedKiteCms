@@ -1,0 +1,627 @@
+{% block page_title %}
+    {# BEGIN-SLOT
+        name: page_title
+        htmlContent: |
+            <h1>Page title<small>Subtitle</small></h1>
+    END-SLOT #}
+    {{ renderSlot('page_title') }}
+{% endblock %}
+
+{% block content %}
+    {# BEGIN-SLOT
+        name: content
+    END-SLOT #}
+    {{ renderSlot('content') }}
+{% endblock %}
+
+{% block product_title %}
+    {# BEGIN-SLOT
+        name: product_title
+        htmlContent: |
+            <h1>Product <small>Caption for the product</small></h1>
+    END-SLOT #}
+    {{ renderSlot('product_title') }}
+{% endblock %}
+
+{% block product_image %}
+    {# BEGIN-SLOT
+        name: product_image
+        blockType: Image
+    END-SLOT #}
+    {{ renderSlot('product_image') }}
+{% endblock %}
+
+{% block product_description %}
+    {# BEGIN-SLOT
+        name: product_description
+        htmlContent: |
+            <p>
+                Detailed description about the product that how it makes the customer's life easy.
+                Detailed description about the product that how it makes the customer's life easy.
+                Detailed description about the product that how it makes the customer's life easy.
+                Detailed description about the product that how it makes the customer's life easy.
+            </p>
+            <p>
+                Detailed description about the product that how it makes the customer's life easy.
+                Detailed description about the product that how it makes the customer's life easy.
+                Detailed description about the product that how it makes the customer's life easy.
+                Detailed description about the product that how it makes the customer's life easy.
+            </p>
+            <p>
+                Detailed description about the product that how it makes the customer's life easy.
+                Detailed description about the product that how it makes the customer's life easy.
+                Detailed description about the product that how it makes the customer's life easy.
+                Detailed description about the product that how it makes the customer's life easy.
+            </p>   
+    END-SLOT #}
+    {{ renderSlot('product_description') }}
+{% endblock %}
+
+{% block product_features %}
+    {# BEGIN-SLOT
+        name: product_features
+        htmlContent: |
+            <h3>Fetures of product1</h3>
+            <ul class="features">
+              <li>
+                <i class="icon-ok "></i>24 hrs support
+              </li>
+              <li>
+                <i class="icon-ok "></i>unlimited download
+              </li>
+              <li>
+                <i class="icon-ok "></i>unlimited download
+              </li>
+              <li>
+                <i class="icon-ok "></i>unlimited download
+              </li>
+              <li>
+                <i class="icon-ok "></i>unlimited download
+              </li>
+              <li>
+                <i class="icon-ok "></i>unlimited download
+              </li>
+              <li>
+                <i class="icon-ok "></i>unlimited download
+              </li>
+              <li>
+                <i class="icon-ok "></i>unlimited download
+              </li>                  
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('product_features') }}
+{% endblock %}
+
+{% block product_buy %}
+    {# BEGIN-SLOT
+        name: product_buy
+        htmlContent: |
+            <p>
+              Ready to start the innovation?
+            </p>
+            <a class="btn btn-large btn-block" href="#">Buy now</a>
+    END-SLOT #}
+    {{ renderSlot('product_buy') }}
+{% endblock %}
+
+{% block product_contact %}
+    {# BEGIN-SLOT
+        name: product_contact
+        htmlContent: |
+            <p>
+              Got confused?
+            </p>
+            <a class="btn btn-large btn-block" href="contact_us.html">Contact us</a>
+    END-SLOT #}
+    {{ renderSlot('product_contact') }}
+{% endblock %}
+
+{% block product_faq %}
+    {# BEGIN-SLOT
+        name: product_faq
+        htmlContent: |
+            <p>
+              Check frequently asked question
+            </p>
+            <a class="btn btn-large btn-block" href="faq.html">FAQ</a>
+    END-SLOT #}
+    {{ renderSlot('product_faq') }}
+{% endblock %}
+
+{% block contacts_title %}
+    {# BEGIN-SLOT
+        name: contacts_title
+        htmlContent: |
+            <h1>Contact us</h1>
+    END-SLOT #}
+    {{ renderSlot('contacts_title') }}
+{% endblock %}
+
+{% block contacts_message_title %}
+    {# BEGIN-SLOT
+        name: contacts_message_title
+        htmlContent: |
+            <h2>Quick message</h2>
+    END-SLOT #}
+    {{ renderSlot('contacts_message_title') }}
+{% endblock %}
+
+{% block contacts_form %}
+    {# BEGIN-SLOT
+        name: contacts_form
+        htmlContent: |
+            <form class="form-contact-us">
+              <div class="control-group">
+                <div class="controls">
+                  <input type="text" id="inputName" placeholder="Name">
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="controls">
+                  <input type="text" id="inputEmail" placeholder="Email">
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="controls">
+                  <textarea id="inputMessage" placeholder="Message"></textarea>
+                </div>
+              </div>
+              <div class="control-group">
+                <div class="controls">
+                  <input type="submit" class="btn btn-primary btn-large" value="Send">
+                </div>
+              </div>
+            </form>
+    END-SLOT #}
+    {{ renderSlot('contacts_form') }}
+{% endblock %}
+
+{% block offices_section_title %}
+    {# BEGIN-SLOT
+        name: offices_section_title
+        htmlContent: |
+            <h2>Offices</h2>
+    END-SLOT #}
+    {{ renderSlot('offices_section_title') }}
+{% endblock %}
+
+{% block offices %}
+    {# BEGIN-SLOT
+        name: offices
+        blockType: BootbusinessContactOfficeBlock
+    END-SLOT #}
+    {{ renderSlot('offices') }}
+{% endblock %}
+
+{% block left_column %}
+    {# BEGIN-SLOT
+        name: left_column 
+        htmlContent: |
+            <a href="#"><img src="holder.js/200x100" class="bottom-space-less thumbnail"></a>
+            <p>
+              Short discription about your partner.Short discription about your partner.
+              Short discription about your partner.Short discription about your partner.
+              Short discription about your partner.Short discription about your partner.
+              Short discription about your partner.Short discription about your partner.
+            </p>    
+    END-SLOT #}
+    {{ renderSlot('left_column') }}
+{% endblock %}
+
+{% block right_column %}
+    {# BEGIN-SLOT
+        name: right_column 
+        htmlContent: |
+            <a href="#"><img src="holder.js/200x100" class="bottom-space-less thumbnail"></a>
+            <p>
+              Short discription about your partner.Short discription about your partner.
+              Short discription about your partner.Short discription about your partner.
+              Short discription about your partner.Short discription about your partner.
+              Short discription about your partner.Short discription about your partner.
+            </p>   
+    END-SLOT #}
+    {{ renderSlot('right_column') }}
+{% endblock %}
+
+{% block products_title %} 
+    {# BEGIN-SLOT
+        name: products_title
+        htmlContent: |
+            <h2>Our products</h2>
+    END-SLOT #}
+    {{ renderSlot('products_title') }}
+{% endblock %}
+
+{% block products %} 
+    {# BEGIN-SLOT
+        name: products
+        blockType: BootstrapThumbnailsBlock
+    END-SLOT #}
+    {{ renderSlot('products') }}
+{% endblock %}
+
+{% block products_pagination %} 
+    {# BEGIN-SLOT
+        name: products_pagination
+        htmlContent: |
+            <ul>
+              <li class="disabled">
+                <a href="#">&laquo;</a>
+              </li>
+              <li class="active">
+                <a href="#">1</a>
+              </li>
+              <li>
+                <a href="#">2</a>
+              </li>
+              <li>
+                <a href="#">3</a>
+              </li>
+              <li>
+                <a href="#">4</a>
+              </li>
+              <li>
+                <a href="#">5</a>
+              </li>
+              <li>
+                <a href="#">6</a>
+              </li>
+              <li>
+                <a href="#">&raquo;</a>
+              </li>
+            </ul>                    
+    END-SLOT #}
+    {{ renderSlot('products_pagination') }}
+{% endblock %}
+
+{% block navbar %}
+{# BEGIN-SLOT
+    name: navbar
+    repeated: site
+    blockType: BootbusinessNavbarBlock
+END-SLOT #}
+{{ renderSlot('navbar') }}
+{% endblock %}
+
+{% block footer_title_1 %}
+    {# BEGIN-SLOT
+        name: footer_title_1
+        repeated: language
+        htmlContent: |
+            <h4><i class="icon-star icon-white"></i> Products</h4>
+    END-SLOT #}
+    {{ renderSlot('footer_title_1') }}
+{% endblock %}
+
+{% block footer_body_1 %}
+    {# BEGIN-SLOT
+        name: footer_body_1
+        repeated: language
+        htmlContent: |
+            <ul class="quick-links">
+                <li><a href="product.html">Product1</a></li>
+                <li><a href="product.html">Product2</a></li>
+                <li><a href="product.html">Product3</a></li>
+                <li><a href="all_products.html">All products</a></li>
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('footer_body_1') }}
+{% endblock %}
+
+{% block footer_title_2 %}
+    {# BEGIN-SLOT
+        name: footer_title_2
+        repeated: language
+        htmlContent: |
+            <h4><i class="icon-cogs icon-white"></i> Services</h4>
+    END-SLOT #}
+    {{ renderSlot('footer_title_2') }}
+{% endblock %}
+
+{% block footer_body_2 %}
+    {# BEGIN-SLOT
+        name: footer_body_2
+        repeated: language
+        htmlContent: |
+            <ul class="quick-links">
+                <li><a href="service.html">Service1</a></li>
+                <li><a href="service.html">Service2</a></li>
+                <li><a href="service.html">Service3</a></li>
+                <li><a href="all_services.html">All services</a></li>              
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('footer_body_2') }}
+{% endblock %}
+
+{% block footer_title_3 %}
+    {# BEGIN-SLOT
+        name: footer_title_3
+        repeated: language
+        htmlContent: |
+            <h4><i class="icon-beaker icon-white"></i> About</h4>
+    END-SLOT #}
+    {{ renderSlot('footer_title_3') }}
+{% endblock %}
+
+{% block footer_body_3 %}
+    {# BEGIN-SLOT
+        name: footer_body_3
+        repeated: language
+        htmlContent: |
+            <ul class="quick-links">
+                <li><a href="our_works.html">Our works</a></li>
+                <li><a href="patnerships.html">Patnerships</a></li>
+                <li><a href="leadership.html">Leadership</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="blog.html">Blog</a></li>
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('footer_body_3') }}
+{% endblock %}
+
+{% block footer_title_4 %}
+    {# BEGIN-SLOT
+        name: footer_title_4
+        repeated: language
+        htmlContent: |
+            <h4><i class="icon-thumbs-up icon-white"></i> Support</h4>
+    END-SLOT #}
+    {{ renderSlot('footer_title_4') }}
+{% endblock %}
+
+{% block footer_body_4 %}
+    {# BEGIN-SLOT
+        name: footer_body_4
+        repeated: language
+        htmlContent: |
+            <ul class="quick-links">
+                <li><a href="faq.html">FAQ</a></li>
+                <li><a href="contact_us.html">Contact us</a></li>            
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('footer_body_4') }}
+{% endblock %}
+
+{% block footer_title_5 %}
+    {# BEGIN-SLOT
+        name: footer_title_5
+        repeated: language
+        htmlContent: |
+            <h4><i class="icon-legal icon-white"></i> Legal</h4>
+    END-SLOT #}
+    {{ renderSlot('footer_title_5') }}
+{% endblock %}
+
+{% block footer_body_5 %}
+    {# BEGIN-SLOT
+        name: footer_body_5
+        repeated: language
+        htmlContent: |
+            <ul class="quick-links">
+                <li><a href="#">License</a></li>
+                <li><a href="#">Terms of Use</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Security</a></li>      
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('footer_body_5') }}
+{% endblock %}
+
+{% block footer_title_6 %}
+    {# BEGIN-SLOT
+        name: footer_title_6
+        repeated: language
+        htmlContent: |
+            <h4>Get in touch</h4>
+    END-SLOT #}
+    {{ renderSlot('footer_title_6') }}
+{% endblock %}
+
+{% block footer_social_1 %}
+    {# BEGIN-SLOT
+        name: footer_social_1
+        repeated: language
+        htmlContent: |
+            <a href="#"><i class="icon-twitter"></i></a>
+            <a href="#"><i class="icon-facebook"></i></a>
+            <a href="#"><i class="icon-linkedin"></i></a>   
+    END-SLOT #}
+    {{ renderSlot('footer_social_1') }}
+{% endblock %}
+
+{% block footer_social_2 %}
+    {# BEGIN-SLOT
+        name: footer_social_2
+        repeated: language
+        htmlContent: |
+            <a href="#"><i class="icon-google-plus"></i></a>              
+            <a href="#"><i class="icon-github"></i></a>
+            <a href="mailto:soundar.rathinasamy@gmail.com"><i class="icon-envelope"></i></a>    
+    END-SLOT #}
+    {{ renderSlot('footer_social_2') }}
+{% endblock %}
+
+{% block footer_social_3 %}
+    {# BEGIN-SLOT
+        name: footer_social_3
+        repeated: language
+        htmlContent: |
+            <i class="icon-phone icon-large phone-number"></i> +919750227877 
+    END-SLOT #}
+    {{ renderSlot('footer_social_3') }}
+{% endblock %}
+
+{% block contacts_title_1 %}
+    {# BEGIN-SLOT
+        name: contacts_title_1
+        repeated: language
+        htmlContent: |
+            <h4>Get updated by email</h4>
+    END-SLOT #}
+    {{ renderSlot('contacts_title_1') }}
+{% endblock %}
+
+{% block contacts_body_1 %}
+    {# BEGIN-SLOT
+        name: contacts_body_1
+        repeated: language
+        htmlContent: |
+            <form>
+              <input type="text" name="email" placeholder="Email address">
+              <input type="submit" class="btn btn-primary" value="Subscribe">
+            </form>
+    END-SLOT #}
+    {{ renderSlot('contacts_body_1') }}
+{% endblock %}
+
+{% block coopyright %}
+    {# BEGIN-SLOT
+        name: coopyright
+        repeated: site
+        htmlContent: |
+            &copy; 2012-3000 Bootbusiness, Inc. All Rights Reserved.
+    END-SLOT #}
+    {{ renderSlot('coopyright') }}
+{% endblock %}
+
+{% block redkitecms_love %}
+    {# BEGIN-SLOT
+        name: redkitecms_love
+        repeated: site
+        htmlContent: |
+            <a href="http://redkite-labs.com">Powered by RedKite CMS</a>
+    END-SLOT #}
+    {{ renderSlot('redkitecms_love') }}
+{% endblock %}
+
+{% block slider_box %}
+    {# BEGIN-SLOT
+        name: slider_box
+        repeated: page
+        htmlContent: |
+          <div id="heroSlider" class="carousel slide">
+            <div class="carousel-inner">
+              <div class="active item">
+                <div class="hero-unit">
+                  <div class="row-fluid">
+                    <div class="span7 marketting-info">
+                      <h1>TELL ABOUT YOUR BUSINESS AND CORPORATE.</h1>
+                      <p>
+                          We are Bootbusiness and we are awesome.We solve your technology problems by our awesome products.
+                          We are Bootbusiness and we are awesome.We solve your technology problems by our awesome products.
+                      </p>
+                      <h3>
+                          <a href="product.html" class="btn">Learn more</a>
+                      </h3>                      
+                    </div>
+                    <div class="span5">
+                          <img data-src="holder.js/470x470" class="thumbnail">
+                    </div>
+                  </div>                  
+                </div>
+              </div>
+              <div class="item">
+                <div class="hero-unit">
+                  <div class="row-fluid">
+                    <div class="span7 marketting-info">
+                      <h1>TELL ABOUT YOUR NATURE OF WORK</h1>
+                      <p>
+                          We are Bootbusiness and we design ultimate website applications.
+                          We are Bootbusiness and we design ultimate website applications.
+                      </p>
+                      <h3>
+                          <a href="service.html" class="btn">Learn more</a>
+                      </h3>                      
+                    </div>
+                    <div class="span5">
+                          <img src="holder.js/470x470" class="thumbnail">
+                    </div>
+                  </div>                  
+                </div>
+              </div>
+              <div class="item">
+                <div class="hero-unit">
+                  <div class="row-fluid">
+                    <div class="span7 marketting-info">
+                      <h1>TELL ABOUT YOUR PRODUCT</h1>
+                      <p>
+                          Get excited about our products.We build awesome products in mobile.
+                          We build awesome products in mobile.We build awesome products in mobile.
+                      </p>
+                      <h3>
+                          <a href="#" class="btn btn-primary">Buy now</a>
+                          <a href="product.html" class="btn">Learn more</a>
+                      </h3>                      
+                    </div>
+                    <div class="span5">
+                          <img src="holder.js/470x470" class="thumbnail">
+                    </div>
+                  </div>                  
+                </div>
+              </div>
+              <div class="item">
+                <div class="hero-unit">
+                  <div class="row-fluid">
+                    <div class="span7 marketting-info">
+                      <h1>TELL ABOUT YOUR ANOTHER PRODUCT</h1>
+                      <p>
+                          Get excited about our products.We build awesome products in mobile.
+                          We build awesome products in mobile.We build awesome products in mobile.
+                      </p>
+                      <h3>
+                          <a href="#" class="btn btn-primary">Buy now</a>
+                          <a href="product.html" class="btn">Learn more</a>
+                      </h3>                      
+                    </div>
+                    <div class="span5">
+                          <img src="holder.js/470x470" class="thumbnail">
+                    </div>
+                  </div>                  
+                </div>
+              </div>
+            </div>
+            <a class="left carousel-control" href="#heroSlider" data-slide="prev">‹</a>
+            <a class="right carousel-control" href="#heroSlider" data-slide="next">›</a>
+          </div>
+    END-SLOT #}
+    {{ renderSlot('slider_box') }}  
+{% endblock %}
+
+{% block content_title_1 %}    
+    {# BEGIN-SLOT
+        name: content_title_1
+        repeated: page
+        htmlContent: |
+            <h2>Our products</h2>
+    END-SLOT #}
+    {{ renderSlot('content_title_1') }}  
+{% endblock %}
+
+{% block content_body_1 %} 
+    {# BEGIN-SLOT
+        name: content_body_1
+        repeated: page
+        blockType: BootstrapThumbnailsBlock
+    END-SLOT #}
+    {{ renderSlot('content_body_1') }}
+{% endblock %}
+
+{% block content_title_2 %} 
+    {# BEGIN-SLOT
+        name: content_title_2
+        repeated: page
+        htmlContent: |
+            <h2>Our Services</h2>
+    END-SLOT #}
+    {{ renderSlot('content_title_2') }}
+{% endblock %}
+
+{% block content_body_2 %} 
+    {# BEGIN-SLOT
+        name: content_body_2
+        repeated: page        
+        blockType: BootstrapThumbnailsBlock
+    END-SLOT #}
+    {{ renderSlot('content_body_2') }}   
+{% endblock %}

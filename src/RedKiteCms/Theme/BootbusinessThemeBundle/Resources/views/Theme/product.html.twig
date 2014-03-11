@@ -1,0 +1,48 @@
+{% extends 'BootbusinessThemeBundle:Theme:base/base.html.twig' %}
+
+{% use 'BootbusinessThemeBundle:Slots:slots.html.twig' %}
+
+
+{% block contents %}
+<div class="content">    
+  <div class="container">
+    <!-- Start: Product description -->
+    <airticle class="article">
+      <div class="row bottom-space">
+        <div class="span12">
+          <div class="page-header">
+            {{ block('product_title') }} 
+          </div>
+        </div>
+        <div class="span12 center-align">
+            {{ block('product_image') }}       
+        </div>
+      </div>
+      <div class="row">
+        <div class="span10 offset1">
+            {{ block('product_description') }}                
+          <div class="span8 offset1">
+            {{ block('product_features') }}                
+          </div>                                              
+        </div>      
+      </div>
+      <div class="row">
+        <div class="span10 offset1">
+          <hr>
+          <div class="span3">
+            {{ block('product_buy') }}  
+          </div>
+          <div class="span3">
+            {{ block('product_contact') }}              
+          </div>
+          <div class="span3">
+            {{ block('product_faq') }}                
+          </div>              
+        </div>
+      </div>
+    </airticle>
+    <!-- End: Product description -->
+  </div>
+</div>
+</div>
+{% endblock %}

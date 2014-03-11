@@ -1,0 +1,5 @@
+BootbusinessProductBlockBundle
+------------------------------
+
+Implements an AlphaLemon CMS app-block to add a complex html content to represent a 
+product in BootbusinessTheme.

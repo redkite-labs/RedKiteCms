@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="bootbusiness_theme.all_products.slots" type="collection">
+            <parameter>products_title</parameter>
+            <parameter>products</parameter>
+            <parameter>products_pagination</parameter>
+            <parameter>navbar</parameter>
+            <parameter>footer_title_1</parameter>
+            <parameter>footer_body_1</parameter>
+            <parameter>footer_title_2</parameter>
+            <parameter>footer_body_2</parameter>
+            <parameter>footer_title_3</parameter>
+            <parameter>footer_body_3</parameter>
+            <parameter>footer_title_4</parameter>
+            <parameter>footer_body_4</parameter>
+            <parameter>footer_title_5</parameter>
+            <parameter>footer_body_5</parameter>
+            <parameter>footer_title_6</parameter>
+            <parameter>footer_social_1</parameter>
+            <parameter>footer_social_2</parameter>
+            <parameter>footer_social_3</parameter>
+            <parameter>contacts_title_1</parameter>
+            <parameter>contacts_body_1</parameter>
+            <parameter>coopyright</parameter>
+            <parameter>redkitecms_love</parameter>
+        </parameter>
+    </parameters>
+
+    <services>
+        <service id="bootbusiness_theme.theme.template_assets.all_products" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">
+        </service>
+
+        <service id="bootbusiness_theme.theme.template.all_products" class="%red_kite_labs_theme_engine.template.class%" public="false">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="bootbusiness_theme.theme.template_assets.all_products" />
+            <tag name="bootbusiness_theme.theme.template" />
+
+            <call method="setThemeName">
+                <argument type="string">BootbusinessThemeBundle</argument>
+            </call>
+            <call method="setTemplateName">
+                <argument type="string">all_products</argument>
+            </call>
+            <call method="setSlots">
+                <argument>%bootbusiness_theme.all_products.slots%</argument>
+            </call>
+        </service>
+    </services>
+</container>
