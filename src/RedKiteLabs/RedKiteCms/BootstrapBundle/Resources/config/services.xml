@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="red_kite_labs_bootstrap.autoloaders_collection.class">RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Json\JsonAutoloaderCollection</parameter>
+        <parameter key="red_kite_labs_bootstrap.routing.loader.class">RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Loader\RoutingLoader</parameter>
+        <parameter key="red_kite_labs_bootstrap.routing_dir">%kernel.root_dir%/config/bundles/routing</parameter>
+        <parameter key="red_kite_labs_bootstrap.vendor_dir">%kernel.root_dir%/../vendor</parameter>
+    </parameters>
+
+    <services>
+        <service id="red_kite_labs_bootstrap.autoloaders_collection" class="%red_kite_labs_bootstrap.autoloaders_collection.class%">
+            <argument type="string">%red_kite_labs_bootstrap.vendor_dir%</argument>
+            <argument type="collection">
+                <argument>%kernel.root_dir%/../src/RedKiteCms/Block</argument>
+                <argument>%kernel.root_dir%/../src/RedKiteCms/Theme</argument>
+                <argument>%kernel.root_dir%/../src/RedKiteLabsCms/Block</argument>
+                <argument>%kernel.root_dir%/../src/RedKiteLabsCms/Theme</argument>
+            </argument>
+        </service>
+
+        <service id="red_kite_labs_bootstrap.routing_loader" class="%red_kite_labs_bootstrap.routing.loader.class%">
+            <argument type="service" id="file_locator" />
+            <argument type="service" id="red_kite_labs_bootstrap.autoloaders_collection" />
+            <argument type="string">%red_kite_labs_bootstrap.routing_dir%</argument>
+            <tag name="routing.loader" />
+        </service>
+    </services>
+</container>

@@ -1,0 +1,30 @@
+RedKiteLabsBundlesAutoloaderBundle 1.1.0 (2013/12/02) 
+d1a6d62 updated README
+bb05cbb removed scripting functionalities
+
+Previous changes
+9fb77e0 added more unit tests; updated docblocks; renamed some classes and methods
+81acf1b fixed a bug that stops the execution when a bundle without any PostScript was uninstalled
+77995fa removed AlphaLemon namespace from bundles autoloaded; updated alphalemon references to redkite-cms
+19e5204 updated composer.json to redkite-labs
+bf2a1d0 renamed AlphaLemon folder and namespaces to RedKiteLabs
+80428ae checks that the latest char of composer's path is a slash
+45544ff added symfony2 as requirement for dev environment
+a46da6d moved vfsStream dependency to dev environment
+3a60c49 added src/AlphaLemon/Theme folder under extra folders
+47bbd16 added some tests to check the extraFolders argument
+84cbb56 the BundlesAutoloader is now able to parse extra folders in addition to the ones mapped by composer
+e617894 fixed Autoloader to store routes in routing folder and not for environment
+078ef8f updated to load config and routing configurations files for environment
+07a9dd1 added vendor_dir parameter to bundle configuration
+5ee8e6b fixed BundlesAutoloader to instantiate the autoloaderCollection when the run process is executed
+ff7b929 added the support for routing priority option to assign a priority when loading a routing file, added some tests and updated the README file
+746e1a1 added a control to be sure that the listener is executed once
+d22e4a5 config files are now copied by environment inside the /bundles/config/folder
+74878ef added root_dir parameter
+42ecfd5 injected the routing dir param into the constructor for the RoutingLoader class. Added the paratemeter to the container
+16609cd added unit tests
+fec7d7d revisioned boostrap install/uninstall process from external packages
+0e818e6 added a control on adding events to eventsNotExecuted to be sure to add the event once a time
+e9ab2d2 added a new listener to dispatch the install and uninstall events required by the bundles
+325ca5d first commit
