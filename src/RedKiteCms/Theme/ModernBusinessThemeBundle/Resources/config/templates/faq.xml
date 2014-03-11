@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="modern_business_theme.faq.slots" type="collection">
+            <parameter>faq_page_header</parameter>
+            <parameter>faq_bread_crumb</parameter>
+            <parameter>faq_box</parameter>
+            <parameter>navbar_box</parameter>
+            <parameter>copyright_box</parameter>
+        </parameter>
+    </parameters>
+
+    <services>
+        <service id="modern_business_theme.theme.template_assets.faq" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">
+        </service>
+
+        <service id="modern_business_theme.theme.template.faq" class="%red_kite_labs_theme_engine.template.class%" public="false">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="modern_business_theme.theme.template_assets.faq" />
+            <tag name="modern_business_theme.theme.template" />
+
+            <call method="setThemeName">
+                <argument type="string">ModernBusinessThemeBundle</argument>
+            </call>
+            <call method="setTemplateName">
+                <argument type="string">faq</argument>
+            </call>
+            <call method="setSlots">
+                <argument>%modern_business_theme.faq.slots%</argument>
+            </call>
+        </service>
+    </services>
+</container>

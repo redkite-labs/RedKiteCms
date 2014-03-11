@@ -1,0 +1,110 @@
+{% extends 'ModernBusinessThemeBundle:Theme:base/base.html.twig' %}
+
+{% use 'ModernBusinessThemeBundle:Slots:slots.html.twig' %}
+
+{% block content %}
+<div class="container">
+
+    <div class="row">
+
+        <div class="col-lg-12">
+            {{ block('about_page_header') }} 
+            {{ block('about_bread_crumb') }} 
+        </div>
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6">
+            {{ block('about_content_box_1') }}
+        </div>
+        <div class="col-md-6">
+            {{ block('about_content_box_2') }}
+        </div>
+
+    </div>
+
+    <!-- Team Member Profiles -->
+
+    <div class="row">
+
+        <div class="col-lg-12">
+            {{ block('about_team_title') }}
+        </div>
+
+        <div class="col-sm-4">
+            {{ block('about_member_picture_1') }}
+            {{ block('about_member_description_1') }}
+            {{ block('about_member_social_1') }}
+        </div>
+
+        <div class="col-sm-4">
+            {{ block('about_member_picture_2') }}
+            {{ block('about_member_description_2') }}
+            {{ block('about_member_social_2') }}
+        </div>
+
+        <div class="col-sm-4">
+            {{ block('about_member_picture_3') }}
+            {{ block('about_member_description_3') }}
+            {{ block('about_member_social_3') }}
+        </div>
+
+        <div class="col-sm-4">
+            {{ block('about_member_picture_4') }}
+            {{ block('about_member_description_4') }}
+            {{ block('about_member_social_4') }}
+        </div>
+
+        <div class="col-sm-4">
+            {{ block('about_member_picture_5') }}
+            {{ block('about_member_description_5') }}
+            {{ block('about_member_social_5') }}
+        </div>
+
+        <div class="col-sm-4">
+            {{ block('about_member_picture_6') }}
+            {{ block('about_member_description_6') }}
+            {{ block('about_member_social_6') }}
+        </div>
+    </div>
+
+    <!-- Our Customers -->
+
+    <div class="row">
+
+        <div class="col-lg-12">
+            {{ block('about_customers_title') }}
+        </div>
+
+        <div class="col-md-2 col-sm-4 col-xs-6">            
+            {{ block('about_customers_box_1') }}
+        </div>
+
+        <div class="col-md-2 col-sm-4 col-xs-6">           
+            {{ block('about_customers_box_2') }}
+        </div>
+
+        <div class="col-md-2 col-sm-4 col-xs-6">           
+            {{ block('about_customers_box_3') }}
+        </div>
+
+        <div class="col-md-2 col-sm-4 col-xs-6">           
+            {{ block('about_customers_box_4') }}
+        </div>
+
+        <div class="col-md-2 col-sm-4 col-xs-6">           
+            {{ block('about_customers_box_5') }}
+        </div>
+
+        <div class="col-md-2 col-sm-4 col-xs-6">           
+            {{ block('about_customers_box_6') }}
+        </div>
+
+    </div>
+
+</div>
+<!-- /.container -->
+
+{% endblock %}

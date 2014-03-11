@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="modern_business_theme.home.slots" type="collection">
+            <parameter>slider_box</parameter>
+            <parameter>hp_content_box_1</parameter>
+            <parameter>hp_content_box_2</parameter>
+            <parameter>hp_content_box_3</parameter>
+            <parameter>hp_content_box_4</parameter>
+            <parameter>portfolio_title_box</parameter>
+            <parameter>portfolio_box_1</parameter>
+            <parameter>portfolio_box_2</parameter>
+            <parameter>portfolio_box_3</parameter>
+            <parameter>portfolio_box_4</parameter>
+            <parameter>portfolio_box_5</parameter>
+            <parameter>portfolio_box_6</parameter>
+            <parameter>hp_content_box_5</parameter>
+            <parameter>hp_content_box_6</parameter>
+            <parameter>hp_content_box_7</parameter>
+            <parameter>hp_content_box_8</parameter>
+            <parameter>hp_content_box_9</parameter>
+            <parameter>hp_content_box_10</parameter>
+            <parameter>navbar_box</parameter>
+            <parameter>copyright_box</parameter>
+        </parameter>
+    </parameters>
+
+    <services>
+        <service id="modern_business_theme.theme.template_assets.home" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">
+        </service>
+
+        <service id="modern_business_theme.theme.template.home" class="%red_kite_labs_theme_engine.template.class%" public="false">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="modern_business_theme.theme.template_assets.home" />
+            <tag name="modern_business_theme.theme.template" />
+
+            <call method="setThemeName">
+                <argument type="string">ModernBusinessThemeBundle</argument>
+            </call>
+            <call method="setTemplateName">
+                <argument type="string">home</argument>
+            </call>
+            <call method="setSlots">
+                <argument>%modern_business_theme.home.slots%</argument>
+            </call>
+        </service>
+    </services>
+</container>

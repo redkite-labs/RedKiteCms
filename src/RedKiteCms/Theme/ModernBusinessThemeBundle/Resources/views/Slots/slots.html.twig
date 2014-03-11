@@ -1,0 +1,1821 @@
+{# BASE SLOTS #}
+
+{% block navbar_box %}
+    {# BEGIN-SLOT
+        name: navbar_box
+        repeated: language
+        blockType: BootstrapNavbarBlock
+        blockDefinition:
+            inverted: navbar-inverse  
+            items: 
+                0:
+                    blockType: BootstrapNavbarMenuBlock
+                    alignment: navbar-right
+                    items: 
+                        0:
+                            blockType: Link
+                            0:
+                                value: About
+                        1:
+                            blockType: Link
+                            0:
+                                value: Services
+                        2:
+                            blockType: Link
+                            0:
+                                value: Contact
+    END-SLOT #}
+    {{ renderSlot('navbar_box') }}
+{% endblock %}
+
+{% block copyright_box %}
+    {# BEGIN-SLOT
+        name: copyright_box
+        repeated: language
+        htmlContent: |
+            <p>Copyright &copy; Company 2013</p>
+    END-SLOT #}
+    {{ renderSlot('copyright_box') }}
+{% endblock %}  
+
+
+{# HOME PAGE SLOTS #}
+
+{% block slider_box %}
+    {# BEGIN-SLOT
+        name: slider_box
+        repeated: language
+        blockType: BootstrapSliderBlock
+        blockDefinition:
+            0:
+                data_src: holder.js/1900x350
+            1:
+                data_src: holder.js/1900x350
+            2:
+                data_src: holder.js/1900x350
+    END-SLOT #}
+    {{ renderSlot('slider_box') }}
+{% endblock %}
+
+{% block hp_content_box_1 %}
+    {# BEGIN-SLOT
+        name: hp_content_box_1
+        repeated: page
+        htmlContent: |
+            <h3><i class="fa fa-check-circle"></i> Bootstrap 3 Built</h3>
+            <p>The 'Modern Business' website template by <a href="http://startbootstrap.com">Start Bootstrap</a> is built with <a href="http://getbootstrap.com">Bootstrap 3</a>. Make sure you're up to date with latest Bootstrap documentation!</p>
+    END-SLOT #}
+    {{ renderSlot('hp_content_box_1') }}
+{% endblock %}
+
+{% block hp_content_box_2 %}
+    {# BEGIN-SLOT
+        name: hp_content_box_2
+        repeated: page
+        htmlContent: |
+            <h3><i class="fa fa-pencil"></i> Ready to Style &amp; Edit</h3>
+            <p>You're ready to go with this pre-built page structure, now all you need to do is add your own custom stylings! You can see some free themes over at <a href="http://bootswatch.com">Bootswatch</a>, or come up with your own using <a href="http://getbootstrap.com/customize/">the Bootstrap customizer</a>!</p>
+    END-SLOT #}
+    {{ renderSlot('hp_content_box_2') }}
+{% endblock %}
+
+{% block hp_content_box_3 %}
+    {# BEGIN-SLOT
+        name: hp_content_box_3
+        repeated: page
+        htmlContent: |
+            <h3><i class="fa fa-folder-open"></i> Many Page Options</h3>
+            <p>This template features many common pages that you might see on a business website. Pages include: about, contact, portfolio variations, blog, pricing, FAQ, 404, services, and general multi-purpose pages.</p>
+    END-SLOT #}
+    {{ renderSlot('hp_content_box_3') }}
+{% endblock %}
+
+{% block hp_content_box_4 %}
+    {# BEGIN-SLOT
+        name: hp_content_box_4
+        repeated: page
+        htmlContent: |
+            <h2>Modern Business: A Clean &amp; Simple Full Website Template by Start Bootstrap</h2>
+            <p>A complete website design featuring various single page templates from Start Bootstraps library of free HTML starter templates.</p>
+    END-SLOT #}
+    {{ renderSlot('hp_content_box_4') }}
+{% endblock %}
+
+{% block portfolio_title_box %}
+    {# BEGIN-SLOT
+        name: portfolio_title_box
+        repeated: page
+        htmlContent: |
+            <h2>Display Some Work on the Home Page Portfolio</h2>
+    END-SLOT #}
+    {{ renderSlot('portfolio_title_box') }}
+{% endblock %}
+
+{% block portfolio_box_1 %}
+    {# BEGIN-SLOT
+        name: portfolio_box_1
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250
+                class: img-responsive img-home-portfolio                
+    END-SLOT #}
+    {{ renderSlot('portfolio_box_1') }}
+{% endblock %}
+
+{% block portfolio_box_2 %}
+    {# BEGIN-SLOT
+        name: portfolio_box_2
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250
+                class: img-responsive img-home-portfolio   
+    END-SLOT #}
+    {{ renderSlot('portfolio_box_2') }}
+{% endblock %}
+
+{% block portfolio_box_3 %}
+    {# BEGIN-SLOT
+        name: portfolio_box_3
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250
+                class: img-responsive img-home-portfolio   
+    END-SLOT #}
+    {{ renderSlot('portfolio_box_3') }}
+{% endblock %}
+
+{% block portfolio_box_4 %}
+    {# BEGIN-SLOT
+        name: portfolio_box_4
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250
+                class: img-responsive img-home-portfolio   
+    END-SLOT #}
+    {{ renderSlot('portfolio_box_4') }}
+{% endblock %}
+
+{% block portfolio_box_5 %}
+    {# BEGIN-SLOT
+        name: portfolio_box_5
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250
+                class: img-responsive img-home-portfolio   
+    END-SLOT #}
+    {{ renderSlot('portfolio_box_5') }}
+{% endblock %}
+
+{% block portfolio_box_6 %}
+    {# BEGIN-SLOT
+        name: portfolio_box_6
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250
+                class: img-responsive img-home-portfolio   
+    END-SLOT #}
+    {{ renderSlot('portfolio_box_6') }}
+{% endblock %}
+
+{% block hp_content_box_5 %}
+    {# BEGIN-SLOT
+        name: hp_content_box_5
+        repeated: page
+        htmlContent: |
+            <h2>Modern Business Features Include:</h2>
+            <ul>
+                <li>Bootstrap 3 Framework</li>
+                <li>Mobile Responsive Design</li>
+                <li>Predefined File Paths</li>
+                <li>Working PHP Contact Page</li>
+                <li>Minimal Custom CSS Styles</li>
+                <li>Unstyled: Add Your Own Style and Content!</li>
+                <li>Font-Awesome fonts come pre-installed!</li>
+                <li>100% <strong>Free</strong> to Use</li>
+                <li>Open Source: Use for any project, private or commercial!</li>
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('hp_content_box_5') }}
+{% endblock %}
+
+{% block hp_content_box_6 %}
+    {# BEGIN-SLOT
+        name: hp_content_box_6
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250/#fff:#999
+                class: img-responsive  
+    END-SLOT #}
+    {{ renderSlot('hp_content_box_6') }}
+{% endblock %}
+
+{% block hp_content_box_7 %}
+    {# BEGIN-SLOT
+        name: hp_content_box_7
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250/#fff:#999
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('hp_content_box_7') }}
+{% endblock %}
+
+{% block hp_content_box_8 %}
+    {# BEGIN-SLOT
+        name: hp_content_box_8
+        repeated: page
+        htmlContent: |
+            <h2>Modern Business Features Include:</h2>
+            <ul>
+                <li>Bootstrap 3 Framework</li>
+                <li>Mobile Responsive Design</li>
+                <li>Predefined File Paths</li>
+                <li>Working PHP Contact Page</li>
+                <li>Minimal Custom CSS Styles</li>
+                <li>Unstyled: Add Your Own Style and Content!</li>
+                <li>Font-Awesome fonts come pre-installed!</li>
+                <li>100% <strong>Free</strong> to Use</li>
+                <li>Open Source: Use for any project, private or commercial!</li>
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('hp_content_box_8') }}
+{% endblock %}
+
+{% block hp_content_box_9 %}
+    {# BEGIN-SLOT
+        name: hp_content_box_9
+        repeated: page
+        htmlContent: |
+            <h4>'Modern Business' is a ready-to-use, Bootstrap 3 updated, multi-purpose HTML theme!</h4>
+            <p>For more templates and more page options that you can integrate into this website template, visit Start Bootstrap!</p>
+    END-SLOT #}
+    {{ renderSlot('hp_content_box_9') }}
+{% endblock %}
+
+{% block hp_content_box_10 %}
+    {# BEGIN-SLOT
+        name: hp_content_box_10
+        repeated: page
+        blockType: BootstrapButtonBlock
+        blockDefinition:
+            0:
+                button_text: See more templates
+                button_type: btn-primary
+                button_attribute: btn-lg
+    END-SLOT #}
+    {{ renderSlot('hp_content_box_10') }}
+{% endblock %} 
+
+{# ABOUT SLOTS #}
+
+{% block about_page_header %}
+    {# BEGIN-SLOT
+        name: about_page_header
+        repeated: page
+        blockType: BootstrapPageHeaderBlock
+        blockDefinition:
+            0:
+                page_header_title: About
+                page_header_subtitle: It's Nice to Meet You!
+    END-SLOT #}
+    {{ renderSlot('about_page_header') }}
+{% endblock %}
+
+{% block about_bread_crumb %}
+    {# BEGIN-SLOT
+        name: about_bread_crumb
+        repeated: page
+        blockType: BootstrapBreadcrumbBlock
+    END-SLOT #}
+    {{ renderSlot('about_bread_crumb') }}
+{% endblock %}
+
+{% block about_team_title %}
+    {# BEGIN-SLOT
+        name: about_team_title
+        repeated: page
+        blockType: BootstrapPageHeaderBlock
+        blockDefinition:
+            0:
+                page_header_title: Our Team
+                page_header_subtitle: 
+                page_header_tag: h2
+    END-SLOT #}
+    {{ renderSlot('about_team_title') }}
+{% endblock %}
+
+{% block about_member_picture_1 %}
+    {# BEGIN-SLOT
+        name: about_member_picture_1
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250/#fff:#999
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('about_member_picture_1') }}
+{% endblock %}
+
+{% block about_member_description_1 %}
+    {# BEGIN-SLOT
+        name: about_member_description_1
+        repeated: page
+        htmlContent: |
+            <h3>John Smith
+                <small>Job Title</small>
+            </h3>
+            <p>What does this team member do? Keep it short! This is also a great spot for social links!</p>
+    END-SLOT #}
+    {{ renderSlot('about_member_description_1') }}
+{% endblock %}
+
+{% block about_member_social_1 %}
+    {# BEGIN-SLOT
+        name: about_member_social_1
+        repeated: page
+        htmlContent: |
+            <strong>Replace me with social icons for this member team</strong>
+    END-SLOT #}
+    {{ renderSlot('about_member_social_1') }}
+{% endblock %}
+
+{% block about_member_picture_2 %}
+    {# BEGIN-SLOT
+        name: about_member_picture_2
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250/#fff:#999
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('about_member_picture_2') }}
+{% endblock %}
+
+{% block about_member_description_2 %}
+    {# BEGIN-SLOT
+        name: about_member_description_2
+        repeated: page
+        htmlContent: |
+            <h3>John Smith
+                <small>Job Title</small>
+            </h3>
+            <p>What does this team member do? Keep it short! This is also a great spot for social links!</p>
+    END-SLOT #}
+    {{ renderSlot('about_member_description_2') }}
+{% endblock %}
+
+{% block about_member_social_2 %}
+    {# BEGIN-SLOT
+        name: about_member_social_2
+        repeated: page
+        htmlContent: |
+            <strong>Replace me with social icons for this member team</strong>
+    END-SLOT #}
+    {{ renderSlot('about_member_social_2') }}
+{% endblock %}
+
+{% block about_member_picture_3 %}
+    {# BEGIN-SLOT
+        name: about_member_picture_3
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250/#fff:#999
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('about_member_picture_3') }}
+{% endblock %}
+
+{% block about_member_description_3 %}
+    {# BEGIN-SLOT
+        name: about_member_description_3
+        repeated: page
+        htmlContent: |
+            <h3>John Smith
+                <small>Job Title</small>
+            </h3>
+            <p>What does this team member do? Keep it short! This is also a great spot for social links!</p>
+    END-SLOT #}
+    {{ renderSlot('about_member_description_3') }}
+{% endblock %}
+
+{% block about_member_social_3 %}
+    {# BEGIN-SLOT
+        name: about_member_social_3
+        repeated: page
+        htmlContent: |
+            <strong>Replace me with social icons for this member team</strong>
+    END-SLOT #}
+    {{ renderSlot('about_member_social_3') }}
+{% endblock %}
+
+{% block about_member_picture_4 %}
+    {# BEGIN-SLOT
+        name: about_member_picture_4
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250/#fff:#999
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('about_member_picture_4') }}
+{% endblock %}
+
+{% block about_member_description_4 %}
+    {# BEGIN-SLOT
+        name: about_member_description_4
+        repeated: page
+        htmlContent: |
+            <h3>John Smith
+                <small>Job Title</small>
+            </h3>
+            <p>What does this team member do? Keep it short! This is also a great spot for social links!</p>
+    END-SLOT #}
+    {{ renderSlot('about_member_description_4') }}
+{% endblock %}
+
+{% block about_member_social_4 %}
+    {# BEGIN-SLOT
+        name: about_member_social_4
+        repeated: page
+        htmlContent: |
+            <strong>Replace me with social icons for this member team</strong>
+    END-SLOT #}
+    {{ renderSlot('about_member_social_4') }}
+{% endblock %}
+
+{% block about_member_picture_5 %}
+    {# BEGIN-SLOT
+        name: about_member_picture_5
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250/#fff:#999
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('about_member_picture_5') }}
+{% endblock %}
+
+{% block about_member_description_5 %}
+    {# BEGIN-SLOT
+        name: about_member_description_5
+        repeated: page
+        htmlContent: |
+            <h3>John Smith
+                <small>Job Title</small>
+            </h3>
+            <p>What does this team member do? Keep it short! This is also a great spot for social links!</p>
+    END-SLOT #}
+    {{ renderSlot('about_member_description_5') }}
+{% endblock %}
+
+{% block about_member_social_5 %}
+    {# BEGIN-SLOT
+        name: about_member_social_5
+        repeated: page
+        htmlContent: |
+            <strong>Replace me with social icons for this member team</strong>
+    END-SLOT #}
+    {{ renderSlot('about_member_social_5') }}
+{% endblock %}
+
+{% block about_member_picture_6 %}
+    {# BEGIN-SLOT
+        name: about_member_picture_6
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x250/#fff:#999
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('about_member_picture_6') }}
+{% endblock %}
+
+{% block about_member_description_6 %}
+    {# BEGIN-SLOT
+        name: about_member_description_6
+        repeated: page
+        htmlContent: |
+            <h3>John Smith
+                <small>Job Title</small>
+            </h3>
+            <p>What does this team member do? Keep it short! This is also a great spot for social links!</p>
+    END-SLOT #}
+    {{ renderSlot('about_member_description_6') }}
+{% endblock %}
+
+{% block about_member_social_6 %}
+    {# BEGIN-SLOT
+        name: about_member_social_6
+        repeated: page
+        htmlContent: |
+            <strong>Replace me with social icons for this member team</strong>
+    END-SLOT #}
+    {{ renderSlot('about_member_social_6') }}
+{% endblock %}
+
+{% block about_customers_title %}
+    {# BEGIN-SLOT
+        name: about_customers_title
+        repeated: page
+        blockType: BootstrapPageHeaderBlock
+        blockDefinition:
+            0:
+                page_header_title: Our Customers
+                page_header_subtitle: 
+                page_header_tag: h2
+    END-SLOT #}
+    {{ renderSlot('about_customers_title') }}
+{% endblock %}
+
+{% block about_content_box_1 %}
+    {# BEGIN-SLOT
+        name: about_content_box_1
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/700x350
+                class: img-responsive  
+    END-SLOT #}
+    {{ renderSlot('about_content_box_1') }}
+{% endblock %}
+
+{% block about_content_box_2 %}
+    {# BEGIN-SLOT
+        name: about_content_box_2
+        repeated: page
+        htmlContent: |
+            <h2>Welcome to 'Modern Business'</h2>
+            <p>This is a great place to introduce your company or project and describe what you do. This about page features general company information, employee bios, and other helpful elements.</p>
+            <p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets.. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+    END-SLOT #}
+    {{ renderSlot('about_content_box_2') }}
+{% endblock %}
+
+{% block about_customers_box_1 %}
+    {# BEGIN-SLOT
+        name: about_customers_box_1
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/500x100
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('about_customers_box_1') }}
+{% endblock %}
+
+{% block about_customers_box_2 %}
+    {# BEGIN-SLOT
+        name: about_customers_box_2
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/500x100
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('about_customers_box_2') }}
+{% endblock %}
+
+{% block about_customers_box_3 %}
+    {# BEGIN-SLOT
+        name: about_customers_box_3
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/500x100
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('about_customers_box_3') }}
+{% endblock %}
+
+{% block about_customers_box_4 %}
+    {# BEGIN-SLOT
+        name: about_customers_box_4
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/500x100
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('about_customers_box_4') }}
+{% endblock %}
+
+{% block about_customers_box_5 %}
+    {# BEGIN-SLOT
+        name: about_customers_box_5
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/500x100
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('about_customers_box_5') }}
+{% endblock %}
+
+{% block about_customers_box_6 %}
+    {# BEGIN-SLOT
+        name: about_customers_box_6
+        repeated: page
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/500x100
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('about_customers_box_6') }}
+{% endblock %}
+
+{# FAQ SLOTS #}
+
+{% block faq_page_header %}
+    {# BEGIN-SLOT
+        name: faq_page_header
+        repeated: page
+        blockType: BootstrapPageHeaderBlock
+        blockDefinition:
+            0:
+                page_header_title: FAQ
+                page_header_subtitle: Frequently Asked Questions
+    END-SLOT #}
+    {{ renderSlot('faq_page_header') }}
+{% endblock %}
+
+{% block faq_bread_crumb %}
+    {# BEGIN-SLOT
+        name: faq_bread_crumb
+        repeated: page
+        blockType: BootstrapBreadcrumbBlock
+    END-SLOT #}
+    {{ renderSlot('faq_bread_crumb') }}
+{% endblock %}
+
+{% block faq_box %}
+    {# BEGIN-SLOT
+        name: faq_box
+        blockType: BootstrapAccordionBlock
+    END-SLOT #}
+    {{ renderSlot('faq_box') }}
+{% endblock %}
+
+{# SERVICES SLOTS #}
+
+{% block services_page_header %}
+    {# BEGIN-SLOT
+        name: services_page_header
+        repeated: page
+        blockType: BootstrapPageHeaderBlock
+        blockDefinition:
+            0:
+                page_header_title: Services
+                page_header_subtitle: What We Do
+    END-SLOT #}
+    {{ renderSlot('services_page_header') }}
+{% endblock %}
+
+{% block services_images_page_header %}
+    {# BEGIN-SLOT
+        name: services_images_page_header
+        repeated: page
+        blockType: BootstrapPageHeaderBlock
+        blockDefinition:
+            0:
+                page_header_title: Service Images
+                page_header_subtitle: 
+                page_header_tag: h2
+    END-SLOT #}
+    {{ renderSlot('services_images_page_header') }}
+{% endblock %}
+
+{% block services_bread_crumb %}
+    {# BEGIN-SLOT
+        name: services_bread_crumb
+        repeated: page
+        blockType: BootstrapBreadcrumbBlock
+    END-SLOT #}
+    {{ renderSlot('services_bread_crumb') }}
+{% endblock %}
+
+{% block services_top_image_box %}
+    {# BEGIN-SLOT
+        name: services_top_image_box
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/1200x300
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('services_top_image_box') }}
+{% endblock %}
+
+{% block services_content_box_1 %}
+    {# BEGIN-SLOT
+        name: services_content_box_1
+        htmlContent: |
+            <h2 class="page-header">Our Premium Services</h2>
+            <p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+    END-SLOT #}
+    {{ renderSlot('services_content_box_1') }}
+{% endblock %}
+
+{% block services_content_box_2 %}
+    {# BEGIN-SLOT
+        name: services_content_box_2
+        htmlContent: |
+            <h2 class="page-header">Something More</h2>
+            <p>Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets.</p>
+            <a class="btn btn-primary" href="#">Click Me!</a>
+    END-SLOT #}
+    {{ renderSlot('services_content_box_2') }}
+{% endblock %}
+
+{% block services_image_box_1 %}
+    {# BEGIN-SLOT
+        name: services_image_box_1
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('services_image_box_1') }}
+{% endblock %}
+
+{% block services_content_box_3 %}
+    {# BEGIN-SLOT
+        name: services_content_box_3
+        htmlContent: |
+            <h3>Service One</h3>
+            <p>Service one description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst.</p>
+            <a class="btn btn-link btn-sm pull-right">More <i class="fa fa-angle-right"></i></a>
+    END-SLOT #}
+    {{ renderSlot('services_content_box_3') }}
+{% endblock %}
+
+{% block services_image_box_2 %}
+    {# BEGIN-SLOT
+        name: services_image_box_2
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('services_image_box_2') }}
+{% endblock %}
+
+{% block services_content_box_4 %}
+    {# BEGIN-SLOT
+        name: services_content_box_4
+        htmlContent: |
+            <h3>Service Two</h3>
+            <p>Service two description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst.</p>
+            <a class="btn btn-link btn-sm pull-right">More <i class="fa fa-angle-right"></i></a>
+    END-SLOT #}
+    {{ renderSlot('services_content_box_4') }}
+{% endblock %}
+
+{% block services_image_box_3 %}
+    {# BEGIN-SLOT
+        name: services_image_box_3
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('services_image_box_3') }}
+{% endblock %}
+
+{% block services_content_box_5 %}
+    {# BEGIN-SLOT
+        name: services_content_box_5
+        htmlContent: |
+            <h3>Service Three</h3>
+            <p>Service three description. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc placerat diam quis nisl vestibulum dignissim. In hac habitasse platea dictumst.</p>
+            <a class="btn btn-link btn-sm pull-right">More <i class="fa fa-angle-right"></i></a>
+    END-SLOT #}
+    {{ renderSlot('services_content_box_5') }}
+{% endblock %}
+
+{# PORTFOLIO-1-COL SLOTS #}
+
+{% block portfolio_1_page_header %}
+    {# BEGIN-SLOT
+        name: portfolio_1_page_header
+        repeated: page
+        blockType: BootstrapPageHeaderBlock
+        blockDefinition:
+            0:
+                page_header_title: One Column Portfolio
+                page_header_subtitle: Showcase Your Work
+    END-SLOT #}
+    {{ renderSlot('portfolio_1_page_header') }}
+{% endblock %}
+
+{% block portfolio_1_bread_crumb %}
+    {# BEGIN-SLOT
+        name: portfolio_1_bread_crumb
+        repeated: page
+        blockType: BootstrapBreadcrumbBlock
+    END-SLOT #}
+    {{ renderSlot('portfolio_1_bread_crumb') }}
+{% endblock %}
+
+{% block portfolio_1_image_box_1 %}
+    {# BEGIN-SLOT
+        name: portfolio_1_image_box_1
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_1_image_box_1') }}
+{% endblock %}
+
+{% block portfolio_1_content_box_1 %}
+    {# BEGIN-SLOT
+        name: portfolio_1_content_box_1
+        htmlContent: |
+            <h3>Project Name</h3>
+            <h4>Subheading</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
+            <a class="btn btn-primary" href="portfolio-item.html">View Project <i class="fa fa-angle-right"></i></a>
+    END-SLOT #}
+    {{ renderSlot('portfolio_1_content_box_1') }}
+{% endblock %}
+
+{% block portfolio_1_image_box_2 %}
+    {# BEGIN-SLOT
+        name: portfolio_1_image_box_2
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_1_image_box_2') }}
+{% endblock %}
+
+{% block portfolio_1_content_box_2 %}
+    {# BEGIN-SLOT
+        name: portfolio_1_content_box_2
+        htmlContent: |
+            <h3>Project Name</h3>
+            <h4>Subheading</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
+            <a class="btn btn-primary" href="portfolio-item.html">View Project <i class="fa fa-angle-right"></i></a>
+    END-SLOT #}
+    {{ renderSlot('portfolio_1_content_box_2') }}
+{% endblock %}
+
+{% block portfolio_1_image_box_3 %}
+    {# BEGIN-SLOT
+        name: portfolio_1_image_box_3
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_1_image_box_3') }}
+{% endblock %}
+
+{% block portfolio_1_content_box_3 %}
+    {# BEGIN-SLOT
+        name: portfolio_1_content_box_3
+        htmlContent: |
+            <h3>Project Name</h3>
+            <h4>Subheading</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
+            <a class="btn btn-primary" href="portfolio-item.html">View Project <i class="fa fa-angle-right"></i></a>
+    END-SLOT #}
+    {{ renderSlot('portfolio_1_content_box_3') }}
+{% endblock %}
+
+{% block portfolio_1_image_box_4 %}
+    {# BEGIN-SLOT
+        name: portfolio_1_image_box_4
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_1_image_box_4') }}
+{% endblock %}
+
+{% block portfolio_1_content_box_4 %}
+    {# BEGIN-SLOT
+        name: portfolio_1_content_box_4
+        htmlContent: |
+            <h3>Project Name</h3>
+            <h4>Subheading</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
+            <a class="btn btn-primary" href="portfolio-item.html">View Project <i class="fa fa-angle-right"></i></a>
+    END-SLOT #}
+    {{ renderSlot('portfolio_1_content_box_4') }}
+{% endblock %}
+
+{% block portfolio_1_image_box_5 %}
+    {# BEGIN-SLOT
+        name: portfolio_1_image_box_5
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_1_image_box_5') }}
+{% endblock %}
+
+{% block portfolio_1_content_box_5 %}
+    {# BEGIN-SLOT
+        name: portfolio_1_content_box_5
+        htmlContent: |
+            <h3>Project Name</h3>
+            <h4>Subheading</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
+            <a class="btn btn-primary" href="portfolio-item.html">View Project <i class="fa fa-angle-right"></i></a>
+    END-SLOT #}
+    {{ renderSlot('portfolio_1_content_box_5') }}
+{% endblock %}
+
+{% block portfolio_1_pagination %}
+    {# BEGIN-SLOT
+        name: portfolio_1_pagination
+        htmlContent: |
+            <ul class="pagination">
+                <li><a href="#">&laquo;</a>
+                </li>
+                <li class="active"><a href="#">1</a>
+                </li>
+                <li><a href="#">2</a>
+                </li>
+                <li><a href="#">3</a>
+                </li>
+                <li><a href="#">4</a>
+                </li>
+                <li><a href="#">5</a>
+                </li>
+                <li><a href="#">&raquo;</a>
+                </li>
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('portfolio_1_pagination') }}
+{% endblock %}
+
+{# PORTFOLIO-2-COL SLOTS #}
+
+{% block portfolio_2_page_header %}
+    {# BEGIN-SLOT
+        name: portfolio_2_page_header
+        repeated: page
+        blockType: BootstrapPageHeaderBlock
+        blockDefinition:
+            0:
+                page_header_title: Two Column Portfolio
+                page_header_subtitle: Showcase Your Work
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_page_header') }}
+{% endblock %}
+
+{% block portfolio_2_bread_crumb %}
+    {# BEGIN-SLOT
+        name: portfolio_2_bread_crumb
+        repeated: page
+        blockType: BootstrapBreadcrumbBlock
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_bread_crumb') }}
+{% endblock %}
+
+{% block portfolio_2_image_item_1 %}
+    {# BEGIN-SLOT
+        name: portfolio_2_image_item_1
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_image_item_1') }}
+{% endblock %}
+
+{% block portfolio_2_item_1 %}
+    {# BEGIN-SLOT
+        name: portfolio_2_item_1
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_item_1') }}
+{% endblock %}
+
+{% block portfolio_2_image_item_2 %}
+    {# BEGIN-SLOT
+        name: portfolio_2_image_item_2
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_image_item_2') }}
+{% endblock %}
+
+{% block portfolio_2_item_2 %}
+    {# BEGIN-SLOT
+        name: portfolio_2_item_2
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_item_2') }}
+{% endblock %}
+
+{% block portfolio_2_image_item_3 %}
+    {# BEGIN-SLOT
+        name: portfolio_2_image_item_3
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_image_item_3') }}
+{% endblock %}
+
+{% block portfolio_2_item_3 %}
+    {# BEGIN-SLOT
+        name: portfolio_2_item_3
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_item_3') }}
+{% endblock %}
+
+{% block portfolio_2_image_item_4 %}
+    {# BEGIN-SLOT
+        name: portfolio_2_image_item_4
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_image_item_4') }}
+{% endblock %}
+
+{% block portfolio_2_item_4 %}
+    {# BEGIN-SLOT
+        name: portfolio_2_item_4
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_item_4') }}
+{% endblock %}
+
+{% block portfolio_2_image_item_5%}
+    {# BEGIN-SLOT
+        name: portfolio_2_image_item_5
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_image_item_5') }}
+{% endblock %}
+
+{% block portfolio_2_item_5 %}
+    {# BEGIN-SLOT
+        name: portfolio_2_item_5
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_item_5') }}
+{% endblock %}
+
+{% block portfolio_2_image_item_6 %}
+    {# BEGIN-SLOT
+        name: portfolio_2_image_item_6
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x250
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_image_item_6') }}
+{% endblock %}
+
+{% block portfolio_2_item_6 %}
+    {# BEGIN-SLOT
+        name: portfolio_2_item_6
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_item_6') }}
+{% endblock %}
+
+{% block portfolio_2_pagination %}
+    {# BEGIN-SLOT
+        name: portfolio_2_pagination
+        htmlContent: |
+            <ul class="pagination">
+                <li><a href="#">&laquo;</a>
+                </li>
+                <li class="active"><a href="#">1</a>
+                </li>
+                <li><a href="#">2</a>
+                </li>
+                <li><a href="#">3</a>
+                </li>
+                <li><a href="#">4</a>
+                </li>
+                <li><a href="#">5</a>
+                </li>
+                <li><a href="#">&raquo;</a>
+                </li>
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('portfolio_2_pagination') }}
+{% endblock %}
+
+{# PORTFOLIO 3 SLOTS #}
+
+{% block portfolio_3_page_header %}
+    {# BEGIN-SLOT
+        name: portfolio_3_page_header
+        repeated: page
+        blockType: BootstrapPageHeaderBlock
+        blockDefinition:
+            0:
+                page_header_title: Three Column Portfolio
+                page_header_subtitle: Showcase Your Work
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_page_header') }}
+{% endblock %}
+
+{% block portfolio_3_bread_crumb %}
+    {# BEGIN-SLOT
+        name: portfolio_3_bread_crumb
+        repeated: page
+        blockType: BootstrapBreadcrumbBlock
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_bread_crumb') }}
+{% endblock %}
+
+{% block portfolio_3_image_item_1 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_image_item_1
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_image_item_1') }}
+{% endblock %}
+
+{% block portfolio_3_item_1 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_item_1
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_item_1') }}
+{% endblock %}
+
+{% block portfolio_3_image_item_2 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_image_item_2
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_image_item_2') }}
+{% endblock %}
+
+{% block portfolio_3_item_2 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_item_2
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_item_2') }}
+{% endblock %}
+
+{% block portfolio_3_image_item_3 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_image_item_3
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_image_item_3') }}
+{% endblock %}
+
+{% block portfolio_3_item_3 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_item_3
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_item_3') }}
+{% endblock %}
+
+{% block portfolio_3_image_item_4 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_image_item_4
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_image_item_4') }}
+{% endblock %}
+
+{% block portfolio_3_item_4 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_item_4
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_item_4') }}
+{% endblock %}
+
+{% block portfolio_3_image_item_5 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_image_item_5
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_image_item_5') }}
+{% endblock %}
+
+{% block portfolio_3_item_5 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_item_5
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_item_5') }}
+{% endblock %}
+
+{% block portfolio_3_image_item_6 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_image_item_6
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_image_item_6') }}
+{% endblock %}
+
+{% block portfolio_3_item_6 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_item_6
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_item_6') }}
+{% endblock %}
+
+{% block portfolio_3_image_item_7 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_image_item_7
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_image_item_7') }}
+{% endblock %}
+
+{% block portfolio_3_item_7 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_item_7
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_item_7') }}
+{% endblock %}
+
+{% block portfolio_3_image_item_8 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_image_item_8
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_image_item_8') }}
+{% endblock %}
+
+{% block portfolio_3_item_8 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_item_8
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_item_8') }}
+{% endblock %}
+
+{% block portfolio_3_image_item_9 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_image_item_9
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_image_item_9') }}
+{% endblock %}
+
+{% block portfolio_3_item_9 %}
+    {# BEGIN-SLOT
+        name: portfolio_3_item_9
+        htmlContent: |
+            <h3><a href="portfolio-item.html">Project Name</a>
+            </h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_item_9') }}
+{% endblock %}
+
+{% block portfolio_3_pagination %}
+    {# BEGIN-SLOT
+        name: portfolio_3_pagination
+        htmlContent: |
+            <ul class="pagination">
+                <li><a href="#">&laquo;</a>
+                </li>
+                <li class="active"><a href="#">1</a>
+                </li>
+                <li><a href="#">2</a>
+                </li>
+                <li><a href="#">3</a>
+                </li>
+                <li><a href="#">4</a>
+                </li>
+                <li><a href="#">5</a>
+                </li>
+                <li><a href="#">&raquo;</a>
+                </li>
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_pagination') }}
+{% endblock %}
+
+{# PORTFOLIO 4 SLOTS #}
+
+{% block portfolio_4_page_header %}
+    {# BEGIN-SLOT
+        name: portfolio_4_page_header
+        repeated: page
+        blockType: BootstrapPageHeaderBlock
+        blockDefinition:
+            0:
+                page_header_title: Four Column Portfolio
+                page_header_subtitle: Showcase Your Work
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_page_header') }}
+{% endblock %}
+
+{% block portfolio_4_bread_crumb %}
+    {# BEGIN-SLOT
+        name: portfolio_4_bread_crumb
+        repeated: page
+        blockType: BootstrapBreadcrumbBlock
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_bread_crumb') }}
+{% endblock %}
+
+{% block portfolio_4_item_1 %}
+    {# BEGIN-SLOT
+        name: portfolio_4_item_1
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_item_1') }}
+{% endblock %}
+
+{% block portfolio_4_item_2 %}
+    {# BEGIN-SLOT
+        name: portfolio_4_item_2
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_item_2') }}
+{% endblock %}
+
+{% block portfolio_4_item_3 %}
+    {# BEGIN-SLOT
+        name: portfolio_4_item_3
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_item_3') }}
+{% endblock %}
+
+{% block portfolio_4_item_4 %}
+    {# BEGIN-SLOT
+        name: portfolio_4_item_4
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_item_4') }}
+{% endblock %}
+
+{% block portfolio_4_item_5 %}
+    {# BEGIN-SLOT
+        name: portfolio_4_item_5
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_item_5') }}
+{% endblock %}
+
+{% block portfolio_4_item_6 %}
+    {# BEGIN-SLOT
+        name: portfolio_4_item_6
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_item_6') }}
+{% endblock %}
+
+{% block portfolio_4_item_7 %}
+    {# BEGIN-SLOT
+        name: portfolio_4_item_7
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_item_7') }}
+{% endblock %}
+
+{% block portfolio_4_item_8 %}
+    {# BEGIN-SLOT
+        name: portfolio_4_item_8
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_item_8') }}
+{% endblock %}
+
+{% block portfolio_4_item_9 %}
+    {# BEGIN-SLOT
+        name: portfolio_4_item_9
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_item_9') }}
+{% endblock %}
+
+{% block portfolio_4_item_10 %}
+    {# BEGIN-SLOT
+        name: portfolio_4_item_10
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_item_10') }}
+{% endblock %}
+
+{% block portfolio_4_item_11 %}
+    {# BEGIN-SLOT
+        name: portfolio_4_item_11
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_item_11') }}
+{% endblock %}
+
+{% block portfolio_4_item_12 %}
+    {# BEGIN-SLOT
+        name: portfolio_4_item_12
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x200
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_4_item_12') }}
+{% endblock %}
+
+{% block portfolio_4_pagination %}
+    {# BEGIN-SLOT
+        name: portfolio_3_pagination
+        htmlContent: |
+            <ul class="pagination">
+                <li><a href="#">&laquo;</a>
+                </li>
+                <li class="active"><a href="#">1</a>
+                </li>
+                <li><a href="#">2</a>
+                </li>
+                <li><a href="#">3</a>
+                </li>
+                <li><a href="#">4</a>
+                </li>
+                <li><a href="#">5</a>
+                </li>
+                <li><a href="#">&raquo;</a>
+                </li>
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('portfolio_3_pagination') }}
+{% endblock %}
+
+{# PORTFOLIO ITEM SLOTS #}
+
+{% block portfolio_item_page_header %}
+    {# BEGIN-SLOT
+        name: portfolio_item_page_header
+        repeated: page
+        blockType: BootstrapPageHeaderBlock
+        blockDefinition:
+            0:
+                page_header_title: Single Portfolio Item
+                page_header_subtitle: Explain Your Work
+    END-SLOT #}
+    {{ renderSlot('portfolio_item_page_header') }}
+{% endblock %}
+
+{% block portfolio_item_bread_crumb %}
+    {# BEGIN-SLOT
+        name: portfolio_item_bread_crumb
+        repeated: page
+        blockType: BootstrapBreadcrumbBlock
+    END-SLOT #}
+    {{ renderSlot('portfolio_item_bread_crumb') }}
+{% endblock %}
+
+{% block portfolio_item_image %}
+    {# BEGIN-SLOT
+        name: portfolio_item_image
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/750x300
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_item_image') }}
+{% endblock %}
+
+{% block portfolio_item_description %}
+    {# BEGIN-SLOT
+        name: portfolio_item_description
+        htmlContent: |
+            <h3>Project Description</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim.</p>
+            <h3>Project Details</h3>
+            <ul>
+                <li>Lorem Ipsum</li>
+                <li>Dolor Sit Amet</li>
+                <li>Consectetur</li>
+                <li>Adipiscing Elit</li>
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('portfolio_item_description') }}
+{% endblock %}
+
+{% block portfolio_item_related_project_box_1 %}
+    {# BEGIN-SLOT
+        name: portfolio_item_related_project_box_1
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/500x150
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_item_related_project_box_1') }}
+{% endblock %}
+
+{% block portfolio_item_related_project_box_2 %}
+    {# BEGIN-SLOT
+        name: portfolio_item_related_project_box_2
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/500x150
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_item_related_project_box_2') }}
+{% endblock %}
+
+{% block portfolio_item_related_project_box_3 %}
+    {# BEGIN-SLOT
+        name: portfolio_item_related_project_box_3
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/500x150
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_item_related_project_box_3') }}
+{% endblock %}
+
+{% block portfolio_item_related_project_box_4 %}
+    {# BEGIN-SLOT
+        name: portfolio_item_related_project_box_4
+        blockType: Image
+        blockDefinition:
+            0:
+                data_src: holder.js/500x150
+                class: img-responsive
+    END-SLOT #}
+    {{ renderSlot('portfolio_item_related_project_box_4') }}
+{% endblock %}
+
+{# CONTACT SLOTS #}
+
+{% block contact_page_header %}
+    {# BEGIN-SLOT
+        name: contact_page_header
+        repeated: page
+        blockType: BootstrapPageHeaderBlock
+        blockDefinition:
+            0:
+                page_header_title: Contact
+                page_header_subtitle: We'd Love to Hear From You!
+    END-SLOT #}
+    {{ renderSlot('contact_page_header') }}
+{% endblock %}
+
+{% block contact_bread_crumb %}
+    {# BEGIN-SLOT
+        name: contact_bread_crumb
+        repeated: page
+        blockType: BootstrapBreadcrumbBlock
+    END-SLOT #}
+    {{ renderSlot('contact_bread_crumb') }}
+{% endblock %}
+
+{% block contact_map %}
+    {# BEGIN-SLOT
+        name: contact_map
+        blockType: Script
+        htmlContent: |
+            <iframe width="100%" height="400px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?hl=en&amp;ie=UTF8&amp;ll=37.0625,-95.677068&amp;spn=56.506174,79.013672&amp;t=m&amp;z=4&amp;output=embed"></iframe>
+    END-SLOT #}
+    {{ renderSlot('contact_map') }}
+{% endblock %}
+
+{% block contact_form %}
+    {# BEGIN-SLOT
+        name: contact_form
+        htmlContent: |
+            <h3>Let's Get In Touch!</h3>
+            <p>Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats vitaes nemo minima rerums unsers sadips amets. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+            <form role="form" method="POST" action="contact-form-submission.php">
+                <div class="row">
+                  <div class="form-group col-lg-4">
+                    <label for="input1">Name</label>
+                    <input type="text" name="contact_name" class="form-control" id="input1">
+                  </div>
+                  <div class="form-group col-lg-4">
+                    <label for="input2">Email Address</label>
+                    <input type="email" name="contact_email" class="form-control" id="input2">
+                  </div>
+                  <div class="form-group col-lg-4">
+                    <label for="input3">Phone Number</label>
+                    <input type="phone" name="contact_phone" class="form-control" id="input3">
+                  </div>
+                  <div class="clearfix"></div>
+                  <div class="form-group col-lg-12">
+                    <label for="input4">Message</label>
+                    <textarea name="contact_message" class="form-control" rows="6" id="input4"></textarea>
+                  </div>
+                  <div class="form-group col-lg-12">
+                    <input type="hidden" name="save" value="contact">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </div>
+             </form>
+    END-SLOT #}
+    {{ renderSlot('contact_form') }}
+{% endblock %}
+
+{% block contact_address %}
+    {# BEGIN-SLOT
+        name: contact_address
+        htmlContent: |
+            <h3>Modern Business</h3>
+            <h4>A Start Bootstrap Template</h4>
+            <p>
+              5555 44th Street N.<br>
+              Bootstrapville, CA 32323<br>
+            </p>
+            <p><i class="fa fa-phone"></i> <abbr title="Phone">P</abbr>: (555) 984-3600</p>
+            <p><i class="fa fa-envelope-o"></i> <abbr title="Email">E</abbr>: <a href="mailto:feedback@startbootstrap.com">feedback@startbootstrap.com</a></p>
+            <p><i class="fa fa-clock-o"></i> <abbr title="Hours">H</abbr>: Monday - Friday: 9:00 AM to 5:00 PM</p>
+            <ul class="list-unstyled list-inline list-social-icons">
+              <li class="tooltip-social facebook-link"><a href="#facebook-page" data-toggle="tooltip" data-placement="top" title="Facebook"><i class="fa fa-facebook-square fa-2x"></i></a></li>
+              <li class="tooltip-social linkedin-link"><a href="#linkedin-company-page" data-toggle="tooltip" data-placement="top" title="LinkedIn"><i class="fa fa-linkedin-square fa-2x"></i></a></li>
+              <li class="tooltip-social twitter-link"><a href="#twitter-profile" data-toggle="tooltip" data-placement="top" title="Twitter"><i class="fa fa-twitter-square fa-2x"></i></a></li>
+              <li class="tooltip-social google-plus-link"><a href="#google-plus-page" data-toggle="tooltip" data-placement="top" title="Google+"><i class="fa fa-google-plus-square fa-2x"></i></a></li>
+            </ul>
+    END-SLOT #}
+    {{ renderSlot('contact_address') }}
+{% endblock %}
+

@@ -1,0 +1,91 @@
+{% extends 'ModernBusinessThemeBundle:Theme:base/base.html.twig' %}
+
+{% use 'ModernBusinessThemeBundle:Slots:slots.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                {{ block('portfolio_1_page_header') }}
+                {{ block('portfolio_1_bread_crumb') }} 
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-7">
+                {{ block('portfolio_1_image_box_1') }}
+            </div>
+
+            <div class="col-md-5">
+                {{ block('portfolio_1_content_box_1') }}                
+            </div>
+        </div>
+
+        <hr>
+        
+        <div class="row">
+
+            <div class="col-md-7">
+                {{ block('portfolio_1_image_box_2') }}
+            </div>
+
+            <div class="col-md-5">
+                {{ block('portfolio_1_content_box_2') }}                    
+            </div>
+
+        </div>
+
+        <hr>
+        
+        <div class="row">
+
+            <div class="col-md-7">
+                {{ block('portfolio_1_image_box_3') }}
+            </div>
+
+            <div class="col-md-5">
+                {{ block('portfolio_1_content_box_3') }}                    
+            </div>
+
+        </div>
+
+        <hr>
+        
+        <div class="row">
+
+            <div class="col-md-7">
+                {{ block('portfolio_1_image_box_4') }}
+            </div>
+
+            <div class="col-md-5">
+                {{ block('portfolio_1_content_box_4') }}                    
+            </div>
+
+        </div>
+
+        <hr>
+        
+        <div class="row">
+
+            <div class="col-md-7">
+                {{ block('portfolio_1_image_box_5') }}
+            </div>
+
+            <div class="col-md-5">
+                {{ block('portfolio_1_content_box_5') }}                    
+            </div>
+
+        </div>
+
+        <hr>
+        
+        <div class="row text-center">
+            <div class="col-lg-12">
+                {{ block('portfolio_1_pagination') }}                
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends base_template %}
+
+
+{% block metatags %}   
+    {{ parent() }}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}  
+    
+{% block external_stylesheets %}
+    {% stylesheets  filter='cssrewrite' 'components/redkitecms/twitter-bootstrap/3.x/css/bootstrap.min.css' 
+    %}   
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
+    {% endstylesheets %}
+{% endblock %}
+    
+{% block post_external_stylesheets %}   
+    {{ parent() }}
+    <link href="/bundles/modernbusinesstheme/css/modern-business.css" rel="stylesheet">
+    <link href="/bundles/modernbusinesstheme/css/redkite-adapter.css" rel="stylesheet">
+    <link href="/bundles/modernbusinesstheme/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+{% endblock %}
+    
+{% block external_javascripts %}
+    {% javascripts 'components/jquery/jquery.min.js' 
+                                     'components/redkitecms/twitter-bootstrap/3.x/js/bootstrap.min.js' 
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+        
+{% block body %}
+    {{ block('navbar_box') }}
+        
+    {% block content %}
+    {% endblock %} 
+    
+    <div class="container">
+        <hr>
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    {{ block('copyright_box') }}
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- /.container -->
+{% endblock %}

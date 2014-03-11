@@ -1,0 +1,32 @@
+{% extends 'ModernBusinessThemeBundle:Theme:base/base.html.twig' %}
+
+{% use 'ModernBusinessThemeBundle:Slots:slots.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-lg-12">
+                {{ block('contact_page_header') }}
+                {{ block('contact_bread_crumb') }} 
+                </ol>
+            </div>
+
+            <div class="col-lg-12">
+              {{ block('contact_map') }}
+            </div>
+        </div>
+        
+        <div class="row">
+
+        <div class="col-sm-8">
+            {{ block('contact_form') }}
+        </div>
+            
+        <div class="col-sm-4">
+            {{ block('contact_address') }}
+        </div>
+    </div>
+    <!-- /.container -->
+{% endblock %}

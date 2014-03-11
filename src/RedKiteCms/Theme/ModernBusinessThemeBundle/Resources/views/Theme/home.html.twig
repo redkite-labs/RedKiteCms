@@ -1,0 +1,137 @@
+{# empty Twig template #}
+{% extends 'ModernBusinessThemeBundle:Theme:base/base.html.twig' %}
+
+{% use 'ModernBusinessThemeBundle:Slots:slots.html.twig' %}
+
+{% block content %}
+    {{ block('slider_box') }}
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-4">
+                    {{ block('hp_content_box_1') }}
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    {{ block('hp_content_box_2') }}
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    {{ block('hp_content_box_3') }}
+                </div>
+            </div>
+            <!-- /.row -->
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.section -->
+    
+    <div class="section-colored text-center">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    {{ block('hp_content_box_4') }}
+                    <hr>
+                </div>
+            </div>
+            <!-- /.row -->
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.section-colored -->
+    
+    <div id="portfolio-home" class="section">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    {{ block('portfolio_title_box') }}
+                    <hr>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    {{ block('portfolio_box_1') }}
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    {{ block('portfolio_box_2') }}
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    {{ block('portfolio_box_3') }}
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    {{ block('portfolio_box_4') }}
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    {{ block('portfolio_box_5') }}
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6">
+                    {{ block('portfolio_box_6') }}
+                </div>
+            </div>
+            <!-- /.row -->
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.section -->
+    
+    <div class="section-colored">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    {{ block('hp_content_box_5') }}
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    {{ block('hp_content_box_6') }}
+                </div>
+            </div>
+            <!-- /.row -->
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.section-colored -->
+    
+    <div class="section">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    {{ block('hp_content_box_7') }}
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6">
+                    {{ block('hp_content_box_8') }}
+                </div>
+            </div>
+            <!-- /.row -->
+
+        </div>
+        <!-- /.container -->
+
+    </div>
+    <!-- /.section -->
+    
+    <div class="container">
+
+        <div class="row well">
+            <div class="col-lg-8 col-md-8">
+                {{ block('hp_content_box_9') }}
+            </div>
+            <div class="col-lg-4 col-md-4">
+                {{ block('hp_content_box_10') }}
+            </div>
+        </div>
+        <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+{% endblock %} 
