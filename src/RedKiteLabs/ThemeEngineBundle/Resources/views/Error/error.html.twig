@@ -1,0 +1,33 @@
+{#
+   This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
+   under the GPL LICENSE Version 2.0. In addiction, to use this bundle, you must leave
+   intact this copyright notice.
+ 
+    Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+ 
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+ +
+   For extra documentation and help please visit http://www.redkite-labs.com
+  
+   @license    GPL LICENSE Version 2.0
+#}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Ops... something went wrong</title>
+        <meta name="generator" content="RedKite Labs Theme Engine" />
+        
+        <link href="/bundles/redkitelabsthemeengine/css/404.css" rel="stylesheet" type="text/css" media="all" />
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    
+    <body>
+        <div class="status-code center">{{ status_code }}</div>
+        <div class="image center"><img src="/bundles/redkitelabsthemeengine/images/404.jpg" /></div>
+        <div class="message center">{{ message }}</div>
+    </body>
+    
+</html>

@@ -1,0 +1,8 @@
+/vendor/
+/*~
+/Core/.fr-kNFKpM/
+/nbproject/
+/composer.lock
+/composer.phar
+/Tests/Functional/app/cache/
+/Tests/Functional/app/logs/

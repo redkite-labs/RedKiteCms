@@ -1,0 +1,54 @@
+body {
+  font-family: "Open Sans", Arial, Verdana, Helvetica, sans-serif;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+a {
+  color: #d9761c;
+}
+
+a:hover {
+  color: #bb0000;
+}
+
+#header {
+  height: 158px;
+  width: 100%;
+  background-color: #010101;
+  border-bottom: 1px solid #fff;
+}
+
+#logo {
+  text-align: center;
+  padding-top: 30px;
+}
+
+#content {
+  font-size: 18px;
+  border-top: 1px solid #010101;
+}
+
+#content .note {
+    font-style: italic;
+}
+
+#footer {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background-color: #4d4644;
+  border-top: 1px solid white;
+  border-bottom: 6px solid #1d1d1d;
+  padding: 10px;
+  color: #fff;
+  text-align: center;
+}
+
+#footer a {
+  font-weight: bold;
+  color: #fff;
+}
