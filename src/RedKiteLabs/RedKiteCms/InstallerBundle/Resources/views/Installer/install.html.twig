@@ -1,0 +1,129 @@
+{#
+   This file is part of the RedKite CMS InstallerBundle and it is distributed
+   under the MIT LICENSE. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKiteCms <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    MIT LICENSE
+#}
+
+{% extends 'RedKiteCmsInstallerBundle:Installer:main.html.twig' %}
+{% form_theme form "RedKiteCmsInstallerBundle:Installer:form.html.twig" %}
+
+
+{% block external_javascripts %}
+<script src="{{ asset('components/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('components/redkitecms/twitter-bootstrap/2.x/js/bootstrap.min.js') }}"></script>
+{% endblock %}
+
+{% block internal_header_stylesheets %}
+    <script>
+    $(document).ready(function(){
+
+        setByDriver($('#installer_parameters_driver').val());
+        $('#installer_parameters_driver').change(function(){
+
+            setByDriver($(this).val());
+            return false;
+        });
+
+        function setByDriver(driver) {
+            switch(driver) {
+                case 'mysql':
+                    showAllParams();
+                    $('#installer_parameters_port').val('3306');
+                    $('#installer_parameters_user').val('root');
+                    break;
+                case 'pgsql':
+                    showAllParams();
+                    $('#installer_parameters_port').val('5432');
+                    $('#installer_parameters_user').val('postgres');
+                    break;
+                case 'sqlite':
+                    hideSqliteUnusedParams();
+                    break;
+                default:
+                    showDsnDbParams();
+                    break;
+            }
+        }
+
+        function hideSqliteUnusedParams() {
+            $('#sqlite-unused').hide();
+        }
+
+        function showAllParams() {
+            $('#sqlite-unused').show();
+        }
+        
+        $('.rk-popover').popover();
+    });
+    </script>
+{% endblock %}
+
+{% block contents %}
+    
+<img src="/bundles/redkitecmsinstaller/images/rklogo-64.png" width="32" height="32" class="rklogo pull-left"/>
+<h1>RedKite CMS Web-Installer interface</h1>
+<div>  
+    Welcome to RedKite CMS installer. Please fill the form below to install RedKite CMS.
+</div>
+<div>  
+    Please notice that the installation could take some time. 
+</div>
+<div style="margin-top: 30px">
+    <form action="{{ path('_install') }}" method="POST" class="form-horizontal">
+        {% if app.session.getFlashBag().has('error') %}
+        <div id="al_process_errors">
+            <h2>Ops. Something went wrong</h2>
+            {% for flashMessage in app.session.flashbag.get('error') %}
+            <div class="alert alert-error">
+            {{ flashMessage }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div>    
+            <div class="control-group"> 
+            {{ form_label(form.bundle) }}   
+                <a href="#" class="rk-popover pull-left" data-content="<p>Before you begin, you'll need to create a bundle. In Symfony2, a bundle is nothing more than a directory that houses everything related to a specific feature: in this case it will house your website.<br /><br />If you are installing using the RedKite CMS Sandbox, bundle configuration is already fine for you.</p><p><a href='http://symfony.com/doc/current/book/page_creation.html#before-you-begin-create-the-bundle'>Learn more about this topic</a></p>" data-placement="bottom" rel="popover" data-title="Bundle" data-html="true">
+                   <i class="icon-info-sign"></i>
+                </a>
+            {{ form_errors(form.bundle) }}
+            {{ form_widget(form.bundle) }}
+            </div>
+        </div>
+        <div>
+            <div class="control-group"> 
+            {{ form_label(form.driver) }}   
+                <a href="#" class="rk-popover pull-left" data-content="<p>Please provide the information required below, to access your database.<p></p>All information are required except the password which could be an empty value.</p>" data-placement="bottom" rel="popover" data-title="Database information" data-html="true">
+                    <i class="icon-info-sign"></i>
+                </a>
+            {{ form_errors(form.driver) }}
+            {{ form_widget(form.driver) }}
+            </div>
+        </div>
+        <div>
+            {{ form_row(form.host) }}
+            {{ form_row(form.database) }}
+        </div>
+        <div id="sqlite-unused">
+            {{ form_row(form.port) }}
+            {{ form_row(form.user) }}
+            {{ form_row(form.password) }}
+        </div>
+        <div>{{ form_rest(form) }}</div>
+        <div class="control-group">
+            <div class="controls">
+                <button type="submit" class="btn btn-primary btn-large">Install</button>                
+            </div>
+        </div>
+    </form>
+</div>      
+{% endblock %}

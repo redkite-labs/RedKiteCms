@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "redkitecms": "https://github.com/redkite-labs/redkitecms-component.git"
+  }
+}
