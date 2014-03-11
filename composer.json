@@ -1,0 +1,66 @@
+{
+    "name": "redkite-labs/redkite-cms-sandbox",
+    "description": "The \"RedKite CMS Sandbox\" distribution",
+    "license": "MIT",
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
+    "authors": [
+      {
+        "name": "RedKite Labs",
+        "email": "info@redkite-labs.com"
+      }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://apps.redkite-labs.com/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/symfony": "2.3.*",
+        "doctrine/orm": ">=2.2.3,<2.4-dev",
+        "doctrine/doctrine-bundle": "1.2.*",
+        "twig/extensions": "1.0.*",
+        "symfony/assetic-bundle": "2.3.*",
+        "symfony/swiftmailer-bundle": "2.3.*",
+        "symfony/monolog-bundle": "2.3.*",
+        "sensio/distribution-bundle": "2.3.*",
+        "sensio/framework-extra-bundle": "2.3.*",
+        "sensio/generator-bundle": "2.3.*",
+        "incenteev/composer-parameter-handler": "~2.0",
+        "redkite-cms/redkite-cms-bundle": "dev-master",
+        "redkite-cms/installer-bundle": "dev-master", 
+        "redkite-labs/modern-business-theme-bundle": "dev-master",
+    	"redkite-labs/bootbusiness-theme-bundle": "dev-master",
+        "redkite-cms/redkite-cms-base-blocks": "dev-master",
+	    "redkite-cms/tinymce-block-bundle": "dev-master"
+    },
+    "require-dev": {    
+      "willdurand/propel-typehintable-behavior": "dev-master",  
+      "mikey179/vfsStream": "1.1.0"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ],
+        "post-update-cmd": [
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ]
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-web-dir": "web"
+    }
+}

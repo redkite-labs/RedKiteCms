@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit
+    backupGlobals               = "false"
+    backupStaticAttributes      = "false"
+    colors                      = "true"
+    convertErrorsToExceptions   = "true"
+    convertNoticesToExceptions  = "true"
+    convertWarningsToExceptions = "true"
+    processIsolation            = "false"
+    stopOnFailure               = "true"
+    syntaxCheck                 = "false"
+    bootstrap                   = "bootstrap.php.cache" >
+
+    <testsuites>
+        <testsuite name="RedKite Sandbox Test Suite">
+            <directory>../vendor/redkite-labs/redkite-labs-bootstrap-bundle/RedKiteLabs/BootstrapBundle/Tests</directory>
+            <directory>../vendor/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Tests</directory>
+            <directory>../vendor/redkite-cms/redkite-cms-base-blocks/RedKiteCms/Block/RedKiteCmsBaseBlocksBundle/Tests</directory>
+            <directory>../vendor/redkite-cms/tinymce-block-bundle/RedKiteCms/Block/TinyMceBlockBundle/Tests</directory>
+            <directory>../vendor/redkite-cms/twitter-bootstrap/RedKiteCms/Block/TwitterBootstrapBundle/Tests</directory>
+            <directory>../vendor/redkite-labs/redkite-labs-theme-engine-bundle/RedKiteLabs/ThemeEngineBundle/Tests</directory>
+        </testsuite>
+    </testsuites>
+
+
+    <filter>
+        <whitelist>
+            <directory>../src</directory>
+            <exclude>
+                <directory>../src/*/*Bundle/Resources</directory>
+                <directory>../src/*/*Bundle/Tests</directory>
+                <directory>../src/*/Bundle/*Bundle/Resources</directory>
+                <directory>../src/*/Bundle/*Bundle/Tests</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+</phpunit>
