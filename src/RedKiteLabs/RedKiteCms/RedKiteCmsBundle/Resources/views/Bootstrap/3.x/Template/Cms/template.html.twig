@@ -1,0 +1,56 @@
+{#
+   This file is part of the RedKiteCmsBunde Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'RedKiteCmsBundle:Template:Cms/template.html.twig' %}
+
+{% block external_stylesheets %}
+    {% stylesheets filter='cssrewrite'
+        'components/redkitecms/twitter-bootstrap/3.x/css/bootstrap.min.css'
+        'components/redkitecms/font-awesome/css/font-awesome.min.css'
+        'bundles/redkitecms/css/skins/bootstrap/skin.css'
+        'bundles/redkitecms/css/skins/bootstrap/skin_3.x.css'
+        'components/redkitecms/jquery-ui/themes/smoothness/*'
+        'bundles/redkitelabselfinder/vendor/ElFinder/vendor/jquery-ui.css'
+        'bundles/redkitelabselfinder/vendor/ElFinder/css/elfinder.min.css'
+        'bundles/redkitelabselfinder/vendor/ElFinder/css/theme.css'
+    %}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="screen" />
+    {% endstylesheets %}
+    
+    {% for value in templateStylesheets %} 
+    <link href="{{ asset(value) }}" rel="stylesheet" type="text/css" media="all" />
+    {% endfor %}    
+{% endblock %}
+
+{% block external_javascripts %}
+    <script src="{{ asset('bundles/redkitecms/js/lang/' ~ cms_language ~ '.js') }}"></script>
+
+    {% javascripts
+        'components/jquery/jquery.min.js'
+        'components/redkitecms/jquery-ui/js/jquery-ui.min.js'
+        'components/redkitecms/twitter-bootstrap/3.x/js/bootstrap.min.js'
+        'components/jquery-easing/jquery.easing.min.js'
+        'components/holderjs/holder.js'
+        'bundles/redkitelabselfinder/vendor/ElFinder/js/elfinder.min.js'
+        'bundles/redkitecms/js/*'
+    %}
+    <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    
+    {% for value in templateJavascripts %}
+    <script src="{{ asset(value) }}"></script>
+    {% endfor %}
+{% endblock %}
+

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="_login" pattern="/login">
+        <default key="_controller">RedKiteCmsBundle:Security:login</default>
+        <default key="_locale">en</default>
+    </route>
+
+    <route id="_login_check" pattern="/login_check">
+        <default key="_controller">RedKiteCmsBundle:Security:securityCheck</default>
+        <default key="_locale">en</default>
+    </route>
+
+    <route id="_logout" pattern="/logout">
+        <default key="_controller">RedKiteCmsBundle:Security:logout</default>
+        <default key="_locale">en</default>
+    </route>
+
+    <route id="red_kite_cms_user_list" pattern="/users/{_locale}/al_usersList">
+        <default key="_controller">RedKiteCmsBundle:Security:listUsers</default>
+        <default key="_locale">en</default>
+    </route>
+
+    <route id="red_kite_cms_load_user" pattern="/users/{_locale}/al_loadUser/{locked}">
+        <default key="_controller">RedKiteCmsBundle:Security:loadUser</default>
+        <default key="_locale">en</default>
+        <default key="locked">user,id</default>
+        <requirement key="_method">POST</requirement>
+    </route>
+    
+    <route id="red_kite_cms_save_user" pattern="/users/{_locale}/al_saveUser/{locked}">
+        <default key="_controller">RedKiteCmsBundle:Security:saveUser</default>
+        <default key="_locale">en</default>
+        <default key="locked">user,id</default>
+        <requirement key="_method">POST</requirement>
+    </route>
+
+    <route id="red_kite_cms_delete_user" pattern="/users/{_locale}/al_deleteUser/{locked}">
+        <default key="_controller">RedKiteCmsBundle:Security:deleteUser</default>
+        <default key="_locale">en</default>
+        <default key="locked">user,id</default>
+        <requirement key="_method">POST</requirement>
+    </route>
+
+    <route id="red_kite_cms_roles_list" pattern="/users/{_locale}/al_rolesList">
+        <default key="_controller">RedKiteCmsBundle:Security:listRoles</default>
+        <default key="_locale">en</default>
+    </route>
+
+    <route id="red_kite_cms_show_role" pattern="/users/{_locale}/al_loadRole/{locked}">
+        <default key="_controller">RedKiteCmsBundle:Security:loadRole</default>
+        <default key="_locale">en</default>
+        <default key="locked">role,id</default>
+        <requirement key="_method">POST</requirement>
+    </route>
+    
+    <route id="red_kite_cms_save_role" pattern="/users/{_locale}/al_saveRole/{locked}">
+        <default key="_controller">RedKiteCmsBundle:Security:saveRole</default>
+        <default key="_locale">en</default>
+        <default key="locked">role,id</default>
+        <requirement key="_method">POST</requirement>
+    </route>
+
+    <route id="red_kite_cms_delete_role" pattern="/users/{_locale}/al_deleteRole/{locked}">
+        <default key="_controller">RedKiteCmsBundle:Security:deleteRole</default>
+        <default key="_locale">en</default>
+        <default key="locked">role,id</default>
+        <requirement key="_method">POST</requirement>
+    </route>
+</routes>

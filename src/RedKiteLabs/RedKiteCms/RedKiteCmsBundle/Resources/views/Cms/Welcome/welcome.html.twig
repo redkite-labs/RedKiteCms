@@ -1,0 +1,38 @@
+{#
+   This file is part of the RedKiteCmsBunde Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'RedKiteLabsThemeEngineBundle:Frontend:base.html.twig' %}
+
+{% block body %}
+    <div id="rk-welcome" class="box-centered">
+        <img src="/bundles/redkitecms/css/skins/bootstrap/images/rklogo-64.png" width="36" height="36" class="pull-left"/>
+        <h1>{{ 'welcome_title'|trans({}, 'RedKiteCmsBundle', cms_language) }}</h1>
+        <p>{{ 'welcome_background'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p>
+        <ol>
+            <li>{{ 'welcome_page_or_language_not_exist'|trans({}, 'RedKiteCmsBundle', cms_language) }}</li>
+            <li>{{ 'welcome_page_assigned_to_a_theme_no_more_used'|trans({}, 'RedKiteCmsBundle', cms_language) }}</li>
+            <li>{{ 'welcome_website_empty'|trans({}, 'RedKiteCmsBundle', cms_language) }}</li>
+            <li>{{ 'welcome_install_process_failed'|trans({}, 'RedKiteCmsBundle', cms_language) }}</li>
+        </ol>
+        {% if app.session.getFlashBag.has('notice') %}
+        <div class="alert alert-error">
+        <p><strong>{{ 'welcome_returned_response'|trans({}, 'RedKiteCmsBundle', cms_language) }}</strong></p>
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+        <p>{{ flashMessage }}</p>
+        {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

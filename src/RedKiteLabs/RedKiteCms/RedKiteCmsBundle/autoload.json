@@ -1,0 +1,22 @@
+{
+    "bundles" : {
+        "RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle\\RedKiteCmsBundle" : {
+            "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
+        },
+        "Propel\\PropelBundle\\PropelBundle" : {
+            "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
+        },
+        "Symfony\\Bundle\\WebProfilerBundle\\WebProfilerBundle" : {
+            "environments" : ["rkcms_dev", "rkcms_test"]
+        },
+        "Sensio\\Bundle\\DistributionBundle\\SensioDistributionBundle" : {
+            "environments" : ["rkcms_dev", "rkcms_test"]
+        },
+        "Sensio\\Bundle\\GeneratorBundle\\SensioGeneratorBundle" : {
+            "environments" : ["rkcms", "rkcms_dev", "rkcms_test"]
+        }
+    },
+    "routing" : {
+        "priority" : "99999"
+    }
+}

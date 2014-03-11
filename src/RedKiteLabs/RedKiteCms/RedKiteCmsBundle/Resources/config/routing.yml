@@ -1,0 +1,39 @@
+red_kite_cms_configuration:
+    prefix: "/backend"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/configuration.xml"
+    
+red_kite_cms_security:
+    prefix: "/backend"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/security.xml"
+
+red_kite_cms_pages:
+    prefix: "/backend"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/pages.xml"
+
+red_kite_cms_languages:
+    prefix: "/backend"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/languages.xml"
+
+red_kite_cms_theme_preview:
+    prefix: "/backend"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/theme-preview.xml"
+
+red_kite_cms_themes:
+    prefix: "/backend"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/themes.xml"
+
+red_kite_cms_blocks:
+    prefix: "/backend"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/blocks.xml"
+
+red_kite_cms_deploy:
+    prefix: "/backend"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/deploy.xml"
+
+red_kite_cms_elfinder:
+    prefix: "/backend"
+    resource: "@RedKiteCmsBundle/Resources/config/routing/elfinder.xml"
+
+red_kite_cms_navigation:
+  pattern:  /backend/{_locale}/{page}/{locked}
+  defaults: { _controller: RedKiteCmsBundle:AlCms:show, _locale: en, page: index, locked: pageId }

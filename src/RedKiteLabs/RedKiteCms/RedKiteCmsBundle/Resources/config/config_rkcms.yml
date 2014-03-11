@@ -1,0 +1,55 @@
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      nested
+        nested:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+
+framework:
+    #esi:             ~
+    translator:      { fallback: %locale% }
+    secret:          %secret%
+    router:
+        resource: "%kernel.root_dir%/config/routing_rkcms.yml"
+        strict_requirements: %kernel.debug%
+    form:            true
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_proxies: ~
+    session:         ~
+    fragments:       ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug:            %kernel.debug%
+    strict_variables: %kernel.debug%
+    globals:
+      kernel_root_dir: %kernel.root_dir%
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: %mailer_transport%
+    host:      %mailer_host%
+    username:  %mailer_user%
+    password:  %mailer_password%
+    spool:     { type: memory }
+    
+assetic:
+    debug:          %kernel.debug%
+    use_controller: false
+    bundles: [RedKiteCmsBundle]
+    filters:
+        cssrewrite: ~
+
+red_kite_labs_theme_engine:
+    render_slot_class: RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Twig\SlotRendererExtension
+    base_template: RedKiteCmsBundle:Theme:base.html.twig

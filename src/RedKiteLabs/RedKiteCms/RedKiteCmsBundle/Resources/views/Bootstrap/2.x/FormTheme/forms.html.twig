@@ -1,0 +1,34 @@
+{% extends 'form_table_layout.html.twig' %}
+
+{% block widget_attributes %}
+{% spaceless %}
+    id="{{ id }}" name="{{ full_name }}"{% if read_only %} readonly="readonly"{% endif %}{% if disabled %} disabled="disabled"{% endif %}{% if required %} required="required"{% endif %}{% if max_length %} maxlength="{{ max_length }}"{% endif %}{% if pattern %} pattern="{{ pattern }}"{% endif %}
+    {% set has_class = false %}{% for attrname, attrvalue in attr %}{% if attrname in ['placeholder', 'title'] %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain, cms_language) }}" {% else %}{% if attrname == 'class' %}{{ attrname }}="{{ attrvalue }} form-control"{% set has_class = true %}{% else %}{{ attrname }}="{{ attrvalue }}"{% endif %}{% endif %}{% endfor %}{% if has_class == false %}class="form-control"{% endif %}
+{% endspaceless %}
+{% endblock widget_attributes %}
+
+{% block button_widget %}
+{% spaceless %}
+    {% if label is empty %}
+        {% set label = name|humanize %}
+    {% endif %}
+    <button type="{{ type|default('button') }}" {{ block('button_attributes') }}>{{ label|trans({}, translation_domain, cms_language) }}</button>
+{% endspaceless %}
+{% endblock button_widget %}
+    
+{% block form_label %}
+{% spaceless %}
+    {% if label is not sameas(false) %}
+        {% if not compound %}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {% endif %}
+        {% if required %}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {% endif %}
+        {% if label is empty %}
+            {% set label = name|humanize %}
+        {% endif %}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain, cms_language) }}</label>
+    {% endif %}
+{% endspaceless %}
+{% endblock form_label %}

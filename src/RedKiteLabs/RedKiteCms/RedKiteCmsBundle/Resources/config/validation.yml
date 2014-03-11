@@ -1,0 +1,44 @@
+RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Page\Page:
+  properties:
+    pageName:
+      - Length: { max: 255  }
+      - NotBlank: { message: "The page name value should not be blank" }
+    template:
+      - NotBlank: { message: "The template value should not be blank" }
+    isHome:
+      - Type: boolean
+    isPublished:
+      - Type: boolean
+
+RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Seo\Seo:
+  properties:
+    idLanguage:
+      - NotBlank: { message: "The language id, which the seo attributes belongs, is mandatory" }
+    idPage:
+      - NotBlank: { message: "The page id, which the seo attributes belongs, is mandatory" }
+    permalink:
+      - Length: { max: 255  }
+      - NotBlank: { message: "The permalink value should not be blank" }
+    title:
+      - Length: { max: 60  }
+      - NotBlank: { message: "The metatag title value should not be blank" }
+    description:
+      - NotBlank: { message: "The metatag description value should not be blank" }
+
+RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser:
+  properties:
+    username:
+      - NotBlank: { message: Username field can not be empty }
+      - Length: { min: 3, minMessage: "Username field is too short. It should have 3 characters or more"  }
+    password:
+      - NotBlank: { message: Password field can not be empty }
+      - Length: { min: 6, minMessage: "Password field is too short. It should have 6 characters or more"  }
+    email:
+      - NotBlank: { message: "Email field can not be empty" }
+      - Email: { message: "The email you entered is not valid" }
+
+RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole:
+  properties:
+    role:
+      - NotBlank: { message: "Role field can not be empty" }
+      - Regex: { pattern: "/^ROLE_[\w+]/", message: "A valid role must start with the ROLE_ prefix"  }

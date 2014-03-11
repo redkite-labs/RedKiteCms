@@ -1,0 +1,51 @@
+{#
+   This file is part of the RedKiteCmsBunde Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/base.html.twig' %}
+
+{% block body %}
+<div id="al_languages_list">
+    <h2>{{ "cms_controller_label_languages"|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
+    <table  class="table table-condensed table-hover">
+        <tbody>
+            <thead>
+                <th></th>
+                <th>{{ "languages_controller_label_language"|trans({}, 'RedKiteCmsBundle', cms_language) }}</th>
+                <th colspan="2"></th>
+            </thead>
+            {% for key, language in languages %}
+            {% if selected_page is defined and key == selected_page %}
+                {% set class = "al_element_selected" %}
+            {% else %}
+                {% set class = "" %}
+            {% endif %}
+            <tr>
+                <td><i class="fa fa-flag"></i></td>
+                {% if active_page is defined and page == active_page %}
+                <td width="100%"><a href="#" class="al_element_selector active-language {{ class }}" data-language-id="{{ key }}">{{ language }}</a></td>
+                {% else %}
+                <td width="100%"><a href="#" class="al_element_selector {{ class }}" data-language-id="{{ key }}">{{ language }}</a></td>
+                {% endif %}
+                <td>
+                    <button class="btn btn-xs btn-danger rk-language-remover btn-mini" data-language-id="{{ key }}">
+                        <i class="fa fa-trash-o fa-lg"></i>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>    
+    </table>
+</div>
+{% endblock %}

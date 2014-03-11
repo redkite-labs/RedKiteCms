@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="red_kite_cms.slots_converter_factory.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
+        <parameter key="red_kite_cms.block_manager_service.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService</parameter>
+        <parameter key="red_kite_cms.page_manager.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager</parameter>
+        <parameter key="red_kite_cms.seo_manager.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager</parameter>
+        <parameter key="red_kite_cms.language_manager.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager</parameter>
+        <parameter key="red_kite_cms.page_tree.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree</parameter>
+        <parameter key="red_kite_cms.page_tree_preview.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview</parameter>
+        <parameter key="red_kite_cms.page_tree_collection.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection</parameter>
+        <parameter key="red_kite_cms.page_blocks.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks</parameter>
+        <parameter key="red_kite_cms.template_manager.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager</parameter>
+        <parameter key="red_kite_cms.parameters_validator.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator</parameter>
+        <parameter key="red_kite_cms.language_manager_parameters_validator.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager</parameter>
+        <parameter key="red_kite_cms.page_manager_parameters_validator.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager</parameter>
+        <parameter key="red_kite_cms.repeated_slots_aligner.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner</parameter>
+        <parameter key="red_kite_cms.slots_converter_factory.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory</parameter>
+        <parameter key="red_kite_cms.deployer.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlTwigDeployer</parameter>
+        <parameter key="red_kite_cms.twig_template_writer.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter</parameter>
+        <parameter key="red_kite_cms.metatag_section.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\MetatagSection</parameter>
+        <parameter key="red_kite_cms.asset_section.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\AssetSection</parameter>
+        <parameter key="red_kite_cms.content_section.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\ContentSection</parameter>
+        <parameter key="red_kite_cms.routing_generator_stage.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorStage</parameter>
+        <parameter key="red_kite_cms.routing_generator_production.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorProduction</parameter>
+        <parameter key="red_kite_cms.sitemap_generator.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGenerator</parameter>
+        <parameter key="red_kite_cms.block_manager_factory.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory</parameter>
+        <parameter key="red_kite_cms.factory_repository.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository</parameter>
+        <parameter key="red_kite_cms.url_manager.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManager</parameter>
+        <parameter key="red_kite_cms.url_manager_stage.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerStage</parameter>
+        <parameter key="red_kite_cms.commands_processor.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessor</parameter>
+        <parameter key="red_kite_cms.images_thumbnailer.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ImageThumbnailer\AlImageThumbnailer</parameter>
+        <parameter key="red_kite_cms.events_handler.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\EventsHandler\AlContentEventsHandler</parameter>
+        <parameter key="red_kite_cms.resources_locker.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker</parameter>
+        <parameter key="red_kite_cms.site_bootstrap.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap</parameter>
+        <parameter key="red_kite_cms.view_renderer.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\AlViewRenderer</parameter>
+        <parameter key="red_kite_cms.theme_changer.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ThemeChanger\AlThemeChanger</parameter>
+        <parameter key="red_kite_cms.configuration.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationManager</parameter>
+        <parameter key="red_kite_cms.translator.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslator</parameter>
+        <parameter key="el_finder.media_connector">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ElFinder\ElFinderMediaConnector</parameter>
+        <parameter key="el_finder.css_connector">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ElFinder\ElFinderStylesheetsConnector</parameter>
+        <parameter key="el_finder.js_connector">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ElFinder\ElFinderJavascriptsConnector</parameter>
+        <parameter key="red_kite_cms.active_theme.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme</parameter>
+        <parameter key="red_kite_cms.data_manager.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager</parameter>
+        <parameter key="red_kite_cms.template_assets_manager.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager</parameter>
+        <parameter key="red_kite_cms.template_assets_manager_deploy.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManagerDeploy</parameter>
+    </parameters>
+
+    <services>
+        <service id="red_kite_cms.data_manager" class="%red_kite_cms.data_manager.class%">
+            <argument type="service" id="red_kite_cms.factory_repository" />
+        </service>
+        
+        <service id="red_kite_cms.template_assets_manager" class="%red_kite_cms.template_assets_manager.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="red_kite_cms.block_manager_factory" />
+        </service>
+        
+        <service id="red_kite_cms.template_assets_manager_deploy" class="%red_kite_cms.template_assets_manager_deploy.class%">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="red_kite_cms.block_manager_factory" />
+        </service>
+        
+        <service id="red_kite_cms.translator" class="%red_kite_cms.translator.class%">
+            <argument type="service" id="translator" />
+            <argument type="service" id="red_kite_cms.configuration" />
+        </service>
+        
+        <service id="red_kite_cms.view_renderer" class="%red_kite_cms.view_renderer.class%">
+            <argument type="service" id="templating" />
+        </service>
+        
+        <service id="red_kite_cms.events_handler" class="%red_kite_cms.events_handler.class%">
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="red_kite_cms.factory_repository" class="%red_kite_cms.factory_repository.class%">
+            <argument type="string">%red_kite_cms.orm%</argument>
+        </service>
+        
+        <service id="red_kite_cms.configuration" class="%red_kite_cms.configuration.class%">
+            <argument type="service" id="red_kite_cms.factory_repository" />
+        </service>
+
+        <service id="red_kite_cms.block_manager_factory" class="%red_kite_cms.block_manager_factory.class%">
+            <argument type="service" id="red_kite_cms.events_handler" />  
+            <argument type="service" id="red_kite_cms.factory_repository" />
+        </service>
+
+        <service id="red_kite_cms.url_manager" class="%red_kite_cms.url_manager.class%">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+        </service>
+        
+        <service id="red_kite_cms.url_manager_stage" class="%red_kite_cms.url_manager_stage.class%">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+        </service>
+
+        <service id="red_kite_cms.parameters_validator" class="%red_kite_cms.parameters_validator.class%">
+            <argument type="service" id="translator" />
+        </service>
+
+        <service id="red_kite_cms.language_manager_parameters_validator" class="%red_kite_cms.language_manager_parameters_validator.class%">
+            <argument type="service" id="red_kite_cms.factory_repository" />
+        </service>
+
+        <service id="red_kite_cms.page_manager_parameters_validator" class="%red_kite_cms.page_manager_parameters_validator.class%">
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.template_manager" />
+        </service>
+
+        <service id="red_kite_cms.page_blocks" class="%red_kite_cms.page_blocks.class%">
+            <argument type="service" id="red_kite_cms.factory_repository" />
+        </service>
+
+        <service id="red_kite_cms.template_manager" class="%red_kite_cms.template_manager.class%">
+            <argument type="service" id="red_kite_cms.events_handler" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <!--<argument>null</argument>
+            <argument>null</argument>-->
+            <argument type="service" id="red_kite_cms.block_manager_factory" />
+        </service>
+        
+        <service id="red_kite_cms.block_manager" class="%red_kite_cms.block_manager_service.class%">
+            <argument type="service" id="red_kite_cms.events_handler" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.parameters_validator" />
+        </service>
+        
+        <service id="red_kite_cms.page_tree" class="%red_kite_cms.page_tree.class%">
+            <argument type="service" id="red_kite_cms.template_assets_manager" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+        
+        <service id="red_kite_cms.page_tree_preview" class="%red_kite_cms.page_tree_preview.class%">
+            <argument type="service" id="red_kite_cms.template_assets_manager" />
+        </service>
+        
+        <service id="red_kite_cms.page_tree_collection" class="%red_kite_cms.page_tree_collection.class%">
+            <argument type="service" id="red_kite_cms.template_assets_manager_deploy" />
+            <argument type="service" id="red_kite_cms.active_theme" />
+            <argument type="service" id="red_kite_cms.template_manager" />
+            <argument type="service" id="red_kite_cms.page_blocks" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+        </service>
+
+        <service id="red_kite_cms.page_manager" class="%red_kite_cms.page_manager.class%">
+            <argument type="service" id="red_kite_cms.events_handler" />
+            <argument type="service" id="red_kite_cms.template_manager" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.page_manager_parameters_validator" />
+        </service>
+
+        <service id="red_kite_cms.seo_manager" class="%red_kite_cms.seo_manager.class%">
+            <argument type="service" id="red_kite_cms.events_handler" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.parameters_validator" />
+        </service>
+
+        <service id="red_kite_cms.language_manager" class="%red_kite_cms.language_manager.class%">
+            <argument type="service" id="red_kite_cms.events_handler" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+            <argument type="service" id="red_kite_cms.language_manager_parameters_validator" />
+        </service>
+
+        <service id="red_kite_cms.slots_converter_factory" class="%red_kite_cms.slots_converter_factory.class%">
+            <argument type="service" id="red_kite_cms.page_blocks" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+        </service>
+
+        <service id="el_finder_media_connector" class="%el_finder.media_connector%">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="el_finder_css_connector" class="%el_finder.css_connector%">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="el_finder_js_connector" class="%el_finder.js_connector%">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="red_kite_cms.repeated_slots_aligner" class="%red_kite_cms.repeated_slots_aligner.class%">
+            <argument type="service" id="red_kite_labs_theme_engine.themes" />
+            <argument type="service" id="red_kite_cms.slots_converter_factory" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+        </service>
+        
+        <service id="red_kite_cms.metatag_section" class="%red_kite_cms.metatag_section.class%" public="false">
+            <argument type="service" id="red_kite_cms.url_manager" />
+            <argument type="service" id="red_kite_cms.view_renderer" />
+        </service>
+        
+        <service id="red_kite_cms.asset_section" class="%red_kite_cms.asset_section.class%" public="false">
+            <argument type="service" id="red_kite_cms.url_manager" />
+            <argument type="service" id="red_kite_cms.view_renderer" />
+        </service>
+        
+        <service id="red_kite_cms.content_section" class="%red_kite_cms.content_section.class%" public="false">
+            <argument type="service" id="red_kite_cms.url_manager" />
+            <argument type="service" id="red_kite_cms.view_renderer" />
+            <argument type="service" id="red_kite_cms.block_manager_factory" />
+        </service>
+        
+        <service id="red_kite_cms.metatag_section_stage" class="%red_kite_cms.metatag_section.class%" public="false">
+            <argument type="service" id="red_kite_cms.url_manager_stage" />
+            <argument type="service" id="red_kite_cms.view_renderer" />
+        </service>
+        
+        <service id="red_kite_cms.asset_section_stage" class="%red_kite_cms.asset_section.class%" public="false">
+            <argument type="service" id="red_kite_cms.url_manager_stage" />
+            <argument type="service" id="red_kite_cms.view_renderer" />
+        </service>
+        
+        <service id="red_kite_cms.content_section_stage" class="%red_kite_cms.content_section.class%" public="false">
+            <argument type="service" id="red_kite_cms.url_manager_stage" />
+            <argument type="service" id="red_kite_cms.view_renderer" />
+            <argument type="service" id="red_kite_cms.block_manager_factory" />
+        </service>
+
+        <service id="red_kite_cms.twig_template_writer" class="%red_kite_cms.twig_template_writer.class%" public="false">
+            <argument type="service" id="red_kite_cms.metatag_section" />
+            <argument type="service" id="red_kite_cms.asset_section" />
+            <argument type="service" id="red_kite_cms.content_section" />
+        </service>
+        
+        <service id="red_kite_cms.twig_template_writer_stage" class="%red_kite_cms.twig_template_writer.class%" public="false">
+            <argument type="service" id="red_kite_cms.metatag_section_stage" />
+            <argument type="service" id="red_kite_cms.asset_section_stage" />
+            <argument type="service" id="red_kite_cms.content_section_stage" />
+        </service>
+        
+        <service id="red_kite_cms.routing_generator_production" class="%red_kite_cms.routing_generator_production.class%" public="false">
+            <argument type="service" id="red_kite_cms.page_tree_collection" />
+        </service> 
+        
+        <service id="red_kite_cms.routing_generator_stage" class="%red_kite_cms.routing_generator_stage.class%" public="false">
+            <argument type="service" id="red_kite_cms.page_tree_collection" />
+        </service> 
+        
+        <service id="red_kite_cms.sitemap_generator" class="%red_kite_cms.sitemap_generator.class%" public="false">
+            <argument type="service" id="red_kite_cms.page_tree_collection" />
+             <argument type="service" id="templating" />
+        </service>
+        
+        <service id="red_kite_cms.twig_template_writer" class="%red_kite_cms.twig_template_writer.class%" public="false">
+            <argument type="service" id="red_kite_cms.metatag_section" />
+            <argument type="service" id="red_kite_cms.asset_section" />
+            <argument type="service" id="red_kite_cms.content_section" />
+        </service>
+
+        <service id="red_kite_cms.production_deployer" class="%red_kite_cms.deployer.class%">
+            <argument type="service" id="red_kite_cms.twig_template_writer" />
+            <argument type="service" id="red_kite_cms.routing_generator_production" />
+            <argument type="service" id="red_kite_cms.sitemap_generator" />
+            <argument type="service" id="event_dispatcher" />
+        </service>
+        
+        <service id="red_kite_cms.stage_deployer" class="%red_kite_cms.deployer.class%">
+            <argument type="service" id="red_kite_cms.twig_template_writer_stage" />
+            <argument type="service" id="red_kite_cms.routing_generator_stage" />
+            <argument>null</argument>
+            <argument type="service" id="event_dispatcher" />
+        </service>
+
+        <service id="red_kite_cms.commands_processor" class="%red_kite_cms.commands_processor.class%">
+            <argument type="string">%kernel.root_dir%</argument>
+        </service>
+
+        <service id="red_kite_cms.images_thumbnailer" class="%red_kite_cms.images_thumbnailer.class%">
+        </service>
+        
+        <service id="red_kite_cms.resources_locker" class="%red_kite_cms.resources_locker.class%">
+            <argument type="service" id="red_kite_cms.factory_repository" />
+        </service>
+        
+        <service id="red_kite_cms.site_bootstrap" class="%red_kite_cms.site_bootstrap.class%">
+            <argument type="service" id="red_kite_cms.language_manager" />
+            <argument type="service" id="red_kite_cms.page_manager" />
+            <argument type="service" id="red_kite_cms.block_manager" />
+            <argument type="service" id="red_kite_cms.template_manager" />            
+        </service>
+        
+        <service id="red_kite_cms.theme_changer" class="%red_kite_cms.theme_changer.class%">
+            <argument type="service" id="red_kite_cms.template_manager" />
+            <argument type="service" id="red_kite_cms.factory_repository" />
+        </service>
+        
+        <service id="red_kite_cms.active_theme" class="%red_kite_cms.active_theme.class%">
+            <argument type="service" id="service_container"></argument>
+        </service>
+    </services>
+</container>

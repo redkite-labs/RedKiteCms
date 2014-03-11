@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+{% if assets.external_stylesheets is defined and assets.external_stylesheets|length > 0  %}
+{% set stylesheets = true %}
+{% else %}
+{% set stylesheets = false %}
+{% endif %}
+{% if assets.external_javascripts is defined and assets.external_javascripts|length > 0  %}
+{% set javascripts = true %}
+{% else %}
+{% set javascripts = false %}
+{% endif %}
+{% if assets.external_stylesheets_cms is defined and assets.external_stylesheets_cms|length > 0  %}
+{% set cms_stylesheets = true %}
+{% else %}
+{% set cms_stylesheets = false %}
+{% endif %}
+{% if assets.external_javascripts_cms is defined and assets.external_javascripts_cms|length > 0  %}
+{% set cms_javascripts = true %}
+{% else %}
+{% set cms_javascripts = false %}
+{% endif %}
+{% if template_slots is defined and template_slots|length > 0  %}
+{% set slots = true %}
+{% else %}
+{% set slots = false %}
+{% endif %}
+{% if stylesheets or javascripts or cms_stylesheets or cms_javascripts or slots %}
+    <parameters>
+{% if assets.external_stylesheets is defined and assets.external_stylesheets|length > 0 %}
+        <parameter key="{{ extension_alias }}.{{ template_name }}.external_stylesheets" type="collection">
+{% for asset in assets.external_stylesheets %}
+            <parameter>{% spaceless %}{{ asset }}{% endspaceless %}</parameter>
+{% endfor %}
+        </parameter>
+{% endif %}
+{% if assets.external_javascripts is defined and assets.external_javascripts|length > 0 %}
+        <parameter key="{{ extension_alias }}.{{ template_name }}.external_javascripts" type="collection">
+{% for asset in assets.external_javascripts %}
+            <parameter>{% spaceless %}{{ asset }}{% endspaceless %}</parameter>
+{% endfor %}
+        </parameter>
+{% endif %}
+{% if assets.external_stylesheets_cms is defined %}
+        <parameter key="{{ extension_alias }}.{{ template_name }}.external_stylesheets.cms" type="collection">
+{% for asset in assets.external_stylesheets_cms %}
+            <parameter>{% spaceless %}{{ asset }}{% endspaceless %}</parameter>
+{% endfor %}
+        </parameter>
+{% endif %}
+{% if cms_javascripts %}
+        <parameter key="{{ extension_alias }}.{{ template_name }}.external_javascripts.cms" type="collection">
+{% for asset in assets.external_javascripts_cms %}
+            <parameter>{% spaceless %}{{ asset }}{% endspaceless %}</parameter>
+{% endfor %}
+        </parameter>
+{% endif %}
+{% if slots %}
+        <parameter key="{{ extension_alias }}.{{ template_name }}.slots" type="collection">
+{% for slot in template_slots %}
+            <parameter>{% spaceless %}{{ slot }}{% endspaceless %}</parameter>
+{% endfor %}
+        </parameter>
+{% endif %}
+    </parameters>
+{% endif %}
+
+    <services>
+        <service id="{{ extension_alias }}.theme.template_assets.{{ template_name }}" class="%red_kite_labs_theme_engine.template_assets.class%" public="false">
+{% if assets.external_stylesheets is defined and assets.external_stylesheets|length > 0 %}
+            <call method="setExternalStylesheets">
+                <argument>%{{ extension_alias }}.{{ template_name }}.external_stylesheets%</argument>
+            </call>
+{% endif %}
+{% if assets.external_javascripts is defined and assets.external_javascripts|length > 0 %}
+            <call method="setExternalJavascripts">
+                <argument>%{{ extension_alias }}.{{ template_name }}.external_javascripts%</argument>
+            </call>
+{% endif %}
+        </service>
+
+        <service id="{{ extension_alias }}.theme.template.{{ template_name }}" class="%red_kite_labs_theme_engine.template.class%" public="false">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="{{ extension_alias }}.theme.template_assets.{{ template_name }}" />
+            <tag name="{{ extension_alias }}.theme.template" />
+
+            <call method="setThemeName">
+                <argument type="string">{{ theme_name }}</argument>
+            </call>
+            <call method="setTemplateName">
+                <argument type="string">{{ template_name }}</argument>
+            </call>
+{% if slots %}
+            <call method="setSlots">
+                <argument>%{{ extension_alias }}.{{ template_name }}.slots%</argument>
+            </call>
+{% endif %}
+        </service>
+    </services>
+</container>

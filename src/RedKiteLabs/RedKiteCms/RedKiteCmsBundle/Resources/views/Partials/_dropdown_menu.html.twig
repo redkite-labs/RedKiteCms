@@ -1,0 +1,29 @@
+{#
+   This file is part of the RedKiteCmsBunde Application and it is distributed
+   under the GPL LICENSE Version 2.0. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    GPL LICENSE Version 2.0
+#}
+
+{% extends 'RedKiteCmsBundle:Bootstrap:' ~ bootstrap_version ~ '/base.html.twig' %}
+
+{% block body %}
+<div class="btn-group">
+    <button class="btn {{ button_type is defined ? button_type : 'btn-default' }} dropdown-toggle btn-xs btn-mini" data-toggle="dropdown">
+        {% if text is defined %}<span id="{{ id }}" {% if value is defined %}rel="{{ value }}"{% endif %}>{{ truncate_text is defined ? text[:truncate_text] : text }}</span>{% else %}{{ items|first }}{% endif %} <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu dropdown-height">
+    {% for id, name in items %}
+        <li id="{{ id }}" class="{% if type is defined %}{{ type }} {% endif %}dropdown-zindex" rel="{{ name }}"><a href="#">{{ name }}</a></li>
+    {% endfor %}
+    </ul>
+</div>
+{% endblock %}

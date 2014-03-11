@@ -1,0 +1,13 @@
+{% extends 'RedKiteLabsThemeEngineBundle:Frontend:base.html.twig' %}
+
+{% block assets %}
+    {{ parent() }}
+    {% block external_javascripts_cms %}
+    {% endblock %}
+    {% block external_stylesheets_cms %} 
+    {% endblock %}
+    {% block internal_javascripts_cms %}
+    {% endblock %}
+    {% block internal_stylesheets_cms %} 
+    {% endblock %}
+{% endblock %}
