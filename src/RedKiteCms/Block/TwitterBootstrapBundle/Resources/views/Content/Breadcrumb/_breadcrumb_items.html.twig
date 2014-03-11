@@ -1,0 +1,13 @@
+{% if items|length > 0 %}
+{% for key, item in items %}
+    {% set base_key = block_manager.get.getId ~ "-" ~ key %}
+    {% if block_manager.getEditorDisabled == false %}
+        {% set options = blockOptions|merge({'item': key}) %}
+        {% set options = options|merge({'slot_name': base_key}) %}
+    {% endif %}
+    {% set editor_attributes = 'data-hide-blocks-menu=true  data-parent=BootstrapBreadcrumbBlock data-item=' ~ key %}
+    {{ renderIncludedBlock(base_key, block_manager, item.blockType, true, '', editor_attributes, options) }}    
+{% endfor %}
+{% else %}
+    <li class="al-empty">Any link added</li>
+{% endif %}

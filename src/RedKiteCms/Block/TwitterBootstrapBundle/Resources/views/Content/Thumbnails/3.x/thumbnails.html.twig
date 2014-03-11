@@ -1,0 +1,18 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
+
+{% block body %}
+<div class="row inline-list" {{ editor|raw }}>
+    {% if values|length > 0 %}
+    {% for key, thumbnail in values %}
+    {% set baseSlotName = block_manager.get.getId ~ "-" ~ key %} 
+    
+    {% set attributes = 'data-hide-blocks-menu=true data-item=' ~ key ~ ' data-slot-name=' ~ baseSlotName %}
+    {{ renderIncludedBlock(baseSlotName, block_manager, thumbnail.type, true, "", attributes) }}    
+    {% endfor %}
+    {% else %}
+    <div class="caption">
+        <h3>Any thumbnail added</h3>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

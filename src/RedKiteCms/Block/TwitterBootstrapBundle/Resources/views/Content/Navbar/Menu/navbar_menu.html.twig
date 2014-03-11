@@ -1,0 +1,18 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
+
+{% block body %}
+<ul class="nav navbar-nav al-navbar-menu al-navbar-list inline-list {{ menu.alignment }}" {{ editor|raw }} role="navigation">
+{% if menu.items|length > 0 %}
+{% for key, item in menu.items %}
+    {% set baseKey = block_manager.get.getId ~ "-" ~ key %}    
+    {% if item.blockType != 'BootstrapNavbarDropdownBlock' %}
+        <li {% if block_manager.getEditorDisabled == false %} data-item="{{ key }}" data-slot-name="{{ baseKey }}" {% endif %}>{{ renderIncludedBlock(baseKey, block_manager, item.blockType, true, '', 'data-hide-blocks-menu=true') }}</li>
+    {% else %}
+        {{ renderIncludedBlock(baseKey, block_manager, item.blockType, true, '', ' class=al-navbar-menu-list data-hide-blocks-menu=true data-item=' ~ key) }}    
+    {% endif %}  
+{% endfor %}
+{% else %}
+    <li class="al-empty">Any link added</li>
+{% endif %}
+</ul>
+{% endblock %}

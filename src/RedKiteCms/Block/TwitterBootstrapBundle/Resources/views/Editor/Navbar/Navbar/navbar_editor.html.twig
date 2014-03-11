@@ -1,0 +1,10 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor_form.html.twig" %}
+
+{% block editor %} 
+<div>
+{{ parent() }}
+</div>
+<div>
+    <a href="#" class="al-edit-item">{{ "common_edit_items"|trans({}, 'TwitterBootstrapBundle', cms_language) }}<a>
+</div>
+{% endblock %}

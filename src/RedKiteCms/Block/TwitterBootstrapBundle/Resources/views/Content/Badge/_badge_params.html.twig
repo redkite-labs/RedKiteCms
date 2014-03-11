@@ -1,0 +1,13 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
+
+{% if data.badge_type is defined and data.badge_type != "" %}
+{% set badge_type = " " ~ data.badge_type %}
+{% else %}
+{% set badge_type = "" %}
+{% endif %}
+
+{% if data.badge_text is defined and data.badge_text != "" %}
+{% set badge_text = data.badge_text %}
+{% else %}
+{% set badge_text = "Label" %}
+{% endif %}

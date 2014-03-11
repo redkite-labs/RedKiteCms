@@ -1,0 +1,5 @@
+{% extends 'TwitterBootstrapBundle:Content:Badge/_badge_params.html.twig' %}
+
+{% block body %}
+<span class="badge{{ badge_type }}{% if(data.class is defined and data.class != "") %} {{ data.class }}{% endif %}" {{ editor|raw }}>{{ badge_text }}</span>
+{% endblock %}

@@ -1,0 +1,2 @@
+imports:
+- { resource: "@TwitterBootstrapBundle/Resources/config/config_rkcms.yml" }

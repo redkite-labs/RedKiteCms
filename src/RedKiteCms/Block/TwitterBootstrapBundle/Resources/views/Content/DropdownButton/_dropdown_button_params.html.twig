@@ -1,0 +1,10 @@
+{% extends "TwitterBootstrapBundle:Content:Button/_button_params.html.twig" %}
+
+{% set button_dropup = "" %}
+{% set button_dropup_right = "" %}
+{% if data.button_dropup is defined and data.button_dropup != "none" %}
+    {% set button_dropup = " dropup" %}
+    {% if data.button_dropup == "right" %}
+        {% set button_dropup_right = " pull-right" %}
+    {% endif %}
+{% endif %}

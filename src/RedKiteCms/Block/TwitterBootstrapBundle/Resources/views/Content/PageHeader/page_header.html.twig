@@ -1,0 +1,10 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
+
+{% block body %}
+<div class="page-header{% if(data.class is defined and data.class != "") %} {{ data.class }}{% endif %}" {{ editor|raw }}>
+    <{{ data.page_header_tag }}>
+        {{ data.page_header_title }}
+        <small>{{ data.page_header_subtitle }}</small>
+    </{{ data.page_header_tag }}>
+</div>
+{% endblock %}

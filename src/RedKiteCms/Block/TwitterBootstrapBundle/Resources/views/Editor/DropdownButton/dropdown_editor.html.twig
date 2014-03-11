@@ -1,0 +1,48 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor_form.html.twig" %}
+{% block editor %}
+<div><h3>{{ "dropdown_button_attributes"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</h3></div>
+{{ parent() }}
+<div><h3>{{ "dropdown_button_items"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</h3></div>
+<div class="dropdown-menu-items-container">
+    <form class="dropdown-items-form">
+        <table class="dropdown-menu-table table"> 
+            <thead>
+                <th>{{ "dropdown_button_table_title_type"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</th>
+                <th>{{ "dropdown_button_table_title_displayed_value"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</th>
+                <th>{{ "dropdown_button_table_title_permalinks"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</th>
+                <th>{{ "dropdown_button_table_title_link"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</th>
+            </thead>
+        {% for key, item in editor.items %}
+            <tr class="row-{{ key }} dropdown-menu-row">
+                <td class="col-lg-2">
+                    <select name="dropdown_items_form[{{ key }}][metadata][type]" class="dropdown-menu-type form-control input-small" rel="{{ key }}">
+                        <option value="link"{% if item.metadata.type == 'link' %} selected{% endif %}>Link</option>
+                        <option value="header"{% if item.metadata.type == 'header' %} selected{% endif %}>Header</option>
+                        <option value="divider"{% if item.metadata.type == 'divider' %} selected{% endif %}>Divider</option>
+                    </select>
+                </td>
+                <td><input id="link_{{ key }}" type="text" name="dropdown_items_form[{{ key }}][data]" value="{% if item.data is defined %}{{ item.data }}{% endif %}" class="form-control input-medium" /></td>
+                <td class="col-lg-2">
+                    {% if editor.permalinks is defined %}
+                    {% include "RedKiteCmsBundle:Partials:_permalink_select.html.twig" with {'permalinks': editor.permalinks, 'visible': true, 'id': 'permalinks_' ~  key, 'classes': 'dropdown-menu-permalink', 'rel': key } %}
+                    {% endif %}
+                </td>
+                <td><input id="href_{{ key }}" type="text" name="dropdown_items_form[{{ key }}][metadata][href]" value="{% if item.metadata.href is defined %}{{ item.metadata.href }}{% endif %}" class="form-control input-medium" /></td>
+                <td>
+                    {% if bootstrap_version == '3.x' %}
+                    <a href="#" class="dropdown-menu-delete-item btn btn-danger btn-xs" data-row-id="row-{{ key }}"><span class="glyphicon glyphicon-trash"></span></a>
+                    {% else %}
+                    <a class="dropdown-menu-delete-item btn btn-mini btn-danger" data-row-id="row-{{ key }}"><i class="icon-trash icon-white"></i></a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </form>
+</div>
+
+<div> 
+    <a class="dropdown-menu-add-item btn btn-primary" href="#" >{{ "common_label_new"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</a>
+    <a class="al_editor_save btn btn-primary" href="#" >{{ "common_label_save"|trans({}, 'TwitterBootstrapBundle', cms_language) }}</a>
+</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
+
+{% block body %}
+<form class="navbar-form al-navbar-list inline-list {{ data.alignment }}" method="{{ data.method }}" action="{{ data.action }}" enctype="{{ data.enctype }}" role="{{ data.role }}" {{ editor|raw }}>
+    <input type="text" class="span2" placeholder="{{ data.placeholder }}">
+    <button type="submit" class="btn">{{ data.button_text }}</button>
+</form>
+{% endblock %}

@@ -1,0 +1,39 @@
+RedKite CMS Twitter Bootstrap Blocks 1.1.1 (2014/01/26)
+344df54 added page header block
+
+RedKite CMS Twitter Bootstrap Blocks 1.1.0 (2014/01/18)
+a704b09 added unit test for AlBlockManagerBootstrapAccordionPanelBlock class
+fa17426 hide blocks menu for accordion panel
+8b9c956 AlBlockManagerBootstrapNavbarDropdownBlock editor now renders the permalinks combobox
+6469990 changed the thumbnails list target
+c514696 refactored accordion block which now is handles a list of AlBlockManagerBootstrapAccordionPanelBlock
+b0b61b1 fixed default values for some blocks
+
+RedKite CMS Twitter Bootstrap Blocks 1.1.Release Cansidate 1 (2013/11/24)
+cfdf1c9 changed the minimum thumbnail width for bootstrap 3
+c7020d0 fixed a bug to avoid page scrolls to to when start editing toolbar items
+3da63cb translated the confirmation when removing a dropdown item
+66017ca added unit test for AlNavbarFormType
+8ec637c adapted the bundle for translation
+
+RedKite CMS Twitter Bootstrap Blocks 1.1.Release Cansidate (2013/11/17)
+97f3709 fixed tumbnail list editor target
+c86acf7 called method to expand the accordion when the list is started
+427f6f2 fixed dropdown button for twitter bootstrap 2.x
+3a03db1 fixed slider carousel to work with new images list
+20f7763 fixed label types which was from Bootstrap 2
+
+RedKite CMS Twitter Bootstrap Blocks 1.1.Beta 4 (2013/11/10)
+abd78cf when editor was stopped, included blocks are not editable. Fixed
+2defc17 hide blocks toolbar for included blocks
+1d271c1 added navbar form object and fixed blocks alignment for twitter bootstrap 2.x
+98b1d0a refactored toolbar block and added text and button included blocks
+2f1fed8 fixed runtime exception message when bootstrap version is not found
+72c58e0 blocks can now be used both with Twitter Bootstrap 2.x and 3.x; updated template files paths due to changes on RedKiteCmsBundle
+
+RedKite CMS Twitter Bootstrap Blocks
+62a7203 added script to manage thumbnails
+e892092 added the href attribute to button block: when this attribute is filled up, the button is rendered as a link
+2a85362 valued received from the images form are decoded
+c176390 updated autoload to load the bundle only for rkcms environments; implemented composer.json
+bce8fed first import

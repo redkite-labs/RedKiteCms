@@ -1,0 +1,204 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="label-1">
+            <source>label_block_editor_title</source>
+            <target>Bootstrap label editor</target>
+        </trans-unit>
+        <trans-unit id="label-2">
+            <source>label_block_text</source>
+            <target>Label text</target>
+        </trans-unit>
+        <trans-unit id="label-3">
+            <source>label_block_type</source>
+            <target>Label type</target>
+        </trans-unit>
+        <trans-unit id="badge-1">
+            <source>badge_block_editor_title</source>
+            <target>Bootstrap badge editor</target>
+        </trans-unit>
+        <trans-unit id="badge-2">
+            <source>badge_block_text</source>
+            <target>Badge text</target>
+        </trans-unit>
+        <trans-unit id="badge-3">
+            <source>badge_block_type</source>
+            <target>Badge type</target>
+        </trans-unit>
+        <trans-unit id="button-1">
+            <source>button_block_editor_title</source>
+            <target>Button editor</target>
+        </trans-unit>
+        <trans-unit id="button-2">
+            <source>button_block_type</source>
+            <target>Button type</target>
+        </trans-unit>
+        <trans-unit id="button-3">
+            <source>button_block_attribute</source>
+            <target>Button attributes</target>
+        </trans-unit>
+        <trans-unit id="button-4">
+            <source>button_block_attribute_block</source>
+            <target>Button block</target>
+        </trans-unit>
+        <trans-unit id="button-5">
+            <source>button_block_enabled</source>
+            <target>Button enabled</target>
+        </trans-unit>
+        <trans-unit id="button-6">
+            <source>button_block_href</source>
+            <target>Link</target>
+        </trans-unit>
+        <trans-unit id="button-7">
+            <source>button_block_text</source>
+            <target>Button text</target>
+        </trans-unit>
+        <trans-unit id="navbar-1">
+            <source>navbar_alignment</source>
+            <target>Alignment</target>
+        </trans-unit>
+        <trans-unit id="navbar-2">
+            <source>navbar_button_text</source>
+            <target>Button text</target>
+        </trans-unit>
+        <trans-unit id="navbar-3">
+            <source>navbar_editor_title</source>
+            <target>Navbar editor</target>
+        </trans-unit>
+        <trans-unit id="navbar-4">
+            <source>navbar_position</source>
+            <target>Position</target>
+        </trans-unit>
+        <trans-unit id="navbar-5">
+            <source>navbar_inverted</source>
+            <target>Inverted</target>
+        </trans-unit>
+        <trans-unit id="navbar-6">
+            <source>common_edit_items</source>
+            <target>Edit items</target>
+        </trans-unit>
+        <trans-unit id="navbar-form-1">
+            <source>navbar_form_method</source>
+            <target>Method</target>
+        </trans-unit>
+        <trans-unit id="navbar-form-2">
+            <source>navbar_form_action</source>
+            <target>Action</target>
+        </trans-unit>
+        <trans-unit id="navbar-form-3">
+            <source>navbar_form_enctype</source>
+            <target>Enctype</target>
+        </trans-unit>
+        <trans-unit id="navbar-form-4">
+            <source>navbar_form_placeholder</source>
+            <target>Placeholder</target>
+        </trans-unit>
+        <trans-unit id="navbar-form-5">
+            <source>navbar_form_role</source>
+            <target>Role</target>
+        </trans-unit>  
+        <trans-unit id="navbar-form-6">
+            <source>navbar_form_editor_title</source>
+            <target>Navbar form editor</target>
+        </trans-unit>      
+        <trans-unit id="navbar-text-1">
+            <source>navbar_text_editor_title</source>
+            <target>Navbar text editor</target>
+        </trans-unit>        
+        <trans-unit id="navbar-text-2">
+            <source>navbar_text_attribute_text</source>
+            <target>Text</target>
+        </trans-unit>               
+        <trans-unit id="dropdown-button-1">
+            <source>dropdown_button_editor_title</source>
+            <target>Dropdown button editor</target>
+        </trans-unit>             
+        <trans-unit id="dropdown-button-2">
+            <source>dropdown_button_attributes</source>
+            <target>Attributes</target>
+        </trans-unit>            
+        <trans-unit id="dropdown-button-3">
+            <source>dropdown_button_items</source>
+            <target>Items</target>
+        </trans-unit>           
+        <trans-unit id="dropdown-button-4">
+            <source>dropdown_button_table_title_type</source>
+            <target>Type</target>
+        </trans-unit>           
+        <trans-unit id="dropdown-button-5">
+            <source>dropdown_button_table_title_displayed_value</source>
+            <target>Displayed value</target>
+        </trans-unit>           
+        <trans-unit id="dropdown-button-6">
+            <source>dropdown_button_table_title_permalinks</source>
+            <target>Permalinks</target>
+        </trans-unit>           
+        <trans-unit id="dropdown-button-7">
+            <source>dropdown_button_table_title_link</source>
+            <target>Link</target>
+        </trans-unit>               
+        <trans-unit id="navbar-menu-button-1">
+            <source>navbar_menu_editor_title</source>
+            <target>Navbar menu editor</target>
+        </trans-unit>
+        <trans-unit id="slider-1">
+            <source>slider_editor_title</source>
+            <target>Slider editor</target>
+        </trans-unit>
+        <trans-unit id="slider-2">
+            <source>slider_title_attribute</source>
+            <target>Title attr.</target>
+        </trans-unit>
+        <trans-unit id="slider-3">
+            <source>slider_alt_attribute</source>
+            <target>Alt attr.</target>
+        </trans-unit>
+        <trans-unit id="slider-4">
+            <source>slider_src_attribute</source>
+            <target>Src attr.</target>
+        </trans-unit>
+        <trans-unit id="slider-5">
+            <source>slider_caption_title</source>
+            <target>Caption title</target>
+        </trans-unit>
+        <trans-unit id="slider-6">
+            <source>slider_caption_body</source>
+            <target>Caption body</target>
+        </trans-unit>
+        <trans-unit id="thumbnail-1">
+            <source>thumbnail_editor_title</source>
+            <target>Editor delle miniature (Thumbnail)</target>
+        </trans-unit>
+        <trans-unit id="page_header_1">
+            <source>page_header_editor_title</source>
+            <target>Page Header editor</target>
+        </trans-unit>
+        <trans-unit id="page_header_2">
+            <source>page_header_title</source>
+            <target>Title</target>
+        </trans-unit>
+        <trans-unit id="page_header_3">
+            <source>page_header_subtitle</source>
+            <target>Subtitle</target>
+        </trans-unit>
+        <trans-unit id="page_header_4">
+            <source>page_header_tag</source>
+            <target>Tag</target>
+        </trans-unit>
+        <trans-unit id="common-1">
+            <source>common_label_save</source>
+            <target>Save</target>
+        </trans-unit>
+        <trans-unit id="common-2">
+            <source>common_label_new</source>
+            <target>New</target>
+        </trans-unit>
+        <trans-unit id="common-3">
+            <source>common_label_class</source>
+            <target>Class</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>
+

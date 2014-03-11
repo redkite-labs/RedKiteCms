@@ -1,0 +1,18 @@
+.rk-images-list-panel {
+    width: 700px;
+}
+.rk-images-attributes {
+    width: 300px;
+}
+.rk-images-contents {
+    width: 380px;
+    max-height: 300px;
+    overflow: auto;
+    margin-right: 20px;
+}
+.rk-images-contents table{
+    width: 100%
+}
+.al_img {
+    visibility:visible;
+}

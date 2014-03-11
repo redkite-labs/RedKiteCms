@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="label-1">
+            <source>label_block_editor_title</source>
+            <target>Editor delle etichette</target>
+        </trans-unit>
+        <trans-unit id="label-2">
+            <source>label_block_text</source>
+            <target>Testo dell'etichetta</target>
+        </trans-unit>
+        <trans-unit id="label-3">
+            <source>label_block_type</source>
+            <target>Tipo di etichetta</target>
+        </trans-unit>
+        <trans-unit id="badge-1">
+            <source>badge_block_editor_title</source>
+            <target>Editor deli distintivi (badge)</target>
+        </trans-unit>
+        <trans-unit id="badge-2">
+            <source>badge_block_text</source>
+            <target>Testo del distintivo</target>
+        </trans-unit>
+        <trans-unit id="badge-3">
+            <source>badge_block_type</source>
+            <target>Tipo di distintivo</target>
+        </trans-unit>
+        <trans-unit id="button-1">
+            <source>button_block_editor_title</source>
+            <target>Editor dei pulsanti</target>
+        </trans-unit>
+        <trans-unit id="button-2">
+            <source>button_block_type</source>
+            <target>Tipo di pulsante</target>
+        </trans-unit>
+        <trans-unit id="button-3">
+            <source>button_block_attribute</source>
+            <target>Attributi</target>
+        </trans-unit>
+        <trans-unit id="button-4">
+            <source>button_block_attribute_block</source>
+            <target>Blocco</target>
+        </trans-unit>
+        <trans-unit id="button-5">
+            <source>button_block_enabled</source>
+            <target>Abilitato</target>
+        </trans-unit>
+        <trans-unit id="button-6">
+            <source>button_block_href</source>
+            <target>Link</target>
+        </trans-unit>
+        <trans-unit id="button-7">
+            <source>button_block_text</source>
+            <target>Testo del pulsante</target>
+        </trans-unit>
+        <trans-unit id="navbar-1">
+            <source>navbar_alignment</source>
+            <target>Allineamento</target>
+        </trans-unit>
+        <trans-unit id="navbar-2">
+            <source>navbar_button_text</source>
+            <target>Testo pulsante</target>
+        </trans-unit>
+        <trans-unit id="navbar-3">
+            <source>navbar_editor_title</source>
+            <target>Editor della barra di navigazione</target>
+        </trans-unit>
+        <trans-unit id="navbar-4">
+            <source>navbar_position</source>
+            <target>Posizione</target>
+        </trans-unit>
+        <trans-unit id="navbar-5">
+            <source>navbar_inverted</source>
+            <target>Invertita</target>
+        </trans-unit>
+        <trans-unit id="navbar-6">
+            <source>common_edit_items</source>
+            <target>Modifica elementi</target>
+        </trans-unit>
+        <trans-unit id="navbar-form-1">
+            <source>navbar_form_method</source>
+            <target>Metodo</target>
+        </trans-unit>
+        <trans-unit id="navbar-form-2">
+            <source>navbar_form_action</source>
+            <target>Azione</target>
+        </trans-unit>
+        <trans-unit id="navbar-form-3">
+            <source>navbar_form_enctype</source>
+            <target>Enctype</target>
+        </trans-unit>
+        <trans-unit id="navbar-form-4">
+            <source>navbar_form_placeholder</source>
+            <target>Segnaposto</target>
+        </trans-unit>
+        <trans-unit id="navbar-form-5">
+            <source>navbar_form_role</source>
+            <target>Ruolo</target>
+        </trans-unit>
+        <trans-unit id="navbar-form-6">
+            <source>navbar_form_editor_title</source>
+            <target>Editor dei form</target>
+        </trans-unit>
+        <trans-unit id="navbar-text-1">
+            <source>navbar_text_editor_title</source>
+            <target>Editor del testo</target>
+        </trans-unit>       
+        <trans-unit id="navbar-text-2">
+            <source>navbar_text_attribute_text</source>
+            <target>Testo</target>
+        </trans-unit>             
+        <trans-unit id="dropdown-button-1">
+            <source>dropdown_button_editor_title</source>
+            <target>Editor del pulsante a tendina</target>
+        </trans-unit>                 
+        <trans-unit id="dropdown-button-2">
+            <source>dropdown_button_attributes</source>
+            <target>Attributi</target>
+        </trans-unit>        
+        <trans-unit id="dropdown-button-3">
+            <source>dropdown_button_items</source>
+            <target>Elementi</target>
+        </trans-unit>           
+        <trans-unit id="dropdown-button-4">
+            <source>dropdown_button_table_title_type</source>
+            <target>Tipo</target>
+        </trans-unit>           
+        <trans-unit id="dropdown-button-5">
+            <source>dropdown_button_table_title_displayed_value</source>
+            <target>Valore visualizzato</target>
+        </trans-unit>           
+        <trans-unit id="dropdown-button-6">
+            <source>dropdown_button_table_title_permalinks</source>
+            <target>Permalinks</target>
+        </trans-unit>           
+        <trans-unit id="dropdown-button-7">
+            <source>dropdown_button_table_title_link</source>
+            <target>Link</target>
+        </trans-unit>              
+        <trans-unit id="navbar-menu-button-1">
+            <source>navbar_menu_editor_title</source>
+            <target>Editor dei menu</target>
+        </trans-unit> 
+        <trans-unit id="slider-1">
+            <source>slider_editor_title</source>
+            <target>Editor delle presentazioni (Carousel)</target>
+        </trans-unit>
+        <trans-unit id="slider-2">
+            <source>slider_title_attribute</source>
+            <target>Attr. title </target>
+        </trans-unit>
+        <trans-unit id="slider-3">
+            <source>slider_alt_attribute</source>
+            <target>Attr. alt</target>
+        </trans-unit>
+        <trans-unit id="slider-4">
+            <source>slider_src_attribute</source>
+            <target>Attr. src</target>
+        </trans-unit>
+        <trans-unit id="slider-5">
+            <source>slider_caption_title</source>
+            <target>Titolo etichetta</target>
+        </trans-unit>
+        <trans-unit id="slider-6">
+            <source>slider_caption_body</source>
+            <target>Corpo etichetta</target>
+        </trans-unit>
+        <trans-unit id="thumbnail-1">
+            <source>thumbnail_editor_title</source>
+            <target>Editor delle miniature (Thumbnail)</target>
+        </trans-unit>
+        <trans-unit id="thumbnail-2">
+            <source>thumbnail_width_attribute</source>
+            <target>Larghezza</target>
+        </trans-unit>
+        <trans-unit id="page_header_1">
+            <source>page_header_editor_title</source>
+            <target>Editor dei titoli delle pagine</target>
+        </trans-unit>
+        <trans-unit id="page_header_2">
+            <source>page_header_title</source>
+            <target>Titolo</target>
+        </trans-unit>
+        <trans-unit id="page_header_3">
+            <source>page_header_subtitle</source>
+            <target>Sottotitolo</target>
+        </trans-unit>
+        <trans-unit id="page_header_4">
+            <source>page_header_tag</source>
+            <target>Tag</target>
+        </trans-unit>
+        <trans-unit id="common-1">
+            <source>common_label_save</source>
+            <target>Salva</target>
+        </trans-unit>
+        <trans-unit id="common-2">
+            <source>common_label_new</source>
+            <target>Nuovo</target>
+        </trans-unit>
+        <trans-unit id="common-3">
+            <source>common_label_class</source>
+            <target>Classe</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>

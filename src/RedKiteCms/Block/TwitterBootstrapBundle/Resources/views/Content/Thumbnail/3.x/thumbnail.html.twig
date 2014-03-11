@@ -1,0 +1,12 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
+
+{% block body %}
+{% if key is not defined %}
+{% set key = 0 %}
+{% endif %}
+{% set baseSlotName = block_manager.get.getId ~ "-" ~ key %}
+
+<div class="col-sm-6 rk-thumbnail {% if thumbnail.width is defined and thumbnail.width != "none" %}{{ thumbnail.width }}{% endif %}" {{ editor|raw }}>
+    {% include "TwitterBootstrapBundle:Content:Thumbnail/Base/_thumbnail.html.twig" with {'rich': true } %}
+</div>
+{% endblock %}

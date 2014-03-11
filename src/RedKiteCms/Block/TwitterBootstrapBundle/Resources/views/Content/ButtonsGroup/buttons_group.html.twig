@@ -1,0 +1,11 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
+
+{% block body %}
+<div class="btn-group inline-list" {{ editor|raw }}>
+    {% for key, button in buttons %}
+        {% set blockSlotName = block_manager.get.getId ~ "-" ~ key %} 
+        {% set attributes = 'data-item=' ~ key ~ ' data-hide-blocks-menu=true' %} 
+        {{ renderIncludedBlock(blockSlotName, block_manager, button.type, true, "", attributes) }}
+    {% endfor %}
+</div>
+{% endblock %}
