@@ -1,0 +1,41 @@
+RedKite CMS Base Blocks 1.1.1 (2014/03/02)
+26a44aa updated AlBlockManagerMenu to correctly highlight the menu active page
+6c6669c set default empty value for options
+5cc9a0e removed glyphicon icon and replaced by font-awesome icon
+678f616 made BaseBlockManagerMenu->initBlock() protected
+353cdb7 updated tests
+1db3457 active link on a menu is now highlighted
+cd9e577 added a method to add the css class attribute to an editor to AlBaseType object; added css class attribute to Image and Link blocks
+
+RedKite CMS Base Blocks 1.1.0 (2014/01/18)
+----
+
+RedKite CMS Base Blocks 1.1.Release Cansidate 2 (2013/12/18)
+62ad3fb fixed a bug with ScriptBlock which was not correctly saved when the script contained the "&" char
+9d305c1 added scrutinizer configuration
+8ce9ceb fixed docblocks and removed inheritdoc markup where not appliable
+
+RedKite CMS Base Blocks 1.1.Release Cansidate 1 (2013/11/24)
+70a8c99 removed script_editor.js because it was unused
+aef51ff improve image which now can be linked to a link or to a file; added a button to load the image instead of opening the media library when click
+daf3a42 refactored translation dictionaries and added some entries
+513c0ba removed translator fetching from constructors and updated unit tests
+f01955b added unit test for AlBaseType
+b49400f added dictionary to translate the bundle; added/updated docblocks; updateded unit tests;
+45df75d rewritten unit test using base unit test for forms
+51229c2 added unit test for AlScriptType form
+01e9a28 renamed LanguagesMenuType third argument and added unit test
+
+RedKite CMS Base Blocks 1.1.Release Cansidate (2013/11/17)
+1e2b741 fixed control trimming the image source name
+d79f363 added a stylesheet to define the href input width
+1d091b7 fixed bug that displays the link value instead of the link text
+2556a28 fixed menu and menu vertical blocks
+14aca55 fixed menu target selector
+9ad5195 filtered blocks that can be added to menus
+
+RedKite CMS Base Blocks 1.1.Beta 4 (2013/11/10)
+6071ac9 removed submit button because it is inherited from parent class
+41d446a added explicit filter for link block
+a2ec1b7 blocks can now be used both with Twitter Bootstrap 2.x and 3.x; updated template files paths due to changes on RedKiteCmsBundle
+49e6160 first import

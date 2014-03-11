@@ -1,0 +1,28 @@
+{% extends "RedKiteCmsBundle:Editor:base_editor.html.twig" %}
+
+{% set data_src = "" %}
+{% if image.src is defined and image.src|trim != "" %}
+    {% set src = image.src %}
+{% else %}
+    {% set src = "" %}
+    {% if image.data_src is defined and image.data_src != "" %}
+    {% set data_src = image.data_src %}
+    {% endif %}
+{% endif %}
+
+{% set alt = "" %}
+{% if image.alt is defined and image.alt != "" %}
+    {% set alt = image.alt %}
+{% endif %}
+
+{% set title = "" %}
+{% if image.title is defined and image.title != "" %}
+    {% set title = image.title %}
+{% endif %}
+
+{% set link = "#" %}
+{% if image.href is defined and image.href != "" %}
+    {% set link = image.href %}
+{% elseif image.file is defined and image.file != ""  %}
+    {% set link = "/" ~ folder ~ "/" ~ image.file %}
+{% endif %}

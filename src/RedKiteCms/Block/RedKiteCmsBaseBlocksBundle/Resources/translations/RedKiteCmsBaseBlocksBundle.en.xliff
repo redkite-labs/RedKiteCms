@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+    <body>
+        <trans-unit id="file_block_1">
+            <source>file_block_editor_title</source>
+            <target>Files editor</target>
+        </trans-unit>
+        <trans-unit id="file_block_2">
+            <source>file_block_show_opened</source>
+            <target>Show opened</target>
+        </trans-unit>
+        <trans-unit id="file_block_3">
+            <source>file_block_file_load</source>
+            <target>Click to load a file</target>
+        </trans-unit>         
+        <trans-unit id="image_block_1">
+            <source>image_block_editor_title</source>
+            <target>Image editor</target>
+        </trans-unit>      
+        <trans-unit id="image_block_2">
+            <source>image_block_title_attribute</source>
+            <target>Sample title</target>
+        </trans-unit>      
+        <trans-unit id="image_block_3">
+            <source>image_block_alt_attribute</source>
+            <target>Sample alt</target>
+        </trans-unit> 
+        <trans-unit id="image_block_4">
+            <source>image_block_title_attribute</source>
+            <target>Title attribute</target>
+        </trans-unit>
+        <trans-unit id="image_block_5">
+            <source>image_block_alt_attribute</source>
+            <target>Alt attribute</target>
+        </trans-unit>
+        <trans-unit id="image_block_6">
+            <source>image_block_src_attribute</source>
+            <target>Src attribute</target>
+        </trans-unit>
+        <trans-unit id="image_block_7">
+            <source>image_block_href_attribute</source>
+            <target>Href</target>
+        </trans-unit>
+        <trans-unit id="image_block_8">
+            <source>image_block_file_attribute</source>
+            <target>File</target>
+        </trans-unit>
+        <trans-unit id="script_block_1">
+            <source>script_block_editor_title</source>
+            <target>Script editor</target>
+        </trans-unit>
+        <trans-unit id="script_block_2">
+            <source>script_block_default_content</source>
+            <target>This is a default script content</target>
+        </trans-unit>   
+        <trans-unit id="link_block_1">
+            <source>link_block_editor_title</source>
+            <target>Link editor</target>
+        </trans-unit>      
+        <trans-unit id="link_block_2">
+            <source>link_block_href</source>
+            <target>Href</target>
+        </trans-unit>      
+        <trans-unit id="link_block_3">
+            <source>link_block_displayed_value</source>
+            <target>Displayed value</target>
+        </trans-unit>        
+        <trans-unit id="navigation_languages_menu_1">
+            <source>navigation_languages_menu_title_editor</source>
+            <target>Navigation languages menu</target>
+        </trans-unit>         
+        <trans-unit id="navigation_languages_menu_2">
+            <source>navigation_languages_menu_flags</source>
+            <target>Flags</target>
+        </trans-unit>          
+        <trans-unit id="navigation_languages_menu_3">
+            <source>navigation_languages_menu_flags_folder</source>
+            <target>Choose flags folder</target>
+        </trans-unit> 
+        <trans-unit id="common_label_1">
+            <source>common_label_save</source>
+            <target>Save</target>
+        </trans-unit>
+        <trans-unit id="common_label_2">
+            <source>common_label_load</source>
+            <target>Load</target>
+        </trans-unit>
+        <trans-unit id="common_label_3">
+            <source>common_label_class</source>
+            <target>Class</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>
+
