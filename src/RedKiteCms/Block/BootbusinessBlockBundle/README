@@ -1,0 +1,5 @@
+BootbusinessBlockBundle
+------------------------------
+
+Implements a RedKite CMS app-block to add a complex html content to represent a 
+product in BootbusinessTheme.
