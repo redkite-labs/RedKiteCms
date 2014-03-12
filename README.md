@@ -76,18 +76,22 @@ The best way to set up you permissions is using ACL:
 
 To get more details, please refer to the [symfony2 setup and configuration tutorial](http://symfony.com/doc/current/book/installation.html#configuration-and-setup)
 
+RedKite CMS console
+-------------------
+RedKite CMS is highly decoupled from Symfony2 and runs using its own kernel to keep things separated as well. For this reason
+RedKite CMS comes with its own console, called rkconsole, which must be used to run all RedKite CMS commands.
 
 Installing from the console
 ---------------------------
 Installing RedKite CMS from the console is really easy:
 
-    app/console rekitecms:configure
+    app/rkconsole rekitecms:configure
 
 This will run the interactive command and provide the required information. If everything goes well,
 you will be prompted that the configuration has been written and you ready to start the install. Run
 the following command from the console:
     
-    app/console rekitecms:install --env=rkcms
+    app/rkconsole rekitecms:install --env=rkcms
 
 When the setup ends, point your browser at
 
