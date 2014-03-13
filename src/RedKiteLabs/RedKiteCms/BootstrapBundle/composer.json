@@ -33,5 +33,5 @@
     }
   },
   "minimum-stability": "dev",
-  "target-dir" : "RedKiteLabs/BootstrapBundle"
+  "target-dir" : "RedKiteLabs/RedKiteCms/BootstrapBundle"
 }
