@@ -20,8 +20,8 @@
   },
   "autoload": {
     "psr-0": {
-        "RedKiteCms\\InstallerBundle": ""
+        "RedKiteLabs\\RedKiteCms\\InstallerBundle": ""
     }
   },
-  "target-dir" : "RedKiteCms/InstallerBundle"
+  "target-dir" : "RedKiteLabs/RedKiteCms/InstallerBundle"
 }
