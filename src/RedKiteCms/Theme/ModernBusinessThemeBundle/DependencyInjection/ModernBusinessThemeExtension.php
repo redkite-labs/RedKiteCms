@@ -11,7 +11,7 @@
  *
  * For extra documentation and help please visit http://www.redkite-labs.com
  *
- * @license    GPL LICENSE Version 2.0
+ * @license    MIT License
  *
  */
 
