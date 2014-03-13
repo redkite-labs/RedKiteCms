@@ -34,7 +34,7 @@ if (0 === strncasecmp(PHP_SAPI, 'cli', 3)) {
     set_include_path(__DIR__ . '/../vendor/phing/phing/classes'.PATH_SEPARATOR.get_include_path());
 }
 
-$redKiteCmsFolder = __DIR__ . '/../vendor/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle';
+$redKiteCmsFolder = __DIR__ . '/../vendor/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCms/RedKiteCmsBundle';
 require_once $redKiteCmsFolder . '/Tests/Tools/RedKiteCmsPropelQuickBuilder.php';
 if (class_exists('TypehintableBehavior')) {
     
