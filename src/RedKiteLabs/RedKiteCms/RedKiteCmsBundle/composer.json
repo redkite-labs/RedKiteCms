@@ -51,5 +51,5 @@
         "RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle": ""
     }
   },
-  "target-dir" : "RedKiteLabs/RedKiteCmsBundle"
+  "target-dir" : "RedKiteLabs/RedKiteCms/RedKiteCmsBundle"
 }
