@@ -29,7 +29,7 @@
   },
   "autoload": {
     "psr-0": {
-        "RedKiteLabs\\BootstrapBundle": ""
+        "RedKiteLabs\\RedKiteCms\\BootstrapBundle": ""
     }
   },
   "minimum-stability": "dev",

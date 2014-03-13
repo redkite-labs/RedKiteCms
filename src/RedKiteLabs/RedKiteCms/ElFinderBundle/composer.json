@@ -18,7 +18,7 @@
         "symfony/framework-bundle": ">=2.1,<2.3-dev"
     },
     "autoload": {
-        "psr-0": { "RedKiteLabs\\ElFinderBundle": "" }
+        "psr-0": { "RedKiteLabs\\RedKiteCms\\ElFinderBundle": "" }
     },
     "minimum-stability": "dev",
     "target-dir" : "RedKiteLabs/RedKiteCms/ElFinderBundle"
