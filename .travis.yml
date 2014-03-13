@@ -1,0 +1,28 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+
+env:
+ - DB=mysql
+ - DB=pgsql
+ - DB=sqlite
+
+before_script:
+  #- wget http://getcomposer.org/composer.phar
+  #- php composer.phar install --dev
+  - composer install --dev
+  - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database redkite_test;'; fi"
+  - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'create database redkite_test;' -U postgres; fi"
+  - sh -c "if [ '$DB' = 'sqlite' ]; then php app/console redkitecms:configure --driver=sqlite --host=localhost --database=redkite --website-url=http://example.com/ --no-interaction; fi"
+  - sh -c "if [ '$DB' = 'mysql' ]; then php app/console redkitecms:configure --driver=mysql --host=localhost --port=3306 --database=redkite --user=root --password= --website-url=http://example.com/ --no-interaction; fi"
+  - sh -c "if [ '$DB' = 'pgsql' ]; then php app/console redkitecms:configure --driver=pgsql --host=localhost --port=5432 --database=redkite --user=postgres --password= --website-url=http://example.com/ --no-interaction; fi"
+  #- sh -c "php app/console propel:sql:insert --force --env=rkcms"
+  - php app/rkconsole redkitecms:install --env=rkcms_test
+
+script: phpunit -c app
+
+notifications:
+  email:
+    - info@redkite-labs.com
