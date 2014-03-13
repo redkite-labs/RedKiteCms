@@ -49,7 +49,7 @@ class AlGeneratorBase extends TestCase
     {
         $baseThemeDir = __DIR__ . '/../../../../../../../../../src/RedKiteCms/Theme/BootbusinessThemeBundle/Resources/views/Theme';
         if ( ! is_dir($baseThemeDir)) { 
-            $baseThemeDir = __DIR__ . '/../../../../../../../../../redkite-labs/bootbusiness-theme-bundle/RedKiteCms/Theme/BootbusinessThemeBundle/Resources/views/Theme';
+            $baseThemeDir = __DIR__ . '/../../../../../vendor/redkite-labs/bootbusiness-theme-bundle/RedKiteCms/Theme/BootbusinessThemeBundle/Resources/views/Theme';
             if ( ! is_dir($baseThemeDir)) {
                 $this->markTestSkipped(
                     'BusinessWebsiteThemeBundle is not available.'
