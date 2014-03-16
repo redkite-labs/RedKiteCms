@@ -19,7 +19,7 @@ class AppKernel extends Kernel
             new Acme\WebSiteBundle\AcmeWebSiteBundle(),
             new RedKiteLabs\RedKiteCms\InstallerBundle\RedKiteCmsInstallerBundle(),
             new RedKiteLabs\ThemeEngineBundle\RedKiteLabsThemeEngineBundle(),
-            new RedKiteCms\Theme\BootbusinessThemeBundle\BootbusinessThemeBundle(),
+            new RedKiteCms\Theme\ModernBusinessThemeBundle\ModernBusinessThemeBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
