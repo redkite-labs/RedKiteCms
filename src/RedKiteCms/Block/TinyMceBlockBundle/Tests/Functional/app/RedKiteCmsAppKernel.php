@@ -19,15 +19,15 @@ class RedKiteCmsAppKernel extends Kernel
             new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
             new Sensio\Bundle\DistributionBundle\SensioDistributionBundle(),
             new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle(),
-            new RedKiteLabs\RedKiteCms\BootstrapBundle\RedKiteLabsBootstrapBundle(),
             new Propel\PropelBundle\PropelBundle(),
+            new RedKiteLabs\RedKiteCms\BootstrapBundle\RedKiteLabsBootstrapBundle(),
         );
         
         $bootstrapper = new \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles);
         $bundles = $bootstrapper->setVendorDir(__DIR__ . '/../../../vendor')
                                 ->getBundles();
         
-        $bundles[] = new RedKiteLabs\RedKiteCms\RedKiteCmsBundle\RedKiteCmsBundle();
+        $bundles[] = new RedKiteCms\Block\TinyMceBlockBundle\TinyMceBlockBundle();
 
         return $bundles;
     }
