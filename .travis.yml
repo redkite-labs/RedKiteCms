@@ -21,7 +21,10 @@ before_script:
   #- sh -c "php app/console propel:sql:insert --force --env=rkcms"
   - php app/rkconsole redkitecms:install --env=rkcms_test
 
-script: phpunit -c app
+script:
+  - phpunit --coverage-clover=coverage.clover
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 notifications:
   email:
