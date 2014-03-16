@@ -22,7 +22,7 @@ before_script:
   - php app/rkconsole redkitecms:install --env=rkcms_test
 
 script:
-  - phpunit --coverage-clover=coverage.clover
+  - phpunit -c app --coverage-clover=coverage.clover
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
