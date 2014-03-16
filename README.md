@@ -1,46 +1,34 @@
-RedKite CMS Sandbox
-===================
-Welcome to RedKite CMS Sandbox - a fully-functional Symfony2 application powered by 
+RedKite CMS
+===========
+Welcome to RedKite CMS - a fully-functional Symfony2 application powered by
 RedKite CMS. You can use this application as skeleton for your new project or to test 
 the CMS itself.
 
 This document contains information on how to download and to start using RedKite CMS.
 
-[![Build Status](https://secure.travis-ci.org/redkite-labs/RedKiteCmsSandbox.png)](http://travis-ci.org/redkite-labs/RedKiteCmsSandbox)
+[![Build Status](https://secure.travis-ci.org/redkite-labs/RedKiteCms.png)](http://travis-ci.org/redkite-labs/RedKiteCms)
 
 Before starting
 ---------------
-This repository houses the RedKite CMS Sandbox and requires to install vendor libraries 
-and then the CMS itself and it is the right place to start if you would like to contribute 
-to RedKite CMS project.
+This repository houses the RedKite CMS Sandbox and requires to install some required vendor
+libraries and it is the right place to start if you want like to design a website powered by
+RedKite CMS or if you would like to contribute to RedKite CMS project
 
 If you just want to try something ready, have a look to the [Get & Go Sandbox](http://redkite-labs.com/download-get-and-go-redkite-cms-sandbox),
-ideal to have a quick try the application and perfect to be used by a single developer, or
-to the [RedKite CMS Sandbox](http://redkite-labs.com/download-redkite-cms-sandbox) which has the
-required vendor libraries installed. Follow the links to have more details about those products.
+ideal to have a quick try the application and perfect to be used by a single developer.
 
 
-Install RedKite CMS Sandbox
----------------------------
-The quick way to install RedKite CMS Sandbox is to use composer, so get it running
-the following command:
+Install RedKite CMS
+-------------------
+Follow these steps to install RedKite CMS:
+
+    git clone git@github.com:redkite-labs/RedKiteCms.git
+
+The grab composer into the cloned repository:
 
     curl -s http://getcomposer.org/installer | php
 
-then run the following command to get the latest RC:
-
-    php composer.phar create-project redkite-labs/redkite-cms-sandbox -s stable RedKiteCmsSandbox --no-dev
-
-or run this one to get the develop branch:
-
-    php composer.phar create-project redkite-labs/redkite-cms-sandbox -s dev RedKiteCmsSandbox
-
-Alternatively you can download the latest release from releases page:
-
-    https://github.com/redkite-labs/RedKiteCmsSandbox/releases
-
-then move to the root folder and grab composer as explained at the beginning of this paragraph 
-and run this command to install the required vendor libraries:
+then run this command to install the required vendor libraries:
 
     php composer.phar install
 
