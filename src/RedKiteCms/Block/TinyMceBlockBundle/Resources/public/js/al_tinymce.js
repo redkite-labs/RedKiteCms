@@ -13,7 +13,7 @@
  * @license    MIT License
  *
  */
- 
+
  $(document).ready(function() {
     $(document).on("cmsStarted", function(event, block)
     {
@@ -90,6 +90,7 @@ function initTinyMCE()
         convert_urls: false,
         relative_urls: true,
         fixed_toolbar_container: "#rk-tinymce-container",
+        extended_valid_elements: "i[*],span[class=fa-stack],span[class=glyphicon]",
         plugins: [
             "advlist autolink lists link image charmap print preview anchor",
             "searchreplace visualblocks code ",
