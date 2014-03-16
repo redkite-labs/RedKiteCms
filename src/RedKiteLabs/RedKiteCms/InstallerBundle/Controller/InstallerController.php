@@ -18,14 +18,10 @@
 namespace RedKiteLabs\RedKiteCms\InstallerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-
 use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Form\RedKiteCmsParametersType;
 use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\Installer;
-
 use RedKiteLabs\RedKiteCms\InstallerBundle\Core\CommandsAgent\CommandsAgent;
-
-use Symfony\Component\HttpFoundation\Request;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessor;
 
 
 /**
@@ -69,7 +65,7 @@ class InstallerController extends Controller
                 );
 
                 ob_start();
-                $commandsProcessor = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessor($kernelRootDir);
+                $commandsProcessor = new AlCommandsProcessor($kernelRootDir, 'rkconsole');
                 $result = $commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });                
                 $log = ob_get_contents();
                 ob_end_clean();
