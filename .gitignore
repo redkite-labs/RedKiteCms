@@ -9,6 +9,8 @@
 /app/*.bak
 /app/config/*.bak
 /app/Resources/.active_theme*
+/app/Resources/.tests_active_theme
+/app/Resources/.theme_structure
 /app/config/*_rkcms*
 /app/config/*_stage*
 /app/config/bundles/
@@ -16,3 +18,11 @@
 /composer.lock
 /web/rkcms*
 /web/stage*
+/web/css/
+/web/js/
+/web/sitemap.xml
+/src/Acme/WebSiteBundle/Resources/views/RedKiteCms
+/src/Acme/WebSiteBundle/Resources/views/RedKiteCmsStage
+/src/Acme/WebSiteBundle/Resources/config/site_routing.yml
+/src/Acme/WebSiteBundle/Resources/config/site_routing_stage.yml
+/composer.phar
