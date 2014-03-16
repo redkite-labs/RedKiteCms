@@ -38,14 +38,14 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
      *
      * @api
      */
-    public function __construct($consoleDir)
+    public function __construct($consoleDir, $consoleFile = 'console')
     {
         $this->consoleDir = $consoleDir;
         $phpFinder = new PhpExecutableFinder;
         $pathToPhp = $phpFinder->find();
         $this->php = $pathToPhp ? escapeshellarg($pathToPhp) : '';
-        $this->console = realpath($this->consoleDir . '/console');
-        if(empty($this->console)) $this->console = $this->consoleDir . '/console';
+        $this->console = realpath($this->consoleDir . '/' . $consoleFile);
+        if(empty($this->console)) $this->console = $this->consoleDir . '/' . $consoleFile;
     }
 
     /**
