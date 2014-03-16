@@ -25,12 +25,12 @@ class DeployController extends Base\BaseController
     public function productionAction()
     {
         try {
-            $activeTheme = $this->container->get('red_kite_cms.active_theme');
+            $activeTheme = $this->getActiveTheme();
 
             $deployer = $this->container->get('red_kite_cms.production_deployer');
             $templatesFolder =  $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder');
             $pageTreeCollection = $this->container->get('red_kite_cms.page_tree_collection');
-            $deployer->deploy($pageTreeCollection, $activeTheme->getActiveTheme(), $this->getOptions($templatesFolder));
+            $deployer->deploy($pageTreeCollection, $activeTheme, $this->getOptions($templatesFolder));
             $response = $this->render('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => 'The site has been deployed'));
 
             $this->clearEnvironment('prod');
@@ -44,14 +44,14 @@ class DeployController extends Base\BaseController
     public function stageAction()
     {
         try {
-            $activeTheme = $this->container->get('red_kite_cms.active_theme');
+            $activeTheme = $this->getActiveTheme();
 
             $deployer = $this->container->get('red_kite_cms.stage_deployer');
             $templatesFolder =  $this->container->getParameter('red_kite_labs_theme_engine.deploy.stage_templates_folder');
             $pageTreeCollection = $this->container->get('red_kite_cms.page_tree_collection');
             $options = $this->getOptions($templatesFolder);
             $options["assetsDir"] = $options["assetsDir"] . "/stage";
-            $deployer->deploy($pageTreeCollection, $activeTheme->getActiveTheme(), $options);
+            $deployer->deploy($pageTreeCollection, $activeTheme, $options);
             $response = $this->render('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => 'The staging site has been deployed'));
 
             $this->clearEnvironment('stage');
@@ -68,10 +68,11 @@ class DeployController extends Base\BaseController
         $command = sprintf('assets:install %s %s', $this->container->getParameter('red_kite_cms.web_folder_full_path'), $symlink);
         $commandProcessor = $this->container->get('red_kite_cms.commands_processor');
 
+        $environmentsSwitch = ' --env=' . $environment;
         $commandProcessor->executeCommands(array(
             $command => null,
-            'assetic:dump --env=rkcms' => null,
-            'cache:clear --env=' . $environment => null,
+            'assetic:dump' . $environmentsSwitch  => null,
+            'cache:clear' . $environmentsSwitch => null,
         ));
     }
 
@@ -98,5 +99,12 @@ class DeployController extends Base\BaseController
             "websiteUrl" => $this->container->getParameter('red_kite_cms.website_url'),
             "credits" => $this->container->getParameter('red_kite_cms.love'),
         );
+    }
+
+    private function getActiveTheme()
+    {
+        $activeTheme = $this->container->get('red_kite_cms.active_theme');
+
+        return $activeTheme->getActiveTheme();
     }
 }
