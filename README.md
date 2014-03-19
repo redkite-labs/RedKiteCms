@@ -73,7 +73,7 @@ Installing from the console
 ---------------------------
 Installing RedKite CMS from the console is really easy:
 
-    app/rkconsole rekitecms:configure
+    app/console rekitecms:configure
 
 This will run the interactive command and provide the required information. If everything goes well,
 you will be prompted that the configuration has been written and you ready to start the install. Run
