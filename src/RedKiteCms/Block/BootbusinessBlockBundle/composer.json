@@ -5,10 +5,6 @@
     "homepage": "http://redkite-labs..com",
     "type": "redkite-cms-app",
     "license": "MIT",
-    "authors": [{
-      "name": "RedKiteCms",
-      "email": "info@alphalemon.com"
-    }],
     "authors": [
         {
           "name": "RedKite Labs",

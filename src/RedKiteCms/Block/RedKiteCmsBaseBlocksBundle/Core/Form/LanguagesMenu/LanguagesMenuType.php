@@ -36,7 +36,7 @@ class LanguagesMenuType extends BaseType
      *
      * @param array $flagsDirectories
      * @param array $languages
-     * @param type  $currentFlagsDirectory
+     * @param string  $currentFlagsDirectory
      */
     public function __construct(array $flagsDirectories, array $languages, $currentFlagsDirectory)
     {

@@ -36,6 +36,10 @@ class BlockManagerLanguagesMenuTester extends BlockManagerLanguagesMenu
  */
 class BlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase
 {
+    protected $languageRepository;
+    protected $urlManager;
+    protected $root;
+
     protected function setUp()
     {
         parent::setUp();
