@@ -18,20 +18,20 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Validator;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidator;
 
 /**
- * AlParametersValidator
+ * ParametersValidator
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlParametersValidatorTest extends TestCase
+class ParametersValidatorTest extends TestCase
 {
     private $validator;
 
     protected function setUp()
     {
-        $this->validator = new AlParametersValidator();
+        $this->validator = new ParametersValidator();
     }
 
     /**

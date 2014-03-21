@@ -26,7 +26,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlDropdownButtonType extends AbstractType
+class DropdownButtonType extends AbstractType
 {
     /**
      * Builds the form

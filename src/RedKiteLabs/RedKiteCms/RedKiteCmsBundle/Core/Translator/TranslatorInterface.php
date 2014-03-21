@@ -24,7 +24,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator;
  *
  * @api
  */
-interface AlTranslatorInterface
+interface TranslatorInterface
 {
     /**
      * Translates the message when the translator has been set or returns the message

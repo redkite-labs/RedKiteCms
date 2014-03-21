@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlLanguagePeer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseLanguagePeer;
 
-class AlLanguagePeer extends BaseAlLanguagePeer
+class LanguagePeer extends BaseLanguagePeer
 {
 }

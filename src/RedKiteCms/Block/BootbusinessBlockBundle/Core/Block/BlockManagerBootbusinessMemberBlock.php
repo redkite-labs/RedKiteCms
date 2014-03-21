@@ -17,12 +17,12 @@
 
 namespace RedKiteCms\Block\BootbusinessBlockBundle\Core\Block;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager;
 
 /**
- * Description of AlBlockManagerBootbusinessBlock
+ * Description of BlockManagerBootbusinessMemberBlock
  */
-class AlBlockManagerBootbusinessMemberBlock extends AlBlockManager
+class BlockManagerBootbusinessMemberBlock extends BlockManager
 {
     public function getDefaultValue()
     {

@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlSeoPeer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseSeoPeer;
 
-class AlSeoPeer extends BaseAlSeoPeer
+class SeoPeer extends BaseSeoPeer
 {
 }

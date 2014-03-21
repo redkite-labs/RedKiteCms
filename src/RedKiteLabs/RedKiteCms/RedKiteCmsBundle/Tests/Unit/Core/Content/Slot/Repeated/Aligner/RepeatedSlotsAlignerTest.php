@@ -18,14 +18,14 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\RepeatedSlotsAligner;
 
 /**
- * AlSlotsConverterFactoryTest
+ * SlotsConverterFactoryTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlRepeatedSlotsAlignerTest extends TestCase
+class RepeatedSlotsAlignerTest extends TestCase
 {
     private $themes;
     private $slotsConverterFactory;
@@ -37,23 +37,23 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     {
         parent::setUp();
 
-        $this->themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
-        $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+        $this->themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\ThemesCollection');
+        $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\Template')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
-        $this->slotsConverterFactory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface');
-        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->slotsConverterFactory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\SlotsConverterFactoryInterface');
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->at(0))
             ->method('createRepository')
             ->with('Block')
             ->will($this->returnValue($this->blockRepository));
 
-        $this->aligner = new AlRepeatedSlotsAligner($this->themes, $this->slotsConverterFactory, $this->factoryRepository);
+        $this->aligner = new RepeatedSlotsAligner($this->themes, $this->slotsConverterFactory, $this->factoryRepository);
     }
     
     /**
@@ -113,7 +113,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
              ->setLanguageId(2)
              ->setPageId(2);
         
-        $converter = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');
+        $converter = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\SlotConverterInterface');
         $converter->expects($this->once())
             ->method('convert')
             ->will($this->throwException(new \RuntimeException));    
@@ -161,7 +161,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
      */
     public function testConvertWhenPageAndLanguageHasNotBeenSetted($slots, $themeSlots, $blocks, $convert, $transaction, $result)
     {
-        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language');
         $language
             ->expects($this->once())
             ->method('getId')
@@ -169,7 +169,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         ;
         
         $languageRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\LanguageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -180,7 +180,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
             ->will($this->returnValue($language))
         ;
         
-        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
         $page
             ->expects($this->once())
             ->method('getId')
@@ -188,7 +188,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
         ;
         
         $pageRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\PageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -230,7 +230,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     
     private function doTest($slots, $themeSlots, $blocks, $convert, $transaction, $result)
     {
-        $converter = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface');
+        $converter = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\SlotConverterInterface');
         $converter->expects($this->exactly($convert["convert"]))
             ->method('convert')
             ->will($this->returnValue($convert["result"]));
@@ -493,7 +493,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     
     private function initBlock($slotName, $languageId, $pageId)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block
             ->expects($this->any())
             ->method('getSlotName')
@@ -533,7 +533,7 @@ class AlRepeatedSlotsAlignerTest extends TestCase
     
     private function initSlot($slotName = "logo", $repeated = "page", $times = 1)
     {
-        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
+        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot')
                  ->disableOriginalConstructor()
                  ->getMock();
         

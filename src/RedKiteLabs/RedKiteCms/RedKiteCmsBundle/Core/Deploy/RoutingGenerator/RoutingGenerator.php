@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection;
 
 /**
  * RoutingGenerator is a base object deputated to generate the routes required
@@ -47,9 +47,9 @@ abstract class RoutingGenerator implements RoutingGeneratorInterface
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection $pageTreeCollection
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection $pageTreeCollection
      */
-    public function __construct(AlPageTreeCollection $pageTreeCollection)
+    public function __construct(PageTreeCollection $pageTreeCollection)
     {
         $this->pageTreeCollection = $pageTreeCollection;
     }
@@ -70,13 +70,13 @@ abstract class RoutingGenerator implements RoutingGeneratorInterface
         $schema = $this->defineRouteSchema($deployBundle, $deployController);
 
         foreach ($this->pageTreeCollection->getPages() as $pageTree) {
-            $language = $pageTree->getAlLanguage();
-            $page = $pageTree->getAlPage();
+            $language = $pageTree->getLanguage();
+            $page = $pageTree->getPage();
 
             $pageName = $this->fetchPageName($page);
             $languageName = $this->fetchLanguageName($language);
 
-            $seo = $pageTree->getAlSeo();
+            $seo = $pageTree->getSeo();
             $permalink = "";
             if ($this->homePage != $pageName || $this->mainLanguage != $languageName) {
                 $permalink = $seo->getPermalink();

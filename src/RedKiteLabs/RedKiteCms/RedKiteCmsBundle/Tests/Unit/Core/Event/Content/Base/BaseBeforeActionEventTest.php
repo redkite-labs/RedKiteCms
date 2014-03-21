@@ -38,7 +38,7 @@ class BaseBeforeActionEventTest extends TestCase
     {
         parent::setUp();
 
-        $this->blockManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface');
+        $this->blockManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface');
 
         $this->event = new BaseBeforeActionEventTester($this->blockManager, $this->values);
     }

@@ -17,8 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUserQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\UserQuery;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\UserRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
@@ -27,14 +27,14 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\Inval
  *
  *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepositoryInterface
+class UserRepositoryPropel extends Base\PropelRepository implements UserRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User';
     }
 
     /**
@@ -42,7 +42,7 @@ class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepo
      */
     public function setRepositoryObject($object = null)
     {
-        if (null !== $object && !$object instanceof AlUser) {
+        if (null !== $object && !$object instanceof User) {
             throw new InvalidArgumentTypeException('exception_only_propel_user_objects_are_accepted');
         }
 
@@ -54,7 +54,7 @@ class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepo
      */
     public function fromPK($id)
     {
-        return AlUserQuery::create()
+        return UserQuery::create()
                           ->findPk($id);
     }
 
@@ -63,7 +63,7 @@ class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepo
      */
     public function fromUserName($userName)
     {
-        return AlUserQuery::create()
+        return UserQuery::create()
                           ->filterByUserName($userName)
                           ->findOne();
     }
@@ -73,9 +73,9 @@ class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepo
      */
     public function activeUsers()
     {
-        return AlUserQuery::create('a')
-                          ->joinWith('a.AlRole')
-                          ->orderBy('AlRole.Role')
+        return UserQuery::create('a')
+                          ->joinWith('a.Role')
+                          ->orderBy('Role.Role')
                           ->find();
     }
 
@@ -84,7 +84,7 @@ class AlUserRepositoryPropel extends Base\AlPropelRepository implements UserRepo
      */
     public function usersByRole($roleId)
     {
-        return AlUserQuery::create()
+        return UserQuery::create()
                           ->filterByRoleId($roleId)
                           ->find();
     }

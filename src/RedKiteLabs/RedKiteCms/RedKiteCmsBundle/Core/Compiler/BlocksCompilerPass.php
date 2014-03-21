@@ -26,7 +26,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlocksCompilerPass implements CompilerPassInterface
+class BlocksCompilerPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

@@ -17,14 +17,14 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\ContentManagerBase;
 
 /**
- * AlBlockManagerContainerBase instantiates a test for a block manager that injects the Contaione
+ * BlockManagerContainerBase instantiates a test for a block manager that injects the Contaione
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-abstract class AlBlockManagerContainerBase extends AlContentManagerBase
+abstract class BlockManagerContainerBase extends ContentManagerBase
 {
     protected $kernel;
     protected $validator;
@@ -39,17 +39,17 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
 
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
 
-        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
         $this->initRepository();
         
-        $this->translator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->translator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\TranslatorInterface');
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
     }
@@ -86,7 +86,7 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
     
     protected function initRepository()
     {
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
@@ -94,7 +94,7 @@ abstract class AlBlockManagerContainerBase extends AlContentManagerBase
 
     protected function initBootstrapversion($bootstrapVersion)
     {
-        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface');
         $activeTheme->expects($this->once())
             ->method('getThemeBootstrapVersion')
             ->will($this->returnValue($bootstrapVersion));

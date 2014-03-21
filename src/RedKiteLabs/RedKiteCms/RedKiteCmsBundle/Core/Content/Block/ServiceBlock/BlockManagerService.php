@@ -17,16 +17,16 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ServiceBlock;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager;
 
 /**
- * AlBlockManagerService represent an empty BlockManager
+ * BlockManagerService represent an empty BlockManager
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlBlockManagerService extends AlBlockManager
+class BlockManagerService extends BlockManager
 {
     /**
      * {@inheritdoc}

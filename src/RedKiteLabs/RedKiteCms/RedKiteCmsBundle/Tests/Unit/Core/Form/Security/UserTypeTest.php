@@ -17,15 +17,15 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Security;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Security\AlUserType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Security\UserType;
 
 /**
- * AlUserTypeFormTest
+ * UserTypeFormTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlUserTypeFormTest extends AlBaseType
+class UserTypeFormTest extends BaseType
 {
     protected function configureFields()
     {
@@ -34,13 +34,13 @@ class AlUserTypeFormTest extends AlBaseType
             'username',
             'password',
             'email',
-            'AlRole',
+            'Role',
         );
     }
     
     protected function getForm()
     {
-        return new AlUserType();
+        return new UserType();
     }
     
     public function testDefaultOptions()
@@ -48,7 +48,7 @@ class AlUserTypeFormTest extends AlBaseType
         $this->setBaseResolver();
 
         $options = array(
-            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser',
+            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User',
         );
         $this->resolver
             ->expects($this->at(1))

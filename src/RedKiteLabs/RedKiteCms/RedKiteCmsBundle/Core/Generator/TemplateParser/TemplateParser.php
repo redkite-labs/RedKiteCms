@@ -9,12 +9,12 @@ use Symfony\Component\Templating\TemplateNameParserInterface;
 use Symfony\Component\Yaml\Exception\ParseException;
 
 /**
- * AlTemplateParser parses the twig templates from a given folder to look for
+ * TemplateParser parses the twig templates from a given folder to look for
  * the information that defines the slot's attributes
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlTemplateParser
+class TemplateParser
 {
     private $templateLocator;
     private $nameParser;

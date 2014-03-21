@@ -18,11 +18,11 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
 
 /**
- * AlSeoRepositoryPropelTest
+ * SeoRepositoryPropelTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
+class SeoRepositoryPropelTest extends Base\BaseModelPropel
 {
     private $seoRepository;
 
@@ -39,15 +39,15 @@ class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
      * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage exception_only_propel_seo_objects_are_accepted
      */
-    public function testRepositoryAcceptsOnlyAlSeoObjects()
+    public function testRepositoryAcceptsOnlySeoObjects()
     {
-        $this->seoRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage());
+        $this->seoRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page());
     }
 
     public function testASeoObjectIsRetrievedFromItsPrimaryKey()
     {
         $seoAttribute = $this->seoRepository->fromPk(2);
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo', $seoAttribute);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo', $seoAttribute);
         $this->assertEquals(2, $seoAttribute->getId());
     }
 
@@ -88,7 +88,7 @@ class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
     {
         $seoAttributes = $this->seoRepository->fromPageIdWithLanguages(2);
         $this->assertEquals(2, count($seoAttributes));
-        $this->assertEquals(1, count($seoAttributes[0]->getAlLanguage()));
+        $this->assertEquals(1, count($seoAttributes[0]->getLanguage()));
     }
 
     public function testRetrieveSeoObjectsWithPagesAndLanguages()
@@ -97,8 +97,8 @@ class AlSeoRepositoryPropelTest extends Base\BaseModelPropel
         $this->assertEquals(4, count($seoAttributes));
 
         $seo = $seoAttributes[0];
-        $this->assertEquals(1, count($seo->getAlLanguage()));
-        $this->assertEquals(1, count($seo->getAlPage()));
+        $this->assertEquals(1, count($seo->getLanguage()));
+        $this->assertEquals(1, count($seo->getPage()));
     }
     
     public function testRetrieveSeoObjectsFromPagesAndLanguages()

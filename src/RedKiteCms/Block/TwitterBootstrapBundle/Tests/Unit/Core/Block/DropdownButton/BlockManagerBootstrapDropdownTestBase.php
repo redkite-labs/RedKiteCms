@@ -17,10 +17,10 @@
  
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\DropdownButton;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\AlBlockManagerBootstrapDropdownButtonBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\BlockManagerBootstrapDropdownButtonBlock;
 
-class AlBlockManagerBootstrapDropdownButtonBlockTester extends AlBlockManagerBootstrapDropdownButtonBlock
+class BlockManagerBootstrapDropdownButtonBlockTester extends BlockManagerBootstrapDropdownButtonBlock
 {
     public function saveDropdownItemsTester($values)
     {
@@ -29,11 +29,11 @@ class AlBlockManagerBootstrapDropdownButtonBlockTester extends AlBlockManagerBoo
 }
 
 /**
- * AlBlockManagerBootstrapDropdownButtonBlockTest
+ * BlockManagerBootstrapDropdownButtonBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-abstract class AlBlockManagerBootstrapDropdownTestBase extends AlBlockManagerContainerBase
+abstract class BlockManagerBootstrapDropdownTestBase extends BlockManagerContainerBase
 {  
     abstract protected function getBlockManager();
     
@@ -43,15 +43,15 @@ abstract class AlBlockManagerBootstrapDropdownTestBase extends AlBlockManagerCon
 
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
 
-        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\SeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($seoRepository));
@@ -109,7 +109,7 @@ abstract class AlBlockManagerBootstrapDropdownTestBase extends AlBlockManagerCon
                     ->getMock();
         $formFactory->expects($this->once())
                     ->method('createForm')
-                    ->with('DropdownButton', 'AlDropdownButtonType')
+                    ->with('DropdownButton', 'DropdownButtonType')
                     ->will($this->returnValue($form))
         ;
         $this->container->expects($this->at(3))
@@ -154,7 +154,7 @@ abstract class AlBlockManagerBootstrapDropdownTestBase extends AlBlockManagerCon
         
         $values["Content"] = 'al_json_block[button_text]=Dropdown Button 1&al_json_block[button_type]=btn-default&al_json_block[button_attribute]=&al_json_block[button_block]=&al_json_block[button_enabled]=&al_json_block[button_href]=&dropdown_items_form[0][metadata][type]=link&dropdown_items_form[0][data]=Item 1&dropdown_items_form[0][metadata][href]=#&dropdown_items_form[1][metadata][type]=link&dropdown_items_form[1][data]=Item 21&dropdown_items_form[1][metadata][href]=#&dropdown_items_form[2][metadata][type]=link&dropdown_items_form[2][data]=Item 3&dropdown_items_form[2][metadata][href]=#';
              
-        $blockManager = new AlBlockManagerBootstrapDropdownButtonBlockTester($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapDropdownButtonBlockTester($this->container, $this->validator);
         $block = $this->initBlock($value);        
         $blockManager->set($block); 
         
@@ -165,7 +165,7 @@ abstract class AlBlockManagerBootstrapDropdownTestBase extends AlBlockManagerCon
     
     protected function initBlock($value)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
               ->method('getContent')
               ->will($this->returnValue($value));

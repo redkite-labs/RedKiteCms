@@ -16,17 +16,17 @@
 
 namespace RedKiteLabs\ThemeEngineBundle\Core\Theme;
 
-use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemeCollectionBase;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\Template;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\ThemeCollectionBase;
 use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface;
 
 /**
- * AlTheme represents a theme and it is a collection of AlTemplate objects
+ * Theme represents a theme and it is a collection of Template objects
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
+class Theme extends ThemeCollectionBase implements ThemeInterface
 {
     private $templates = array();
     private $themeName = null;
@@ -36,13 +36,13 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
      * Constructor
      *
      * @param string $themeName
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface $templateSlots
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface $templateSlots
      * @throws InvalidArgumentException
      */
-    public function __construct($themeName, AlThemeSlotsInterface $templateSlots)
+    public function __construct($themeName, ThemeSlotsInterface $templateSlots)
     {
         if (!is_string($themeName)) {
-            throw new InvalidArgumentException('The theme name, passed to the AlTheme object, must be a string');
+            throw new InvalidArgumentException('The theme name, passed to the Theme object, must be a string');
         }
         
         $this->themeName = (!preg_match('/[\w+]Bundle$/', $themeName)) ? ucfirst($themeName) . 'Bundle' : $themeName;
@@ -87,7 +87,7 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
     /**
      * {@inheritdoc}
      */
-    public function setTemplate($key, AlTemplate $template)
+    public function setTemplate($key, Template $template)
     {
         $this->templates[$key] = $template;
     }
@@ -106,7 +106,7 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
      * Returns the home template or the first one when the theme does not contains
      * an home template
      *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\Template
      */
     public function getHomeTemplate()
     {
@@ -125,9 +125,9 @@ class AlTheme extends AlThemeCollectionBase implements AlThemeInterface
     /**
      * Adds a template object to the themes collection
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate $template
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\Template $template
      */
-    public function addTemplate(AlTemplate $template)
+    public function addTemplate(Template $template)
     {
         $key = $this->normalizeKey($template->getTemplateName());
         $this->templates[$key] = $template;

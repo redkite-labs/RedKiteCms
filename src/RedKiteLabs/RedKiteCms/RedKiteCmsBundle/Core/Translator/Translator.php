@@ -17,8 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator;
 
-use Symfony\Component\Translation\TranslatorInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface;
+use Symfony\Component\Translation\TranslatorInterface as SymfonyTranslatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\ConfigurationInterface;
 
 /**
  * A base class to add translation capabilities to derived objects
@@ -27,22 +27,22 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationIn
  *
  * @api
  */
-class AlTranslator implements AlTranslatorInterface
+class Translator implements TranslatorInterface
 {
-    /** @var TranslatorInterface */
+    /** @var SymfonyTranslatorInterface */
     protected $translator;
-    /** @var AlConfigurationInterface */
+    /** @var ConfigurationInterface */
     protected $configuration;
 
     /**
      * Constructor
      *
-     * @param TranslatorInterface      $translator
-     * @param AlConfigurationInterface $configuration
+     * @param SymfonyTranslatorInterface $translator
+     * @param ConfigurationInterface     $configuration
      *
      * @api
      */
-    public function __construct(TranslatorInterface $translator = null, AlConfigurationInterface $configuration = null)
+    public function __construct(SymfonyTranslatorInterface $translator = null, ConfigurationInterface $configuration = null)
     {
         $this->translator = $translator;
         $this->configuration = $configuration;
@@ -52,11 +52,11 @@ class AlTranslator implements AlTranslatorInterface
      * Sets the tranlator object
      *
      * @param  TranslatorInterface $translator
-     * @return AlTranslator
+     * @return Translator
      *
      * @api
      */
-    public function setTranslator(TranslatorInterface $translator)
+    public function setTranslator(SymfonyTranslatorInterface $translator)
     {
         $this->translator = $translator;
 
@@ -66,7 +66,7 @@ class AlTranslator implements AlTranslatorInterface
     /**
      * Returns the Translator object
      *
-     * @return TranslatorInterface
+     * @return SymfonyTranslatorInterface
      *
      * @api
      */
@@ -78,10 +78,10 @@ class AlTranslator implements AlTranslatorInterface
     /**
      * Sets the configuration object
      *
-     * @param  AlConfigurationInterface $configuration
-     * @return AlTranslator
+     * @param  ConfigurationInterface $configuration
+     * @return Translator
      */
-    public function setConfiguration(AlConfigurationInterface $configuration)
+    public function setConfiguration(ConfigurationInterface $configuration)
     {
         $this->configuration = $configuration;
 
@@ -91,7 +91,7 @@ class AlTranslator implements AlTranslatorInterface
     /**
      * Returns the Configuration object
      *
-     * @return AlConfigurationInterface
+     * @return ConfigurationInterface
      *
      * @api
      */

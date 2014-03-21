@@ -26,7 +26,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlRoleType extends BaseBlockType
+class RoleType extends BaseBlockType
 {
     /**
      * Builds the form
@@ -49,7 +49,7 @@ class AlRoleType extends BaseBlockType
         parent::setDefaultOptions($resolver);
 
         $resolver->setDefaults(array(
-            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole',
+            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Role',
         ));
     }
 

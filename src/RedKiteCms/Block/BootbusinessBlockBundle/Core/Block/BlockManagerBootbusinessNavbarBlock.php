@@ -17,12 +17,12 @@
 
 namespace RedKiteCms\Block\BootbusinessBlockBundle\Core\Block;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarBlock;
 
 /**
- * Description of AlBlockManagerBootbusinessBlock
+ * Description of BlockManagerBootbusinessNavbarBlock
  */
-class AlBlockManagerBootbusinessNavbarBlock extends AlBlockManagerBootstrapNavbarBlock
+class BlockManagerBootbusinessNavbarBlock extends BlockManagerBootstrapNavbarBlock
 {
     protected $contentTemplate = 'BootbusinessBlockBundle:Navbar:%s/navbar.html.twig';
 }

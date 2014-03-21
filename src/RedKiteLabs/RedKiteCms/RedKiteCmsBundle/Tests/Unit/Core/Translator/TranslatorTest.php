@@ -18,15 +18,15 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Translator;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\Translator;
 
 
 /**
- * AlTranslatorTest
+ * TranslatorTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlTranslatorTest extends TestCase
+class TranslatorTest extends TestCase
 {
     private $translator;
     private $configuration;
@@ -36,13 +36,13 @@ class AlTranslatorTest extends TestCase
         parent::setUp();
 
         $this->translator = $this->getMock('Symfony\Component\Translation\TranslatorInterface');
-        $this->configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $this->configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\ConfigurationInterface');
     }
     
     public function testPageRepositoryInjectedBySetters()
     {
-        $configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
-        $translator = new AlTranslator($this->translator, $this->configuration);
+        $configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\ConfigurationInterface');
+        $translator = new Translator($this->translator, $this->configuration);
         $this->assertEquals($translator, $translator->setConfiguration($configuration));
         $this->assertEquals($configuration, $translator->getConfiguration());
         $this->assertNotSame($this->configuration, $translator->getConfiguration());
@@ -56,7 +56,7 @@ class AlTranslatorTest extends TestCase
         $this->configuration->expects($this->never())
             ->method('read');
 
-        $translator = new AlTranslator();
+        $translator = new Translator();
         $this->assertNull($translator->getTranslator());
         $this->assertEquals('My message', $translator->translate('My message'));
     }
@@ -66,7 +66,7 @@ class AlTranslatorTest extends TestCase
         $this->initTranslator();
         $this->initConfiguration();
         
-        $translator = new AlTranslator($this->translator, $this->configuration);
+        $translator = new Translator($this->translator, $this->configuration);
         $this->assertEquals($this->translator, $translator->getTranslator());
         $this->assertEquals('translated!', $translator->translate('My message'));
     }
@@ -76,7 +76,7 @@ class AlTranslatorTest extends TestCase
         $this->initTranslator();
         $this->initConfiguration();
         
-        $translator = new AlTranslator();
+        $translator = new Translator();
         $translator->setTranslator($this->translator);
         $translator->setConfiguration($this->configuration);
         $this->assertEquals($this->translator, $translator->getTranslator());
@@ -94,7 +94,7 @@ class AlTranslatorTest extends TestCase
             ->will($this->returnValue('translated!'));
         $this->initConfiguration();
         
-        $translator = new AlTranslator($this->translator, $this->configuration);
+        $translator = new Translator($this->translator, $this->configuration);
         $this->assertEquals($this->translator, $translator->getTranslator());
         $this->assertEquals('translated!', $translator->translate('My message', array(), $value));
     }
@@ -108,7 +108,7 @@ class AlTranslatorTest extends TestCase
         $this->configuration->expects($this->never())
             ->method('read');
         
-        $translator = new AlTranslator($this->translator, $this->configuration);
+        $translator = new Translator($this->translator, $this->configuration);
         $this->assertEquals($this->translator, $translator->getTranslator());
         $this->assertEquals('translated!', $translator->translate('My message', array(), 'messages', 'it'));
     }

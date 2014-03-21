@@ -194,7 +194,7 @@ class TemplateAssetsManagerDeployTest extends TemplateAssetsManagerBase
     
     private function initPageBlocks($blockTypes)
     {
-        $pageBlocks = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+        $pageBlocks = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocks')
                     ->disableOriginalConstructor()
                     ->getMock()
         ;

@@ -17,34 +17,34 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\InlineTextBlock;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\TranslatorInterface;
 
 /**
- * AlBlockManagerInlineTextBlock is the base object deputated to handle an inline editor
+ * BlockManagerInlineTextBlock is the base object deputated to handle an inline editor
  * to manage an hypertext block
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-abstract class AlBlockManagerInlineTextBlock extends AlBlockManager
+abstract class BlockManagerInlineTextBlock extends BlockManager
 {
-    /** @var null|AlTranslatorInterface */
+    /** @var null|TranslatorInterface */
     protected $translator;
 
     /**
      * Constructor
      *
-     * @param null|AlEventsHandlerInterface       $eventsHandler
-     * @param null|AlFactoryRepositoryInterface   $factoryRepository
-     * @param null|AlParametersValidatorInterface $validator
-     * @param null|AlTranslatorInterface          $translator
+     * @param null|EventsHandlerInterface       $eventsHandler
+     * @param null|FactoryRepositoryInterface   $factoryRepository
+     * @param null|ParametersValidatorInterface $validator
+     * @param null|TranslatorInterface          $translator
      */
-    public function __construct(AlEventsHandlerInterface $eventsHandler = null, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null, AlTranslatorInterface $translator = null)
+    public function __construct(EventsHandlerInterface $eventsHandler = null, FactoryRepositoryInterface $factoryRepository = null, ParametersValidatorInterface $validator = null, TranslatorInterface $translator = null)
     {
         parent::__construct($eventsHandler, $factoryRepository, $validator);
 

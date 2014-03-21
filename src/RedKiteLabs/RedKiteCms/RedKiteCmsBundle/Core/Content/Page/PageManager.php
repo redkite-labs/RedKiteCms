@@ -17,29 +17,29 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\ContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\PageEvents;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\Page;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\Page as PageException;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 
 /**
- * AlPageManager is the base object that wraps an AlPage object
+ * PageManager is the base object that wraps an Page object
  *
- * AlPageManager manages an AlPage object, implementig the base methods to add, edit
+ * PageManager manages an Page object, implementig the base methods to add, edit
  * and delete that kind of object.
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlPageManager extends AlContentManagerBase implements AlContentManagerInterface
+class PageManager extends ContentManagerBase implements ContentManagerInterface
 {
     protected $templateManager = null;
     protected $siteLanguages = array();
@@ -50,14 +50,14 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager               $templateManager
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface           $eventsHandler
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager               $templateManager
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface  $factoryRepository
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface $validator
      *
      * @api
      */
-    public function __construct(AlEventsHandlerInterface $eventsHandler, AlTemplateManager $templateManager, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventsHandlerInterface $eventsHandler, TemplateManager $templateManager, FactoryRepositoryInterface $factoryRepository, ParametersValidatorInterface $validator = null)
     {
         parent::__construct($eventsHandler, $validator);
 
@@ -79,7 +79,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      */
     public function set($object = null)
     {
-        if (null !== $object && !$object instanceof AlPage) {
+        if (null !== $object && !$object instanceof Page) {
             throw new General\InvalidArgumentTypeException('exception_only_page_objects_are_accepted');
         }
 
@@ -91,12 +91,12 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Sets the template manager object
      *
-     * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager $templateManager
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager
+     * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager $templateManager
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\PageManager
      *
      * @api
      */
-    public function setTemplateManager(AlTemplateManager $templateManager)
+    public function setTemplateManager(TemplateManager $templateManager)
     {
         $this->templateManager = $templateManager;
 
@@ -106,7 +106,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     /**
      * Returns the template manager object associated with this object
      *
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager
      *
      * @api
      */
@@ -119,7 +119,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * Sets the page model object
      *
      * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface $v
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\PageManager
      *
      * @api
      */
@@ -158,9 +158,8 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      * {@inheritdoc}
      *
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\Exception
-     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\Page\RemoveHomePageException
-     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
+     * @throws PageException\RemoveHomePageException
+     * @throws General\ArgumentIsEmptyException
      *
      * @api
      */
@@ -171,7 +170,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
         }
 
         if (0 !== $this->alPage->getIsHome()) {
-            throw new Page\RemoveHomePageException("exception_home_page_cannot_be_removed");
+            throw new PageException\RemoveHomePageException("exception_home_page_cannot_be_removed");
         }
 
         $this->dispatchBeforeOperationEvent(
@@ -253,11 +252,10 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
     }
 
     /**
-     * Adds a new AlPage object from the given params
+     * Adds a new Page object from the given params
      *
-     * @param  array                                                                                 $values
+     * @param array                                                                                 $values
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\Exception
      * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentIsEmptyException
      * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\Page\PageExistsException
      * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\Page\AnyLanguageExistsException
@@ -290,11 +288,11 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             }
 
             if ($this->validator->pageExists($values['PageName'])) {
-                throw new Page\PageExistsException("exception_page_already_exists");
+                throw new PageException\PageExistsException("exception_page_already_exists");
             }
 
             if (!$this->validator->hasLanguages()) {
-                throw new Page\AnyLanguageExistsException("exception_website_has_no_languages");
+                throw new PageException\AnyLanguageExistsException("exception_website_has_no_languages");
             }
 
             $result = true;
@@ -354,7 +352,6 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
      *
      * @param  array                                                     $values
      * @return boolean
-     * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\Exception
      *
      * @api
      */
@@ -392,7 +389,7 @@ class AlPageManager extends AlContentManagerBase implements AlContentManagerInte
             }
 
             if (array_key_exists('IsHome', $values) && $this->alPage->getIsHome() == 1 && $values['IsHome'] == 0) {
-                throw new Page\HomePageCannotBeDegradedException('exception_home_page_cannot_be_degraded');
+                throw new PageException\HomePageCannotBeDegradedException('exception_home_page_cannot_be_degraded');
             }
 
             $result = true;

@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Twig;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
@@ -84,7 +84,7 @@ class SlotRendererExtension extends \Twig_Extension
     /**
      * Renders a block
      *
-     * @param  AlBlockManager $blockManager
+     * @param  BlockManager $blockManager
      * @param  string|null    $template
      * @param  bool           $included
      * @param  string         $extraAttributes
@@ -92,7 +92,7 @@ class SlotRendererExtension extends \Twig_Extension
      * @throws \Exception
      * @return string
      */
-    public function renderBlock(AlBlockManager $blockManager, $template = null, $included = false, $extraAttributes = '', array $extraOptions = null)
+    public function renderBlock(BlockManager $blockManager, $template = null, $included = false, $extraAttributes = '', array $extraOptions = null)
     {
         try {
             $block = $blockManager->toArray();
@@ -191,7 +191,7 @@ class SlotRendererExtension extends \Twig_Extension
         );
     }
 
-    public function renderIncludedBlock($key, AlBlockManager $parent = null, $type = "Text", $addWhenEmpty = false, $defaultContent = "", $editorExtraAttributes = "", $blockExtraOptions = array())
+    public function renderIncludedBlock($key, BlockManager $parent = null, $type = "Text", $addWhenEmpty = false, $defaultContent = "", $editorExtraAttributes = "", $blockExtraOptions = array())
     {
         $blocksRepository = $this->container->get('red_kite_cms.factory_repository');
         $repository = $blocksRepository->createRepository('Block');

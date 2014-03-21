@@ -17,8 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy;
 
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection;
 
 /**
  * Defines the mehods to deploy a website
@@ -27,12 +27,12 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPag
  *
  * @api
  */
-interface AlDeployerInterface
+interface DeployerInterface
 {
     /**
      * Deploys all the website's pages
      *
      * @api
      */
-    public function deploy(AlPageTreeCollection $pageTreeCollection, AlTheme $theme, array $options);
+    public function deploy(PageTreeCollection $pageTreeCollection, Theme $theme, array $options);
 }

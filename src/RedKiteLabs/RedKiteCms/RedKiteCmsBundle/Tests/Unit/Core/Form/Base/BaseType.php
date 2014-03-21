@@ -20,11 +20,11 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 
 /**
- * AlBaseType
+ * BaseType
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-abstract class AlBaseType extends TestCase
+abstract class BaseType extends TestCase
 {
     protected $resolver;
     protected $translatorDomain = 'RedKiteCmsBundle';

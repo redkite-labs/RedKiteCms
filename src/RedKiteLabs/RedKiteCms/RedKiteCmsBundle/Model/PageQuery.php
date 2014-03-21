@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlPageQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BasePageQuery;
 
-class AlPageQuery extends BaseAlPageQuery
+class PageQuery extends BasePageQuery
 {
 }

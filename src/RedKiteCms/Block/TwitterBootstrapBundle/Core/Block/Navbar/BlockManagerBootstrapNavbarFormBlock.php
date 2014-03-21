@@ -17,20 +17,20 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button\AlBlockManagerBootstrapButtonBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button\BlockManagerBootstrapButtonBlock;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;
 
 /**
  * Defines the Block Manager to handle a Bootstrap navbar button
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapNavbarFormBlock extends AlBlockManagerBootstrapButtonBlock
+class BlockManagerBootstrapNavbarFormBlock extends BlockManagerBootstrapButtonBlock
 {
     private $bootstrapVersion;
 
-    public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
+    public function __construct(ContainerInterface $container, ParametersValidatorInterface $validator = null)
     {
         parent::__construct($container, $validator);
 
@@ -94,7 +94,7 @@ class AlBlockManagerBootstrapNavbarFormBlock extends AlBlockManagerBootstrapButt
         $items = $this->decodeJsonContent($this->alBlock->getContent());
 
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
-        $form = $bootstrapFormFactory->createForm('Navbar\Form', 'AlNavbarFormType', $items[0]);
+        $form = $bootstrapFormFactory->createForm('Navbar\Form', 'NavbarFormType', $items[0]);
 
         return array(
             "template" => "TwitterBootstrapBundle:Editor:Navbar/Form/navbar_form_editor.html.twig",

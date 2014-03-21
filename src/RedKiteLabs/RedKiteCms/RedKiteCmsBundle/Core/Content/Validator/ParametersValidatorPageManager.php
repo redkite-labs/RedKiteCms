@@ -17,32 +17,32 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 
 /**
- * AlParametersValidatorPageManager adds specific validations for pages
+ * ParametersValidatorPageManager adds specific validations for pages
  *
  * PageManager depends on website's languages, because before a page can be added
- * at least a language must esist. For this reason the AlParametersValidatorPageManager
- * inherits from AlParametersValidatorLanguageManager instead of the base validator
+ * at least a language must esist. For this reason the ParametersValidatorPageManager
+ * inherits from ParametersValidatorLanguageManager instead of the base validator
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlParametersValidatorPageManager extends AlParametersValidatorLanguageManager
+class ParametersValidatorPageManager extends ParametersValidatorLanguageManager
 {
     protected $pageRepository = null;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
-    public function __construct(AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(FactoryRepositoryInterface $factoryRepository)
     {
         parent::__construct($factoryRepository);
 
@@ -53,7 +53,7 @@ class AlParametersValidatorPageManager extends AlParametersValidatorLanguageMana
      * Sets the page model object
      *
      * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface      $v
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorPageManager
      *
      * @api
      */

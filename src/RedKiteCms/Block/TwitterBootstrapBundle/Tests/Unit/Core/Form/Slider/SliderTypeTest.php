@@ -17,15 +17,15 @@
  
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Slider;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Slider\AlSliderType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Slider\SliderType;
 
 /**
- * AlSliderTypeTest
+ * SliderTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlSliderTypeTest extends AlBaseType
+class SliderTypeTest extends BaseType
 {
     protected $translatorDomain = 'TwitterBootstrapBundle';
     
@@ -74,7 +74,7 @@ class AlSliderTypeTest extends AlBaseType
     
     protected function getForm()
     {
-        return new AlSliderType();
+        return new SliderType();
     }
     
     public function testDefaultOptions()

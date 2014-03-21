@@ -21,11 +21,11 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlBowerBuilderTest
+ * BowerBuilderTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBowerBuilderTest extends TestCase
+class BowerBuilderTest extends TestCase
 {
     protected function setUp()
     {
@@ -33,7 +33,7 @@ class AlBowerBuilderTest extends TestCase
 
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
         
-        $this->bower = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\BowerBuilder\AlBowerBuilder($this->kernel);
+        $this->bower = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\BowerBuilder\BowerBuilder($this->kernel);
     }
     
     /**

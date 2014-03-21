@@ -55,7 +55,7 @@
 
                 var data = {
                     'userId' : userId,
-                    'roleId' : $('#al_user_AlRole').val(),
+                    'roleId' : $('#al_user_Role').val(),
                     'username' : $('#al_user_username').val(),
                     'password' : $('#al_user_password').val(),
                     'email' : $('#al_user_email').val()

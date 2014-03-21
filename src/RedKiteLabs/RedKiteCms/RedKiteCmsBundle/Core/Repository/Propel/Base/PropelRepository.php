@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\Inval
  *
  *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
-abstract class AlPropelRepository extends AlPropelOrm implements RepositoryInterface
+abstract class PropelRepository extends PropelOrm implements RepositoryInterface
 {
     protected $modelObject = null;
 
@@ -33,13 +33,13 @@ abstract class AlPropelRepository extends AlPropelOrm implements RepositoryInter
      * {@inheritdoc}
      *
      * @param  BaseObject                                                                   $object
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base\AlPropelRepository
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base\PropelRepository
      * @throws General\InvalidArgumentTypeException
      */
     public function setRepositoryObject($object = null)
     {
         if (null !== $object && !$object instanceof \BaseObject) {
-            throw new InvalidArgumentTypeException ('AlPropelRepository accepts only objects derived from propel \BaseObject');
+            throw new InvalidArgumentTypeException ('PropelRepository accepts only objects derived from propel \BaseObject');
         }
 
         $this->modelObject = $object;
@@ -50,7 +50,7 @@ abstract class AlPropelRepository extends AlPropelOrm implements RepositoryInter
     /**
      * Returns the current model object
      *
-     * @return AlPropelRepository
+     * @return PropelRepository
      */
     public function getModelObject()
     {

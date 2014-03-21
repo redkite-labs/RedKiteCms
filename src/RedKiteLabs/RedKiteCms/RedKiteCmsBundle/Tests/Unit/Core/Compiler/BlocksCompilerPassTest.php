@@ -18,14 +18,14 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Compiler;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Compiler\AlBlocksCompilerPass;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Compiler\BlocksCompilerPass;
 
 /**
- * AlBlocksCompilerPassTest
+ * BlocksCompilerPassTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlocksCompilerPassTest extends TestCase
+class BlocksCompilerPassTest extends TestCase
 {
     private $container;
 
@@ -41,7 +41,7 @@ class AlBlocksCompilerPassTest extends TestCase
     public function testNothingIsParsedWhenRequiredDefinitionExists()
     {
         $this->setUpDefinition(false);
-        $compiler = new AlBlocksCompilerPass();
+        $compiler = new BlocksCompilerPass();
         $this->assertNull($compiler->process($this->container));
     }
 
@@ -62,7 +62,7 @@ class AlBlocksCompilerPassTest extends TestCase
                 ->expects($this->never())
                 ->method('addMethodCall');
 
-        $compiler = new AlBlocksCompilerPass();
+        $compiler = new BlocksCompilerPass();
         $this->assertNull($compiler->process($this->container));
     }
 
@@ -90,7 +90,7 @@ class AlBlocksCompilerPassTest extends TestCase
                 ->method('addMethodCall')
                 ->with('addBlockManager');
 
-        $compiler = new AlBlocksCompilerPass();
+        $compiler = new BlocksCompilerPass();
         $this->assertNull($compiler->process($this->container));
     }
 

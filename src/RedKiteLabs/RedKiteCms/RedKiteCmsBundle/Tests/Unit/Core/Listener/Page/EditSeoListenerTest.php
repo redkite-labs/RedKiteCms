@@ -40,15 +40,15 @@ class EditSeoListenerTest extends BaseListenerTest
     {
         parent::setUp();
 
-        $this->seoManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager')
+        $this->seoManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\SeoManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->pageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\PageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $this->seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\SeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -56,15 +56,15 @@ class EditSeoListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager')
+        $this->pageManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\PageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager')
                            ->disableOriginalConstructor()
                             ->getMock();
 
-        $this->pageContents = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+        $this->pageContents = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocks')
                            ->disableOriginalConstructor()
                             ->getMock();
 
@@ -153,7 +153,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->method('save')
             ->will($this->returnValue(false));
 
-        $seo= $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        $seo= $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
         $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue(null));
@@ -192,7 +192,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->method('save')
             ->will($this->returnValue(false));
 
-        $seo= $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        $seo= $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
         $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($seo));
@@ -234,7 +234,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->method('save')
             ->will($this->throwException(new \RuntimeException()));
 
-        $seo= $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        $seo= $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
         $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($seo));
@@ -276,7 +276,7 @@ class EditSeoListenerTest extends BaseListenerTest
             ->method('save')
             ->will($this->returnValue(true));
 
-        $seo= $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        $seo= $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
         $this->seoRepository->expects($this->once())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($seo));

@@ -22,7 +22,7 @@ namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Two;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-abstract class AlNavbarBaseWithEmptyOptionType extends AlNavbarBaseType
+abstract class NavbarBaseWithEmptyOptionType extends NavbarBaseType
 {
     protected function setChoices()
     {

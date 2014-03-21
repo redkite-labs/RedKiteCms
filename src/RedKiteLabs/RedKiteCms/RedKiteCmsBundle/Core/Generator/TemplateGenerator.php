@@ -6,11 +6,11 @@ use Sensio\Bundle\GeneratorBundle\Generator\Generator;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * AlTemplateGenerator
+ * TemplateGenerator
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlTemplateGenerator extends Generator
+class TemplateGenerator extends Generator
 {
     protected $themeSkeletonDir;
 

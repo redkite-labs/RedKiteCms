@@ -17,8 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeoQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\SeoQuery;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
@@ -27,14 +27,14 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\Inval
  *
  *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoRepositoryInterface
+class SeoRepositoryPropel extends Base\PropelRepository implements SeoRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo';
     }
 
     /**
@@ -42,7 +42,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
      */
     public function setRepositoryObject($object = null)
     {
-        if (null !== $object && !$object instanceof AlSeo) {
+        if (null !== $object && !$object instanceof Seo) {
             throw new InvalidArgumentTypeException('exception_only_propel_seo_objects_are_accepted');
         }
 
@@ -54,7 +54,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
      */
     public function fromPK($id)
     {
-        return AlSeoQuery::create()->findPk($id);
+        return SeoQuery::create()->findPk($id);
     }
 
     /**
@@ -62,7 +62,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
      */
     public function fromPageAndLanguage($languageId, $pageId)
     {
-        return AlSeoQuery::create()
+        return SeoQuery::create()
                     ->filterByPageId($pageId)
                     ->filterByLanguageId($languageId)
                     ->filterByToDelete(0)
@@ -82,9 +82,9 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
             throw new InvalidArgumentTypeException('exception_invalid_value_for_fromPermalink_method');
         }
 
-        return AlSeoQuery::create('a')
-                    ->joinWith('a.AlPage')
-                    ->joinWith('a.AlLanguage')
+        return SeoQuery::create('a')
+                    ->joinWith('a.Page')
+                    ->joinWith('a.Language')
                     ->filterByPermalink($permalink)
                     ->filterByToDelete(0)
                     ->findOne();
@@ -95,7 +95,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
      */
     public function fromPageId($pageId)
     {
-        return AlSeoQuery::create()
+        return SeoQuery::create()
                     ->filterByPageId($pageId)
                     ->filterByToDelete(0)
                     ->find();
@@ -106,7 +106,7 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
      */
     public function fromLanguageId($languageId)
     {
-        return AlSeoQuery::create()
+        return SeoQuery::create()
                     ->filterByLanguageId($languageId)
                     ->filterByToDelete(0)
                     ->find();
@@ -117,8 +117,8 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
      */
     public function fromPageIdWithLanguages($pageId)
     {
-        return AlSeoQuery::create()
-                    ->joinAlLanguage()
+        return SeoQuery::create()
+                    ->joinLanguage()
                     ->filterByPageId($pageId)
                     ->filterByToDelete(0)
                     ->orderByLanguageId()
@@ -130,9 +130,9 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
      */
     public function fetchSeoAttributesWithPagesAndLanguages()
     {
-        return AlSeoQuery::create('a')
-                    ->joinWith('a.AlPage')
-                    ->joinWith('a.AlLanguage')
+        return SeoQuery::create('a')
+                    ->joinWith('a.Page')
+                    ->joinWith('a.Language')
                     ->filterByToDelete(0)
                     ->orderByPageId()
                     ->orderByLanguageId()
@@ -144,9 +144,9 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
      */
     public function fromLanguageName($languageName, $ordered = true)
     {
-        return AlSeoQuery::create('a')
-                    ->joinWith('a.AlLanguage')
-                    ->where('AlLanguage.languageName = ?', $languageName)
+        return SeoQuery::create('a')
+                    ->joinWith('a.Language')
+                    ->where('Language.languageName = ?', $languageName)
                     ->filterByToDelete(0)
                     ->_if($ordered)
                         ->orderByPermalink()
@@ -159,15 +159,15 @@ class AlSeoRepositoryPropel extends Base\AlPropelRepository implements SeoReposi
      */
     public function fromLanguageAndPageNames($languageName, $pageName)
     {
-        return AlSeoQuery::create('a')
-                ->useAlLanguageQuery()
+        return SeoQuery::create('a')
+                ->useLanguageQuery()
                     ->filterByLanguageName($languageName)
                   ->endUse()
-                ->useAlPageQuery()
+                ->usePageQuery()
                     ->filterByPageName($pageName)
                 ->endUse()
-                ->with('AlLanguage')
-                ->with('AlPage')
+                ->with('Language')
+                ->with('Page')
                 ->filterByToDelete(0)
                 ->findOne();
     }

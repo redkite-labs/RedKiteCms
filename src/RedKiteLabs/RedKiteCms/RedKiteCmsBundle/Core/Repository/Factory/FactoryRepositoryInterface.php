@@ -22,7 +22,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface AlFactoryRepositoryInterface
+interface FactoryRepositoryInterface
 {
     /**
      * Creates the repository

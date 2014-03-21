@@ -17,36 +17,36 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\ContentManagerBase;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\LanguageEvents;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorLanguageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\Language;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\Language as LanguageException;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 
 /**
- * AlLanguageManager is the base object that wraps an AlLanguage object
+ * LanguageManager is the base object that wraps an Language object
  *
- * AlLanguageManager manages an AlLanguage object, implementig the base methods to add, edit
+ * LanguageManager manages an Language object, implementig the base methods to add, edit
  * and delete that kind of object.
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlLanguageManager extends AlContentManagerBase implements AlContentManagerInterface
+class LanguageManager extends ContentManagerBase implements ContentManagerInterface
 {
     /**
-     * @var AlLanguage
+     * @var Language
      */
     protected $alLanguage = null;
 
     /**
-     * @var AlFactoryRepositoryInterface
+     * @var FactoryRepositoryInterface
      */
     protected $factoryRepository = null;
 
@@ -58,13 +58,13 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     /**
      * Constructor
      *
-     * @param AlEventsHandlerInterface             $eventsHandler
-     * @param AlFactoryRepositoryInterface         $factoryRepository
-     * @param AlParametersValidatorLanguageManager $validator
+     * @param EventsHandlerInterface             $eventsHandler
+     * @param FactoryRepositoryInterface         $factoryRepository
+     * @param ParametersValidatorLanguageManager $validator
      *
      * @api
      */
-    public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorLanguageManager $validator = null)
+    public function __construct(EventsHandlerInterface $eventsHandler, FactoryRepositoryInterface $factoryRepository, ParametersValidatorLanguageManager $validator = null)
     {
         parent::__construct($eventsHandler, $validator);
 
@@ -75,7 +75,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     /**
      * {@inheritdoc}
      *
-     * @return AlLanguage
+     * @return Language
      *
      * @api
      */
@@ -91,7 +91,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      */
     public function set($object = null)
     {
-        if (null !== $object && !$object instanceof AlLanguage) {
+        if (null !== $object && !$object instanceof Language) {
             throw new General\InvalidArgumentTypeException('exception_only_language_objects_are_accepted');
         }
 
@@ -105,7 +105,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      *
      *
      * @param  LanguageRepositoryInterface $v
-     * @return AlLanguageManager
+     * @return LanguageManager
      *
      * @api
      */
@@ -145,8 +145,8 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
      *
      * @return boolean
      * @throws General\ArgumentIsEmptyException
-     * @throws Language\RemoveMainLanguageException
-     * @throws Language\LanguageExistsException
+     * @throws LanguageException\RemoveMainLanguageException
+     * @throws LanguageException\LanguageExistsException
      *
      * @api
      */
@@ -157,7 +157,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
         }
 
         if ($this->alLanguage->getMainLanguage() == 1) {
-            throw new Language\RemoveMainLanguageException('exception_website_main_languages_cannot_be_delete');
+            throw new LanguageException\RemoveMainLanguageException('exception_website_main_languages_cannot_be_delete');
         }
 
         $this->dispatchBeforeOperationEvent(
@@ -205,7 +205,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
     }
 
     /**
-     * Adds a new AlLanguage object from the given params
+     * Adds a new Language object from the given params
      *
      * @param  array      $values
      * @throws \Exception
@@ -229,7 +229,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             $this->validator->checkEmptyParams($values);
             $this->validator->checkRequiredParamsExists(array('LanguageName' => ''), $values);
             if ($this->validator->languageExists($values['LanguageName'])) {
-                throw new Language\LanguageExistsException('exception_language_already_exists');
+                throw new LanguageException\LanguageExistsException('exception_language_already_exists');
             }
 
             if (empty($values['LanguageName'])) {
@@ -321,7 +321,7 @@ class AlLanguageManager extends AlContentManagerBase implements AlContentManager
             } else {
                 unset($values["MainLanguage"]);
                 if (! $requireToChangeName) {
-                    throw new Language\MainLanguageCannotBeDegradedException('exception_main_language_cannot_be_degraded');
+                    throw new LanguageException\MainLanguageCannotBeDegradedException('exception_main_language_cannot_be_degraded');
                 }
             }
 

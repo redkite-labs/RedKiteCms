@@ -5,11 +5,11 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * AlAppThemeGenerator
+ * AppThemeGenerator
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlAppThemeGenerator extends AlBaseGenerator
+class AppThemeGenerator extends BaseGenerator
 {
     /**
      * {@inheritdoc}

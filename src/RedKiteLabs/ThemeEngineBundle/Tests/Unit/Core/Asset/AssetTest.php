@@ -18,15 +18,15 @@
 namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\Asset;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlAssetTest
+ * AssetTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlAssetTest extends TestCase
+class AssetTest extends TestCase
 {
     private $kernel;
 
@@ -37,11 +37,11 @@ class AlAssetTest extends TestCase
 
     public function testANullOrBlankAssetDidNothing()
     {
-        $alAsset = new AlAsset($this->kernel, null);
+        $alAsset = new Asset($this->kernel, null);
         $this->assertNull($alAsset->getRealPath());
         $this->assertNull($alAsset->getAbsolutePath());
 
-        $alAsset = new AlAsset($this->kernel, "");
+        $alAsset = new Asset($this->kernel, "");
         $this->assertNull($alAsset->getRealPath());
         $this->assertNull($alAsset->getAbsolutePath());
     }
@@ -49,7 +49,7 @@ class AlAssetTest extends TestCase
     public function testANullAbsolutePathIsCalculateWhenAssetPointsToANonStandardSymfony2Path()
     {
         $asset = '/path/to/asset/asset.js';
-        $alAsset = new AlAsset($this->kernel, $asset);
+        $alAsset = new Asset($this->kernel, $asset);
         $this->assertEquals($asset, $alAsset->getAsset());
         $this->assertEquals($asset, $alAsset->getRealPath());
         $this->assertNull($alAsset->getAbsolutePath());
@@ -64,7 +64,7 @@ class AlAssetTest extends TestCase
              ->will($this->throwException(new \RuntimeException()))
         ;
 
-        $alAsset = new AlAsset($this->kernel, $asset);
+        $alAsset = new Asset($this->kernel, $asset);
         $this->assertEquals($asset, $alAsset->getAsset());
         $this->assertEquals('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css', $alAsset->getRealPath());
     }
@@ -81,7 +81,7 @@ class AlAssetTest extends TestCase
              ->will($this->returnValue('/path/to/kernel/root/dir'))
         ;
 
-        $alAsset = new AlAsset($this->kernel, $asset);
+        $alAsset = new Asset($this->kernel, $asset);
         $this->assertEquals($asset, $alAsset->getAsset());
         $this->assertEquals($bundleAssetPath . '/Resources/public/css/reset.css', $alAsset->getRealPath());
         $this->assertEquals('bundles/businesswebsitetheme/css/reset.css', $alAsset->getAbsolutePath());
@@ -93,7 +93,7 @@ class AlAssetTest extends TestCase
         $asset = '/path/to/web/folder/bundles/businesswebsitetheme/css/style.css';
         $this->setUpKernel($asset, 0);
 
-        $alAsset = new AlAsset($this->kernel, $asset);
+        $alAsset = new Asset($this->kernel, $asset);
         $this->assertEquals($asset, $alAsset->getAsset());
         $this->assertEquals($asset, $alAsset->getRealPath());
         $this->assertEquals('bundles/businesswebsitetheme/css/style.css', $alAsset->getAbsolutePath());
@@ -105,7 +105,7 @@ class AlAssetTest extends TestCase
         $normalizedAsset = '/path/to/web/folder/bundles/businesswebsitetheme/css/style.css';
         $this->setUpKernel($normalizedAsset, 0);
 
-        $alAsset = new AlAsset($this->kernel, $asset);
+        $alAsset = new Asset($this->kernel, $asset);
         $this->assertEquals($normalizedAsset, $alAsset->getAsset());
         $this->assertEquals($normalizedAsset, $alAsset->getRealPath());
         $this->assertEquals('bundles/businesswebsitetheme/css/style.css', $alAsset->getAbsolutePath());
@@ -138,7 +138,7 @@ class AlAssetTest extends TestCase
              ->will($this->returnValue(vfsStream::url('root/app')))
         ;
 
-        $alAsset = new AlAsset($this->kernel, $asset);
+        $alAsset = new Asset($this->kernel, $asset);
         $this->assertEquals($asset, $alAsset->getRealPath());
         $this->assertEquals('bundles/redkitecms/js/asset.js', $alAsset->getAbsolutePath());
     }
@@ -148,7 +148,7 @@ class AlAssetTest extends TestCase
         $asset = 'FakeBundle';
         $this->setUpKernel($asset);
 
-        $alAsset = new AlAsset($this->kernel, $asset);
+        $alAsset = new Asset($this->kernel, $asset);
         $this->assertEquals($asset, $alAsset->getRealPath());
         $this->assertEquals('bundles/fake', $alAsset->getAbsolutePath());
     }
@@ -158,7 +158,7 @@ class AlAssetTest extends TestCase
         $asset = 'FakeBundle';
         $this->setUpKernel($asset);
 
-        $alAsset = new AlAsset($this->kernel, $asset, 'foo');
+        $alAsset = new Asset($this->kernel, $asset, 'foo');
         $this->assertEquals($asset, $alAsset->getRealPath());
         $this->assertEquals('foo/bundles/fake', $alAsset->getAbsolutePath());
     }

@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu;
 
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMenu;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\BlockManagerMenu;
 
 /**
- * AlBlockManagerMenu handles a vertical menu block
+ * BlockManagerMenu handles a vertical menu block
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerMenuVertical extends AlBlockManagerMenu
+class BlockManagerMenuVertical extends BlockManagerMenu
 {
     protected $blocksTemplate = 'RedKiteCmsBaseBlocksBundle:Content:Menu/menu_vertical.html.twig';
 }

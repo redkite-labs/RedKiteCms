@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\DependencyInjection\Compiler\RegisterCmsListenersPass;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Compiler\AlBlocksCompilerPass;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Compiler\BlocksCompilerPass;
 
 /**
  * RedKiteCmsBundle
@@ -38,6 +38,6 @@ class RedKiteCmsBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new RegisterCmsListenersPass());
-        $container->addCompilerPass(new AlBlocksCompilerPass());
+        $container->addCompilerPass(new BlocksCompilerPass());
     }
 }

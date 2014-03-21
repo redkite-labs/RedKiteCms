@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter;
 
-class AlSlotConverterToLanguage extends AlSlotConverterBase
+class SlotConverterToLanguage extends SlotConverterBase
 {
     /**
      * {@inheritdoc}

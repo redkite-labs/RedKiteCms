@@ -17,15 +17,15 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlAppThemeGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AppThemeGenerator;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlAppThemeGeneratorTest
+ * AppThemeGeneratorTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlAppThemeGeneratorTest extends Base\AlAppGeneratorBase
+class AppThemeGeneratorTest extends Base\AppGeneratorBase
 {
     private $themeGenerator;
 
@@ -33,7 +33,7 @@ class AlAppThemeGeneratorTest extends Base\AlAppGeneratorBase
     {
         parent::setUp();
 
-        $this->themeGenerator = new AlAppThemeGenerator($this->fileSystem, vfsStream::url('root'), vfsStream::url('root'));
+        $this->themeGenerator = new AppThemeGenerator($this->fileSystem, vfsStream::url('root'), vfsStream::url('root'));
     }
 
     public function testThemeIsGenerated()

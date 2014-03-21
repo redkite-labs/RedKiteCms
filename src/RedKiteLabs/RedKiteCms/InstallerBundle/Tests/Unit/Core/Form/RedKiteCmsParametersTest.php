@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\InstallerBundle\Tests\Unit\Core\form;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
 use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Form\RedKiteCmsParametersType;
 
 /**
@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Form\RedKiteCmsParametersType;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class RedKiteCmsParametersTest extends AlBaseType
+class RedKiteCmsParametersTest extends BaseType
 {
     protected function configureFields()
     {

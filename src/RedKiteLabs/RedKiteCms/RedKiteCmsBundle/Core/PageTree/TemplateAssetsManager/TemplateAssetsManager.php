@@ -19,9 +19,9 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsMa
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
-use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\Template;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AssetCollection;
 
 /**
  * TemplateAssetsManager is the object deputated to collect assets parsing RedKite
@@ -46,9 +46,9 @@ class TemplateAssetsManager
      * Constructor
      *
      * @param ContainerInterface             $container
-     * @param AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param BlockManagerFactoryInterface $blockManagerFactory
      */
-    public function __construct(ContainerInterface $container, AlBlockManagerFactoryInterface $blockManagerFactory)
+    public function __construct(ContainerInterface $container, BlockManagerFactoryInterface $blockManagerFactory)
     {
         $this->container = $container;
         $this->blockManagerFactory = $blockManagerFactory;
@@ -94,10 +94,10 @@ class TemplateAssetsManager
     /**
      * Sets up the object
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate $template
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\Template $template
      * @param array                                                   $options
      */
-    public function setUp(AlTemplate $template, array $options)
+    public function setUp(Template $template, array $options)
     {
         $this->template = $template;
 
@@ -117,11 +117,11 @@ class TemplateAssetsManager
      * Merge assets for the method passed as argument
      *
      * @param  string                                                      $method
-     * @param  AlTemplate                                                  $template
+     * @param  Template                                                  $template
      * @param  array                                                       $options
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Asset\AssetCollection
      */
-    protected function mergeAssets($method, AlTemplate $template, array $options)
+    protected function mergeAssets($method, Template $template, array $options)
     {
         $assetsCollection = $template->$method();
         if (null !== $assetsCollection) {
@@ -141,11 +141,11 @@ class TemplateAssetsManager
      * Returns an array that contains the absolute path of each asset
      *
      * @param  string     $method
-     * @param  AlTemplate $template
+     * @param  Template $template
      * @param  array      $options
      * @return array
      */
-    protected function initAssets($method, AlTemplate $template, array $options)
+    protected function initAssets($method, Template $template, array $options)
     {
         preg_match_all('/[^A-Z]?[A-Z]?[a-z]+/', $method, $matches);
         $options["type"] = strtolower($matches[0][1]);
@@ -169,11 +169,11 @@ class TemplateAssetsManager
     /**
      * Merges the app block assets to the given collection
      *
-     * @param  AlAssetCollection $assetsCollection
+     * @param  AssetCollection $assetsCollection
      * @param  array             $options
-     * @return AlAssetCollection
+     * @return AssetCollection
      */
-    protected function mergeAppBlocksAssets(AlAssetCollection $assetsCollection, array $options)
+    protected function mergeAppBlocksAssets(AssetCollection $assetsCollection, array $options)
     {
         // When a block has examined, it is saved in this array to avoid parsing it again
         $appsAssets = array();
@@ -197,10 +197,10 @@ class TemplateAssetsManager
     /**
      * Adds a range of assets to the assets collection fetching from the container
      *
-     * @param AlAssetCollection $assetsCollection
+     * @param AssetCollection $assetsCollection
      * @param string            $parameter        The parameter to fetch from the Container
      */
-    protected function addAssetsFromContainer(AlAssetCollection &$assetsCollection, $parameter)
+    protected function addAssetsFromContainer(AssetCollection &$assetsCollection, $parameter)
     {
         if ( ! $this->container->hasParameter($parameter)) {
             return;
@@ -213,7 +213,7 @@ class TemplateAssetsManager
     /**
      * Adds to the assets collection the extra parameters defined by extraAssetsSuffixes
      *
-     * @param AlAssetCollection $assetsCollection
+     * @param AssetCollection $assetsCollection
      * @param string            $baseParam
      */
     protected function addExtraAssets(&$assetsCollection, $baseParam)

@@ -17,23 +17,23 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter;
 
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocksInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 
 /**
- * AlSlotConverterBase is the base object deputated to align the blocks placed on a slot
+ * SlotConverterBase is the base object deputated to align the blocks placed on a slot
  * when this last one is changing its repeated status
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-abstract class AlSlotConverterBase implements AlSlotConverterInterface
+abstract class SlotConverterBase implements SlotConverterInterface
 {
-    /** @var AlPageBlocksInterface */
+    /** @var PageBlocksInterface */
     protected $pageContentsContainer;
-    /** @var AlFactoryRepositoryInterface */
+    /** @var FactoryRepositoryInterface */
     protected $factoryRepository = null;
     /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     protected $languageRepository = null;
@@ -41,20 +41,20 @@ abstract class AlSlotConverterBase implements AlSlotConverterInterface
     protected $pageRepository = null;
     /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
     protected $blockRepository = null;
-    /** @var AlSlot */
+    /** @var Slot */
     protected $slot;
     protected $arrayBlocks = array();
 
     /**
      * Constructor
      *
-     * @param AlSlot                       $slot
-     * @param AlPageBlocksInterface        $pageContentsContainer
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param Slot                       $slot
+     * @param PageBlocksInterface        $pageContentsContainer
+     * @param FactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
-    public function __construct(AlSlot $slot, AlPageBlocksInterface $pageContentsContainer, AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(Slot $slot, PageBlocksInterface $pageContentsContainer, FactoryRepositoryInterface $factoryRepository)
     {
         $this->slot = $slot;
         $this->pageContentsContainer = $pageContentsContainer;

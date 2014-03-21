@@ -22,7 +22,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface AlUrlManagerInterface
+interface UrlManagerInterface
 {
     /**
      * Returns the permalink
@@ -56,8 +56,8 @@ interface AlUrlManagerInterface
      * Builds and internal url to be used when in CMS mode and fetches the information about the
      * url itself
      *
-     * @param  int|string|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage $language
-     * @param  int|string|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage     $page
+     * @param  int|string|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language $language
+     * @param  int|string|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page     $page
      * @return self
      */
     public function buildInternalUrl($language, $page);

@@ -24,7 +24,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface;
  *
  *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlPropelOrm implements OrmInterface
+class PropelOrm implements OrmInterface
 {
     protected static $connection = null;
     protected $affectedRecords = null;

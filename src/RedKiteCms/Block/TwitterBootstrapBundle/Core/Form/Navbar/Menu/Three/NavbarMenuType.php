@@ -17,13 +17,13 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Menu\Three;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Three\AlNavbarBaseWithEmptyOptionType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Three\NavbarBaseWithEmptyOptionType;
 
 /**
  * Defines the form to edit a navbar block
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlNavbarMenuType extends AlNavbarBaseWithEmptyOptionType
+class NavbarMenuType extends NavbarBaseWithEmptyOptionType
 {
 }

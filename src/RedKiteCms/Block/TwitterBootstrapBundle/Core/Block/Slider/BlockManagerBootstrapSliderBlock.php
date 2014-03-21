@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Slider;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ImagesBlock\BlockManagerImages;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBase;
 
 /**
  * Defines the Block Manager to handle a Bootstrap Carousel slider
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
+class BlockManagerBootstrapSliderBlock extends BlockManagerImages
 {
     /**
      * Defines the App-Block's default value
@@ -75,7 +75,7 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
     public function editorParameters()
     {
         $items = array();
-        $values = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
+        $values = BlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
         /*while ( ! empty($values)) {
             $items[] = array_splice($values, 0, 3);
         }*/
@@ -103,7 +103,7 @@ class AlBlockManagerBootstrapSliderBlock extends AlBlockManagerImages
             return "";
         }
 
-        $images = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock);
+        $images = BlockManagerJsonBase::decodeJsonContent($this->alBlock);
 
         $bootstrapVersion = $this->container->get('red_kite_cms.active_theme')->getThemeBootstrapVersion();
         $template = sprintf('TwitterBootstrapBundle:Content:Slider/%s/content.html.twig', $bootstrapVersion);

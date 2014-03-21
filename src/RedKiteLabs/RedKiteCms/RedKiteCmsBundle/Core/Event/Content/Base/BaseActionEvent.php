@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Base;
 
 use Symfony\Component\EventDispatcher\Event;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface;
 
 /**
  * Defines a base event raised from a ContentManager
@@ -27,23 +27,23 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterfa
  */
 abstract class BaseActionEvent extends Event
 {
-    /** @var AlContentManagerInterface */
+    /** @var ContentManagerInterface */
     protected $alManager;
 
     /**
      * Constructor
      *
-     * @param AlContentManagerInterface $alBlockManager
+     * @param ContentManagerInterface $alBlockManager
      */
-    public function __construct(AlContentManagerInterface $alBlockManager = null)
+    public function __construct(ContentManagerInterface $alBlockManager = null)
     {
         $this->alManager = $alBlockManager;
     }
 
     /**
-     * Returns the current AlContentManager object
+     * Returns the current ContentManager object
      *
-     * @return AlContentManagerInterface
+     * @return ContentManagerInterface
      */
     public function getContentManager()
     {
@@ -51,11 +51,11 @@ abstract class BaseActionEvent extends Event
     }
 
     /**
-     * Sets the current AlContentManager object
+     * Sets the current ContentManager object
      *
-     * @param AlContentManagerInterface $value
+     * @param ContentManagerInterface $value
      */
-    public function setContentManager(AlContentManagerInterface $value)
+    public function setContentManager(ContentManagerInterface $value)
     {
         $this->alManager = $value;
     }

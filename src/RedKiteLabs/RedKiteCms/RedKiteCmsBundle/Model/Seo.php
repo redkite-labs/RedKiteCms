@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlSeo;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseSeo;
 
-class AlSeo extends BaseAlSeo
+class Seo extends BaseSeo
 {
 }

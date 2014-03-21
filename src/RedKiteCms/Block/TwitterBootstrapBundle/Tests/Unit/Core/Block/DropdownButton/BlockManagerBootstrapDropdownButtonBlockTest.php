@@ -17,18 +17,18 @@
  
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\DropdownButton;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\AlBlockManagerBootstrapDropdownButtonBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\BlockManagerBootstrapDropdownButtonBlock;
 
 /**
- * AlBlockManagerBootstrapDropdownButtonBlockTest
+ * BlockManagerBootstrapDropdownButtonBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapDropdownButtonBlockTest extends AlBlockManagerBootstrapDropdownTestBase
+class BlockManagerBootstrapDropdownButtonBlockTest extends BlockManagerBootstrapDropdownTestBase
 {  
     protected function getBlockManager()
     {
-        return new AlBlockManagerBootstrapDropdownButtonBlock($this->container, $this->validator);
+        return new BlockManagerBootstrapDropdownButtonBlock($this->container, $this->validator);
     }
     
     public function testDefaultValue()

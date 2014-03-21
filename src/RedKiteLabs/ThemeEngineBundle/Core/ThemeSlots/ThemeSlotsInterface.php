@@ -21,14 +21,14 @@ namespace RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface AlThemeSlotsInterface
+interface ThemeSlotsInterface
 {
     /**
      * Adds a slot object
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot
      */
-    public function addSlot(AlSlot $slot);
+    public function addSlot(Slot $slot);
 
     /**
      * Return the template's slots

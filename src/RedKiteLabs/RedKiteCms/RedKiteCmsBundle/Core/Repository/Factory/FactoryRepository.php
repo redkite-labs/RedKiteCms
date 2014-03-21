@@ -20,12 +20,12 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\Exception\RepositoryNotFoundException;
 
 /**
- * AlFactoryRepository object instantiates repository objects according with the orm
+ * FactoryRepository object instantiates repository objects according with the orm
  * and the repository type
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlFactoryRepository implements AlFactoryRepositoryInterface
+class FactoryRepository implements FactoryRepositoryInterface
 {
     private $orm = null;
     private $namespace = 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository';
@@ -49,7 +49,7 @@ class AlFactoryRepository implements AlFactoryRepositoryInterface
         $blockType = ucfirst($blockType);
         $class = sprintf('%s\%s\%sRepository%s', $namespace, $this->orm, $blockType, $this->orm);
         if ( ! class_exists($class)) {
-            $class = sprintf('%s\%s\Al%sRepository%s', $namespace, $this->orm, $blockType, $this->orm);
+            $class = sprintf('%s\%s\%sRepository%s', $namespace, $this->orm, $blockType, $this->orm);
             if ( ! class_exists($class)) {
                 $exception = array(
                     'message' => 'exception_invalid_namespace',

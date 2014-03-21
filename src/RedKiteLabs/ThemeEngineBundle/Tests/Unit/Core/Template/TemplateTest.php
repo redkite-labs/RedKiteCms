@@ -18,14 +18,14 @@
 namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\Template;
 
 /**
- * AlTemplateTest
+ * TemplateTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlTemplateTest extends TestCase
+class TemplateTest extends TestCase
 {
     private $templateAssets;
     private $kernel;
@@ -33,10 +33,10 @@ class AlTemplateTest extends TestCase
 
     protected function setUp()
     {
-        $this->templateAssets = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets');      
+        $this->templateAssets = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Template\TemplateAssets');
         
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface');
+        $this->templateSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface');
     }
     
     public function testSetThemeAndTemplateName()
@@ -61,7 +61,7 @@ class AlTemplateTest extends TestCase
             ->will($this->returnValue($templateName));
         
         $this->initAssets();
-        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);
+        $this->template = new Template($this->kernel, $this->templateAssets, $this->templateSlots);
         $this->template
                 ->setThemeName($themeName)
                 ->setTemplateName($templateName);         
@@ -73,7 +73,7 @@ class AlTemplateTest extends TestCase
     public function testTemplateHasBeenPopulatedWithEmptyAssets()
     {
         $this->initAssets();
-        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots); 
+        $this->template = new Template($this->kernel, $this->templateAssets, $this->templateSlots);
         
         $this->verifyAssets(0);
     }
@@ -81,7 +81,7 @@ class AlTemplateTest extends TestCase
     public function testTemplateHasBeenPopulatedWithSomeAssets()
     {
         $this->initTemplateWithSomeAssets();
-        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);   
+        $this->template = new Template($this->kernel, $this->templateAssets, $this->templateSlots);
         
         $this->verifyAssets(1);
     }
@@ -89,7 +89,7 @@ class AlTemplateTest extends TestCase
     public function testTemplateSlotsReturnsAnEmptyArrayWhenTheTemplateSlotIsNotInitialized()
     {
         $this->initTemplateWithSomeAssets();        
-        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);   
+        $this->template = new Template($this->kernel, $this->templateAssets, $this->templateSlots);
 
         $this->assertTrue(count($this->template->getSlots()) == 0);
     }
@@ -99,7 +99,7 @@ class AlTemplateTest extends TestCase
         $this->initTemplateWithSomeAssets();
         $slots = array('logo', 'menu');
 
-        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);  
+        $this->template = new Template($this->kernel, $this->templateAssets, $this->templateSlots);
         $this->assertEmpty($this->template->getSlots());
         $this->template->setSlots($slots);
         $this->assertEquals($slots, $this->template->getSlots());
@@ -108,7 +108,7 @@ class AlTemplateTest extends TestCase
     public function testAddAnAsset()
     {
         $this->initAssets();
-        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);      
+        $this->template = new Template($this->kernel, $this->templateAssets, $this->templateSlots);
         $this->assertCount(0, $this->template->getExternalStylesheets());
         $this->template->addExternalStylesheet('temp.css');
         $this->assertCount(1, $this->template->getExternalStylesheets());
@@ -121,14 +121,14 @@ class AlTemplateTest extends TestCase
     public function testAddARangeOfAssetThrowsAnExceptionWhenTheGivenArgumentIsNotAnArray()
     {
         $this->initAssets();
-        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);      
+        $this->template = new Template($this->kernel, $this->templateAssets, $this->templateSlots);
         $this->template->addExternalJavascripts('temp.js');
     }
     
     public function testAddARangeOfAsset()
     {
         $this->initAssets();
-        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);      
+        $this->template = new Template($this->kernel, $this->templateAssets, $this->templateSlots);
         $this->assertCount(0, $this->template->getExternalJavascripts());
         $this->template->addExternalJavascripts(array('temp.js', 'temp1.js'));
         $this->assertCount(2, $this->template->getExternalJavascripts());
@@ -137,7 +137,7 @@ class AlTemplateTest extends TestCase
     public function testSetAssetsCollection()
     {
         $this->initAssets();
-        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);      
+        $this->template = new Template($this->kernel, $this->templateAssets, $this->templateSlots);
         $this->assertCount(0, $this->template->getExternalJavascripts());        
         
         $assetsCollection = clone($this->template->getExternalJavascripts());
@@ -155,7 +155,7 @@ class AlTemplateTest extends TestCase
     public function testCallAnUndefinedMethod()
     {
         $this->initAssets();
-        $this->template = new AlTemplate($this->kernel, $this->templateAssets, $this->templateSlots);      
+        $this->template = new Template($this->kernel, $this->templateAssets, $this->templateSlots);
         $this->template->getExternalImages();
     }
 
@@ -186,9 +186,9 @@ class AlTemplateTest extends TestCase
         $this->assertTrue(count($this->template->getInternalStylesheets()) == $expectedElements);
         $this->assertTrue(count($this->template->getExternalJavascripts()) == $expectedElements);
         $this->assertTrue(count($this->template->getInternalJavascripts()) == $expectedElements);
-        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetsCollectionInterface', $this->template->getExternalStylesheets());
-        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetsCollectionInterface', $this->template->getInternalStylesheets());
-        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetsCollectionInterface', $this->template->getExternalJavascripts());
-        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetsCollectionInterface', $this->template->getInternalJavascripts());
+        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\Asset\AssetsCollectionInterface', $this->template->getExternalStylesheets());
+        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\Asset\AssetsCollectionInterface', $this->template->getInternalStylesheets());
+        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\Asset\AssetsCollectionInterface', $this->template->getExternalJavascripts());
+        $this->assertInstanceOf('\RedKiteLabs\ThemeEngineBundle\Core\Asset\AssetsCollectionInterface', $this->template->getInternalJavascripts());
     }
 }

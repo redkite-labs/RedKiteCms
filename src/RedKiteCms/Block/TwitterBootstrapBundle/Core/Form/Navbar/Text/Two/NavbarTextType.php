@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Text\Two;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Two\AlNavbarBaseType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Two\NavbarBaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -25,7 +25,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlNavbarTextType extends AlNavbarBaseType
+class NavbarTextType extends NavbarBaseType
 {
     /**
      * Builds the form

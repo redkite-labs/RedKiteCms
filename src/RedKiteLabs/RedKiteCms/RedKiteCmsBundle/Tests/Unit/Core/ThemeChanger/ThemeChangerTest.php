@@ -18,35 +18,35 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\ThemeChanger;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ThemeChanger\AlThemeChanger;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ThemeChanger\ThemeChanger;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlThemeChangerTest
+ * ThemeChangerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlThemeChangerTest extends TestCase
+class ThemeChangerTest extends TestCase
 {
     protected function setUp()
     {
         parent::setUp();
         
-        $this->blockManagerFactory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $this->blockManagerFactory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryInterface');
         
         $this->languageRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\LanguageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
                 
         $this->pageRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\PageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         
         $this->factoryRepository
              ->expects($this->at(0))
@@ -63,14 +63,14 @@ class AlThemeChangerTest extends TestCase
         ;
         
         $this->templateManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->root = vfsStream::setup('root', null, array('Resources' => array()));
         
-        $this->themeChanger = new AlThemeChanger($this->templateManager, $this->factoryRepository);
+        $this->themeChanger = new ThemeChanger($this->templateManager, $this->factoryRepository);
     }
     
     public function testATemplateNotMappedIsSkipped()
@@ -225,7 +225,7 @@ class AlThemeChangerTest extends TestCase
         foreach ($languages as $language) {
             foreach ($pages as $page) {
                 
-                $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+                $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\Template')
                     ->disableOriginalConstructor()
                     ->getMock()
                 ;
@@ -273,7 +273,7 @@ class AlThemeChangerTest extends TestCase
     
     protected function initLanguage($id)
     {
-        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language');
         $language->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($id));
@@ -283,7 +283,7 @@ class AlThemeChangerTest extends TestCase
     
     protected function initPage($id, $templateName)
     {
-        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
         $page->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($id));
@@ -298,7 +298,7 @@ class AlThemeChangerTest extends TestCase
     protected function initTheme($themeName)
     {
         $theme = $this
-            ->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
+            ->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme')
             ->disableOriginalConstructor()
             ->getMock()
         ;
@@ -309,7 +309,7 @@ class AlThemeChangerTest extends TestCase
              ->will($this->returnValue($themeName));
         ;
         
-        $themeSlots = $this->getMock("RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface");
+        $themeSlots = $this->getMock("RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface");
         $theme
              ->expects($this->any())
              ->method('getThemeSlots')

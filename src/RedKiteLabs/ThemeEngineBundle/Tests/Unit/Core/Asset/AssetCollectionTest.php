@@ -18,15 +18,15 @@
 namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AssetCollection;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlAssetTest
+ * AssetTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlAssetCollectionTest extends TestCase
+class AssetCollectionTest extends TestCase
 {
     private $kernel;
 
@@ -37,13 +37,13 @@ class AlAssetCollectionTest extends TestCase
     
     public function testAnEmptyCollectionIsInstantiated()
     {
-        $alAssetCollection = new AlAssetCollection($this->kernel);
+        $alAssetCollection = new AssetCollection($this->kernel);
         $this->assertEquals(0, count($alAssetCollection));
     }
 
     public function testAnythingIsAddedWhenGivenParamIsNullOrBlank()
     {
-        $alAssetCollection = new AlAssetCollection($this->kernel);
+        $alAssetCollection = new AssetCollection($this->kernel);
         $alAssetCollection->add(null);
         $this->assertEquals(0, count($alAssetCollection));
         $alAssetCollection->add('');
@@ -52,13 +52,13 @@ class AlAssetCollectionTest extends TestCase
 
     public function testAPopulateCollectionIsInstantiated()
     {
-        $alAssetCollection = new AlAssetCollection($this->kernel, array('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css'));
+        $alAssetCollection = new AssetCollection($this->kernel, array('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css'));
         $this->assertEquals(1, count($alAssetCollection));
     }
 
     public function testAnAssetIsAdded()
     {
-        $alAssetCollection = new AlAssetCollection($this->kernel);
+        $alAssetCollection = new AssetCollection($this->kernel);
         $alAssetCollection->add('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css');
         $this->assertEquals(1, count($alAssetCollection));
     }
@@ -82,7 +82,7 @@ class AlAssetCollectionTest extends TestCase
             ->will($this->returnValue(vfsStream::url('root')))
         ;
         
-        $alAssetCollection = new AlAssetCollection($this->kernel);
+        $alAssetCollection = new AssetCollection($this->kernel);
         $alAssetCollection->add($asset);
         $this->assertEquals(2, count($alAssetCollection));
     }
@@ -105,7 +105,7 @@ class AlAssetCollectionTest extends TestCase
             ->will($this->returnValue(vfsStream::url('root')))
         ;
         
-        $alAssetCollection = new AlAssetCollection($this->kernel);
+        $alAssetCollection = new AssetCollection($this->kernel);
         $alAssetCollection->add($asset);
         $alAssetCollection->add($asset);
         $this->assertEquals(1, count($alAssetCollection));
@@ -113,7 +113,7 @@ class AlAssetCollectionTest extends TestCase
 
     public function testAnAssetIsNotAddedTwiceVirtualFiles()
     {
-        $alAssetCollection = new AlAssetCollection($this->kernel);
+        $alAssetCollection = new AssetCollection($this->kernel);
         $alAssetCollection->add('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css');
         $this->assertEquals(1, count($alAssetCollection));
         $alAssetCollection->add('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css');
@@ -122,7 +122,7 @@ class AlAssetCollectionTest extends TestCase
 
     public function testARangeOfAssetsIsAdded()
     {
-        $alAssetCollection = new AlAssetCollection($this->kernel);
+        $alAssetCollection = new AssetCollection($this->kernel);
         $alAssetCollection->addRange(array('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css',
             '@BusinessWebsiteThemeBundle/Resources/public/css/style.css'));
         $this->assertEquals(2, count($alAssetCollection));
@@ -130,7 +130,7 @@ class AlAssetCollectionTest extends TestCase
 
     public function testAddRangeDoesNotAddAnExistingAssetTwice()
     {
-        $alAssetCollection = new AlAssetCollection($this->kernel);
+        $alAssetCollection = new AssetCollection($this->kernel);
         $alAssetCollection->addRange(array('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css',
             '@BusinessWebsiteThemeBundle/Resources/public/css/style.css',
             '@BusinessWebsiteThemeBundle/Resources/public/css/reset.css',));
@@ -139,7 +139,7 @@ class AlAssetCollectionTest extends TestCase
     
     public function testTheAssetDoesNotExistInTheCollectionSoAnythingIsRemoved()
     {
-        $alAssetCollection = new AlAssetCollection($this->kernel);
+        $alAssetCollection = new AssetCollection($this->kernel);
         $alAssetCollection->add('@BusinessWebsiteThemeBundle/Resources/public/css/reset.css');
         $this->assertEquals(1, count($alAssetCollection));
         $alAssetCollection->remove('style.css');
@@ -148,7 +148,7 @@ class AlAssetCollectionTest extends TestCase
 
     public function testAssetIsRemovedFromTheRelativePath()
     {
-        $alAssetCollection = new AlAssetCollection($this->kernel);
+        $alAssetCollection = new AssetCollection($this->kernel);
         $alAssetCollection->addRange(
             array(
                 '@BusinessWebsiteThemeBundle/Resources/public/css/reset.css',
@@ -162,15 +162,13 @@ class AlAssetCollectionTest extends TestCase
 
     public function testAssetIsRemovedFromTheAssetName()
     {
-        $alAssetCollection = new AlAssetCollection($this->kernel);
+        $alAssetCollection = new AssetCollection($this->kernel);
         $alAssetCollection->addRange(
             array(
                 '@BusinessWebsiteThemeBundle/Resources/public/css/reset.css',
                 '@BusinessWebsiteThemeBundle/Resources/public/css/style.css',
             )
         );
-        $this->assertEquals(2, count($alAssetCollection));return;
-        $alAssetCollection->remove('style.css');
-        $this->assertEquals(1, count($alAssetCollection));
+        $this->assertEquals(2, count($alAssetCollection));
     }
 }

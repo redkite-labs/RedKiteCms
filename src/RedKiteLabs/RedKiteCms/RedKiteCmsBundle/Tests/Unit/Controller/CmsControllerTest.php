@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Controller;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller\AlCmsController;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller\CmsController;
 
 
 /**
@@ -26,7 +26,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller\AlCmsController;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlCmsControllerTest extends TestCase
+class CmsControllerTest extends TestCase
 {
     private $request;
 
@@ -37,25 +37,25 @@ class AlCmsControllerTest extends TestCase
         $this->securityContext = $this->getMock('Symfony\Component\Security\Core\SecurityContextInterface');
         
         $this->languageRepository =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\LanguageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->pageRepository =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\PageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->seoRepository =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\SeoRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->factoryRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepository')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -71,7 +71,7 @@ class AlCmsControllerTest extends TestCase
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
 
 
-        $this->controller = new AlCmsController();
+        $this->controller = new CmsController();
         $this->controller->setContainer($this->container);
     }
 
@@ -106,7 +106,7 @@ class AlCmsControllerTest extends TestCase
             ->will($this->returnValue($flashBag))
         ;
         
-        $configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\ConfigurationInterface');
         $configuration
             ->expects($this->once())
             ->method('read')
@@ -150,8 +150,8 @@ class AlCmsControllerTest extends TestCase
     public function testAFlashMessageIsSetWhenTemplateDoesNotExist()
     {
         $pageTree = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
-                 ->setMethods(array('getAlPage', 'getAlLanguage', 'getTemplate', 'getInternalStylesheets', 'getInternalJavascripts', 'getExternalStylesheets', 'getExternalJavascripts'))
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
+                 ->setMethods(array('getPage', 'getLanguage', 'getTemplate', 'getInternalStylesheets', 'getInternalJavascripts', 'getExternalStylesheets', 'getExternalJavascripts'))
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -163,7 +163,7 @@ class AlCmsControllerTest extends TestCase
             ->will($this->returnValue(array()));
         ;
         
-        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\Template')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -195,7 +195,7 @@ class AlCmsControllerTest extends TestCase
             ->will($this->returnValue($flashBag))
         ;
         
-        $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+        $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactory')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -212,7 +212,7 @@ class AlCmsControllerTest extends TestCase
             ->will($this->returnValue('The template assigned to this page does not exist. This appens when you change a theme with a different number of templates from the active one. To fix this issue you shoud activate the previous theme again and change the pages which cannot be rendered by this theme'))
         ;
         
-        $configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\ConfigurationInterface');
         $configuration
             ->expects($this->once())
             ->method('read')
@@ -295,7 +295,7 @@ class AlCmsControllerTest extends TestCase
             ->with('red_kite_cms.factory_repository')
             ->will($this->returnValue($this->factoryRepository));
         
-        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface');
         $activeTheme->expects($this->once())
             ->method('getThemeBootstrapVersion')
             ->will($this->returnValue('2.x'));

@@ -17,10 +17,10 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\ContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;
 
 /**
  * Implements the base object that defines a template
@@ -29,21 +29,21 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersV
  *
  * @api
  */
-abstract class AlTemplateBase extends AlContentManagerBase
+abstract class TemplateBase extends ContentManagerBase
 {
-    /** @var AlBlockManagerFactoryInterface */
+    /** @var BlockManagerFactoryInterface */
     protected $blockManagerFactory;
 
     /**
      * Constructor
      *
-     * @param AlEventsHandlerInterface       $eventsHandler
-     * @param AlBlockManagerFactoryInterface $blockManagerFactory
-     * @param AlParametersValidatorInterface $validator
+     * @param EventsHandlerInterface       $eventsHandler
+     * @param BlockManagerFactoryInterface $blockManagerFactory
+     * @param ParametersValidatorInterface $validator
      *
      * @api
      */
-    public function __construct(AlEventsHandlerInterface $eventsHandler, AlBlockManagerFactoryInterface $blockManagerFactory, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventsHandlerInterface $eventsHandler, BlockManagerFactoryInterface $blockManagerFactory, ParametersValidatorInterface $validator = null)
     {
         parent::__construct($eventsHandler, $validator);
 
@@ -53,12 +53,12 @@ abstract class AlTemplateBase extends AlContentManagerBase
     /**
      * Sets the blockManager factory object
      *
-     * @param  AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param  BlockManagerFactoryInterface $blockManagerFactory
      * @return self
      *
      * @api
      */
-    public function setBlockManagerFactory(AlBlockManagerFactoryInterface $blockManagerFactory)
+    public function setBlockManagerFactory(BlockManagerFactoryInterface $blockManagerFactory)
     {
         $this->blockManagerFactory = $blockManagerFactory;
 
@@ -68,7 +68,7 @@ abstract class AlTemplateBase extends AlContentManagerBase
     /**
      * Returns the blockManager factory object
      *
-     * @return AlBlockManagerFactoryInterface
+     * @return BlockManagerFactoryInterface
      *
      * @api
      */

@@ -18,14 +18,14 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlUserRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\UserRepositoryPropel;
 
 /**
- * AlUserRepositoryTest
+ * UserRepositoryTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlUserRepositoryTest extends TestCase
+class UserRepositoryTest extends TestCase
 {
     private $userRepository;
     private $pdo;
@@ -35,12 +35,12 @@ class AlUserRepositoryTest extends TestCase
         parent::setUp();
 
         $this->pdo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
-        $this->userRepository = new AlUserRepositoryPropel($this->pdo);
+        $this->userRepository = new UserRepositoryPropel($this->pdo);
     }
 
     public function testGetRepositoryObjectClassName()
     {
-        $this->assertEquals('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser', $this->userRepository->getRepositoryObjectClassName());
+        $this->assertEquals('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User', $this->userRepository->getRepositoryObjectClassName());
     }
     
     /**
@@ -49,13 +49,13 @@ class AlUserRepositoryTest extends TestCase
      */
     public function testModelObjectInjectedBySettersIsInvalid()
     {
-        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $this->userRepository->setRepositoryObject($modelObject);
     }
 
     public function testModelObjectInjectedBySetters()
     {
-        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser');
+        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User');
         $this->assertEquals($this->userRepository, $this->userRepository->setRepositoryObject($modelObject));
         $this->assertEquals($modelObject, $this->userRepository->getModelObject());
     }

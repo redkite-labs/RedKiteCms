@@ -17,9 +17,9 @@
 namespace RedKiteLabs\ThemeEngineBundle\Core\Template;
 
 use Symfony\Component\HttpKernel\KernelInterface;
-use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface;
-use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\TemplateAssets;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AssetCollection;
 
 /**
  * The class deputate to manage a template
@@ -28,22 +28,22 @@ use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
  *
  * - Slots
  * - Assets
- * @method     AlTemplate addExternalStylesheet() Returns the external stylesheets
- * @method     AlTemplate addInternalStylesheet() Returns the internal stylesheets
- * @method     AlTemplate addExternalStylesheets() Returns the external stylesheets
- * @method     AlTemplate addInternalStylesheets() Returns the internal stylesheets
- * @method     AlTemplate getExternalJavascripts() Returns the external javascripts
- * @method     AlTemplate getInternalJavascripts() Returns the internal javascripts
- * @method     AlTemplate getExternalStylesheets() Returns the external javascripts
- * @method     AlTemplate getInternalStylesheets() Returns the internal javascripts
- * @method     AlTemplate setExternalJavascripts() Returns the external javascripts
- * @method     AlTemplate setInternalJavascripts() Returns the internal javascripts
- * @method     AlTemplate setExternalStylesheets() Returns the external javascripts
- * @method     AlTemplate setInternalStylesheets() Returns the internal javascripts
+ * @method     Template addExternalStylesheet() Returns the external stylesheets
+ * @method     Template addInternalStylesheet() Returns the internal stylesheets
+ * @method     Template addExternalStylesheets() Returns the external stylesheets
+ * @method     Template addInternalStylesheets() Returns the internal stylesheets
+ * @method     Template getExternalJavascripts() Returns the external javascripts
+ * @method     Template getInternalJavascripts() Returns the internal javascripts
+ * @method     Template getExternalStylesheets() Returns the external javascripts
+ * @method     Template getInternalStylesheets() Returns the internal javascripts
+ * @method     Template setExternalJavascripts() Returns the external javascripts
+ * @method     Template setInternalJavascripts() Returns the internal javascripts
+ * @method     Template setExternalStylesheets() Returns the external javascripts
+ * @method     Template setInternalStylesheets() Returns the internal javascripts
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlTemplate
+class Template
 {
     protected $kernel = null;
     protected $templateAssets = null;
@@ -54,9 +54,9 @@ class AlTemplate
      * Constructor
      *
      * @param KernelInterface          $kernel
-     * @param AlTemplateAssets         $templateAssets
+     * @param TemplateAssets         $templateAssets
      */
-    public function __construct(KernelInterface $kernel, AlTemplateAssets $templateAssets)
+    public function __construct(KernelInterface $kernel, TemplateAssets $templateAssets)
     {
         $this->kernel = $kernel;
         $this->templateAssets = $templateAssets;
@@ -64,10 +64,10 @@ class AlTemplate
         $this->assets = new \ArrayObject(array());
         $this->assets->stylesheets = new \ArrayObject(array());
         $this->assets->javascripts = new \ArrayObject(array());
-        $this->assets->stylesheets->external = new AlAssetCollection($this->kernel, $this->templateAssets->getExternalStylesheets());
-        $this->assets->stylesheets->internal = new AlAssetCollection($this->kernel, $this->templateAssets->getInternalStylesheets());
-        $this->assets->javascripts->external = new AlAssetCollection($this->kernel, $this->templateAssets->getExternalJavascripts());
-        $this->assets->javascripts->internal = new AlAssetCollection($this->kernel, $this->templateAssets->getInternalJavascripts());
+        $this->assets->stylesheets->external = new AssetCollection($this->kernel, $this->templateAssets->getExternalStylesheets());
+        $this->assets->stylesheets->internal = new AssetCollection($this->kernel, $this->templateAssets->getInternalStylesheets());
+        $this->assets->javascripts->external = new AssetCollection($this->kernel, $this->templateAssets->getExternalJavascripts());
+        $this->assets->javascripts->internal = new AssetCollection($this->kernel, $this->templateAssets->getInternalJavascripts());
     }
 
     /**
@@ -83,10 +83,10 @@ class AlTemplate
     }
 
     /**
-     * Sets the theme name for the associated AlTemplateAssets object
+     * Sets the theme name for the associated TemplateAssets object
      *
      * @param  string                                                  $v
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\Template
      */
     public function setThemeName($v)
     {
@@ -96,10 +96,10 @@ class AlTemplate
     }
 
     /**
-     * Sets the template name for the associated AlTemplateAssets object
+     * Sets the template name for the associated TemplateAssets object
      *
      * @param  string                                                  $v
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\Template
      */
     public function setTemplateName($v)
     {
@@ -109,7 +109,7 @@ class AlTemplate
     }
 
     /**
-     * Returns the theme name from the associated AlTemplateAssets object
+     * Returns the theme name from the associated TemplateAssets object
      *
      * @return string
      */
@@ -119,7 +119,7 @@ class AlTemplate
     }
 
     /**
-     * Returns the theme name from the associated AlTemplateAssets object
+     * Returns the theme name from the associated TemplateAssets object
      *
      * @return string
      */
@@ -220,6 +220,6 @@ class AlTemplate
      */
     public function getSlot($slotName)
     {
-        throw  new \RuntimeException("AlTemplate->getSlot() method has been deprecated");
+        throw  new \RuntimeException("Template->getSlot() method has been deprecated");
     }
 }

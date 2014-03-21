@@ -18,13 +18,13 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator;
 
 /**
- * AlParametersValidator
+ * ParametersValidator
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-interface AlParametersValidatorInterface
+interface ParametersValidatorInterface
 {
     /**
      * Checks when the given array is empty or not

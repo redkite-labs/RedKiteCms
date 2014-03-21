@@ -17,8 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page;
 
 /**
  * Defines the object to format an url to be used when the CMS editor is active or for
@@ -26,12 +26,12 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlUrlManagerStage extends AlUrlManager
+class UrlManagerStage extends UrlManager
 {
     /**
      * {@inheritdoc}
      */
-    protected function generateRoute(AlLanguage $language, AlPage $page)
+    protected function generateRoute(Language $language, Page $page)
     {
         return '_stage' . parent::generateRoute($language, $page);
     }

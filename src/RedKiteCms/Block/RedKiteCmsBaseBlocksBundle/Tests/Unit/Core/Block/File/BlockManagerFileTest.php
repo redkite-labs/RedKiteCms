@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Block\File;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\File\AlBlockManagerFile;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\File\BlockManagerFile;
 
 /**
- * AlBlockManagerFileTest
+ * BlockManagerFileTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerFileTest extends AlBlockManagerContainerBase
+class BlockManagerFileTest extends BlockManagerContainerBase
 {   
     public function testDefaultValue()
     {
@@ -44,14 +44,14 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
 
         $this->initContainer();
         $this->translate("file_block_file_load");
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
+        $blockManager = new BlockManagerFile($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
 
     public function testGetHideInEditMode()
     {
         $this->initContainer();
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
+        $blockManager = new BlockManagerFile($this->container, $this->validator);
         $this->assertTrue($blockManager->getHideInEditMode());
     }
 
@@ -72,7 +72,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
 
         $block = $this->initBlock($value);
         $this->initContainer();
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
+        $blockManager = new BlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $blockManager->getHtml();
     }
@@ -107,7 +107,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                         ->with('red_kite_cms.upload_assets_dir')
                         ->will($this->returnValue('uploads/assets'));
         
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
+        $blockManager = new BlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $this->assertEquals('<a href="/uploads/assets/files/my-file" />my-file</a>', $blockManager->getHtml());
     }
@@ -133,7 +133,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
                         ->with('red_kite_cms.web_folder')
                         ->will($this->returnValue('web'));
 
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
+        $blockManager = new BlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $this->assertEquals('{% set file = kernel_root_dir ~ \'/../web/bundles/acmewebsite/files/my-file\' %} {{ file_open(file) }}', $blockManager->getHtml());
     }
@@ -204,7 +204,7 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
             ->will($this->returnValue($request))
         ;
         
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
+        $blockManager = new BlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $blockManagerArray = $blockManager->toArray();
                 
@@ -252,14 +252,14 @@ class AlBlockManagerFileTest extends AlBlockManagerContainerBase
             ->will($this->returnValue($formFactory))
         ;
         
-        $blockManager = new AlBlockManagerFile($this->container, $this->validator);
+        $blockManager = new BlockManagerFile($this->container, $this->validator);
         $blockManager->set($block);
         $blockManager->editorParameters();        
     }
     
     private function initBlock($value)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->once())
               ->method('getContent')
               ->will($this->returnValue($value));

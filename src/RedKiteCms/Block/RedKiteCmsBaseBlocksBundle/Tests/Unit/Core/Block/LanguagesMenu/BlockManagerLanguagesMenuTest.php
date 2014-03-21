@@ -18,10 +18,10 @@
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Block\LanguagesMenu;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\LanguagesMenu\AlBlockManagerLanguagesMenu;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\LanguagesMenu\BlockManagerLanguagesMenu;
 use org\bovigo\vfs\vfsStream;
 
-class AlBlockManagerLanguagesMenuTester extends AlBlockManagerLanguagesMenu
+class BlockManagerLanguagesMenuTester extends BlockManagerLanguagesMenu
 {
     public function updateSavedLanguagesTester(array $values)
     {
@@ -30,11 +30,11 @@ class AlBlockManagerLanguagesMenuTester extends AlBlockManagerLanguagesMenu
 }
 
 /**
- * AlBlockManagerLanguagesMenuTest
+ * BlockManagerLanguagesMenuTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase
+class BlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase
 {
     protected function setUp()
     {
@@ -57,19 +57,19 @@ class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCms\RedKiteCms
             );
         $this->root = vfsStream::setup('root', null, $folders);
         
-        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface');
 
-        $this->languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\LanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->at(1))
             ->method('createRepository')
             ->with('Language')
             ->will($this->returnValue($this->languageRepository));
 
-        $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        $this->urlManager = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerInterface');
         $this->urlManager->expects($this->any())
             ->method('buildInternalUrl')
             ->will($this->returnSelf());
@@ -109,7 +109,7 @@ class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCms\RedKiteCms
             ->will($this->returnValue(array($this->initLanguage($language))));
 
         $expectedValue = array("Content" => $expectedResult);
-        $blockManager = new AlBlockManagerLanguagesMenu($this->container);
+        $blockManager = new BlockManagerLanguagesMenu($this->container);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
     
@@ -129,7 +129,7 @@ class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCms\RedKiteCms
                 ->method('activeLanguages')
                 ->will($this->returnValue($languages));
         
-        $blockManager = new AlBlockManagerLanguagesMenu($this->container);
+        $blockManager = new BlockManagerLanguagesMenu($this->container);
         $expectedResult = array(
             'RenderView' => array(
                 'view' => 'RedKiteCmsBaseBlocksBundle:Content:LanguagesMenu/languages_menu.html.twig',
@@ -160,7 +160,7 @@ class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCms\RedKiteCms
         ;
         
         $block = $this->initBlock('{"imagesFolder":"20x15","languages":{"en":{"country":"/bundles/navigationmenu/20x15/uk.png","url":"#"},"fr":{"country":"/bundles/navigationmenu/20x15/fr.png","url":"#"}}}');
-        $blockManager = new AlBlockManagerLanguagesMenu($this->container);
+        $blockManager = new BlockManagerLanguagesMenu($this->container);
         $blockManager->set($block);
         $result = $blockManager->editorParameters();
         $this->assertEquals('RedKiteCmsBaseBlocksBundle:Editor:LanguagesMenu/editor.html.twig', $result["template"]);
@@ -172,7 +172,7 @@ class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCms\RedKiteCms
     public function testEditValues($values, $expectedResult)
     {
         $this->initPageTree();
-        $blockManager = new AlBlockManagerLanguagesMenuTester($this->container);
+        $blockManager = new BlockManagerLanguagesMenuTester($this->container);
         
         $this->assertEquals($expectedResult, $blockManager->updateSavedLanguagesTester($values));
     }
@@ -307,7 +307,7 @@ class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCms\RedKiteCms
     
     protected function initBlock($content)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->once())
             ->method('getContent')
             ->will($this->returnValue($content));
@@ -317,7 +317,7 @@ class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCms\RedKiteCms
 
     protected function initLanguage($value = 'en')
     {
-        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language');
         $language->expects($this->once())
             ->method('getLanguageName')
             ->will($this->returnValue($value));
@@ -327,12 +327,12 @@ class AlBlockManagerLanguagesMenuTest extends \RedKiteLabs\RedKiteCms\RedKiteCms
     
     protected function initPageTree()
     {
-        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
-        $pageTree = $this->getMockBuilder('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
+        $pageTree = $this->getMockBuilder('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $pageTree->expects($this->any())
-            ->method('getAlPage')
+            ->method('getPage')
             ->will($this->returnValue($page));
         
         $this->container->expects($this->at(6))

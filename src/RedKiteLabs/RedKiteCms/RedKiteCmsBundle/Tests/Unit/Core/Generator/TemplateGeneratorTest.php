@@ -17,15 +17,15 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlTemplateGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\TemplateGenerator;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlTemplateParserTest
+ * TemplateParserTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlTemplateGeneratorTest extends Base\AlGeneratorBase
+class TemplateGeneratorTest extends Base\GeneratorBase
 {
     private $templateGenerator;
 
@@ -47,7 +47,7 @@ class AlTemplateGeneratorTest extends Base\AlGeneratorBase
         ));
         vfsStream::copyFromFileSystem(__DIR__ . '/../../../../Resources/skeleton', $this->root);
 
-        $this->templateGenerator = new AlTemplateGenerator(vfsStream::url('root/app-theme'));
+        $this->templateGenerator = new TemplateGenerator(vfsStream::url('root/app-theme'));
     }
     /*
     public function testTemplateIsNotGeneratedWhenAnySlotIsDefined()

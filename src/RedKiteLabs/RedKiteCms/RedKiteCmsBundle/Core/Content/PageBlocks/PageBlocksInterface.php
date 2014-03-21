@@ -22,7 +22,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface AlPageBlocksInterface
+interface PageBlocksInterface
 {
     /**
      *
@@ -102,7 +102,7 @@ interface AlPageBlocksInterface
      *
      * @param  int                                                                                       $languageId
      * @param  int                                                                                       $pageId
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocks
      * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      *
      * @api

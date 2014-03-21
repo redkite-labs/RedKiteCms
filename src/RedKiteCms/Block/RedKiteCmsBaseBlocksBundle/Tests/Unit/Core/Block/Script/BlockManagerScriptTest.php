@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Block\Script;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\BlockManagerScript;
 
 /**
- * AlBlockManagerScriptTest
+ * BlockManagerScriptTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
+class BlockManagerScriptTest extends BlockManagerContainerBase
 {
     
     protected function setUp()
@@ -34,7 +34,7 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
         
         $this->initContainer();
         
-        $this->blockManager = new AlBlockManagerScript($this->container, $this->validator);
+        $this->blockManager = new BlockManagerScript($this->container, $this->validator);
     }
 
     public function testDefaultValue()
@@ -54,7 +54,7 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
 
     public function testHtmlViewOutput()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $this->blockManager->set($block);        
         $expectedResult = array('RenderView' => array(
             'view' => 'RedKiteCmsBaseBlocksBundle:Content:Script/script.html.twig',
@@ -68,7 +68,7 @@ class AlBlockManagerScriptTest extends AlBlockManagerContainerBase
     
     public function testEditorParameters()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->once())
               ->method('getExternalJavascript')
               ->will($this->returnValue('javascript-1.js,javascript-2.js'))

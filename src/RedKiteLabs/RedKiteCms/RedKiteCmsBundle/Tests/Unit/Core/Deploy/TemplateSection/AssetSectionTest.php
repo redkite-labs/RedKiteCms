@@ -33,18 +33,18 @@ class AssetSectionTest extends TestCase
      */
     public function testAssets($expectedResult, $externalStylesheets, $internalStylesheets = "", $externalJavascripts = "", $internalJavascripts = "")
     {
-        $urlManager = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface");
-        $theme = $this->getMockBuilder("RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme")
+        $urlManager = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerInterface");
+        $theme = $this->getMockBuilder("RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme")
                         ->disableOriginalConstructor()
                         ->getMock();
-        $themeSlots = $this->getMock("RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface");
+        $themeSlots = $this->getMock("RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface");
         
         $theme->expects($this->once())
             ->method('getThemeSlots')
             ->will($this->returnValue($themeSlots))
         ;
         
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
                                 ->disableOriginalConstructor()
                                 ->setMethods(array('getExternalStylesheets', 'getInternalStylesheets', 'getExternalJavascripts', 'getInternalJavascripts'))
                                 ->getMock();

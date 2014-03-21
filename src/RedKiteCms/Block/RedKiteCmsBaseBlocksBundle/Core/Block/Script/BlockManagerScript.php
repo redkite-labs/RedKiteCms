@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerContainer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerContainer;
 
 /**
- * AlBlockManagerScript handles a script block
+ * BlockManagerScript handles a script block
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerScript extends AlBlockManagerContainer
+class BlockManagerScript extends BlockManagerContainer
 {
     /**
      * Defines the App-Block's default value

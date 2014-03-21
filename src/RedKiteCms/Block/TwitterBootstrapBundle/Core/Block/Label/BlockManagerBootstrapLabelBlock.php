@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Label;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockContainer;
 
 /**
  * Defines the Block Manager to handle the Bootstrap Label
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapLabelBlock extends AlBlockManagerJsonBlockContainer
+class BlockManagerBootstrapLabelBlock extends BlockManagerJsonBlockContainer
 {
     protected $blockTemplate = 'TwitterBootstrapBundle:Content:Label/label.html.twig';
     protected $editorTemplate = 'TwitterBootstrapBundle:Editor:Label/label_editor.html.twig';
@@ -75,7 +75,7 @@ class AlBlockManagerBootstrapLabelBlock extends AlBlockManagerJsonBlockContainer
         $item = $items[0];
 
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
-        $form = $bootstrapFormFactory->createForm('Label', 'AlLabelType', $item);
+        $form = $bootstrapFormFactory->createForm('Label', 'LabelType', $item);
 
         return array(
             "template" => $this->editorTemplate,

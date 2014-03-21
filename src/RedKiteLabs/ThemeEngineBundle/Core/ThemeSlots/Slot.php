@@ -23,7 +23,7 @@ use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSlot
+class Slot
 {
     private $repeated = 'page';
     private $slotName;

@@ -18,15 +18,15 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\ButtonsGroup;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\ButtonsGroup\AlBlockManagerBootstrapButtonsGroupBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\ButtonsGroup\BlockManagerBootstrapButtonsGroupBlock;
 
 
 /**
- * AlBlockManagerBootstrapAccordionBlockTest
+ * BlockManagerBootstrapAccordionBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapButtonsGroupBlockTest extends BaseTestBlock
+class BlockManagerBootstrapButtonsGroupBlockTest extends BaseTestBlock
 {  
     public function testDefaultValue()
     {
@@ -43,7 +43,7 @@ class AlBlockManagerBootstrapButtonsGroupBlockTest extends BaseTestBlock
         );
             
         $this->initContainer(); 
-        $blockManager = new AlBlockManagerBootstrapButtonsGroupBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapButtonsGroupBlock($this->container, $this->validator);
         $defaultValue = $blockManager->getDefaultValue();
         $this->assertEquals($expectedValue, json_decode($defaultValue["Content"], true));
     }
@@ -52,7 +52,7 @@ class AlBlockManagerBootstrapButtonsGroupBlockTest extends BaseTestBlock
     {
         $this->initContainer();
         
-        $blockManager = new AlBlockManagerBootstrapButtonsGroupBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapButtonsGroupBlock($this->container, $this->validator);
         $this->assertEmpty($blockManager->getHtml());
     }
     
@@ -74,7 +74,7 @@ class AlBlockManagerBootstrapButtonsGroupBlockTest extends BaseTestBlock
         $block = $this->initBlock($value);
         $this->initContainer();
         
-        $blockManager = new AlBlockManagerBootstrapButtonsGroupBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapButtonsGroupBlock($this->container, $this->validator);
         $blockManager->set($block);
         
         $expectedResult = array('RenderView' => array(

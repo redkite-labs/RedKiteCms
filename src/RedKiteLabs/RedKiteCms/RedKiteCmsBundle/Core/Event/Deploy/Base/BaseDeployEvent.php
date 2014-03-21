@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Deploy\Base;
 
 use Symfony\Component\EventDispatcher\Event;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlDeployerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\DeployerInterface;
 
 /**
  * Defines the base event raised when the website is deployed
@@ -34,11 +34,11 @@ abstract class BaseDeployEvent extends Event
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlDeployerInterface $deployer
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\DeployerInterface $deployer
      *
      * @api
      */
-    public function __construct(AlDeployerInterface $deployer)
+    public function __construct(DeployerInterface $deployer)
     {
         $this->deployer = $deployer;
     }
@@ -46,7 +46,7 @@ abstract class BaseDeployEvent extends Event
     /**
      * Returns the deployer object
      *
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlDeployerInterface
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\DeployerInterface
      *
      * @api
      */
@@ -58,11 +58,11 @@ abstract class BaseDeployEvent extends Event
     /**
      * Sets the deployer
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlDeployerInterface $deployer
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\DeployerInterface $deployer
      *
      * @api
      */
-    public function setDeployer(AlDeployerInterface $deployer)
+    public function setDeployer(DeployerInterface $deployer)
     {
         $this->deployer = $deployer;
     }

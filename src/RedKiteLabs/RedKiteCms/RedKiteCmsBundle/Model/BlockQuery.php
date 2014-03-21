@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlBlockQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseBlockQuery;
 
-class AlBlockQuery extends BaseAlBlockQuery
+class BlockQuery extends BaseBlockQuery
 {
 }

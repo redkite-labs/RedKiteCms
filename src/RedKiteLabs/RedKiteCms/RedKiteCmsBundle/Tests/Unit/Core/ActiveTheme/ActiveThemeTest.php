@@ -18,15 +18,15 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\ActiveTheme;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveTheme;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlActiveThemeTest
+ * ActiveThemeTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlActiveThemeTest extends TestCase
+class ActiveThemeTest extends TestCase
 {
     private $container;
     private $activeThemePath;
@@ -41,12 +41,12 @@ class AlActiveThemeTest extends TestCase
 
     public function testCurrentActiveThemeIsRetrieved()
     {
-        $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface');
+        $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface');
         $this->initThemesCollection($theme);
         
         file_put_contents($this->activeThemePath, 'BusinessWebsiteThemeBundle');
         $this->setActiveThemeFile();
-        $activeTheme = new AlActiveTheme($this->container);
+        $activeTheme = new ActiveTheme($this->container);
         $this->assertSame($theme, $activeTheme->getActiveTheme());
         
         // from class' cache
@@ -55,7 +55,7 @@ class AlActiveThemeTest extends TestCase
 
     public function testWhenActiveThemFileDoesNotExistTheFirstThemeIsChoosen()
     {
-        $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface');
+        $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface');
         $themes = $this->initThemesCollection($theme, 0);
         
         $themes->expects($this->at(1))
@@ -68,14 +68,14 @@ class AlActiveThemeTest extends TestCase
         
         $this->setActiveThemeFile(2);
 
-        $activeTheme = new AlActiveTheme($this->container);
+        $activeTheme = new ActiveTheme($this->container);
         $this->assertSame($theme, $activeTheme->getActiveTheme());
     }
 
     public function testWriteActiveTheme()
     {
         $this->setActiveThemeFile(0);
-        $activeTheme = new AlActiveTheme($this->container);
+        $activeTheme = new ActiveTheme($this->container);
         $activeTheme->writeActiveTheme('FakeThemeBundle');
         $bundle = file_get_contents(vfsStream::url('root/.active_theme'));
         $this->assertEquals('FakeThemeBundle', $bundle);
@@ -88,7 +88,7 @@ class AlActiveThemeTest extends TestCase
     {
         file_put_contents($this->activeThemePath, 'BusinessWebsiteThemeBundle');
         
-        $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface');
+        $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface');
         $this->initThemesCollection($theme);
         $this->setActiveThemeFile(1);
         
@@ -117,7 +117,7 @@ class AlActiveThemeTest extends TestCase
             ;
         }
         
-        $activeTheme = new AlActiveTheme($this->container);
+        $activeTheme = new ActiveTheme($this->container);
         $this->assertEquals($expectedVersion, $activeTheme->getThemeBootstrapVersion());
         $this->assertEquals($expectedVersion, $activeTheme->getThemeBootstrapVersion());
     }
@@ -153,7 +153,7 @@ class AlActiveThemeTest extends TestCase
     
     private function initThemesCollection($theme, $getThemeCall = 1)
     {
-        $themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
+        $themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\ThemesCollection');
         
         $themes->expects($this->exactly($getThemeCall))
              ->method('getTheme')

@@ -17,17 +17,17 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Language;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\ContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\LanguageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
 
 /**
- * AlLanguageManagerTest
+ * LanguageManagerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlLanguageManagerTest extends AlContentManagerBase
+class LanguageManagerTest extends ContentManagerBase
 {
     private $languageManager;
 
@@ -35,24 +35,24 @@ class AlLanguageManagerTest extends AlContentManagerBase
     {
         parent::setUp();
 
-        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorLanguageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $this->languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\LanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
         $this->languageRepository->expects($this->any())
             ->method('getRepositoryObjectClassName')
-            ->will($this->returnValue('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage'));
+            ->will($this->returnValue('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language'));
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->languageRepository));
 
-        $this->languageManager = new AlLanguageManager($this->eventsHandler, $this->factoryRepository, $this->validator);
+        $this->languageManager = new LanguageManager($this->eventsHandler, $this->factoryRepository, $this->validator);
     }
 
     public function testLanguageRepositoryInjectedBySetters()
@@ -70,20 +70,20 @@ class AlLanguageManagerTest extends AlContentManagerBase
      */
     public function testSetFailsWhenANotValidPropelObjectIsGiven()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
 
         $this->languageManager->set($block);
     }
 
-    public function testSetANullAlPageObject()
+    public function testSetANullPageObject()
     {
         $this->languageManager->set(null);
         $this->assertNull($this->languageManager->get());
     }
 
-    public function testSetAlPageObject()
+    public function testSetPageObject()
     {
-        $language =$this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
+        $language =$this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language');
         $this->languageManager->set($language);
         $this->assertEquals($language, $this->languageManager->get());
     }
@@ -409,7 +409,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language')));
 
         $params = array('LanguageName'  => 'en', 'MainLanguage' => 1);
         $this->assertFalse($this->languageManager->save($params));
@@ -443,7 +443,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language')));
 
         $params = array('LanguageName'  => 'en',
                         'MainLanguage' => 1);
@@ -471,7 +471,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language')));
 
         $this->languageRepository->expects($this->exactly(2))
                 ->method('save')
@@ -510,7 +510,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language')));
 
         $params = array(
             'LanguageName'  => 'en', 
@@ -819,7 +819,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language')));
 
         $this->languageRepository->expects($this->once())
                 ->method('setRepositoryObject')
@@ -856,7 +856,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language')));
 
         $this->languageRepository->expects($this->once())
                 ->method('setRepositoryObject')
@@ -890,7 +890,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language')));
 
         $this->languageRepository->expects($this->exactly(2))
                 ->method('setRepositoryObject')
@@ -929,7 +929,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
         $this->languageRepository->expects($this->once())
                 ->method('mainLanguage')
-                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage')));
+                ->will($this->returnValue($this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language')));
 
         $this->languageRepository->expects($this->exactly(2))
                 ->method('setRepositoryObject')
@@ -1148,7 +1148,7 @@ class AlLanguageManagerTest extends AlContentManagerBase
 
     private function setUpLanguageObject()
     {
-        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language');
         $language->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(2));

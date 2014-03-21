@@ -17,21 +17,21 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager;
 
 /**
- * AlBlockManagerJson is the base object deputated to handle a json content
+ * BlockManagerJsonBase is the base object deputated to handle a json content
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-abstract class AlBlockManagerJsonBase extends AlBlockManager
+abstract class BlockManagerJsonBase extends BlockManager
 {
     /**
      * Decodes a json content
      *
-     * @param  string|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock $block
+     * @param  string|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block $block
      * @param  boolean                                            $assoc
      * @return array|object                                       depends on assoc param
      * @throws Exception\InvalidJsonFormatException

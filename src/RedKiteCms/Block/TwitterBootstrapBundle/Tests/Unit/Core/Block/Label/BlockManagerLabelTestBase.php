@@ -20,11 +20,11 @@ namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Label;
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
 
 /**
- * AlBlockManagerTestBase
+ * BlockManagerLabelTestBase
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-abstract class AlBlockManagerLabelTestBase extends BaseTestBlock
+abstract class BlockManagerLabelTestBase extends BaseTestBlock
 {    
     protected abstract function getBlockManager();
     

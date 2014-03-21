@@ -22,7 +22,7 @@ namespace RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler\ThemeEngineListe
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlThemeEngineListenersCollection implements \Iterator, \Countable
+class ThemeEngineListenersCollection implements \Iterator, \Countable
 {
     private $listeners = array();
 
@@ -81,7 +81,7 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
      * Move forward to next element
      *
      * @link http://php.net/manual/en/iterator.next.php
-     * @return void Any returned value is ignored.
+     * @return mixed
      * @codeCoverageIgnore
      */
     public function next()
@@ -93,7 +93,7 @@ class AlThemeEngineListenersCollection implements \Iterator, \Countable
      * Rewind the Iterator to the first element
      *
      * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
+     * @return mixed
      * @codeCoverageIgnore
      */
     public function rewind()

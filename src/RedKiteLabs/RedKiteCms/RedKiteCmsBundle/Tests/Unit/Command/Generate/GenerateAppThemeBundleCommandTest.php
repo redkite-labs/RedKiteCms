@@ -97,7 +97,7 @@ class GenerateAppThemeBundleCommandTest extends GenerateCommandTest
     {
         // get a noop generator
         return $this
-            ->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlAppThemeGenerator')
+            ->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AppThemeGenerator')
             ->disableOriginalConstructor()
             ->setMethods(array('generateExt'))
             ->getMock()

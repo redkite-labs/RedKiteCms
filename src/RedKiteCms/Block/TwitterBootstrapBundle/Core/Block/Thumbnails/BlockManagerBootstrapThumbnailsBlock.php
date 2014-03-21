@@ -22,7 +22,7 @@ namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapThumbnailsBlock extends AlBlockManagerBootstrapSimpleThumbnailsBlock
+class BlockManagerBootstrapThumbnailsBlock extends BlockManagerBootstrapSimpleThumbnailsBlock
 {
     /**
      * Defines the App-Block's default value

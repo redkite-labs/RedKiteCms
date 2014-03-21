@@ -17,10 +17,10 @@
 
 namespace RedKiteCms\Block\BootbusinessBlockBundle\Core\Form;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Button\AlButtonType as BaseButtonType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Button\Three\ButtonType as BaseButtonType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class AlButtonType extends BaseButtonType
+class ButtonType extends BaseButtonType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

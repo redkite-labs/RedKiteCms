@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Seo;
 
 use Symfony\Component\Form\FormBuilderInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\LanguageRepositoryPropel;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -37,9 +37,9 @@ class SeoForm extends BaseBlockType
     /**
      * Constructor
      *
-     * @param AlLanguageRepositoryPropel $languageRepository
+     * @param LanguageRepositoryPropel $languageRepository
      */
-    public function __construct(AlLanguageRepositoryPropel $languageRepository)
+    public function __construct(LanguageRepositoryPropel $languageRepository)
     {
         $this->languageRepository = $languageRepository;
     }

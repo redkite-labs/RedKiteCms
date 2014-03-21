@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlLockedResourcePeer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseLockedResourcePeer;
 
-class AlLockedResourcePeer extends BaseAlLockedResourcePeer
+class LockedResourcePeer extends BaseLockedResourcePeer
 {
 }

@@ -17,25 +17,25 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\ContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\SlotManager;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot;
 
 /**
- * AlSlotManagerTest
+ * SlotManagerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSlotManagerTest extends AlContentManagerBase
+class SlotManagerTest extends ContentManagerBase
 {
     protected function setUp()
     {
         parent::setUp();
 
-        $this->factory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $this->factory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryInterface');
 
         $this->blockRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -58,14 +58,14 @@ class AlSlotManagerTest extends AlContentManagerBase
         ;
         
 
-        $this->slot = new AlSlot('test', array('repeated' => 'page'));
-        $this->slotManager = new AlSlotManager($this->slot, $this->blockRepository, $this->factory);
+        $this->slot = new Slot('test', array('repeated' => 'page'));
+        $this->slotManager = new SlotManager($this->slot, $this->blockRepository, $this->factory);
     }
     
-    public function testAlSlotInjectedBySetters()
+    public function testSlotInjectedBySetters()
     {
         $slot = 
-            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
+            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;        
@@ -122,7 +122,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->method('createEvent')
         ;
 
-        $factory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $factory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryInterface');
         $factory
             ->expects($this->any())
             ->method('createBlockManager')
@@ -166,7 +166,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->will($this->throwException(new \InvalidArgumentException))
         ;
         
-        $this->slotManager = new AlSlotManager($this->slot, $this->blockRepository, $this->factory, $this->blocksAdded);
+        $this->slotManager = new SlotManager($this->slot, $this->blockRepository, $this->factory, $this->blocksAdded);
         $this->slotManager
             ->addBlock(array(
                 "idLanguage" => 2,
@@ -187,7 +187,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->with($this->slot, $this->blockManagersCollection, $expectedOptions)
         ;
         
-        $this->slotManager = new AlSlotManager($this->slot, $this->blockRepository, $this->factory, $this->blocksAdded, null, $this->blockManagersCollection);
+        $this->slotManager = new SlotManager($this->slot, $this->blockRepository, $this->factory, $this->blocksAdded, null, $this->blockManagersCollection);
         $this->slotManager
             ->setSkipSiteLevelBlocks($skipSiteLevelBlocks)
             ->setForceSlotAttributes($forceSlotAttributes)
@@ -313,7 +313,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->will($this->throwException(new \InvalidArgumentException))
         ;
         
-        $blockManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface');
+        $blockManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerInterface');
         $this->blockManagersCollection
             ->expects($this->once())
             ->method('getBlockManager')
@@ -321,7 +321,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->will($this->returnValue($blockManager))
         ;
         
-        $this->slotManager = new AlSlotManager($this->slot, $this->blockRepository, $this->factory, $this->blocksAdded, null, $this->blockManagersCollection);
+        $this->slotManager = new SlotManager($this->slot, $this->blockRepository, $this->factory, $this->blocksAdded, null, $this->blockManagersCollection);
         $this->slotManager->editBlock(2, array());
     }
     
@@ -353,7 +353,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->will($this->returnValue($blockManager))
         ;
         
-        $this->slotManager = new AlSlotManager($this->slot, $this->blockRepository, $this->factory, $this->blocksAdded, null, $this->blockManagersCollection);
+        $this->slotManager = new SlotManager($this->slot, $this->blockRepository, $this->factory, $this->blocksAdded, null, $this->blockManagersCollection);
         $this->slotManager->editBlock(2, $values);
     }
     
@@ -364,7 +364,7 @@ class AlSlotManagerTest extends AlContentManagerBase
                 null,
             ),            
             array(
-                $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface'),
+                $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerInterface'),
             ),
         );
     }
@@ -380,7 +380,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->will($this->throwException(new \InvalidArgumentException))
         ;
         
-        $this->slotManager = new AlSlotManager($this->slot, $this->blockRepository, $this->factory, null, $this->blocksRemover, $this->blockManagersCollection);
+        $this->slotManager = new SlotManager($this->slot, $this->blockRepository, $this->factory, null, $this->blocksRemover, $this->blockManagersCollection);
         $this->slotManager->deleteBlock(2);
     }
     
@@ -393,7 +393,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->with($idBlock, $this->blockManagersCollection)
         ;
         
-        $this->slotManager = new AlSlotManager($this->slot, $this->blockRepository, $this->factory, null, $this->blocksRemover, $this->blockManagersCollection);
+        $this->slotManager = new SlotManager($this->slot, $this->blockRepository, $this->factory, null, $this->blocksRemover, $this->blockManagersCollection);
         $this->slotManager->deleteBlock($idBlock);
     }
     
@@ -408,7 +408,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->will($this->throwException(new \InvalidArgumentException))
         ;
         
-        $this->slotManager = new AlSlotManager($this->slot, $this->blockRepository, $this->factory, null, $this->blocksRemover, $this->blockManagersCollection);
+        $this->slotManager = new SlotManager($this->slot, $this->blockRepository, $this->factory, null, $this->blocksRemover, $this->blockManagersCollection);
         $this->slotManager->deleteBlocks();
     }
     
@@ -419,18 +419,18 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->method('clear')
         ;
         
-        $this->slotManager = new AlSlotManager($this->slot, $this->blockRepository, $this->factory, null, $this->blocksRemover, $this->blockManagersCollection);
+        $this->slotManager = new SlotManager($this->slot, $this->blockRepository, $this->factory, null, $this->blocksRemover, $this->blockManagersCollection);
         $this->slotManager->deleteBlocks();
     }
     
     public function testSetUpBlockManagers()
     {   
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $blocks = array(
             $block,
         );
         
-        $blockManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface');
+        $blockManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerInterface');
         
         $this->factory
             ->expects($this->once())
@@ -445,7 +445,7 @@ class AlSlotManagerTest extends AlContentManagerBase
             ->with($blockManager)
         ;
         
-        $this->slotManager = new AlSlotManager($this->slot, $this->blockRepository, $this->factory, null, null, $this->blockManagersCollection);
+        $this->slotManager = new SlotManager($this->slot, $this->blockRepository, $this->factory, null, null, $this->blockManagersCollection);
         $this->slotManager->setUpBlockManagers($blocks);
     }
 }

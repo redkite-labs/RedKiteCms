@@ -17,16 +17,16 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Page;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\ContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\PageManager;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
 
 /**
- * AlPageManagerTest
+ * PageManagerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlPageManagerTest extends AlContentManagerBase
+class PageManagerTest extends ContentManagerBase
 {
     private $pageManager;
     private $templateManager;
@@ -35,27 +35,27 @@ class AlPageManagerTest extends AlContentManagerBase
     {
         parent::setUp();
 
-        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->pageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $this->pageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\PageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
         $this->pageRepository->expects($this->any())
             ->method('getRepositoryObjectClassName')
-            ->will($this->returnValue('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage'));
+            ->will($this->returnValue('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page'));
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->pageRepository));
 
-        $this->pageManager = new AlPageManager($this->eventsHandler, $this->templateManager, $this->factoryRepository, $this->validator);
+        $this->pageManager = new PageManager($this->eventsHandler, $this->templateManager, $this->factoryRepository, $this->validator);
     }
     
     public function testPageRepositoryInjectedBySetters()
@@ -70,7 +70,7 @@ class AlPageManagerTest extends AlContentManagerBase
 
     public function testTemplateManagerInjectedBySetters()
     {
-        $templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+        $templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->assertEquals($this->pageManager, $this->pageManager->setTemplateManager($templateManager));
@@ -83,20 +83,20 @@ class AlPageManagerTest extends AlContentManagerBase
      */
     public function testSetFailsWhenANotValidPropelObjectIsGiven()
     {
-        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
 
         $this->pageManager->set($page);
     }
 
-    public function testSetANullAlPageObject()
+    public function testSetANullPageObject()
     {
         $this->pageManager->set(null);
         $this->assertNull($this->pageManager->get());
     }
 
-    public function testSetAlPageObject()
+    public function testSetPageObject()
     {
-        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
         $this->pageManager->set($page);
         $this->assertEquals($page, $this->pageManager->get());
     }
@@ -263,7 +263,7 @@ class AlPageManagerTest extends AlContentManagerBase
             ->method('hasLanguages')
             ->will($this->returnValue(true));
 
-        $homepage = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $homepage = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
         $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
@@ -340,7 +340,7 @@ class AlPageManagerTest extends AlContentManagerBase
             ->method('hasLanguages')
             ->will($this->returnValue(true));
 
-        $homepage = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $homepage = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
         $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
@@ -399,7 +399,7 @@ class AlPageManagerTest extends AlContentManagerBase
             ->method('save')
             ->will($this->returnValue(true));
 
-        $homepage = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $homepage = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
         $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
@@ -900,7 +900,7 @@ class AlPageManagerTest extends AlContentManagerBase
             ->method('save')
             ->will($this->returnValue(false));
 
-        $homepage = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $homepage = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
         $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
@@ -934,7 +934,7 @@ class AlPageManagerTest extends AlContentManagerBase
             ->method('hasPages')
             ->will($this->returnValue(true));
 
-        $homepage = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $homepage = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
         $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
@@ -976,7 +976,7 @@ class AlPageManagerTest extends AlContentManagerBase
             ->method('save')
             ->will($this->returnValue(true));
 
-        $homepage = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $homepage = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
         $this->pageRepository->expects($this->once())
             ->method('homePage')
             ->will($this->returnValue($homepage));
@@ -1204,20 +1204,20 @@ class AlPageManagerTest extends AlContentManagerBase
      */
     public function testSlugify()
     {
-        $this->assertEquals('redkitecms', AlPageManager::slugify('RedKiteCms'));
-        $this->assertEquals('redkite-cms', AlPageManager::slugify('redkite cms'));        
-        $this->assertEquals('redkite-cms', AlPageManager::slugify('redkite    cms'));                
-        $this->assertEquals('redkitecms', AlPageManager::slugify('    redkitecms'));                        
-        $this->assertEquals('redkitecms', AlPageManager::slugify('redkitecms    '));                               
-        $this->assertEquals('redkite-cms', AlPageManager::slugify('redkite,cms'));                             
-        $this->assertEquals('n-a', AlPageManager::slugify(''));                                    
-        $this->assertEquals('n-a', AlPageManager::slugify(' - '));
-        $this->assertEquals('developpeur-web', AlPageManager::slugify('Développeur Web'));
+        $this->assertEquals('redkitecms', PageManager::slugify('RedKiteCms'));
+        $this->assertEquals('redkite-cms', PageManager::slugify('redkite cms'));
+        $this->assertEquals('redkite-cms', PageManager::slugify('redkite    cms'));
+        $this->assertEquals('redkitecms', PageManager::slugify('    redkitecms'));
+        $this->assertEquals('redkitecms', PageManager::slugify('redkitecms    '));
+        $this->assertEquals('redkite-cms', PageManager::slugify('redkite,cms'));
+        $this->assertEquals('n-a', PageManager::slugify(''));
+        $this->assertEquals('n-a', PageManager::slugify(' - '));
+        $this->assertEquals('developpeur-web', PageManager::slugify('Développeur Web'));
     }
     
     private function setUpPage($id = 2, $isHome = null)
     {
-        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
         if (null !== $id) {
             $page->expects($this->once())
                 ->method('getId')

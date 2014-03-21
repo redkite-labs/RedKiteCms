@@ -18,20 +18,20 @@
 namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\ThemesCollection;
 
 /**
- * AlThemesCollectionTest
+ * ThemesCollectionTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlThemesCollectionTest extends TestCase
+class ThemesCollectionTest extends TestCase
 {
     private $themesCollection;
 
     protected function setUp()
     {
-        $this->themesCollection = new AlThemesCollection();
+        $this->themesCollection = new ThemesCollection();
     }
 
     public function testAddATheme()
@@ -71,7 +71,7 @@ class AlThemesCollectionTest extends TestCase
 
     private function setUpTheme()
     {
-        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
+        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $theme->expects($this->once())

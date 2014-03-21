@@ -17,8 +17,8 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\AlBlockManagerBootstrapDropdownButtonBlock;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\BlockManagerBootstrapDropdownButtonBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlock;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 
 /**
@@ -26,7 +26,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceVa
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrapDropdownButtonBlock
+class BlockManagerBootstrapNavbarDropdownBlock extends BlockManagerBootstrapDropdownButtonBlock
 {
     protected $blockTemplate = 'TwitterBootstrapBundle:Content:Navbar/Dropdown/navbar_dropdown_button.html.twig';
 
@@ -80,7 +80,7 @@ class AlBlockManagerBootstrapNavbarDropdownBlock extends AlBlockManagerBootstrap
      */
     public function editorParameters()
     {
-        $dropdown = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock->getContent());
+        $dropdown = BlockManagerJsonBlock::decodeJsonContent($this->alBlock->getContent());
         $item = $dropdown[0];
         $items = $item["items"];
         unset($item["items"]);

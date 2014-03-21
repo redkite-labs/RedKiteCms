@@ -18,20 +18,20 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block;
 
 /**
- * AlBlockManagerFactory creates a BlockManager object
+ * BlockManagerFactory creates a BlockManager object
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-interface AlBlockManagerFactoryInterface
+interface BlockManagerFactoryInterface
 {
     /**
-     * Creates an instance of an AlBlockManager object
+     * Creates an instance of an BlockManager object
      *
-     * @param mixed string | \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock $block
+     * @param mixed string | \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block $block
      *
-     * @return null|AlBlockManagerInterface
+     * @return null|BlockManagerInterface
      *
      * @api
      */

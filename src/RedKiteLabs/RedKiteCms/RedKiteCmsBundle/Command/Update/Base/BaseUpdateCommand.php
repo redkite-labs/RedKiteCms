@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Command\Update\Base;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base\AlPropelOrm;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base\PropelOrm;
 use Propel\PropelBundle\Command\ModelBuildCommand;
 
 /**
@@ -30,7 +30,7 @@ abstract class BaseUpdateCommand extends ContainerAwareCommand
 {
     protected function executeQueries($connection, $sqlFile)
     {
-        $orm = new AlPropelOrm($connection);
+        $orm = new PropelOrm($connection);
         if (is_file($sqlFile)) {
             $updateQueries = file_get_contents($sqlFile);
 

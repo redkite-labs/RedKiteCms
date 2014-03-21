@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Form\Three;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Three\AlNavbarBaseWithEmptyOptionType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Three\NavbarBaseWithEmptyOptionType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -25,7 +25,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlNavbarFormType extends AlNavbarBaseWithEmptyOptionType
+class NavbarFormType extends NavbarBaseWithEmptyOptionType
 {
     /**
      * Builds the form

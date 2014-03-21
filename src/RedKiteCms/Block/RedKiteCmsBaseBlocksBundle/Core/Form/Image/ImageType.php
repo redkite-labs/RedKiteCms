@@ -18,14 +18,14 @@
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Image;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\AlBaseType;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\BaseType;
 
 /**
  * Defines the images' editor form
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlImageType extends AlBaseType
+class ImageType extends BaseType
 {
     /**
      * Builds the form

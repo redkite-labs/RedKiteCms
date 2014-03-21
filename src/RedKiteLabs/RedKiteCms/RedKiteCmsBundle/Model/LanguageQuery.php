@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlLanguageQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseLanguageQuery;
 
-class AlLanguageQuery extends BaseAlLanguageQuery
+class LanguageQuery extends BaseLanguageQuery
 {
 }

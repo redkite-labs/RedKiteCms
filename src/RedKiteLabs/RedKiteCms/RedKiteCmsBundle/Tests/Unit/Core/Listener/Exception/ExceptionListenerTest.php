@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\Exception;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\ConfigurationManager;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Exception\ExceptionListener;
 
 /**
@@ -37,7 +37,7 @@ class ExceptionListenerTest extends \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tes
         parent::setUp();
 
         $this->templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
-        $this->translator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->translator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\TranslatorInterface');
 
         $this->event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent')
                             ->disableOriginalConstructor()

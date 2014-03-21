@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Two\DropdownButton;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\DropdownButton\Two\AlDropdownButtonType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\DropdownButton\Two\DropdownButtonType;
 
 /**
- * AlDropdownButtonTypeTest
+ * DropdownButtonTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlDropdownButtonTypeTest extends AlBaseType
+class DropdownButtonTypeTest extends BaseType
 {
     protected $translatorDomain = 'TwitterBootstrapBundle';
     
@@ -59,7 +59,7 @@ class AlDropdownButtonTypeTest extends AlBaseType
     
     protected function getForm()
     {
-        return new AlDropdownButtonType();
+        return new DropdownButtonType();
     }
     
     public function testDefaultOptions()

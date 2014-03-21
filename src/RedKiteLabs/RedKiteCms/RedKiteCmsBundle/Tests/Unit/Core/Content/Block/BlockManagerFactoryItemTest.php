@@ -18,21 +18,21 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryItem;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryItem;
 
 /**
- * AlBlockManagerFactoryItemTest
+ * BlockManagerFactoryItemTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerFactoryItemTest extends TestCase
+class BlockManagerFactoryItemTest extends TestCase
 {
     private $blockManager;
 
     protected function setUp()
     {
-        $this->blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
+        $this->blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -43,7 +43,7 @@ class AlBlockManagerFactoryItemTest extends TestCase
      */
     public function testFactoryItemObjectThrowsAnExceptionWhenAnyOfTheExpectedAttributesAreNotGiven()
     {
-        $factoryItem = new AlBlockManagerFactoryItem($this->blockManager, array('fake' => 'value'));
+        $factoryItem = new BlockManagerFactoryItem($this->blockManager, array('fake' => 'value'));
     }
 
     /**
@@ -51,12 +51,12 @@ class AlBlockManagerFactoryItemTest extends TestCase
      */
     public function testFactoryItemObjectThrowsAnExceptionWhenAtLeastOneOfTheExpectedAttributesAreNotGiven()
     {
-        $factoryItem = new AlBlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block'));
+        $factoryItem = new BlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block'));
     }
 
     public function testFactoryItemObjectHasBeenSet()
     {
-        $factoryItem = new AlBlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block', 'description' => 'Fake block', 'type' => 'Text'));
+        $factoryItem = new BlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block', 'description' => 'Fake block', 'type' => 'Text'));
 
         $this->assertEquals($this->blockManager, $factoryItem->getBlockManager());
         $this->assertEquals('app_fake.block', $factoryItem->getId());
@@ -67,7 +67,7 @@ class AlBlockManagerFactoryItemTest extends TestCase
 
     public function testFactoryItemObjectHasBeenSetWithGroupOption()
     {
-        $factoryItem = new AlBlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block', 'description' => 'Fake block', 'type' => 'Text', 'group' => 'My awesome group'));
+        $factoryItem = new BlockManagerFactoryItem($this->blockManager, array('id' => 'app_fake.block', 'description' => 'Fake block', 'type' => 'Text', 'group' => 'My awesome group'));
 
         $this->assertEquals($this->blockManager, $factoryItem->getBlockManager());
         $this->assertEquals('app_fake.block', $factoryItem->getId());

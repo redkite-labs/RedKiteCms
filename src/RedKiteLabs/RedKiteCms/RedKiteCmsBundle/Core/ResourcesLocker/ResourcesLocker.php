@@ -17,12 +17,12 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 
 /**
- * AlResourcesLocker is responsible to manage the locked resources.
+ * ResourcesLocker is responsible to manage the locked resources.
  *
  * A user could not lock more that a resource a time
  *
@@ -30,7 +30,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeExcept
  *
  * @api
  */
-class AlResourcesLocker
+class ResourcesLocker
 {
     /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LockedResourceRepositoryInterface */
     private $lockedResourceRepository;
@@ -40,12 +40,12 @@ class AlResourcesLocker
     /**
      * Constructor
      *
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param FactoryRepositoryInterface $factoryRepository
      * @param int                          $expiringTime      The time after a not updated resource is expired
      *
      * @api
      */
-    public function __construct(AlFactoryRepositoryInterface $factoryRepository, $expiringTime = 300)
+    public function __construct(FactoryRepositoryInterface $factoryRepository, $expiringTime = 300)
     {
         $this->factoryRepository = $factoryRepository;
         $this->lockedResourceRepository = $this->factoryRepository->createRepository('LockedResource');

@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlLockedResourceQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseLockedResourceQuery;
 
-class AlLockedResourceQuery extends BaseAlLockedResourceQuery
+class LockedResourceQuery extends BaseLockedResourceQuery
 {
 }

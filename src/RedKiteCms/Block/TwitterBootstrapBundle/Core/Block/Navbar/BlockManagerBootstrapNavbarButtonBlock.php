@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button\AlBlockManagerBootstrapButtonBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button\BlockManagerBootstrapButtonBlock;
 
 /**
  * Defines the Block Manager to handle a Bootstrap navbar button
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapNavbarButtonBlock extends AlBlockManagerBootstrapButtonBlock
+class BlockManagerBootstrapNavbarButtonBlock extends BlockManagerBootstrapButtonBlock
 {
     protected $blockTemplate = 'TwitterBootstrapBundle:Content:Navbar/Button/navbar_button.html.twig';
 
@@ -62,7 +62,7 @@ class AlBlockManagerBootstrapNavbarButtonBlock extends AlBlockManagerBootstrapBu
         $item = $items[0];
 
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
-        $form = $bootstrapFormFactory->createForm('Navbar\Button', 'AlNavbarButtonType', $item);
+        $form = $bootstrapFormFactory->createForm('Navbar\Button', 'NavbarButtonType', $item);
 
         return array(
             "template" => "TwitterBootstrapBundle:Editor:Button/button_editor.html.twig",

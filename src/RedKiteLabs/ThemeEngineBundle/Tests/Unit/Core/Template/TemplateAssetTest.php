@@ -18,18 +18,18 @@
 namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\TemplateAssets;
 
 /**
- * AlTemplateAssetTest
+ * TemplateAssetTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlTemplateAssetTest extends TestCase
+class TemplateAssetTest extends TestCase
 {   
     protected function setUp() 
     {
-        $this->templateAssets = new AlTemplateAssets();
+        $this->templateAssets = new TemplateAssets();
     }
     
     /**

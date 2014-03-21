@@ -28,11 +28,11 @@ class DeleteLanguageBlocksListenerTest extends Base\DeleteLanguageBaseListenerTe
 {
     protected function setUp()
     {
-        $this->objectModel = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->objectModel = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->manager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
+        $this->manager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -47,6 +47,6 @@ class DeleteLanguageBlocksListenerTest extends Base\DeleteLanguageBaseListenerTe
 
     protected function setUpObject()
     {
-        return $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        return $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
     }
 }

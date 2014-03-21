@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Form;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Script\AlScriptType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Script\ScriptType;
 
 /**
- * AlLinkTypeTest
+ * LinkTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlScriptTypeTest extends AlBaseType
+class ScriptTypeTest extends BaseType
 {
     protected function configureFields()
     {
@@ -40,6 +40,6 @@ class AlScriptTypeTest extends AlBaseType
     
     protected function getForm()
     {
-        return new AlScriptType();
+        return new ScriptType();
     }
 }

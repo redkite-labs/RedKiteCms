@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlUserPeer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseUserPeer;
 
-class AlUserPeer extends BaseAlUserPeer
+class UserPeer extends BaseUserPeer
 {
 }

@@ -18,26 +18,26 @@
 namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Asset;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme;
 
 /**
- * AlThemeTest
+ * ThemeTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlThemeTest extends TestCase
+class ThemeTest extends TestCase
 {
     protected function setUp()
     {
-        $this->themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface');
+        $this->themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface');
     }
 
     /**
      * @expectedException \RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
-    public function testAnExceptionIsThrownsWhenTheAlThemeNotReceiveAString()
+    public function testAnExceptionIsThrownsWhenTheThemeNotReceiveAString()
     {
-        $theme = new AlTheme(array('fake'), $this->themeSlots);
+        $theme = new Theme(array('fake'), $this->themeSlots);
     }
 
     public function testTheThemeNameIsAlwaysSuffixedWithBundle()
@@ -53,7 +53,7 @@ class AlThemeTest extends TestCase
     {
         $template = $this->setUpTemplate();
         $theme = $this->setUpTheme('FakeBundle', $template);
-        $otherTemplate = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+        $otherTemplate = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\Template')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->assertSame($template, $theme->getTemplate('home'));
@@ -119,7 +119,7 @@ class AlThemeTest extends TestCase
 
     private function setUpTheme($themeName = 'FakeBundle', $template = null)
     {
-        $theme = new AlTheme($themeName, $this->themeSlots);
+        $theme = new Theme($themeName, $this->themeSlots);
         if(null !== $template) $theme->addTemplate($template);
 
         return $theme;
@@ -127,7 +127,7 @@ class AlThemeTest extends TestCase
 
     private function setUpTemplate($templateName = 'Home')
     {
-        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\Template')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $template->expects($this->once())

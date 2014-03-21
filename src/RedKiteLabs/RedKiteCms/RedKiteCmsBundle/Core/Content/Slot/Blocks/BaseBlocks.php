@@ -21,7 +21,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgume
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 
 /**
- * AlSlotManager represents a slot on a page.
+ * SlotManager represents a slot on a page.
  *
  * A slot is the place on the page where one or more blocks lives.
  *

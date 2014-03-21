@@ -20,13 +20,13 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
 
 /**
- * AlParametersValidator validates consistence of array parameters
+ * ParametersValidator validates consistence of array parameters
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlParametersValidator implements AlParametersValidatorInterface
+class ParametersValidator implements ParametersValidatorInterface
 {
     /**
      * {@inheritdoc}

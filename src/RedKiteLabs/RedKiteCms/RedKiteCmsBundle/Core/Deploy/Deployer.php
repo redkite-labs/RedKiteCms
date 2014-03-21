@@ -19,16 +19,16 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Deploy;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection;
 
 /**
- * AlDeployer is the base object deputated to deploy the website from development to
+ * Deployer is the base object deputated to deploy the website from development to
  * production.
  *
  * Website is deployed inside the deploy bundle.
@@ -37,7 +37,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPag
  *
  * @api
  */
-abstract class AlDeployer implements AlDeployerInterface
+abstract class Deployer implements DeployerInterface
 {
     /** @var RoutingGeneratorInterface */
     protected $routingGenerator;
@@ -47,20 +47,20 @@ abstract class AlDeployer implements AlDeployerInterface
     protected $dispatcher = null;
     /** @var Filesystem */
     protected $fileSystem;
-    /** @var null|AlPageTreeCollection  */
+    /** @var null|PageTreeCollection  */
     protected $pageTreeCollection = null;
 
     /**
-     * Save the page from an AlPageTree object
+     * Save the page from an PageTree object
      *
-     * @param  AlPageTree $pageTree
-     * @param  AlTheme    $theme
+     * @param  PageTree $pageTree
+     * @param  Theme    $theme
      * @param  array      $options
      * @return boolean
      *
      * @api
      */
-    abstract protected function save(AlPageTree $pageTree, AlTheme $theme, array $options);
+    abstract protected function save(PageTree $pageTree, Theme $theme, array $options);
 
     /**
      * Constructor
@@ -82,7 +82,7 @@ abstract class AlDeployer implements AlDeployerInterface
     /**
      * {@inheritdoc}
      */
-    public function deploy(AlPageTreeCollection $pageTreeCollection, AlTheme $theme, array $options)
+    public function deploy(PageTreeCollection $pageTreeCollection, Theme $theme, array $options)
     {
         $this->dispatch(Deploy\DeployEvents::BEFORE_DEPLOY, new Deploy\BeforeDeployEvent($this));
 
@@ -125,13 +125,13 @@ abstract class AlDeployer implements AlDeployerInterface
     }
 
     /**
-     * Saves the pages instantiating an AlPageTreeCollection object
+     * Saves the pages instantiating an PageTreeCollection object
      *
-     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme $theme
+     * @param  \RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme $theme
      * @param  array                                             $options An array of options
      * @return boolean
      */
-    protected function savePages(AlTheme $theme, array $options)
+    protected function savePages(Theme $theme, array $options)
     {
         $pages = $this->pageTreeCollection->getPages();
         $basePages = $this->pageTreeCollection->getBasePages();
@@ -170,7 +170,7 @@ abstract class AlDeployer implements AlDeployerInterface
         }
     }
 
-    private function doSavePages($pages, AlTheme $theme, array $options)
+    private function doSavePages($pages, Theme $theme, array $options)
     {
         foreach ($pages as $pageTree) {
             if ( ! $this->save($pageTree, $theme, $options)) {

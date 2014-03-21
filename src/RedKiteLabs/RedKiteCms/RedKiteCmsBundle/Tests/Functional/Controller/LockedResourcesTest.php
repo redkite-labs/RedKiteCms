@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Functional\Controller;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLockedResourceRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\LockedResourceRepositoryPropel;
 
 /**
  * LockedResourcesTest
@@ -35,7 +35,7 @@ class LockedResourcesTest extends BaseSecured
     
     protected function setUp()
     {        
-        $this->lockedResourceRepository = new AlLockedResourceRepositoryPropel();
+        $this->lockedResourceRepository = new LockedResourceRepositoryPropel();
     }
     
     public function testOpenARouteNotLocked()

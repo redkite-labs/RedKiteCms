@@ -24,7 +24,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlDropdownButtonType extends \RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\DropdownButton\Two\AlDropdownButtonType
+class DropdownButtonType extends \RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\DropdownButton\Two\DropdownButtonType
 {
     /**
      * Builds the form

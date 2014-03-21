@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockContainer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\AssetsPath\AssetsPath;
 
 /**
- * AlBlockManagerImage handles an image block
+ * BlockManagerImage handles an image block
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
+class BlockManagerImage extends BlockManagerJsonBlockContainer
 {
     protected $blockTemplate = 'RedKiteCmsBaseBlocksBundle:Content:Image/image.html.twig';
     protected $editorTemplate = 'RedKiteCmsBaseBlocksBundle:Editor:Image/editor.html.twig';
@@ -68,7 +68,7 @@ class AlBlockManagerImage extends AlBlockManagerJsonBlockContainer
             'view' => $this->blockTemplate,
             'options' => array(
                 'image' => $item,
-                'folder' => AlAssetsPath::getUploadFolder($this->container),
+                'folder' => AssetsPath::getUploadFolder($this->container),
             ),
         ));
     }

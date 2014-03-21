@@ -13,7 +13,7 @@ use Imagine\Image;
  * @author RedKite Labs <webmaster@redkite-labs.com>
  * @codeCoverageIgnore
  */
-class AlImageThumbnailer
+class ImageThumbnailer
 {
     protected $imagine;
     protected $transformation;

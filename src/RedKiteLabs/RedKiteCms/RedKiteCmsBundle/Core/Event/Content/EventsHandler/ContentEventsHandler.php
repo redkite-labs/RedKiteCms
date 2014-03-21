@@ -17,16 +17,16 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\EventsHandler;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandler;
 
 /**
- * Implements the AlEventsHandler to hanled events for Content objects
+ * Implements the EventsHandler to hanled events for Content objects
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlContentEventsHandler extends AlEventsHandler
+class ContentEventsHandler extends EventsHandler
 {
     /**
      * {@inheritdoc}

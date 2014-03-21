@@ -17,15 +17,15 @@
  
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Navbar;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Button\AlBlockManagerBootstrapButtonBlockTest;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarButtonBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Button\BlockManagerBootstrapButtonBlockTest;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarButtonBlock;
 
 /**
- * AlBlockManagerBootstrapNavbarButtonBlockTest
+ * BlockManagerBootstrapNavbarButtonBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapNavbarButtonBlockTest extends AlBlockManagerBootstrapButtonBlockTest
+class BlockManagerBootstrapNavbarButtonBlockTest extends BlockManagerBootstrapButtonBlockTest
 {  
     public function testDefaultValue()
     {
@@ -46,7 +46,7 @@ class AlBlockManagerBootstrapNavbarButtonBlockTest extends AlBlockManagerBootstr
         );
             
         $this->initContainer(); 
-        $blockManager = new AlBlockManagerBootstrapNavbarButtonBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarButtonBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
     
@@ -66,7 +66,7 @@ class AlBlockManagerBootstrapNavbarButtonBlockTest extends AlBlockManagerBootstr
         $block = $this->initBlock($value);
         $this->initContainer();
         
-        $blockManager = new AlBlockManagerBootstrapNavbarButtonBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarButtonBlock($this->container, $this->validator);
         $blockManager->set($block);
         
         $expectedResult = array('RenderView' => array(
@@ -117,7 +117,7 @@ class AlBlockManagerBootstrapNavbarButtonBlockTest extends AlBlockManagerBootstr
                     ->getMock();
         $formFactory->expects($this->once())
                     ->method('createForm')
-                    ->with('Navbar\Button', 'AlNavbarButtonType')
+                    ->with('Navbar\Button', 'NavbarButtonType')
                     ->will($this->returnValue($form))
         ;
         $this->container->expects($this->at(3))
@@ -126,7 +126,7 @@ class AlBlockManagerBootstrapNavbarButtonBlockTest extends AlBlockManagerBootstr
                         ->will($this->returnValue($formFactory))
         ;
         
-        $blockManager = new AlBlockManagerBootstrapNavbarButtonBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarButtonBlock($this->container, $this->validator);
         $blockManager->set($block);
         $result = $blockManager->editorParameters();
         $this->assertEquals('TwitterBootstrapBundle:Editor:Button/button_editor.html.twig', $result["template"]);

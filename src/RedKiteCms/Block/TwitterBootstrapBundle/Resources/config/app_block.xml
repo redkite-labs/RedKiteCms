@@ -17,50 +17,50 @@
             <parameter>$(".carousel").carousel("pause");</parameter>
         </parameter>
         
-        <parameter key="bootstrap_slider_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Slider\AlBlockManagerBootstrapSliderBlock</parameter>
-        <parameter key="bootstrapsliderblock.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Slider\AlSliderType</parameter>
+        <parameter key="bootstrap_slider_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Slider\BlockManagerBootstrapSliderBlock</parameter>
+        <parameter key="bootstrapsliderblock.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Slider\SliderType</parameter>
         
         <!-- LABEL --> 
-        <parameter key="bootstrap_label_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Label\AlBlockManagerBootstrapLabelBlock</parameter>
-        <parameter key="bootstrap_label_block.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Label\AlLabelType</parameter>
+        <parameter key="bootstrap_label_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Label\BlockManagerBootstrapLabelBlock</parameter>
+        <parameter key="bootstrap_label_block.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Label\LabelType</parameter>
         
         <!-- BADGE -->         
-        <parameter key="bootstrap_badge_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Badge\AlBlockManagerBootstrapBadgeBlock</parameter>
-        <parameter key="bootstrap_badge_block.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Badge\AlBadgeType</parameter>
+        <parameter key="bootstrap_badge_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Badge\BlockManagerBootstrapBadgeBlock</parameter>
+        <parameter key="bootstrap_badge_block.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Badge\BadgeType</parameter>
         
         <!-- ACORDION -->
         <parameter key="bootstrapaccordionblock.external_javascripts.cms" type="collection">
             <parameter>@TwitterBootstrapBundle/Resources/public/accordion/js/al_accordion.js</parameter>
         </parameter>
 
-        <parameter key="bootstrap_accordion_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Accordion\AlBlockManagerBootstrapAccordionBlock</parameter>
-        <parameter key="bootstrap_accordion_panel_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Accordion\AlBlockManagerBootstrapAccordionPanelBlock</parameter>
+        <parameter key="bootstrap_accordion_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Accordion\BlockManagerBootstrapAccordionBlock</parameter>
+        <parameter key="bootstrap_accordion_panel_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Accordion\BlockManagerBootstrapAccordionPanelBlock</parameter>
         
         <!-- NAVBAR -->
         <parameter key="bootstrapnavbarblock.external_javascripts.cms" type="collection">
             <parameter>@TwitterBootstrapBundle/Resources/public/navbar/js/navbar_editor.js</parameter>
         </parameter>
         
-        <parameter key="bootstrap_navbar_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarBlock</parameter>
-        <parameter key="bootstrap_navbar_menu_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarMenuBlock</parameter>
-        <parameter key="bootstrap_navbar_button_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarButtonBlock</parameter>
-        <parameter key="bootstrap_navbar_dropbown_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarDropdownBlock</parameter>
-        <parameter key="bootstrap_navbar_text_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarTextBlock</parameter>
-        <parameter key="bootstrap_navbar_form_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarFormBlock</parameter>
+        <parameter key="bootstrap_navbar_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarBlock</parameter>
+        <parameter key="bootstrap_navbar_menu_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarMenuBlock</parameter>
+        <parameter key="bootstrap_navbar_button_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarButtonBlock</parameter>
+        <parameter key="bootstrap_navbar_dropbown_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarDropdownBlock</parameter>
+        <parameter key="bootstrap_navbar_text_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarTextBlock</parameter>
+        <parameter key="bootstrap_navbar_form_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarFormBlock</parameter>
         
-        <parameter key="bootstrap_navbar.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\AlNavbarType</parameter>     
-        <parameter key="bootstrap_navbar_dropbown.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\AlNavbarDropdownType</parameter>
+        <parameter key="bootstrap_navbar.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\NavbarType</parameter>
+        <parameter key="bootstrap_navbar_dropbown.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\NavbarDropdownType</parameter>
         
         <!-- BUTTON -->
         <parameter key="bootstrapbuttonblock.external_javascripts.cms" type="collection">
             <parameter>@TwitterBootstrapBundle/Resources/public/button/js/button.js</parameter>
         </parameter>
         
-        <parameter key="bootstrap_button_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button\AlBlockManagerBootstrapButtonBlock</parameter>
-        <parameter key="bootstrap_button_block.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Button\AlButtonType</parameter>
+        <parameter key="bootstrap_button_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button\BlockManagerBootstrapButtonBlock</parameter>
+        <parameter key="bootstrap_button_block.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Button\ButtonType</parameter>
         
         <!-- DROPDOWN BUTTON -->
-        <parameter key="bootstrap_dropdown_button_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\AlBlockManagerBootstrapDropdownButtonBlock</parameter>
+        <parameter key="bootstrap_dropdown_button_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\BlockManagerBootstrapDropdownButtonBlock</parameter>
         
         <parameter key="bootstrapdropdownbuttonblock.external_stylesheets.cms" type="collection">
             <parameter>@TwitterBootstrapBundle/Resources/public/dropdown_menu/css/dropdown_menu_editor.css</parameter>
@@ -71,35 +71,35 @@
         </parameter>
         
         <!-- SPLITDROPDOWN BUTTON -->
-        <parameter key="bootstrap_split_dropdown_button_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\SplitDropdownButton\AlBlockManagerBootstrapSplitDropdownButtonBlock</parameter>
+        <parameter key="bootstrap_split_dropdown_button_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\SplitDropdownButton\BlockManagerBootstrapSplitDropdownButtonBlock</parameter>
         
         <!-- BUTTONS -->
         <parameter key="bootstrapbuttonsgroupblock.external_javascripts.cms" type="collection">
             <parameter>@TwitterBootstrapBundle/Resources/public/buttons/js/buttons_group.js</parameter>
         </parameter>
         
-        <parameter key="bootstrap_buttons_group_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\ButtonsGroup\AlBlockManagerBootstrapButtonsGroupBlock</parameter>
+        <parameter key="bootstrap_buttons_group_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\ButtonsGroup\BlockManagerBootstrapButtonsGroupBlock</parameter>
         
         <!-- THUMBNAIL -->        
         <parameter key="bootstrapthumbnailsblock.external_javascripts.cms" type="collection">
             <parameter>@TwitterBootstrapBundle/Resources/public/thumbnail/js/thumbnail_editor.js</parameter>
         </parameter>
         
-        <parameter key="bootstrap_simple_thumbnail.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail\AlBlockManagerBootstrapSimpleThumbnailBlock</parameter>        
-        <parameter key="bootstrap_thumbnail.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail\AlBlockManagerBootstrapThumbnailBlock</parameter>        
-        <parameter key="bootstrap_simple_thumbnails.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\AlBlockManagerBootstrapSimpleThumbnailsBlock</parameter>      
-        <parameter key="bootstrap_thumbnails.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\AlBlockManagerBootstrapThumbnailsBlock</parameter>
+        <parameter key="bootstrap_simple_thumbnail.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail\BlockManagerBootstrapSimpleThumbnailBlock</parameter>
+        <parameter key="bootstrap_thumbnail.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail\BlockManagerBootstrapThumbnailBlock</parameter>
+        <parameter key="bootstrap_simple_thumbnails.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\BlockManagerBootstrapSimpleThumbnailsBlock</parameter>
+        <parameter key="bootstrap_thumbnails.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\BlockManagerBootstrapThumbnailsBlock</parameter>
         
         <!-- PAGE HEADER --> 
-        <parameter key="bootstrap_page_header_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\PageHeader\AlBlockManagerBootstrapPageHeaderBlock</parameter>
-        <parameter key="bootstrap_page_header_block.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\PageHeader\AlPageHeaderType</parameter>
+        <parameter key="bootstrap_page_header_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\PageHeader\BlockManagerBootstrapPageHeaderBlock</parameter>
+        <parameter key="bootstrap_page_header_block.form.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\PageHeader\PageHeaderType</parameter>
         
         <!-- BREADCRUMB -->
         <parameter key="bootstrapbreadcrumbblock.external_javascripts.cms" type="collection">
             <parameter>@TwitterBootstrapBundle/Resources/public/breadcrumb/js/breadcrumb.js</parameter>
         </parameter>
         
-        <parameter key="bootstrap_breadcrumb_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Breadcrumb\AlBlockManagerBootstrapBreadcrumbBlock</parameter>
+        <parameter key="bootstrap_breadcrumb_block.block.class">RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Breadcrumb\BlockManagerBootstrapBreadcrumbBlock</parameter>
     </parameters>
 
     <services>

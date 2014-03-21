@@ -17,8 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRoleQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Role;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\RoleQuery;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\RoleRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
@@ -27,14 +27,14 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\Inval
  *
  *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlRoleRepositoryPropel extends Base\AlPropelRepository implements RoleRepositoryInterface
+class RoleRepositoryPropel extends Base\PropelRepository implements RoleRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Role';
     }
 
     /**
@@ -42,7 +42,7 @@ class AlRoleRepositoryPropel extends Base\AlPropelRepository implements RoleRepo
      */
     public function setRepositoryObject($object = null)
     {
-        if (null !== $object && !$object instanceof AlRole) {
+        if (null !== $object && !$object instanceof Role) {
             throw new InvalidArgumentTypeException('exception_only_propel_role_objects_are_accepted');
         }
 
@@ -54,7 +54,7 @@ class AlRoleRepositoryPropel extends Base\AlPropelRepository implements RoleRepo
      */
     public function fromPK($id)
     {
-        return AlRoleQuery::create()
+        return RoleQuery::create()
                           ->findPk($id);
     }
 
@@ -63,7 +63,7 @@ class AlRoleRepositoryPropel extends Base\AlPropelRepository implements RoleRepo
      */
     public function fromRoleName($roleName)
     {
-        return AlRoleQuery::create()
+        return RoleQuery::create()
                           ->filterByRole($roleName)
                           ->findOne();
     }
@@ -73,7 +73,7 @@ class AlRoleRepositoryPropel extends Base\AlPropelRepository implements RoleRepo
      */
     public function activeRoles()
     {
-        return AlRoleQuery::create()
+        return RoleQuery::create()
                           ->find();
     }
 }

@@ -7,10 +7,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlTemplateGenerator;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\TemplateParser\AlTemplateParser;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlSlotsGenerator;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlExtensionGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\TemplateGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\TemplateParser\TemplateParser;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\SlotsGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\ExtensionGenerator;
 
 class GenerateTemplatesCommand extends ContainerAwareCommand
 {
@@ -19,7 +19,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
     protected $slotsGenerator;
     protected $extensionGenerator;
 
-    public function setTemplateParser(AlTemplateParser $templateParser)
+    public function setTemplateParser(TemplateParser $templateParser)
     {
         $this->templateParser = $templateParser;
     }
@@ -29,7 +29,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
         return $this->templateParser;
     }
 
-    public function setTemplateGenerator(AlTemplateGenerator $templateGenerator)
+    public function setTemplateGenerator(TemplateGenerator $templateGenerator)
     {
         $this->templateGenerator = $templateGenerator;
     }
@@ -39,7 +39,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
         return $this->templateGenerator;
     }
 
-    public function setSlotsGenerator(AlSlotsGenerator $slotsGenerator)
+    public function setSlotsGenerator(SlotsGenerator $slotsGenerator)
     {
         $this->slotsGenerator = $slotsGenerator;
     }
@@ -49,7 +49,7 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
         return $this->slotsGenerator;
     }
 
-    public function setExtensionGenerator(AlExtensionGenerator $extensionGenerator)
+    public function setExtensionGenerator(ExtensionGenerator $extensionGenerator)
     {
         $this->extensionGenerator = $extensionGenerator;
     }
@@ -87,19 +87,19 @@ class GenerateTemplatesCommand extends ContainerAwareCommand
 
         // @codeCoverageIgnoreStart
         if (null === $this->templateParser) {
-            $this->templateParser = new AlTemplateParser($this->getContainer()->get('templating.locator'), $this->getContainer()->get('templating.name_parser'));
+            $this->templateParser = new TemplateParser($this->getContainer()->get('templating.locator'), $this->getContainer()->get('templating.name_parser'));
         }
 
         if (null === $this->templateGenerator) {
-            $this->templateGenerator = new AlTemplateGenerator();
+            $this->templateGenerator = new TemplateGenerator();
         }
 
         if (null === $this->slotsGenerator) {
-            $this->slotsGenerator = new AlSlotsGenerator();
+            $this->slotsGenerator = new SlotsGenerator();
         }
 
         if (null === $this->extensionGenerator) {
-            $this->extensionGenerator = new AlExtensionGenerator();
+            $this->extensionGenerator = new ExtensionGenerator();
         }
         // @codeCoverageIgnoreEnd
 

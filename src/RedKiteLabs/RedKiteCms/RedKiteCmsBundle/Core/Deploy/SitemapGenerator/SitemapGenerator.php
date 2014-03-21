@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator;
 
 use Symfony\Component\Templating\EngineInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection;
 
 /**
  * SitemapGenerator is the object deputated to generate and write the website sitemap
@@ -29,7 +29,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPag
  */
 class SitemapGenerator implements SitemapGeneratorInterface
 {
-    /** @var AlPageTreeCollection */
+    /** @var PageTreeCollection */
     private $pageTreeCollection;
     /** @var EngineInterface */
     private $templating;
@@ -37,10 +37,10 @@ class SitemapGenerator implements SitemapGeneratorInterface
     /**
      * Constructor
      *
-     * @param AlPageTreeCollection $pageTreeCollection
+     * @param PageTreeCollection $pageTreeCollection
      * @param EngineInterface      $templating
      */
-    public function __construct(AlPageTreeCollection $pageTreeCollection, EngineInterface $templating)
+    public function __construct(PageTreeCollection $pageTreeCollection, EngineInterface $templating)
     {
         $this->pageTreeCollection = $pageTreeCollection;
         $this->templating = $templating;
@@ -66,14 +66,14 @@ class SitemapGenerator implements SitemapGeneratorInterface
     {
         $urls = array();
         foreach ($this->pageTreeCollection->getPages() as $pageTree) {
-            $page = $pageTree->getAlPage();
+            $page = $pageTree->getPage();
             if ( ! $page->getIsPublished()) {
                 continue;
             }
 
-            $seo = $pageTree->getAlSeo();
+            $seo = $pageTree->getSeo();
             $permalink = "";
-            if ( ! $pageTree->getAlLanguage()->getMainLanguage() || ! $page->getIsHome()) {
+            if ( ! $pageTree->getLanguage()->getMainLanguage() || ! $page->getIsHome()) {
                 $permalink = $seo->getPermalink();
             }
 

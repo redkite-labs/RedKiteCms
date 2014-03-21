@@ -17,16 +17,16 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot\Repeated\Converter;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterToLanguage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\SlotConverterToLanguage;
 
 /**
- * AlSlotsConverterToLanguageTest
+ * SlotsConverterToLanguageTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
+class SlotsConverterToLanguageTest extends SlotsConverterBase
 {
     public function testConvertReturnsNullWhenAnyBlockExists()
     {
@@ -34,8 +34,8 @@ class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array()));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
         $this->assertNull($converter->convert());
     }
 
@@ -58,8 +58,8 @@ class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
             ->method('activeLanguages')
             ->will($this->returnValue(array($this->setUpLanguage(2))));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
         $this->assertNull($converter->convert());
     }
 
@@ -83,8 +83,8 @@ class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
             ->method('activeLanguages')
             ->will($this->returnValue(array($this->setUpLanguage(2))));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
         $this->assertFalse($converter->convert());
     }
 
@@ -111,8 +111,8 @@ class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
             ->method('delete')
             ->will($this->returnValue(false));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
         $this->assertFalse($converter->convert());
     }
 
@@ -142,8 +142,8 @@ class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
             ->method('delete')
             ->will($this->throwException(new \RuntimeException));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
         $this->assertFalse($converter->convert());
     }
 
@@ -182,8 +182,8 @@ class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
         $this->assertTrue($converter->convert());
     }
 
@@ -219,8 +219,8 @@ class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
         $this->assertTrue($converter->convert());
     }
 
@@ -258,8 +258,8 @@ class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
         $this->assertTrue($converter->convert());
     }
 
@@ -295,8 +295,8 @@ class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
         $this->assertTrue($converter->convert());
     }
 
@@ -331,14 +331,14 @@ class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToLanguage($slot, $this->pageContents, $this->factoryRepository);
         $this->assertTrue($converter->convert());
     }
 
     private function setUpBlock()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
             ->method('toArray')
             ->will($this->returnValue(array("Id" => 2, "Type" => "Text")));
@@ -348,7 +348,7 @@ class AlSlotsConverterToLanguageTest extends AlSlotsConverterBase
 
     private function setUpLanguage($id)
     {
-        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language');
         $language->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($id));

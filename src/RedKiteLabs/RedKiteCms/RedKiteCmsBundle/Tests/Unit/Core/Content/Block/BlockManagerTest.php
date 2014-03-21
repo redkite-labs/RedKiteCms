@@ -17,11 +17,11 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\ContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
 
-class AlBlockManagerUnitTester extends AlBlockManager
+class BlockManagerUnitTester extends BlockManager
 {
     private $defaultValue = null;
     private $hideInEditMode = null;
@@ -64,11 +64,11 @@ class AlBlockManagerUnitTester extends AlBlockManager
 }
 
 /**
- * AlBlockManagerTest
+ * BlockManagerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerTest extends AlContentManagerBase
+class BlockManagerTest extends ContentManagerBase
 {
     private $blockManager;
 
@@ -76,20 +76,20 @@ class AlBlockManagerTest extends AlContentManagerBase
     {
         parent::setUp();
 
-        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
 
-        $this->blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
+        $this->blockManager = new BlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $this->blockManager->setDefaultValue(array("Content" => "Test value"));
     }
     
@@ -102,7 +102,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     public function testPageTreeInjectedBySetters()
     {
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
             ->disableOriginalConstructor()
             ->getMock()
         ;
@@ -111,7 +111,7 @@ class AlBlockManagerTest extends AlContentManagerBase
     
     public function testFactoryRepositoryInjectedBySetters()
     {
-        $factoryRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+        $factoryRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepository')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->assertSame($this->blockManager, $this->blockManager->setFactoryRepository($factoryRepository));
@@ -156,7 +156,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     public function testDefaultContentIsReturnedWhenTheInternalJavascriptIsNotSetAndTheContentIsNotHideInEditMode()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $this->blockManager->set($block);       
         $blockManagerArray = $this->blockManager->toArray();
         $this->assertEquals($this->blockManager->getHtml(), $blockManagerArray['Content']);
@@ -167,19 +167,19 @@ class AlBlockManagerTest extends AlContentManagerBase
      */
     public function testSetFailsWhenANotValidPropelObjectIsGiven()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
         $this->blockManager->set($block);
     }
 
-    public function testSetANullAlBlock()
+    public function testSetANullBlock()
     {
         $this->blockManager->set(null);
         $this->assertNull($this->blockManager->get());
     }
 
-    public function testSetAlBlock()
+    public function testSetBlock()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $this->blockManager->set($block);
 
         $this->assertEquals($block, $this->blockManager->get());
@@ -209,7 +209,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
         $this->setUpEventsHandler($event);
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
 
         $this->validator->expects($this->once())
             ->method('checkRequiredParamsExists')
@@ -248,7 +248,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
         $this->setUpEventsHandler($event);
 
-        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
+        $blockManager = new BlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $params = array("PageId" => 2,
                         "LanguageId" => 2,
                         "SlotName" => 'test',
@@ -265,7 +265,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
         $this->setUpEventsHandler($event);
 
-        $blockManager = new AlBlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
+        $blockManager = new BlockManagerUnitTester($this->eventsHandler, $this->factoryRepository, $this->validator);
         $blockManager->setDefaultValue(array("Fake" => "Test value"));
 
         $this->validator->expects($this->once())
@@ -293,7 +293,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
         $this->setUpEventsHandler($event);
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -324,7 +324,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
         $this->setUpEventsHandler($event);
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -356,7 +356,7 @@ class AlBlockManagerTest extends AlContentManagerBase
         $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');
         $this->setUpEventsHandler($event, 2);
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -410,7 +410,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
         $this->blockRepository->expects($this->once())
                 ->method('getRepositoryObjectClassName')
-                ->will($this->returnValue('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock'));
+                ->will($this->returnValue('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block'));
 
         $this->blockManager->set(null);
         $result = $this->blockManager->save($params);
@@ -434,7 +434,7 @@ class AlBlockManagerTest extends AlContentManagerBase
             ->will($this->returnValue(true));
         $this->setUpEventsHandler($event);
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
 
         $this->blockRepository->expects($this->never())
             ->method('startTransaction');
@@ -473,7 +473,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
         $this->setUpEventsHandler($event, 2);
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
 
         $this->blockRepository->expects($this->once())
             ->method('startTransaction');
@@ -512,7 +512,7 @@ class AlBlockManagerTest extends AlContentManagerBase
      */
     public function testEditFailsWhenAnyParamIsGiven()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(2));
@@ -534,7 +534,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     public function testSaveBlockDuringEditFails()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(2));
@@ -567,14 +567,14 @@ class AlBlockManagerTest extends AlContentManagerBase
      */
     public function testEditBlockThrownAnUnespectedException()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(2));
 
         $params = array('Content' => 'changed html content' );
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
 
         $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockEditingEvent');
         $this->setUpEventsHandler($event);
@@ -600,7 +600,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     public function testEdit()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(2));
@@ -673,7 +673,7 @@ class AlBlockManagerTest extends AlContentManagerBase
             ->will($this->returnValue(true));
         $this->setUpEventsHandler($event);
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(2));
@@ -711,7 +711,7 @@ class AlBlockManagerTest extends AlContentManagerBase
                 ->will($this->returnValue($changedParams));
         $this->setUpEventsHandler($event, 2);
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(2));
@@ -760,7 +760,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     public function testSaveBlockDuringDeleteFails()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(2));
@@ -793,12 +793,12 @@ class AlBlockManagerTest extends AlContentManagerBase
      */
     public function testDeleteBlockThrownAnUnespectedException()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(2));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
 
         $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockDeletingEvent');
         $this->setUpEventsHandler($event);
@@ -824,7 +824,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     public function testDeleteBlock()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(2));
@@ -863,7 +863,7 @@ class AlBlockManagerTest extends AlContentManagerBase
             ->will($this->returnValue(true));
         $this->setUpEventsHandler($event);
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(2));
@@ -886,7 +886,7 @@ class AlBlockManagerTest extends AlContentManagerBase
 
     }
 
-    public function testAlBlockToArrayReturnsAnEmptyArrayWhenBlockIsNull()
+    public function testBlockToArrayReturnsAnEmptyArrayWhenBlockIsNull()
     {
         $this->blockManager->set(null);
         $array = $this->blockManager->toArray();
@@ -894,9 +894,9 @@ class AlBlockManagerTest extends AlContentManagerBase
         $this->assertEmpty($array);
     }
 
-    public function testAlBlockToArray()
+    public function testBlockToArray()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $this->blockManager->set($block);
         $array = $this->blockManager->toArray();
 

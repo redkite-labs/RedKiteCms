@@ -18,20 +18,20 @@
 namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Rendering\SlotContent;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent;
+use RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\SlotContent;
 
 /**
- * AlSlotContentTester
+ * SlotContentTester
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSlotContentTester extends TestCase
+class SlotContentTester extends TestCase
 {
     private $slotContent;
     
     protected function setUp()
     {
-        $this->slotContent = new AlSlotContent();
+        $this->slotContent = new SlotContent();
     }
 
     public function testByDefaultAllPropertiesAreNull()
@@ -43,7 +43,7 @@ class AlSlotContentTester extends TestCase
     
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The slot name passed to "RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent" must be a string
+     * @expectedExceptionMessage The slot name passed to "RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\SlotContent" must be a string
      */
     public function testSetSlotNameAcceptsOnlyStrings()
     {
@@ -59,7 +59,7 @@ class AlSlotContentTester extends TestCase
     
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage The content passed to "RedKiteLabs\FrontendBundle\Core\SlotContent\AlSlotContent" must be a string
+     * @expectedExceptionMessage The content passed to "RedKiteLabs\FrontendBundle\Core\SlotContent\SlotContent" must be a string
      */
     public function testSetContentAcceptsOnlyStrings()
     {

@@ -17,8 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
-use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocksInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AssetCollection;
 
 /**
  * TemplateAssetsManagerDeploy is the object deputated to handle website assets when
@@ -28,17 +28,17 @@ use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
  */
 class TemplateAssetsManagerDeploy extends TemplateAssetsManager
 {
-    /** @var null|AlPageBlocksInterface */
+    /** @var null|PageBlocksInterface */
     private $pageBlocks = null;
 
-    public function setPageBlocks(AlPageBlocksInterface $pageBlocks)
+    public function setPageBlocks(PageBlocksInterface $pageBlocks)
     {
         $this->pageBlocks = $pageBlocks;
 
         return $this;
     }
 
-    protected function mergeAppBlocksAssets(AlAssetCollection $assetsCollection, array $options)
+    protected function mergeAppBlocksAssets(AssetCollection $assetsCollection, array $options)
     {
         $blockTypes = $this->pageBlocks->getBlockTypes();
 

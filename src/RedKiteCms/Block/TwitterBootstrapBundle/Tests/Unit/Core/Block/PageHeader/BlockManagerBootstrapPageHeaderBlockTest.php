@@ -18,15 +18,15 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Slider;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\PageHeader\AlBlockManagerBootstrapPageHeaderBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\PageHeader\BlockManagerBootstrapPageHeaderBlock;
 
 
 /**
- * AlBlockManagerBootstrapSliderBlockTest
+ * BlockManagerBootstrapSliderBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapPageHeaderBlockTest extends BaseTestBlock
+class BlockManagerBootstrapPageHeaderBlockTest extends BaseTestBlock
 {  
     public function testDefaultValue()
     {
@@ -42,7 +42,7 @@ class AlBlockManagerBootstrapPageHeaderBlockTest extends BaseTestBlock
         );
         
         $this->initContainer(); 
-        $blockManager = new AlBlockManagerBootstrapPageHeaderBlock($this->container);
+        $blockManager = new BlockManagerBootstrapPageHeaderBlock($this->container);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
    
@@ -59,7 +59,7 @@ class AlBlockManagerBootstrapPageHeaderBlockTest extends BaseTestBlock
         $block = $this->initBlock($value);
         $this->initContainer();
         
-        $blockManager = new AlBlockManagerBootstrapPageHeaderBlock($this->container);
+        $blockManager = new BlockManagerBootstrapPageHeaderBlock($this->container);
         $blockManager->set($block);
         
         $expectedResult = array('RenderView' => array(
@@ -94,7 +94,7 @@ class AlBlockManagerBootstrapPageHeaderBlockTest extends BaseTestBlock
             ->method('createView')
         ;
         
-        $blockManager = new AlBlockManagerBootstrapPageHeaderBlock($this->container);
+        $blockManager = new BlockManagerBootstrapPageHeaderBlock($this->container);
         $blockManager->set($block);
         $result = $blockManager->editorParameters();
         $this->assertEquals('TwitterBootstrapBundle:Editor:PageHeader/page_header_editor.html.twig', $result["template"]);

@@ -17,20 +17,20 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactoryInterface;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
-use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\SlotsConverterFactoryInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\ThemesCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\Template;
 
 /**
- * AlRepeatedSlotsAligner is responsibile to align the slots repeated status when
+ * RepeatedSlotsAligner is responsibile to align the slots repeated status when
  * a slot changes its status on a template
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlRepeatedSlotsAligner
+class RepeatedSlotsAligner
 {
     protected $themesCollection;
     protected $slotsConverterFactory;
@@ -41,13 +41,13 @@ class AlRepeatedSlotsAligner
     /**
      * Constructor
      *
-     * @param AlThemesCollection               $themesCollection
-     * @param AlSlotsConverterFactoryInterface $slotsConverterFactory
-     * @param AlFactoryRepositoryInterface     $factoryRepository
+     * @param ThemesCollection               $themesCollection
+     * @param SlotsConverterFactoryInterface $slotsConverterFactory
+     * @param FactoryRepositoryInterface     $factoryRepository
      *
      * @api
      */
-    public function __construct(AlThemesCollection $themesCollection, AlSlotsConverterFactoryInterface $slotsConverterFactory, AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(ThemesCollection $themesCollection, SlotsConverterFactoryInterface $slotsConverterFactory, FactoryRepositoryInterface $factoryRepository)
     {
         $this->themesCollection = $themesCollection;
         $this->slotsConverterFactory = $slotsConverterFactory;
@@ -112,14 +112,14 @@ class AlRepeatedSlotsAligner
     /**
      * Compares the slots and updates the contents according the new status
      *
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate $template
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\Template $template
      * @param array                                                   $templateSlots The template's slots
      *
      * @return null|boolean null is returned when any update is made
      *
      * @api
      */
-    public function align(AlTemplate $template, array $templateSlots)
+    public function align(Template $template, array $templateSlots)
     {
         $slots = array_flip($template->getSlots());
         if (empty($templateSlots) || empty($slots)) {

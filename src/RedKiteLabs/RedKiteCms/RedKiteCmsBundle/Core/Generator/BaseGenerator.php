@@ -6,11 +6,11 @@ use Sensio\Bundle\GeneratorBundle\Generator\BundleGenerator;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * AlBaseGenerator defines the base generator
+ * BaseGenerator defines the base generator
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-abstract class AlBaseGenerator extends BundleGenerator
+abstract class BaseGenerator extends BundleGenerator
 {
     protected $filesystem;
     protected $skeletonDir;

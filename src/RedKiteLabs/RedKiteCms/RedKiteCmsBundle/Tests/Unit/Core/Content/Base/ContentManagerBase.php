@@ -21,11 +21,11 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 
 
 /**
- * AlBlockManagerBase
+ * ContentManagerBase
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-abstract class AlContentManagerBase extends TestCase
+abstract class ContentManagerBase extends TestCase
 {
     protected $eventsHandler;
 
@@ -33,7 +33,7 @@ abstract class AlContentManagerBase extends TestCase
     {
         parent::setUp();
 
-        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface');
     }
 
     protected function setUpEventsHandler($event, $times = 1)

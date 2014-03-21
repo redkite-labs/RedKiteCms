@@ -17,36 +17,36 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;
 
 /**
- * AlBlockManagerJsonBlockCollectionBase is the base object deputated to implement the
+ * BlockManagerJsonBlockCollectionBase is the base object deputated to implement the
  * very basic methods to handle a json content which defines a collection of objects
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonBase
+abstract class BlockManagerJsonBlockCollectionBase extends BlockManagerJsonBase
 {
     /** @var ContainerInterface */
     protected $container;
     /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
     protected $blocksRepository;
-    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface  */
+    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\TranslatorInterface  */
     protected $translator;
 
     /**
      * Constructor
      *
      * @param ContainerInterface             $container
-     * @param AlParametersValidatorInterface $validator
+     * @param ParametersValidatorInterface $validator
      *
      * @api
      */
-    public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
+    public function __construct(ContainerInterface $container, ParametersValidatorInterface $validator = null)
     {
         $this->container = $container;
         $eventsHandler = $container->get('red_kite_cms.events_handler');
@@ -192,7 +192,7 @@ abstract class AlBlockManagerJsonBlockCollectionBase extends AlBlockManagerJsonB
         return $result;
     }
 
-    protected function updateSlotName(AlBlock $block, $blockSlotName)
+    protected function updateSlotName(Block $block, $blockSlotName)
     {
         $block->setSlotName($blockSlotName);
 

@@ -18,15 +18,15 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Navbar;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Button\Three\AlNavbarButtonType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Button\Three\NavbarButtonType;
 
 /**
- * AlNavbarDropdownTypeTest
+ * NavbarDropdownTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlNavbarButtonTypeTest extends AlBaseType
+class NavbarButtonTypeTest extends BaseType
 {
     protected $translatorDomain = 'TwitterBootstrapBundle';
     
@@ -64,7 +64,7 @@ class AlNavbarButtonTypeTest extends AlBaseType
     
     protected function getForm()
     {
-        return new AlNavbarButtonType();
+        return new NavbarButtonType();
     }
     
     public function testDefaultOptions()

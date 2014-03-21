@@ -18,15 +18,15 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlExtensionGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\ExtensionGenerator;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlExtensionGeneratorTest
+ * ExtensionGeneratorTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlExtensionGeneratorTest extends Base\AlGeneratorBase
+class ExtensionGeneratorTest extends Base\GeneratorBase
 {
     private $extensionGenerator;
 
@@ -37,7 +37,7 @@ class AlExtensionGeneratorTest extends Base\AlGeneratorBase
         $this->root = vfsStream::setup('root', null, array('DependencyInjection'));
         vfsStream::copyFromFileSystem(__DIR__ . '/../../../../Resources/skeleton', $this->root);
 
-        $this->extensionGenerator = new AlExtensionGenerator(vfsStream::url('root/app-theme'));
+        $this->extensionGenerator = new ExtensionGenerator(vfsStream::url('root/app-theme'));
     }
 /*
     public function testExtensionFileHasBeenGeneratedWithEmptySlots()

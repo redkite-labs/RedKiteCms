@@ -17,15 +17,15 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot;
 
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManagersCollection;
 
 /**
- * AlSlotManager is the object deputaed to manage the page's slots.
+ * SlotManager is the object deputaed to manage the page's slots.
  *
  * A slot is the place on the page where one or more blocks lives.
  *
@@ -33,7 +33,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks\BlockManage
  *
  * @api
  */
-class AlSlotManager
+class SlotManager
 {
     protected $slot;
     protected $blockManagers = array();
@@ -48,14 +48,14 @@ class AlSlotManager
     /**
      * Constructor
      *
-     * @param AlSlot                         $slot
+     * @param Slot                         $slot
      * @param BlockRepositoryInterface       $blockRepository
-     * @param AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param BlockManagerFactoryInterface $blockManagerFactory
      * @param Blocks\BlocksAdder             $blocksAdder|null
      * @param Blocks\BlocksRemover           $blocksRemover|null
      * @param BlockManagersCollection        $blockManagersCollection|null
      */
-    public function __construct(AlSlot $slot, BlockRepositoryInterface $blockRepository, AlBlockManagerFactoryInterface $blockManagerFactory, Blocks\BlocksAdder $blocksAdder = null, Blocks\BlocksRemover $blocksRemover = null, BlockManagersCollection $blockManagersCollection = null)
+    public function __construct(Slot $slot, BlockRepositoryInterface $blockRepository, BlockManagerFactoryInterface $blockManagerFactory, Blocks\BlocksAdder $blocksAdder = null, Blocks\BlocksRemover $blocksRemover = null, BlockManagersCollection $blockManagersCollection = null)
     {
         $this->slot = $slot;
         $this->blockRepository = $blockRepository;
@@ -80,12 +80,12 @@ class AlSlotManager
     /**
      * Sets the slot object
      *
-     * @param  AlSlot        $slot
-     * @return AlSlotManager
+     * @param  Slot        $slot
+     * @return SlotManager
      *
      * @api
      */
-    public function setSlot(AlSlot $slot)
+    public function setSlot(Slot $slot)
     {
         $this->slot = $slot;
 
@@ -95,7 +95,7 @@ class AlSlotManager
     /**
      * Returns the slot object
      *
-     * @return AlSlot
+     * @return Slot
      *
      * @api
      */
@@ -107,11 +107,11 @@ class AlSlotManager
     /**
      * Sets the slot manager's behavior when a new block is added
      *
-     * When true forces the add operation to use the default AlSlot attributes for
+     * When true forces the add operation to use the default Slot attributes for
      * the new block type
      *
      * @param  boolean                   $forceSlotAttributes
-     * @return AlSlotManager
+     * @return SlotManager
      * @throws \InvalidArgumentException
      *
      * @api
@@ -132,7 +132,7 @@ class AlSlotManager
      * has been already added
      *
      * @param  boolean                   $skipSiteLevelBlocks
-     * @return AlSlotManager
+     * @return SlotManager
      * @throws \InvalidArgumentException
      *
      * @api
@@ -199,7 +199,7 @@ class AlSlotManager
     /**
      * Returns the last block manager added to the slot manager
      *
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager|null
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager|null
      *
      * @api
      */
@@ -211,7 +211,7 @@ class AlSlotManager
     /**
      * Returns the last edited block manager
      *
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager|null
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager|null
      *
      * @api
      */
@@ -221,7 +221,7 @@ class AlSlotManager
     }
 
     /**
-     * Adds a new AlBlock object to the slot
+     * Adds a new Block object to the slot
      *
      * The created block managed is added to the collection. When the $referenceBlockId param is valorized,
      * the new block is created under the block identified by the given id
@@ -314,7 +314,7 @@ class AlSlotManager
             $options["type"] = "Text";
         }
 
-        // Forces the creation of the block type defined in the AlSlot object
+        // Forces the creation of the block type defined in the Slot object
         if ($this->forceSlotAttributes) {
             $options["type"] = $this->slot->getBlockType();
         }

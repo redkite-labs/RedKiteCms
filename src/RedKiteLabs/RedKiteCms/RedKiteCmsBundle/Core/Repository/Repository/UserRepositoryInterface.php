@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User;
 
 /**
  * Defines the methods used to fetch user records
@@ -30,7 +30,7 @@ interface UserRepositoryInterface
      * Fetches an user record using its primary key
      *
      * @param  int    $id The primary key
-     * @return AlUser A user instance
+     * @return User A user instance
      */
     public function fromPK($id);
 
@@ -38,14 +38,14 @@ interface UserRepositoryInterface
      * Fetches an user record using its user name
      *
      * @param  string $userName The user name
-     * @return AlUser A user instance
+     * @return User A user instance
      */
     public function fromUserName($userName);
 
     /**
      * Fetches the site's users
      *
-     * @return \Iterator|AlUser[] The fetched objects
+     * @return \Iterator|User[] The fetched objects
      */
     public function activeUsers();
 
@@ -53,7 +53,7 @@ interface UserRepositoryInterface
      * Fetches the users by a role
      *
      * @param  int                $roleId The role id
-     * @return \Iterator|AlUser[] The fetched objects
+     * @return \Iterator|User[] The fetched objects
      */
     public function usersByRole($roleId);
 }

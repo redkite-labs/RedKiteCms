@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlConfigurationQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseConfigurationQuery;
 
-class AlConfigurationQuery extends BaseAlConfigurationQuery
+class ConfigurationQuery extends BaseConfigurationQuery
 {
 }

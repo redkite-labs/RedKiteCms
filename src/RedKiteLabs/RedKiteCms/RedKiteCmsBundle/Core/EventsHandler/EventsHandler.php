@@ -32,7 +32,7 @@ use Symfony\Component\EventDispatcher\Event;
  *
  * @api
  */
-abstract class AlEventsHandler implements AlEventsHandlerInterface
+abstract class EventsHandler implements EventsHandlerInterface
 {
     private $events = array();
     private $eventDispatcher;

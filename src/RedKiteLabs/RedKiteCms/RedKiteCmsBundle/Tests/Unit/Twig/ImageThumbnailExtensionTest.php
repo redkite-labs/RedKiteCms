@@ -27,7 +27,7 @@ class ImageThumbnailExtensionTest extends TestCase
         $this->root = vfsStream::setup('root', null, $structure);
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
-        $this->thumbnailer = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ImageThumbnailer\AlImageThumbnailer')
+        $this->thumbnailer = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ImageThumbnailer\ImageThumbnailer')
                                   ->disableOriginalConstructor()
                                   ->getMock();
 

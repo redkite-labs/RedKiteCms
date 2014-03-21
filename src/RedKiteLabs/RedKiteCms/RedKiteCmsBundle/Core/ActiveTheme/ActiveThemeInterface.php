@@ -22,11 +22,11 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface AlActiveThemeInterface
+interface ActiveThemeInterface
 {
     /**
      * Returns the active theme
-     * @return null|\RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme
+     * @return null|\RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme
      */
     public function getActiveTheme();
 

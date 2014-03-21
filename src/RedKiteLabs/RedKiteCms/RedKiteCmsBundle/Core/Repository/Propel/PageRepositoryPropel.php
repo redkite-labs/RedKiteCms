@@ -17,9 +17,9 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPageQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\PageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\PageQuery;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
@@ -28,14 +28,14 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\Inval
  *
  *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepositoryInterface
+class PageRepositoryPropel extends Base\PropelRepository implements PageRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page';
     }
 
     /**
@@ -43,7 +43,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
      */
     public function setRepositoryObject($object = null)
     {
-        if (null !== $object && !$object instanceof AlPage) {
+        if (null !== $object && !$object instanceof Page) {
             throw new InvalidArgumentTypeException('exception_only_propel_page_objects_are_accepted');
         }
 
@@ -55,7 +55,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
      */
     public function fromPK($id)
     {
-        return AlPageQuery::create()->findPk($id);
+        return PageQuery::create()->findPk($id);
     }
 
     /**
@@ -63,7 +63,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
      */
     public function activePages()
     {
-        return AlPageQuery::create()
+        return PageQuery::create()
                     ->filterByToDelete(0)
                     ->where('id > 1')
                     ->orderby('PageName')
@@ -83,9 +83,9 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
             throw new InvalidArgumentTypeException('exception_invalid_value_for_fromPageName_method');
         }
 
-        return AlPageQuery::create()
+        return PageQuery::create()
                     ->filterByToDelete(0)
-                    ->filterByPageName(AlPageManager::slugify($pageName))
+                    ->filterByPageName(PageManager::slugify($pageName))
                     ->findOne();
     }
 
@@ -94,7 +94,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
      */
     public function homePage()
     {
-        return AlPageQuery::create()
+        return PageQuery::create()
                     ->filterByIsHome(1)
                     ->filterByToDelete(0)
                     ->findOne();
@@ -105,7 +105,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
      */
     public function fromTemplateName($templateName, $once = false)
     {
-        $query = AlPageQuery::create()
+        $query = PageQuery::create()
                     ->filterByTemplateName($templateName)
                     ->filterByToDelete(0);
 
@@ -117,7 +117,7 @@ class AlPageRepositoryPropel extends Base\AlPropelRepository implements PageRepo
      */
     public function templatesInUse()
     {
-        return AlPageQuery::create('a')
+        return PageQuery::create('a')
                     ->groupByTemplateName()
                     ->select('TemplateName')
                     ->where('a.Id > ?', 1)

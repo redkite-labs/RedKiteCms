@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollectionBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockCollectionBase;
 
 /**
  * Defines the Block Manager to handle the Bootstrap Navbar
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapNavbarBlock extends AlBlockManagerJsonBlockCollectionBase
+class BlockManagerBootstrapNavbarBlock extends BlockManagerJsonBlockCollectionBase
 {
     protected $contentTemplate = 'TwitterBootstrapBundle:Content:Navbar/Navbar/%s/navbar.html.twig';
     protected $editorTemplate = 'TwitterBootstrapBundle:Editor:Navbar/Navbar/navbar_editor.html.twig';

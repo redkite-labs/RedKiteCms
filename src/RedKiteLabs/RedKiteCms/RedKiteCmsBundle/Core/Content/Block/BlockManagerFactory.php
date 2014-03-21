@@ -16,31 +16,31 @@
  */
 
 /**
- * AlBlockManagerFactory is the object responsible to create a new BlockManager object
+ * BlockManagerFactory is the object responsible to create a new BlockManager object
  *
- * BlockManagers are created by an existing AlBlock object or by a valid string that identifies
- * a valid AlBlockType
+ * BlockManagers are created by an existing Block object or by a valid string that identifies
+ * a valid BlockType
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface;
 
 /**
- * AlBlockManagerFactory is the object responsible to create a new AlBlockManager object
+ * BlockManagerFactory is the object responsible to create a new BlockManager object
  *
- * AlBlockManagerFactory collects all the AlBlockManager objects and uses the to create
- * the new object from an existing AlBlock object or by a valid string that identifies
- * a valid AlBlockType.
+ * BlockManagerFactory collects all the BlockManager objects and uses the to create
+ * the new object from an existing Block object or by a valid string that identifies
+ * a valid BlockType.
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
+class BlockManagerFactory implements BlockManagerFactoryInterface
 {
     /**
      * The generable blockManagers
@@ -52,14 +52,14 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     private $blockManagersItems = array();
 
     /**
-     * @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     * @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface
      *
      * @api
      */
     private $factoryRepository;
 
     /**
-     * @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface
+     * @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface
      *
      * @api
      */
@@ -68,12 +68,12 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface          $eventsHandler
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface          $eventsHandler
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
-    public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository = null)
+    public function __construct(EventsHandlerInterface $eventsHandler, FactoryRepositoryInterface $factoryRepository = null)
     {
         $this->eventsHandler = $eventsHandler;
         $this->factoryRepository = $factoryRepository;
@@ -82,21 +82,21 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
     /**
      * Adds a block manager base object.
      *
-     * This method is usually called by the AlBlocksCompilerPass object
+     * This method is usually called by the BlocksCompilerPass object
      *
-     * @param AlBlockManagerInterface $blockManager
+     * @param BlockManagerInterface $blockManager
      * @param array                   $attributes
      *
      * @api
      */
-    public function addBlockManager(AlBlockManagerInterface $blockManager, array $attributes)
+    public function addBlockManager(BlockManagerInterface $blockManager, array $attributes)
     {
         if (empty($attributes['type'])) {
             return;
         }
 
         $blockManager->setFactoryRepository($this->factoryRepository);
-        $this->blockManagersItems[] = new AlBlockManagerFactoryItem($blockManager, $attributes);
+        $this->blockManagersItems[] = new BlockManagerFactoryItem($blockManager, $attributes);
     }
 
     /**
@@ -104,8 +104,8 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
      */
     public function createBlockManager($block)
     {
-        $isAlBlock = $block instanceof AlBlock;
-        $blockType = $isAlBlock ? $block->getType() : $block;
+        $isBlock = $block instanceof Block;
+        $blockType = $isBlock ? $block->getType() : $block;
 
         $items = count($this->blockManagersItems);
         if ($items == 0) {
@@ -117,7 +117,7 @@ class AlBlockManagerFactory implements AlBlockManagerFactoryInterface
                 $blockManager = $blockManagerItem->getBlockManager();
                 $blockManager = clone($blockManager);
                 $blockManager->setEventsHandler($this->eventsHandler);
-                if ($isAlBlock) $blockManager->set($block);
+                if ($isBlock) $blockManager->set($block);
                 return $blockManager;
             }
         }

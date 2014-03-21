@@ -18,9 +18,9 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Controller\BaseFrontendController;
-use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\Asset;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -28,11 +28,11 @@ use Symfony\Component\HttpFoundation\Request;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlCmsController extends BaseFrontendController
+class CmsController extends BaseFrontendController
 {
     /** @var null|\Symfony\Component\HttpKernel\KernelInterface */
     protected $kernel = null;
-    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface */
     protected $factoryRepository = null;
     /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface */
     protected $pageRepository = null;
@@ -40,7 +40,7 @@ class AlCmsController extends BaseFrontendController
     protected $languageRepository = null;
     /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface */
     protected $seoRepository = null;
-    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\ConfigurationInterface */
     protected $configuration = null;
 
     public function showAction(Request $request)
@@ -74,8 +74,8 @@ class AlCmsController extends BaseFrontendController
             $languageId = 0;
             $pageName = '';
             $languageName = '';
-            $page = $pageTree->getAlPage();
-            $language = $pageTree->getAlLanguage();
+            $page = $pageTree->getPage();
+            $language = $pageTree->getLanguage();
             if (null !== $page) {
                 $pageId =  $page->getId();
                 $pageName = $page->getPageName();
@@ -146,14 +146,14 @@ class AlCmsController extends BaseFrontendController
         $this->dispatcher->dispatch($eventName, $this->event);
     }
 
-    protected function findTemplate(AlPageTree $pageTree)
+    protected function findTemplate(PageTree $pageTree)
     {
         $templateTwig = 'RedKiteCmsBundle:Cms:Welcome/welcome.html.twig';
         if (null !== $template = $pageTree->getTemplate()) {
             $themeName = $template->getThemeName();
             $templateName = $template->getTemplateName();
 
-            $asset = new AlAsset($this->kernel, $themeName);
+            $asset = new Asset($this->kernel, $themeName);
             $themeFolder = $asset->getRealPath();
             if (false === $themeFolder || !is_file($themeFolder .'/Resources/views/Theme/' . $templateName . '.html.twig')) {
                 $configuration = $this->container->get('red_kite_cms.configuration');
@@ -200,7 +200,7 @@ class AlCmsController extends BaseFrontendController
 
     protected function getSkin()
     {
-        $asset = new AlAsset($this->kernel, '@RedKiteCmsBundle');
+        $asset = new Asset($this->kernel, '@RedKiteCmsBundle');
 
         return $asset->getAbsolutePath() . '/css/skins/' . $this->container->getParameter('red_kite_cms.skin');
     }

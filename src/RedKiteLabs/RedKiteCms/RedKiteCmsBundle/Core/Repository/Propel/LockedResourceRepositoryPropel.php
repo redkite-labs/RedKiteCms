@@ -17,8 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLockedResource;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLockedResourceQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\LockedResource;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\LockedResourceQuery;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LockedResourceRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
@@ -27,14 +27,14 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\Inval
  *
  *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implements LockedResourceRepositoryInterface
+class LockedResourceRepositoryPropel extends Base\PropelRepository implements LockedResourceRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLockedResource';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\LockedResource';
     }
 
     /**
@@ -42,7 +42,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
      */
     public function setRepositoryObject($object = null)
     {
-        if (null !== $object && !$object instanceof AlLockedResource) {
+        if (null !== $object && !$object instanceof LockedResource) {
             throw new InvalidArgumentTypeException('exception_only_propel_locked_resource_objects_are_accepted');
         }
 
@@ -54,7 +54,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
      */
     public function fromResourceName($resource)
     {
-       return AlLockedResourceQuery::create()
+       return LockedResourceQuery::create()
                               ->filterByResourceName($resource)
                               ->findOne();
     }
@@ -64,7 +64,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
      */
     public function fromResourceNameByUser($userId, $resource)
     {
-        return AlLockedResourceQuery::create()
+        return LockedResourceQuery::create()
                                ->filterByUserId($userId)
                                ->filterByResourceName($resource)
                                ->findOne();
@@ -75,7 +75,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
      */
     public function freeLockedResource($resource)
     {
-        return AlLockedResourceQuery::create()
+        return LockedResourceQuery::create()
                                     ->filterByResourceName($resource)
                                     ->delete();
     }
@@ -85,7 +85,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
      */
     public function removeExpiredResources($expiredTime)
     {
-        return AlLockedResourceQuery::create('a')
+        return LockedResourceQuery::create('a')
                                     ->where('a.UpdatedAt <= ?', $expiredTime)
                                     ->delete();
     }
@@ -95,7 +95,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
      */
     public function freeUserResource($userId)
     {
-        return AlLockedResourceQuery::create()
+        return LockedResourceQuery::create()
                                     ->filterByUserId($userId)
                                     ->delete();
     }
@@ -105,7 +105,7 @@ class AlLockedResourceRepositoryPropel extends Base\AlPropelRepository implement
      */
     public function fetchResources($userId = null)
     {
-        return AlLockedResourceQuery::create()
+        return LockedResourceQuery::create()
                                     ->_if($userId)
                                         ->filterBySlotName($userId)
                                     ->_endif()

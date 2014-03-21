@@ -18,20 +18,20 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Navbar;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarFormBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarFormBlock;
 
 /**
- * AlBlockManagerBootstrapNavbarFormBlockTest
+ * BlockManagerBootstrapNavbarFormBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapNavbarFormBlockTest extends BaseTestBlock
+class BlockManagerBootstrapNavbarFormBlockTest extends BaseTestBlock
 {  
     protected function setUp()
     {
         parent::setUp();
 
-        $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+        $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface');
     }
     
     /**
@@ -58,7 +58,7 @@ class AlBlockManagerBootstrapNavbarFormBlockTest extends BaseTestBlock
         ',
         );
         
-        $blockManager = new AlBlockManagerBootstrapNavbarFormBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarFormBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
     
@@ -82,7 +82,7 @@ class AlBlockManagerBootstrapNavbarFormBlockTest extends BaseTestBlock
         $block = $this->initBlock($value);
         $this->initContainer($bootstrapVersion);
         
-        $blockManager = new AlBlockManagerBootstrapNavbarFormBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarFormBlock($this->container, $this->validator);
         $blockManager->set($block);
         
         $expectedResult = array('RenderView' => array(
@@ -134,7 +134,7 @@ class AlBlockManagerBootstrapNavbarFormBlockTest extends BaseTestBlock
                     ->getMock();
         $formFactory->expects($this->once())
                     ->method('createForm')
-                    ->with('Navbar\Form', 'AlNavbarFormType')
+                    ->with('Navbar\Form', 'NavbarFormType')
                     ->will($this->returnValue($form))
         ;
         $this->container->expects($this->at(4))
@@ -143,7 +143,7 @@ class AlBlockManagerBootstrapNavbarFormBlockTest extends BaseTestBlock
                         ->will($this->returnValue($formFactory))
         ;
         
-        $blockManager = new AlBlockManagerBootstrapNavbarFormBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarFormBlock($this->container, $this->validator);
         $blockManager->set($block);
         $result = $blockManager->editorParameters();
         $this->assertEquals('TwitterBootstrapBundle:Editor:Navbar/Form/navbar_form_editor.html.twig', $result["template"]);

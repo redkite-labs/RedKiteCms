@@ -16,14 +16,14 @@
 
 namespace RedKiteLabs\ThemeEngineBundle\Core\Theme;
 
-use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\Template;
 
 /**
- * AlThemeInterface
+ * ThemeInterface
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface AlThemeInterface
+interface ThemeInterface
 {
     /**
      * Returns the current theme name
@@ -51,16 +51,16 @@ interface AlThemeInterface
      * Sets the template for the given key
      *
      * @param string  The name of the template to set
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate  The template to set
-     * @return null | \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Template\Template  The template to set
+     * @return null | \RedKiteLabs\ThemeEngineBundle\Core\Template\Template
      */
-    public function setTemplate($key, AlTemplate $template);
+    public function setTemplate($key, Template $template);
 
     /**
      * Returns the template from its name
      *
      * @param string  The name of the theme to retrieve
-     * @return null | \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate
+     * @return null | \RedKiteLabs\ThemeEngineBundle\Core\Template\Template
      */
     public function getTemplate($name);
 }

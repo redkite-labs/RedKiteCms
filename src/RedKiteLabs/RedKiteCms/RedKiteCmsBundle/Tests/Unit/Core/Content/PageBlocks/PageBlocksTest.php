@@ -18,14 +18,14 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\PageBlocks;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocks;
 
 /**
- * AlPageBlocksTest
+ * PageBlocksTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlPageBlocksTest extends TestCase
+class PageBlocksTest extends TestCase
 {
     private $blockRepository;
     private $pageBlocks;
@@ -34,16 +34,16 @@ class AlPageBlocksTest extends TestCase
     {
         parent::setUp();
 
-        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
 
-        $this->pageBlocks = new AlPageBlocks($this->factoryRepository);
+        $this->pageBlocks = new PageBlocks($this->factoryRepository);
     }
     
     
@@ -76,7 +76,7 @@ class AlPageBlocksTest extends TestCase
         );
     }
     
-    public function testSetAlBlocks()
+    public function testSetBlocks()
     {
         $blocks = array(
             $this->setUpBlock('logo'),
@@ -85,7 +85,7 @@ class AlPageBlocksTest extends TestCase
         );
 
         $this->assertCount(0, $this->pageBlocks->getBlocks());
-        $this->pageBlocks->setAlBlocks($blocks);
+        $this->pageBlocks->setBlocks($blocks);
         $this->assertCount(2, $this->pageBlocks->getBlocks());
     }
     
@@ -253,7 +253,7 @@ class AlPageBlocksTest extends TestCase
 
     private function setUpBlock($slotName, $type = null)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->once())
             ->method('getSlotName')
             ->will($this->returnValue($slotName));

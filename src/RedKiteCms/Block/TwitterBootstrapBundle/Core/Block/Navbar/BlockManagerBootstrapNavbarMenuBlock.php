@@ -22,7 +22,7 @@ namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapNavbarMenuBlock extends AlBlockManagerBootstrapNavbarBlock
+class BlockManagerBootstrapNavbarMenuBlock extends BlockManagerBootstrapNavbarBlock
 {
     /**
      * Defines the App-Block's default value
@@ -75,7 +75,7 @@ class AlBlockManagerBootstrapNavbarMenuBlock extends AlBlockManagerBootstrapNavb
         unset($parameters["items"]);
 
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
-        $form = $bootstrapFormFactory->createForm('Navbar\Menu', 'AlNavbarMenuType', $parameters);
+        $form = $bootstrapFormFactory->createForm('Navbar\Menu', 'NavbarMenuType', $parameters);
 
         return array(
             "template" => 'TwitterBootstrapBundle:Editor:Navbar/Menu/navbar_menu_editor.html.twig',

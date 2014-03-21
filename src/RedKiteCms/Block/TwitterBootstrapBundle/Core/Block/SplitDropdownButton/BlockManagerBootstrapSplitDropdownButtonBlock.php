@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\SplitDropdownButton;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\AlBlockManagerBootstrapDropdownButtonBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton\BlockManagerBootstrapDropdownButtonBlock;
 
 /**
  * Defines the Block Manager to handle a Bootstrap Split Dropdown Button
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapSplitDropdownButtonBlock extends AlBlockManagerBootstrapDropdownButtonBlock
+class BlockManagerBootstrapSplitDropdownButtonBlock extends BlockManagerBootstrapDropdownButtonBlock
 {
     protected $blockTemplate = 'TwitterBootstrapBundle:Content:SplitDropdownButton/split_dropdown_button.html.twig';
 

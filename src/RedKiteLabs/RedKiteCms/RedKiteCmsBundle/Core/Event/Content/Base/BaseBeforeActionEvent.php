@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Base;
 
 use Symfony\Component\EventDispatcher\Event;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface;
 
 /**
  * Defines a base event raised by a Content before an action occours
@@ -30,7 +30,7 @@ abstract class BaseBeforeActionEvent extends BaseActionEvent
     protected $values;
     protected $abort = false;
 
-    public function __construct(AlContentManagerInterface $contentManager = null, array $values = null)
+    public function __construct(ContentManagerInterface $contentManager = null, array $values = null)
     {
         parent::__construct($contentManager);
 

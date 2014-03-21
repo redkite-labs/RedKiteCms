@@ -22,7 +22,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface AlViewRendererInterface
+interface ViewRendererInterface
 {
     public function render(array $views);
 }

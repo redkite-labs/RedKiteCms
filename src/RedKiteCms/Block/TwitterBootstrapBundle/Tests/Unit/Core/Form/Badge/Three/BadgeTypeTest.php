@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Badge\Three;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Badge\Three\AlBadgeType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Badge\Three\BadgeType;
 
 /**
- * AlBadgeTypeTest
+ * BadgeTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBadgeTypeTest extends AlBaseType
+class BadgeTypeTest extends BaseType
 {
     protected $translatorDomain = 'TwitterBootstrapBundle';
     
@@ -47,7 +47,7 @@ class AlBadgeTypeTest extends AlBaseType
     
     protected function getForm()
     {
-        return new AlBadgeType();
+        return new BadgeType();
     }
     
     public function testDefaultOptions()

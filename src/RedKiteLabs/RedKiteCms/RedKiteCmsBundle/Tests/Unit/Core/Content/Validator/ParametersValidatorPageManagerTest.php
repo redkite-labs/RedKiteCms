@@ -18,14 +18,14 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Validator;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorPageManager;
 
 /**
- * AlParametersValidatorLanguagesManager
+ * ParametersValidatorLanguagesManager
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlParametersValidatorPagesManager extends TestCase
+class ParametersValidatorPagesManager extends TestCase
 {
     private $validator;
     private $languageRepository;
@@ -36,12 +36,12 @@ class AlParametersValidatorPagesManager extends TestCase
         $this->pageRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface');
         $this->languageRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->onConsecutiveCalls($this->languageRepository, $this->pageRepository));
 
-        $this->validator = new AlParametersValidatorPageManager($this->factoryRepository);
+        $this->validator = new ParametersValidatorPageManager($this->factoryRepository);
     }
 
     public function testPageRepositoryInjectedBySetters()

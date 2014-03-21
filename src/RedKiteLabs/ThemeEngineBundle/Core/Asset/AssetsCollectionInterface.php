@@ -17,12 +17,11 @@
 namespace RedKiteLabs\ThemeEngineBundle\Core\Asset;
 
 /**
- * Defines the methods to add and remove one or more items from the
- * AlAssetsCollect
+ * Defines the methods to add and remove one or more items from a AssetsCollection
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface AlAssetsCollectionInterface extends \Iterator, \Countable
+interface AssetsCollectionInterface extends \Iterator, \Countable
 {
 
     /**

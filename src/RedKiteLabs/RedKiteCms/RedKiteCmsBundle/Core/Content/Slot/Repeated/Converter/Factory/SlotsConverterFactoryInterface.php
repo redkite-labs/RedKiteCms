@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory;
 
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot;
 
 /**
  * Used by the Slots converter factory to create the appropriate converter to change the
@@ -26,14 +26,14 @@ use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface AlSlotsConverterFactoryInterface
+interface SlotsConverterFactoryInterface
 {
     /**
      * Creates the appropriate conver using the given parameter
      *
-     * @param  AlSlot                                                                                      $slot
+     * @param  Slot                                                                                      $slot
      * @param  string                                                                                      $newRepeatedStatus
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\SlotConverterInterface
      */
-    public function createConverter(AlSlot $slot, $newRepeatedStatus);
+    public function createConverter(Slot $slot, $newRepeatedStatus);
 }

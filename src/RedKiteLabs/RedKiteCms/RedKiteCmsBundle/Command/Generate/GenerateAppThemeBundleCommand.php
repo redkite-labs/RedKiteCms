@@ -4,7 +4,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Command\Generate;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlAppThemeGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AppThemeGenerator;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class GenerateAppThemeBundleCommand extends BaseGenerateBundle
@@ -45,7 +45,7 @@ class GenerateAppThemeBundleCommand extends BaseGenerateBundle
             $kernel = $this->getContainer()->get('kernel');
             $bundlePath = $kernel->locateResource('@SensioGeneratorBundle');
 
-            $this->generator = new AlAppThemeGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
+            $this->generator = new AppThemeGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
         }
         // @codeCoverageIgnoreEnd
         return $this->generator;

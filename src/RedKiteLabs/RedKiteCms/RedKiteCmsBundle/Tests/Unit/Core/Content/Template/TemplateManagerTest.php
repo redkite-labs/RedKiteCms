@@ -17,27 +17,27 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Template;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\ContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot;
 
 /**
- * AlTemplateManagerTest
+ * TemplateManagerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlTemplateManagerTest extends AlContentManagerBase
+class TemplateManagerTest extends ContentManagerBase
 {
     protected function setUp()
     {
         parent::setUp();
         
-        $this->themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface');
-        $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+        $this->themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface');
+        $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\Template')
                            ->disableOriginalConstructor()
                             ->getMock();
 
-        $this->pageBlocks = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+        $this->pageBlocks = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocks')
                            ->disableOriginalConstructor()
                             ->getMock();
 
@@ -49,22 +49,22 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('getIdLanguage')
             ->will($this->returnValue(2));
 
-        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $this->blockManager = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage')
+        $this->blockManager = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\BlockManagerImage')
                                 ->disableOriginalConstructor()
                                 ->getMock();
-        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                             ->disableOriginalConstructor()
                             ->getMock();
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
 
-        $this->factory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
+        $this->factory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryInterface');
         $this->factory->expects($this->any())
             ->method('createBlockManager')
             ->will($this->returnValue($this->blockManager));
@@ -87,7 +87,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                         ->will($this->returnValue(array()))
         ;                    
                     
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template, $this->pageBlocks);
         
         $this->assertNotSame($templateManager, clone($templateManager));
@@ -95,8 +95,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
     
     public function testBlockManagerFactoryInjectedBySetters()
     {        
-        $blockManagerFactory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface');
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $blockManagerFactory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryInterface');
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         
         $this->assertEquals($templateManager, $templateManager->setBlockManagerFactory($blockManagerFactory));
         $this->assertEquals($blockManagerFactory, $templateManager->getBlockManagerFactory());
@@ -105,7 +105,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
     
     public function testBlockRepositoryInjectedBySetters()
     {
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface')
                                 ->disableOriginalConstructor()
                                 ->getMock();
@@ -116,7 +116,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
     
     public function testGetSlotManagerReturnsNullWhenTheArgumentIsNotAString()
     {
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $this->assertNull($templateManager->getSlotManager(array()));
     }
     
@@ -126,13 +126,13 @@ class AlTemplateManagerTest extends AlContentManagerBase
      */
     public function testSlotsToArrayAcceptsOnlyStrings()
     {
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->slotToArray(array());
     }
     
     public function testSlotsToArrayReturnsAnEmptyArrayWhenSlotDoesNotExist()
     {
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $this->assertEmpty($templateManager->slotToArray('fake'));
     }
     
@@ -142,7 +142,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
         ;
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots);
     }
     
@@ -178,14 +178,14 @@ class AlTemplateManagerTest extends AlContentManagerBase
             $pageBlocks = $this->pageBlocks;
         }
 
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template, $pageBlocks);
         $this->assertSame($this->themeSlots, $templateManager->getThemeSlots());
         $this->assertSame($this->template, $templateManager->getTemplate());
         $this->assertSame($pageBlocks, $templateManager->getPageBlocks());
         
         $slotManager = $templateManager->getSlotManager('logo');
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager', $slotManager);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\SlotManager', $slotManager);
         $this->assertCount($generatedSlotManagers, $templateManager->getSlotManagers());
         $this->assertCount($generatedSlotManagers, $templateManager->slotsToArray());
         $this->assertEquals(array(), $templateManager->slotToArray('logo'));
@@ -196,7 +196,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         return array(
             array(
                 array(
-                    'logo' => new AlSlot('logo', array('repeated' => 'page'))
+                    'logo' => new Slot('logo', array('repeated' => 'page'))
                 ),
                 array('logo'),
                 array('logo'),
@@ -204,8 +204,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ),
             array(
                 array(
-                    'logo' => new AlSlot('logo', array('repeated' => 'page')),                    
-                    'logo_internal' => new AlSlot('logo_internal', array('repeated' => 'page'))
+                    'logo' => new Slot('logo', array('repeated' => 'page')),
+                    'logo_internal' => new Slot('logo_internal', array('repeated' => 'page'))
                 ),
                 array('logo'),
                 array('logo'),
@@ -213,8 +213,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ),
             array(
                 array(
-                    'logo' => new AlSlot('logo', array('repeated' => 'page')),                    
-                    'menu' => new AlSlot('menu', array('repeated' => 'site'))
+                    'logo' => new Slot('logo', array('repeated' => 'page')),
+                    'menu' => new Slot('menu', array('repeated' => 'site'))
                 ),
                 array('logo'),
                 array('logo', 'menu'),
@@ -223,7 +223,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ),
             array(
                 array(
-                    'logo' => new AlSlot('logo', array('repeated' => 'page')),
+                    'logo' => new Slot('logo', array('repeated' => 'page')),
                 ),
                 array('logo'),
                 null,
@@ -231,8 +231,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ),
             array(
                 array(
-                    'logo' => new AlSlot('logo', array('repeated' => 'page')),                    
-                    'menu' => new AlSlot('menu', array('repeated' => 'site'))
+                    'logo' => new Slot('logo', array('repeated' => 'page')),
+                    'menu' => new Slot('menu', array('repeated' => 'site'))
                 ),
                 array('logo'),
                 array('logo', 'menu', null, '6-0'), // null requires an addictional cycle where pageBlock->getSlotBlocks() is not called because of this call: $this->pageBlocks->getBlocks()
@@ -244,9 +244,9 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
     public function testPopulateFailsWhenAddingANewBlockFails()
     {
-        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')),
-                       'test1' => new AlSlot('test1', array('repeated' => 'page')),
-                       'test2' => new AlSlot('test2', array('repeated' => 'page')));
+        $slots = array('test' => new Slot('test', array('repeated' => 'page')),
+                       'test1' => new Slot('test1', array('repeated' => 'page')),
+                       'test2' => new Slot('test2', array('repeated' => 'page')));
 
         $this->template->expects($this->once())
                 ->method('getSlots')
@@ -257,12 +257,12 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->will($this->returnValue($slots));
 
         
-        $block1= $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block1= $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block1->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
 
-        $block2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block2 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block2->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(2));
@@ -285,7 +285,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         
         $this->initEventsDispatcher('template_manager.before_populate', 'template_manager.after_populate', 'template_manager.before_populate_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template);
 
         $result = $templateManager->populate(2, 2);
@@ -303,7 +303,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->blockRepository->expects($this->exactly(2))
             ->method('rollBack');
         
-        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $slots = array('test' => new Slot('test', array('repeated' => 'page')));
         $this->themeSlots->expects($this->once())
                 ->method('getSlots')
                 ->will($this->returnValue($slots));
@@ -312,7 +312,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test',)));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -331,7 +331,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_populate');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template);
         $templateManager->populate(2, 2);
     }
@@ -351,8 +351,8 @@ class AlTemplateManagerTest extends AlContentManagerBase
             ->method('rollback');
 
         $slots = array(
-            'content' => new AlSlot('content', array('repeated' => 'page')),
-            'logo' => new AlSlot('logo', array('repeated' => 'site')),
+            'content' => new Slot('content', array('repeated' => 'page')),
+            'logo' => new Slot('logo', array('repeated' => 'site')),
         );
         $this->themeSlots->expects($this->once())
                 ->method('getSlots')
@@ -362,7 +362,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('content','logo')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -381,7 +381,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_populate', 'template_manager.after_populate', 'template_manager.before_populate_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template);
 
         $result = $templateManager->populate(2, 2, $skip);
@@ -399,7 +399,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->blockRepository->expects($this->exactly(2))
             ->method('rollback');
 
-        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $slots = array('test' => new Slot('test', array('repeated' => 'page')));
         $this->themeSlots->expects($this->once())
                 ->method('getSlots')
                 ->will($this->returnValue($slots));
@@ -408,7 +408,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -427,7 +427,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template, $this->pageBlocks);
 
         $templateManager->clearBlocks();
@@ -441,7 +441,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->blockRepository->expects($this->exactly(2))
             ->method('rollback');
 
-        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $slots = array('test' => new Slot('test', array('repeated' => 'page')));
         $this->themeSlots->expects($this->once())
                 ->method('getSlots')
                 ->will($this->returnValue($slots));
@@ -450,7 +450,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -469,7 +469,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template, $this->pageBlocks);
 
         $result = $templateManager->clearBlocks();
@@ -487,7 +487,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->blockRepository->expects($this->never())
             ->method('rollback');
 
-        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $slots = array('test' => new Slot('test', array('repeated' => 'page')));
         $this->themeSlots->expects($this->once())
                 ->method('getSlots')
                 ->will($this->returnValue($slots));
@@ -496,7 +496,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -515,7 +515,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template, $this->pageBlocks);
 
         $result = $templateManager->clearBlocks();
@@ -533,10 +533,10 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->blockRepository->expects($this->never())
             ->method('rollback');
 
-        $slots = array('test' => new AlSlot('test', array('repeated' => 'language')),
-                       'test1' => new AlSlot('test1', array('repeated' => 'page')),
-                       'test2' => new AlSlot('test2', array('repeated' => 'site')),
-                       'test3' => new AlSlot('test3', array('repeated' => 'page')));
+        $slots = array('test' => new Slot('test', array('repeated' => 'language')),
+                       'test1' => new Slot('test1', array('repeated' => 'page')),
+                       'test2' => new Slot('test2', array('repeated' => 'site')),
+                       'test3' => new Slot('test3', array('repeated' => 'page')));
         $this->themeSlots->expects($this->once())
                 ->method('getSlots')
                 ->will($this->returnValue($slots));
@@ -545,7 +545,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test', 'test1', 'test2', 'test3')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -564,7 +564,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template, $this->pageBlocks);
 
         $result = $templateManager->clearBlocks(false);
@@ -582,10 +582,10 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->blockRepository->expects($this->never())
             ->method('rollback');
 
-        $slots = array('test' => new AlSlot('test', array('repeated' => 'language')),
-                       'test1' => new AlSlot('test1', array('repeated' => 'page')),
-                       'test2' => new AlSlot('test2', array('repeated' => 'site')),
-                       'test3' => new AlSlot('test3', array('repeated' => 'page')));
+        $slots = array('test' => new Slot('test', array('repeated' => 'language')),
+                       'test1' => new Slot('test1', array('repeated' => 'page')),
+                       'test2' => new Slot('test2', array('repeated' => 'site')),
+                       'test3' => new Slot('test3', array('repeated' => 'page')));
         $this->themeSlots->expects($this->once())
                 ->method('getSlots')
                 ->will($this->returnValue($slots));
@@ -594,7 +594,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test', 'test1', 'test2', 'test3')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -613,7 +613,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template, $this->pageBlocks);
         
         $result = $templateManager->clearBlocks();
@@ -628,7 +628,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->blockRepository->expects($this->exactly(3))
             ->method('rollback');
 
-        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $slots = array('test' => new Slot('test', array('repeated' => 'page')));
         $this->themeSlots->expects($this->once())
                 ->method('getSlots')
                 ->will($this->returnValue($slots));
@@ -637,7 +637,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -656,7 +656,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template, $this->pageBlocks);
 
         $result = $templateManager->clearPageBlocks(3, 3);
@@ -674,7 +674,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->blockRepository->expects($this->exactly(3))
             ->method('rollback');
 
-        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $slots = array('test' => new Slot('test', array('repeated' => 'page')));
         $this->themeSlots->expects($this->once())
                 ->method('getSlots')
                 ->will($this->returnValue($slots));
@@ -683,7 +683,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -702,7 +702,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template, $this->pageBlocks);
 
         $result = $templateManager->clearPageBlocks(3, 3);
@@ -720,7 +720,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
         $this->blockRepository->expects($this->never())
             ->method('rollback');
 
-        $slots = array('test' => new AlSlot('test', array('repeated' => 'page')));
+        $slots = array('test' => new Slot('test', array('repeated' => 'page')));
         $this->themeSlots->expects($this->once())
                 ->method('getSlots')
                 ->will($this->returnValue($slots));
@@ -729,7 +729,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
                 ->method('getSlots')
                 ->will($this->returnValue(array('test')));
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
                 ->method('getId')
                 ->will($this->returnValue(1));
@@ -748,7 +748,7 @@ class AlTemplateManagerTest extends AlContentManagerBase
 
         $this->initEventsDispatcher('template_manager.before_clear_blocks', 'template_manager.after_clear_blocks', 'template_manager.before_clear_blocks_commit');
         
-        $templateManager = new AlTemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
+        $templateManager = new TemplateManager($this->eventsHandler, $this->factoryRepository, $this->factory, $this->validator);
         $templateManager->refresh($this->themeSlots, $this->template, $this->pageBlocks);
 
         $result = $templateManager->clearPageBlocks(3, 3);

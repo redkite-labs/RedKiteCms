@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class BaseController extends ContainerAware
 {
-    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\TranslatorInterface */
     protected $translator = null;
 
     protected function renderDialogMessage($message, $statusCode = 404)

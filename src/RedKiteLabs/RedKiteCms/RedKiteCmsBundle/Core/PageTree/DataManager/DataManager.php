@@ -17,9 +17,9 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\DataManager;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -30,31 +30,31 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DataManager
 {
-    /** @var null|AlFactoryRepositoryInterface */
+    /** @var null|FactoryRepositoryInterface */
     private $factoryRepository = null;
     /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface */
     private $seoRepository = null;
-    /** @var null|AlLanguage */
+    /** @var null|Language */
     private $language = null;
-    /** @var null|AlPage */
+    /** @var null|Page */
     private $page = null;
-    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo */
     private $seo = null;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface $factoryRepository
      */
-    public function __construct(AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(FactoryRepositoryInterface $factoryRepository)
     {
         $this->factoryRepository = $factoryRepository;
     }
 
     /**
-     * Returns the current AlPage object
+     * Returns the current Page object
      *
-     * @return AlPage instance
+     * @return Page instance
      *
      * @api
      */
@@ -64,9 +64,9 @@ class DataManager
     }
 
     /**
-     * Returns the current AlLanguage object
+     * Returns the current Language object
      *
-     * @return AlLanguage instance
+     * @return Language instance
      *
      * @api
      */
@@ -76,9 +76,9 @@ class DataManager
     }
 
     /**
-     * Returns the current AlSeo object
+     * Returns the current Seo object
      *
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo instance
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo instance
      *
      * @api
      */
@@ -109,10 +109,10 @@ class DataManager
     /**
      * Initializes the DataManager object from the database entities
      *
-     * @param AlLanguage $language
-     * @param AlPage     $page
+     * @param Language $language
+     * @param Page     $page
      */
-    public function fromEntities(AlLanguage $language = null, AlPage $page = null)
+    public function fromEntities(Language $language = null, Page $page = null)
     {
         $this->language = $language;
         $this->page = $page;
@@ -134,8 +134,8 @@ class DataManager
     {
         $this->seo = $this->setupSeo($options);
         if (null !== $this->seo) {
-            $this->language = $this->seo->getAlLanguage();
-            $this->page = $this->seo->getAlPage();
+            $this->language = $this->seo->getLanguage();
+            $this->page = $this->seo->getPage();
         }
     }
 

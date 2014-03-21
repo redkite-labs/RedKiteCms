@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlBlockPeer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseBlockPeer;
 
-class AlBlockPeer extends BaseAlBlockPeer
+class BlockPeer extends BaseBlockPeer
 {
 }

@@ -18,14 +18,14 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Validator;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorLanguageManager;
 
 /**
- * AlParametersValidatorLanguagesManager
+ * ParametersValidatorLanguagesManager
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlParametersValidatorLanguagesManager extends TestCase
+class ParametersValidatorLanguagesManager extends TestCase
 {
     private $validator;
     private $languageRepository;
@@ -34,12 +34,12 @@ class AlParametersValidatorLanguagesManager extends TestCase
     {
         $this->languageRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface');
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->languageRepository));
 
-        $this->validator = new AlParametersValidatorLanguageManager($this->factoryRepository);
+        $this->validator = new ParametersValidatorLanguageManager($this->factoryRepository);
     }
     
     public function testLanguageRepositoryInjectedBySetters()

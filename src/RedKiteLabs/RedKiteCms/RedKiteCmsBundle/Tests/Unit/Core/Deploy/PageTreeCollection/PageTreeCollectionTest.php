@@ -18,14 +18,14 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Deploy\PageTreeCollection;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection;
 
 /**
- * AlPageTreeCollectionTest
+ * PageTreeCollectionTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlPageTreeCollectionTest extends TestCase
+class PageTreeCollectionTest extends TestCase
 {
     protected function setUp()
     {
@@ -37,10 +37,10 @@ class AlPageTreeCollectionTest extends TestCase
             ->will($this->returnSelf())
         ;
         
-        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager')
                                         ->disableOriginalConstructor()
                                         ->getMock();        
-        $this->pageBlocks = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+        $this->pageBlocks = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocks')
                                         ->disableOriginalConstructor()
                                         ->getMock();  
         
@@ -52,7 +52,7 @@ class AlPageTreeCollectionTest extends TestCase
                                         ->getMock();
         $this->blocksRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlocksRepositoryInterface', array('retrieveContents'));
        
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->at(0))
             ->method('createRepository')
             ->with('Language')
@@ -71,8 +71,8 @@ class AlPageTreeCollectionTest extends TestCase
             ->will($this->returnValue($this->blocksRepository))
         ;
         
-        $themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface'); 
-        $this->theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
+        $themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface');
+        $this->theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme')
                                         ->disableOriginalConstructor()
                                         ->getMock();
         $this->theme
@@ -81,7 +81,7 @@ class AlPageTreeCollectionTest extends TestCase
             ->will($this->returnValue($themeSlots))
         ;
         
-        $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+        $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface');
         $this->activeTheme->expects($this->once())
             ->method('getActiveTheme')
             ->will($this->returnValue($this->theme))
@@ -99,7 +99,7 @@ class AlPageTreeCollectionTest extends TestCase
         $this->configureSeoRepository($languages, $pages);
         $this->configureTheme($templates);
         
-        $pageTreeCollection = new AlPageTreeCollection($this->assetsManager, $this->activeTheme, $this->templateManager, $this->pageBlocks, $this->factoryRepository);
+        $pageTreeCollection = new PageTreeCollection($this->assetsManager, $this->activeTheme, $this->templateManager, $this->pageBlocks, $this->factoryRepository);
         $pageTreeCollection->fill();
         $this->assertCount($expectedlanguages, $pageTreeCollection->getPages());
         $this->assertCount($expectedPages, $pageTreeCollection->getBasePages());
@@ -218,7 +218,7 @@ class AlPageTreeCollectionTest extends TestCase
     
     private function configureSeoRepository($languages, $pages)
     {
-        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
         $this->seoRepository->expects($this->any())
             ->method('fromPageAndLanguage')
             ->will($this->returnValue($seo))
@@ -239,7 +239,7 @@ class AlPageTreeCollectionTest extends TestCase
     
     protected function createPage($pageName)
     {
-        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
 
         $page->expects($this->atLeastOnce())
             ->method('getPageName')
@@ -254,7 +254,7 @@ class AlPageTreeCollectionTest extends TestCase
 
     protected function createLanguage($languageName)
     {
-        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language');
 
         $language->expects($this->atLeastOnce())
             ->method('getLanguageName')
@@ -269,7 +269,7 @@ class AlPageTreeCollectionTest extends TestCase
     
     protected function createTemplate()
     {
-        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\Template')
                         ->disableOriginalConstructor()
                         ->getMock();
 

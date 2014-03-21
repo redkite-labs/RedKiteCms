@@ -6,11 +6,11 @@ use Sensio\Bundle\GeneratorBundle\Generator\Generator;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * AlSlotsGenerator generates the slots file for the given template
+ * SlotsGenerator generates the slots file for the given template
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSlotsGenerator extends Generator
+class SlotsGenerator extends Generator
 {
     protected $themeSkeletonDir;
 

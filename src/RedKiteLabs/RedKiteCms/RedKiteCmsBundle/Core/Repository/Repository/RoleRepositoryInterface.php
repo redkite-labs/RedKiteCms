@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Role;
 
 /**
  * Defines the methods used to fetch role records
@@ -30,7 +30,7 @@ interface RoleRepositoryInterface
      * Fetches a role record using its primary key
      *
      * @param  int    $id The primary key
-     * @return AlRole The fetched object
+     * @return Role The fetched object
      */
     public function fromPK($id);
 
@@ -38,14 +38,14 @@ interface RoleRepositoryInterface
      * Fetches a role record using its primary key
      *
      * @param  int    $roleName The primary key
-     * @return AlRole The fetched object
+     * @return Role The fetched object
      */
     public function fromRoleName($roleName);
 
     /**
      * Fetches the active roles
      *
-     * @return \Iterator|AlRole[] The fetched objects
+     * @return \Iterator|Role[] The fetched objects
      */
     public function activeRoles();
 }

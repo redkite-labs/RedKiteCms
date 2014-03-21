@@ -20,12 +20,12 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\AssetsPath;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * AlAssetsPath provides the paths for common assets folders
+ * AssetsPath provides the paths for common assets folders
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  * @codeCoverageIgnore
  */
-class AlAssetsPath
+class AssetsPath
 {
     /**
      * Returns the upload folder path

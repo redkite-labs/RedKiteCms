@@ -17,8 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguageQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\LanguageQuery;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
@@ -27,14 +27,14 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\Inval
  *
  *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements LanguageRepositoryInterface
+class LanguageRepositoryPropel extends Base\PropelRepository implements LanguageRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language';
     }
 
     /**
@@ -42,7 +42,7 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
      */
     public function setRepositoryObject($object = null)
     {
-        if (null !== $object && !$object instanceof AlLanguage) {
+        if (null !== $object && !$object instanceof Language) {
             throw new InvalidArgumentTypeException('exception_only_propel_language_objects_are_accepted');
         }
 
@@ -54,7 +54,7 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
      */
     public function fromPK($id)
     {
-        return AlLanguageQuery::create()->findPk($id);
+        return LanguageQuery::create()->findPk($id);
     }
 
     /**
@@ -62,7 +62,7 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
      */
     public function mainLanguage()
     {
-        return AlLanguageQuery::create()
+        return LanguageQuery::create()
                     ->filterByMainLanguage(1)
                     ->filterByToDelete(0)
                     ->findOne();
@@ -81,7 +81,7 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
             throw new InvalidArgumentTypeException('exception_invalid_value_for_fromLanguageName_method');
         }
 
-        return AlLanguageQuery::create()
+        return LanguageQuery::create()
                     ->filterByToDelete(0)
                     ->filterByLanguageName($languageName)
                     ->findOne();
@@ -92,7 +92,7 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
      */
     public function activeLanguages()
     {
-        return AlLanguageQuery::create()
+        return LanguageQuery::create()
                 ->filterByToDelete(0)
                 ->where('id > 1')
                 ->orderBy( 'main_language', \Criteria::DESC )
@@ -105,7 +105,7 @@ class AlLanguageRepositoryPropel extends Base\AlPropelRepository implements Lang
      */
     public function firstOne()
     {
-        return AlLanguageQuery::create()
+        return LanguageQuery::create()
                     ->filterByToDelete(0)
                     ->where('id > 1')
                     ->findOne();

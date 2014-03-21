@@ -18,7 +18,7 @@
 namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Rendering\Compiler;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\Compiler\AlThemesCollectionCompilerPass;
+use RedKiteLabs\ThemeEngineBundle\Core\Compiler\ThemesCollectionCompilerPass;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
@@ -26,13 +26,13 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlThemesCollectionCompilerPassTest extends TestCase
+class ThemesCollectionCompilerPassTest extends TestCase
 {
     private $compiler;
     
     protected function setup()
     {
-        $this->compiler = new AlThemesCollectionCompilerPass();
+        $this->compiler = new ThemesCollectionCompilerPass();
     }
     
     public function testEventsDispatcherDefinitionDoesNotExist()

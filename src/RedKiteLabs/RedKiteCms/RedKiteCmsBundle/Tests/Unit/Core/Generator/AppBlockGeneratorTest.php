@@ -17,16 +17,16 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator\Base\AlAppGeneratorBase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator\Base\AppGeneratorBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AppBlockGenerator;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlAppBlockGeneratorTest
+ * AppBlockGeneratorTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlAppBlockGeneratorTest extends AlAppGeneratorBase
+class AppBlockGeneratorTest extends AppGeneratorBase
 {
     private $blockGenerator;
 
@@ -34,7 +34,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
     {
         parent::setUp();
 
-        $this->blockGenerator = new AlAppBlockGenerator($this->fileSystem, vfsStream::url('root'), vfsStream::url('root'));
+        $this->blockGenerator = new AppBlockGenerator($this->fileSystem, vfsStream::url('root'), vfsStream::url('root'));
     }
 
     public function testBlockBundleIsGenerated()
@@ -52,12 +52,12 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= PHP_EOL;
         $expected .= 'namespace RedKiteCms\Block\FakeBlockBundle\Core\Block;' . PHP_EOL;
         $expected .= PHP_EOL;
-        $expected .= 'use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;' . PHP_EOL;
+        $expected .= 'use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockContainer;' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '/**' . PHP_EOL;
-        $expected .= ' * Description of AlBlockManagerFakeBlock' . PHP_EOL;
+        $expected .= ' * Description of BlockManagerFakeBlock' . PHP_EOL;
         $expected .= ' */' . PHP_EOL;
-        $expected .= 'class AlBlockManagerFakeBlock extends AlBlockManagerJsonBlockContainer' . PHP_EOL;
+        $expected .= 'class BlockManagerFakeBlock extends BlockManagerJsonBlockContainer' . PHP_EOL;
         $expected .= '{' . PHP_EOL;
         $expected .= '    public function getDefaultValue()' . PHP_EOL;
         $expected .= '    {' . PHP_EOL;
@@ -99,7 +99,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '    }' . PHP_EOL;
         $expected .= '}' . PHP_EOL;
 
-        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Core/Block/AlBlockManagerFakeBlock.php');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Core/Block/BlockManagerFakeBlock.php');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
         
@@ -113,7 +113,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= 'use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;' . PHP_EOL;
         $expected .= 'use Symfony\Component\Form\FormBuilderInterface;' . PHP_EOL;
         $expected .= PHP_EOL;    
-        $expected .= 'class AlFakeBlockType extends JsonBlockType' . PHP_EOL;
+        $expected .= 'class FakeBlockType extends JsonBlockType' . PHP_EOL;
         $expected .= '{' . PHP_EOL;
         $expected .= '    public function buildForm(FormBuilderInterface $builder, array $options)' . PHP_EOL;
         $expected .= '    {' . PHP_EOL;
@@ -124,7 +124,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '    }' . PHP_EOL;
         $expected .= '}' . PHP_EOL;
         
-        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Core/Form/AlFakeBlockType.php');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Core/Form/FakeBlockType.php');
         $this->assertFileExists($file);
         $this->assertEquals($expected, file_get_contents($file));
 
@@ -134,8 +134,8 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         $expected .= '        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">' . PHP_EOL;
         $expected .= PHP_EOL;
         $expected .= '    <parameters>' . PHP_EOL;
-        $expected .= '        <parameter key="fake_block.block.class">RedKiteCms\Block\FakeBlockBundle\Core\Block\AlBlockManagerFakeBlock</parameter>' . PHP_EOL;
-        $expected .= '        <parameter key="fake_block.form.class">RedKiteCms\Block\FakeBlockBundle\Core\Form\AlFakeBlockType</parameter>' . PHP_EOL;
+        $expected .= '        <parameter key="fake_block.block.class">RedKiteCms\Block\FakeBlockBundle\Core\Block\BlockManagerFakeBlock</parameter>' . PHP_EOL;
+        $expected .= '        <parameter key="fake_block.form.class">RedKiteCms\Block\FakeBlockBundle\Core\Form\FakeBlockType</parameter>' . PHP_EOL;
         $expected .= '    </parameters>' . PHP_EOL;
         $expected .= PHP_EOL;        
         $expected .= '    <services>' . PHP_EOL;
@@ -215,7 +215,7 @@ class AlAppBlockGeneratorTest extends AlAppGeneratorBase
         );
         $this->blockGenerator->generateExt('RedKiteCms\\Block\\FakeBlockBundle', 'FakeBlockBundle', vfsStream::url('root/src'), 'xml', '', $options);
 
-        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Core/Block/AlBlockManagerFakeBlock.php');
+        $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Core/Block/BlockManagerFakeBlock.php');
         $this->assertFileExists($file);
 
         $file = vfsStream::url('root/src/RedKiteCms/Block/FakeBlockBundle/Resources/config/app_block.xml');

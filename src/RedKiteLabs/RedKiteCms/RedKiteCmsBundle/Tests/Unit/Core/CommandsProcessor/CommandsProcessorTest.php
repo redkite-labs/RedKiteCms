@@ -18,15 +18,15 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessor;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\CommandsProcessor\CommandsProcessor;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlBlockManagerFactoryItemTest
+ * BlockManagerFactoryItemTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlCommandsProcessorTest extends TestCase
+class CommandsProcessorTest extends TestCase
 {
     private $commandsProcessor;
 
@@ -39,7 +39,7 @@ class AlCommandsProcessorTest extends TestCase
 
         $this->root = vfsStream::setup('root', null, $structure);
 
-        $this->commandsProcessor = new AlCommandsProcessor(vfsStream::url('root/app'));
+        $this->commandsProcessor = new CommandsProcessor(vfsStream::url('root/app'));
     }
 
     public function testExecuteCommandReturnsFalseWhenAnExceptionOccours()

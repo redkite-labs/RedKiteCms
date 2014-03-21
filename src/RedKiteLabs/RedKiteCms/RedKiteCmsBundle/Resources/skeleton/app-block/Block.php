@@ -5,12 +5,12 @@
 
 namespace {{ namespace }}\Core\Block;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockContainer;
 
 /**
- * Description of AlBlockManager{{ bundle_basename }}
+ * Description of BlockManager{{ bundle_basename }}
  */
-class AlBlockManager{{ bundle_basename }} extends AlBlockManagerJsonBlockContainer
+class BlockManager{{ bundle_basename }} extends BlockManagerJsonBlockContainer
 {
     public function getDefaultValue()
     {

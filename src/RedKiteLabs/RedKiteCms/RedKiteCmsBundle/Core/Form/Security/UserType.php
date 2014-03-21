@@ -26,7 +26,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlUserType extends BaseBlockType
+class UserType extends BaseBlockType
 {
     /**
      * Builds the form
@@ -40,8 +40,8 @@ class AlUserType extends BaseBlockType
         $builder->add('password', 'password');
         $builder->add('email');
 
-        $builder->add('AlRole', 'model', array(
-            'class'     => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole',
+        $builder->add('Role', 'model', array(
+            'class'     => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Role',
             'property'  => 'Role',
             'label' => 'security_controller_label_roles',
         ));
@@ -57,7 +57,7 @@ class AlUserType extends BaseBlockType
         parent::setDefaultOptions($resolver);
 
         $resolver->setDefaults(array(
-            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser',
+            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User',
         ));
     }
 

@@ -139,7 +139,7 @@ class GenerateAppBlockBundleCommandTest extends GenerateCommandTest
     {
         // get a noop generator
         return $this
-            ->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator')
+            ->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AppBlockGenerator')
             ->disableOriginalConstructor()
             ->setMethods(array('generateExt'))
             ->getMock()

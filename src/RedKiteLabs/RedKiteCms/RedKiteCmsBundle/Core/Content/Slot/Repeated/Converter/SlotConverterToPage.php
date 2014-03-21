@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter;
 
-class AlSlotConverterToPage extends AlSlotConverterBase
+class SlotConverterToPage extends SlotConverterBase
 {
     /**
      * {@inheritdoc}

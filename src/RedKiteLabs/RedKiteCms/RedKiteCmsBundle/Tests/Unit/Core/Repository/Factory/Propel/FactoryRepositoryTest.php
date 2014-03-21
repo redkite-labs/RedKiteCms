@@ -18,14 +18,14 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Factory\Propel;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepository;
 
 /**
- * AlFactoryRepositoryTest
+ * FactoryRepositoryTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlFactoryRepositoryTest extends TestCase
+class FactoryRepositoryTest extends TestCase
 {
     private $factoryRepository;
 
@@ -33,7 +33,7 @@ class AlFactoryRepositoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->factoryRepository = new AlFactoryRepository('Propel');
+        $this->factoryRepository = new FactoryRepository('Propel');
     }
 
     /**
@@ -47,7 +47,7 @@ class AlFactoryRepositoryTest extends TestCase
     public function testARepositoryIsCreated()
     {
         $repository = $this->factoryRepository->createRepository('Block');
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel', $repository);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel', $repository);
     }
 
     public function testARepositoryPlacedOnACusyomNamespaceAndWithoutAlPefixed()

@@ -16,14 +16,12 @@
 
 namespace RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection;
 
-use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
-
 /**
- * AlTheme represents a theme and it is a collection of AlTemplate objects
+ * Theme represents a theme and it is a collection of Template objects
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-abstract class AlThemeCollectionBase implements \Iterator, \Countable
+abstract class ThemeCollectionBase implements \Iterator, \Countable
 {
     /**
      * Normalizes the given key

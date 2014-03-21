@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockContainer;
 
 /**
  * Defines the Block Manager to handle a Bootstrap Button
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapButtonBlock extends AlBlockManagerJsonBlockContainer
+class BlockManagerBootstrapButtonBlock extends BlockManagerJsonBlockContainer
 {
     protected $blockTemplate = 'TwitterBootstrapBundle:Content:Button/button.html.twig';
 
@@ -78,7 +78,7 @@ class AlBlockManagerBootstrapButtonBlock extends AlBlockManagerJsonBlockContaine
         $item = $items[0];
 
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
-        $form = $bootstrapFormFactory->createForm('Button', 'AlButtonType', $item);
+        $form = $bootstrapFormFactory->createForm('Button', 'ButtonType', $item);
 
         return array(
             "template" => "TwitterBootstrapBundle:Editor:Button/button_editor.html.twig",

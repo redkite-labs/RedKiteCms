@@ -9,19 +9,19 @@
             <parameter>@RedKiteCmsBaseBlocksBundle/Resources/public/image/js/image_editor.js</parameter>
         </parameter>
         
-        <parameter key="image.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage</parameter>
-        <parameter key="image.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Image\AlImageType</parameter>
+        <parameter key="image.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\BlockManagerImage</parameter>
+        <parameter key="image.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Image\ImageType</parameter>
         
         <!-- SCRIPT -->        
-        <parameter key="script.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\AlBlockManagerScript</parameter>
+        <parameter key="script.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Script\BlockManagerScript</parameter>
         
         <!-- MENU -->
         <parameter key="menu.external_javascripts.cms" type="collection">
             <parameter>@RedKiteCmsBaseBlocksBundle/Resources/public/menu/js/menu_editor.js</parameter>
         </parameter>
         
-        <parameter key="menu.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMenu</parameter>
-        <parameter key="menu_vertical.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMenuVertical</parameter>
+        <parameter key="menu.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\BlockManagerMenu</parameter>
+        <parameter key="menu_vertical.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\BlockManagerMenuVertical</parameter>
         
         <!-- LINK -->
         <parameter key="link.external_javascripts.cms" type="collection">
@@ -32,8 +32,8 @@
             <parameter>@RedKiteCmsBaseBlocksBundle/Resources/public/link/css/link_editor.css</parameter>
         </parameter>
         
-        <parameter key="link.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Link\AlBlockManagerLink</parameter>
-        <parameter key="bootstrap_link.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Link\AlLinkType</parameter>
+        <parameter key="link.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Link\BlockManagerLink</parameter>
+        <parameter key="bootstrap_link.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Link\LinkType</parameter>
         
         <!-- FILE -->
         <parameter key="file.external_javascripts.cms" type="collection">
@@ -42,14 +42,14 @@
         
         <parameter key="file.base_folder">files</parameter>
         <parameter key="el_finder.file_connector">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\ElFinder\File\ElFinderFileConnector</parameter>        
-        <parameter key="file.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\File\AlBlockManagerFile</parameter>
-        <parameter key="file.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\File\AlFileType</parameter>
+        <parameter key="file.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\File\BlockManagerFile</parameter>
+        <parameter key="file.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\File\FileType</parameter>
         
         <!-- LANGUAGES MENU -->
-        <parameter key="languages_menu.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\LanguagesMenu\AlBlockManagerLanguagesMenu</parameter>
+        <parameter key="languages_menu.block.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\LanguagesMenu\BlockManagerLanguagesMenu</parameter>
         
         <!-- SCRIPT -->
-        <parameter key="bootstrap_script.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Script\AlScriptType</parameter>
+        <parameter key="bootstrap_script.form.class">RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Script\ScriptType</parameter>
     </parameters>
 
     <services>        

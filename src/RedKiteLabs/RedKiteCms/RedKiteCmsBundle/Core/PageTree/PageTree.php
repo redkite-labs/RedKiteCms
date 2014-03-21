@@ -17,36 +17,36 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\PageTree;
-use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\PageTree as PageTreeEvent;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\Template;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocksInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager;
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface;
 
 /**
  * Defines an object which stores all the web page information as a tree
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
- * @method \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme getTheme() Returns the handled AlTheme object
- * @method AlTemplate getTemplate() Returns the handled AlTemplate object
- * @method AlTemplateManager getTemplateManager() Returns the handled AlTemplateManager object
- * @method \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks getPageBlocks() Returns the handled AlPageBlocks object
- * @method \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage getAlPage() Returns the handled AlPage object
- * @method \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage getAlLanguage() Returns the handled AlLanguage object
- * @method \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo getAlSeo() Returns the handled AlSeo object
- * @method AlPageTree getExternalStylesheets() Returns the handled external stylesheets
- * @method AlPageTree getInternalStylesheets() Returns the handled internal stylesheets
- * @method AlPageTree getExternalJavascripts() Returns the handled external javascripts
- * @method AlPageTree getInternalJavascripts() Returns the handled internal javascripts
+ * @method \RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme getTheme() Returns the handled Theme object
+ * @method Template getTemplate() Returns the handled Template object
+ * @method TemplateManager getTemplateManager() Returns the handled TemplateManager object
+ * @method \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocks getPageBlocks() Returns the handled PageBlocks object
+ * @method \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page getPage() Returns the handled Page object
+ * @method \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language getLanguage() Returns the handled Language object
+ * @method \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo getSeo() Returns the handled Seo object
+ * @method PageTree getExternalStylesheets() Returns the handled external stylesheets
+ * @method PageTree getInternalStylesheets() Returns the handled internal stylesheets
+ * @method PageTree getExternalJavascripts() Returns the handled external javascripts
+ * @method PageTree getInternalJavascripts() Returns the handled internal javascripts
  * @method string getMetaTitle() Returns the metatag Title attribute
  * @method string getMetaDescription() Returns the metatag Description attribute
  * @method string getMetaKeywords() Returns the metatag Keywords attribute
  */
-class AlPageTree
+class PageTree
 {
     /** @var TemplateAssetsManager */
     private $assetsManager;
@@ -61,7 +61,7 @@ class AlPageTree
     private $metaDescription = "";
     private $metaKeywords = "";
     private $theme = null;
-    /** @var null|AlTemplateManager */
+    /** @var null|TemplateManager */
     private $templateManager = null;
     private $cmsMode = true;
 
@@ -141,7 +141,7 @@ class AlPageTree
             return $this->$property;
         }
 
-        if (preg_match('/^(get)?Al?([Page|Language|Seo]+)$/', $name, $matches)) {
+        if (preg_match('/^(get)?([Page|Language|Seo]+)$/', $name, $matches)) {
             $property = strtolower($matches[1]) . $matches[2];
 
             if (null === $this->dataManager) {
@@ -157,7 +157,7 @@ class AlPageTree
             return $this->$property;
         }
 
-        throw new \RuntimeException('Call to undefined method: AlPageTree->' . $name . '()');
+        throw new \RuntimeException('Call to undefined method: PageTree->' . $name . '()');
     }
 
     /**
@@ -210,22 +210,22 @@ class AlPageTree
     /**
      * Sets up the PageTree object
      *
-     * @param  AlThemeInterface      $theme
-     * @param  AlTemplateManager     $templateManager
-     * @param  AlPageBlocksInterface $pageBlocks
-     * @param  AlTemplate            $template
+     * @param  ThemeInterface      $theme
+     * @param  TemplateManager     $templateManager
+     * @param  PageBlocksInterface $pageBlocks
+     * @param  Template            $template
      * @return self
      */
-    public function setUp(AlThemeInterface $theme, AlTemplateManager $templateManager, AlPageBlocksInterface $pageBlocks, AlTemplate $template = null)
+    public function setUp(ThemeInterface $theme, TemplateManager $templateManager, PageBlocksInterface $pageBlocks, Template $template = null)
     {
         $this->templateManager = $templateManager;
         $this->pageBlocks = $pageBlocks;
         $this->theme = $theme;
 
-        $this->dispatch(PageTree\PageTreeEvents::BEFORE_PAGE_TREE_SETUP, new PageTree\BeforePageTreeSetupEvent($this));
+        $this->dispatch(PageTreeEvent\PageTreeEvents::BEFORE_PAGE_TREE_SETUP, new PageTreeEvent\BeforePageTreeSetupEvent($this));
 
-        $language = $this->getAlLanguage();
-        $page = $this->getAlPage();
+        $language = $this->getLanguage();
+        $page = $this->getPage();
         if (null !== $language && null !== $page) {
             $this->pageBlocks->refresh($language->getId(), $page->getId());
         }
@@ -254,9 +254,9 @@ class AlPageTree
         $this->templateManager
              ->refresh($this->theme->getThemeSlots(), $this->template, $this->pageBlocks);
 
-        $this->setUpMetaTags($this->getAlSeo());
+        $this->setUpMetaTags($this->getSeo());
 
-        $this->dispatch(PageTree\PageTreeEvents::AFTER_PAGE_TREE_SETUP, new PageTree\AfterPageTreeSetupEvent($this));
+        $this->dispatch(PageTreeEvent\PageTreeEvents::AFTER_PAGE_TREE_SETUP, new PageTreeEvent\AfterPageTreeSetupEvent($this));
 
         return $this;
     }
@@ -266,7 +266,7 @@ class AlPageTree
      */
     protected function setUpMetaTags()
     {
-        $seo = $this->getAlSeo();
+        $seo = $this->getSeo();
 
         if (null !== $seo) {
             $this->metaTitle = $seo->getMetaTitle();

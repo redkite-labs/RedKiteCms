@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\PageTree\Base;
 
 use Symfony\Component\EventDispatcher\Event;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree;
 
 /**
  * Defines the base event raised when the website is deployed
@@ -34,11 +34,11 @@ abstract class BasePageTreeEvent extends Event
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree $pageTree
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree $pageTree
      *
      * @api
      */
-    public function __construct(AlPageTree $pageTree)
+    public function __construct(PageTree $pageTree)
     {
         $this->pageTree = $pageTree;
     }
@@ -46,7 +46,7 @@ abstract class BasePageTreeEvent extends Event
     /**
      * Returns the deployer object
      *
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree
      *
      * @api
      */
@@ -58,11 +58,11 @@ abstract class BasePageTreeEvent extends Event
     /**
      * Sets the deployer
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree $pageTree
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree $pageTree
      *
      * @api
      */
-    public function setPageTree(AlPageTree $pageTree)
+    public function setPageTree(PageTree $pageTree)
     {
         $this->pageTree = $pageTree;
     }

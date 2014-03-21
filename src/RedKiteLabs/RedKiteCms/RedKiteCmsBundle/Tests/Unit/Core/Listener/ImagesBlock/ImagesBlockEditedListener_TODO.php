@@ -42,12 +42,12 @@ class ImagesBlockEditedListenerTest extends TestCase
         $this->testListener = new ImagesBlockEditedListener($this->engine);
     }
 
-    public function testResponseIsNotSetWhenTheBlockManagerIsNotInstanceOfAlBlockManagerImages()
+    public function testResponseIsNotSetWhenTheBlockManagerIsNotInstanceOfBlockManagerImages()
     {
         $this->event->expects($this->never())
             ->method('setResponse');
 
-        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock')
+        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlock')
                              ->disableOriginalConstructor()
                              ->getMock();
         $this->event->expects($this->once())
@@ -57,17 +57,17 @@ class ImagesBlockEditedListenerTest extends TestCase
         $this->testListener->onBlockEdited($this->event);
     }
 
-    public function testResponseIsNotSetWhenTheBlockManagerIsNotInstanceOfAlBlockManagerImages1()
+    public function testResponseIsNotSetWhenTheBlockManagerIsNotInstanceOfBlockManagerImages1()
     {
         $this->event->expects($this->once())
             ->method('setResponse');
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->once())
             ->method('getId')
             ->will($this->returnValue(2));
 
-        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages')
+        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ImagesBlock\BlockManagerImages')
                              ->disableOriginalConstructor()
                              ->getMock();
         $blockManager->expects($this->once())

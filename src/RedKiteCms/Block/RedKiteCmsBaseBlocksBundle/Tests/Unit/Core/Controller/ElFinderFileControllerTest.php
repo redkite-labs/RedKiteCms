@@ -18,14 +18,14 @@
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Controller;
 
 use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Controller\ElFinderFileController;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Controller\AlCmsElFinderControllerTest;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Controller\CmsElFinderControllerTest;
 
 /**
  * ElFinderControllerTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class ElFinderControllerTest extends AlCmsElFinderControllerTest
+class ElFinderControllerTest extends CmsElFinderControllerTest
 {
     public function testConnectFileAction()
     {

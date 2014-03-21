@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Cms;
 
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\Security\Core\SecurityContext;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\ResourcesLocker;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\Exception\ResourceNotFreeException;
 
 /**
@@ -40,11 +40,11 @@ class ResourceFreeListener
      * Contructor
      *
      * @param \Symfony\Component\Security\Core\SecurityContext                     $securityContext
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker $resourcesLocker
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\ResourcesLocker $resourcesLocker
      *
      * @api
      */
-    public function __construct(SecurityContext $securityContext, AlResourcesLocker $resourcesLocker)
+    public function __construct(SecurityContext $securityContext, ResourcesLocker $resourcesLocker)
     {
         $this->securityContext = $securityContext;
         $this->resourcesLocker = $resourcesLocker;

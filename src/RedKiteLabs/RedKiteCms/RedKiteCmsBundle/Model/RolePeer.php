@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlRolePeer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseRolePeer;
 
-class AlRolePeer extends BaseAlRolePeer
+class RolePeer extends BaseRolePeer
 {
 }

@@ -22,7 +22,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface AlConfigurationInterface
+interface ConfigurationInterface
 {
     /**
      * Reads a configuration parameter

@@ -17,11 +17,11 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Security\AlUserType;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Security\AlRoleType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Security\UserType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Security\RoleType;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Role;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -96,7 +96,7 @@ class SecurityController extends Base\BaseController
             $values[] = array("name" => "#al_user_id", "value" => $alUser->getId());
             $values[] = array("name" => "#al_user_username", "value" => $alUser->getUserName());
             $values[] = array("name" => "#al_user_email", "value" => $alUser->getEmail());
-            $values[] = array("name" => "#al_user_AlRole", "value" => $alUser->getRoleId());
+            $values[] = array("name" => "#al_user_Role", "value" => $alUser->getRoleId());
         }
 
         return $this->buildJsonResponse($values);
@@ -121,7 +121,7 @@ class SecurityController extends Base\BaseController
         if ('POST' === $request->getMethod()) {
             $userId = $request->get('userId');
             $isNewUser = (null !== $userId && $userId != 0) ? false : true;
-            $user = ( ! $isNewUser) ? $this->userRepository()->fromPk($userId) : new AlUser();
+            $user = ( ! $isNewUser) ? $this->userRepository()->fromPk($userId) : new User();
 
             $userName = $request->get('username');
             if (null !== $this->userRepository()->fromUsername($userName) && $user->getUserName() != $userName ) {
@@ -180,7 +180,7 @@ class SecurityController extends Base\BaseController
             $roleId = $request->get('roleId');
             $roleName = strtoupper($request->get('role'));
             $isNewRole = (null !== $roleId && 0 != $roleId) ? false : true;
-            $role = ( ! $isNewRole) ? $this->roleRepository()->fromPK($roleId) : new AlRole();
+            $role = ( ! $isNewRole) ? $this->roleRepository()->fromPK($roleId) : new Role();
             if (null !== $this->roleRepository()->fromRoleName($roleName) && $role->getRole() != $roleName ) {
                 throw new RuntimeException('exception_role_exists');
             }
@@ -301,7 +301,7 @@ class SecurityController extends Base\BaseController
 
     private function loadUsers()
     {
-        $form = $this->createForm(new AlUserType(), new AlUser());
+        $form = $this->createForm(new UserType(), new User());
 
         return $this->render('RedKiteCmsBundle:Security:Entities/users_panel.html.twig', array(
             'users' => $this->userRepository()->activeUsers(),
@@ -311,7 +311,7 @@ class SecurityController extends Base\BaseController
 
     private function loadRoles()
     {
-        $form = $this->createForm(new AlRoleType(), new AlRole());
+        $form = $this->createForm(new RoleType(), new Role());
 
         return $this->render('RedKiteCmsBundle:Security:Entities/roles_panel.html.twig', array(
             'roles' => $this->roleRepository()->activeRoles(),

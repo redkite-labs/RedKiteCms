@@ -17,20 +17,20 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\UrlManager;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManager;
 use Symfony\Component\HttpKernel\KernelInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 
 /**
- * AlUrlManagerTest
+ * UrlManagerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlUrlManagerTest extends BaseAlUrlManager
+class UrlManagerTest extends BaseUrlManager
 {
     protected $routePrefix = '';
     
-    protected function getUrlManager(KernelInterface $kernel, AlFactoryRepositoryInterface $factoryRepository) {
-        return new AlUrlManager($kernel, $factoryRepository);
+    protected function getUrlManager(KernelInterface $kernel, FactoryRepositoryInterface $factoryRepository) {
+        return new UrlManager($kernel, $factoryRepository);
     }
 }

@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlThemesCollectionCompilerPass implements CompilerPassInterface
+class ThemesCollectionCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {

@@ -17,18 +17,18 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
- * Implements the AlConfigurationInterface to manage a set of configration parameters
+ * Implements the ConfigurationInterface to manage a set of configration parameters
  * from a database
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlConfigurationManager implements AlConfigurationInterface
+class ConfigurationManager implements ConfigurationInterface
 {
-    /** @var AlFactoryRepositoryInterface */
+    /** @var FactoryRepositoryInterface */
     protected $factoryRepository;
     /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\ConfigurationRepositoryInterface */
     protected $configurationRepository;
@@ -38,9 +38,9 @@ class AlConfigurationManager implements AlConfigurationInterface
     /**
      * Constructor
      *
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param FactoryRepositoryInterface $factoryRepository
      */
-    public function __construct(AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(FactoryRepositoryInterface $factoryRepository)
     {
         $this->factoryRepository = $factoryRepository;
         $this->configurationRepository = $this->factoryRepository->createRepository('Configuration');
@@ -79,7 +79,7 @@ class AlConfigurationManager implements AlConfigurationInterface
      * Fetches the configuration record for the requested parameter
      *
      * @param  string                                              $parameter
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfiguration
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Configuration
      * @throws InvalidArgumentException
      */
     protected function fetchConfiguration($parameter)

@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Accordion;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockCollection;
 
 /**
  * Defines the Block Manager to handle a Bootstrap Accordion
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapAccordionBlock extends AlBlockManagerJsonBlockCollection
+class BlockManagerBootstrapAccordionBlock extends BlockManagerJsonBlockCollection
 {
     /**
      * Defines the App-Block's default value

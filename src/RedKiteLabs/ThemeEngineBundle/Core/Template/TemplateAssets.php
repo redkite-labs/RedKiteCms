@@ -19,20 +19,20 @@ namespace RedKiteLabs\ThemeEngineBundle\Core\Template;
 use RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException;
 
 /**
- * AlTemplateAssets
+ * TemplateAssets
  *
- * @method     AlTemplateAssets getExternalStylesheets() Returns the external stylesheets
- * @method     AlTemplateAssets getInternalStylesheets() Returns the internal stylesheets
- * @method     AlTemplateAssets getExternalJavascripts() Returns the external javascripts
- * @method     AlTemplateAssets getInternalJavascripts() Returns the internal javascripts
- * @method     AlTemplateAssets setExternalStylesheets() Sets the external stylesheets. When the property is valorized, the saved value is replaced
- * @method     AlTemplateAssets setInternalStylesheets() Sets the internal stylesheets. When the property is valorized, the saved value is replaced
- * @method     AlTemplateAssets setExternalJavascripts() Sets the external javascripts. When the property is valorized, the saved value is replaced
- * @method     AlTemplateAssets setInternalJavascripts() Sets the internal javascripts. When the property is valorized, the saved value is replaced
+ * @method     TemplateAssets getExternalStylesheets() Returns the external stylesheets
+ * @method     TemplateAssets getInternalStylesheets() Returns the internal stylesheets
+ * @method     TemplateAssets getExternalJavascripts() Returns the external javascripts
+ * @method     TemplateAssets getInternalJavascripts() Returns the internal javascripts
+ * @method     TemplateAssets setExternalStylesheets() Sets the external stylesheets. When the property is valorized, the saved value is replaced
+ * @method     TemplateAssets setInternalStylesheets() Sets the internal stylesheets. When the property is valorized, the saved value is replaced
+ * @method     TemplateAssets setExternalJavascripts() Sets the external javascripts. When the property is valorized, the saved value is replaced
+ * @method     TemplateAssets setInternalJavascripts() Sets the internal javascripts. When the property is valorized, the saved value is replaced
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlTemplateAssets
+class TemplateAssets
 {
     protected $themeName;
     protected $templateName;
@@ -47,7 +47,7 @@ class AlTemplateAssets
      * Sets the template name
      *
      * @param  string                                                        $v
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\TemplateAssets
      */
     public function setTemplateName($v)
     {
@@ -62,7 +62,7 @@ class AlTemplateAssets
      * Sets the theme name
      *
      * @param  string                                                        $v
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplateAssets
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Template\TemplateAssets
      */
     public function setThemeName($v)
     {

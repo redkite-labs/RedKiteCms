@@ -17,9 +17,9 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidator;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Event\EventAbortedException;
 
 /**
@@ -38,7 +38,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Event\EventAbortedExc
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-abstract class AlContentManagerBase
+abstract class ContentManagerBase
 {
     protected $eventsHandler;
     protected $validator;
@@ -46,26 +46,26 @@ abstract class AlContentManagerBase
     /**
      * Constructor
      *
-     * @param AlEventsHandlerInterface       $eventsHandler
-     * @param AlParametersValidatorInterface $validator
+     * @param EventsHandlerInterface       $eventsHandler
+     * @param ParametersValidatorInterface $validator
      *
      * @api
      */
-    public function __construct(AlEventsHandlerInterface $eventsHandler = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventsHandlerInterface $eventsHandler = null, ParametersValidatorInterface $validator = null)
     {
         $this->eventsHandler = $eventsHandler;
-        $this->validator = (null === $validator) ? new AlParametersValidator() : $validator;
+        $this->validator = (null === $validator) ? new ParametersValidator() : $validator;
     }
 
     /**
      * Sets the event dispatcher object
      *
-     * @param  AlEventsHandlerInterface $eventsHandler
-     * @return AlContentManagerBase
+     * @param  EventsHandlerInterface $eventsHandler
+     * @return ContentManagerBase
      *
      * @api
      */
-    public function setEventsHandler(AlEventsHandlerInterface $eventsHandler)
+    public function setEventsHandler(EventsHandlerInterface $eventsHandler)
     {
         $this->eventsHandler = $eventsHandler;
 
@@ -75,12 +75,12 @@ abstract class AlContentManagerBase
     /**
      * Sets the parameters validator object
      *
-     * @param  AlParametersValidatorInterface $validator
-     * @return AlContentManagerBase
+     * @param  ParametersValidatorInterface $validator
+     * @return ContentManagerBase
      *
      * @api
      */
-    public function setValidator(AlParametersValidatorInterface $validator)
+    public function setValidator(ParametersValidatorInterface $validator)
     {
         $this->validator = $validator;
 
@@ -90,7 +90,7 @@ abstract class AlContentManagerBase
     /**
      * Returns the Event dispatcher object
      *
-     * @return AlEventsHandlerInterface
+     * @return EventsHandlerInterface
      *
      * @api
      */
@@ -102,7 +102,7 @@ abstract class AlContentManagerBase
     /**
      * Returns the ParameterValidator object
      *
-     * @return AlParametersValidatorInterface
+     * @return ParametersValidatorInterface
      *
      * @api
      */

@@ -18,14 +18,14 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Text\Three;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Three\AlNavbarBaseType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar\Base\Three\NavbarBaseType;
 
 /**
  * Defines the form to edit a navbar dropbown block
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlNavbarTextType extends AlNavbarBaseType
+class NavbarTextType extends NavbarBaseType
 {
     /**
      * Builds the form

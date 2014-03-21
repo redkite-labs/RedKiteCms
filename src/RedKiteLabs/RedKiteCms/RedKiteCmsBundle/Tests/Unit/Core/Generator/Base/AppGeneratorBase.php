@@ -22,11 +22,11 @@ use org\bovigo\vfs\vfsStream;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * AlAppGeneratorBase
+ * AppGeneratorBase
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlAppGeneratorBase extends TestCase
+class AppGeneratorBase extends TestCase
 {
     protected function setUp()
     {

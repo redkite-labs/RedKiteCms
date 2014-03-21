@@ -5,13 +5,13 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * AlAppBlockGenerator generates an App-Block bundle
+ * AppBlockGenerator generates an App-Block bundle
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlAppBlockGenerator extends AlBaseGenerator
+class AppBlockGenerator extends BaseGenerator
 {
     /**
      * {@inheritdoc}
@@ -50,8 +50,8 @@ class AlAppBlockGenerator extends AlBaseGenerator
 
         $blockSkeletonDir = __DIR__ . '/../../Resources/skeleton/app-block';
         $this->setSkeletonDirs($blockSkeletonDir);
-        $this->renderFile('Block.php', $dir.'/Core/Block/AlBlockManager'.$bundleBasename.'.php', $parameters);
-        $this->renderFile('FormType.php', $dir.'/Core/Form/Al'.$bundleBasename.'Type.php', $parameters);
+        $this->renderFile('Block.php', $dir.'/Core/Block/BlockManager'.$bundleBasename.'.php', $parameters);
+        $this->renderFile('FormType.php', $dir.'/Core/Form/'.$bundleBasename.'Type.php', $parameters);
         $this->renderFile('app_block.xml', $dir.'/Resources/config/app_block.xml', $parameters);
         $this->renderFile('config_rkcms.yml', $dir.'/Resources/config/config_rkcms.yml', $parameters);
         $this->renderFile('config_rkcms_dev.yml', $dir.'/Resources/config/config_rkcms_dev.yml', $parameters);

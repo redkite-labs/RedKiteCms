@@ -17,15 +17,15 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Security;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Security\AlRoleType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Security\RoleType;
 
 /**
- * AlRoleTypeFormTest
+ * RoleTypeFormTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlRoleTypeFormTest extends AlBaseType
+class RoleTypeFormTest extends BaseType
 {
     protected function configureFields()
     {
@@ -37,7 +37,7 @@ class AlRoleTypeFormTest extends AlBaseType
     
     protected function getForm()
     {
-        return new AlRoleType();
+        return new RoleType();
     }
     
     public function testDefaultOptions()
@@ -45,7 +45,7 @@ class AlRoleTypeFormTest extends AlBaseType
         $this->setBaseResolver();
 
         $options = array(
-            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole',
+            'data_class' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Role',
         );
         $this->resolver
             ->expects($this->at(1))

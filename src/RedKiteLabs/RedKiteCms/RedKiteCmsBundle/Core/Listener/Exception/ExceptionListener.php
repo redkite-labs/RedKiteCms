@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Exception;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\RedKiteCmsExceptionInterface;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\TranslatorInterface;
 
 /**
  * Listens for kernel exception
@@ -31,10 +31,10 @@ class ExceptionListener
 {
     /** @var EngineInterface */
     protected $templating;
-    /** @var AlTranslatorInterface */
+    /** @var TranslatorInterface */
     protected $translator;
 
-    public function __construct(EngineInterface $templating, AlTranslatorInterface $translator)
+    public function __construct(EngineInterface $templating, TranslatorInterface $translator)
     {
         $this->templating = $templating;
         $this->translator = $translator;

@@ -24,7 +24,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Con
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface AlSlotConverterInterface
+interface SlotConverterInterface
 {
     /**
      * Converts the slot's repeated status

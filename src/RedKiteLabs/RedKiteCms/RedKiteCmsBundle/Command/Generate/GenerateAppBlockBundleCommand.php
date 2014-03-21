@@ -5,7 +5,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Command\Generate;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlAppBlockGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AppBlockGenerator;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 
 class GenerateAppBlockBundleCommand extends BaseGenerateBundle
@@ -88,7 +88,7 @@ class GenerateAppBlockBundleCommand extends BaseGenerateBundle
             $kernel = $this->getContainer()->get('kernel');
             $bundlePath = $kernel->locateResource('@SensioGeneratorBundle');
 
-            return new AlAppBlockGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
+            return new AppBlockGenerator($this->getContainer()->get('filesystem'), $bundlePath.'/Resources/skeleton/bundle');
             // @codeCoverageIgnoreEnd
         }
 

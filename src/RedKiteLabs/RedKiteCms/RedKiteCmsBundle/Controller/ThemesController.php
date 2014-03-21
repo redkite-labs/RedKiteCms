@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
-use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\Asset;
 use Symfony\Component\Yaml\Yaml;
 
 class ThemesController extends Base\BaseController
@@ -165,7 +165,7 @@ class ThemesController extends Base\BaseController
     protected function retriveDefaultScreenshot()
     {
         $fileName = '@RedKiteLabsThemeEngineBundle/Resources/public/images/screenshot.png';
-        $screenShotAsset = new AlAsset($this->container->get('kernel'), $fileName);
+        $screenShotAsset = new Asset($this->container->get('kernel'), $fileName);
 
         return '/' . $screenShotAsset->getAbsolutePath();
     }
@@ -178,7 +178,7 @@ class ThemesController extends Base\BaseController
     protected function retrieveThemeInfo($theme, $buttons = true)
     {
         $themeName = $theme->getThemeName();
-        $asset = new AlAsset($this->container->get('kernel'), $themeName);
+        $asset = new Asset($this->container->get('kernel'), $themeName);
 
         $info = array('theme_title' => $themeName);
         $fileName = \sprintf('%s/Resources/data/info.yml', $asset->getRealPath());

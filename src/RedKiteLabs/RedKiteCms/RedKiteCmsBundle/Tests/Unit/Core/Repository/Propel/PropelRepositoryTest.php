@@ -20,11 +20,11 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Pro
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 
 /**
- * AlFactoryRepositoryTest
+ * FactoryRepositoryTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlPropelRepositoryTest extends TestCase
+class PropelRepositoryTest extends TestCase
 {
     private $propelRepository;
     private $pdo;
@@ -35,7 +35,7 @@ class AlPropelRepositoryTest extends TestCase
 
         $this->pdo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
         $this->propelRepository = new TestRepositoryPropel($this->pdo);
-        $this->modelObject = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $this->modelObject = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
     }
 
     public function testPdoConnectionInjectedBySetters()
@@ -48,7 +48,7 @@ class AlPropelRepositoryTest extends TestCase
 
     /**
      * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @expectedExceptionMessage AlPropelRepository accepts only objects derived from propel \BaseObject
+     * @expectedExceptionMessage PropelRepository accepts only objects derived from propel \BaseObject
      */
     public function testModelObjectRequiresABaseObject()
     {
@@ -57,7 +57,7 @@ class AlPropelRepositoryTest extends TestCase
 
     public function testModelObjectInjectedBySetters()
     {
-        $modelObject = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $modelObject = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $this->assertEquals($this->propelRepository, $this->propelRepository->setRepositoryObject($modelObject));
         $this->assertEquals($modelObject, $this->propelRepository->getModelObject());
         $this->assertNotSame($this->modelObject, $this->propelRepository->getModelObject());

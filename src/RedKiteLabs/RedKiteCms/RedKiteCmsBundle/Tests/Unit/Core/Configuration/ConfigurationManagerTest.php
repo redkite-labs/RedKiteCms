@@ -17,14 +17,14 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Configuration;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\ConfigurationManager;
 
 /**
- * AlConfigurationManagerTest
+ * ConfigurationManagerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlConfigurationManagerTest extends \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase
+class ConfigurationManagerTest extends \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase
 {
     protected function setUp()
     {
@@ -32,7 +32,7 @@ class AlConfigurationManagerTest extends \RedKiteLabs\RedKiteCms\RedKiteCmsBundl
 
         $this->configurationRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\ConfigurationRepositoryInterface');
 
-        $factoryRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+        $factoryRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepository')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $factoryRepository->expects($this->at(0))
@@ -40,7 +40,7 @@ class AlConfigurationManagerTest extends \RedKiteLabs\RedKiteCms\RedKiteCmsBundl
             ->with('Configuration')
             ->will($this->returnValue($this->configurationRepository));
 
-        $this->configurationManager = new AlConfigurationManager($factoryRepository);
+        $this->configurationManager = new ConfigurationManager($factoryRepository);
     }
     
 
@@ -64,7 +64,7 @@ class AlConfigurationManagerTest extends \RedKiteLabs\RedKiteCms\RedKiteCmsBundl
     public function testReadParameter()
     {
         $expectedValue = 'en';
-        $repository = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfiguration");
+        $repository = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Configuration");
         $repository
             ->expects($this->once())
             ->method('getValue')
@@ -104,7 +104,7 @@ class AlConfigurationManagerTest extends \RedKiteLabs\RedKiteCms\RedKiteCmsBundl
     public function testWriteParameter()
     {
         $newValue = 'it';
-        $repository = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfiguration");
+        $repository = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Configuration");
         $repository
             ->expects($this->once())
             ->method('setValue')

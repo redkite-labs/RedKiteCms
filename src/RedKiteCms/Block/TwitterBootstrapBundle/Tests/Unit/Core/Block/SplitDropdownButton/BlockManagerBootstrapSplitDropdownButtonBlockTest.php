@@ -17,20 +17,20 @@
  
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\SplitDropdownButton;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\DropdownButton\AlBlockManagerBootstrapDropdownTestBase;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\SplitDropdownButton\AlBlockManagerBootstrapSplitDropdownButtonBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\DropdownButton\BlockManagerBootstrapDropdownTestBase;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\SplitDropdownButton\BlockManagerBootstrapSplitDropdownButtonBlock;
 
 
 /**
- * AlBlockManagerBootstrapDropdownButtonBlockTest
+ * BlockManagerBootstrapDropdownButtonBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapSplitDropdownButtonBlockTest extends AlBlockManagerBootstrapDropdownTestBase
+class BlockManagerBootstrapSplitDropdownButtonBlockTest extends BlockManagerBootstrapDropdownTestBase
 {  
     protected function getBlockManager()
     {
-        return new AlBlockManagerBootstrapSplitDropdownButtonBlock($this->container, $this->validator);
+        return new BlockManagerBootstrapSplitDropdownButtonBlock($this->container, $this->validator);
     }
     
     public function testDefaultValue()

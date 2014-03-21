@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Button\Two;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base\AlBaseType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -25,7 +25,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlButtonType extends AlBaseType
+class ButtonType extends BaseType
 {
     /**
      * Builds the form

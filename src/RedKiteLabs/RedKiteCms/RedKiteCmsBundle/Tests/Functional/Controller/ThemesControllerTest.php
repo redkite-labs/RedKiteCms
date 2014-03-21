@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Functional\Controller;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\PageRepositoryPropel;
 
 /**
  * ThemesControllerTest
@@ -76,7 +76,7 @@ class ThemesControllerTest extends WebTestCaseFunctional
     
     public function testChangeTheme()
     {
-        $pageRepository = new AlPageRepositoryPropel();
+        $pageRepository = new PageRepositoryPropel();
         $page = $pageRepository->fromPageName('index');
         $this->assertEquals('home', $page->getTemplateName());
         

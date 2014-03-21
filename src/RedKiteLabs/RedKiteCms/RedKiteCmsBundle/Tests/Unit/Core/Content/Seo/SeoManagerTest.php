@@ -17,16 +17,16 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Seo;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\AlContentManagerBase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Base\ContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\SeoManager;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
 
 /**
- * AlSeoManagerTest
+ * SeoManagerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSeoManagerTest extends AlContentManagerBase
+class SeoManagerTest extends ContentManagerBase
 {
     private $seoManager;
 
@@ -34,24 +34,24 @@ class AlSeoManagerTest extends AlContentManagerBase
     {
         parent::setUp();
 
-        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $this->seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\SeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
         $this->seoRepository->expects($this->any())
             ->method('getRepositoryObjectClassName')
-            ->will($this->returnValue('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo'));
+            ->will($this->returnValue('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo'));
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->seoRepository));
 
-        $this->seoManager = new AlSeoManager($this->eventsHandler, $this->factoryRepository, $this->validator);
+        $this->seoManager = new SeoManager($this->eventsHandler, $this->factoryRepository, $this->validator);
     }
 
     public function testSeoRepositoryInjectedBySetters()
@@ -69,20 +69,20 @@ class AlSeoManagerTest extends AlContentManagerBase
      */
     public function testSetFailsWhenANotValidPropelObjectIsGiven()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
 
         $this->seoManager->set($block);
     }
 
-    public function testSetANullAlPageObject()
+    public function testSetANullPageObject()
     {
         $this->seoManager->set(null);
         $this->assertNull($this->seoManager->get());
     }
 
-    public function testSetAlPageObject()
+    public function testSetPageObject()
     {
-        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
         $this->seoManager->set($seo);
         $this->assertEquals($seo, $this->seoManager->get());
     }
@@ -986,7 +986,7 @@ class AlSeoManagerTest extends AlContentManagerBase
 
     private function setUpSeoObject()
     {
-        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
         $seo->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(2));

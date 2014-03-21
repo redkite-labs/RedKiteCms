@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Three\Thumbnail;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Thumbnail\Three\AlThumbnailType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Thumbnail\Three\ThumbnailType;
 
 /**
- * AlThumbnailTypeTest
+ * ThumbnailTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlThumbnailTypeTest extends AlBaseType
+class ThumbnailTypeTest extends BaseType
 {
     protected $translatorDomain = 'TwitterBootstrapBundle';
     
@@ -61,7 +61,7 @@ class AlThumbnailTypeTest extends AlBaseType
     
     protected function getForm()
     {
-        return new AlThumbnailType();
+        return new ThumbnailType();
     }
     
     public function testDefaultOptions()

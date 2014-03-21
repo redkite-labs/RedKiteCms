@@ -18,14 +18,14 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Navbar;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarMenuBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarMenuBlock;
 
 /**
- * AlBlockManagerBootstrapNavbarMenuBlockTest
+ * BlockManagerBootstrapNavbarMenuBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapNavbarMenuBlockTest extends BaseTestBlock
+class BlockManagerBootstrapNavbarMenuBlockTest extends BaseTestBlock
 {  
     public function testDefaultValue()
     {
@@ -46,7 +46,7 @@ class AlBlockManagerBootstrapNavbarMenuBlockTest extends BaseTestBlock
         );
             
         $this->initContainer(); 
-        $blockManager = new AlBlockManagerBootstrapNavbarMenuBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarMenuBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
     
@@ -67,7 +67,7 @@ class AlBlockManagerBootstrapNavbarMenuBlockTest extends BaseTestBlock
         $block = $this->initBlock($value);
         $this->initContainer();
         
-        $blockManager = new AlBlockManagerBootstrapNavbarMenuBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarMenuBlock($this->container, $this->validator);
         $blockManager->set($block);
         
         $expectedResult = array('RenderView' => array(
@@ -122,7 +122,7 @@ class AlBlockManagerBootstrapNavbarMenuBlockTest extends BaseTestBlock
                     ->getMock();
         $formFactory->expects($this->once())
                     ->method('createForm')
-                    ->with('Navbar\Menu', 'AlNavbarMenuType')
+                    ->with('Navbar\Menu', 'NavbarMenuType')
                     ->will($this->returnValue($form))
         ;
         $this->container->expects($this->at(3))
@@ -131,7 +131,7 @@ class AlBlockManagerBootstrapNavbarMenuBlockTest extends BaseTestBlock
                         ->will($this->returnValue($formFactory))
         ;
         
-        $blockManager = new AlBlockManagerBootstrapNavbarMenuBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarMenuBlock($this->container, $this->validator);
         $blockManager->set($block);
         $result = $blockManager->editorParameters();
         $this->assertEquals('TwitterBootstrapBundle:Editor:Navbar/Menu/navbar_menu_editor.html.twig', $result["template"]);

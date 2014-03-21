@@ -17,20 +17,20 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ThemeChanger;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface;
 
 /**
- * AlThemeChanger is deputated to change the website template
+ * ThemeChanger is deputated to change the website template
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlThemeChanger
+class ThemeChanger
 {
-    /** @var AlTemplateManager */
+    /** @var TemplateManager */
     protected $templateManager;
-    /** @var AlFactoryRepositoryInterface */
+    /** @var FactoryRepositoryInterface */
     protected $factoryRepository;
     /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     protected $languagesRepository;
@@ -40,10 +40,10 @@ class AlThemeChanger
     /**
      * Constructor
      *
-     * @param AlTemplateManager            $templateManager
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param TemplateManager            $templateManager
+     * @param FactoryRepositoryInterface $factoryRepository
      */
-    public function __construct(AlTemplateManager $templateManager, AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(TemplateManager $templateManager, FactoryRepositoryInterface $factoryRepository)
     {
         $this->templateManager = $templateManager;
         $this->factoryRepository = $factoryRepository;
@@ -54,12 +54,12 @@ class AlThemeChanger
     /**
      * Changes the current theme
      *
-     * @param AlThemeInterface $previousTheme
-     * @param AlThemeInterface $theme
+     * @param ThemeInterface $previousTheme
+     * @param ThemeInterface $theme
      * @param string           $path
      * @param array            $templatesMap
      */
-    public function change(AlThemeInterface $previousTheme, AlThemeInterface $theme, $path, array $templatesMap)
+    public function change(ThemeInterface $previousTheme, ThemeInterface $theme, $path, array $templatesMap)
     {
         $this->saveThemeStructure($previousTheme, $path);
         $this->changeTemplate($theme, $templatesMap);
@@ -69,11 +69,11 @@ class AlThemeChanger
      * Changes the website templates with the new ones provided into the $templatesMap
      * array
      *
-     * @param  AlThemeInterface $theme
+     * @param  ThemeInterface $theme
      * @param  array            $templatesMap
      * @throws \Exception
      */
-    protected function changeTemplate(AlThemeInterface $theme, array $templatesMap)
+    protected function changeTemplate(ThemeInterface $theme, array $templatesMap)
     {
         $ignoreRepeatedSlots = false;
         foreach ($this->languagesRepository->activeLanguages() as $language) {
@@ -99,11 +99,11 @@ class AlThemeChanger
     /**
      * Saves the current theme structure into a file
      *
-     * @param  AlThemeInterface $theme
+     * @param  ThemeInterface $theme
      * @param  string           $themeStructureFile
      * @throws \Exception
      */
-    protected function saveThemeStructure(AlThemeInterface $theme, $themeStructureFile)
+    protected function saveThemeStructure(ThemeInterface $theme, $themeStructureFile)
     {
         $templates = array();
         foreach ($this->languagesRepository->activeLanguages() as $language) {

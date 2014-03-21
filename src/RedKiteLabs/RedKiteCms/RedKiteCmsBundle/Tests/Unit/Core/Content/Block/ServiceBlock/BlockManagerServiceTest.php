@@ -18,21 +18,21 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\ServiceBlock;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\BlockManagerService;
 
 /**
- * AlBlockManagerServiceBlock
+ * BlockManagerServiceBlockTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerServiceBlockTest extends TestCase
+class BlockManagerServiceBlockTest extends TestCase
 {
     public function testServiceBlockDefaultValueReturnsNull()
     {
-        $eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
-        $factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface');
+        $factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
 
-        $blockManager = new AlBlockManagerService($eventsHandler, $factoryRepository);
+        $blockManager = new BlockManagerService($eventsHandler, $factoryRepository);
         $this->assertNull($blockManager->getDefaultValue());
     }
 }

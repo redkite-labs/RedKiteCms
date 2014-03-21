@@ -43,7 +43,7 @@ class BaseTestRenderingEditorListener extends TestCase
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $this->engine = $this->getMock('Symfony\Component\Templating\EngineInterface');
-        $this->blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
+        $this->blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager')
                             ->disableOriginalConstructor()
                             ->getMock();
     }
@@ -68,7 +68,7 @@ class BaseTestRenderingEditorListener extends TestCase
                 }
             }';
 
-        $this->block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $this->block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
 
         $this->block->expects($this->once())
             ->method('getType')

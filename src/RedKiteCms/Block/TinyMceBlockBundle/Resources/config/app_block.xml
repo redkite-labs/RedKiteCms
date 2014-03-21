@@ -8,7 +8,7 @@
             <parameter>@TinyMceBlockBundle/Resources/public/vendor/tinymce/tinymce.min.js</parameter>
             <parameter>@TinyMceBlockBundle/Resources/public/js/al_tinymce.js</parameter>
         </parameter>
-        <parameter key="tiny_mce_block.block.class">RedKiteCms\Block\TinyMceBlockBundle\Core\Block\AlBlockManagerTinyMceBlock</parameter>        
+        <parameter key="tiny_mce_block.block.class">RedKiteCms\Block\TinyMceBlockBundle\Core\Block\BlockManagerTinyMceBlock</parameter>
     </parameters>
 
     <services>

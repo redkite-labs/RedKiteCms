@@ -17,19 +17,19 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\SiteBootstrap;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\LanguageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\PageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager;
 
 /**
- * AlSiteBootstrapInterface defines the methos to boostrap a RedKiteCms website from
+ * SiteBootstrapInterface defines the methos to boostrap a RedKiteCms website from
  * the scratch for a given theme
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-interface AlSiteBootstrapInterface
+interface SiteBootstrapInterface
 {
     /**
      * Returns the error message
@@ -43,32 +43,32 @@ interface AlSiteBootstrapInterface
     /**
      * Sets the language manager
      *
-     * @param  AlLanguageManager $value
+     * @param  LanguageManager $value
      * @return self
      *
      * @api
      */
-    public function setLanguageManager(AlLanguageManager $value);
+    public function setLanguageManager(LanguageManager $value);
 
     /**
      * Sets the page manager
      *
-     * @param  AlPageManager $value
+     * @param  PageManager $value
      * @return self
      *
      * @api
      */
-    public function setPageManager(AlPageManager $value);
+    public function setPageManager(PageManager $value);
 
     /**
      * Sets the template manager
      *
-     * @param  AlTemplateManager $value
+     * @param  TemplateManager $value
      * @return self
      *
      * @api
      */
-    public function setTemplateManager(AlTemplateManager $value);
+    public function setTemplateManager(TemplateManager $value);
 
     /**
      * Sets the default language's values used to add the new language

@@ -17,8 +17,8 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\DropdownButton;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerContainer;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerContainer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBase;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 
 /**
@@ -26,7 +26,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceVa
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
+class BlockManagerBootstrapDropdownButtonBlock extends BlockManagerContainer
 {
     protected $blockTemplate = 'TwitterBootstrapBundle:Content:DropdownButton/dropdown_button.html.twig';
     protected $editorTemplate = 'TwitterBootstrapBundle:Editor:DropdownButton/dropdown_editor.html.twig';
@@ -82,7 +82,7 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
      */
     protected function renderHtml()
     {
-        $items = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
+        $items = BlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
         
         return array('RenderView' => array(
             'view' => $this->blockTemplate,
@@ -100,13 +100,13 @@ class AlBlockManagerBootstrapDropdownButtonBlock extends AlBlockManagerContainer
      */
     public function editorParameters()
     {
-        $items = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
+        $items = BlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
         $item = $items[0];
         $items = $item["items"];
         unset($item["items"]);
 
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
-        $form = $bootstrapFormFactory->createForm('DropdownButton', 'AlDropdownButtonType', $item);
+        $form = $bootstrapFormFactory->createForm('DropdownButton', 'DropdownButtonType', $item);
 
         $seoRepository = $this->factoryRepository->createRepository('Seo');
         $request = $this->container->get('request');

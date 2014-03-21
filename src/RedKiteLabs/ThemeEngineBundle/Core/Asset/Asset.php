@@ -19,12 +19,12 @@ namespace RedKiteLabs\ThemeEngineBundle\Core\Asset;
 use Symfony\Component\HttpKernel\KernelInterface;
 
 /**
- * The AlAsset object extracts the asset's full path and the absolute path to the
+ * The Asset object extracts the asset's full path and the absolute path to the
  * web/bundle's folder
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlAsset
+class Asset
 {
     protected $kernel;
     protected $asset = null;
@@ -64,7 +64,7 @@ class AlAsset
     /**
      * Returns the asset's full path
      *
-     * @return type
+     * @return string|null
      */
     public function getRealPath()
     {
@@ -78,7 +78,7 @@ class AlAsset
     /**
      * Returns the asset's absolute path to web/bundle's folder
      *
-     * @return type
+     * @return string|null
      */
     public function getAbsolutePath()
     {
@@ -88,7 +88,8 @@ class AlAsset
     /**
      * Returns the asset's real path to web/bundle's folder
      *
-     * @return type
+     * @param string $webFolder
+     * @return string
      */
     public function getWebFolderRealPath($webFolder = 'web')
     {
@@ -177,7 +178,7 @@ class AlAsset
             // Fetches the relative resource to locate from asset
             preg_match('/(@[^\/]+)?([\w\/\.\-_]+)?/', $asset, $match);
             if (empty($match[1])) {
-                return;
+                return null;
             }
 
             $resource = $this->kernel->locateResource($match[1]);

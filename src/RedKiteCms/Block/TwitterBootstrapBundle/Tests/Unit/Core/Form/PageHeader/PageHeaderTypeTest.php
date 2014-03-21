@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\PageHeader;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\PageHeader\AlPageHeaderType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\PageHeader\PageHeaderType;
 
 /**
- * AlPageHeaderTypeTest
+ * PageHeaderTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlPageHeaderTypeTest extends AlBaseType
+class PageHeaderTypeTest extends BaseType
 {
     protected $translatorDomain = 'TwitterBootstrapBundle';
     
@@ -63,7 +63,7 @@ class AlPageHeaderTypeTest extends AlBaseType
     
     protected function getForm()
     {
-        return new AlPageHeaderType();
+        return new PageHeaderType();
     }
     
     public function testDefaultOptions()

@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\JsonBlock;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 
 class jsonFormTester extends JsonBlockType
@@ -30,7 +30,7 @@ class jsonFormTester extends JsonBlockType
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class JsonBlockTypeTest extends AlBaseType
+class JsonBlockTypeTest extends BaseType
 {
     protected function configureFields()
     {

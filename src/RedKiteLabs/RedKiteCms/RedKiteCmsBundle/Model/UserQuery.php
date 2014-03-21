@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlUserQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseUserQuery;
 
-class AlUserQuery extends BaseAlUserQuery
+class UserQuery extends BaseUserQuery
 {
 }

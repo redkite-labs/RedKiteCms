@@ -16,23 +16,23 @@
 
 namespace RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection;
 
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme;
 
 /**
  * Collects the website themes
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlThemesCollection extends AlThemeCollectionBase
+class ThemesCollection extends ThemeCollectionBase
 {
     private $themes = array();
 
     /**
      * Adds a theme to the collections
      *
-     * @param AlTheme $theme
+     * @param Theme $theme
      */
-    public function addTheme(AlTheme $theme)
+    public function addTheme(Theme $theme)
     {
         $themeName = $this->normalizeKey($theme->getThemeName());
 
@@ -43,7 +43,7 @@ class AlThemesCollection extends AlThemeCollectionBase
      * Returns the template from its name
      *
      * @param  string  $name
-     * @return AlTheme
+     * @return Theme
      */
     public function getTheme($name)
     {
@@ -80,7 +80,7 @@ class AlThemesCollection extends AlThemeCollectionBase
      * Move forward to next element
      *
      * @link http://php.net/manual/en/iterator.next.php
-     * @return void Any returned value is ignored.
+     * @return mixed
      * @codeCoverageIgnore
      */
     public function next()
@@ -92,7 +92,7 @@ class AlThemesCollection extends AlThemeCollectionBase
      * Rewind the Iterator to the first element
      *
      * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
+     * @return mixed
      * @codeCoverageIgnore
      */
     public function rewind()

@@ -18,15 +18,15 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot\Repeated\Converter\Factory;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\AlSlotsConverterFactory;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory\SlotsConverterFactory;
 
 /**
- * AlSlotsConverterFactoryTest
+ * SlotsConverterFactoryTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSlotsConverterFactoryTest extends TestCase
+class SlotsConverterFactoryTest extends TestCase
 {
     private $factoryRepository;
 
@@ -34,15 +34,15 @@ class AlSlotsConverterFactoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->pageContents = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks')
+        $this->pageContents = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocks')
                            ->disableOriginalConstructor()
                             ->getMock();
 
-        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
@@ -53,8 +53,8 @@ class AlSlotsConverterFactoryTest extends TestCase
      */
     public function testCreateConverterThrowsAnExceptionWhenTheConvertedClassCannotBeInstantiated()
     {
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $slotsConverterFactory = new SlotsConverterFactory($this->pageContents, $this->factoryRepository);
 
         $slotsConverterFactory->createConverter($slot, 'fake');
     }
@@ -65,8 +65,8 @@ class AlSlotsConverterFactoryTest extends TestCase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array()));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $slotsConverterFactory = new AlSlotsConverterFactory($this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $slotsConverterFactory = new SlotsConverterFactory($this->pageContents, $this->factoryRepository);
 
         $slotsConverterFactory->createConverter($slot, 'site');
     }

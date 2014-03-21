@@ -17,15 +17,15 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\ImagesBlock;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ImagesBlock\AlBlockManagerImages;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ImagesBlock\BlockManagerImages;
 
 /**
- * AlBlockManagerJsonBlockTest
+ * BlockManagerJsonBlockTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
+class BlockManagerImagesBlockTest extends BlockManagerContainerBase
 {
     protected $blockManager;
 
@@ -43,7 +43,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
 
         $this->initContainer();
         $params = array('AddFile' => "image.jpg");
-        $this->blockManager = new AlBlockManagerImagesBlockTester($this->container, $this->validator);
+        $this->blockManager = new BlockManagerImagesBlockTester($this->container, $this->validator);
         $this->blockManager->set($block)
                            ->save($params);
     }
@@ -70,7 +70,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
         
         $block = $this->initBlock();
         $params = array('AddFile' => "image.jpg");
-        $this->blockManager = new AlBlockManagerImagesBlockTester($this->container, $this->validator);
+        $this->blockManager = new BlockManagerImagesBlockTester($this->container, $this->validator);
         $this->blockManager
             ->set($block)
             ->save($params)
@@ -83,7 +83,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
         
         $block = $this->initBlock();
         $params = array('Content' => 'foo', 'ToDelete' => '1');
-        $this->blockManager = new AlBlockManagerImagesBlockTester($this->container, $this->validator);
+        $this->blockManager = new BlockManagerImagesBlockTester($this->container, $this->validator);
         $this->doSave($block, $params);
         
         return $this->blockManager;
@@ -108,7 +108,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
         
         $block = $this->initBlock();
         $params = array('AddFile' => "flower.jpg");
-        $this->blockManager = new AlBlockManagerImagesBlockTester($this->container, $this->validator);
+        $this->blockManager = new BlockManagerImagesBlockTester($this->container, $this->validator);
         $this->doSave($block, $params);
         
         return $this->blockManager;
@@ -120,7 +120,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
 
         $block = $this->initBlock();
         $params = array('RemoveFile' => "/upload/folder/image.jpg");
-        $this->blockManager = new AlBlockManagerImagesBlockTester($this->container, $this->validator);
+        $this->blockManager = new BlockManagerImagesBlockTester($this->container, $this->validator);
         $this->doSave($block, $params);
     }
 
@@ -133,7 +133,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
             }
         }';
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->once())
                 ->method('getId')
                 ->will($this->returnValue($id));
@@ -146,7 +146,7 @@ class AlBlockManagerImagesBlockTest extends AlBlockManagerContainerBase
     }
 }
 
-class AlBlockManagerImagesBlockTester extends AlBlockManagerImages
+class BlockManagerImagesBlockTester extends BlockManagerImages
 {
     public function getDefaultValue()
     {

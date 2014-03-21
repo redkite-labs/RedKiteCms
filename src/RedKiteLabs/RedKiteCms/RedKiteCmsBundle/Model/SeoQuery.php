@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlSeoQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseSeoQuery;
 
-class AlSeoQuery extends BaseAlSeoQuery
+class SeoQuery extends BaseSeoQuery
 {
 }

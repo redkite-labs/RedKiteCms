@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlPage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BasePage;
 
-class AlPage extends BaseAlPage
+class Page extends BasePage
 {
 }

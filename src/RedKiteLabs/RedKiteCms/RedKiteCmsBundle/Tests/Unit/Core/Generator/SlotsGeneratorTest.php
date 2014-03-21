@@ -17,15 +17,15 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\AlSlotsGenerator;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\SlotsGenerator;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlTemplateParserTest
+ * TemplateParserTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSlotsGeneratorTest extends Base\AlGeneratorBase
+class SlotsGeneratorTest extends Base\GeneratorBase
 {
     private $slotsGenerator;
 
@@ -57,7 +57,7 @@ class AlSlotsGeneratorTest extends Base\AlGeneratorBase
         }
         vfsStream::copyFromFileSystem($skeletonDir, $this->root);
 
-        $this->slotsGenerator = new AlSlotsGenerator(vfsStream::url('root/app-theme'));
+        $this->slotsGenerator = new SlotsGenerator(vfsStream::url('root/app-theme'));
     }
 
     public function testSlotsConfigurationFileHasBeenGenerated()

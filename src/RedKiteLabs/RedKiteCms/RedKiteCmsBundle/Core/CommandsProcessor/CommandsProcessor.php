@@ -25,7 +25,7 @@ use Symfony\Component\Process\PhpExecutableFinder;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlCommandsProcessor implements AlCommandsProcessorInterface
+class CommandsProcessor implements CommandsProcessorInterface
 {
     protected $php;
     protected $consoleDir;
@@ -52,7 +52,7 @@ class AlCommandsProcessor implements AlCommandsProcessorInterface
      * Sets the console dir path
      *
      * @param  string              $consoleDir
-     * @return AlCommandsProcessor
+     * @return CommandsProcessor
      *
      * @api
      */

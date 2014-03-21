@@ -20,14 +20,14 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * AlActiveTheme is the object deputated to manage the website active theme
+ * ActiveTheme is the object deputated to manage the website active theme
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlActiveTheme implements AlActiveThemeInterface
+class ActiveTheme implements ActiveThemeInterface
 {
     private $container = null;
-    /** @var null|\RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface */
+    /** @var null|\RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface */
     private $activeTheme = null;
     private $bootstrapVersion = null;
 

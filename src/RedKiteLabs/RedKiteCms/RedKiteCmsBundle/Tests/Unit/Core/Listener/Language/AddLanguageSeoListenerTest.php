@@ -28,11 +28,11 @@ class AddLanguageSeoListenerTest extends Base\AddLanguageBaseListenerTest
 {
     protected function setUp()
     {
-        $this->objectModel = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $this->objectModel = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\SeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->manager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager')
+        $this->manager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\SeoManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -65,7 +65,7 @@ class AddLanguageSeoListenerTest extends Base\AddLanguageBaseListenerTest
 
     protected function setUpObject()
     {
-        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
         $seo->expects($this->once())
             ->method('toArray')
             ->will($this->returnValue(array('idLanguage' => 2, 'languageName' => 'fake', 'Permalink' => 'fake')));

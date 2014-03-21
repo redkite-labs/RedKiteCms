@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Link;
 
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\AlBaseType;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\BaseType;
 use Symfony\Component\Form\FormBuilderInterface;
 
 /**
@@ -25,7 +25,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlLinkType extends AlBaseType
+class LinkType extends BaseType
 {
     /**
      * Builds the form

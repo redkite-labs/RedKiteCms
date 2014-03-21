@@ -17,17 +17,17 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 
 /**
- * AlParametersValidatorLanguageManager adds specific validations for languages
+ * ParametersValidatorLanguageManager adds specific validations for languages
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlParametersValidatorLanguageManager extends AlParametersValidator
+class ParametersValidatorLanguageManager extends ParametersValidator
 {
     protected $factoryRepository = null;
     protected $languageRepository;
@@ -35,11 +35,11 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $factoryRepository
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
-    public function __construct(AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(FactoryRepositoryInterface $factoryRepository)
     {
         $this->factoryRepository = $factoryRepository;
         $this->languageRepository = $this->factoryRepository->createRepository('Language');
@@ -49,7 +49,7 @@ class AlParametersValidatorLanguageManager extends AlParametersValidator
      * Sets the language model
      *
      * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface                 $v
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorLanguageManagerConstructor
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorLanguageManagerConstructor
      *
      * @api
      */

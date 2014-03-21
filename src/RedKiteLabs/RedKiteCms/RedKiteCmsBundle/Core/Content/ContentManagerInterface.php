@@ -25,7 +25,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface  AlContentManagerInterface
+interface ContentManagerInterface
 {
     /**
      * Returns the managed object

@@ -18,7 +18,7 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Navbar;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base\AlBaseType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Base\BaseType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -26,7 +26,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlNavbarDropdownType extends AlBaseType
+class NavbarDropdownType extends BaseType
 {
     /**
      * Builds the form

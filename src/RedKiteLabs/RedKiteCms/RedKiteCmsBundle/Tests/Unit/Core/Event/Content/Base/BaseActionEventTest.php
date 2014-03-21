@@ -37,7 +37,7 @@ class BaseActionEventTest extends TestCase
     {
         parent::setUp();
 
-        $this->blockManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface');
+        $this->blockManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface');
 
         $this->event = new BaseActionEventTester($this->blockManager);
     }
@@ -45,7 +45,7 @@ class BaseActionEventTest extends TestCase
     public function testContentManager()
     {
         $this->assertSame($this->blockManager, $this->event->getContentManager());
-        $blockManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface');
+        $blockManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface');
         $this->event->setContentManager($blockManager);
         $this->assertSame($blockManager, $this->event->getContentManager());
     }

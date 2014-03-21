@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLockedResource;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\LockedResource;
 
 /**
  * Defines the methods used to fetch locked resources records
@@ -30,7 +30,7 @@ interface LockedResourceRepositoryInterface
      * Fetches a resource record using its primary key
      *
      * @param  string           $resource The resource
-     * @return AlLockedResource The fetched object
+     * @return LockedResource The fetched object
      */
     public function fromResourceName($resource);
 
@@ -39,7 +39,7 @@ interface LockedResourceRepositoryInterface
      *
      * @param  int              $userId   The id ot the user
      * @param  string           $resource The resource
-     * @return AlLockedResource The fetched object
+     * @return LockedResource The fetched object
      */
     public function fromResourceNameByUser($userId, $resource);
 

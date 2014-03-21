@@ -18,9 +18,9 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\EventsHandler;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandler;
 
-class AlEventsHandlerTester extends AlEventsHandler
+class EventsHandlerTester extends EventsHandler
 {
     protected function configureMethods()
     {
@@ -32,11 +32,11 @@ class AlEventsHandlerTester extends AlEventsHandler
 }
 
 /**
- * AlEventsHandlerTest
+ * EventsHandlerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlEventsHandlerTest extends TestCase
+class EventsHandlerTest extends TestCase
 {
     private $dispatcher;
     private $eventsHandler;
@@ -46,7 +46,7 @@ class AlEventsHandlerTest extends TestCase
         parent::setUp();
 
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->eventsHandler = new AlEventsHandlerTester($this->dispatcher);
+        $this->eventsHandler = new EventsHandlerTester($this->dispatcher);
     }
 
     public function testGetEventDispatcher()
@@ -56,7 +56,7 @@ class AlEventsHandlerTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
-     * @expectedExceptionMessage {"message":"\"exception_invalid_argument_provided_for_event_name","parameters":{"%className%":"RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"}}
+     * @expectedExceptionMessage {"message":"\"exception_invalid_argument_provided_for_event_name","parameters":{"%className%":"RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\EventsHandlerTester"}}
      */
     public function testCreateEventThrowsAnExceptionWhenEventNameIsNotAString()
     {
@@ -65,7 +65,7 @@ class AlEventsHandlerTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException
-     * @expectedExceptionMessage {"message":"exception_invalid_class_name_for_createEvent","parameters":{"%argumentClass%":"RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester","%className%":"RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"}}
+     * @expectedExceptionMessage {"message":"exception_invalid_class_name_for_createEvent","parameters":{"%argumentClass%":"RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\EventsHandlerTester","%className%":"RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\EventsHandlerTester"}}
      */
     public function testCreateEventThrowsAnExceptionWhenTypeDoesNotExist()
     {
@@ -74,11 +74,11 @@ class AlEventsHandlerTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
-     * @expectedExceptionMessage {"message":"exception_invalid_class_instance_for_createEvent","parameters":{"%argumentClass%":"RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester","%className%":"RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\AlEventsHandlerTester"}}
+     * @expectedExceptionMessage {"message":"exception_invalid_class_instance_for_createEvent","parameters":{"%argumentClass%":"RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\EventsHandlerTester","%className%":"RedKiteLabs\\RedKiteCms\\RedKiteCmsBundle\\Tests\\Unit\\Core\\EventsHandler\\EventsHandlerTester"}}
      */
     public function testCreateEventThrowsAnExceptionWhenClassIsNotInherithedByEventClass()
     {
-        $this->eventsHandler->createEvent('an.awesome.event', '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\EventsHandler\AlEventsHandlerTest', array());
+        $this->eventsHandler->createEvent('an.awesome.event', '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\EventsHandler\EventsHandlerTest', array());
     }
 
     public function testCreateEventHasInstantiatedANewEvent()
@@ -95,7 +95,7 @@ class AlEventsHandlerTest extends TestCase
 
     public function testCreateEventHasInstantiatedANewEventWithOneArgument()
     {
-        $contentManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface');
+        $contentManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface');
         $class = '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
         $this->eventsHandler->createEvent('my.awesome.event', $class, array($contentManager));
         $event = $this->eventsHandler->getEvent('my.awesome.event');
@@ -106,7 +106,7 @@ class AlEventsHandlerTest extends TestCase
 
     public function testCreateEventHasInstantiatedANewEventWithTwoArgument()
     {
-        $contentManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface');
+        $contentManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface');
         $class = '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
         $this->eventsHandler->createEvent('my.awesome.event', $class, array($contentManager, array('foo' => 'bar')));
         $event = $this->eventsHandler->getEvent('my.awesome.event');
@@ -131,7 +131,7 @@ class AlEventsHandlerTest extends TestCase
              ->method('dispatch')
              ->with('my.awesome.event');
 
-        $contentManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface');
+        $contentManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface');
         $class = '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
         $this->eventsHandler->createEvent('my.awesome.event', $class, array($contentManager, array('foo' => 'bar')));
         $this->eventsHandler->createEvent('my.second.awesome.event', $class, array($contentManager, array('foo' => 'bar')));
@@ -145,7 +145,7 @@ class AlEventsHandlerTest extends TestCase
              ->method('dispatch')
              ->with('my.second.awesome.event');
 
-        $contentManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface');
+        $contentManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface');
         $class = '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent';
         $this->eventsHandler->createEvent('my.awesome.event', $class, array($contentManager, array('foo' => 'bar')));
         $this->eventsHandler->createEvent('my.second.awesome.event', $class, array($contentManager, array('foo' => 'bar')));

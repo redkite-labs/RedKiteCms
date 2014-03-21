@@ -18,15 +18,15 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\BootstrapBreadcrumb;
 
 use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Block\Menu\BaseBlockManagerMenu;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Breadcrumb\AlBlockManagerBootstrapBreadcrumbBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Breadcrumb\BlockManagerBootstrapBreadcrumbBlock;
 
 
 /**
- * AlBlockManagerMenuVerticalTest
+ * BlockManagerMenuVerticalTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapBreadcrumbBlockTest extends BaseBlockManagerMenu
+class BlockManagerBootstrapBreadcrumbBlockTest extends BaseBlockManagerMenu
 {
     protected function setUp()
     {
@@ -37,7 +37,7 @@ class AlBlockManagerBootstrapBreadcrumbBlockTest extends BaseBlockManagerMenu
     
     protected function getBlockManager()
     {
-        return new AlBlockManagerBootstrapBreadcrumbBlock($this->container, $this->validator);
+        return new BlockManagerBootstrapBreadcrumbBlock($this->container, $this->validator);
     }
     
     public function linksProvider()
@@ -74,18 +74,18 @@ class AlBlockManagerBootstrapBreadcrumbBlockTest extends BaseBlockManagerMenu
 
         $this->initContainer();
         
-        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
         $seo->expects($this->once())
               ->method('getPermalink')
               ->will($this->returnValue('homepage'))
         ;
         
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
-                        ->setMethods(array('getAlSeo'))
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
+                        ->setMethods(array('getSeo'))
                         ->disableOriginalConstructor()
                         ->getMock();
         $pageTree->expects($this->at(0))
-              ->method('getAlSeo')
+              ->method('getSeo')
               ->will($this->returnValue($seo))
         ;
         

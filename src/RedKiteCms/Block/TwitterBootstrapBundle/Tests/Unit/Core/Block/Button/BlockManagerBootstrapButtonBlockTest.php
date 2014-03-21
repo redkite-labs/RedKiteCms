@@ -18,14 +18,14 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Button;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button\AlBlockManagerBootstrapButtonBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Button\BlockManagerBootstrapButtonBlock;
 
 /**
- * AlBlockManagerBootstrapButtonBlockTest
+ * BlockManagerBootstrapButtonBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapButtonBlockTest extends BaseTestBlock
+class BlockManagerBootstrapButtonBlockTest extends BaseTestBlock
 {  
     public function testDefaultValue()
     {
@@ -45,7 +45,7 @@ class AlBlockManagerBootstrapButtonBlockTest extends BaseTestBlock
         );
             
         $this->initContainer(); 
-        $blockManager = new AlBlockManagerBootstrapButtonBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapButtonBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
     
@@ -64,7 +64,7 @@ class AlBlockManagerBootstrapButtonBlockTest extends BaseTestBlock
         $block = $this->initBlock($value);
         $this->initContainer();
         
-        $blockManager = new AlBlockManagerBootstrapButtonBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapButtonBlock($this->container, $this->validator);
         $blockManager->set($block);
         
         $expectedResult = array('RenderView' => array(
@@ -113,7 +113,7 @@ class AlBlockManagerBootstrapButtonBlockTest extends BaseTestBlock
                     ->getMock();
         $formFactory->expects($this->once())
                     ->method('createForm')
-                    ->with('Button', 'AlButtonType')
+                    ->with('Button', 'ButtonType')
                     ->will($this->returnValue($form))
         ;
         $this->container->expects($this->at(3))
@@ -122,7 +122,7 @@ class AlBlockManagerBootstrapButtonBlockTest extends BaseTestBlock
                         ->will($this->returnValue($formFactory))
         ;
         
-        $blockManager = new AlBlockManagerBootstrapButtonBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapButtonBlock($this->container, $this->validator);
         $blockManager->set($block);
         $result = $blockManager->editorParameters();
         $this->assertEquals('TwitterBootstrapBundle:Editor:Button/button_editor.html.twig', $result["template"]);

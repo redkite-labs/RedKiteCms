@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Three\Label;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Label\Three\AlLabelType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Label\Three\LabelType;
 
 /**
- * AlLabelTypeTest
+ * LabelTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlLabelTypeTest extends AlBaseType
+class LabelTypeTest extends BaseType
 {
     protected $translatorDomain = 'TwitterBootstrapBundle';
     
@@ -62,7 +62,7 @@ class AlLabelTypeTest extends AlBaseType
     
     protected function getForm()
     {
-        return new AlLabelType();
+        return new LabelType();
     }
     
     public function testDefaultOptions()

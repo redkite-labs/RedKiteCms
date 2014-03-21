@@ -17,15 +17,15 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator\TemplateParser;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator\Base\AlGeneratorBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator\Base\GeneratorBase;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlTemplateParserTest
+ * TemplateParserTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlTemplateParserTest extends AlGeneratorBase
+class TemplateParserTest extends GeneratorBase
 {
     protected $root;
     protected $parser;

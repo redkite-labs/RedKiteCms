@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Actions\Block;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerInterface;
 
 /**
  * Defines the BlockEditedEvent event
@@ -39,12 +39,12 @@ class BlockEditedEvent extends Event
      * Construct
      *
      * @param Request                 $request
-     * @param AlBlockManagerInterface $blockManager
+     * @param BlockManagerInterface $blockManager
      * @param Response                $response
      *
      * @api
      */
-    public function __construct(Request $request, AlBlockManagerInterface $blockManager, Response $response = null)
+    public function __construct(Request $request, BlockManagerInterface $blockManager, Response $response = null)
     {
         $this->request = $request;
         $this->blockManager = $blockManager;
@@ -78,7 +78,7 @@ class BlockEditedEvent extends Event
     /**
      * Returns the handled block manager object
      *
-     * @return AlBlockManagerInterface
+     * @return BlockManagerInterface
      *
      * @api
      */
@@ -90,11 +90,11 @@ class BlockEditedEvent extends Event
     /**
      * Sets the block manager
      *
-     * @param AlBlockManagerInterface $manager
+     * @param BlockManagerInterface $manager
      *
      * @api
      */
-    public function setBlockManager(AlBlockManagerInterface $manager)
+    public function setBlockManager(BlockManagerInterface $manager)
     {
         $this->blockManager = $manager;
     }

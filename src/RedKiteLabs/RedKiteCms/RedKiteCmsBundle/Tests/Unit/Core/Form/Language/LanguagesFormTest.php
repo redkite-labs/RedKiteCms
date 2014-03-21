@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Language;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Language\LanguagesForm;
 
 /**
@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Language\LanguagesForm;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class LanguagesFormTest extends AlBaseType
+class LanguagesFormTest extends BaseType
 {
     protected function configureFields()
     {

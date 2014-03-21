@@ -17,16 +17,16 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\File;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
-use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockContainer;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\Asset;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\AssetsPath\AssetsPath;
 
 /**
- * AlBlockManagerFile handles a file block
+ * BlockManagerFile handles a file block
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
+class BlockManagerFile extends BlockManagerJsonBlockContainer
 {
     protected $cmsLanguage;
 
@@ -66,11 +66,11 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
 
         $kernel = $this->container->get('kernel');
         $deployBundle = $this->container->getParameter('red_kite_labs_theme_engine.deploy_bundle');
-        $deployBundleAsset = new AlAsset($kernel, $deployBundle);
+        $deployBundleAsset = new Asset($kernel, $deployBundle);
 
         return ($opened)
             ? sprintf("{%% set file = kernel_root_dir ~ '/../" . $this->container->getParameter('red_kite_cms.web_folder') . "/%s/%s' %%} {{ file_open(file) }}", $deployBundleAsset->getAbsolutePath(), $file)
-            : sprintf('<a href="/%s/%s" />%s</a>', AlAssetsPath::getUploadFolder($this->container), $file, ( ! empty($description)) ? $description : basename($file));
+            : sprintf('<a href="/%s/%s" />%s</a>', AssetsPath::getUploadFolder($this->container), $file, ( ! empty($description)) ? $description : basename($file));
     }
 
     /**
@@ -129,7 +129,7 @@ class AlBlockManagerFile extends AlBlockManagerJsonBlockContainer
 
         $options = array(
             'webfolder' => $this->container->getParameter('red_kite_cms.web_folder'),
-            'folder' => AlAssetsPath::getUploadFolder($this->container),
+            'folder' => AssetsPath::getUploadFolder($this->container),
             'filename' => $file,
         );
 

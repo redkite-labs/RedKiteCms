@@ -18,21 +18,21 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;
 
 /**
- * Provides the Container for the AlBlockManager
+ * Provides the Container for the BlockManager
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-abstract class AlBlockManagerContainer extends AlBlockManager
+abstract class BlockManagerContainer extends BlockManager
 {
     protected $container = null;
     protected $translator;
 
-    public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
+    public function __construct(ContainerInterface $container, ParametersValidatorInterface $validator = null)
     {
         $this->container = $container;
         $eventsHandler = $container->get('red_kite_cms.events_handler');

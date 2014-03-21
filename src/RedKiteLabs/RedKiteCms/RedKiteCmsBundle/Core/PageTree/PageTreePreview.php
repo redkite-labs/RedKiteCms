@@ -17,16 +17,16 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerInterface;
 
 /**
- * Extends RedKiteCms AlPageTree object to display the page in preview mode
+ * Extends RedKiteCms PageTree object to display the page in preview mode
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlPageTreePreview extends AlPageTree
+class PageTreePreview extends PageTree
 {
     protected $blockManagers = array();
 
@@ -34,12 +34,12 @@ class AlPageTreePreview extends AlPageTree
      * Adds a block manager
      *
      * @param  string                  $slotName
-     * @param  AlBlockManagerInterface $blockManager
-     * @return AlPageTreePreview
+     * @param  BlockManagerInterface $blockManager
+     * @return PageTreePreview
      *
      * @api
      */
-    public function addBlockManager($slotName, AlBlockManagerInterface $blockManager)
+    public function addBlockManager($slotName, BlockManagerInterface $blockManager)
     {
         $this->blockManagers[$slotName][] = $blockManager;
 
@@ -50,7 +50,7 @@ class AlPageTreePreview extends AlPageTree
      * Overrides the base method to return the Block Managers.
      *
      * @param  string                    $slotName
-     * @return AlBlockManagerInterface[]
+     * @return BlockManagerInterface[]
      *
      * @api
      */

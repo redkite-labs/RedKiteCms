@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseBlock;
 
-class AlBlock extends BaseAlBlock
+class Block extends BaseBlock
 {
 }

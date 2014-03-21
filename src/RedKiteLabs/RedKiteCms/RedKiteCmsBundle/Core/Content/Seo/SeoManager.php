@@ -17,36 +17,36 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\SeoEvents;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\ContentManagerBase;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\PageManager;
 
 /**
- * AlSeoManager is the base object that wraps an AlSeo object
+ * SeoManager is the base object that wraps an Seo object
  *
- * AlSeoManager manages an AlSeo object, implementig the base methods to add, edit
+ * SeoManager manages an Seo object, implementig the base methods to add, edit
  * and delete that kind of object.
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlSeoManager extends AlContentManagerBase implements AlContentManagerInterface
+class SeoManager extends ContentManagerBase implements ContentManagerInterface
 {
     /**
-     * @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo
+     * @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo
      */
     protected $alSeo = null;
 
     /**
-     * @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     * @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface
      */
     protected $factoryRepository = null;
 
@@ -58,13 +58,13 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface           $eventsHandler
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface  $factoryRepository
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface           $eventsHandler
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface  $factoryRepository
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface $validator
      *
      * @api
      */
-    public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventsHandlerInterface $eventsHandler, FactoryRepositoryInterface $factoryRepository, ParametersValidatorInterface $validator = null)
     {
         parent::__construct($eventsHandler, $validator);
 
@@ -76,7 +76,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      * Sets the seo model object
      *
      * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface $v
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\SeoManager
      *
      * @api
      */
@@ -112,7 +112,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
      */
     public function set($object = null)
     {
-        if (null !== $object && !$object instanceof AlSeo) {
+        if (null !== $object && !$object instanceof Seo) {
             throw new General\InvalidArgumentTypeException('exception_only_seo_objects_are_accepted');
         }
 
@@ -223,7 +223,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
     }
 
     /**
-     * Adds a new AlSeo object from the given params
+     * Adds a new Seo object from the given params
      *
      * @param  array                                                                                     $values
      * @return boolean
@@ -261,7 +261,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 throw new General\ArgumentIsEmptyException('exception_permalink_required_to_save_seo');
             }
 
-            $values["Permalink"] = AlPageManager::slugify($values["Permalink"]);
+            $values["Permalink"] = PageManager::slugify($values["Permalink"]);
 
             $this->seoRepository->startTransaction();
             if (null === $this->alSeo) {
@@ -333,7 +333,7 @@ class AlSeoManager extends AlContentManagerBase implements AlContentManagerInter
                 $currentPermalink = $this->alSeo->getPermalink();
                 if ($values['Permalink'] != $currentPermalink) {
                     $values["oldPermalink"] = $currentPermalink;
-                    $values['Permalink'] = AlPageManager::slugify($values["Permalink"]);
+                    $values['Permalink'] = PageManager::slugify($values["Permalink"]);
                 } else {
                     unset($values['Permalink']);
                 }

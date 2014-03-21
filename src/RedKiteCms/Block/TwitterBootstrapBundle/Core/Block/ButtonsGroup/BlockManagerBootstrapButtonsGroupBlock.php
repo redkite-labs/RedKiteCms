@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\ButtonsGroup;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockCollection;
 
 /**
  * Defines the Block Manager to handle a Bootstrap Buttons group
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapButtonsGroupBlock extends AlBlockManagerJsonBlockCollection
+class BlockManagerBootstrapButtonsGroupBlock extends BlockManagerJsonBlockCollection
 {
     private $visibleColumns = array('button_text');
 

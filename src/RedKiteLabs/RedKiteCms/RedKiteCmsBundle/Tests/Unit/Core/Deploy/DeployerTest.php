@@ -17,26 +17,26 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Deploy;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlDeployer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\Deployer;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme;
 use org\bovigo\vfs\vfsStream;
 
-class AlDeployerTester extends AlDeployer
+class DeployerTester extends Deployer
 {
-    public function save(AlPageTree $pageTree, AlTheme $theme, array $options)
+    public function save(PageTree $pageTree, Theme $theme, array $options)
     {
         return $pageTree->fakeSave();
     }
 }
 
 /**
- * AlDeployerTest
+ * DeployerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlDeployerTest extends TestCase
+class DeployerTest extends TestCase
 {
     protected $dispatcher;
     protected $routingGenerator;
@@ -48,15 +48,15 @@ class AlDeployerTest extends TestCase
     {
         parent::setUp();
         
-        $this->routingGenerator = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface");
-        $this->sitemapGenerator = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface");
-        $this->pageTreeCollection = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection')
+        $this->routingGenerator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface');
+        $this->sitemapGenerator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface');
+        $this->pageTreeCollection = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection')
                                         ->disableOriginalConstructor()
                                         ->getMock();
-        $this->theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
+        $this->theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme')
                                         ->disableOriginalConstructor()
                                         ->getMock();
-        $this->sitemapGenerator = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface");
+        $this->sitemapGenerator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface');
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         
         $folders = array('app' => array(),
@@ -113,7 +113,7 @@ class AlDeployerTest extends TestCase
         
         $this->verifyFoldersBeforeDeploy();
         
-        $this->deployer = new AlDeployerTester($this->routingGenerator, $sitemapGenerator, $dispatcher);
+        $this->deployer = new DeployerTester($this->routingGenerator, $sitemapGenerator, $dispatcher);
         $this->assertEquals($result, $this->deployer->deploy($this->pageTreeCollection, $this->theme, $options));
         
         $this->verifyFoldersAfterDeploy('RedKiteCms');        
@@ -227,7 +227,7 @@ class AlDeployerTest extends TestCase
 
     protected function initPageTree($result = true)
     {
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
                                 ->disableOriginalConstructor()
                                 ->setMethods(array('fakeSave'))
                                 ->getMock();

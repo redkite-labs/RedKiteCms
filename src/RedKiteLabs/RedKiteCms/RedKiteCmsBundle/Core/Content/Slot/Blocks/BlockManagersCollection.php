@@ -17,10 +17,10 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerInterface;
 
 /**
- * BlockManagersCollection collects AlBlockManager objects
+ * BlockManagersCollection collects BlockManager objects
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
@@ -28,17 +28,17 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInt
  */
 class BlockManagersCollection implements \Countable
 {
-    /** @var AlBlockManagerInterface[] */
+    /** @var BlockManagerInterface[] */
     protected $blockManagers = array();
 
     /**
-     * Adds an AlBlockManagerInterface object to the collection
+     * Adds an BlockManagerInterface object to the collection
      *
-     * @param AlBlockManagerInterface $blockManager
+     * @param BlockManagerInterface $blockManager
      *
      * @api
      */
-    public function addBlockManager(AlBlockManagerInterface $blockManager)
+    public function addBlockManager(BlockManagerInterface $blockManager)
     {
         $this->blockManagers[] = $blockManager;
     }
@@ -46,7 +46,7 @@ class BlockManagersCollection implements \Countable
     /**
      * Returns the array managed by the collection
      *
-     * @return AlBlockManagerInterface[]
+     * @return BlockManagerInterface[]
      *
      * @api
      */
@@ -71,7 +71,7 @@ class BlockManagersCollection implements \Countable
     /**
      * Returns the first block manager placed on the slot
      *
-     * @return null|AlBlockManagerInterface
+     * @return null|BlockManagerInterface
      *
      * @api
      */
@@ -83,7 +83,7 @@ class BlockManagersCollection implements \Countable
     /**
      * Returns the last block manager placed on the slot
      *
-     * @return null|AlBlockManagerInterface
+     * @return null|BlockManagerInterface
      *
      * @api
      */
@@ -98,7 +98,7 @@ class BlockManagersCollection implements \Countable
      * Returns the block manager at the given index.
      *
      * @param  int                          $index
-     * @return null|AlBlockManagerInterface
+     * @return null|BlockManagerInterface
      *
      * @api
      */
@@ -138,7 +138,7 @@ class BlockManagersCollection implements \Countable
      * Retrieves the block manager by the block's id
      *
      * @param  int                          $idBlock The id of the block to retrieve
-     * @return null|AlBlockManagerInterface
+     * @return null|BlockManagerInterface
      *
      * @api
      */
@@ -186,11 +186,11 @@ class BlockManagersCollection implements \Countable
     /**
      * Inserts a block manager at the specified index
      *
-     * @param  AlBlockManagerInterface $element
+     * @param  BlockManagerInterface $element
      * @param  int                     $at
      * @return array
      */
-    public function insertAt(AlBlockManagerInterface $element, $at)
+    public function insertAt(BlockManagerInterface $element, $at)
     {
         $elements = count($this->blockManagers);
 

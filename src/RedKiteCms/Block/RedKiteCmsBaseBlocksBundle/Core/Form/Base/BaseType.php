@@ -26,7 +26,7 @@ use Symfony\Component\Form\FormBuilderInterface;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-abstract class AlBaseType extends JsonBlockType
+abstract class BaseType extends JsonBlockType
 {   
     /**
      * Sets the default options for this type

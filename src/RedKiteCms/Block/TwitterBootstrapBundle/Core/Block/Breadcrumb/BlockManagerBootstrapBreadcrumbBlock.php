@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Breadcrumb;
 
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMenu;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\BlockManagerMenu;
 
 /**
- * AlBlockManagerBootstrapBreadcrumb handles a Twitter Bootstrap Bradcrumb component
+ * BlockManagerBootstrapBreadcrumbBlock handles a Twitter Bootstrap Bradcrumb component
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerBootstrapBreadcrumbBlock extends AlBlockManagerMenu
+class BlockManagerBootstrapBreadcrumbBlock extends BlockManagerMenu
 {
     protected $blocksTemplate = 'TwitterBootstrapBundle:Content:Breadcrumb/breadcrumb.html.twig';
     protected $listClass = "breadcrumb";

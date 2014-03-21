@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Form;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Image\AlImageType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Image\ImageType;
 
 /**
- * AlImageTypeTest
+ * ImageTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlImageTypeTest extends AlBaseType
+class ImageTypeTest extends BaseType
 {
     protected function configureFields()
     {
@@ -39,6 +39,6 @@ class AlImageTypeTest extends AlBaseType
     
     protected function getForm()
     {
-        return new AlImageType();
+        return new ImageType();
     }
 }

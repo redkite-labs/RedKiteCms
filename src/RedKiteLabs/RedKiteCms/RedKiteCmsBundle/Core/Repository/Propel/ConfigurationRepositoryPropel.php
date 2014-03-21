@@ -17,8 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfiguration;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfigurationQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Configuration;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\ConfigurationQuery;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\ConfigurationRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
@@ -27,14 +27,14 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\Inval
  *
  *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlConfigurationRepositoryPropel extends Base\AlPropelRepository implements ConfigurationRepositoryInterface
+class ConfigurationRepositoryPropel extends Base\PropelRepository implements ConfigurationRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfiguration';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Configuration';
     }
 
     /**
@@ -42,7 +42,7 @@ class AlConfigurationRepositoryPropel extends Base\AlPropelRepository implements
      */
     public function setRepositoryObject($object = null)
     {
-        if (null !== $object && !$object instanceof AlConfiguration) {
+        if (null !== $object && !$object instanceof Configuration) {
             throw new InvalidArgumentTypeException('exception_only_propel_configuration_objects_are_accepted');
         }
 
@@ -54,7 +54,7 @@ class AlConfigurationRepositoryPropel extends Base\AlPropelRepository implements
      */
     public function fetchParameter($parameter)
     {
-        return AlConfigurationQuery::create()
+        return ConfigurationQuery::create()
             ->filterByParameter($parameter)
             ->findOne();
     }

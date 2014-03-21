@@ -18,9 +18,9 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Event\EventsHandler;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\EventsHandler\AlContentEventsHandler;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\EventsHandler\ContentEventsHandler;
 
-class AlContentEventsHandlerTester extends AlContentEventsHandler
+class ContentEventsHandlerTester extends ContentEventsHandler
 {
     public function getConfiguredMethods()
     {
@@ -29,16 +29,16 @@ class AlContentEventsHandlerTester extends AlContentEventsHandler
 }
 
 /**
- * AlContentEventsHandlerTest
+ * ContentEventsHandlerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlContentEventsHandlerTest extends TestCase
+class ContentEventsHandlerTest extends TestCase
 {
     public function testGetEventDispatcher()
     {
         $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $eventsHandler = new AlContentEventsHandlerTester($dispatcher);
+        $eventsHandler = new ContentEventsHandlerTester($dispatcher);
 
         $expectedMethods = array(
             "setContentManager",

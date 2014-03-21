@@ -24,7 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerAware;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlCmsElFinderController extends ContainerAware
+class CmsElFinderController extends ContainerAware
 {
     public function showFilesManagerAction()
     {

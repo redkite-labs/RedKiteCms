@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Form;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\File\AlFileType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\File\FileType;
 
 /**
- * AlFileTypeTest
+ * FileTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlFileTypeTest extends AlBaseType
+class FileTypeTest extends BaseType
 {
     protected function configureFields()
     {
@@ -45,6 +45,6 @@ class AlFileTypeTest extends AlBaseType
     
     protected function getForm()
     {
-        return new AlFileType();
+        return new FileType();
     }
 }

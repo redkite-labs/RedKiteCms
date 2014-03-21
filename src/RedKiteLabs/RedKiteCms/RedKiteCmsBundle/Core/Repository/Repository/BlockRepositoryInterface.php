@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block;
 
 /**
  * Defines the methods used to fetch block records
@@ -30,7 +30,7 @@ interface BlockRepositoryInterface
      * Fetches a block record using its primary key
      *
      * @param  int     $id The primary key
-     * @return AlBlock The fetched object
+     * @return Block The fetched object
      */
     public function fromPK($id);
 
@@ -42,7 +42,7 @@ interface BlockRepositoryInterface
      * @param  int                 $idPage     The id of the page
      * @param  string              $slotName   The slot name
      * @param  int                 $toDelete
-     * @return \Iterator|AlBlock[] A collection of objects
+     * @return \Iterator|Block[] A collection of objects
      */
     public function retrieveContents($idLanguage, $idPage, $slotName = null, $toDelete = 0);
 
@@ -50,7 +50,7 @@ interface BlockRepositoryInterface
      * Fetches the block records that belongs the given language
      *
      * @param  int                 $languageId The id of the language
-     * @return \Iterator|AlBlock[] A collection of objects
+     * @return \Iterator|Block[] A collection of objects
      */
     public function fromLanguageId($languageId);
 
@@ -58,7 +58,7 @@ interface BlockRepositoryInterface
      * Fetches the block records that belongs the given page
      *
      * @param  int                 $pageId The id of the page
-     * @return \Iterator|AlBlock[] A collection of objects
+     * @return \Iterator|Block[] A collection of objects
      */
     public function fromPageId($pageId);
 
@@ -67,7 +67,7 @@ interface BlockRepositoryInterface
      *
      * @param  string              $slotName The slot name
      * @param  int                 $toDelete
-     * @return \Iterator|AlBlock[] A collection of objects
+     * @return \Iterator|Block[] A collection of objects
      */
     public function retrieveContentsBySlotName($slotName, $toDelete = 0);
 
@@ -75,7 +75,7 @@ interface BlockRepositoryInterface
      * Fetches the block records from using the Html Content
      *
      * @param  string              $search The search key
-     * @return \Iterator|AlBlock[] A collection of objects
+     * @return \Iterator|Block[] A collection of objects
      */
     public function fromContent($search);
 
@@ -84,7 +84,7 @@ interface BlockRepositoryInterface
      *
      * @param  string              $className The class name to find
      * @param  string              $operation The operation to execute
-     * @return \Iterator|AlBlock[] A collection of objects
+     * @return \Iterator|Block[] A collection of objects
      */
     public function fromType($className, $operation = 'find');
 

@@ -18,14 +18,14 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\ViewRenderer;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\AlViewRenderer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\ViewRenderer;
 
 /**
- * AlViewRendererTest
+ * ViewRendererTest
  *
  * @author RedKite Labs <webmaster@retestAnEmptyContentIsReturnedWhenAnyOptionIsRecognized1dkite-labs.com>
  */
-class AlViewRendererTest extends TestCase
+class ViewRendererTest extends TestCase
 {
     private $templating;
             
@@ -34,7 +34,7 @@ class AlViewRendererTest extends TestCase
         parent::setUp();
 
         $this->templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
-        $this->viewRenderer = new AlViewRenderer($this->templating);        
+        $this->viewRenderer = new ViewRenderer($this->templating);
     }
 
     /**

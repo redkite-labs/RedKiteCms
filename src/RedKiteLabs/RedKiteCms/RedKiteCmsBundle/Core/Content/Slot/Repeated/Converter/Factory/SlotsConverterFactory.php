@@ -17,9 +17,9 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\Factory;
 
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocksInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ClassNotFoundException;
 
 /**
@@ -29,22 +29,22 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\Class
  *
  * @api
  */
-class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
+class SlotsConverterFactory implements SlotsConverterFactoryInterface
 {
-    /** @var null|AlPageBlocksInterface */
+    /** @var null|PageBlocksInterface */
     protected $pageContentsContainer = null;
-    /** @var null|AlFactoryRepositoryInterface */
+    /** @var null|FactoryRepositoryInterface */
     protected $factoryRepository = null;
 
     /**
      * Constructor
      *
-     * @param AlPageBlocksInterface        $pageContentsContainer
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param PageBlocksInterface        $pageContentsContainer
+     * @param FactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
-    public function __construct(AlPageBlocksInterface $pageContentsContainer, AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(PageBlocksInterface $pageContentsContainer, FactoryRepositoryInterface $factoryRepository)
     {
         $this->pageContentsContainer = $pageContentsContainer;
         $this->factoryRepository = $factoryRepository;
@@ -53,14 +53,14 @@ class AlSlotsConverterFactory implements AlSlotsConverterFactoryInterface
     /**
      * {@inheritdoc}
      *
-     * @param  AlSlot                                                                                      $slot
+     * @param  Slot                                                                                      $slot
      * @param  string                                                                                      $newRepeatedStatus
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterInterface
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\SlotConverterInterface
      * @throws ClassNotFoundException
      */
-    public function createConverter(AlSlot $slot, $newRepeatedStatus)
+    public function createConverter(Slot $slot, $newRepeatedStatus)
     {
-        $className = '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterTo' . ucfirst(strtolower($newRepeatedStatus));
+        $className = '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\SlotConverterTo' . ucfirst(strtolower($newRepeatedStatus));
         if (!class_exists($className)) {
             $exception = array(
                 'message' => 'exception_class_not_defined',

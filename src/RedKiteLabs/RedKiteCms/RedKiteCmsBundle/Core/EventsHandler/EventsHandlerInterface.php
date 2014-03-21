@@ -25,7 +25,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler;
  *
  * @api
  */
-interface AlEventsHandlerInterface
+interface EventsHandlerInterface
 {
     /**
      * Returns the event by its name
@@ -43,7 +43,7 @@ interface AlEventsHandlerInterface
      * @param  string                                                           $eventName
      * @param  string                                                           $class
      * @param  array                                                            $args
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandler
      *
      * @api
      */
@@ -53,7 +53,7 @@ interface AlEventsHandlerInterface
      * Dispatches the event
      *
      * @param  string                                                           $eventName
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandler
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandler
      *
      * @api
      */

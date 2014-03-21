@@ -18,14 +18,14 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Thumbnail;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail\AlBlockManagerBootstrapThumbnailBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail\BlockManagerBootstrapThumbnailBlock;
 
 /**
- * AlBlockManagerBootstrapThumbnailBlockTest
+ * BlockManagerBootstrapThumbnailBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapThumbnailBlockTest extends BaseTestBlock
+class BlockManagerBootstrapThumbnailBlockTest extends BaseTestBlock
 {  
     /**
      * @dataProvider bootstrapVersionsProvider
@@ -43,7 +43,7 @@ class AlBlockManagerBootstrapThumbnailBlockTest extends BaseTestBlock
             
         $this->initContainer(); 
         $this->initBootstrapversion($bootstrapVersion);
-        $blockManager = new AlBlockManagerBootstrapThumbnailBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapThumbnailBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
     
@@ -90,7 +90,7 @@ class AlBlockManagerBootstrapThumbnailBlockTest extends BaseTestBlock
                     ->getMock();
         $formFactory->expects($this->once())
                     ->method('createForm')
-                    ->with('Thumbnail', 'AlThumbnailType')
+                    ->with('Thumbnail', 'ThumbnailType')
                     ->will($this->returnValue($form))
         ;
         $this->container->expects($this->at(4))
@@ -99,7 +99,7 @@ class AlBlockManagerBootstrapThumbnailBlockTest extends BaseTestBlock
                         ->will($this->returnValue($formFactory))
         ;
         
-        $blockManager = new AlBlockManagerBootstrapThumbnailBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapThumbnailBlock($this->container, $this->validator);
         $blockManager->set($block);
         $result = $blockManager->editorParameters();
         $this->assertEquals('TwitterBootstrapBundle:Editor:Thumbnail/editor.html.twig', $result["template"]);
@@ -121,7 +121,7 @@ class AlBlockManagerBootstrapThumbnailBlockTest extends BaseTestBlock
         $this->initContainer();
         $this->initBootstrapversion($bootstrapVersion);
         
-        $blockManager = new AlBlockManagerBootstrapThumbnailBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapThumbnailBlock($this->container, $this->validator);
         $blockManager->set($block);
         
         $expectedResult = array('RenderView' => array(
@@ -144,7 +144,7 @@ class AlBlockManagerBootstrapThumbnailBlockTest extends BaseTestBlock
     {
         
         $this->initBootstrapversion($bootstrapVersion);
-        $blockManager = new AlBlockManagerBootstrapThumbnailBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapThumbnailBlock($this->container, $this->validator);
         $this->assertTrue($blockManager->getIsInternalBlock());
     }
 }

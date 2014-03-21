@@ -19,23 +19,23 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\UrlManager;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 
 /**
- * BaseAlUrlManagerStageTest
+ * BaseUrlManager
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-abstract class BaseAlUrlManager extends TestCase
+abstract class BaseUrlManager extends TestCase
 {
-    abstract protected function getUrlManager(KernelInterface $kernel, AlFactoryRepositoryInterface $factoryRepository);
+    abstract protected function getUrlManager(KernelInterface $kernel, FactoryRepositoryInterface $factoryRepository);
     
     protected function setUp()
     {
         parent::setUp();
 
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->factory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factory = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
     }
 
     public function testInternalUrlIsNullWhenTheRequestedLanguageFromLanguageNameHasNotBeenFound1()
@@ -391,7 +391,7 @@ abstract class BaseAlUrlManager extends TestCase
 
     protected function setUpSeoRepository($method, $seo)
     {
-        $seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\SeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -404,7 +404,7 @@ abstract class BaseAlUrlManager extends TestCase
 
     protected function setUpLanguageRepository($method, $language)
     {
-        $languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+        $languageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\LanguageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $languageRepository->expects($this->once())
@@ -416,7 +416,7 @@ abstract class BaseAlUrlManager extends TestCase
 
     protected function setUpPageRepository($method, $page)
     {
-        $pageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+        $pageRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\PageRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $pageRepository->expects($this->once())
@@ -428,18 +428,18 @@ abstract class BaseAlUrlManager extends TestCase
 
     protected function setUpSeo($permalink, $language = null, $page = null)
     {
-        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
         $seo->expects($this->any())
             ->method('getPermalink')
             ->will($this->returnValue($permalink));
 
         if (null !== $language && null !== $page) {
             $seo->expects($this->once())
-                ->method('getAlLanguage')
+                ->method('getLanguage')
                 ->will($this->returnValue($language));
 
             $seo->expects($this->once())
-                ->method('getAlPage')
+                ->method('getPage')
                 ->will($this->returnValue($page));
         }
 
@@ -448,7 +448,7 @@ abstract class BaseAlUrlManager extends TestCase
 
     protected function setUpLanguage($returnId = null, $languageName = null)
     {
-        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language');
         if (null !== $returnId) {
             $language->expects($this->once())
                 ->method('getId')
@@ -466,7 +466,7 @@ abstract class BaseAlUrlManager extends TestCase
 
     protected function setUpPage($returnId = null, $pageName = null)
     {
-        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
         if (null !== $returnId) {
             $page->expects($this->once())
                 ->method('getId')

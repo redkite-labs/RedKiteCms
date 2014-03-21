@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlRole;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseRole;
 
-class AlRole extends BaseAlRole
+class Role extends BaseRole
 {
 }

@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Form\Two\Button;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Button\Two\AlButtonType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Button\Two\ButtonType;
 
 /**
- * AlThumbnailTypeTest
+ * ThumbnailTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlButtonTypeTest extends AlBaseType
+class ButtonTypeTest extends BaseType
 {
     protected $translatorDomain = 'TwitterBootstrapBundle';
     
@@ -65,7 +65,7 @@ class AlButtonTypeTest extends AlBaseType
     
     protected function getForm()
     {
-        return new AlButtonType();
+        return new ButtonType();
     }
     
     public function testDefaultOptions()

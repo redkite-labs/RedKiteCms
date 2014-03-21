@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockContainer;
 
 /**
  * Defines the Block Manager to handle a Bootstrap navbar text
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapNavbarTextBlock extends AlBlockManagerJsonBlockContainer
+class BlockManagerBootstrapNavbarTextBlock extends BlockManagerJsonBlockContainer
 {
     /**
      * Defines the App-Block's default value
@@ -70,7 +70,7 @@ class AlBlockManagerBootstrapNavbarTextBlock extends AlBlockManagerJsonBlockCont
         $items = $this->decodeJsonContent($this->alBlock->getContent());
 
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
-        $form = $bootstrapFormFactory->createForm('Navbar\Text', 'AlNavbarTextType', $items[0]);
+        $form = $bootstrapFormFactory->createForm('Navbar\Text', 'NavbarTextType', $items[0]);
 
         return array(
             "template" => "TwitterBootstrapBundle:Editor:Navbar/Text/navbar_text_editor.html.twig",

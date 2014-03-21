@@ -22,7 +22,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\CommandsProcessor;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-interface AlCommandsProcessorInterface
+interface CommandsProcessorInterface
 {
     /**
      * Executes a console command

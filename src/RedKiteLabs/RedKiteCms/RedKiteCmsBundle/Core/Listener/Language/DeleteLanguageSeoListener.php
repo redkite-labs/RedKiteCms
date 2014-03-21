@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Language;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\SeoManager;
 
 /**
  * Listen to the onBeforeDeleteLanguageCommit event to delete the seo attributes which
@@ -27,15 +27,15 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
  */
 class DeleteLanguageSeoListener extends Base\DeleteLanguageBaseListener
 {
-    /** @var AlSeoManager */
+    /** @var SeoManager */
     private $seoManager;
 
     /**
      * Constructor
      *
-     * @param AlSeoManager $seoManager
+     * @param SeoManager $seoManager
      */
-    public function __construct(AlSeoManager $seoManager)
+    public function __construct(SeoManager $seoManager)
     {
         $this->seoManager = $seoManager;
     }

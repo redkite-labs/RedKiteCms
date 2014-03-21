@@ -17,12 +17,12 @@
 
 namespace RedKiteCms\Block\BootbusinessBlockBundle\Core\Block;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail\AlBlockManagerBootstrapThumbnailBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnail\BlockManagerBootstrapThumbnailBlock;
 
 /**
- * Description of AlBlockManagerBootbusinessProductThumbnailBlock
+ * Description of BlockManagerBootbusinessProductThumbnailBlock
  */
-class AlBlockManagerBootbusinessProductThumbnailBlock extends AlBlockManagerBootstrapThumbnailBlock
+class BlockManagerBootbusinessProductThumbnailBlock extends BlockManagerBootstrapThumbnailBlock
 {
     protected $blockTemplate = 'BootbusinessBlockBundle:Thumbnail:thumbnail.html.twig';
 }

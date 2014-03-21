@@ -17,23 +17,23 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\BlockEvents;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\ContentManagerBase;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree;
 
 /**
- * AlBlockManager is the base object that wraps an AlBlock object and implements a
+ * BlockManager is the base object that wraps an Block object and implements a
  * RedKiteCms Block object
  *
  *
- * AlBlockManager manages an AlBlock object, implementig the base methods to add, edit and delete
+ * BlockManager manages an Block object, implementig the base methods to add, edit and delete
  * that kind of object and provides several methods to change the behavior of the block itself,
  * when it is rendered on the page.
  *
@@ -42,15 +42,15 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-abstract class AlBlockManager extends AlContentManagerBase implements AlContentManagerInterface, AlBlockManagerInterface
+abstract class BlockManager extends ContentManagerBase implements ContentManagerInterface, BlockManagerInterface
 {
     /**
-     * @var AlBlock $alBlock
+     * @var Block $alBlock
      */
     protected $alBlock = null;
 
     /**
-     * @var AlFactoryRepositoryInterface $factoryRepository
+     * @var FactoryRepositoryInterface $factoryRepository
      */
     protected $factoryRepository = null;
 
@@ -60,7 +60,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     protected $blockRepository = null;
 
     /**
-     * @var AlPageTree $pageTree
+     * @var PageTree $pageTree
      */
     protected $pageTree = null;
 
@@ -74,13 +74,13 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Constructor
      *
-     * @param AlEventsHandlerInterface       $eventsHandler
-     * @param AlFactoryRepositoryInterface   $factoryRepository
-     * @param AlParametersValidatorInterface $validator
+     * @param EventsHandlerInterface       $eventsHandler
+     * @param FactoryRepositoryInterface   $factoryRepository
+     * @param ParametersValidatorInterface $validator
      *
      * @api
      */
-    public function __construct(AlEventsHandlerInterface $eventsHandler = null, AlFactoryRepositoryInterface $factoryRepository = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventsHandlerInterface $eventsHandler = null, FactoryRepositoryInterface $factoryRepository = null, ParametersValidatorInterface $validator = null)
     {
         parent::__construct($eventsHandler, $validator);
 
@@ -111,7 +111,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      */
     public function set($object = null)
     {
-        if (null !== $object && !$object instanceof AlBlock) {
+        if (null !== $object && !$object instanceof Block) {
             throw new InvalidArgumentTypeException('exception_only_block_objects_are_accepted');
         }
 
@@ -123,12 +123,12 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Sets the factory repository
      *
-     * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface $v
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager
+     * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface $v
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager
      *
      * @api
      */
-    public function setFactoryRepository(AlFactoryRepositoryInterface $v)
+    public function setFactoryRepository(FactoryRepositoryInterface $v)
     {
         $this->doSetFactoryRepository($v);
 
@@ -160,7 +160,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Returns the factory repository object associated with this object
      *
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface
      *
      * @api
      */
@@ -186,7 +186,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
      *
      * @param type $v
      */
-    public function setPageTree(AlPageTree $v)
+    public function setPageTree(PageTree $v)
     {
         $this->pageTree = $v;
     }
@@ -372,7 +372,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Converts the AlBlockManager object into an array
+     * Converts the BlockManager object into an array
      *
      * Adds some internal options to describe how to properly render the block
      *
@@ -442,9 +442,9 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     }
 
     /**
-     * Adds a new block to the AlBlock table
+     * Adds a new block to the Block table
      *
-     * @param  array                        $values An array where keys are the AlBlockField definition and values are the values to add
+     * @param  array                        $values An array where keys are the BlockField definition and values are the values to add
      * @return boolean
      * @throws InvalidArgumentTypeException
      * @throws \Exception
@@ -526,7 +526,7 @@ abstract class AlBlockManager extends AlContentManagerBase implements AlContentM
     /**
      * Edits the current block object
      *
-     * @param  array                                                                                     $values An array where keys are the AlBlockField definition and values are the values to edit
+     * @param  array                                                                                     $values An array where keys are the BlockField definition and values are the values to edit
      * @return boolean
      * @throws \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      *

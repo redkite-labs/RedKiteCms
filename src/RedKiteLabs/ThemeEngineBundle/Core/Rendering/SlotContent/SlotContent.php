@@ -18,12 +18,12 @@
 namespace RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent;
 
 /**
- * AlSlotContent stores the information related to the content to replace
+ * SlotContent stores the information related to the content to replace
  * ona slot
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSlotContent
+class SlotContent
 {
     private $slotName = null;
     private $content = null;
@@ -42,7 +42,7 @@ class AlSlotContent
     /**
      * Sets the name of the slot
      *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\SlotContent
      */
     public function setSlotName($slotName)
     {
@@ -67,12 +67,12 @@ class AlSlotContent
     /**
      * Sets the content to replace
      *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\SlotContent
      */
     public function setContent($content)
     {
         if (!is_string($content)) {
-            throw new \InvalidArgumentException('The content passed to "RedKiteLabs\FrontendBundle\Core\SlotContent\AlSlotContent" must be a string');
+            throw new \InvalidArgumentException('The content passed to "RedKiteLabs\FrontendBundle\Core\SlotContent\SlotContent" must be a string');
         }
         $this->content = $content;
 
@@ -92,7 +92,7 @@ class AlSlotContent
     /**
      * The slotContent is configured to replace the content on the slot
      *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\SlotContent
      */
     public function replace()
     {
@@ -104,7 +104,7 @@ class AlSlotContent
     /**
      * The slotContent is configured to inject the content into the slot
      *
-     * @return \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent
+     * @return \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\SlotContent
      */
     public function inject()
     {

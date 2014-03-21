@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockCollection;
 
 /**
  * Defines the Block Manager to handle a collection of Bootstrap Thumbnails
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapSimpleThumbnailsBlock extends AlBlockManagerJsonBlockCollection
+class BlockManagerBootstrapSimpleThumbnailsBlock extends BlockManagerJsonBlockCollection
 {
     /**
      * Defines the App-Block's default value

@@ -17,23 +17,23 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\SiteBootstrap;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\LanguageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\PageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Orm\OrmInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager;
 
 /**
- * AlSiteBootstrap is responsibile to boostrap a web site from the scratch, for a
+ * SiteBootstrap is responsibile to boostrap a web site from the scratch, for a
  * given theme
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlSiteBootstrap
+class SiteBootstrap
 {
     protected $languageManager;
     protected $pageManager;
@@ -56,17 +56,17 @@ class AlSiteBootstrap
     /**
      * Constructor
      *
-     * @param AlLanguageManager $languageManager
-     * @param AlPageManager     $pageManager
-     * @param AlBlockManager    $blockManager
-     * @param AlTemplateManager $templateManager
+     * @param LanguageManager $languageManager
+     * @param PageManager     $pageManager
+     * @param BlockManager    $blockManager
+     * @param TemplateManager $templateManager
      *
      * @api
      */
-    public function __construct(AlLanguageManager $languageManager,
-                                AlPageManager $pageManager,
-                                AlBlockManager $blockManager,
-                                AlTemplateManager $templateManager)
+    public function __construct(LanguageManager $languageManager,
+                                PageManager $pageManager,
+                                BlockManager $blockManager,
+                                TemplateManager $templateManager)
     {
         $this->languageManager = $languageManager;
         $this->pageManager = $pageManager;
@@ -85,7 +85,7 @@ class AlSiteBootstrap
     /**
      * @inheritdoc
      */
-    public function setLanguageManager(AlLanguageManager $value)
+    public function setLanguageManager(LanguageManager $value)
     {
         $this->languageManager = $value;
 
@@ -95,7 +95,7 @@ class AlSiteBootstrap
     /**
      * @inheritdoc
      */
-    public function setPageManager(AlPageManager $value)
+    public function setPageManager(PageManager $value)
     {
         $this->pageManager = $value;
 
@@ -105,7 +105,7 @@ class AlSiteBootstrap
     /**
      * @inheritdoc
      */
-    public function setTemplateManager(AlTemplateManager $value)
+    public function setTemplateManager(TemplateManager $value)
     {
         $this->templateManager = $value;
 

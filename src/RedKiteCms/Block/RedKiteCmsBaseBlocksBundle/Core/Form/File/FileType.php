@@ -18,14 +18,14 @@
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\File;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\AlBaseType;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\BaseType;
 
 /**
  * Defines the file form
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlFileType extends AlBaseType
+class FileType extends BaseType
 {
     /**
      * Builds the form

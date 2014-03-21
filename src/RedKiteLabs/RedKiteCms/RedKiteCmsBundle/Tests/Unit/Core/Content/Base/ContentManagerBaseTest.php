@@ -18,20 +18,20 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\AlContentManagerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Base\ContentManagerBase;
 
 
-class AlContentManagerTester extends AlContentManagerBase
+class ContentManagerTester extends ContentManagerBase
 {
 
 }
 
 /**
- * AlContentManagerBaseTest
+ * ContentManagerBaseTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlContentManagerBaseTest extends TestCase
+class ContentManagerBaseTest extends TestCase
 {
     protected $eventsHandler;
     protected $validator;
@@ -41,12 +41,12 @@ class AlContentManagerBaseTest extends TestCase
     {
         parent::setUp();
 
-        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $this->eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface');
 
-        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidator')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidator')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $this->contentManager = new AlContentManagerTester($this->eventsHandler, $this->validator);
+        $this->contentManager = new ContentManagerTester($this->eventsHandler, $this->validator);
     }
 
     public function testEventsHandlerByContructor()
@@ -56,7 +56,7 @@ class AlContentManagerBaseTest extends TestCase
 
     public function testEventsHandlerBySetters()
     {
-        $eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface');
+        $eventsHandler = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface');
         $this->assertSame($this->contentManager, $this->contentManager->setEventsHandler($eventsHandler));
         $this->assertSame($eventsHandler, $this->contentManager->getEventsHandler());
         $this->assertNotSame($this->eventsHandler, $this->contentManager->getEventsHandler());
@@ -69,7 +69,7 @@ class AlContentManagerBaseTest extends TestCase
 
     public function testValidatorInjectedBySetters()
     {
-        $validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         $this->assertSame($this->contentManager, $this->contentManager->setValidator($validator));

@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\PageTree\TemplateAssetsManager;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AssetCollection;
 
 /**
  * TemplateAssetsManagerBase
@@ -32,7 +32,7 @@ abstract class TemplateAssetsManagerBase extends TestCase
     
     protected function initBlockManagerFactory($availableBlocks)
     {
-        $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+        $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactory')
                     ->disableOriginalConstructor()
                     ->getMock()
         ;
@@ -78,7 +78,7 @@ abstract class TemplateAssetsManagerBase extends TestCase
     
     protected function createListenersCollection($assets)
     {
-        $listenersCollection = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler\ThemeEngineListenersCollection\AlThemeEngineListenersCollection')
+        $listenersCollection = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler\ThemeEngineListenersCollection\ThemeEngineListenersCollection')
                     ->disableOriginalConstructor()
                     ->getMock()
         ;
@@ -102,14 +102,14 @@ abstract class TemplateAssetsManagerBase extends TestCase
     protected function createAssetsCollection($assets)
     {
         $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');        
-        $assetsCollection = new AlAssetCollection($kernel, $assets);
+        $assetsCollection = new AssetCollection($kernel, $assets);
         
         return $assetsCollection;
     }
     
     protected function createAsset($file)
     {
-        $asset = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset')
+        $asset = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Asset\Asset')
                     ->disableOriginalConstructor()
                     ->getMock()
         ;
@@ -129,7 +129,7 @@ abstract class TemplateAssetsManagerBase extends TestCase
     
     protected function createTemplate($assetCollections)
     {
-        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\Template')
                     ->setMethods(array('getExternalStylesheets', 'getInternalStylesheets', 'getExternalJavascripts', 'getInternalJavascripts', 'getThemeName', 'getTemplateName', 'getSlots'))
                     ->disableOriginalConstructor()
                     ->getMock()
@@ -160,7 +160,7 @@ abstract class TemplateAssetsManagerBase extends TestCase
     
     protected function createBlock($slotName)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         
         $block->expects($this->once())
             ->method('getSlotName')

@@ -17,22 +17,22 @@
 
 namespace RedKiteCms\Block\TinyMceBlockBundle\Tests\Unit\Core\Block;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
-use RedKiteCms\Block\TinyMceBlockBundle\Core\Block\AlBlockManagerTinyMceBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase;
+use RedKiteCms\Block\TinyMceBlockBundle\Core\Block\BlockManagerTinyMceBlock;
 
 /**
- * AlBlockManagerTest
+ * BlockManagerTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerTinyMceTest extends AlBlockManagerContainerBase
+class BlockManagerTinyMceTest extends BlockManagerContainerBase
 {
     
     protected function setUp()
     {
         parent::setUp();
         
-        $this->blockManager = new AlBlockManagerTinyMceBlock();
+        $this->blockManager = new BlockManagerTinyMceBlock();
     }
 
     public function testRenderHtml()
@@ -54,7 +54,7 @@ class AlBlockManagerTinyMceTest extends AlBlockManagerContainerBase
     
     private function initBlock($value)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->once())
               ->method('getId')
               ->will($this->returnValue(2));

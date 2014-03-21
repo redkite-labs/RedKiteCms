@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Link;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockContainer;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 
 /**
- * AlBlockManagerLink handles a link block
+ * BlockManagerLink handles a link block
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerLink extends AlBlockManagerJsonBlockContainer
+class BlockManagerLink extends BlockManagerJsonBlockContainer
 {
     protected $blockTemplate = 'RedKiteCmsBaseBlocksBundle:Content:Link/link.html.twig';
 

@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlPagePeer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BasePagePeer;
 
-class AlPagePeer extends BaseAlPagePeer
+class PagePeer extends BasePagePeer
 {
 }

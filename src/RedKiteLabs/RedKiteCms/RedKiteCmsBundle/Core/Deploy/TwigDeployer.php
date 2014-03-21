@@ -17,21 +17,21 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy;
 
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\RoutingGeneratorInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter\TwigTemplateWriter;
 
 /**
- * AlTwigDeployer extends the base deployer class to save a PageTree to a twig template
+ * TwigDeployer extends the base deployer class to save a PageTree to a twig template
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlTwigDeployer extends AlDeployer
+class TwigDeployer extends Deployer
 {
     /** @var TwigTemplateWriter */
     protected $twigTemplateWriter;
@@ -54,7 +54,7 @@ class AlTwigDeployer extends AlDeployer
     /**
      * @inheritdoc
      */
-    protected function save(AlPageTree $pageTree, AlTheme $theme, array $options)
+    protected function save(PageTree $pageTree, Theme $theme, array $options)
     {
         return $this->twigTemplateWriter
             ->generateTemplate($pageTree, $theme, $options)

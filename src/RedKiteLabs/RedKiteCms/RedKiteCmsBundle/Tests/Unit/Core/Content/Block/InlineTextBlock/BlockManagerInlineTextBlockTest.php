@@ -18,9 +18,9 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\ImagesBlock;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\InlineTextBlock\AlBlockManagerInlineTextBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\InlineTextBlock\BlockManagerInlineTextBlock;
 
-class AlBlockManagerInlineTextTester extends AlBlockManagerInlineTextBlock
+class BlockManagerInlineTextTester extends BlockManagerInlineTextBlock
 {    
     public function getEditInline()
     {
@@ -29,33 +29,33 @@ class AlBlockManagerInlineTextTester extends AlBlockManagerInlineTextBlock
 }
 
 /**
- * AlBlockManagerInlineTextBlock
+ * BlockManagerInlineTextBlock
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerInlineTextBlockTest extends TestCase
+class BlockManagerInlineTextBlockTest extends TestCase
 {
     public function testDefaultValue()
     {
-        $blockManager = new AlBlockManagerInlineTextTester();
+        $blockManager = new BlockManagerInlineTextTester();
         $this->assertEquals(array("Content" => "This is the default content for a new hypertext block"), $blockManager->getDefaultValue());
     }
     
     public function testDefaultValueIsTranslated()
     {
-        $this->translator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->translator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\TranslatorInterface');
         $this->translator
             ->expects($this->once())
             ->method('translate')
             ->with("This is the default content for a new hypertext block");
         
-        $blockManager = new AlBlockManagerInlineTextTester(null, null, null, $this->translator);
+        $blockManager = new BlockManagerInlineTextTester(null, null, null, $this->translator);
         $blockManager->getDefaultValue();
     }
     
     public function testEditInline()
     {
-        $blockManager = new AlBlockManagerInlineTextTester();
+        $blockManager = new BlockManagerInlineTextTester();
         $this->assertTrue($blockManager->getEditInline());
     }
 }

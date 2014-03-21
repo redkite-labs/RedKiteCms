@@ -17,15 +17,15 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\JsonBlock;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase;
 
 /**
- * AlBlockManagerJsonBlockTest
+ * BlockManagerJsonBlockTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
+class BlockManagerJsonBlockTest extends BlockManagerContainerBase
 {
     protected $blockManager;
 
@@ -33,20 +33,20 @@ class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
     {
         parent::setUp();
 
-        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorPageManager')
+        $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
 
-        $this->blockManager = new AlBlockManagerJsonBlockTester($this->eventsHandler, $this->factoryRepository, $this->validator);
+        $this->blockManager = new BlockManagerJsonBlockTester($this->eventsHandler, $this->factoryRepository, $this->validator);
     }
 
     /**
@@ -137,7 +137,7 @@ class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
             }
         }';
 
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->once())
                 ->method('getId')
                 ->will($this->returnValue($id));
@@ -150,7 +150,7 @@ class AlBlockManagerJsonBlockTest extends AlBlockManagerContainerBase
     }
 }
 
-class AlBlockManagerJsonBlockTester extends AlBlockManagerJsonBlock
+class BlockManagerJsonBlockTester extends BlockManagerJsonBlock
 {
     public function getDefaultValue()
     {

@@ -17,18 +17,18 @@
 namespace RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots;
 
 /**
- * AlThemeSlots is the object deputated to collect and manage the theme's slots
+ * ThemeSlots is the object deputated to collect and manage the theme's slots
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlThemeSlots implements AlThemeSlotsInterface
+class ThemeSlots implements ThemeSlotsInterface
 {
     private $slots = array();
 
     /**
      * { @inheritdoc }
      */
-    public function addSlot(AlSlot $slot)
+    public function addSlot(Slot $slot)
     {
         $this->slots[$slot->getSlotName()] = $slot;
     }

@@ -18,9 +18,9 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Slider;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Slider\AlBlockManagerBootstrapSliderBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Slider\BlockManagerBootstrapSliderBlock;
 
-class AlBlockManagerBootstrapSliderBlockTester extends AlBlockManagerBootstrapSliderBlock
+class BlockManagerBootstrapSliderBlockTester extends BlockManagerBootstrapSliderBlock
 {
     public function removeFormNameReferenceTester($values)
     {
@@ -29,11 +29,11 @@ class AlBlockManagerBootstrapSliderBlockTester extends AlBlockManagerBootstrapSl
 }
 
 /**
- * AlBlockManagerBootstrapSliderBlockTest
+ * BlockManagerBootstrapSliderBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapSliderBlockTest extends BaseTestBlock
+class BlockManagerBootstrapSliderBlockTest extends BaseTestBlock
 {  
     public function testDefaultValue()
     {
@@ -68,14 +68,14 @@ class AlBlockManagerBootstrapSliderBlockTest extends BaseTestBlock
         );
             
         $this->initContainer(); 
-        $blockManager = new AlBlockManagerBootstrapSliderBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapSliderBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
     
     public function testGetHtmlReturnsAnEmptyStringWhenAnyBlockIsDefined()
     {
         $this->initContainer();
-        $blockManager = new AlBlockManagerBootstrapSliderBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapSliderBlock($this->container, $this->validator);
                 
         $this->assertEquals("", $blockManager->getHtml());
     }
@@ -100,7 +100,7 @@ class AlBlockManagerBootstrapSliderBlockTest extends BaseTestBlock
         $this->initContainer();
         $this->initBootstrapversion($bootstrapVersion);
         
-        $blockManager = new AlBlockManagerBootstrapSliderBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapSliderBlock($this->container, $this->validator);
         $blockManager->set($block);
         
         $expectedResult = array('RenderView' => array(
@@ -143,7 +143,7 @@ class AlBlockManagerBootstrapSliderBlockTest extends BaseTestBlock
             ->method('createView')
         ;
         
-        $blockManager = new AlBlockManagerBootstrapSliderBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapSliderBlock($this->container, $this->validator);
         $blockManager->set($block);
         $result = $blockManager->editorParameters();
         $this->assertEquals('TwitterBootstrapBundle:Editor:Slider/editor.html.twig', $result["template"]);
@@ -166,7 +166,7 @@ class AlBlockManagerBootstrapSliderBlockTest extends BaseTestBlock
             "Content" => '[{"src":"","title":"Sample title 112","alt":"Sample alt","caption_title":"First Thumbnail label","caption_body":"Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.","data_src":"holder.js/400x280"},{"src":"","data_src":"holder.js/400x280","title":"Sample title","alt":"Sample alt","caption_title":"Second Thumbnail label","caption_body":"Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus."},{"src":"","data_src":"holder.js/400x280","title":"Sample title","alt":"Sample alt","caption_title":"Third Thumbnail label","caption_body":"Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus."}]',
         );
         
-        $blockManager = new AlBlockManagerBootstrapSliderBlockTester($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapSliderBlockTester($this->container, $this->validator);
         $this->assertEquals($expectedResult, $blockManager->removeFormNameReferenceTester($values));
     }
     

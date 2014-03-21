@@ -24,6 +24,6 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block;
  *
  * @api
  */
-interface AlBlockManagerInterface
+interface BlockManagerInterface
 {
 }

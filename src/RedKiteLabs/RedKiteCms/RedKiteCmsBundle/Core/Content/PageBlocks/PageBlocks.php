@@ -17,19 +17,19 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
- * AlPageBlocks is the object deputated to load and handle the blocks for a website
+ * PageBlocks is the object deputated to load and handle the blocks for a website
  * page
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlPageBlocks implements AlPageBlocksInterface
+class PageBlocks implements PageBlocksInterface
 {
     /**
      * @var int
@@ -42,7 +42,7 @@ class AlPageBlocks implements AlPageBlocksInterface
     protected $idLanguage = null;
 
     /**
-     * @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface
+     * @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface
      */
     protected $factoryRepository = null;
 
@@ -57,11 +57,11 @@ class AlPageBlocks implements AlPageBlocksInterface
     /**
      * Constructor
      *
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param FactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
-    public function __construct(AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(FactoryRepositoryInterface $factoryRepository)
     {
         $this->factoryRepository = $factoryRepository;
         $this->blockRepository = $this->factoryRepository->createRepository('Block');
@@ -101,7 +101,7 @@ class AlPageBlocks implements AlPageBlocksInterface
      *
      * @param array|object $blocks A traversable list of blocks
      */
-    public function setAlBlocks($blocks)
+    public function setBlocks($blocks)
     {
         $this->alBlocks = $blocks;
         $this->arrangeBlocks();

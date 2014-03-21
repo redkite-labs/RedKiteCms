@@ -18,15 +18,15 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Navbar;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarBlock;
 
 
 /**
- * AlBlockManagerBootstrapNavbarBlockTest
+ * BlockManagerBootstrapNavbarBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapNavbarBlockTest extends BaseTestBlock
+class BlockManagerBootstrapNavbarBlockTest extends BaseTestBlock
 {  
     public function testDefaultValue()
     {
@@ -44,7 +44,7 @@ class AlBlockManagerBootstrapNavbarBlockTest extends BaseTestBlock
         );
             
         $this->initContainer(); 
-        $blockManager = new AlBlockManagerBootstrapNavbarBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
 
@@ -67,7 +67,7 @@ class AlBlockManagerBootstrapNavbarBlockTest extends BaseTestBlock
         $this->initContainer();
         $this->initBootstrapversion($bootstrapVersion);
         
-        $blockManager = new AlBlockManagerBootstrapNavbarBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarBlock($this->container, $this->validator);
         $blockManager->set($block);
 
         $expectedResult = array('RenderView' => array(
@@ -131,7 +131,7 @@ class AlBlockManagerBootstrapNavbarBlockTest extends BaseTestBlock
                         ->will($this->returnValue($formFactory))
         ;
         
-        $blockManager = new AlBlockManagerBootstrapNavbarBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarBlock($this->container, $this->validator);
         $blockManager->set($block);
         $result = $blockManager->editorParameters();
         $this->assertEquals('TwitterBootstrapBundle:Editor:Navbar/Navbar/navbar_editor.html.twig', $result["template"]);

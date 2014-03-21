@@ -17,13 +17,13 @@
 
 namespace RedKiteCms\Block\BootbusinessBlockBundle\Core\Block;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\AlBlockManagerBootstrapThumbnailsBlock;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\BlockManagerBootstrapThumbnailsBlock;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlock;
 
 /**
- * Description of AlBlockManagerBootbusinessBlock
+ * Description of BlockManagerBootbusinessProductBlock
  */
-class AlBlockManagerBootbusinessProductBlock extends AlBlockManagerBootstrapThumbnailsBlock
+class BlockManagerBootbusinessProductBlock extends BlockManagerBootstrapThumbnailsBlock
 {
     public function getDefaultValue()
     {        
@@ -42,7 +42,7 @@ class AlBlockManagerBootbusinessProductBlock extends AlBlockManagerBootstrapThum
     
     protected function renderHtml()
     {
-        $items = AlBlockManagerJsonBlock::decodeJsonContent($this->alBlock->getContent());
+        $items = BlockManagerJsonBlock::decodeJsonContent($this->alBlock->getContent());
         
         return array('RenderView' => array(
             'view' => 'BootbusinessBlockBundle:Product:product.html.twig',

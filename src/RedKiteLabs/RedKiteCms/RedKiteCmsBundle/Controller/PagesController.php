@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\AlContentManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\ContentManagerInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Page\PagesForm;
@@ -140,7 +140,7 @@ class PagesController extends Base\BaseController
         return $this->removePage($request, $pageManager);
     }
 
-    protected function removePage(Request $request, AlContentManagerInterface $pageManager)
+    protected function removePage(Request $request, ContentManagerInterface $pageManager)
     {
         $result = $pageManager->delete();
         if (! $result) {

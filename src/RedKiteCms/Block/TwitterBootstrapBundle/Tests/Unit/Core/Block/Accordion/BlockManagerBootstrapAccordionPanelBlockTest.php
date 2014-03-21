@@ -18,21 +18,21 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Accordion;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Accordion\AlBlockManagerBootstrapAccordionPanelBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Accordion\BlockManagerBootstrapAccordionPanelBlock;
 
 
 /**
- * AlBlockManagerBootstrapAccordionBlockTest
+ * BlockManagerBootstrapAccordionBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapAccordionPanelBlockTest extends BaseTestBlock
+class BlockManagerBootstrapAccordionPanelBlockTest extends BaseTestBlock
 {  
     protected function setUp()
     {
         parent::setUp();
 
-        $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+        $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface');
     }
     
     public function testDefaultValue()
@@ -47,7 +47,7 @@ class AlBlockManagerBootstrapAccordionPanelBlockTest extends BaseTestBlock
         );
             
         $this->initContainer(); 
-        $blockManager = new AlBlockManagerBootstrapAccordionPanelBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapAccordionPanelBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
 
@@ -69,7 +69,7 @@ class AlBlockManagerBootstrapAccordionPanelBlockTest extends BaseTestBlock
         $block = $this->initBlock($value);
         $this->initContainer($bootstrapVersion);
         
-        $blockManager = new AlBlockManagerBootstrapAccordionPanelBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapAccordionPanelBlock($this->container, $this->validator);
         $blockManager->set($block);
         
         $expectedResult = array('RenderView' => array(

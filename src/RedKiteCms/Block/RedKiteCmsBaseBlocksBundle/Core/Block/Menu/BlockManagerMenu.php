@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockCollection;
 
 /**
- * AlBlockManagerMenu handles a menu block
+ * BlockManagerMenu handles a menu block
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerMenu extends AlBlockManagerJsonBlockCollection
+class BlockManagerMenu extends BlockManagerJsonBlockCollection
 {
     protected $blocksTemplate = 'RedKiteCmsBaseBlocksBundle:Content:Menu/menu.html.twig';
     protected $listClass = "nav nav-pills";
@@ -122,7 +122,7 @@ class AlBlockManagerMenu extends AlBlockManagerJsonBlockCollection
     {
         $permalink = "";
         $pageTree = $this->container->get('red_kite_cms.page_tree');
-        $seo = $pageTree->getAlSeo();
+        $seo = $pageTree->getSeo();
         if (null !== $seo) {
             $permalink = $seo->getPermalink();
         }

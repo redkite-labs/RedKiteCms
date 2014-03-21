@@ -17,11 +17,11 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\LanguagesMenu;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerContainer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerContainer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\Asset;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBase;
 use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\LanguagesMenu\LanguagesMenuType;
 use Symfony\Component\Finder\Finder;
 
@@ -32,7 +32,7 @@ use Symfony\Component\Finder\Finder;
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerLanguagesMenu extends AlBlockManagerContainer
+class BlockManagerLanguagesMenu extends BlockManagerContainer
 {
     private $urlManager = null;
     private $kernel = null;
@@ -42,9 +42,9 @@ class AlBlockManagerLanguagesMenu extends AlBlockManagerContainer
      * Constructor
      *
      * @param \Symfony\Component\DependencyInjection\ContainerInterface                           $container
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface $validator
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface $validator
      */
-    public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
+    public function __construct(ContainerInterface $container, ParametersValidatorInterface $validator = null)
     {
         parent::__construct($container, $validator);
 
@@ -52,7 +52,7 @@ class AlBlockManagerLanguagesMenu extends AlBlockManagerContainer
         $this->urlManager = $this->container->get('red_kite_cms.url_manager');
         $this->kernel = $this->container->get('kernel');
         $flagsFolder = $this->container->getParameter('red_kite_cms.flags_folder');
-        $this->flagsAsset = new AlAsset($this->kernel, $flagsFolder);
+        $this->flagsAsset = new Asset($this->kernel, $flagsFolder);
     }
 
     /**
@@ -72,7 +72,7 @@ class AlBlockManagerLanguagesMenu extends AlBlockManagerContainer
      */
     public function editorParameters()
     {
-        $value = AlBlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
+        $value = BlockManagerJsonBase::decodeJsonContent($this->alBlock->getContent());
 
         $flagsDirectories = array();
         $finder = new Finder();
@@ -219,7 +219,7 @@ class AlBlockManagerLanguagesMenu extends AlBlockManagerContainer
         if (null === $this->pageTree) {
             $this->pageTree = $this->container->get('red_kite_cms.page_tree');
         }
-        $page = $this->pageTree->getAlPage();
+        $page = $this->pageTree->getPage();
 
         if (null === $page && null !== $url) {
             return $url;

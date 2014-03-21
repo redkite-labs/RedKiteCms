@@ -17,14 +17,14 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\ResourcesLocker;
 
 /**
- * AlLockedResourceRepositoryPropelTest
+ * LockedResourceRepositoryPropelTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlLockedResourceRepositoryPropelTest extends Base\BaseModelPropel
+class LockedResourceRepositoryPropelTest extends Base\BaseModelPropel
 {
     private $factoryRepository;
     private $resourcesLocker;
@@ -46,16 +46,16 @@ class AlLockedResourceRepositoryPropelTest extends Base\BaseModelPropel
      * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage exception_only_propel_locked_resource_objects_are_accepted
      */
-    public function testRepositoryAcceptsOnlyAlLockedResourceObjects()
+    public function testRepositoryAcceptsOnlyLockedResourceObjects()
     {
-        $this->lockedResourceRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage());
+        $this->lockedResourceRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page());
     }
     
     public function testFetchResourceFromItsName()
     {
         $this->resourcesLocker->lockResource($this->userId, $this->resource);
         $resource = $this->lockedResourceRepository->fromResourceName($this->resource);
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLockedResource', $resource);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\LockedResource', $resource);
         $this->assertEquals($this->resource, $resource->getResourceName());
     }
         
@@ -63,7 +63,7 @@ class AlLockedResourceRepositoryPropelTest extends Base\BaseModelPropel
     {
         $this->resourcesLocker->lockResource($this->userId, $this->resource);
         $resource = $this->lockedResourceRepository->fromResourceNameByUser($this->userId, $this->resource);
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLockedResource', $resource);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\LockedResource', $resource);
         $this->assertEquals($this->resource, $resource->getResourceName());
         $this->assertEquals($this->userId, $resource->getUserId());
     }
@@ -90,7 +90,7 @@ class AlLockedResourceRepositoryPropelTest extends Base\BaseModelPropel
     
     public function testFreeExpiredResources()
     {
-        $resourcesLocker = new AlResourcesLocker($this->factoryRepository, 0);
+        $resourcesLocker = new ResourcesLocker($this->factoryRepository, 0);
         $resourcesLocker->lockResource($this->userId, $this->resource);
         $resourcesLocker->lockResource(2, '00bb00aa00aa00aa00aa00aa00aa00aa');
         $this->assertCount(2, $this->lockedResourceRepository->fetchResources());

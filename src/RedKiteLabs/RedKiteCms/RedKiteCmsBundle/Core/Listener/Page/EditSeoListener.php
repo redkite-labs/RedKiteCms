@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Page;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Page\BeforeEditPageCommitEvent;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\SeoManager;
 use \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
@@ -37,11 +37,11 @@ class EditSeoListener
     /**
      * Constructor
      *
-     * @param AlSeoManager $seoManager
+     * @param SeoManager $seoManager
      *
      * @api
      */
-    public function __construct(AlSeoManager $seoManager)
+    public function __construct(SeoManager $seoManager)
     {
         $this->seoManager = $seoManager;
     }

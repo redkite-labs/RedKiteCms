@@ -17,19 +17,19 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Badge;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Label\AlBlockManagerBootstrapLabelBlockTest;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Badge\AlBlockManagerBootstrapBadgeBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Label\BlockManagerBootstrapLabelBlockTest;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Badge\BlockManagerBootstrapBadgeBlock;
 
 /**
- * AlBlockManagerBootstrapBadgeBlockTest
+ * BlockManagerBootstrapBadgeBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapBadgeBlockTest extends AlBlockManagerBootstrapLabelBlockTest
+class BlockManagerBootstrapBadgeBlockTest extends BlockManagerBootstrapLabelBlockTest
 {    
     protected function getBlockManager()
     {
-        return new AlBlockManagerBootstrapBadgeBlock($this->container, $this->validator);
+        return new BlockManagerBootstrapBadgeBlock($this->container, $this->validator);
     }
         
     public function testDefaultValue()
@@ -58,7 +58,7 @@ class AlBlockManagerBootstrapBadgeBlockTest extends AlBlockManagerBootstrapLabel
             }
         }';
         
-        $this->editorParameters($value, 'bootstrapbadgeblock.form', 'Badge', 'AlBadgeType');
+        $this->editorParameters($value, 'bootstrapbadgeblock.form', 'Badge', 'BadgeType');
     }
     
     public function testGetHtml()

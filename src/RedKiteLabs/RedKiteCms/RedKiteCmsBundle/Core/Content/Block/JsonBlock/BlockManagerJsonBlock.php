@@ -18,13 +18,13 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
 /**
- * AlBlockManagerJson is the base object deputated to handle a json content
+ * BlockManagerJsonBlock is the base object deputated to handle a json content
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-abstract class AlBlockManagerJsonBlock extends AlBlockManagerJsonBase
+abstract class BlockManagerJsonBlock extends BlockManagerJsonBase
 {
     /**
      * {@inheritdoc}

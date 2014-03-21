@@ -18,14 +18,14 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlRoleRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\RoleRepositoryPropel;
 
 /**
- * AlRoleRepositoryTest
+ * RoleRepositoryTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlRoleRepositoryTest extends TestCase
+class RoleRepositoryTest extends TestCase
 {
     private $roleRepository;
     private $pdo;
@@ -35,12 +35,12 @@ class AlRoleRepositoryTest extends TestCase
         parent::setUp();
 
         $this->pdo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel\Pdo\MockPDO');
-        $this->roleRepository = new AlRoleRepositoryPropel($this->pdo);
+        $this->roleRepository = new RoleRepositoryPropel($this->pdo);
     }
 
     public function testGetRepositoryObjectClassName()
     {
-        $this->assertEquals('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole', $this->roleRepository->getRepositoryObjectClassName());
+        $this->assertEquals('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Role', $this->roleRepository->getRepositoryObjectClassName());
     }
     
     /**
@@ -49,13 +49,13 @@ class AlRoleRepositoryTest extends TestCase
      */
     public function testModelObjectInjectedBySettersIsInvalid()
     {
-        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $this->roleRepository->setRepositoryObject($modelObject);
     }
 
     public function testModelObjectInjectedBySetters()
     {
-        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole');
+        $modelObject = $this->getMock('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Role');
         $this->assertEquals($this->roleRepository, $this->roleRepository->setRepositoryObject($modelObject));
         $this->assertEquals($modelObject, $this->roleRepository->getModelObject());
     }

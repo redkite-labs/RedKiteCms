@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException;
 
 /**
- * AlBlockManagerFactoryItem saves the block manager, the id used to identify the block
+ * BlockManagerFactoryItem saves the block manager, the id used to identify the block
  * manager itself and a description. Optionally accepts the group attribute, to group
  * togheter the blocks that belongs the same group
  *
@@ -28,7 +28,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\Argum
  *
  * @api
  */
-class AlBlockManagerFactoryItem
+class BlockManagerFactoryItem
 {
     private $id;
     private $type;
@@ -41,13 +41,13 @@ class AlBlockManagerFactoryItem
     /**
      * Constructor
      *
-     * @param  AlBlockManagerInterface   $blockManager
+     * @param  BlockManagerInterface   $blockManager
      * @param  array                     $attributes
      * @throws ArgumentExpectedException
      *
      * @api
      */
-    public function __construct(AlBlockManagerInterface $blockManager, array $attributes)
+    public function __construct(BlockManagerInterface $blockManager, array $attributes)
     {
         $missingAttributes = array_diff_key($this->requiredAttributes, $attributes);
         if (count($missingAttributes) > 0) {
@@ -72,7 +72,7 @@ class AlBlockManagerFactoryItem
     /**
      * Returns the handled block manager
      *
-     * @return AlBlockManagerInterface
+     * @return BlockManagerInterface
      *
      * @api
      */

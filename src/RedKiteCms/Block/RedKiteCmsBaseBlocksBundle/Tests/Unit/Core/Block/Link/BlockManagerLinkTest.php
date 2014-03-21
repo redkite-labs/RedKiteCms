@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Block\Link;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Link\AlBlockManagerLink;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Link\BlockManagerLink;
 
 /**
- * AlBlockManagerLinkTest
+ * BlockManagerLinkTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
+class BlockManagerLinkTest extends BlockManagerContainerBase
 {
     
     protected function setUp()
@@ -33,7 +33,7 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
         parent::setUp();
         
         $this->initContainer();
-        $this->blockManager = new AlBlockManagerLink($this->container, $this->validator);
+        $this->blockManager = new BlockManagerLink($this->container, $this->validator);
     }
 
     public function testDefaultValue()
@@ -82,7 +82,7 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
     
     public function testEditorParameters()
     {
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->at(0))
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
@@ -154,7 +154,7 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
         ;
         
         $this->initContainer();
-        $blockManager = new AlBlockManagerLink($this->container, $this->validator);
+        $blockManager = new BlockManagerLink($this->container, $this->validator);
         $blockManager->set($block);
         $blockManager->editorParameters();        
     }
@@ -163,7 +163,7 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
     {
         parent::initContainer();
         
-        $this->translator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->translator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\TranslatorInterface');
         $this->container
             ->expects($this->at(2))
             ->method('get')
@@ -174,7 +174,7 @@ class AlBlockManagerLinkTest extends AlBlockManagerContainerBase
     
     private function initBlock($value)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->once())
               ->method('getContent')
               ->will($this->returnValue($value));

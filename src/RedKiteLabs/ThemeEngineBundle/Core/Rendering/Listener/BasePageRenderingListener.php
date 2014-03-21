@@ -18,7 +18,7 @@ namespace RedKiteLabs\ThemeEngineBundle\Core\Rendering\Listener;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Event\PageRenderer\BeforePageRenderingEvent;
-use RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent;
+use RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\SlotContent;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -32,7 +32,7 @@ abstract class BasePageRenderingListener
     protected $container;
 
     /**
-     * Returns an array of \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent
+     * Returns an array of \RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\SlotContent
      * objects.
      *
      * @return array
@@ -76,11 +76,11 @@ abstract class BasePageRenderingListener
      * Renders the current slot
      *
      * @param  Response                                   $response
-     * @param  AlSlotContent                              $slotContent
+     * @param  SlotContent                              $slotContent
      * @return \Symfony\Component\HttpFoundation\Response
      * @throws \RuntimeException
      */
-    protected function renderSlot(Response $response, AlSlotContent $slotContent)
+    protected function renderSlot(Response $response, SlotContent $slotContent)
     {
         if (null === $slotContent->getSlotName()) {
            throw new \RuntimeException('Any slot defined for the event ' . get_class($this));
@@ -92,7 +92,7 @@ abstract class BasePageRenderingListener
         }
 
         if (null === $slotContent->getContent()) {
-           return;
+           return null;
         }
 
         $content = $response->getContent();
@@ -107,11 +107,11 @@ abstract class BasePageRenderingListener
     /**
      * Replaces rhe content on the current slot with the new one
      *
-     * @param  AlSlotContent $slotContent
+     * @param  SlotContent $slotContent
      * @param  string        $content     The content to replace
      * @return string
      */
-    protected function replaceContent(AlSlotContent $slotContent, $content)
+    protected function replaceContent(SlotContent $slotContent, $content)
     {
         $regex = $this->getPattern($slotContent->getSlotName());
 
@@ -119,13 +119,13 @@ abstract class BasePageRenderingListener
     }
 
     /**
-     * Injects the content at the end of the fiven content
+     * Injects the content at the end of the given content
      *
-     * @param  AlSlotContent $slotContent
+     * @param  SlotContent $slotContent
      * @param  string        $content     The content to inject
      * @return string
      */
-    protected function injectContent(AlSlotContent $slotContent, $content)
+    protected function injectContent(SlotContent $slotContent, $content)
     {
         $regex = $this->getPattern($slotContent->getSlotName());
         if (false == preg_match($regex, $content, $match)) {

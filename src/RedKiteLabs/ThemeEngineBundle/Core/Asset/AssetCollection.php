@@ -24,7 +24,7 @@ use Symfony\Component\Finder\Finder;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlAssetCollection implements AlAssetsCollectionInterface
+class AssetCollection implements AssetsCollectionInterface
 {
     protected $kernel;
     protected $assets = array();
@@ -71,7 +71,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
      * Move forward to next element
      *
      * @link http://php.net/manual/en/iterator.next.php
-     * @return void Any returned value is ignored.
+     * @return mixed
      * @codeCoverageIgnore
      */
     public function next()
@@ -83,7 +83,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
      * Rewind the Iterator to the first element
      *
      * @link http://php.net/manual/en/iterator.rewind.php
-     * @return void Any returned value is ignored.
+     * @return mixed
      * @codeCoverageIgnore
      */
     public function rewind()
@@ -124,7 +124,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
             $assetName = basename($asset);
             // parses the first subfolder when all the subfolder's files are required
             if ($assetName == '*') {
-                $asset = new AlAsset($this->kernel, substr($asset, 0, strlen($asset) - 2));
+                $asset = new Asset($this->kernel, substr($asset, 0, strlen($asset) - 2));
 
                 $assetPath = $asset->getRealPath();
                 $finder = new Finder();
@@ -142,7 +142,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
 
     protected function addAsset($asset)
     {
-        $asset = new AlAsset($this->kernel, $asset);
+        $asset = new Asset($this->kernel, $asset);
         if ( ! is_file($asset->getRealPath())) {
             if (!in_array($asset, $this->assets)) {
                 $this->assets[] = $asset;
@@ -173,7 +173,7 @@ class AlAssetCollection implements AlAssetsCollectionInterface
      */
     public function remove($asset)
     {
-        $asset = new AlAsset($this->kernel, $asset);
+        $asset = new Asset($this->kernel, $asset);
         if (in_array($asset, $this->assets)) {
             $key = array_search($asset, $this->assets);
             unset($this->assets[$key]);

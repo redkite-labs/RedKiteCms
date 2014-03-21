@@ -18,11 +18,11 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Integrated\Model\Propel;
 
 /**
- * AlUserRepositoryPropelTest
+ * UserRepositoryPropelTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlUserRepositoryPropelTest extends Base\BaseModelPropel
+class UserRepositoryPropelTest extends Base\BaseModelPropel
 {
     private $userRepository;
 
@@ -39,15 +39,15 @@ class AlUserRepositoryPropelTest extends Base\BaseModelPropel
      * @expectedException RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException
      * @expectedExceptionMessage exception_only_propel_user_objects_are_accepted
      */
-    public function testRepositoryAcceptsOnlyAlUserObjects()
+    public function testRepositoryAcceptsOnlyUserObjects()
     {
-        $this->userRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage());
+        $this->userRepository->setRepositoryObject(new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page());
     }
 
     public function testAUserObjectIsRetrievedFromItsPrimaryKey()
     {
         $user = $this->userRepository->fromPk(1);
-        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser', $user);
+        $this->assertInstanceOf('\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User', $user);
         $this->assertEquals(1, $user->getId());
     }
 

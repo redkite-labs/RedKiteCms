@@ -18,15 +18,15 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Thumbnails;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\AlBlockManagerBootstrapThumbnailsBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\BlockManagerBootstrapThumbnailsBlock;
 
 
 /**
- * AlBlockManagerBootstrapThumbnailsBlockTest
+ * BlockManagerBootstrapThumbnailsBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapThumbnailsBlockTest extends BaseTestBlock
+class BlockManagerBootstrapThumbnailsBlockTest extends BaseTestBlock
 {  
     public function testDefaultValue()
     {
@@ -43,7 +43,7 @@ class AlBlockManagerBootstrapThumbnailsBlockTest extends BaseTestBlock
         );
             
         $this->initContainer(); 
-        $blockManager = new AlBlockManagerBootstrapThumbnailsBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapThumbnailsBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
     
@@ -66,7 +66,7 @@ class AlBlockManagerBootstrapThumbnailsBlockTest extends BaseTestBlock
         $this->initContainer();
         $this->initBootstrapversion($bootstrapVersion);
         
-        $blockManager = new AlBlockManagerBootstrapThumbnailsBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapThumbnailsBlock($this->container, $this->validator);
         $blockManager->set($block);
         
         $expectedResult = array('RenderView' => array(

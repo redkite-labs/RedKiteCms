@@ -26,7 +26,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlViewRenderer implements AlViewRendererInterface
+class ViewRenderer implements ViewRendererInterface
 {
     /** @var EngineInterface */
     protected $templating;

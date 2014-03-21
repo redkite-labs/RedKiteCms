@@ -18,15 +18,15 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;
 
 /**
- * AlBlockManagerJsonBlockContainer extends the AlBlockManagerJson base object with
+ * BlockManagerJsonBlockContainer extends the BlockManagerJson base object with
  * the Symfony2 Container object
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-abstract class AlBlockManagerJsonBlockContainer extends AlBlockManagerJsonBlock
+abstract class BlockManagerJsonBlockContainer extends BlockManagerJsonBlock
 {
     protected $container;
     protected $translator;
@@ -35,11 +35,11 @@ abstract class AlBlockManagerJsonBlockContainer extends AlBlockManagerJsonBlock
      * Constructor
      *
      * @param ContainerInterface             $container
-     * @param AlParametersValidatorInterface $validator
+     * @param ParametersValidatorInterface $validator
      *
      * @api
      */
-    public function __construct(ContainerInterface $container, AlParametersValidatorInterface $validator = null)
+    public function __construct(ContainerInterface $container, ParametersValidatorInterface $validator = null)
     {
         $this->container = $container;
         $eventsHandler = $container->get('red_kite_cms.events_handler');

@@ -42,13 +42,13 @@ class ThemePreviewControllerTest extends TestCase
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
         
         $this->themes = 
-            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
+            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\ThemesCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->blockRepository =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -56,11 +56,11 @@ class ThemePreviewControllerTest extends TestCase
         $this->blockRepository
              ->expects($this->any())
              ->method('getRepositoryObjectClassName')
-             ->will($this->returnValue('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock'))
+             ->will($this->returnValue('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block'))
         ;
         
         $this->factoryRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepository')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -73,13 +73,13 @@ class ThemePreviewControllerTest extends TestCase
         ;
         
         $this->blocksFactory = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactory')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->activeTheme = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveTheme')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -122,14 +122,14 @@ class ThemePreviewControllerTest extends TestCase
             $blocksSequence++;
         }
         
-        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\Template')
              ->disableOriginalConstructor()
              ->getMock()
         ;
                 
         $method = ($templateName == 'none') ? 'getHomeTemplate' : 'getTemplate';
         
-        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
+        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme')
              ->disableOriginalConstructor()
              ->getMock()
         ;
@@ -146,7 +146,7 @@ class ThemePreviewControllerTest extends TestCase
             ->will($this->returnValue($template))
         ;
         
-        $themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface');
+        $themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface');
         $themeSlots
             ->expects($this->once())
             ->method('getSlots')
@@ -226,7 +226,7 @@ class ThemePreviewControllerTest extends TestCase
     
     protected function initSlot($type, $content)
     {
-        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot')
+        $slot = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot')
              ->disableOriginalConstructor()
              ->getMock()
         ;
@@ -254,7 +254,7 @@ class ThemePreviewControllerTest extends TestCase
     protected function initBlockManager($content)
     {
         $blockManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\AlBlockManagerService')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\ServiceBlock\BlockManagerService')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -303,7 +303,7 @@ class ThemePreviewControllerTest extends TestCase
              ->will($this->returnValue($this->activeTheme));
         
         $templateManager =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -327,7 +327,7 @@ class ThemePreviewControllerTest extends TestCase
              ->will($this->returnValue($templateAssetsManager));
         
         $pageTreePreview =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTreePreview')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTreePreview')
                  ->setMethods(array('getInternalStylesheets', 'getInternalJavascripts', 'getExternalStylesheets', 'getExternalJavascripts', 'setUp'))
                  ->disableOriginalConstructor()
                  ->getMock()

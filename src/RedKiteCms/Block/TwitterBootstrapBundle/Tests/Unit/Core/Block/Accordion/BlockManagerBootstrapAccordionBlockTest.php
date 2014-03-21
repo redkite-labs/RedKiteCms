@@ -18,15 +18,15 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Accordion;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Accordion\AlBlockManagerBootstrapAccordionBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Accordion\BlockManagerBootstrapAccordionBlock;
 
 
 /**
- * AlBlockManagerBootstrapAccordionBlockTest
+ * BlockManagerBootstrapAccordionBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapAccordionBlockTest extends BaseTestBlock
+class BlockManagerBootstrapAccordionBlockTest extends BaseTestBlock
 {  
     public function testDefaultValue()
     {
@@ -43,7 +43,7 @@ class AlBlockManagerBootstrapAccordionBlockTest extends BaseTestBlock
         );
             
         $this->initContainer(); 
-        $blockManager = new AlBlockManagerBootstrapAccordionBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapAccordionBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
 
@@ -66,7 +66,7 @@ class AlBlockManagerBootstrapAccordionBlockTest extends BaseTestBlock
         $this->initContainer();
         $this->initBootstrapversion($bootstrapVersion);
         
-        $blockManager = new AlBlockManagerBootstrapAccordionBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapAccordionBlock($this->container, $this->validator);
         $blockManager->set($block);
         
         $expectedResult = array('RenderView' => array(

@@ -6,12 +6,12 @@ use Sensio\Bundle\GeneratorBundle\Generator\Generator;
 use Symfony\Component\DependencyInjection\Container;
 
 /**
- * AlExtensionGenerator generates the DI Extension file, overriding the one generated
+ * ExtensionGenerator generates the DI Extension file, overriding the one generated
  * by the bundle generator
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlExtensionGenerator extends Generator
+class ExtensionGenerator extends Generator
 {
     protected $themeSkeletonDir;
 

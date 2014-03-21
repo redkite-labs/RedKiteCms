@@ -18,14 +18,14 @@
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Navbar;
 
 use RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Base\BaseTestBlock;
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\AlBlockManagerBootstrapNavbarDropdownBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarDropdownBlock;
 
 /**
- * AlBlockManagerBootstrapNavbarDropdownBlockTest
+ * BlockManagerBootstrapNavbarDropdownBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapNavbarDropdownBlockTest extends BaseTestBlock
+class BlockManagerBootstrapNavbarDropdownBlockTest extends BaseTestBlock
 {  
     public function testDefaultValue()
     {
@@ -66,7 +66,7 @@ class AlBlockManagerBootstrapNavbarDropdownBlockTest extends BaseTestBlock
         );
             
         $this->initContainer(); 
-        $blockManager = new AlBlockManagerBootstrapNavbarDropdownBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarDropdownBlock($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
     
@@ -127,7 +127,7 @@ class AlBlockManagerBootstrapNavbarDropdownBlockTest extends BaseTestBlock
                         ->will($this->returnValue($formFactory))
         ;
         
-        $seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $seoRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\SeoRepositoryPropel')
                               ->disableOriginalConstructor()
                               ->getMock()
         ;
@@ -145,7 +145,7 @@ class AlBlockManagerBootstrapNavbarDropdownBlockTest extends BaseTestBlock
                         ->will($this->returnValue($request))
         ;
         
-        $blockManager = new AlBlockManagerBootstrapNavbarDropdownBlock($this->container, $this->validator);
+        $blockManager = new BlockManagerBootstrapNavbarDropdownBlock($this->container, $this->validator);
         $blockManager->set($block);
         $result = $blockManager->editorParameters();
         $this->assertEquals('TwitterBootstrapBundle:Editor:DropdownButton/dropdown_editor.html.twig', $result["template"]);
@@ -153,7 +153,7 @@ class AlBlockManagerBootstrapNavbarDropdownBlockTest extends BaseTestBlock
     
     protected function initRepository()
     {
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->at(0))
             ->method('createRepository')
             ->with('Block')

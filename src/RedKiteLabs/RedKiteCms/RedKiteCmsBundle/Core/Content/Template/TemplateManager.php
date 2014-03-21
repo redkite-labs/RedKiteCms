@@ -17,42 +17,42 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\AlEventsHandlerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\AlParametersValidatorInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
-use RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\EventsHandler\EventsHandlerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocksInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\SlotManager;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot;
+use RedKiteLabs\ThemeEngineBundle\Core\Template\Template;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactory;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface;
 
 /**
- * AlTemplateManager wrap an AlTemplate object to manage the template's slots when
+ * TemplateManager wrap an Template object to manage the template's slots when
  * RedKiteCms editor is active
  * *
- * @see AlSlotManager
+ * @see SlotManager
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *
  * @api
  */
-class AlTemplateManager extends AlTemplateBase
+class TemplateManager extends TemplateBase
 {
-    /** @var AlSlotManager[] */
+    /** @var SlotManager[] */
     protected $slotManagers = array();
-    /** @var AlFactoryRepositoryInterface */
+    /** @var FactoryRepositoryInterface */
     protected $factoryRepository;
-    /** @var AlTemplate */
+    /** @var Template */
     protected $template;
     /** @var BlockRepositoryInterface */
     protected $blockRepository;
-    /** @var AlPageBlocksInterface */
+    /** @var PageBlocksInterface */
     protected $pageBlocks;
-    /** @var AlThemeSlotsInterface */
+    /** @var ThemeSlotsInterface */
     protected $themeSlots;
     /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface */
     protected $dispatcher;
@@ -60,14 +60,14 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Constructor
      *
-     * @param AlEventsHandlerInterface       $eventsHandler
-     * @param AlFactoryRepositoryInterface   $factoryRepository
-     * @param AlBlockManagerFactoryInterface $blockManagerFactory
-     * @param AlParametersValidatorInterface $validator
+     * @param EventsHandlerInterface       $eventsHandler
+     * @param FactoryRepositoryInterface   $factoryRepository
+     * @param BlockManagerFactoryInterface $blockManagerFactory
+     * @param ParametersValidatorInterface $validator
      */
-    public function __construct(AlEventsHandlerInterface $eventsHandler, AlFactoryRepositoryInterface $factoryRepository, AlBlockManagerFactoryInterface $blockManagerFactory = null, AlParametersValidatorInterface $validator = null)
+    public function __construct(EventsHandlerInterface $eventsHandler, FactoryRepositoryInterface $factoryRepository, BlockManagerFactoryInterface $blockManagerFactory = null, ParametersValidatorInterface $validator = null)
     {
-        $blockManagerFactory = (null === $blockManagerFactory) ? new AlBlockManagerFactory($eventsHandler) : $blockManagerFactory;
+        $blockManagerFactory = (null === $blockManagerFactory) ? new BlockManagerFactory($eventsHandler) : $blockManagerFactory;
         parent::__construct($eventsHandler, $blockManagerFactory, $validator);
 
         $this->factoryRepository = $factoryRepository;
@@ -100,9 +100,9 @@ class AlTemplateManager extends AlTemplateBase
     }
 
     /**
-     * Returns the current AlTemplateobject
+     * Returns the current Templateobject
      *
-     * @return AlTemplate
+     * @return Template
      *
      * @api
      */
@@ -112,9 +112,9 @@ class AlTemplateManager extends AlTemplateBase
     }
 
     /**
-     * Returns the current AlThemeSlots object
+     * Returns the current ThemeSlots object
      *
-     * @return AlThemeSlotsInterface
+     * @return ThemeSlotsInterface
      *
      * @api
      */
@@ -126,7 +126,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the current page contents container object
      *
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocks
      *
      * @api
      */
@@ -165,7 +165,7 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Returns the managed slot managers
      * @param  boolean         $removeIncludedSlots
-     * @return AlSlotManager[]
+     * @return SlotManager[]
      *
      * @api
      */
@@ -178,7 +178,7 @@ class AlTemplateManager extends AlTemplateBase
      * Returns the slot manager that matches the given parameter
      *
      * @param  string             $slotName
-     * @return null|AlSlotManager
+     * @return null|SlotManager
      *
      * @api
      */
@@ -235,12 +235,12 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Refreshes the TemplateManager
      *
-     * @param  AlThemeSlotsInterface $themeSlots
-     * @param  AlTemplate            $template
-     * @param  AlPageBlocksInterface $pageBlocks
+     * @param  ThemeSlotsInterface $themeSlots
+     * @param  Template            $template
+     * @param  PageBlocksInterface $pageBlocks
      * @return self
      */
-    public function refresh(AlThemeSlotsInterface $themeSlots, AlTemplate $template = null, AlPageBlocksInterface $pageBlocks = null)
+    public function refresh(ThemeSlotsInterface $themeSlots, Template $template = null, PageBlocksInterface $pageBlocks = null)
     {
         $this->themeSlots = $themeSlots;
         $this->template = $template;
@@ -429,7 +429,7 @@ class AlTemplateManager extends AlTemplateBase
         $includedSlots = array_diff(array_keys($this->pageBlocks->getBlocks()), array_keys($themeSlots));
         foreach ($includedSlots as $slotName) {
             if ($slotName != "") {
-                $slot = new AlSlot($slotName);
+                $slot = new Slot($slotName);
                 $this->slotManagers[$slotName] = $this->createSlotManager($slot);
             }
         }
@@ -438,17 +438,17 @@ class AlTemplateManager extends AlTemplateBase
     /**
      * Creates the slot manager for the given slot
      *
-     * @param  AlSlot        $slot
-     * @return AlSlotManager
+     * @param  Slot        $slot
+     * @return SlotManager
      */
-    protected function createSlotManager(AlSlot $slot)
+    protected function createSlotManager(Slot $slot)
     {
         $slotName = $slot->getSlotName();
         $blocks = array();
         if (null !== $this->pageBlocks) {
             $blocks = $this->pageBlocks->getSlotBlocks($slotName);
         }
-        $slotManager = new AlSlotManager($slot, $this->blockRepository, $this->blockManagerFactory);
+        $slotManager = new SlotManager($slot, $this->blockRepository, $this->blockManagerFactory);
         $slotManager->setUpBlockManagers($blocks);
 
         return $slotManager;

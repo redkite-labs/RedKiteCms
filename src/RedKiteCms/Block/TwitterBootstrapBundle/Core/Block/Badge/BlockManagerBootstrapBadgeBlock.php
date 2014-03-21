@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Badge;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Label\AlBlockManagerBootstrapLabelBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Label\BlockManagerBootstrapLabelBlock;
 
 /**
  * Defines the Block Manager to handle the Bootstrap Badge
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapBadgeBlock extends AlBlockManagerBootstrapLabelBlock
+class BlockManagerBootstrapBadgeBlock extends BlockManagerBootstrapLabelBlock
 {
     protected $formParam = 'bootstrapbadgeblock.form';
     protected $blockTemplate = 'TwitterBootstrapBundle:Content:Badge/badge.html.twig';
@@ -61,7 +61,7 @@ class AlBlockManagerBootstrapBadgeBlock extends AlBlockManagerBootstrapLabelBloc
         $item = $items[0];
 
         $bootstrapFormFactory = $this->container->get('twitter_bootstrap.bootstrap_form_factory');
-        $form = $bootstrapFormFactory->createForm('Badge', 'AlBadgeType', $item);
+        $form = $bootstrapFormFactory->createForm('Badge', 'BadgeType', $item);
 
         return array(
             "template" => $this->editorTemplate,

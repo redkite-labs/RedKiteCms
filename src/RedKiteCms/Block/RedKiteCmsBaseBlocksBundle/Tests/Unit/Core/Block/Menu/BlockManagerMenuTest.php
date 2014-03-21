@@ -17,15 +17,15 @@
           
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Block\Menu;
 
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\AlBlockManagerMenu;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Menu\BlockManagerMenu;
 
 
 /**
- * AlBlockManagerMenuTest
+ * BlockManagerMenuTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerMenuTest extends BaseBlockManagerMenu
+class BlockManagerMenuTest extends BaseBlockManagerMenu
 {
     protected function setUp()
     {
@@ -36,6 +36,6 @@ class AlBlockManagerMenuTest extends BaseBlockManagerMenu
     
     protected function getBlockManager()
     {
-        return new AlBlockManagerMenu($this->container, $this->validator);
+        return new BlockManagerMenu($this->container, $this->validator);
     }
 }

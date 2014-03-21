@@ -18,20 +18,20 @@
 namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Rendering\Compiler\ThemeEngineListenersCollection;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler\ThemeEngineListenersCollection\AlThemeEngineListenersCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler\ThemeEngineListenersCollection\ThemeEngineListenersCollection;
 
 /**
- * AlThemeEngineListenersCollectionTest
+ * ThemeEngineListenersCollectionTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlThemeEngineListenersCollectionTest extends TestCase
+class ThemeEngineListenersCollectionTest extends TestCase
 {
     private $listenersCollection;
 
     protected function setUp()
     {
-        $this->listenersCollection = new AlThemeEngineListenersCollection();
+        $this->listenersCollection = new ThemeEngineListenersCollection();
     }
 
     public function testAddAListener()

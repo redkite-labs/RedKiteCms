@@ -17,15 +17,15 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Slot\Repeated\Converter;
 
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\AlSlotConverterToSite;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Converter\SlotConverterToSite;
 
 /**
- * AlSlotsConverterToSiteTest
+ * SlotsConverterToSiteTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSlotsConverterToSiteTest extends AlSlotsConverterBase
+class SlotsConverterToSiteTest extends SlotsConverterBase
 {
     public function testConvertReturnsNullWhenAnyBlockExists()
     {
@@ -33,8 +33,8 @@ class AlSlotsConverterToSiteTest extends AlSlotsConverterBase
             ->method('getSlotBlocks')
             ->will($this->returnValue(array()));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
         $this->assertNull($converter->convert());
     }
 
@@ -54,8 +54,8 @@ class AlSlotsConverterToSiteTest extends AlSlotsConverterBase
             ->method('save')
             ->will($this->returnValue(false));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
         $this->assertFalse($converter->convert());
     }
 
@@ -82,8 +82,8 @@ class AlSlotsConverterToSiteTest extends AlSlotsConverterBase
             ->method('delete')
             ->will($this->returnValue(false));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
         $this->assertFalse($converter->convert());
     }
 
@@ -113,8 +113,8 @@ class AlSlotsConverterToSiteTest extends AlSlotsConverterBase
             ->method('delete')
             ->will($this->throwException(new \RuntimeException));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
         $this->assertFalse($converter->convert());
     }
 
@@ -149,8 +149,8 @@ class AlSlotsConverterToSiteTest extends AlSlotsConverterBase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
         $this->assertTrue($converter->convert());
     }
 
@@ -182,8 +182,8 @@ class AlSlotsConverterToSiteTest extends AlSlotsConverterBase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
         $this->assertTrue($converter->convert());
     }
 
@@ -217,14 +217,14 @@ class AlSlotsConverterToSiteTest extends AlSlotsConverterBase
             ->method('delete')
             ->will($this->returnValue(true));
 
-        $slot = new AlSlot('test', array('repeated' => 'page'));
-        $converter = new AlSlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
+        $slot = new Slot('test', array('repeated' => 'page'));
+        $converter = new SlotConverterToSite($slot, $this->pageContents, $this->factoryRepository);
         $this->assertTrue($converter->convert());
     }
 
     private function setUpBlock()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
             ->method('toArray')
             ->will($this->returnValue(array("Id" => 2, "Type" => "Text")));

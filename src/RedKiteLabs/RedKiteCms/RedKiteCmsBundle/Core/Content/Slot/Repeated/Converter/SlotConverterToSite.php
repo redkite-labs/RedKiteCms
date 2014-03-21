@@ -22,7 +22,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Con
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSlotConverterToSite extends AlSlotConverterBase
+class SlotConverterToSite extends SlotConverterBase
 {
     /**
      * {@inheritdoc}

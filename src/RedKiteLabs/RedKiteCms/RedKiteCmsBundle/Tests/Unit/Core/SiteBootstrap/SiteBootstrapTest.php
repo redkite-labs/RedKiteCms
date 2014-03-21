@@ -18,9 +18,9 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\PageTree;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrap;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\SiteBootstrap\SiteBootstrap;
 
-class AlSiteBootstrapTester extends AlSiteBootstrap
+class SiteBootstrapTester extends SiteBootstrap
 {
     public function getLanguageManager()
     {
@@ -39,11 +39,11 @@ class AlSiteBootstrapTester extends AlSiteBootstrap
 }
 
 /**
- * AlSiteBootstrapTest
+ * SiteBootstrapTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSiteBootstrapTest extends TestCase
+class SiteBootstrapTest extends TestCase
 {
     private $siteBoostrap;    
     private $languageManager;
@@ -55,61 +55,61 @@ class AlSiteBootstrapTest extends TestCase
         parent::setUp();
 
         $this->languageRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\LanguageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->languageManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\LanguageManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->pageRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\PageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->pageManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\PageManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->blockRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->blockManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->template = 
-            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\Template')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $this->templateManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
-        $this->siteBoostrap = new AlSiteBootstrap($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
+        $this->siteBoostrap = new SiteBootstrap($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
     }
     
     public function testLanguageManagerInjectedBySetters()
     {
-        $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
+        $siteBootstrap = new SiteBootstrapTester($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
         $languageManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\LanguageManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -120,9 +120,9 @@ class AlSiteBootstrapTest extends TestCase
     
     public function testPageManagerInjectedBySetters()
     {
-        $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
+        $siteBootstrap = new SiteBootstrapTester($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
         $pageManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\PageManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -133,9 +133,9 @@ class AlSiteBootstrapTest extends TestCase
     
     public function testTemplateManagerInjectedBySetters()
     {
-        $siteBootstrap = new AlSiteBootstrapTester($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
+        $siteBootstrap = new SiteBootstrapTester($this->languageManager, $this->pageManager, $this->blockManager, $this->templateManager);
         $templateManager = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -494,14 +494,14 @@ class AlSiteBootstrapTest extends TestCase
     
     private function initLanguage()
     {
-         $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Model\AlLanguage', array('delete'));
+         $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Model\Language', array('delete'));
          
          return $language;
     }
     
     private function initPage()
     {
-         $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Model\AlPage', array('delete'));
+         $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Model\Page', array('delete'));
          
          return $page;
     }

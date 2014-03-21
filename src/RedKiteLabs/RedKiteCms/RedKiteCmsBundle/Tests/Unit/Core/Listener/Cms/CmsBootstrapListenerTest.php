@@ -34,12 +34,12 @@ class CmsBootstrapListenerTest extends TestCase
         parent::setUp();
 
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
-        $this->pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
-                            ->setMethods(array('getTemplate', 'getAlLanguage', 'getAlPage', 'setDataManager', 'setUp'))
+        $this->pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
+                            ->setMethods(array('getTemplate', 'getLanguage', 'getPage', 'setDataManager', 'setUp'))
                             ->disableOriginalConstructor()
                             ->getMock();
 
-        $this->aligner = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\AlRepeatedSlotsAligner')
+        $this->aligner = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Repeated\Aligner\RepeatedSlotsAligner')
                             ->disableOriginalConstructor()
                             ->getMock();
         
@@ -59,17 +59,17 @@ class CmsBootstrapListenerTest extends TestCase
     {
         $this->initContainer();
         
-        $themeSlots = $this->getMock('\RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface');
+        $themeSlots = $this->getMock('\RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface');
         $themeSlots->expects($this->once())
             ->method('getSlots')
             ->will($this->returnValue(array()));
         
-        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface');
         $activeTheme->expects($this->once())
             ->method('getThemeBootstrapVersion')
             ->will($this->returnValue('2.x'));
         
-        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
+        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme')
                             ->disableOriginalConstructor()
                             ->getMock();
         $theme->expects($this->once())
@@ -141,7 +141,7 @@ class CmsBootstrapListenerTest extends TestCase
             ->with('request')
             ->will($this->returnValue($request));
         
-        $templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+        $templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager')
                             ->disableOriginalConstructor()
                             ->getMock();
         $this->container->expects($this->at(14))
@@ -150,7 +150,7 @@ class CmsBootstrapListenerTest extends TestCase
             ->will($this->returnValue($templateManager));
         
         
-        $pageBlocks = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface");
+        $pageBlocks = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocksInterface");
         $this->container->expects($this->at(15))
             ->method('get')
             ->with('red_kite_cms.page_blocks')
@@ -176,7 +176,7 @@ class CmsBootstrapListenerTest extends TestCase
             ->with('twig')
             ->will($this->returnValue($twig));
         
-        $configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\AlConfigurationInterface');
+        $configuration = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Configuration\ConfigurationInterface');
         $configuration
             ->expects($this->once())
             ->method('read')
@@ -207,7 +207,7 @@ class CmsBootstrapListenerTest extends TestCase
             ->method('setup')
             ->with($theme, $templateManager, $pageBlocks);
         
-        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+        $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\Template')
                             ->disableOriginalConstructor()
                             ->getMock();
 

@@ -18,15 +18,15 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Generator\Base;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\TemplateParser\AlTemplateParser;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Generator\TemplateParser\TemplateParser;
 use org\bovigo\vfs\vfsStream;
 
 /**
- * AlTemplateParserTest
+ * TemplateParserTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlGeneratorBase extends TestCase
+class GeneratorBase extends TestCase
 {
     protected $root;
     protected $parser;
@@ -42,7 +42,7 @@ class AlGeneratorBase extends TestCase
                            ->disableOriginalConstructor()
                             ->getMock();
         
-        $this->parser = new AlTemplateParser($templateLocator, $templateNameParser);
+        $this->parser = new TemplateParser($templateLocator, $templateNameParser);
     }
 
     protected function importDefaultTheme()

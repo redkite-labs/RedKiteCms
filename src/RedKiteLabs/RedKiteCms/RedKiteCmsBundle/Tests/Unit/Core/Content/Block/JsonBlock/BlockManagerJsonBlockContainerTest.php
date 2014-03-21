@@ -17,10 +17,10 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\JsonBlock;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\AlBlockManagerJsonBlockContainer;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlockContainer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase;
 
-class AlBlockManagerJsonBlockContainerTester extends AlBlockManagerJsonBlockContainer
+class BlockManagerJsonBlockContainerTester extends BlockManagerJsonBlockContainer
 {
     public function getDefaultValue()
     {
@@ -29,16 +29,16 @@ class AlBlockManagerJsonBlockContainerTester extends AlBlockManagerJsonBlockCont
 }
 
 /**
- * AlBlockManagerJsonBlockTest
+ * BlockManagerJsonBlockTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockManagerJsonBlockContainerTest extends AlBlockManagerContainerBase
+class BlockManagerJsonBlockContainerTest extends BlockManagerContainerBase
 {
     public function testBlockManagerInitialization()
     {
         $this->initContainer();
         
-        $blockManager = new AlBlockManagerJsonBlockContainerTester($this->container);
+        $blockManager = new BlockManagerJsonBlockContainerTester($this->container);
     }
 }

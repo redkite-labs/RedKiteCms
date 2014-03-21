@@ -17,19 +17,19 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Tests\Unit\Core\Block\Label;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Label\AlBlockManagerBootstrapLabelBlock;
+use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Label\BlockManagerBootstrapLabelBlock;
 
 /**
- * AlBlockManagerBootstrapLabelBlockTest
+ * BlockManagerBootstrapLabelBlockTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerBootstrapLabelBlockTest extends AlBlockManagerLabelTestBase
+class BlockManagerBootstrapLabelBlockTest extends BlockManagerLabelTestBase
 {  
  
     protected function getBlockManager()
     {
-        return new AlBlockManagerBootstrapLabelBlock($this->container, $this->validator);
+        return new BlockManagerBootstrapLabelBlock($this->container, $this->validator);
     }
      
     public function testDefaultValue()
@@ -58,7 +58,7 @@ class AlBlockManagerBootstrapLabelBlockTest extends AlBlockManagerLabelTestBase
             }
         }';
         
-        $this->editorParameters($value, 'bootstraplabelblock.form', 'Label', 'AlLabelType');
+        $this->editorParameters($value, 'bootstraplabelblock.form', 'Label', 'LabelType');
     }
     
     public function testGetHtml()

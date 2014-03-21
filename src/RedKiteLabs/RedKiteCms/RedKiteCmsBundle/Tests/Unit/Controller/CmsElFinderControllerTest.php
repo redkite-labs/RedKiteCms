@@ -18,14 +18,14 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Controller;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller\AlCmsElFinderController;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller\CmsElFinderController;
 
 /**
  * ElFinderControllerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlCmsElFinderControllerTest extends TestCase
+class CmsElFinderControllerTest extends TestCase
 {
     public function testConnectMediaAction()
     {
@@ -34,7 +34,7 @@ class AlCmsElFinderControllerTest extends TestCase
             'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ElFinder\ElFinderMediaConnector'
         );
 
-        $controller = new AlCmsElFinderController();
+        $controller = new CmsElFinderController();
         $controller->setContainer($container);
         $controller->connectMediaAction();
     }
@@ -52,7 +52,7 @@ class AlCmsElFinderControllerTest extends TestCase
              ->with('templating')
              ->will($this->returnValue($templating));
 
-        $controller = new AlCmsElFinderController();
+        $controller = new CmsElFinderController();
         $controller->setContainer($container);
         $controller->showFilesManagerAction();
     }

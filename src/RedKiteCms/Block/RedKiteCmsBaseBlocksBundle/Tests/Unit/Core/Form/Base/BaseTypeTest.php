@@ -17,19 +17,19 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Form\Base;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\File\AlFileType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\File\FileType;
 
-class TestForm extends \RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\AlBaseType
+class TestForm extends \RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\BaseType
 {
 }
 
 /**
- * AlBaseTypeTest
+ * BaseTypeTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBaseTypeTest extends \PHPUnit_Framework_TestCase
+class BaseTypeTest extends \PHPUnit_Framework_TestCase
 {
     public function testResolver()
     {

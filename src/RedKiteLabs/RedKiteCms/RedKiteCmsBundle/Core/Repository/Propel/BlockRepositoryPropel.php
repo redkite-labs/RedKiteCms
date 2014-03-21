@@ -17,8 +17,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlockQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\BlockQuery;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\InvalidArgumentTypeException;
 
@@ -27,14 +27,14 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\Inval
  *
  *  @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRepositoryInterface
+class BlockRepositoryPropel extends Base\PropelRepository implements BlockRepositoryInterface
 {
     /**
      * {@inheritdoc}
      */
     public function getRepositoryObjectClassName()
     {
-        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock';
+        return '\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block';
     }
 
     /**
@@ -42,7 +42,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
      */
     public function setRepositoryObject($object = null)
     {
-        if (null !== $object && !$object instanceof AlBlock) {
+        if (null !== $object && !$object instanceof Block) {
             throw new InvalidArgumentTypeException('exception_only_propel_blocks_are_accepted');
         }
 
@@ -54,7 +54,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
      */
     public function fromPK($id)
     {
-        return AlBlockQuery::create()->findPk($id);
+        return BlockQuery::create()->findPk($id);
     }
 
     /**
@@ -62,7 +62,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
      */
     public function retrieveContents($idLanguage, $idPage, $slotName = null, $toDelete = 0)
     {
-        return AlBlockQuery::create()
+        return BlockQuery::create()
                 ->_if($idPage)
                     ->filterByPageId($idPage)
                 ->_endif()
@@ -83,7 +83,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
      */
     public function retrieveContentsBySlotName($slotName, $toDelete = 0)
     {
-        return AlBlockQuery::create('a')
+        return BlockQuery::create('a')
                 ->where('a.SlotName like ?', $slotName)
                 ->filterByToDelete($toDelete)
                 ->orderBySlotName()
@@ -95,7 +95,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
      */
     public function fromLanguageId($languageId)
     {
-        return AlBlockQuery::create()
+        return BlockQuery::create()
                 ->filterByLanguageId($languageId)
                 ->filterByToDelete(0)
                 ->find();
@@ -106,7 +106,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
      */
     public function fromPageId($pageId)
     {
-        return AlBlockQuery::create()
+        return BlockQuery::create()
                 ->filterByPageId($pageId)
                 ->filterByToDelete(0)
                 ->find();
@@ -117,7 +117,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
      */
     public function fromContent($search)
     {
-        return AlBlockQuery::create()
+        return BlockQuery::create()
                 ->filterByContent('%' . $search . '%')
                 ->filterByToDelete(0)
                 ->find();
@@ -128,7 +128,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
      */
     public function fromType($className, $operation = 'find')
     {
-        return AlBlockQuery::create()
+        return BlockQuery::create()
                 ->filterByType($className)
                 ->filterByToDelete(0)
                 ->$operation();
@@ -139,7 +139,7 @@ class AlBlockRepositoryPropel extends Base\AlPropelRepository implements BlockRe
      */
     public function deleteBlocks($idLanguage, $idPage, $remove = false)
     {
-        $blocks = AlBlockQuery::create()
+        $blocks = BlockQuery::create()
                 ->_if($idLanguage)
                     ->filterByLanguageId($idLanguage)
                 ->_endif()

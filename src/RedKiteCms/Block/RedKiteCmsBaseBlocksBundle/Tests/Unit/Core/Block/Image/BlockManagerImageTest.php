@@ -17,15 +17,15 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Block\Image;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\AlBlockManagerImage;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\BlockManagerImage;
 
 /**
- * AlBlockManagerImageTest
+ * BlockManagerImageTest
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class AlBlockManagerImageTest extends AlBlockManagerContainerBase
+class BlockManagerImageTest extends BlockManagerContainerBase
 {
     public function testDefaultValue()
     {
@@ -46,7 +46,7 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
         $this->translate("image_block_alt_attribute", 1);
         
         $this->initContainer();  
-        $blockManager = new AlBlockManagerImage($this->container, $this->validator);
+        $blockManager = new BlockManagerImage($this->container, $this->validator);
         $this->assertEquals($expectedValue, $blockManager->getDefaultValue());
     }
 
@@ -54,7 +54,7 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
     {   
         $this->initContainer();      
         $this->initRequest(); 
-        $blockManager = new AlBlockManagerImage($this->container, $this->validator);
+        $blockManager = new BlockManagerImage($this->container, $this->validator);
         
         $value =
         '
@@ -128,7 +128,7 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
         ;
         
         $this->initContainer();
-        $blockManager = new AlBlockManagerImage($this->container, $this->validator);
+        $blockManager = new BlockManagerImage($this->container, $this->validator);
         $blockManager->set($block);
         $blockManager->editorParameters();        
     }
@@ -147,7 +147,7 @@ class AlBlockManagerImageTest extends AlBlockManagerContainerBase
 
     private function initBlock($value)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->once())
               ->method('getContent')
               ->will($this->returnValue($value));

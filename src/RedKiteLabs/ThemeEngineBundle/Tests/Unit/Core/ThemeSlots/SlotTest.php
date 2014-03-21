@@ -18,34 +18,34 @@
 namespace RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\ThemeSlots;
 
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot;
 
 /**
- * AlSlotTest
+ * SlotTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class AlSlotTest extends TestCase
+class SlotTest extends TestCase
 {
     /**
      * @expectedException \RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
-    public function testAlSlotDoesNotAdmitNullValuesForTheSlotNameParam()
+    public function testSlotDoesNotAdmitNullValuesForTheSlotNameParam()
     {
-        $slot = new AlSlot(null);
+        $slot = new Slot(null);
     }
 
     /**
      * @expectedException \RedKiteLabs\ThemeEngineBundle\Core\Exception\InvalidArgumentException
      */
-    public function testAlSlotRequiresAStringValueForTheSlotNameParam()
+    public function testSlotRequiresAStringValueForTheSlotNameParam()
     {
-        $slot = new AlSlot(array('logo'));
+        $slot = new Slot(array('logo'));
     }
 
-    public function testAlSlotInizializedWithDefaultValues()
+    public function testSlotInizializedWithDefaultValues()
     {
-        $slot = new AlSlot('logo');
+        $slot = new Slot('logo');
         $this->assertEquals('logo', $slot->getSlotName());
         $this->assertNull($slot->getContent());
         $this->assertEquals('Text', $slot->getBlockType());
@@ -54,7 +54,7 @@ class AlSlotTest extends TestCase
     
     public function testForceRepeatedDuringDeploying()
     {
-        $slot = new AlSlot('nav-menu', array(
+        $slot = new Slot('nav-menu', array(
             'repeated' => 'site|page',
             'blockType' => 'Script',
             'htmlContent' => 'my fancy content',
@@ -63,9 +63,9 @@ class AlSlotTest extends TestCase
         $this->assertEquals('page', $slot->getForceRepeatedDuringDeploying());
     }
 
-    public function testAlSlotInizializedWithGivenValues()
+    public function testSlotInizializedWithGivenValues()
     {
-        $slot = new AlSlot('nav-menu', array(
+        $slot = new Slot('nav-menu', array(
             'repeated' => 'site',
             'blockType' => 'Script',
             'htmlContent' => 'my fancy content',
@@ -76,7 +76,7 @@ class AlSlotTest extends TestCase
         $this->assertEquals('site', $slot->getRepeated());
     }
     
-    public function testAlSlotToArray()
+    public function testSlotToArray()
     {
         $values = array(
             'repeated' => 'site',
@@ -84,7 +84,7 @@ class AlSlotTest extends TestCase
             'htmlContent' => 'my fancy content',
             'blockDefinition' => 'definition'
         );
-        $slot = new AlSlot('logo', $values);
+        $slot = new Slot('logo', $values);
         $values['slotName'] = 'logo';
         $values['blockType'] = 'Script';
         $this->assertEquals($values, $slot->toArray());
@@ -92,7 +92,7 @@ class AlSlotTest extends TestCase
     
     public function testSetSlotPropertiesBySetters()
     {
-        $slot = new AlSlot('logo');
+        $slot = new Slot('logo');
         $slot->setRepeated('language');
         $slot->setBlockType('Script');
         $this->assertEquals('language', $slot->getRepeated());

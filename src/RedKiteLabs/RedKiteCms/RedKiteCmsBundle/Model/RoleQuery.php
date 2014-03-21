@@ -2,8 +2,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseAlRoleQuery;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\om\BaseRoleQuery;
 
-class AlRoleQuery extends BaseAlRoleQuery
+class RoleQuery extends BaseRoleQuery
 {
 }
