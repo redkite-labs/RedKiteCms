@@ -45,17 +45,17 @@ class ThemesControllerTest extends TestCase
              ->method('get')
              ->will($this->returnValue($this->themeName));
         
-        $this->siteBootstrap = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\SiteBootstrap\AlSiteBootstrapInterface');
-        $this->pageBlocks = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocksInterface');
+        $this->siteBootstrap = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\SiteBootstrap\SiteBootstrapInterface');
+        $this->pageBlocks = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocksInterface');
         
-        $themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface');
+        $themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface');
         
-        $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+        $this->template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\Template')
              ->disableOriginalConstructor()
              ->getMock()
         ;
         
-        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -66,7 +66,7 @@ class ThemesControllerTest extends TestCase
              ->with($themeSlots, $this->template, $this->pageBlocks)
         ;
         
-        $this->theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
+        $this->theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme')
              ->disableOriginalConstructor()
              ->getMock()
         ;
@@ -83,7 +83,7 @@ class ThemesControllerTest extends TestCase
             ->will($this->returnValue($themeSlots))
         ;
         
-        $this->themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection');
+        $this->themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\ThemesCollection');
         $this->themes
              ->expects($this->once())
              ->method('getTheme')
@@ -98,7 +98,7 @@ class ThemesControllerTest extends TestCase
              ->will($this->returnValue($this->response))
         ;
         
-        $this->translator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface');
+        $this->translator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\TranslatorInterface');
         $this->translator
              ->expects($this->any())
              ->method('translate')
@@ -134,7 +134,7 @@ class ThemesControllerTest extends TestCase
         $sequence = 5;
         if ($result) {
             
-            $activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+            $activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface');
             $activeTheme
                  ->expects($this->once())
                  ->method('writeActiveTheme')

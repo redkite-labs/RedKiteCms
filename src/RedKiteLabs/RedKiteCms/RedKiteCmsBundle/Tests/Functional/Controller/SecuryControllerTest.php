@@ -62,7 +62,7 @@ class SecurityControllerTest extends BaseSecured
         $this->assertTrue($crawler->filter('#al_user_username')->count() == 1);
         $this->assertTrue($crawler->filter('#al_user_password')->count() == 1);
         $this->assertTrue($crawler->filter('#al_user_email')->count() == 1);
-        $this->assertTrue($crawler->filter('#al_user_AlRole')->count() == 1);
+        $this->assertTrue($crawler->filter('#al_user_Role')->count() == 1);
     }
     
     public function testLoadUser()
@@ -95,7 +95,7 @@ class SecurityControllerTest extends BaseSecured
                 "value" => "",
             ),
             array (
-                "name" => "#al_user_AlRole",
+                "name" => "#al_user_Role",
                 "value" => "2",
             ),
         );

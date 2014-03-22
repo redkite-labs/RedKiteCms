@@ -18,9 +18,9 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface;
 
 /**
  * TemplateSection defines the section required to generate a template
@@ -29,17 +29,17 @@ use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
  */
 abstract class TemplateSection
 {
-    /** @var null|AlUrlManagerInterface */
+    /** @var null|UrlManagerInterface */
     protected $urlManager = null;
-    /** @var null|AlPageTree */
+    /** @var null|PageTree */
     protected $pageTree = null;
-    /** @var null|AlThemeInterface */
+    /** @var null|ThemeInterface */
     protected $theme = null;
     /** @var null|string */
     protected $imagesSourcePath = null;
     /** @var null|string */
     protected $imagesTargetPath = null;
-    /** @var null|\RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlThemeSlotsInterface */
+    /** @var null|\RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface */
     protected $themeSlots = null;
 
     /**
@@ -101,9 +101,9 @@ abstract class TemplateSection
     /**
      * Constructor
      *
-     * @param AlUrlManagerInterface $urlManager
+     * @param UrlManagerInterface $urlManager
      */
-    public function __construct(AlUrlManagerInterface $urlManager)
+    public function __construct(UrlManagerInterface $urlManager)
     {
         $this->urlManager = $urlManager;
     }
@@ -111,11 +111,11 @@ abstract class TemplateSection
     /**
      * Defines the base method to generate a section
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree     $pageTree
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree     $pageTree
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface $theme
      * @param array                                                      $options
      */
-    public function generateSection(AlPageTree $pageTree, AlThemeInterface $theme, array $options)
+    public function generateSection(PageTree $pageTree, ThemeInterface $theme, array $options)
     {
         // Writes page contentsSection
         $this->pageTree = $pageTree;

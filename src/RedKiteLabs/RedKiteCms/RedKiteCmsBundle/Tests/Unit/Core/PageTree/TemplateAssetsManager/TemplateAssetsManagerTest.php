@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\PageTree\Templ
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager;
-use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAssetCollection;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\AssetCollection;
 
 /**
  * TemplateAssetsManagerTest
@@ -34,7 +34,7 @@ class TemplateAssetsManagerTest extends TemplateAssetsManagerBase
     public function testEmptyObject()
     {
         $container = $this->getMock("Symfony\Component\DependencyInjection\ContainerInterface");
-        $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+        $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactory')
                     ->disableOriginalConstructor()
                     ->getMock()
         ;

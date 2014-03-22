@@ -19,7 +19,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Pro
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\DependencyInjection\Compiler\RegisterCmsListenersPass;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Compiler\AlBlocksCompilerPass;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Compiler\BlocksCompilerPass;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\RedKiteCmsBundle;
 
 /**
@@ -46,7 +46,7 @@ class RedKiteCmsBundleTest extends TestCase
         $containerBuilder
              ->expects($this->at(1))
              ->method('addCompilerPass')
-             ->with(new AlBlocksCompilerPass())
+             ->with(new BlocksCompilerPass())
         ;
         
         $redKiteCmsBundle = new RedKiteCmsBundle();

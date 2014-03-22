@@ -17,11 +17,11 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks;
 
-use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\AlSlot;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\Slot;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerInterface;
 
 /**
  * BlocksAdder is the object deputated to add and edit a block on a slot
@@ -32,20 +32,20 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInt
  */
 class BlocksAdder extends BaseBlocks
 {
-    /** @var AlBlockManagerFactoryInterface */
+    /** @var BlockManagerFactoryInterface */
     private $blockManagerFactory;
-    /** @var null|AlBlockManagerInterface */
+    /** @var null|BlockManagerInterface */
     private $lastAdded = null;
-    /** @var null|AlBlockManagerInterface */
+    /** @var null|BlockManagerInterface */
     private $lastEdited = null;
 
     /**
      * Constructor
      *
      * @param BlockRepositoryInterface       $blockRepository
-     * @param AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param BlockManagerFactoryInterface $blockManagerFactory
      */
-    public function __construct(BlockRepositoryInterface $blockRepository, AlBlockManagerFactoryInterface $blockManagerFactory)
+    public function __construct(BlockRepositoryInterface $blockRepository, BlockManagerFactoryInterface $blockManagerFactory)
     {
         parent::__construct($blockRepository);
 
@@ -55,7 +55,7 @@ class BlocksAdder extends BaseBlocks
     /**
      * Returns the last block manager added to the slot manager
      *
-     * @return AlBlockManagerInterface object or null
+     * @return BlockManagerInterface object or null
      *
      * @api
      */
@@ -67,7 +67,7 @@ class BlocksAdder extends BaseBlocks
     /**
      * Returns the last edited block manager
      *
-     * @return AlBlockManagerInterface object or null
+     * @return BlockManagerInterface object or null
      *
      * @api
      */
@@ -77,18 +77,18 @@ class BlocksAdder extends BaseBlocks
     }
 
     /**
-     * Adds a new AlBlock object to the slot
+     * Adds a new Block object to the slot
      *
      * The created block managed is added to the collection. When the $referenceBlockId param is valorized,
      * the new block is created under the block identified by the given id
      *
-     * @param  AlSlot                  $slot
+     * @param  Slot                  $slot
      * @param  BlockManagersCollection $blockManagersCollection
      * @param  array                   $options
      * @return boolean|null
      * @throws \Exception
      */
-    public function add(AlSlot $slot, BlockManagersCollection $blockManagersCollection, array $options)
+    public function add(Slot $slot, BlockManagersCollection $blockManagersCollection, array $options)
     {
         try {
             $repeated = $slot->getRepeated();
@@ -136,14 +136,14 @@ class BlocksAdder extends BaseBlocks
     /**
      * Edits the block
      *
-     * @param  AlBlockManagerInterface $blockManager
+     * @param  BlockManagerInterface $blockManager
      * @param  array                   $values
      * @return boolean|null
      * @throws \Exception
      *
      * @api
      */
-    public function edit(AlBlockManagerInterface $blockManager, array $values)
+    public function edit(BlockManagerInterface $blockManager, array $values)
     {
         try {
             $this->blockRepository->startTransaction();
@@ -183,7 +183,7 @@ class BlocksAdder extends BaseBlocks
 
     /**
      * @param $type
-     * @return AlBlockManagerInterface
+     * @return BlockManagerInterface
      * @throws InvalidArgumentException
      */
     private function createBlockManager($type)
@@ -205,7 +205,7 @@ class BlocksAdder extends BaseBlocks
         return $blockManager;
     }
 
-    private function saveBlockmanager(AlSlot $slot, AlBlockManagerInterface $blockManager, array $options)
+    private function saveBlockmanager(Slot $slot, BlockManagerInterface $blockManager, array $options)
     {
         $values = array(
             "PageId"          => $options["idPage"],
@@ -233,7 +233,7 @@ class BlocksAdder extends BaseBlocks
         return $blockManager->save($values);
     }
 
-    public function generateFromBlockDefinition($blockDefinition, AlBlockManagerInterface $blockManager, array $values)
+    public function generateFromBlockDefinition($blockDefinition, BlockManagerInterface $blockManager, array $values)
     {
         $default = $blockManager->getDefaultValue();
         $blockDefinitionDecoded = json_decode($blockDefinition, true);

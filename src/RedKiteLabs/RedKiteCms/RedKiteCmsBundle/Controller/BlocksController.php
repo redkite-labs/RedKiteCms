@@ -238,7 +238,7 @@ class BlocksController extends Base\BaseController
     /**
      * @param  Request                                                       $request
      * @param  bool                                                          $throwExceptionWhenNull
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\AlSlotManager
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\SlotManager
      * @throws RuntimeException
      */
     private function fetchSlotManager(Request $request, $throwExceptionWhenNull = true)

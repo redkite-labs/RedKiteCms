@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Language;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -30,18 +30,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class AddLanguageBlocksListener extends Base\AddLanguageBaseListener
 {
-    /** @var AlBlockManager */
+    /** @var BlockManager */
     private $blockManager;
 
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager $blockManager
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager $blockManager
      * @param \Symfony\Component\DependencyInjection\ContainerInterface       $container
      *
      * @api
      */
-    public function __construct(AlBlockManager $blockManager, ContainerInterface $container = null)
+    public function __construct(BlockManager $blockManager, ContainerInterface $container = null)
     {
         parent::__construct($container);
 

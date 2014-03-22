@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Seo;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Seo\SeoForm;
  
 /**
@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Seo\SeoForm;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class SeoFormTest extends AlBaseType
+class SeoFormTest extends BaseType
 {
     protected function configureFields()
     {   
@@ -44,7 +44,7 @@ class SeoFormTest extends AlBaseType
     protected function getForm()
     {
         $languagesRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\LanguageRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;

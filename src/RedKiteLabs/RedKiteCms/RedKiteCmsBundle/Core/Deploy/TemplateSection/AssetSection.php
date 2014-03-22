@@ -18,8 +18,8 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface;
 
 /**
  * AssetSection is the object deputated to generate the asset sections of a twig template
@@ -33,11 +33,11 @@ class AssetSection extends TemplateSectionTwig
     /**
      * Defines the base method to generate a section
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree     $pageTree
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree     $pageTree
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface $theme
      * @param array                                                      $options
      */
-    public function generateSection(AlPageTree $pageTree, AlThemeInterface $theme, array $options)
+    public function generateSection(PageTree $pageTree, ThemeInterface $theme, array $options)
     {
         parent::generateSection($pageTree, $theme, $options);
 

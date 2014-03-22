@@ -9,13 +9,13 @@
             <parameter>@BootbusinessBlockBundle/Resources/public/js/bootbusiness_navbar.js</parameter>
         </parameter>
         
-        <parameter key="bootbusiness_product.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessProductBlock</parameter>
-        <parameter key="bootbusiness_product_thumbnail.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessProductThumbnailBlock</parameter>
-        <parameter key="bootbusinessproductblock.form.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Form\AlButtonType</parameter>
-        <parameter key="bootbusiness_member.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessMemberBlock</parameter>
-        <parameter key="bootbusiness_event.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessEventBlock</parameter>
-        <parameter key="bootbusiness_contact_office.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessContactOfficeBlock</parameter>
-        <parameter key="bootbusiness_navbar.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\AlBlockManagerBootbusinessNavbarBlock</parameter>
+        <parameter key="bootbusiness_product.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\BlockManagerBootbusinessProductBlock</parameter>
+        <parameter key="bootbusiness_product_thumbnail.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\BlockManagerBootbusinessProductThumbnailBlock</parameter>
+        <parameter key="bootbusinessproductblock.form.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Form\ButtonType</parameter>
+        <parameter key="bootbusiness_member.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\BlockManagerBootbusinessMemberBlock</parameter>
+        <parameter key="bootbusiness_event.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\BlockManagerBootbusinessEventBlock</parameter>
+        <parameter key="bootbusiness_contact_office.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\BlockManagerBootbusinessContactOfficeBlock</parameter>
+        <parameter key="bootbusiness_navbar.block.class">RedKiteCms\Block\BootbusinessBlockBundle\Core\Block\BlockManagerBootbusinessNavbarBlock</parameter>
     </parameters>
 
     <services>

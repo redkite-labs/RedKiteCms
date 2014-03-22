@@ -20,8 +20,8 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\PageRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\ThemesCollection;
 
 /**
  * Implements some static method to fetch the values used in the interfaces forms from
@@ -56,7 +56,7 @@ class ChoiceValues
         return $result;
     }
 
-    public static function getTemplates(AlActiveThemeInterface $activeTheme, AlThemesCollection $themes)
+    public static function getTemplates(ActiveThemeInterface $activeTheme, ThemesCollection $themes)
     {
         $theme = $themes->getTheme($activeTheme->getActiveTheme()->getThemeName());
 

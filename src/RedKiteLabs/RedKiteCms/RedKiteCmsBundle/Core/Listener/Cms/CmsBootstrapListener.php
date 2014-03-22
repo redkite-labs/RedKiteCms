@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Cms;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\ThemeEngineBundle\Core\Asset\AlAsset;
+use RedKiteLabs\ThemeEngineBundle\Core\Asset\Asset;
 
 /**
  * Bootstraps RedKiteCms
@@ -35,9 +35,9 @@ class CmsBootstrapListener
     private $container;
     /** @var \Symfony\Component\HttpKernel\KernelInterface */
     private $kernel;
-    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree */
+    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree */
     private $pageTree;
-    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface */
+    /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface */
     private $activeTheme;
 
     /**
@@ -92,7 +92,7 @@ class CmsBootstrapListener
 
     private function locate($asset)
     {
-        $asset = new AlAsset($this->kernel, $asset);
+        $asset = new Asset($this->kernel, $asset);
         $assetPath = $asset->getRealPath();
 
         return $assetPath;
@@ -120,8 +120,8 @@ class CmsBootstrapListener
             return;
         }
 
-        $language = $this->pageTree->getAlLanguage();
-        $page = $this->pageTree->getAlPage();
+        $language = $this->pageTree->getLanguage();
+        $page = $this->pageTree->getPage();
         $languageId = (null !== $language) ? $language->getId() : null;
         $pageId = (null !== $page) ? $page->getId() : null;
 

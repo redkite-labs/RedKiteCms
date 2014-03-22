@@ -25,7 +25,7 @@ RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Seo\Seo:
     description:
       - NotBlank: { message: "The metatag description value should not be blank" }
 
-RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser:
+RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User:
   properties:
     username:
       - NotBlank: { message: Username field can not be empty }
@@ -37,7 +37,7 @@ RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser:
       - NotBlank: { message: "Email field can not be empty" }
       - Email: { message: "The email you entered is not valid" }
 
-RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole:
+RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Role:
   properties:
     role:
       - NotBlank: { message: "Role field can not be empty" }

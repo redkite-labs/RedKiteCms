@@ -75,7 +75,7 @@ class TemplateSectionTwigTest extends TestCase
 {
     protected function setUp()
     {
-        $this->urlManager = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface");
+        $this->urlManager = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerInterface");
         
         $this->templateSectionTwig = new TemplateSectionTwigTester($this->urlManager);
     }

@@ -16,11 +16,11 @@ class SlotRendererExtensionTest extends TestCase
 
     protected function setUp()
     {
-        $this->pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $this->pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
                                ->disableOriginalConstructor()
                                ->getMock();
         
-        $this->translator = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\AlTranslatorInterface");
+        $this->translator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\TranslatorInterface');
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
     }
 
@@ -245,7 +245,7 @@ class SlotRendererExtensionTest extends TestCase
                    ->with("RedKiteCmsBundle:Slot:Page/_block.html.twig", $expected)
         ;
         
-        $viewRenderer = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\AlViewRenderer')
+        $viewRenderer = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\ViewRenderer')
                              ->disableOriginalConstructor()
                              ->getMock();
         
@@ -299,7 +299,7 @@ class SlotRendererExtensionTest extends TestCase
         $templating->expects($this->never())
                         ->method('render');
         
-        $viewRenderer = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\AlViewRenderer')
+        $viewRenderer = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\ViewRenderer')
                              ->disableOriginalConstructor()
                              ->getMock();
         $viewRenderer->expects($this->once())
@@ -327,20 +327,20 @@ class SlotRendererExtensionTest extends TestCase
     
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage You must provide a valid AlBlockManager instance to automatically add a new Block
+     * @expectedExceptionMessage You must provide a valid BlockManager instance to automatically add a new Block
      */
     public function testRenderIncludedBlockThrowsAnExceptionWhenANewBlockMustBeAddedAndParentIsNull()
     {
         $key = '200-1';
         
         $factoryRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepository')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $blocksRepository =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -366,7 +366,7 @@ class SlotRendererExtensionTest extends TestCase
         $this->translator->expects($this->once())
             ->method('translate')
             ->with('twig_extension_valid_block_manager_required', array(), 'RedKiteCmsBundle')
-            ->will($this->returnValue('You must provide a valid AlBlockManager instance to automatically add a new Block'));
+            ->will($this->returnValue('You must provide a valid BlockManager instance to automatically add a new Block'));
         
         
         $this->container->expects($this->at(0))
@@ -390,13 +390,13 @@ class SlotRendererExtensionTest extends TestCase
     public function testRenderIncludedBlock($key, $expectedResult, $blocks = array(), $arguments = null, $translator = null)
     {
         $factoryRepository = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepository')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
         
         $blocksRepository =
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -453,7 +453,7 @@ class SlotRendererExtensionTest extends TestCase
                 ->method('setEditorDisabled')
             ;
             
-            $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+            $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactory')
                  ->disableOriginalConstructor()
                  ->getMock()
             ;
@@ -483,7 +483,7 @@ class SlotRendererExtensionTest extends TestCase
                 ->method('setEditorDisabled')
             ;
             
-            $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactory')
+            $blockManagerFactory = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactory')
                  ->disableOriginalConstructor()
                  ->getMock()
             ;
@@ -617,7 +617,7 @@ class SlotRendererExtensionTest extends TestCase
     
     private function createBlock($type = 'Text')
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->once())
             ->method('getType')
             ->will($this->returnValue($type))
@@ -628,7 +628,7 @@ class SlotRendererExtensionTest extends TestCase
     
     private function createParentBlockManager()
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->once())
             ->method('getPageId')
             ->will($this->returnValue(2))
@@ -941,7 +941,7 @@ class SlotRendererExtensionTest extends TestCase
 
     private function setUpBlockManager(array $value = array())
     {
-        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager')
+        $blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 

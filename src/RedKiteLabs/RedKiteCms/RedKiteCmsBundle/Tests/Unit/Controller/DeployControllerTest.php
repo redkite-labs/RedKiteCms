@@ -34,8 +34,8 @@ class DeployControllerTest extends TestCase
     protected function setUp()
     {
         $this->response = $this->getMock('Symfony\Component\HttpFoundation\Response');
-        $this->comandsProcessor = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\CommandsProcessor\AlCommandsProcessorInterface');
-        $this->deployer = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlDeployerInterface');
+        $this->comandsProcessor = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\CommandsProcessor\CommandsProcessorInterface');
+        $this->deployer = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\DeployerInterface');
         $this->templating = $this->getMock('Symfony\Bundle\FrameworkBundle\Templating\EngineInterface');
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
@@ -149,11 +149,11 @@ class DeployControllerTest extends TestCase
 
     private function initContainer($deployerServiceName, $templatesFolder)
     {
-        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
+        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme')
                             ->disableOriginalConstructor()
                             ->getMock();
         
-        $activeTheme = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface");
+        $activeTheme = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface");
         $activeTheme->expects($this->once())
             ->method('getActiveTheme')
             ->will($this->returnValue($theme));
@@ -176,7 +176,7 @@ class DeployControllerTest extends TestCase
             ->with($templatesFolder)
             ->will($this->returnValue('RedKite'));
         
-        $pageTreeCollection = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection')
+        $pageTreeCollection = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection')
                            ->disableOriginalConstructor()
                             ->getMock();
         $at++;

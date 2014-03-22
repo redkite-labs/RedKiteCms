@@ -18,8 +18,8 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Page;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Page\BeforeDeletePageCommitEvent;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\SeoManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 
 /**
  * Listen to the onBeforeDeletePageCommit event to delete the page's seo attributes, when
@@ -31,9 +31,9 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRep
  */
 class DeleteSeoListener
 {
-    /** @var null|AlFactoryRepositoryInterface */
+    /** @var null|FactoryRepositoryInterface */
     protected $factoryRepository = null;
-    /** @var null|AlSeoManager */
+    /** @var null|SeoManager */
     private $seoManager = null;
     /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     private $languageRepository = null;
@@ -41,12 +41,12 @@ class DeleteSeoListener
     /**
      * Constructor
      *
-     * @param AlSeoManager                 $seoManager
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param SeoManager                 $seoManager
+     * @param FactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
-    public function __construct(AlSeoManager $seoManager, AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(SeoManager $seoManager, FactoryRepositoryInterface $factoryRepository)
     {
         $this->seoManager = $seoManager;
         $this->factoryRepository = $factoryRepository;

@@ -20,8 +20,8 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Page;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Base\BaseBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
-use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface;
+use RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\ThemesCollection;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
@@ -39,10 +39,10 @@ class PagesForm extends BaseBlockType
     /**
      * Constructor
      *
-     * @param AlActiveThemeInterface $activeTheme
-     * @param AlThemesCollection     $themes
+     * @param ActiveThemeInterface $activeTheme
+     * @param ThemesCollection     $themes
      */
-    public function __construct(AlActiveThemeInterface $activeTheme, AlThemesCollection $themes)
+    public function __construct(ActiveThemeInterface $activeTheme, ThemesCollection $themes)
     {
         $this->activeTheme = $activeTheme;
         $this->themes = $themes;

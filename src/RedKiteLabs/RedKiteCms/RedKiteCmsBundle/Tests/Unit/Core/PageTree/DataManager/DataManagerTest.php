@@ -36,7 +36,7 @@ class DataManagerTest extends TestCase
     {
         parent::setUp();
         
-        $this->factoryRepository = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface");
+        $this->factoryRepository = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface");
         $this->dataManager = new DataManager($this->factoryRepository);
     }
     
@@ -65,11 +65,11 @@ class DataManagerTest extends TestCase
             $this->page = $this->createPage();
 
             $this->seo->expects($this->once())
-                ->method('getAlLanguage')
+                ->method('getLanguage')
                 ->will($this->returnValue($this->language))
             ;
             $this->seo->expects($this->once())
-                ->method('getAlPage')
+                ->method('getPage')
                 ->will($this->returnValue($this->page))
             ;
         }
@@ -268,7 +268,7 @@ class DataManagerTest extends TestCase
                 array(
                     "language" => $this->createLanguage(),            
                     "page" => $this->createPage(),       
-                    "seo" => $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo"),
+                    "seo" => $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo"),
                 ),
             ),
             array(
@@ -375,17 +375,17 @@ class DataManagerTest extends TestCase
     
     private function createLanguage()
     {
-        return $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage");
+        return $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language");
     }
     
     private function createPage()
     {
-        return $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage");
+        return $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page");
     }
     
     private function createSeo()
     {
-        return $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo");
+        return $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo");
         
         
         return $seo;

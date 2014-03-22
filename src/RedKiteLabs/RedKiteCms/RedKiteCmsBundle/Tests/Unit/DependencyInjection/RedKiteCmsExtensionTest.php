@@ -44,7 +44,7 @@ class RedKiteCmsExtensionTest extends TestCase
         $this->assertEquals('css', $this->container->getParameter('red_kite_cms.deploy_bundle.css_dir'));
         $this->assertEquals('WebSite', $this->container->getParameter('red_kite_cms.deploy_bundle.controller'));
         $this->assertEquals('', $this->container->getParameter('red_kite_cms.website_url'));
-        $this->assertEquals('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme', $this->container->getParameter('red_kite_cms.active_theme.class'));
+        $this->assertEquals('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveTheme', $this->container->getParameter('red_kite_cms.active_theme.class'));
         $this->assertEquals('%kernel.root_dir%/Resources/.active_theme', $this->container->getParameter('red_kite_cms.active_theme_file'));
     }
 

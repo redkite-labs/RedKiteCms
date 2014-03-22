@@ -18,8 +18,8 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Seo;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeEditSeoCommitEvent;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
@@ -32,22 +32,22 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgume
  */
 class UpdatePermalinkOnBlocksListener
 {
-    /** @var AlFactoryRepositoryInterface */
+    /** @var FactoryRepositoryInterface */
     protected $factoryRepository;
     /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\BlockRepositoryInterface */
     private $blockRepository;
-    /** @var null|AlBlockManagerFactoryInterface */
+    /** @var null|BlockManagerFactoryInterface */
     private $blocksFactory;
 
     /**
      * Construct
      *
-     * @param AlFactoryRepositoryInterface   $factoryRepository
-     * @param AlBlockManagerFactoryInterface $blocksFactory
+     * @param FactoryRepositoryInterface   $factoryRepository
+     * @param BlockManagerFactoryInterface $blocksFactory
      *
      * @api
      */
-    public function __construct(AlFactoryRepositoryInterface $factoryRepository, AlBlockManagerFactoryInterface $blocksFactory)
+    public function __construct(FactoryRepositoryInterface $factoryRepository, BlockManagerFactoryInterface $blocksFactory)
     {
         $this->blocksFactory = $blocksFactory;
         $this->factoryRepository = $factoryRepository;

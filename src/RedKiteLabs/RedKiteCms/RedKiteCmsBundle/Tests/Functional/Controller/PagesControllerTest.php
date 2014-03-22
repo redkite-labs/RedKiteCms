@@ -18,9 +18,9 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Functional\Controller;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlPageRepositoryPropel;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\PageRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\SeoRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel;
 
 /**
  * PagesControllerTest
@@ -37,9 +37,9 @@ class PagesControllerTest extends WebTestCaseFunctional
     {
         parent::setUp();
 
-        $this->pageRepository = new AlPageRepositoryPropel();
-        $this->seoRepository = new AlSeoRepositoryPropel();
-        $this->blockRepository = new AlBlockRepositoryPropel();
+        $this->pageRepository = new PageRepositoryPropel();
+        $this->seoRepository = new SeoRepositoryPropel();
+        $this->blockRepository = new BlockRepositoryPropel();
     }
 
     public function testFormElements()

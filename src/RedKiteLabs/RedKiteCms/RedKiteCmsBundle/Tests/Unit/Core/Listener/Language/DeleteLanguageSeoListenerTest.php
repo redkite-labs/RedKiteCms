@@ -28,11 +28,11 @@ class DeleteLanguageSeoListenerTest extends Base\DeleteLanguageBaseListenerTest
 {
     protected function setUp()
     {
-        $this->objectModel = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel')
+        $this->objectModel = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\SeoRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->manager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager')
+        $this->manager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\SeoManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
@@ -47,6 +47,6 @@ class DeleteLanguageSeoListenerTest extends Base\DeleteLanguageBaseListenerTest
 
     protected function setUpObject()
     {
-        return $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        return $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
     }
 }

@@ -35,10 +35,10 @@ class DeployEventTest extends TestCase
 
     public function testDeployerProperty()
     {
-        $this->deployer = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlDeployerInterface');
+        $this->deployer = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\DeployerInterface');
 
         $this->event = new DeployEventTester($this->deployer);
-        $deployer = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlDeployerInterface');
+        $deployer = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\DeployerInterface');
         $this->event->setDeployer($deployer);
         $this->assertSame($deployer, $this->event->getDeployer());        
         $this->assertNotSame($this->deployer, $this->event->getDeployer());

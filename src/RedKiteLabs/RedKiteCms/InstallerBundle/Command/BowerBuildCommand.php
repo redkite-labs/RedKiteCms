@@ -22,7 +22,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use RedKiteLabs\RedKiteCms\InstallerBundle\Core\BowerBuilder\AlBowerBuilder;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\BowerBuilder\BowerBuilder;
 
 /**
  * Builds the bower component.json file
@@ -50,7 +50,7 @@ class BowerBuildCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getContainer();
-        $bower = new AlBowerBuilder($container->get('kernel'));
+        $bower = new BowerBuilder($container->get('kernel'));
         $bower->build($input->getOption('web-folder'));
         
         $output->writeln("Bower bower.json and .bowerrc files have been generated");

@@ -18,13 +18,13 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\LanguageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\PageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocks;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepository;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepository;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Role;
 
 /**
  * WebTestCase
@@ -33,6 +33,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole;
  */
 abstract class WebTestCaseFunctional extends WebTestCase
 {
+    /** @var \Symfony\Bundle\FrameworkBundle\Client */
     protected $client;
     protected static $languages;
     protected static $pages;
@@ -157,23 +158,23 @@ abstract class WebTestCaseFunctional extends WebTestCase
             $statement->execute();
         }
         
-        $factoryRepository = new AlFactoryRepository('Propel');
+        $factoryRepository = new FactoryRepository('Propel');
         
         $themes = $client->getContainer()->get('red_kite_labs_theme_engine.themes');
         $theme = $themes->getTheme('BootbusinessThemeBundle');
         $template = $theme->getTemplate('home');
         
         $eventsHandler = $client->getContainer()->get('red_kite_cms.events_handler');
-        $pageBlocks = new AlPageBlocks($factoryRepository);
-        $templateManager = new AlTemplateManager($eventsHandler, $factoryRepository, $client->getContainer()->get('red_kite_cms.block_manager_factory'));
+        $pageBlocks = new PageBlocks($factoryRepository);
+        $templateManager = new TemplateManager($eventsHandler, $factoryRepository, $client->getContainer()->get('red_kite_cms.block_manager_factory'));
         $templateManager->refresh($theme->getThemeSlots(), $template, $pageBlocks);
 
-        $alLanguageManager = new AlLanguageManager($eventsHandler, $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
+        $alLanguageManager = new LanguageManager($eventsHandler, $factoryRepository, new Validator\ParametersValidatorLanguageManager($factoryRepository));
         foreach (self::$languages as $language) {
             $alLanguageManager->set(null)->save($language);
         }
 
-        $alPageManager = new AlPageManager($eventsHandler, $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
+        $alPageManager = new PageManager($eventsHandler, $templateManager, $factoryRepository, new Validator\ParametersValidatorPageManager($factoryRepository));
         foreach (self::$pages as $page) {
             if (isset($page["TemplateName"]))
             {
@@ -185,7 +186,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
         
         $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
         foreach ($roles as $role) {
-            $alRole = new AlRole();
+            $alRole = new Role();
             $alRole->setRole($role);
             $alRole->save();
 
@@ -198,7 +199,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
     
     protected static function addUser($username, $password, $adminRoleId)
     {
-        $user = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser();
+        $user = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User();
         $encoder = new \Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder();
         $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
         $password = $encoder->encodePassword($password, $salt);

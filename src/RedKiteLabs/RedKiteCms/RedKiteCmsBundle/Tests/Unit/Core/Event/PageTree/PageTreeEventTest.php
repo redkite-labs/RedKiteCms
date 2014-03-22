@@ -35,13 +35,13 @@ class PageTreeEventTest extends TestCase
 
     public function testPageTreeProperty()
     {
-        $this->pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $this->pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
             ->disableOriginalConstructor()
             ->getMock()
         ;
 
         $this->event = new PageTreeEventTester($this->pageTree);
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
             ->disableOriginalConstructor()
             ->getMock()
         ;

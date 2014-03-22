@@ -20,7 +20,7 @@ class BootstrapFormFactoryTest extends TestCase
     {
         parent::setUp();
 
-        $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface');
+        $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface');
         $this->formFactory = $this->getMock('Symfony\Component\Form\FormFactoryInterface');
 
         $this->factory = new BootstrapFormFactory($this->activeTheme, $this->formFactory);
@@ -41,7 +41,7 @@ class BootstrapFormFactoryTest extends TestCase
             ->expects($this->never())
             ->method('create');
 
-        $this->factory->createForm('Button', 'AlButtonType');
+        $this->factory->createForm('Button', 'ButtonType');
     }
 
     /**
@@ -54,13 +54,13 @@ class BootstrapFormFactoryTest extends TestCase
             ->method('getThemeBootstrapVersion')
             ->will($this->returnValue($bootstrapVersion));
 
-        $className = '\RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Button\\' . $bootstrapToken . '\AlButtonType';
+        $className = '\RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Button\\' . $bootstrapToken . '\ButtonType';
         $this->formFactory
             ->expects($this->once())
             ->method('create')
             ->with(new $className());
 
-        $this->factory->createForm('Button', 'AlButtonType');
+        $this->factory->createForm('Button', 'ButtonType');
     }
 
     public function bootstrapVersionsProvider()

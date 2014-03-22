@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Page;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Page\PagesForm;
 
 /**
@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\Page\PagesForm;
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
-class PagesFormTest extends AlBaseType
+class PagesFormTest extends BaseType
 {
     protected function configureFields()
     {
@@ -39,7 +39,7 @@ class PagesFormTest extends AlBaseType
     
     protected function getForm()
     {
-        $theme = $this->getMockBuilder('\RedKiteLabs\ThemeEngineBundle\Core\Theme\AlTheme')
+        $theme = $this->getMockBuilder('\RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -50,7 +50,7 @@ class PagesFormTest extends AlBaseType
         ;
         
         $activeTheme = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveTheme')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveTheme')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -60,7 +60,7 @@ class PagesFormTest extends AlBaseType
              ->will($this->returnValue($theme))
         ;
         $themesCollection = 
-            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\AlThemesCollection')
+            $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\ThemesCollection')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;

@@ -77,7 +77,7 @@ class RenderingListEditorListenerTest extends BaseTestRenderingEditorListener
     public function testAnExceptionIsThrownWhenTheBlockClassOptionDoesNotExist()
     {
         $this->setUpEvents(0);
-        $this->testListener->setConfigureParams(array('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager'));
+        $this->testListener->setConfigureParams(array('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager'));
         $this->testListener->onBlockEditorRendering($this->event);
     }
 
@@ -104,7 +104,7 @@ class RenderingListEditorListenerTest extends BaseTestRenderingEditorListener
 
         $this->testListener->setConfigureParams(
             array(
-                'blockClass' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager',
+                'blockClass' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager',
                 'formClass' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Listener\JsonBlock\TestForm',
             )
         );
@@ -121,7 +121,7 @@ class RenderingListEditorListenerTest extends BaseTestRenderingEditorListener
             ->method('getId')
             ->will($this->returnValue(2));
 
-        $this->testListener->setConfigureParams(array('blockClass' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManager'));
+        $this->testListener->setConfigureParams(array('blockClass' => 'RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager'));
         $this->testListener->onBlockEditorRendering($this->event);
     }
 

@@ -43,8 +43,8 @@ a7047b0 AlSlot can now accept slots that behaves differently when the CMS is act
 b635992 generated templates and slots services are now private
 5fd6a80 refactored to follow Symfony2 code standards
 a6870ac fixed generated form file name
-37cd8cd updated AlTemplateParser instantiation giving new required arguments
-2da2f46 added 'app/Resources' path to AlTemplateParser to parse overridding templates
+37cd8cd updated TemplateParser instantiation giving new required arguments
+2da2f46 added 'app/Resources' path to TemplateParser to parse overridding templates
 0393ef9 added a new argument to openFile function to truncate the file content at certain length
 67c264d Added method to retrieve the container object
 

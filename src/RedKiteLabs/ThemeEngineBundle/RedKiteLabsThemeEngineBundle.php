@@ -19,7 +19,7 @@ namespace RedKiteLabs\ThemeEngineBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Compiler\RegisterRenderingListenersPass;
-use RedKiteLabs\ThemeEngineBundle\Core\Compiler\AlThemesCollectionCompilerPass;
+use RedKiteLabs\ThemeEngineBundle\Core\Compiler\ThemesCollectionCompilerPass;
 
 class RedKiteLabsThemeEngineBundle extends Bundle
 {
@@ -28,6 +28,6 @@ class RedKiteLabsThemeEngineBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new RegisterRenderingListenersPass());
-        $container->addCompilerPass(new AlThemesCollectionCompilerPass());
+        $container->addCompilerPass(new ThemesCollectionCompilerPass());
     }
 }

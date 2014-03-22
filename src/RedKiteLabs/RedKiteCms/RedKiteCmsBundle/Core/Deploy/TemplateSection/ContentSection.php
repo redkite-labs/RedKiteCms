@@ -18,11 +18,11 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\ViewRendererInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface;
 
 /**
  * ContentSection is the object deputated to generate the content sections of a twig template
@@ -40,11 +40,11 @@ class ContentSection extends TemplateSectionTwig
     /**
      * Constructor
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface             $urlManager
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\AlViewRendererInterface         $viewRenderer
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerFactoryInterface $blockManagerFactory
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerInterface             $urlManager
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\ViewRendererInterface         $viewRenderer
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactoryInterface $blockManagerFactory
      */
-    public function __construct(AlUrlManagerInterface $urlManager, AlViewRendererInterface $viewRenderer, AlBlockManagerFactoryInterface $blockManagerFactory)
+    public function __construct(UrlManagerInterface $urlManager, ViewRendererInterface $viewRenderer, BlockManagerFactoryInterface $blockManagerFactory)
     {
         parent::__construct($urlManager, $viewRenderer);
 
@@ -55,11 +55,11 @@ class ContentSection extends TemplateSectionTwig
     /**
      * Defines the base method to generate a section
      *
-     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree     $pageTree
-     * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface $theme
+     * @param \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree     $pageTree
+     * @param \RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface $theme
      * @param array                                                      $options
      */
-    public function generateSection(AlPageTree $pageTree, AlThemeInterface $theme, array $options)
+    public function generateSection(PageTree $pageTree, ThemeInterface $theme, array $options)
     {
         $this->contents = array();
 

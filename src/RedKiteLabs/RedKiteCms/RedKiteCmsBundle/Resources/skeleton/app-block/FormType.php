@@ -8,7 +8,7 @@ namespace {{ namespace }}\Core\Form;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\JsonBlock\JsonBlockType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class Al{{ bundle_basename }}Type extends JsonBlockType
+class {{ bundle_basename }}Type extends JsonBlockType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

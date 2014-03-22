@@ -16,7 +16,7 @@
 
 namespace RedKiteLabs\ThemeEngineBundle\Twig;
 
-use RedKiteLabs\ThemeEngineBundle\Core\PageTree\AlPageTree;
+use RedKiteLabs\ThemeEngineBundle\Core\PageTree\PageTree;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 

@@ -18,14 +18,14 @@
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\LanguagesMenu;
 
 use Symfony\Component\Form\FormBuilderInterface;
-use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\AlBaseType;
+use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\Base\BaseType;
 
 /**
  * Defines the languages menu editor form
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class LanguagesMenuType extends AlBaseType
+class LanguagesMenuType extends BaseType
 {
     protected $flagsDirectories;
     protected $languages;
@@ -36,7 +36,7 @@ class LanguagesMenuType extends AlBaseType
      *
      * @param array $flagsDirectories
      * @param array $languages
-     * @param type  $currentFlagsDirectory
+     * @param string  $currentFlagsDirectory
      */
     public function __construct(array $flagsDirectories, array $languages, $currentFlagsDirectory)
     {

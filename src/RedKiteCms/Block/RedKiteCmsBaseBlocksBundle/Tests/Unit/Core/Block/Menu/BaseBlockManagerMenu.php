@@ -17,14 +17,14 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Block\Menu;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\AlBlockManagerContainerBase;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase;
 
 /**
  * BaseBlockManagerMenu
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
+abstract class BaseBlockManagerMenu extends BlockManagerContainerBase
 {
     protected $blocksTemplate;
     
@@ -56,18 +56,18 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
     {
         $this->initContainer();
         
-        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
         $seo->expects($this->once())
               ->method('getPermalink')
               ->will($this->returnValue('homepage'))
         ;
         
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
-                        ->setMethods(array('getAlSeo'))
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
+                        ->setMethods(array('getSeo'))
                         ->disableOriginalConstructor()
                         ->getMock();
         $pageTree->expects($this->at(0))
-              ->method('getAlSeo')
+              ->method('getSeo')
               ->will($this->returnValue($seo))
         ;
         
@@ -83,7 +83,7 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
               ->will($this->returnValue($links))
         ;
         
-        $factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $factoryRepository->expects($this->once())
               ->method('createRepository')
               ->with('Block')
@@ -96,7 +96,7 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
                       ->will($this->returnValue($factoryRepository))
         ;
         
-        $urlManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\AlUrlManagerInterface');
+        $urlManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerInterface');
         $urlManager->expects($this->once())
               ->method('getProductionRoute')
               ->will($this->returnValue($productionRoute))
@@ -157,18 +157,18 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
 
         $this->initContainer();
         
-        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
         $seo->expects($this->once())
               ->method('getPermalink')
               ->will($this->returnValue('homepage'))
         ;
         
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
-                        ->setMethods(array('getAlSeo'))
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
+                        ->setMethods(array('getSeo'))
                         ->disableOriginalConstructor()
                         ->getMock();
         $pageTree->expects($this->at(0))
-              ->method('getAlSeo')
+              ->method('getSeo')
               ->will($this->returnValue($seo))
         ;
         
@@ -206,7 +206,7 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
     
     protected function initContainer()
     {
-        $repository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $repository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $repository->expects($this->at(0))
               ->method('createRepository')
               ->with('Block')
@@ -226,7 +226,7 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
     
     protected function initBlockManager($block)
     {
-        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel')
+        $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')
                                     ->disableOriginalConstructor()
                                     ->getMock();
         
@@ -248,7 +248,7 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
                 ->method('save')
                 ->will($this->returnValue(true));
         
-        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface');
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->factoryRepository->expects($this->any())
             ->method('createRepository')
             ->will($this->returnValue($this->blockRepository));
@@ -260,7 +260,7 @@ abstract class BaseBlockManagerMenu extends AlBlockManagerContainerBase
     
     protected function initBlock($value)
     {
-        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlBlock');
+        $block = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Block');
         $block->expects($this->any())
               ->method('getContent')
               ->will($this->returnValue($value));

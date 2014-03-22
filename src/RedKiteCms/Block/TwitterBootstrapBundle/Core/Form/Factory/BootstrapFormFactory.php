@@ -7,7 +7,7 @@
 
 namespace RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Factory;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\AlActiveThemeInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -24,10 +24,10 @@ class BootstrapFormFactory
     /**
      * Comnstructor
      *
-     * @param AlActiveThemeInterface                       $activeTheme
+     * @param ActiveThemeInterface                       $activeTheme
      * @param \Symfony\Component\Form\FormFactoryInterface $formFactory
      */
-    public function __construct(AlActiveThemeInterface $activeTheme, FormFactoryInterface $formFactory)
+    public function __construct(ActiveThemeInterface $activeTheme, FormFactoryInterface $formFactory)
     {
         $this->activeTheme = $activeTheme;
         $this->formFactory = $formFactory;

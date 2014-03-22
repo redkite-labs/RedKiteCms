@@ -35,13 +35,13 @@ class PopulateEventTest extends TestCase
 
     public function testTemplateManagerProperty()
     {
-        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+        $this->templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager')
             ->disableOriginalConstructor()
             ->getMock()
         ;
 
         $this->event = new PopulateEventTester($this->templateManager);
-        $templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager')
+        $templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager')
             ->disableOriginalConstructor()
             ->getMock()
         ;

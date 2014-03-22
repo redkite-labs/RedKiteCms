@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\TemplateManager\Base;
 
 use Symfony\Component\EventDispatcher\Event;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager;
 
 /**
  * Defines the base event raised when the website is deployed
@@ -29,17 +29,17 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateMana
  */
 abstract class BasePopulateEvent extends Event
 {
-    /** @var AlTemplateManager  */
+    /** @var TemplateManager  */
     protected $templateManager;
 
     /**
      * Constructor
      *
-     * @param AlTemplateManager $templateManager
+     * @param TemplateManager $templateManager
      *
      * @api
      */
-    public function __construct(AlTemplateManager $templateManager)
+    public function __construct(TemplateManager $templateManager)
     {
         $this->templateManager = $templateManager;
     }
@@ -47,7 +47,7 @@ abstract class BasePopulateEvent extends Event
     /**
      * Returns the template manager
      *
-     * @return AlTemplateManager $templateManager
+     * @return TemplateManager $templateManager
      *
      * @api
      */
@@ -59,11 +59,11 @@ abstract class BasePopulateEvent extends Event
     /**
      * Sets the template manager
      *
-     * @param AlTemplateManager $templateManager
+     * @param TemplateManager $templateManager
      *
      * @api
      */
-    public function setTemplateManager(AlTemplateManager $templateManager)
+    public function setTemplateManager(TemplateManager $templateManager)
     {
         $this->templateManager = $templateManager;
     }

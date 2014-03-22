@@ -17,7 +17,7 @@
 
 namespace RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Tests\Unit\Core\Form;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\AlBaseType;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base\BaseType;
 use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\LanguagesMenu\LanguagesMenuType;
 
 /**
@@ -25,7 +25,7 @@ use RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Form\LanguagesMenu\Language
  *
  * @author RedKite Labs <info@redkite-labs.com>
  */
-class LanguagesMenuTypeTest extends AlBaseType
+class LanguagesMenuTypeTest extends BaseType
 {
     protected function configureFields()
     {

@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ElFinder\Base;
 
 use RedKiteLabs\RedKiteCms\ElFinderBundle\Core\Connector\RedKiteLabsElFinderBaseConnector;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\AssetsPath\AlAssetsPath;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\AssetsPath\AssetsPath;
 
 /**
  * Configures the ElFinder library to manage media files, like images, flash, pdf and more
@@ -42,8 +42,8 @@ abstract class ElFinderBaseConnector extends RedKiteLabsElFinderBaseConnector
                 array(
                     'driver'        => 'LocalFileSystem',   // driver for accessing file system (REQUIRED)
                     'path'          => $assetsPath,         // path to files (REQUIRED)
-                    //'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . AlAssetsPath::getUploadFolder($this->container) . '/' . $folder, // URL to files (REQUIRED)
-                    'URL'           => '/' . AlAssetsPath::getUploadFolder($this->container) . '/' . $folder, // URL to files (REQUIRED)
+                    //'URL'           => $request->getScheme().'://'.$request->getHttpHost() . '/' . AssetsPath::getUploadFolder($this->container) . '/' . $folder, // URL to files (REQUIRED)
+                    'URL'           => '/' . AssetsPath::getUploadFolder($this->container) . '/' . $folder, // URL to files (REQUIRED)
                     'accessControl' => 'access',             // disable and hide dot starting files (OPTIONAL)
                     'rootAlias'     => $rootAlias             // disable and hide dot starting files (OPTIONAL)
                 )

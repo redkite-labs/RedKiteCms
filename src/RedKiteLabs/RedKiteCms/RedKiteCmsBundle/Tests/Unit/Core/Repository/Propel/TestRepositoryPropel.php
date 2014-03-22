@@ -17,9 +17,9 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Repository\Propel;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base\AlPropelRepository;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base\PropelRepository;
 
-class TestRepositoryPropel extends AlPropelRepository
+class TestRepositoryPropel extends PropelRepository
 {
     public function getRepositoryObjectClassName()
     {

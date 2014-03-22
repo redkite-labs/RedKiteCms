@@ -18,16 +18,16 @@
 namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\DbBootstrapper\Base;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base\AlPropelOrm;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\AlPageManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlRole;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base\PropelOrm;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\LanguageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Page\PageManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Role;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\AlTemplateManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\AlPageBlocks;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\AlTwigDeployer;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocks;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TwigDeployer;
 
 /**
  * Implements the object deputated to boostrap the database
@@ -81,15 +81,15 @@ abstract class BaseDbBootstrapper
         $this->siteBootstrap = $this->container->get('red_kite_cms.site_bootstrap');
         $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
         
-        $language = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage();
+        $language = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language();
         $language->setLanguageName('-');
         $language->save();
                 
-        $language = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage();
+        $language = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page();
         $language->setPageName('-');
         $language->save();
         
-        $language = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfiguration();
+        $language = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Configuration();
         $language->setParameter('language');        
         $language->setValue('en');
         $language->save();
@@ -97,14 +97,14 @@ abstract class BaseDbBootstrapper
         $adminRoleId = 0;
         $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
         foreach ($roles as $role) {
-            $alRole = new AlRole();
+            $alRole = new Role();
             $alRole->setRole($role);
             $alRole->save();
 
             if($role =='ROLE_ADMIN') $adminRoleId = $alRole->getId();
         }
 
-        $user = new AlUser();
+        $user = new User();
         $encoder = new MessageDigestPasswordEncoder();
         $salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
         $password = $encoder->encodePassword('admin', $salt);
@@ -126,12 +126,12 @@ abstract class BaseDbBootstrapper
         $theme = $this->themes->getTheme($themeName);
         $template = $theme->getTemplate('home');
 
-        $pageBlocks = new AlPageBlocks($factoryRepository);
-        $templateManager = new AlTemplateManager($this->eventsHandler, $factoryRepository, $this->blockManagerFactory);
+        $pageBlocks = new PageBlocks($factoryRepository);
+        $templateManager = new TemplateManager($this->eventsHandler, $factoryRepository, $this->blockManagerFactory);
         $templateManager->refresh($theme->getThemeSlots(), $template, $pageBlocks);
         
-        $languageManager = new AlLanguageManager($this->eventsHandler, $factoryRepository, new Validator\AlParametersValidatorLanguageManager($factoryRepository));
-        $pageManager = new AlPageManager($this->eventsHandler, $templateManager, $factoryRepository, new Validator\AlParametersValidatorPageManager($factoryRepository));
+        $languageManager = new LanguageManager($this->eventsHandler, $factoryRepository, new Validator\ParametersValidatorLanguageManager($factoryRepository));
+        $pageManager = new PageManager($this->eventsHandler, $templateManager, $factoryRepository, new Validator\ParametersValidatorPageManager($factoryRepository));
         $siteBootstrap = $this->siteBootstrap;        
         $result = $siteBootstrap
                     ->setLanguageManager($languageManager)
@@ -149,7 +149,7 @@ abstract class BaseDbBootstrapper
         {
             $twigTemplateWrites = $this->container->get('red_kite_cms.twig_template_writer');
             $routingGenerator = $this->container->get('red_kite_cms.routing_generator_production');
-            $deployer = new AlTwigDeployer($twigTemplateWrites, $routingGenerator);
+            $deployer = new TwigDeployer($twigTemplateWrites, $routingGenerator);
             $deployer->deploy();
         }
         catch(\Exception $ex)
@@ -182,6 +182,6 @@ abstract class BaseDbBootstrapper
     {
         $connection = new \PropelPDO($dsn, $this->user, $this->password);            
             
-        return new AlPropelOrm($connection);
+        return new PropelOrm($connection);
     }
 }

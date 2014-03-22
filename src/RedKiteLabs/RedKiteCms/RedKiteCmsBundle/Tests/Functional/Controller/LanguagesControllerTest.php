@@ -18,9 +18,9 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Functional\Controller;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlLanguageRepositoryPropel;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlSeoRepositoryPropel;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\AlBlockRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\LanguageRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\SeoRepositoryPropel;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel;
 
 /**
  * LanguagesControllerTest
@@ -37,9 +37,9 @@ class LanguagesControllerTest extends WebTestCaseFunctional
     {
         parent::setUp();
 
-        $this->languageRepository = new AlLanguageRepositoryPropel();
-        $this->seoRepository = new AlSeoRepositoryPropel();
-        $this->blockRepository = new AlBlockRepositoryPropel();
+        $this->languageRepository = new LanguageRepositoryPropel();
+        $this->seoRepository = new SeoRepositoryPropel();
+        $this->blockRepository = new BlockRepositoryPropel();
     }
 
     public function testFormElements()

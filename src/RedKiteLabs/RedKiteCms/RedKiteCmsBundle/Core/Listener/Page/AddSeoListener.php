@@ -18,8 +18,8 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Page;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Page\BeforeAddPageCommitEvent;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\AlFactoryRepositoryInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\SeoManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
@@ -32,7 +32,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgume
  */
 class AddSeoListener
 {
-    /** @var AlSeoManager */
+    /** @var SeoManager */
     private $seoManager;
     /** @var \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\LanguageRepositoryInterface */
     private $languageRepository;
@@ -40,12 +40,12 @@ class AddSeoListener
     /**
      * Constructor
      *
-     * @param AlSeoManager                 $seoManager
-     * @param AlFactoryRepositoryInterface $factoryRepository
+     * @param SeoManager                 $seoManager
+     * @param FactoryRepositoryInterface $factoryRepository
      *
      * @api
      */
-    public function __construct(AlSeoManager $seoManager, AlFactoryRepositoryInterface $factoryRepository)
+    public function __construct(SeoManager $seoManager, FactoryRepositoryInterface $factoryRepository)
     {
         $this->seoManager = $seoManager;
         $this->languageRepository = $factoryRepository->createRepository('Language');

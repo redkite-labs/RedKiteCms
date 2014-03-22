@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo;
 
 /**
  * Defines the methods used to fetch seo page attributes records
@@ -30,7 +30,7 @@ interface SeoRepositoryInterface
      * Fetches a seo record by a primary key
      *
      * @param  int   $id The primary key
-     * @return AlSeo A seo instance
+     * @return Seo A seo instance
      */
     public function fromPK($id);
 
@@ -39,7 +39,7 @@ interface SeoRepositoryInterface
      *
      * @param  int   $languageId The id of the language
      * @param  int   $pageId     The id of the page
-     * @return AlSeo A seo instance
+     * @return Seo A seo instance
      */
     public function fromPageAndLanguage($languageId, $pageId);
 
@@ -47,7 +47,7 @@ interface SeoRepositoryInterface
      * Fetches the seo record by a permalink
      *
      * @param  string $permalink The permalink
-     * @return AlSeo  A seo instance
+     * @return Seo  A seo instance
      */
     public function fromPermalink($permalink);
 
@@ -55,7 +55,7 @@ interface SeoRepositoryInterface
      * Fetches the seo records by a page id
      *
      * @param  int               $pageId The id of the page
-     * @return \Iterator|AlSeo[] A collection of objects
+     * @return \Iterator|Seo[] A collection of objects
      */
     public function fromPageId($pageId);
 
@@ -63,7 +63,7 @@ interface SeoRepositoryInterface
      * Fetches the seo records by a language id
      *
      * @param  int               $languageId The id of the language
-     * @return \Iterator|AlSeo[] A collection of objects
+     * @return \Iterator|Seo[] A collection of objects
      */
     public function fromLanguageId($languageId);
 
@@ -71,7 +71,7 @@ interface SeoRepositoryInterface
      * Fetches the seo records by a page with the languages objects
      *
      * @param  int               $pageId The id of the page
-     * @return \Iterator|AlSeo[] A collection of objects
+     * @return \Iterator|Seo[] A collection of objects
      */
     public function fromPageIdWithLanguages($pageId);
 
@@ -79,7 +79,7 @@ interface SeoRepositoryInterface
      * Fetches the seo records by its page and languages with the
      * pages and languages objects
      *
-     * @return \Iterator|AlSeo[] A collection of objects
+     * @return \Iterator|Seo[] A collection of objects
      */
     public function fetchSeoAttributesWithPagesAndLanguages();
 
@@ -88,7 +88,7 @@ interface SeoRepositoryInterface
      *
      * @param  string            $languageName The name of the language
      * @param  boolean           $ordered      When true orders by permalink
-     * @return \Iterator|AlSeo[] A collection of objects
+     * @return \Iterator|Seo[] A collection of objects
      */
     public function fromLanguageName($languageName, $ordered = true);
 
@@ -97,7 +97,7 @@ interface SeoRepositoryInterface
      *
      * @param  string $languageName The name of the language
      * @param  string $pageName     The name of the page
-     * @return AlSeo  A seo instance
+     * @return Seo  A seo instance
      */
     public function fromLanguageAndPageNames($languageName, $pageName);
 }

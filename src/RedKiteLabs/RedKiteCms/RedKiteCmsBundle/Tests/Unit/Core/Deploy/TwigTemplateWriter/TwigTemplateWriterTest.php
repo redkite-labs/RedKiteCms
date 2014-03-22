@@ -39,7 +39,7 @@ class TwigTemplateWriterTest extends TestCase
     public function testGenerateTemplate($options, $expectedResult, $filename, $isPublished)
     {
         $times = 1;
-        $theme = $this->getMock("RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface");
+        $theme = $this->getMock("RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface");
         if ($options["type"] == "Base") {
             $times = 0;
             
@@ -101,25 +101,25 @@ class TwigTemplateWriterTest extends TestCase
     
     private function createPageTree($isBasePage, $isPublished)
     {
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
                                 ->disableOriginalConstructor()
-                                ->setMethods(array('getAlLanguage', 'getAlPage', 'getTemplate'))
+                                ->setMethods(array('getLanguage', 'getPage', 'getTemplate'))
                                 ->getMock();
         
         $language = $this->createLanguage();
         $pageTree->expects($this->once())
-            ->method('getAlLanguage')
+            ->method('getLanguage')
             ->will($this->returnValue($language))
         ;
         
         $page = $this->createPage($isPublished);
         $pageTree->expects($this->once())
-            ->method('getAlPage')
+            ->method('getPage')
             ->will($this->returnValue($page))
         ;
         
         if ($isBasePage) {
-            $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate')
+            $template = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Template\Template')
                                 ->disableOriginalConstructor()
                                 ->getMock();
             $template->expects($this->exactly(2))
@@ -159,12 +159,12 @@ class TwigTemplateWriterTest extends TestCase
     
     private function createLanguage()
     {
-        return $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage");
+        return $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language");
     }
     
     private function createPage($isPublished)
     {
-        $page = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage");
+        $page = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page");
         
         if (null !== $isPublished) {
             $page->expects($this->once())

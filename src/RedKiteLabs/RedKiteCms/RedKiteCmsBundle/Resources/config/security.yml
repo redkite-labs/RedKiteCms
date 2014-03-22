@@ -1,6 +1,6 @@
 security:
     encoders:
-        RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser:
+        RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User:
             algorithm: sha512
             #encode_as_base64: true
             #iterations: 5000
@@ -12,7 +12,7 @@ security:
     providers:
         main:
           propel:
-              class: RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser
+              class: RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User
               property: username
 
     firewalls:

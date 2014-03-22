@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlConfiguration;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Configuration;
 
 /**
  * Defines the methods used to fetch configuration records
@@ -30,7 +30,7 @@ interface ConfigurationRepositoryInterface
      * Fetches the given parameter
      *
      * @param  string          $parameter The parameter name
-     * @return AlConfiguration The configuration instance
+     * @return Configuration The configuration instance
      */
     public function fetchParameter($parameter);
 }

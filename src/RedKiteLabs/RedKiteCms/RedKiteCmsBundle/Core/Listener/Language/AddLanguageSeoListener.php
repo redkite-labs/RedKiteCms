@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Language;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\AlSeoManager;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Seo\SeoManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -30,18 +30,18 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class AddLanguageSeoListener extends Base\AddLanguageBaseListener
 {
-    /** @var AlSeoManager */
+    /** @var SeoManager */
     private $seoManager;
 
     /**
      * Constructor
      *
-     * @param AlSeoManager       $seoManager
+     * @param SeoManager       $seoManager
      * @param ContainerInterface $container
      *
      * @api
      */
-    public function __construct(AlSeoManager $seoManager, ContainerInterface $container = null)
+    public function __construct(SeoManager $seoManager, ContainerInterface $container = null)
     {
         parent::__construct($container);
 

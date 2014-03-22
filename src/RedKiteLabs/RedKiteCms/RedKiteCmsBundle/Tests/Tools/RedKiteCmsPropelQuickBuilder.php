@@ -21,16 +21,16 @@ class RedKiteCmsPropelQuickBuilder extends \PropelQuickBuilder
     {
         $classes = $this->getClasses($classTargets);
         
-        $newClass = 'class AlUser extends BaseAlUser implements \Symfony\Component\Security\Core\User\UserInterface' . PHP_EOL;
+        $newClass = 'class User extends BaseUser implements \Symfony\Component\Security\Core\User\UserInterface' . PHP_EOL;
         $newClass .= '{' . PHP_EOL;
         $newClass .= '    public function getRoles()' . PHP_EOL;
         $newClass .= '    {' . PHP_EOL;
-        $newClass .= '        return array($this->getAlRole()->getRole());' . PHP_EOL;
+        $newClass .= '        return array($this->getRole()->getRole());' . PHP_EOL;
         $newClass .= '    }' . PHP_EOL . PHP_EOL;
         $newClass .= '    public function eraseCredentials(){}' . PHP_EOL;
         $newClass .= '}';
         
-        $classes = preg_replace('/class AlUser extends BaseAlUser\n{\n}/is', $newClass, $classes); 
+        $classes = preg_replace('/class User extends BaseUser\n{\n}/is', $newClass, $classes);
         
         eval($classes);
     }

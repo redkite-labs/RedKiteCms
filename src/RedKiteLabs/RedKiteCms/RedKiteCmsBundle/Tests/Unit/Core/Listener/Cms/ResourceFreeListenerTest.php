@@ -38,7 +38,7 @@ class ResourceFreeListenerTest extends TestCase
         ;
         
         $this->resourcesLocker = 
-            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\AlResourcesLocker')
+            $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ResourcesLocker\ResourcesLocker')
                  ->disableOriginalConstructor()
                  ->getMock()
         ;
@@ -285,7 +285,7 @@ class ResourceFreeListenerTest extends TestCase
     
     private function initUser()
     {
-        $user = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlUser');
+        $user = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\User');
         $user
             ->expects($this->once())
             ->method('getId')

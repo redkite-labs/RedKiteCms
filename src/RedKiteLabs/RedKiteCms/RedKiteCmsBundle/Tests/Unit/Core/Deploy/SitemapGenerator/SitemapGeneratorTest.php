@@ -35,7 +35,7 @@ class SitemapGeneratorTest extends TestCase
      */
     public function testSitemapGenerator($pages, $expectedUrls)
     {     
-        $pageTreeCollection = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\AlPageTreeCollection')
+        $pageTreeCollection = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection')
                                         ->disableOriginalConstructor()
                                         ->getMock();
         $pageTreeCollection->expects($this->once())
@@ -150,23 +150,23 @@ class SitemapGeneratorTest extends TestCase
 
     protected function createPageTree($language, $page, $seo)
     {
-        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree')
+        $pageTree = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree')
                                 ->disableOriginalConstructor()
-                                ->setMethods(array('getAlLanguage', 'getAlPage', 'getAlSeo'))
+                                ->setMethods(array('getLanguage', 'getPage', 'getSeo'))
                                 ->getMock();
         
         $pageTree->expects($this->once())
-            ->method('getAlLanguage')
+            ->method('getLanguage')
             ->will($this->returnValue($language))
         ;
         
         $pageTree->expects($this->once())
-            ->method('getAlPage')
+            ->method('getPage')
             ->will($this->returnValue($page))
         ;
         
         $pageTree->expects($this->once())
-            ->method('getAlSeo')
+            ->method('getSeo')
             ->will($this->returnValue($seo))
         ;
         
@@ -175,7 +175,7 @@ class SitemapGeneratorTest extends TestCase
     
     protected function createPage($isHome = 0, $isPublished = true)
     {
-        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage');
+        $page = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
 
         $page->expects($this->once())
             ->method('getIsHome')
@@ -192,7 +192,7 @@ class SitemapGeneratorTest extends TestCase
     
     protected function createLanguage($isMain = 0)
     {
-        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage');
+        $language = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language');
 
         $language->expects($this->once())
             ->method('getMainLanguage')
@@ -204,7 +204,7 @@ class SitemapGeneratorTest extends TestCase
     
     protected function createSeo($permalink, $frequency, $priority)
     {
-        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlSeo');
+        $seo = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
 
         if (null === $permalink) {
             $seo->expects($this->never())

@@ -17,15 +17,15 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TwigTemplateWriter;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\AlPageTree;
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\AlThemeInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree;
+use RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\TemplateSectionTwig;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\MetatagSection;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\AssetSection;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\ContentSection;
 
 /**
- * AlTwigTemplateWriter is the object deputated to generate and write a twig template
+ * TwigTemplateWriter is the object deputated to generate and write a twig template
  * from a PageTree object
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
@@ -43,11 +43,11 @@ class TwigTemplateWriter extends TemplateSectionTwig
 
     /** @var string|null */
     private $twigTemplate = null;
-    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language */
     private $language = null;
-    /** @var null|\RedKiteLabs\ThemeEngineBundle\Core\Template\AlTemplate  */
+    /** @var null|\RedKiteLabs\ThemeEngineBundle\Core\Template\Template  */
     private $template = null;
-    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlPage */
+    /** @var null|\RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page */
     private $page = null;
     /** @var string|null */
     private $baseFolder = null;
@@ -95,10 +95,10 @@ class TwigTemplateWriter extends TemplateSectionTwig
     /**
      * Generates the template's subsections and the full template itself
      */
-    public function generateTemplate(AlPageTree $pageTree, AlThemeInterface $theme, array $options)
+    public function generateTemplate(PageTree $pageTree, ThemeInterface $theme, array $options)
     {
-        $this->language = $pageTree->getAlLanguage();
-        $this->page = $pageTree->getAlPage();
+        $this->language = $pageTree->getLanguage();
+        $this->page = $pageTree->getPage();
         switch ($options["type"]) {
             case 'Base':
                 $this->template = $pageTree->getTemplate();
@@ -119,7 +119,7 @@ class TwigTemplateWriter extends TemplateSectionTwig
     /**
      * Generates the template's subsections and the full template itself
      */
-    protected function generateBaseTemplate(AlPageTree $pageTree, AlThemeInterface $theme, array $options)
+    protected function generateBaseTemplate(PageTree $pageTree, ThemeInterface $theme, array $options)
     {
         $options["filter"] = array('site', 'language');
         $this->twigTemplate = sprintf("{%% extends '%s:Theme:%s.html.twig' %%}" . PHP_EOL, $theme->getThemeName(), $this->template->getTemplateName());
@@ -131,7 +131,7 @@ class TwigTemplateWriter extends TemplateSectionTwig
     /**
      * Generates the template's subsections and the full template itself
      */
-    protected function generatePageTemplate(AlPageTree $pageTree, AlThemeInterface $theme, array $options)
+    protected function generatePageTemplate(PageTree $pageTree, ThemeInterface $theme, array $options)
     {
         if ( ! $this->page->getIsPublished()) {
             $this->twigTemplate = "{% extends 'RedKiteLabsThemeEngineBundle:Frontend:unpublished.html.twig' %}";

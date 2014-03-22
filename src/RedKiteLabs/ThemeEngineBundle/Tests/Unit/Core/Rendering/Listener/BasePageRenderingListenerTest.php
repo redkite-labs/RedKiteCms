@@ -49,7 +49,7 @@ class BasePageRenderingListenerTest extends TestCase
     {
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
         $this->response = $this->getMock('Symfony\Component\HttpFoundation\Response');
-        $this->slotContent = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\AlSlotContent');
+        $this->slotContent = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Rendering\SlotContent\SlotContent');
         
         $this->event = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Rendering\Event\PageRenderer\BeforePageRenderingEvent')
                             ->disableOriginalConstructor()

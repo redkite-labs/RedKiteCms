@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Language;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInterface;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerInterface;
 
 /**
  * Listen to the onBeforeDeleteLanguageCommit event to delete the blocks which
@@ -27,15 +27,15 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\AlBlockManagerInt
  */
 class DeleteLanguageBlocksListener extends Base\DeleteLanguageBaseListener
 {
-    /** @var AlBlockManagerInterface */
+    /** @var BlockManagerInterface */
     private $blockManager;
 
     /**
      * Constructor
      *
-     * @param AlBlockManagerInterface $blockManager
+     * @param BlockManagerInterface $blockManager
      */
-    public function __construct(AlBlockManagerInterface $blockManager)
+    public function __construct(BlockManagerInterface $blockManager)
     {
         $this->blockManager = $blockManager;
     }

@@ -165,8 +165,8 @@ class LanguagesController extends Base\BaseController
 
     /**
      * @param $id
-     * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\AlLanguageManager|null $languageManager
-     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\AlLanguage|null
+     * @param  \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\LanguageManager|null $languageManager
+     * @return \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language|null
      */
     private function fetchLanguage($id, $languageManager = null)
     {
