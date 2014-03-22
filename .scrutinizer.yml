@@ -1,17 +1,29 @@
 filter:
     excluded_paths:
-        - 'vendor/*'
+        - 'app/*'
+        - 'web/*'
         - 'Tests/*'
+        - 'src/RedKiteLabs/ThemeEngineBundle/Tests/*'
+        - 'src/RedKiteLabs/RedKiteCms/InstallerBundle/*'
+        - 'src/RedKiteLabs/RedKiteCms/ElFinderBundle/*'
+        - 'src/RedKiteLabs/RedKiteCms/*/Tests/*'
+        - 'src/RedKiteCms/Block/*/Tests/*'
+        - 'src/RedKiteCms/Theme/*/Tests/*'
     paths: {  }
 tools:
     php_mess_detector:
         enabled: true
         filter:
             excluded_paths:
-                - 'vendor/*'
                 - 'app/*'
                 - 'web/*'
                 - 'Tests/*'
+                - 'src/RedKiteLabs/ThemeEngineBundle/Tests/*'
+                - 'src/RedKiteLabs/RedKiteCms/InstallerBundle/*'
+                - 'src/RedKiteLabs/RedKiteCms/ElFinderBundle/*'
+                - 'src/RedKiteLabs/RedKiteCms/*/Tests/*'
+                - 'src/RedKiteCms/Block/*/Tests/*'
+                - 'src/RedKiteCms/Theme/*/Tests/*'
             paths: {  }
         config:
             code_size_rules:
@@ -59,10 +71,15 @@ tools:
         enabled: true
         filter:
             excluded_paths:
-                - 'vendor/*'
                 - 'app/*'
                 - 'web/*'
                 - 'Tests/*'
+                - 'src/RedKiteLabs/ThemeEngineBundle/Tests/*'
+                - 'src/RedKiteLabs/RedKiteCms/InstallerBundle/*'
+                - 'src/RedKiteLabs/RedKiteCms/ElFinderBundle/*'
+                - 'src/RedKiteLabs/RedKiteCms/*/Tests/*'
+                - 'src/RedKiteCms/Block/*/Tests/*'
+                - 'src/RedKiteCms/Theme/*/Tests/*'
             paths: {  }
         config:
             level: all
