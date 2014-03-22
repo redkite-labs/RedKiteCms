@@ -26,10 +26,10 @@
             <directory>../src/RedKiteCms/Block/*/Tests/</directory>
             <directory>../src/RedKiteCms/Theme/*/Tests/</directory>
             <directory>../src/RedKiteLabs/ThemeEngineBundle/Tests/</directory>
-            <directory>../src/RedKiteLabs/RedKiteCms/*/Tests/</directory>
+            <directory>../src/RedKiteLabs/RedKiteCms/BootstrapBundle/Tests/</directory>
+            <directory>../src/RedKiteLabs/RedKiteCms/RedKiteCmsBundle/Tests/</directory>
             <!-- TODO: Enable InstallerBundle tests -->
-            <exclude>../src/RedKiteLabs/RedKiteCms/InstallerBundle/Tests/Functional/</exclude>
-            <exclude>../src/RedKiteLabs/RedKiteCms/InstallerBundle/Tests/Unit/Core/</exclude>
+            <!--<directory>../src/RedKiteLabs/RedKiteCms/InstallerBundle/Tests/</directory>-->
         </testsuite>
     </testsuites>
 
