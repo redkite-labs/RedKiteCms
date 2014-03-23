@@ -5,7 +5,7 @@
 
     <parameters>
         <parameter key="{{ extension_alias }}.block.class">{{ namespace }}\Core\Block\BlockManager{{ bundle_basename }}</parameter>
-        <parameter key="{{ extension_alias }}.form.class">{{ namespace }}\Core\Form\Al{{ bundle_basename }}Type</parameter>
+        <parameter key="{{ extension_alias }}.form.class">{{ namespace }}\Core\Form\{{ bundle_basename }}Type</parameter>
     </parameters>
 
     <services>
