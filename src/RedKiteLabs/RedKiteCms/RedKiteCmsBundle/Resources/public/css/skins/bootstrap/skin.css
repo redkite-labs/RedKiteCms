@@ -251,7 +251,7 @@
   background: #e8e6e3;
 }
 
-.arrow {
+.rk-arrow {
   width: 0;
   height: 0;
   padding: 2px 0;
@@ -261,11 +261,11 @@
   left: 35%;
 }
 
-.arrow-up {
+.rk-arrow-up {
   border-bottom: 10px solid #323222;
 }
 
-.arrow-bottom {
+.rk-arrow-bottom {
   border-top: 10px solid #323222;
 }
 
