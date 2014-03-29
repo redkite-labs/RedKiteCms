@@ -1,8 +1,7 @@
 RedKite CMS
 ===========
 Welcome to RedKite CMS - a fully-functional Symfony2 application powered by
-RedKite CMS. You can use this application as skeleton for your new project or to test 
-the CMS itself.
+RedKite CMS.
 
 This document contains information on how to download and to start using RedKite CMS.
 
@@ -10,35 +9,40 @@ This document contains information on how to download and to start using RedKite
 
 Before starting
 ---------------
-This repository houses the RedKite CMS Sandbox and requires to install some required vendor
-libraries and it is the right place to start if you want like to design a website powered by
-RedKite CMS or if you would like to contribute to RedKite CMS project
+This repository houses the RedKite CMS Sandbox and requires to install several mandatory vendor
+libraries and to setup the application.
 
-If you just want to try something ready, have a look to the [Get & Go Sandbox](http://redkite-labs.com/download-get-and-go-redkite-cms-sandbox),
+This operation is trivial but, if you are not confident with "composer", you might have some troubles.
+In that case, please have a look to the [Get & Go Sandbox](http://redkite-labs.com/download-get-and-go-redkite-cms-sandbox),
 ideal to have a quick try the application and perfect to be used by a single developer.
+
+If you want to design a website powered by RedKite CMS or if you would like to contribute to RedKite CMS project,
+this is the right place to start.
 
 
 Install RedKite CMS
 -------------------
 Follow these steps to install RedKite CMS:
 
-    git clone git@github.com:redkite-labs/RedKiteCms.git
-
-The grab composer into the cloned repository:
+Download composer:
 
     curl -s http://getcomposer.org/installer | php
 
-then run this command to install the required vendor libraries:
+then run this command to start a new RedKite CMS application from the stable release:
 
-    php composer.phar install
+    php composer.phar create-project redkite-labs/redkite-cms RedKiteCms
+
+If you prefer to get the latest developing release you run this command:
+
+    php composer.phar create-project redkite-labs/redkite-cms -s dev RedKiteCms
 
 
 RedKite CMS setup
 -----------------
 RedKite CMS requires several steps to be accomplished to properly setup the CMS itself. Luckily
-the **RedKiteCmsInstallerBundle** will do all the job for you. 
+it comes with an installer which will do all the job for you.
 
-This bundle provides a web installer interface or an interactive symdony2 command to install 
+The installer provides a web installer interface or an interactive symfony2 command to install
 RedKite CMS.
 
 Permissions
@@ -66,18 +70,19 @@ To get more details, please refer to the [symfony2 setup and configuration tutor
 
 RedKite CMS console
 -------------------
-RedKite CMS is highly decoupled from Symfony2 and runs using its own kernel to keep things separated as well. For this reason
-RedKite CMS comes with its own console, called rkconsole, which must be used to run all RedKite CMS commands.
+RedKite CMS is highly decoupled from Symfony2 and works using its own kernel to keep things separated as well. For this reason
+RedKite CMS comes with its own console, called **rkconsole**, which must be used to run all RedKite CMS commands.
 
 Installing from the console
 ---------------------------
-Installing RedKite CMS from the console is really easy:
+Installing RedKite CMS from the console is really easy. Run ti command using the Symfony2 console:
 
     app/console rekitecms:configure
 
-This will run the interactive command and provide the required information. If everything goes well,
-you will be prompted that the configuration has been written and you ready to start the install. Run
-the following command from the console:
+This will run an interactive command which asks you some mandatory information. If everything goes well,
+you will be prompted that the configuration has been written and you are ready to start the install.
+
+Run the following command from the console:
     
     app/rkconsole rekitecms:install --env=rkcms
 
@@ -94,7 +99,7 @@ To install RedKite CMS using the web interface, just point your browser at:
 
     http://localhost/app_dev.php/install
 
-Provide the required information and you are done! 
+Provide the mandatry information and you are done!
 
 
 Using another database intead of mysql, postgres, sqlite
@@ -115,8 +120,8 @@ enter the credentials above to sign in.
 
 Documentation
 -------------
-Although RedKite CMS is designed to be as simple and intuitive as possible, you probably 
-would like to go deeper, reading some documentation:
+Although RedKite CMS is designed to be as simple and intuitive as possible, you probably would like to go deeper, reading
+some documentation:
 
 - [The book](http://redkite-labs.com/getting-started-with-redkite-cms)
 - [The cookbook](http://redkite-labs.com/redkite-cms-practical-manual-part-1)
