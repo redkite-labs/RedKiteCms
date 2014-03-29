@@ -1,6 +1,6 @@
 {
-    "name": "redkite-labs/redkite-cms-sandbox",
-    "description": "The \"RedKite CMS Sandbox\" distribution",
+    "name": "redkite-labs/redkite-cms",
+    "description": "The \"RedKite CMS\" distribution",
     "license": "MIT",
     "autoload": {
         "psr-0": { "": "src/" }
@@ -31,7 +31,8 @@
         "sensio/generator-bundle": "2.3.*",
         "incenteev/composer-parameter-handler": "~2.0",
         "propel/propel-bundle": "1.2.*",
-        "propel/propel1": "1.7.0"
+        "propel/propel1": "1.7.0",
+        "hwi/oauth-bundle": "0.4.*@dev"
     },
     "require-dev": {    
       "willdurand/propel-typehintable-behavior": "dev-master",  
