@@ -1,6 +1,6 @@
 
-Upgrade to RedKite CMS 1.1.3 structure
-======================================
+Upgrade to RedKite CMS 1.1.3
+============================
 
 This document explains how to migrate from RedKite CMS 1.1.2 to next upcoming release.
 
@@ -23,11 +23,11 @@ Follows these steps to upgrade from composer:
 
     "require": {
         [...]
-        "redkite-cms/redkite-cms-bundle": "dev-master",
-        "redkite-cms/installer-bundle": "dev-master",
-    	"redkite-labs/bootbusiness-theme-bundle": "dev-master",
-        "redkite-cms/redkite-cms-base-blocks": "dev-master",
-	    "redkite-cms/tinymce-block-bundle": "dev-master"
+        "redkite-cms/redkite-cms-bundle": "1.1.*",
+        "redkite-cms/installer-bundle": "1.1.*",
+    	"redkite-labs/bootbusiness-theme-bundle": "1.1.*",
+        "redkite-cms/redkite-cms-base-blocks": "1.1.*",
+	    "redkite-cms/tinymce-block-bundle": "1.1.*"
     },
 
 then run
