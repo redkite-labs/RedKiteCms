@@ -31,8 +31,7 @@
         "sensio/generator-bundle": "2.3.*",
         "incenteev/composer-parameter-handler": "~2.0",
         "propel/propel-bundle": "1.2.*",
-        "propel/propel1": "1.7.0",
-        "hwi/oauth-bundle": "0.4.*@dev"
+        "propel/propel1": "1.7.0"
     },
     "require-dev": {    
       "willdurand/propel-typehintable-behavior": "dev-master",  
