@@ -699,25 +699,25 @@
   z-index: 5200;
 }
 
-#al_block_menu_top, #al_active_block_menu_top {
+.al_block_menu_top, .al_active_block_menu_top {
   border-bottom-width: 1px;
   border-bottom-style: solid;
   height: 1px;
 }
 
-#al_block_menu_bottom, #al_active_block_menu_bottom {
+.al_block_menu_bottom, .al_active_block_menu_bottom {
   border-top-width: 1px;
   border-top-style: solid;
   height: 1px;
 }
 
-#al_block_menu_left, #al_active_block_menu_left {
+.al_block_menu_left, .al_active_block_menu_left {
   border-right-width: 1px;
   border-right-style: solid;
   width: 1px;
 }
 
-#al_block_menu_right, #al_active_block_menu_right {
+.al_block_menu_right, .al_active_block_menu_right {
   border-left-width: 1px;
   border-left-style: solid;
   width: 1px;

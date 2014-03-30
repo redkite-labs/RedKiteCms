@@ -20,79 +20,62 @@
     var methods = {
         highlight: function() 
         {
-            render($(this), {
-                "top" : '#al_block_menu_top',
-                "bottom" : '#al_block_menu_bottom',
-                "left" : '#al_block_menu_left',
-                "right" : '#al_block_menu_right'
-            });
+            render($(this));
             
             return this;
         },
         activate: function() 
         {
-            $('#al_block_menu_top').hide();
-            $('#al_block_menu_bottom').hide();
-            $('#al_block_menu_left').hide();
-            $('#al_block_menu_right').hide();
+            hide();
             
-            render($(this), {
-                "top" : '#al_active_block_menu_top',
-                "bottom" : '#al_active_block_menu_bottom',
-                "left" : '#al_active_block_menu_left',
-                "right" : '#al_active_block_menu_right'
-            });
+            render($(this));
             
             return this;
         },
         deactivate: function() 
         {
-            $('#al_active_block_menu_top').hide();
-            $('#al_active_block_menu_bottom').hide();
-            $('#al_active_block_menu_left').hide();
-            $('#al_active_block_menu_right').hide();
+            hide();
             
             return this;
         }
     };
+
+    function hide()
+    {
+        $(settings.elements).each(function(){
+            $(this).hide();
+        });
+    }
     
-    function render(target, elements)
+    function render(target)
     {
         var position = target.offset();
         var blockWidth = target.outerWidth();
         var blockHeight = target.outerHeight();
 
-        $(elements['top'])
+        $(settings.elements['top'])
             .width(blockWidth)
             .css('top', position.top - 1 + 'px')
-            .css('left', position.left + 'px')   
-            .removeClass()
-            .addClass('al_block_menu ' + settings.cssClass) 
+            .css('left', position.left + 'px')
             .show()
         ;                    
 
-        $(elements['bottom'])
+        $(settings.elements['bottom'])
             .width(blockWidth)
             .css('top', position.top + blockHeight + 'px')
-            .css('left', position.left + 'px')   
-            .removeClass()
-            .addClass('al_block_menu ' + settings.cssClass) 
+            .css('left', position.left + 'px')
             .show()
         ;
-        $(elements['left'])
+        $(settings.elements['left'])
             .height(blockHeight)
             .css('top', position.top  + 'px')
-            .css('left', position.left - 1 + 'px')   
-            .removeClass()
-            .addClass('al_block_menu ' + settings.cssClass) 
+            .css('left', position.left - 1 + 'px')
             .show()
         ;
-        $(elements['right'])
+        $(settings.elements['right'])
             .height(blockHeight)
             .css('top', position.top + 'px')
-            .css('left', position.left - 1 + blockWidth + 'px')    
-            .removeClass() 
-            .addClass('al_block_menu ' + settings.cssClass) 
+            .css('left', position.left - 1 + blockWidth + 'px')
             .show()
         ;   
     };
@@ -100,7 +83,12 @@
     $.fn.highligther = function( method, options ) 
     {
         settings = $.extend( {
-          cssClass      : 'highlight'
+            'elements' : {
+                "top" : '.al_block_menu_top',
+                "bottom" : '.al_block_menu_bottom',
+                "left" : '.al_block_menu_left',
+                "right" : '.al_block_menu_right'
+            }
         }, options);
         
         if ( methods[method] ) {

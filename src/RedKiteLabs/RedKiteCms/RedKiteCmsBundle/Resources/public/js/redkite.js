@@ -243,7 +243,12 @@
     
     function startEdit(element)
     {
-        element.highligther('activate', {'cssClass' : 'on-editing'});
+        element.highligther('activate', {'elements' : {
+            "top" : '.al_active_block_menu_top',
+            "bottom" : '.al_active_block_menu_bottom',
+            "left" : '.al_active_block_menu_left',
+            "right" : '.al_active_block_menu_right'
+        }});
         var parent = (element.attr('data-parent') != null && element.attr('data-parent').length > 0) ? element.attr('data-parent') : null;
         $('body')
             .data('idBlock', element.attr('data-block-id'))
