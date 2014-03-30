@@ -1,3 +1,6 @@
+RedKite CMS 1.1.4 (2014/03/30)
+cbd226b fixed routing path for ElFinder media library
+
 RedKite CMS 1.1.3 (2014/03/29)
 e509524 Updated rkconsole to use `rkcms_dev` env by default (boekkooi)
 c538bd6 [RedKiteCmsBundle] renamed arrow[*] classes to rkarrow[*] due to a conflic with bootstrap arrow class
