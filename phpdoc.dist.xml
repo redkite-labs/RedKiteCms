@@ -32,5 +32,6 @@
         <ignore>Core/Exception/*</ignore>
         <ignore>Command/Update/*</ignore>
         <ignore>Model/*</ignore>
+        <ignore>bin/*</ignore>
     </files>
 </phpdoc>
