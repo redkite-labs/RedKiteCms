@@ -77,14 +77,14 @@ Installing from the console
 ---------------------------
 Installing RedKite CMS from the console is really easy. Run ti command using the Symfony2 console:
 
-    app/console rekitecms:configure
+    php app/console redkitecms:configure
 
 This will run an interactive command which asks you some mandatory information. If everything goes well,
 you will be prompted that the configuration has been written and you are ready to start the install.
 
 Run the following command from the console:
     
-    app/rkconsole rekitecms:install --env=rkcms
+    php app/rkconsole redkitecms:install --env=rkcms
 
 When the setup ends, point your browser at
 
