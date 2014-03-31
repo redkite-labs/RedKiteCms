@@ -21,13 +21,14 @@ Follows these steps to upgrade from composer:
 
 1. Upgrade your application fetching RedKite CMS packages from master branch:
 
+
     "require": {
         [...]
         "redkite-cms/redkite-cms-bundle": "1.1.*",
         "redkite-cms/installer-bundle": "1.1.*",
-    	"redkite-labs/bootbusiness-theme-bundle": "1.1.*",
+        "redkite-labs/bootbusiness-theme-bundle": "1.1.*",
         "redkite-cms/redkite-cms-base-blocks": "1.1.*",
-	    "redkite-cms/tinymce-block-bundle": "1.1.*"
+        "redkite-cms/tinymce-block-bundle": "1.1.*"
     },
 
 then run
@@ -74,6 +75,7 @@ production environment.
 
 5. Run the following commands to complete the migration:
 
+
     php app/rkconsole propel:model:build --env=rkcms
     php app/rkconsole assets:install web --env=rkcms [--symlink]
     php app/rkconsole assetic:dump --env=rkcms
@@ -91,6 +93,7 @@ Follows these steps to upgrade by copying RedKite CMS bundles into the src folde
 application:
 
 1. Remove these entries from your composer.json
+
 
     "require": {
         [...]
