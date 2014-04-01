@@ -1,3 +1,9 @@
+RedKite CMS 1.1.3.2 (2014/04/01)
+152c2da updated RedKiteCmsBundle composer.json to stable release
+b75be0f fixed paths in app-themes and app-blocks generators
+77db38c fixed UrlManagerStage in services.xml name which had a typo
+9e9cbab updated al-highlighter.js to receive the elements deputated to highlight an element as parameter
+
 RedKite CMS 1.1.3.1 (2014/03/30)
 cbd226b fixed routing path for ElFinder media library
 
