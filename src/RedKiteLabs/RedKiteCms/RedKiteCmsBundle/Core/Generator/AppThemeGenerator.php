@@ -20,7 +20,10 @@ class AppThemeGenerator extends BaseGenerator
 
         // @codeCoverageIgnoreStart
         if (null === $this->bundleSkeletonDir) {
-            $this->bundleSkeletonDir = __DIR__ . '/../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton';
+            $this->bundleSkeletonDir = __DIR__ . '/../../../../../../vendor/sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton';
+            if ( ! file_exists($this->bundleSkeletonDir)) {
+                $this->bundleSkeletonDir = __DIR__ . '/../../../../../../../sensio/generator-bundle/Sensio/Bundle/GeneratorBundle/Resources/skeleton';
+            }
         }
         // @codeCoverageIgnoreEnd
         $this->setSkeletonDirs($this->bundleSkeletonDir);
