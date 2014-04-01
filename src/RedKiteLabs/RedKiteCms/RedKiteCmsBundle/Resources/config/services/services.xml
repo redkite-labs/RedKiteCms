@@ -30,7 +30,7 @@
         <parameter key="red_kite_cms.block_manager_factory.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFactory</parameter>
         <parameter key="red_kite_cms.factory_repository.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepository</parameter>
         <parameter key="red_kite_cms.url_manager.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManager</parameter>
-        <parameter key="red_kite_cms.url_manager_stage.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\ManagerStage</parameter>
+        <parameter key="red_kite_cms.url_manager_stage.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerStage</parameter>
         <parameter key="red_kite_cms.commands_processor.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\CommandsProcessor\CommandsProcessor</parameter>
         <parameter key="red_kite_cms.images_thumbnailer.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ImageThumbnailer\ImageThumbnailer</parameter>
         <parameter key="red_kite_cms.events_handler.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\EventsHandler\ContentEventsHandler</parameter>
