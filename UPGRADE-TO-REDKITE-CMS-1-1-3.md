@@ -35,7 +35,12 @@ then run
 
     php composer.phar update
 
-2. Open the app/AppKernel.php file and remove the following code:
+2. RedKite CMS is highly decoupled from your Symfony2 application and, since 1.1.3 release, it lies on its own kernel.
+For that reason the **BootbusinessBUndle** has been removed from the AppKernel and moved to the new kernel. Read
+[this document](http://redkite-labs.com/redkite-cms-website-deploy#preliminary-configuration) to learn more about this
+topic. If you prefer to continue autoloading your themes in the production environment, you can safety skip this step.
+
+Open the app/AppKernel.php file and remove the following code:
 
 from **registerBundles** method:
 
