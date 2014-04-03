@@ -4,7 +4,7 @@
   "keywords": ["redkite", "cms", "installer"],
   "homepage": "http://redkite-labs.com",
   "type": "symfony-bundle",
-  "license": "GPLv2",
+  "license": "MIT",
   "authors": [
     {
       "name": "RedKite Labs",
