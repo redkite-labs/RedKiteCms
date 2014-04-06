@@ -48,7 +48,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
      * @dataProvider addFailsProvider
      */
     public function testAddBlockFails($params, $message)
-    {//print_R($params);
+    {
         $crawler = $this->browse('/backend/en/addBlock', $params);
         $this->assertRegExp(
             $message,
