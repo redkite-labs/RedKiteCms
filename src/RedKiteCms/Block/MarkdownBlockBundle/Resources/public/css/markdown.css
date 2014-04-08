@@ -1,0 +1,9 @@
+.markdown-toolbar
+{
+    text-align: left;
+}
+
+.markdown-toolbar button
+{
+    margin: 10px 10px 0 0;
+}
