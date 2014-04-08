@@ -31,7 +31,8 @@
         "sensio/generator-bundle": "2.3.*",
         "incenteev/composer-parameter-handler": "~2.0",
         "propel/propel-bundle": "1.2.*",
-        "propel/propel1": "1.7.0"
+        "propel/propel1": "1.7.0",
+        "knplabs/knp-markdown-bundle": "1.2.*@dev"
     },
     "require-dev": {    
       "willdurand/propel-typehintable-behavior": "dev-master",  
