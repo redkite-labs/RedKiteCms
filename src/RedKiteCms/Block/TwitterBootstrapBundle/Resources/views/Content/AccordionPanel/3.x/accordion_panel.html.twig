@@ -11,7 +11,7 @@
         <h4 class="panel-title">
             <a class="accordion-toggle" data-toggle="collapse" data-parent="#al-accordion-{{ parent_block_id }}" href="#item-{{ parent_block_id }}-{{ key }}">
                 {% set blockSlotName = baseSlotName ~ "-0" %}  
-                {{ renderIncludedBlock(blockSlotName, block_manager, "Text", true, '', 'data-hide-blocks-menu=true') }}
+                {{ renderIncludedBlock(blockSlotName, block_manager, "Text", true, '', 'data-hide-blocks-menu=true data-texteditor-cfg=simple') }}
             </a>
         </h4>
     </div>

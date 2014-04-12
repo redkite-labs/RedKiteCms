@@ -17,7 +17,7 @@
 $(document).ready(function() 
 {
     var expandAccordion = function() {
-        $("#al-accordion").find('.collapse').removeClass('in').addClass('in');
+        $(".rk-accordion").find('.collapse').removeClass('in').addClass('in');
     };
         
     $(document).on("cmsStarted", function(event){
@@ -25,7 +25,7 @@ $(document).ready(function()
     });
     
     $(document).on("cmsStopped", function(event){
-        $("#al-accordion").find('.collapse').removeClass('in');
+        $(".rk-accordion").find('.collapse').slice(1).removeClass('in');
     });
     
     $(document).on("startEditingBlocks", function(event, element){
