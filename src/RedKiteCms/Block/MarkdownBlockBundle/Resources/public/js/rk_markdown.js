@@ -56,7 +56,10 @@
 
     MarkdownEditor.prototype.startEditor = function () {
         var _element = this.$element.attr('id');
-
+        var defaultContentSource = this.$element.find('p');
+        if (!defaultContentSource) {
+            defaultContentSource = this.$element;
+        }
         var editor    = this.$element.data('rk.markdown_editor.editor');
         if (!editor) {
             var opts = {
@@ -69,7 +72,7 @@
                 parser: marked,
                 file: {
                     name: _element,
-                    defaultContent: '',
+                    defaultContent: defaultContentSource.html(),
                     autoSave: 100
                 },
                 theme: {
@@ -136,7 +139,7 @@
     };
 
     // MARKDOWN EDITOR PLUGIN DEFINITION
-    // ==========================
+    // =================================
     var old = $.fn.markdown;
 
     $.fn.markdown = function () {
@@ -162,11 +165,23 @@
 
     // MARKDOWN EDITOR  DATA-API
     // =========================
-    $(document).on('startEditingBlocks', function(e, block){ // '[data-type="Markdown"]'
+    $(document).on('startEditingBlocks', function(e, block){
         if (block.attr('data-type') != 'Markdown') {
             return;
         }
 
         block.markdown();
+    });
+
+    $(document).on("blockDeleted", function(event, block)
+    {
+        if (!block || block.attr('data-type') != 'Markdown') {
+            return;
+        }
+
+        var markdown = block.data('rk.markdown_editor');
+        if (markdown) {
+            markdown.toolbar.remove();
+        }
     });
 })(jQuery);
