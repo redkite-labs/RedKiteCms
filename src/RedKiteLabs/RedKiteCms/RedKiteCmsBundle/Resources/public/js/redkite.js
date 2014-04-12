@@ -383,9 +383,13 @@ function Navigate(language, page)
     location.href = frontController + 'backend/' + language + '/' + page;
 }
 
-function translate(value, placeholders)
+function translate(value, placeholders, domain)
 {
-    var found = lang[value];
+    if (!domain) {
+        domain = lang;
+    }
+
+    var found = domain[value];
     if (found == null) { // falls back to default language
         found = value;
     }
