@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteCms\Block\TinyMceBlockBundle\Tests\Functional\Controller;
+namespace RedKiteLabs\RedKiteCms\TinyMceBlockBundle\Tests\Functional\Controller;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\WebTestCaseFunctional;
 

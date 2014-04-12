@@ -27,7 +27,7 @@ class RedKiteCmsAppKernel extends Kernel
         $bundles = $bootstrapper->setVendorDir(__DIR__ . '/../../../vendor')
                                 ->getBundles();
         
-        $bundles[] = new RedKiteCms\Block\TinyMceBlockBundle\TinyMceBlockBundle();
+        $bundles[] = new RedKiteLabs\RedKiteCms\TinyMceBlockBundle\TinyMceBlockBundle();
 
         return $bundles;
     }

@@ -15,10 +15,10 @@
  *
  */
 
-namespace RedKiteCms\Block\TinyMceBlockBundle\Tests\Unit\Core\Block;
+namespace RedKiteLabs\RedKiteCms\TinyMceBlockBundle\Tests\Unit\Core\Block;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase;
-use RedKiteCms\Block\TinyMceBlockBundle\Core\Block\BlockManagerTinyMceBlock;
+use RedKiteLabs\RedKiteCms\TinyMceBlockBundle\Core\Block\BlockManagerTinyMceBlock;
 
 /**
  * BlockManagerTest

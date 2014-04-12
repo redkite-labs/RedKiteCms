@@ -1,6 +1,6 @@
 <?php
 
-namespace RedKiteCms\Block\TinyMceBlockBundle\DependencyInjection;
+namespace RedKiteLabs\RedKiteCms\TinyMceBlockBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

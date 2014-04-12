@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteCms\Block\TinyMceBlockBundle\Controller;
+namespace RedKiteLabs\RedKiteCms\TinyMceBlockBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;

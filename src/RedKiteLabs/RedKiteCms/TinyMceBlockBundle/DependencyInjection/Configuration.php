@@ -1,6 +1,6 @@
 <?php
 
-namespace RedKiteCms\Block\TinyMceBlockBundle\DependencyInjection;
+namespace RedKiteLabs\RedKiteCms\TinyMceBlockBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

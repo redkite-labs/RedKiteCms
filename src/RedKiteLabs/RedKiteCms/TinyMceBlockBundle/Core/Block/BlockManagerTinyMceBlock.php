@@ -15,7 +15,7 @@
  *
  */
 
-namespace RedKiteCms\Block\TinyMceBlockBundle\Core\Block;
+namespace RedKiteLabs\RedKiteCms\TinyMceBlockBundle\Core\Block;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\InlineTextBlock\BlockManagerInlineTextBlock;
 

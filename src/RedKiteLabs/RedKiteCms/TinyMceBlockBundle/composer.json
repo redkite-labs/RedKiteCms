@@ -35,9 +35,9 @@
         "willdurand/propel-typehintable-behavior": "dev-master"
     },
     "autoload": {
-        "psr-0": { "RedKiteCms\\Block\\TinyMceBlockBundle": ""
+        "psr-0": { "RedKiteLabs\\RedKiteCms\\TinyMceBlockBundle": ""
         }
     },
-    "target-dir" : "RedKiteCms/Block/TinyMceBlockBundle",
+    "target-dir" : "RedKiteLabs/RedKiteCms/TinyMceBlockBundle",
     "minimum-stability": "dev"
 }
