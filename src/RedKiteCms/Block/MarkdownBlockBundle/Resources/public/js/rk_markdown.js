@@ -123,8 +123,10 @@
     MarkdownEditor.prototype.hide = function () {
         var content = this.editor.exportFile();
         if (content != this.initialContent) {
-            if (!confirm('Looks like there are unsaved changes: are you sure you really want to close the editor without saving those changes?'))
+            if (!confirm('Are you sure you really want to close the editor without saving those changes to database? Anyway contents are saved in memory.'))
             {
+                this.editor.save();
+
                 return;
             }
         }
