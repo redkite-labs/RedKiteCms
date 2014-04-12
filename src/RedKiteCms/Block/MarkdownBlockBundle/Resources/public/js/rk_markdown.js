@@ -94,13 +94,14 @@
                     toggleFullscreen: 'Enter Fullscreen'
                 },
                 autogrow: false
-            }
+            };
 
             this.$element.data('rk.markdown_editor.editor', (this.editor = new EpicEditor(opts)));
         }
 
+        this.$element.highligther('deactivate');
         this.editor.load();
-        this.initialContent = this.editor.exportFile();;
+        this.initialContent = this.editor.exportFile();
 
         _renderToolbar(this, this.$element);
     };
