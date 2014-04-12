@@ -999,6 +999,13 @@
             <source>images_list_empty_image</source>
             <target>Immagine non inserita</target>
         </trans-unit>
+
+        <!-- BLOCKS -->
+
+        <trans-unit id="block-1">
+            <source>hypertext_block</source>
+            <target>Questo è il contenuto standard di un blocco di ipertesto</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>

@@ -1001,6 +1001,13 @@
             <source>images_list_empty_image</source>
             <target>Empty image</target>
         </trans-unit>
+
+        <!-- BLOCKS -->
+
+        <trans-unit id="block-1">
+            <source>hypertext_block</source>
+            <target>This is the default content for a new hypertext block</target>
+        </trans-unit>
     </body>
     </file>
 </xliff>
