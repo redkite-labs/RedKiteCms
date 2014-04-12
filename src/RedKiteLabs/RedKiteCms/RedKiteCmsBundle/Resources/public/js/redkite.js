@@ -264,7 +264,7 @@
     
     function stopEditElement(element)
     {
-        $('.al_block_menu').hide();
+        element.highligther('deactivate');
         
         element.each(function(){   
             var $this = $(this);
@@ -330,21 +330,21 @@
             });
         });
     }
-    
+
     function activateEditableInlineContents()
     {          
         $(document)
             .find('[data-content-editable="true"]')
+            .not('[data-texteditor-cfg="simple"]')
             .attr('contenteditable', true)
-            .addClass('al-editable-inline')
+            .attr('data-texteditor-cfg', 'standard')
         ;
     }
     
     function deactivateEditableInlineContents()
     {
-        $('.al-editable-inline')
-            .removeAttr('contenteditable')
-            .removeClass('al-editable-inline')
+        $('[data-texteditor-cfg="standard"]')
+            .removeAttr('data-texteditor-cfg contenteditable')
         ;
     }
     
