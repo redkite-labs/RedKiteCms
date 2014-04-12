@@ -15,9 +15,9 @@
         "redkite-labs/redkite-cms-bundle": "dev-master"
     },
     "autoload": {
-        "psr-0": { "RedKiteCms\\Block\\BootbusinessBlockBundle": ""
+        "psr-0": { "RedKiteLabs\\RedKiteCms\\BootbusinessBlockBundle": ""
         }
     },
-    "target-dir" : "RedKiteCms/Block/BootbusinessBlockBundle",
+    "target-dir" : "RedKiteLabs/RedKiteCms/BootbusinessBlockBundle",
     "minimum-stability": "dev"
 }

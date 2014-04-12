@@ -15,10 +15,14 @@
  *
  */
 
-namespace RedKiteCms\Block\BootbusinessBlockBundle;
+namespace RedKiteLabs\RedKiteCms\BootbusinessBlockBundle\Core\Block;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle;
+use RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Thumbnail\BlockManagerBootstrapThumbnailBlock;
 
-class BootbusinessBlockBundle extends Bundle
+/**
+ * Description of BlockManagerBootbusinessProductThumbnailBlock
+ */
+class BlockManagerBootbusinessProductThumbnailBlock extends BlockManagerBootstrapThumbnailBlock
 {
+    protected $blockTemplate = 'BootbusinessBlockBundle:Thumbnail:thumbnail.html.twig';
 }

@@ -15,17 +15,14 @@
  *
  */
 
-namespace RedKiteCms\Block\BootbusinessBlockBundle\Core\Form;
+namespace RedKiteLabs\RedKiteCms\BootbusinessBlockBundle\Core\Block;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Form\Button\Three\ButtonType as BaseButtonType;
-use Symfony\Component\Form\FormBuilderInterface;
+use RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarBlock;
 
-class ButtonType extends BaseButtonType
+/**
+ * Description of BlockManagerBootbusinessNavbarBlock
+ */
+class BlockManagerBootbusinessNavbarBlock extends BlockManagerBootstrapNavbarBlock
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        parent::buildForm($builder, $options);
-        
-        $builder->add('button_href');
-    }
+    protected $contentTemplate = 'BootbusinessBlockBundle:Navbar:%s/navbar.html.twig';
 }

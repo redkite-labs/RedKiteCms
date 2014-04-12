@@ -1,6 +1,6 @@
 <?php
 
-namespace RedKiteCms\Block\BootbusinessBlockBundle\DependencyInjection;
+namespace RedKiteLabs\RedKiteCms\BootbusinessBlockBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

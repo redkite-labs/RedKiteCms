@@ -15,14 +15,14 @@
  *
  */
 
-namespace RedKiteCms\Block\BootbusinessBlockBundle\Core\Block;
+namespace RedKiteLabs\RedKiteCms\BootbusinessBlockBundle\Core\Block;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager;
 
 /**
- * Description of BlockManagerBootbusinessMemberBlock
+ * Description of BlockManagerBootbusinessEventBlock
  */
-class BlockManagerBootbusinessMemberBlock extends BlockManager
+class BlockManagerBootbusinessEventBlock extends BlockManager
 {
     public function getDefaultValue()
     {
@@ -32,7 +32,7 @@ class BlockManagerBootbusinessMemberBlock extends BlockManager
     protected function renderHtml()
     {
         return array('RenderView' => array(
-            'view' => 'BootbusinessBlockBundle:Partner:partner.html.twig',
+            'view' => 'BootbusinessBlockBundle:Event:event.html.twig',
         ));
     }
 }

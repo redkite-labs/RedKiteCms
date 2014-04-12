@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteCms\Block\BootbusinessBlockBundle\Core\Block;
+namespace RedKiteLabs\RedKiteCms\BootbusinessBlockBundle\Core\Block;
 
-use RedKiteCms\Block\TwitterBootstrapBundle\Core\Block\Thumbnails\BlockManagerBootstrapThumbnailsBlock;
+use RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Thumbnails\BlockManagerBootstrapThumbnailsBlock;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock\BlockManagerJsonBlock;
 
 /**
