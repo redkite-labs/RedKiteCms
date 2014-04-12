@@ -39,9 +39,9 @@ class BlockManagerMarkdownBlock extends BlockManager
      */
     public function getDefaultValue()
     {
-        $message = "This is the default content for a new markdown block";
+        $message = "markdown_default_content";
         if (null !== $this->translator) {
-            $message = $this->translator->translate($message);
+            $message = $this->translator->translate($message, array(), 'MarkdownBlockBundle');
         }
 
         return array(
@@ -55,7 +55,7 @@ class BlockManagerMarkdownBlock extends BlockManager
     protected function renderHtml()
     {
         return array('RenderView' => array(
-            'view' => 'MarkdownBlockBundle:Content:markdownblock.html.twig',
+            'view' => 'MarkdownBlockBundle:Content:markdown.html.twig',
             'options' => array(
                 'block_id' => $this->alBlock->getId(),
                 'block_content' => $this->alBlock->getContent(),
