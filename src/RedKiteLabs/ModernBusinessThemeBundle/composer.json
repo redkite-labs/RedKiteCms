@@ -1,0 +1,29 @@
+{
+  "name": "redkite-labs/modern-business-theme-bundle",
+  "description": "RedKite CMS Modern Business Theme porting",
+  "keywords": ["redkite", "cms", "app", "theme"],
+  "homepage": "http://redkite-labs.com",
+  "type": "redkite-cms-app",
+  "license": "MIT",
+  "authors": [
+        {
+          "name": "RedKite Labs",
+          "email": "info@redkite-labs.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "http://apps.redkite-labs.com/"
+        }
+  ],
+  "require": {
+    "redkite-cms/twitter-bootstrap": "1.1.*"
+  },
+  "autoload": {
+        "psr-0": { "RedKiteLabs\\ModernBusinessThemeBundle": ""
+        }
+    },
+    "target-dir" : "RedKiteLabs/ModernBusinessThemeBundle",
+    "minimum-stability": "dev"
+}

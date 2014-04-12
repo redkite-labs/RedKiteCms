@@ -52,7 +52,7 @@ class TemplateManagerTest extends ContentManagerBase
         $this->validator = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorPageManager')
                                     ->disableOriginalConstructor()
                                     ->getMock();
-        $this->blockManager = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\BlockManagerImage')
+        $this->blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBaseBlocksBundle\Core\Block\Image\BlockManagerImage')
                                 ->disableOriginalConstructor()
                                 ->getMock();
         $this->blockRepository = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\BlockRepositoryPropel')

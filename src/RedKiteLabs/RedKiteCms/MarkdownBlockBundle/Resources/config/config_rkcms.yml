@@ -1,0 +1,2 @@
+imports:
+- { resource: "@MarkdownBlockBundle/Resources/config/app_block.xml" }

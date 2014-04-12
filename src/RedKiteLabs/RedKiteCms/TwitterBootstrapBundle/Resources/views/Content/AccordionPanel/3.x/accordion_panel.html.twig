@@ -1,0 +1,25 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
+
+{% block body %}
+{% if key is not defined %}
+{% set key = 0 %}
+{% endif %}
+{% set baseSlotName = block_manager.get.getId ~ "-" ~ key %}
+
+<div class="panel panel-default" {{ editor|raw }} data-hide-blocks-menu="true">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#al-accordion-{{ parent_block_id }}" href="#item-{{ parent_block_id }}-{{ key }}">
+                {% set blockSlotName = baseSlotName ~ "-0" %}  
+                {{ renderIncludedBlock(blockSlotName, block_manager, "Text", true, '', 'data-hide-blocks-menu=true data-texteditor-cfg=simple') }}
+            </a>
+        </h4>
+    </div>
+    <div id="item-{{ parent_block_id }}-{{ key }}" class="panel-collapse collapse {% if key == 0 %} in{% endif %}">
+        <div class="panel-body">
+            {% set blockSlotName = baseSlotName ~ "-1" %}  
+            {{ renderIncludedBlock(blockSlotName, block_manager, "Text", true, '', 'data-hide-blocks-menu=true') }}
+        </div>
+    </div>
+</div>
+{% endblock %}

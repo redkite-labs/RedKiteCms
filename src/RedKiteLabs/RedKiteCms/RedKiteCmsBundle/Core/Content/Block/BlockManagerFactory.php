@@ -174,7 +174,7 @@ class BlockManagerFactory implements BlockManagerFactoryInterface
         }
 
         // First displayed group
-        $redKiteBlocks = array("Default" => $this->extractGroup('redkitecms_internals', $blockGroups));
+        $redKiteBlocks = array("Base" => $this->extractGroup('redkitecms_internals', $blockGroups));
         // Last displayed group
         $notGrouped = $this->extractGroup($ungroupedKey, $blockGroups);
         // Sorts

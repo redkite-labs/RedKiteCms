@@ -47,9 +47,9 @@ class GeneratorBase extends TestCase
 
     protected function importDefaultTheme()
     {
-        $baseThemeDir = __DIR__ . '/../../../../../../../../../src/RedKiteCms/Theme/BootbusinessThemeBundle/Resources/views/Theme';
+        $baseThemeDir = __DIR__ . '/../../../../../../../../../src/RedKiteLabs/BootbusinessThemeBundle/Resources/views/Theme';
         if ( ! is_dir($baseThemeDir)) { 
-            $baseThemeDir = __DIR__ . '/../../../../../vendor/redkite-labs/bootbusiness-theme-bundle/RedKiteCms/Theme/BootbusinessThemeBundle/Resources/views/Theme';
+            $baseThemeDir = __DIR__ . '/../../../../../vendor/redkite-labs/bootbusiness-theme-bundle/RedKiteLabs/BootbusinessThemeBundle/Resources/views/Theme';
             if ( ! is_dir($baseThemeDir)) {
                 $this->markTestSkipped(
                     'BusinessWebsiteThemeBundle is not available.'

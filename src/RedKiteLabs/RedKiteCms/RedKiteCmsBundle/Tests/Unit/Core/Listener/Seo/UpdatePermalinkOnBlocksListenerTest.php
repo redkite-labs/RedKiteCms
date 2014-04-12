@@ -51,7 +51,7 @@ class UpdatePermalinkOnBlocksListenerTest extends BaseListenerTest
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
-        $this->blockManager = $this->getMockBuilder('RedKiteCms\Block\RedKiteCmsBaseBlocksBundle\Core\Block\Image\BlockManagerImage')
+        $this->blockManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBaseBlocksBundle\Core\Block\Image\BlockManagerImage')
                                 ->disableOriginalConstructor()
                                 ->getMock();
 

@@ -1,0 +1,24 @@
+{
+    "name": "redkite-cms/markdown-bundle",
+    "description": "RedKite Cms markdown block",
+    "keywords": ["redkite", "redkite labs", "redkite cms", "cms"],
+    "homepage": "http://redkite-labs.com",
+    "type": "redkite-cms-app",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "RedKite Labs",
+            "email": "info@redkite-labs.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "knplabs/knp-markdown-bundle": "1.2.*@dev"
+    },
+    "autoload": {
+        "psr-0": { "RedKiteLabs\\RedKiteCms\\MarkdownBlockBundle": ""
+        }
+    },
+    "target-dir" : "RedKiteLabs/RedKiteCms/MarkdownBlockBundle",
+    "minimum-stability": "dev"
+}

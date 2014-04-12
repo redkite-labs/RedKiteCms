@@ -366,9 +366,9 @@ class TemplateParserTest extends GeneratorBase
 
     protected function importDefaultTheme($overrideTemplate = false)
     {
-        $baseThemeDir = __DIR__ . '/../../../../../../../../../src/RedKiteCms/Theme/BootbusinessThemeBundle/Resources/views';
+        $baseThemeDir = __DIR__ . '/../../../../../../../../../src/RedKiteLabs/BootbusinessThemeBundle/Resources/views';
         if ( ! is_dir($baseThemeDir)) { 
-            $baseThemeDir = __DIR__ . '/../../../../../vendor/redkite-labs/bootbusiness-theme-bundle/RedKiteCms/Theme/BootbusinessThemeBundle/Resources/views';
+            $baseThemeDir = __DIR__ . '/../../../../../vendor/redkite-labs/bootbusiness-theme-bundle/RedKiteLabs/BootbusinessThemeBundle/Resources/views';
             if ( ! is_dir($baseThemeDir)) {
                 $this->markTestSkipped(
                     'BootbusinessThemeBundle is not available.'

@@ -1,0 +1,11 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
+
+{% block body %}
+<div class="accordion al-accordion-list inline-list rk-accordion" id="al-accordion-{{ block_manager.get.getId }}" {{ editor|raw }}>
+    {% for key, item in items %}
+    {% set baseSlotName = block_manager.get.getId ~ "-" ~ key %} 
+    {% set attributes = 'data-item=' ~ key ~ ' data-slot-name=' ~ baseSlotName %}
+    {{ renderIncludedBlock(baseSlotName, block_manager, 'BootstrapAccordionPanelBlock', true, "", attributes) }}  
+    {% endfor %}
+</div>
+{% endblock %}
