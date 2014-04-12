@@ -15,9 +15,9 @@
  *
  */
 
-namespace RedKiteCms\Block\MarkdownBlockBundle\Tests\Unit\Core\Block;
+namespace RedKiteLabs\RedKiteCms\MarkdownBlockBundle\Tests\Unit\Core\Block;
 
-use RedKiteCms\Block\MarkdownBlockBundle\Core\Block\BlockManagerMarkdownBlock;
+use RedKiteLabs\RedKiteCms\MarkdownBlockBundle\Core\Block\BlockManagerMarkdownBlock;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Content\Block\Base\BlockManagerContainerBase;
 
 /**

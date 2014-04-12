@@ -1,6 +1,6 @@
 <?php
 
-namespace RedKiteCms\Block\MarkdownBlockBundle;
+namespace RedKiteLabs\RedKiteCms\MarkdownBlockBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 

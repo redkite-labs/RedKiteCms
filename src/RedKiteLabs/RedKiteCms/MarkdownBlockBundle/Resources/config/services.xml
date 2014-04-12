@@ -6,7 +6,7 @@
 
     <!--
     <parameters>
-        <parameter key="markdown_block.example.class">RedKiteCms\Block\MarkdownBlockBundle\Example</parameter>
+        <parameter key="markdown_block.example.class">RedKiteLabs\RedKiteCms\MarkdownBlockBundle\Example</parameter>
     </parameters>
 
     <services>

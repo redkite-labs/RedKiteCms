@@ -3,7 +3,7 @@
  * A RedKiteCms Block
  */
 
-namespace RedKiteCms\Block\MarkdownBlockBundle\Core\Block;
+namespace RedKiteLabs\RedKiteCms\MarkdownBlockBundle\Core\Block;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;

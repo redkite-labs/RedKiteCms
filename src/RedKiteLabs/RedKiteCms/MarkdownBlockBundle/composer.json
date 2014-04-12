@@ -16,9 +16,9 @@
         "knplabs/knp-markdown-bundle": "1.2.*@dev"
     },
     "autoload": {
-        "psr-0": { "RedKiteCms\\Block\\MarkdownBlockBundle": ""
+        "psr-0": { "RedKiteLabs\\RedKiteCms\\MarkdownBlockBundle": ""
         }
     },
-    "target-dir" : "RedKiteCms/Block/MarkdownBlockBundle",
+    "target-dir" : "RedKiteLabs/RedKiteCms/MarkdownBlockBundle",
     "minimum-stability": "dev"
 }
