@@ -36,7 +36,7 @@ class ParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\EmptyArgumentsException
-     * @expectedExceptionMessage Any parameter has been given
+     * @expectedExceptionMessage No parameters have been given
      */
     public function testCheckEmptyParamsThrownAnExceptionWhenTheParameterIsEmpty()
     {
@@ -86,11 +86,11 @@ class ParametersValidatorTest extends TestCase
 
     /**
      * @expectedException \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General\ArgumentExpectedException
-     * @expectedExceptionMessage Any espected parameter has been given
+     * @expectedExceptionMessage No espected parameter has been given
      */
     public function testCheckOnceValidParamExistsThrownAnExceptionWhenAnyOfTheExpectedParamsHasBeenFoundWithCustomErrorMessage()
     {
-        $this->validator->checkOnceValidParamExists(array('param' => ''), array('param1' => 'value'), 'Any espected parameter has been given');
+        $this->validator->checkOnceValidParamExists(array('param' => ''), array('param1' => 'value'), 'No espected parameter has been given');
     }
 
     public function testCheckOnceValidParamExistsPasses()

@@ -73,7 +73,7 @@ class BasePageRenderingListenerTest extends TestCase
     
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Any slot defined for the event RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Rendering\Listener\PageRenderingListenerTester
+     * @expectedExceptionMessage No slot defined for the event RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Rendering\Listener\PageRenderingListenerTester
      */
     public function testAnExceptionIsThrownWhenRenderSlotContentsNotDefinesTheSlotName()
     {
@@ -85,7 +85,7 @@ class BasePageRenderingListenerTest extends TestCase
     
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Any action has been specified for the event RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Rendering\Listener\PageRenderingListenerTester
+     * @expectedExceptionMessage No action has been specified for the event RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Rendering\Listener\PageRenderingListenerTester
      */
     public function testAnExceptionIsThrownWhenRenderSlotContentsNotDefinesTheAction()
     {
