@@ -21,9 +21,9 @@
     "redkite-cms/twitter-bootstrap": "1.1.*"
   },
   "autoload": {
-        "psr-0": { "RedKiteCms\\Theme\\ModernBusinessThemeBundle": ""
+        "psr-0": { "RedKiteLabs\\ModernBusinessThemeBundle": ""
         }
     },
-    "target-dir" : "RedKiteCms/Theme/ModernBusinessThemeBundle",
+    "target-dir" : "RedKiteLabs/ModernBusinessThemeBundle",
     "minimum-stability": "dev"
 }

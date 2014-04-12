@@ -6,7 +6,7 @@
 
     <!--
     <parameters>
-        <parameter key="modern_business_theme.example.class">RedKiteCms\Theme\ModernBusinessThemeBundle\Example</parameter>
+        <parameter key="modern_business_theme.example.class">RedKiteLabs\ModernBusinessThemeBundle\Example</parameter>
     </parameters>
 
     <services>
