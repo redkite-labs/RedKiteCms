@@ -24,15 +24,15 @@
         <div>
         <ul>
             <li class="rk-cp-row">
-                <a href="#" class="rk-start-editor" rel="tooltip" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                <a href="#" class="rk-start-editor" rel="tooltip" title="{{ 'cms_controller_edit_page'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
                     <i class="fa fa-fw fa-edit"></i>
                 </a>
-                <a href="#" class="rk-stop-editor" rel="tooltip" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                <a href="#" class="rk-stop-editor" rel="tooltip" title="{{ 'cms_controller_stop_edit_page'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
                     <i class="fa fa-fw fa-times-circle"></i>                   
                 </a>
             </li>
             <li class="rk-cp-row">
-                <a id="rk-navigation-minimized" href="#" rel="tooltip" class="rk-navigation" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                <a id="rk-navigation-minimized" href="#" rel="tooltip" class="rk-navigation" title="{{ 'cms_controller_open_nav_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
                     <i class="fa fa-fw fa-link"></i>
                 </a>
             </li>
@@ -58,17 +58,17 @@
         <div class="rk-commands">
             <ul>
                 <li class="rk-cp-row">
-                    <a href="#" class="rk-start-editor" rel="tooltip" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                    <a href="#" class="rk-start-editor" rel="tooltip" title="{{ 'cms_controller_edit_page'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
                         <i class="fa fa-fw fa-edit"></i>
                         <span class="rk-cm-command-description rk-hide-minimized">{{ 'cms_controller_label_edit'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
                     </a>
-                    <a href="#" class="rk-stop-editor" rel="tooltip" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                    <a href="#" class="rk-stop-editor" rel="tooltip" title="{{ 'cms_controller_stop_edit_page'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
                         <i class="fa fa-fw fa-times-circle"></i>
                         <span class="rk-cm-command-description rk-hide-minimized">{{ 'common_label_stop'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>                        
                     </a>
                 </li>
                 <li class="rk-cp-row" id="rk-navigation-full-container">
-                    <a href="#" id="rk-navigation-full" rel="tooltip" class="rk-navigation" title="{{ 'cms_controller_open_pages_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
+                    <a href="#" id="rk-navigation-full" rel="tooltip" class="rk-navigation" title="{{ 'cms_controller_open_nav_panel'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
                         <i class="fa fa-fw fa-link"></i>
                         <span class="rk-cm-command-description rk-hide-minimized">Navigation</span>
                     </a>
@@ -126,11 +126,11 @@
                 </li>
                 {% endif %} 
                 <li class="rk-cp-row">
-                    <a href="#" id="rk-minimize" rel="tooltip" title="Minimize">
+                    <a href="#" id="rk-minimize" rel="tooltip" title="{{ 'cms_controller_minimize'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
                         <i class="fa fa-fw fa-caret-left"></i>
-                        <span class="rk-cm-command-description rk-hide-minimized">{{ 'cms_controller_minimize'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
+                        <span class="rk-cm-command-description rk-hide-minimized">{{ 'cms_controller_label_minimize'|trans({}, 'RedKiteCmsBundle', cms_language) }}</span>
                     </a>
-                    <a href="#" id="rk-maximize" rel="tooltip" title="Maximize">
+                    <a href="#" id="rk-maximize" rel="tooltip" title="{{ 'cms_controller_maximize'|trans({}, 'RedKiteCmsBundle', cms_language) }}">
                         <i class="fa fa-fw fa-caret-right"></i>
                     </a>
                 </li>

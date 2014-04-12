@@ -509,15 +509,15 @@
         </trans-unit>
         <trans-unit id="cms-controller-19">
             <source>cms_controller_edit_page</source>
-            <target>Edits the current page</target>
+            <target>Start to edit the current page contents</target>
         </trans-unit>
         <trans-unit id="cms-controller-20">
             <source>cms_controller_label_edit</source>
-            <target>Edit</target>
+            <target>Edit contents</target>
         </trans-unit>
         <trans-unit id="cms-controller-21">
             <source>cms_controller_stop_edit_page</source>
-            <target>Stops to edit the current page</target>
+            <target>Stops to edit the current page contents</target>
         </trans-unit>
         <trans-unit id="cms-controller-23">
             <source>cms_controller_open_nav_panel</source>
@@ -536,9 +536,19 @@
             <target>Choose your language</target>
         </trans-unit>
         <trans-unit id="cms-controller-27">
-            <source>cms_controller_minimize</source>
+            <source>cms_controller_label_minimize</source>
             <target>Minimize</target>
         </trans-unit>
+        <trans-unit id="cms-controller-28">
+            <source>cms_controller_minimize</source>
+            <target>Minimize the Control Panel</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-29">
+            <source>cms_controller_maximize</source>
+            <target>Maximize the Control Panel</target>
+        </trans-unit>
+
+
         
         <!-- CONFIGURATION CONTROLLER -->
         
