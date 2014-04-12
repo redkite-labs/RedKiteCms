@@ -15,7 +15,7 @@
  *
  */
 
-namespace  RedKiteCms\Theme\BootbusinessThemeBundle\DependencyInjection;
+namespace  RedKiteLabs\BootbusinessThemeBundle\DependencyInjection;
 
 use RedKiteLabs\ThemeEngineBundle\Core\Rendering\DependencyInjection\BaseExtension;
 

@@ -22,9 +22,9 @@
     "redkite-cms/bootbusiness-product-bundle": "1.1.*"
   },
   "autoload": {
-    "psr-0": { "RedKiteCms\\Theme\\BootbusinessThemeBundle": ""
+    "psr-0": { "RedKiteLabs\\BootbusinessThemeBundle": ""
     }
   },
-  "target-dir" : "RedKiteCms/Theme/BootbusinessThemeBundle",
+  "target-dir" : "RedKiteLabs/BootbusinessThemeBundle",
   "minimum-stability": "dev"
 }

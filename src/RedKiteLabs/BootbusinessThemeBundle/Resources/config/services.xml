@@ -6,7 +6,7 @@
 
     <!--
     <parameters>
-        <parameter key="bootbusiness_theme.example.class">RedKiteCms\Theme\BootbusinessThemeBundle\Example</parameter>
+        <parameter key="bootbusiness_theme.example.class">RedKiteLabs\BootbusinessThemeBundle\Example</parameter>
     </parameters>
 
     <services>

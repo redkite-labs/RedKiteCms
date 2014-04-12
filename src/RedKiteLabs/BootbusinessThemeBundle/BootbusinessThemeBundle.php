@@ -1,6 +1,6 @@
 <?php
 
-namespace RedKiteCms\Theme\BootbusinessThemeBundle;
+namespace RedKiteLabs\BootbusinessThemeBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
