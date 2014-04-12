@@ -260,7 +260,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertRegExp(
-            '/languages_controller_any_language_selected_for_removing|Any language has been choosen for removing/si',
+            '/languages_controller_any_language_selected_for_removing|No language has been choosen for removing/si',
             $response->getContent()
         );
     }
@@ -275,7 +275,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertRegExp(
-            '/languages_controller_any_language_selected_for_removing|Any language has been choosen for removing/si',
+            '/languages_controller_any_language_selected_for_removing|No language has been choosen for removing/si',
             $response->getContent()
         );
     }
