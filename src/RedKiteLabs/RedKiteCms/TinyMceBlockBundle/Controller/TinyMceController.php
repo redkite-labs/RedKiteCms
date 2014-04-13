@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the TinyMceBlockBundle and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the MIT LICENSE Version 2.0. To use this application you must leave
  * intact this copyright notice.
  *

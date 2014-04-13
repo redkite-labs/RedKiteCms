@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the MIT License. In addiction, to use this bundle, you must leave
  * intact this copyright notice.
  *
