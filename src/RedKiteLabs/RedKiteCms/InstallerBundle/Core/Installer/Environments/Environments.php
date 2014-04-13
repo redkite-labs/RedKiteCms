@@ -53,7 +53,7 @@ class Environments extends BaseOptions
         {
             $cmsBundles = PHP_EOL . PHP_EOL . '        // RedKiteCms Active Theme';
             $cmsBundles .= PHP_EOL . '        $bundles[] = new RedKiteLabs\ThemeEngineBundle\RedKiteLabsThemeEngineBundle();';
-            $cmsBundles .= PHP_EOL . '        $bundles[] = new RedKiteCms\Theme\ModernBusinessThemeBundle\ModernBusinessThemeBundle();';
+            $cmsBundles .= PHP_EOL . '        $bundles[] = new RedKiteLabs\ModernBusinessThemeBundle\ModernBusinessThemeBundle();';
             $cmsBundles .= PHP_EOL . '        // End RedKiteCms Active Theme';
             $cmsBundles .= PHP_EOL . PHP_EOL . '        return $bundles;';
 
