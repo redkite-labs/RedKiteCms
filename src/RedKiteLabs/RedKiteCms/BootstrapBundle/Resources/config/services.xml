@@ -17,8 +17,8 @@
             <argument type="collection">
                 <argument>%kernel.root_dir%/../src/RedKiteCms/Block</argument>
                 <argument>%kernel.root_dir%/../src/RedKiteCms/Theme</argument>
-                <argument>%kernel.root_dir%/../src/RedKiteLabsCms/Block</argument>
-                <argument>%kernel.root_dir%/../src/RedKiteLabsCms/Theme</argument>
+                <argument>%kernel.root_dir%/../src/RedKiteLabs</argument>
+                <argument>%kernel.root_dir%/../src/RedKiteLabs/RedKiteCms</argument>
             </argument>
         </service>
 
