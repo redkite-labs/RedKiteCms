@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <!-- SLIDER -->
+        <parameter key="bootstrapsliderblock.external_stylesheets.cms" type="collection">
+            <parameter>@TwitterBootstrapBundle/Resources/public/slider/css/slider.css</parameter>
+        </parameter>
+        
+        <parameter key="bootstrapsliderblock.external_javascripts.cms" type="collection">
+            <parameter>@TwitterBootstrapBundle/Resources/public/slider/js/slider_editor.js</parameter>
+        </parameter>
+        
+        <parameter key="bootstrapsliderblock.internal_javascripts" type="collection">
+            <parameter>$(".carousel").carousel("pause");</parameter>
+        </parameter>
+        
+        <parameter key="bootstrap_slider_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Slider\BlockManagerBootstrapSliderBlock</parameter>
+        <parameter key="bootstrapsliderblock.form.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Form\Slider\SliderType</parameter>
+        
+        <!-- LABEL --> 
+        <parameter key="bootstrap_label_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Label\BlockManagerBootstrapLabelBlock</parameter>
+        <parameter key="bootstrap_label_block.form.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Form\Label\LabelType</parameter>
+        
+        <!-- BADGE -->         
+        <parameter key="bootstrap_badge_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Badge\BlockManagerBootstrapBadgeBlock</parameter>
+        <parameter key="bootstrap_badge_block.form.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Form\Badge\BadgeType</parameter>
+        
+        <!-- ACORDION -->
+        <parameter key="bootstrapaccordionblock.external_javascripts.cms" type="collection">
+            <parameter>@TwitterBootstrapBundle/Resources/public/accordion/js/al_accordion.js</parameter>
+        </parameter>
+
+        <parameter key="bootstrap_accordion_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Accordion\BlockManagerBootstrapAccordionBlock</parameter>
+        <parameter key="bootstrap_accordion_panel_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Accordion\BlockManagerBootstrapAccordionPanelBlock</parameter>
+        
+        <!-- NAVBAR -->
+        <parameter key="bootstrapnavbarblock.external_javascripts.cms" type="collection">
+            <parameter>@TwitterBootstrapBundle/Resources/public/navbar/js/navbar_editor.js</parameter>
+        </parameter>
+        
+        <parameter key="bootstrap_navbar_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarBlock</parameter>
+        <parameter key="bootstrap_navbar_menu_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarMenuBlock</parameter>
+        <parameter key="bootstrap_navbar_button_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarButtonBlock</parameter>
+        <parameter key="bootstrap_navbar_dropbown_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarDropdownBlock</parameter>
+        <parameter key="bootstrap_navbar_text_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarTextBlock</parameter>
+        <parameter key="bootstrap_navbar_form_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Navbar\BlockManagerBootstrapNavbarFormBlock</parameter>
+        
+        <parameter key="bootstrap_navbar.form.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Form\Navbar\NavbarType</parameter>
+        <parameter key="bootstrap_navbar_dropbown.form.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Form\Navbar\NavbarDropdownType</parameter>
+        
+        <!-- BUTTON -->
+        <parameter key="bootstrapbuttonblock.external_javascripts.cms" type="collection">
+            <parameter>@TwitterBootstrapBundle/Resources/public/button/js/button.js</parameter>
+        </parameter>
+        
+        <parameter key="bootstrap_button_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Button\BlockManagerBootstrapButtonBlock</parameter>
+        <parameter key="bootstrap_button_block.form.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Form\Button\ButtonType</parameter>
+        
+        <!-- DROPDOWN BUTTON -->
+        <parameter key="bootstrap_dropdown_button_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\DropdownButton\BlockManagerBootstrapDropdownButtonBlock</parameter>
+        
+        <parameter key="bootstrapdropdownbuttonblock.external_stylesheets.cms" type="collection">
+            <parameter>@TwitterBootstrapBundle/Resources/public/dropdown_menu/css/dropdown_menu_editor.css</parameter>
+        </parameter>
+        
+        <parameter key="bootstrapdropdownbuttonblock.external_javascripts.cms" type="collection">
+            <parameter>@TwitterBootstrapBundle/Resources/public/dropdown_menu/js/dropdown_menu_editor.js</parameter>
+        </parameter>
+        
+        <!-- SPLITDROPDOWN BUTTON -->
+        <parameter key="bootstrap_split_dropdown_button_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\SplitDropdownButton\BlockManagerBootstrapSplitDropdownButtonBlock</parameter>
+        
+        <!-- BUTTONS -->
+        <parameter key="bootstrapbuttonsgroupblock.external_javascripts.cms" type="collection">
+            <parameter>@TwitterBootstrapBundle/Resources/public/buttons/js/buttons_group.js</parameter>
+        </parameter>
+        
+        <parameter key="bootstrap_buttons_group_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\ButtonsGroup\BlockManagerBootstrapButtonsGroupBlock</parameter>
+        
+        <!-- THUMBNAIL -->        
+        <parameter key="bootstrapthumbnailsblock.external_javascripts.cms" type="collection">
+            <parameter>@TwitterBootstrapBundle/Resources/public/thumbnail/js/thumbnail_editor.js</parameter>
+        </parameter>
+        
+        <parameter key="bootstrap_simple_thumbnail.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Thumbnail\BlockManagerBootstrapSimpleThumbnailBlock</parameter>
+        <parameter key="bootstrap_thumbnail.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Thumbnail\BlockManagerBootstrapThumbnailBlock</parameter>
+        <parameter key="bootstrap_simple_thumbnails.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Thumbnails\BlockManagerBootstrapSimpleThumbnailsBlock</parameter>
+        <parameter key="bootstrap_thumbnails.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Thumbnails\BlockManagerBootstrapThumbnailsBlock</parameter>
+        
+        <!-- PAGE HEADER --> 
+        <parameter key="bootstrap_page_header_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\PageHeader\BlockManagerBootstrapPageHeaderBlock</parameter>
+        <parameter key="bootstrap_page_header_block.form.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Form\PageHeader\PageHeaderType</parameter>
+        
+        <!-- BREADCRUMB -->
+        <parameter key="bootstrapbreadcrumbblock.external_javascripts.cms" type="collection">
+            <parameter>@TwitterBootstrapBundle/Resources/public/breadcrumb/js/breadcrumb.js</parameter>
+        </parameter>
+        
+        <parameter key="bootstrap_breadcrumb_block.block.class">RedKiteLabs\RedKiteCms\TwitterBootstrapBundle\Core\Block\Breadcrumb\BlockManagerBootstrapBreadcrumbBlock</parameter>
+    </parameters>
+
+    <services>
+        <!-- SLIDER -->
+        <service id="bootstrap_slider_block.block" class="%bootstrap_slider_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Carousel" type="BootstrapSliderBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrapsliderblock.form" class="%bootstrapsliderblock.form.class%">
+        </service>
+        
+        <!-- LABEL -->        
+        <service id="bootstrap_label_block.block" class="%bootstrap_label_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Label" type="BootstrapLabelBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <!-- BADGE --> 
+        <service id="bootstrap_badge_block.block" class="%bootstrap_badge_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Badge" type="BootstrapBadgeBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_badge_block.form" class="%bootstrap_badge_block.form.class%">
+        </service>
+        
+        <!-- ACORDION -->
+        <service id="bootstrap_accordion_block.block" class="%bootstrap_accordion_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Collapse (Accordion)" type="BootstrapAccordionBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_accordion_panel_block.block" class="%bootstrap_accordion_panel_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Collapse (Accordion)" type="BootstrapAccordionPanelBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <!-- NAVBAR -->
+        <service id="bootstrap_navbar_block.block" class="%bootstrap_navbar_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Navbar" type="BootstrapNavbarBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_navbar_menu_block" class="%bootstrap_navbar_menu_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Nav menu" type="BootstrapNavbarMenuBlock" group="bootstrap,Twitter Bootstrap" filter="navbar-block-2 navbar-block-3" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_navbar_button_block" class="%bootstrap_navbar_button_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Nav button" type="BootstrapNavbarButtonBlock" group="bootstrap,Twitter Bootstrap" filter="navbar-block-3" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_navbar_dropbown_block" class="%bootstrap_navbar_dropbown_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Nav dropdown" type="BootstrapNavbarDropdownBlock" group="bootstrap,Twitter Bootstrap" filter="menu-navbar" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_navbar_text_block" class="%bootstrap_navbar_text_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Nav text" type="BootstrapNavbarTextBlock" group="bootstrap,Twitter Bootstrap" filter="navbar-block-2 navbar-block-3" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_navbar_form_block.block" class="%bootstrap_navbar_form_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Nav form" type="BootstrapNavbarFormBlock" group="bootstrap,Twitter Bootstrap" filter="navbar-block-2 navbar-block-3" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_navbar.form" class="%bootstrap_navbar.form.class%">
+        </service>
+        
+        <service id="bootstrap_navbar_dropbown.form" class="%bootstrap_navbar_dropbown.form.class%">
+        </service>
+        
+        <!-- BUTTON -->
+        
+        <service id="bootstrap_button_block.block" class="%bootstrap_button_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Button" type="BootstrapButtonBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <!-- DROPDOWN BUTTON -->
+        <service id="bootstrap_dropdown_button_block.block" class="%bootstrap_dropdown_button_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Dropdown button" type="BootstrapDropdownButtonBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <!-- SPLITDROPDOWN BUTTON -->
+        <service id="bootstrap_split_dropdown_button_block.block" class="%bootstrap_split_dropdown_button_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Split Dropdown Button" type="BootstrapSplitDropdownButtonBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <!-- BUTTONS -->
+        <service id="bootstrap_buttons_group_block.block" class="%bootstrap_buttons_group_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Buttons Group" type="BootstrapButtonsGroupBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <!-- THUMBNAIL --> 
+        <service id="bootstrap_simple_thumbnail.block" class="%bootstrap_simple_thumbnail.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Thumbnail" type="BootstrapSimpleThumbnailBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_thumbnail.block" class="%bootstrap_thumbnail.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Thumbnail" type="BootstrapThumbnailBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_simple_thumbnails.block" class="%bootstrap_simple_thumbnails.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Thumbnails list" type="BootstrapSimpleThumbnailsBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_thumbnails.block" class="%bootstrap_thumbnails.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Rich thumbnails list" type="BootstrapThumbnailsBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <!-- PAGE HEADER -->        
+        <service id="bootstrap_page_header_block.block" class="%bootstrap_page_header_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Page Header" type="BootstrapPageHeaderBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+        
+        <service id="bootstrap_page_header_block.form" class="%bootstrap_page_header_block.form.class%">
+        </service>
+        
+        <!-- BREADCRUMB -->        
+        <service id="bootstrap_breadcrumb_block.block" class="%bootstrap_breadcrumb_block.block.class%">
+            <tag name="red_kite_cms.blocks_factory.block" description="Breadcrumb" type="BootstrapBreadcrumbBlock" group="bootstrap,Twitter Bootstrap" />
+            <argument type="service" id="service_container" />
+        </service>
+    </services>
+</container>

@@ -96,6 +96,7 @@
   font-size: 22px;
   color: #323222;
   text-shadow: white 1px 1px 0, white 2px 2px 0, white 1px 1px 0;
+  vertical-align: middle;
 }
 .rk-control-panel ul {
   margin: 0;

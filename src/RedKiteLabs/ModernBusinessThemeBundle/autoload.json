@@ -1,0 +1,7 @@
+{
+    "bundles" : {
+        "RedKiteLabs\\ModernBusinessThemeBundle\\ModernBusinessThemeBundle" : {
+            "environments" : ["all"]
+        }
+    }
+}

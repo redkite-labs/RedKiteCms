@@ -264,7 +264,7 @@
     
     function stopEditElement(element)
     {
-        $('.al_block_menu').hide();
+        element.highligther('deactivate');
         
         element.each(function(){   
             var $this = $(this);
@@ -330,21 +330,21 @@
             });
         });
     }
-    
+
     function activateEditableInlineContents()
     {          
         $(document)
             .find('[data-content-editable="true"]')
+            .not('[data-texteditor-cfg="simple"]')
             .attr('contenteditable', true)
-            .addClass('al-editable-inline')
+            .attr('data-texteditor-cfg', 'standard')
         ;
     }
     
     function deactivateEditableInlineContents()
     {
-        $('.al-editable-inline')
-            .removeAttr('contenteditable')
-            .removeClass('al-editable-inline')
+        $('[data-texteditor-cfg="standard"]')
+            .removeAttr('data-texteditor-cfg contenteditable')
         ;
     }
     
@@ -383,9 +383,13 @@ function Navigate(language, page)
     location.href = frontController + 'backend/' + language + '/' + page;
 }
 
-function translate(value, placeholders)
+function translate(value, placeholders, domain)
 {
-    var found = lang[value];
+    if (!domain) {
+        domain = lang;
+    }
+
+    var found = domain[value];
     if (found == null) { // falls back to default language
         found = value;
     }

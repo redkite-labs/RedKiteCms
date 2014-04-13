@@ -397,7 +397,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                     'pageId' => 'none',
                     'languageId' => 2,
                 ),
-                '/pages_controller_any_page_selected|Any page has been selected for removing/si',
+                '/pages_controller_any_page_selected|No page has been selected for removing/si',
             ),
             array(
                 array(
@@ -406,7 +406,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                     'pageId' => 999,
                     'languageId' => 2,
                 ),
-                '/pages_controller_any_page_selected|Any page has been selected for removing/si',
+                '/pages_controller_any_page_selected|No page has been selected for removing/si',
             ),
             array(
                 array(

@@ -38,7 +38,7 @@ class BlockManagerInlineTextBlockTest extends TestCase
     public function testDefaultValue()
     {
         $blockManager = new BlockManagerInlineTextTester();
-        $this->assertEquals(array("Content" => "This is the default content for a new hypertext block"), $blockManager->getDefaultValue());
+        $this->assertEquals(array("Content" => "hypertext_block"), $blockManager->getDefaultValue());
     }
     
     public function testDefaultValueIsTranslated()
@@ -47,7 +47,7 @@ class BlockManagerInlineTextBlockTest extends TestCase
         $this->translator
             ->expects($this->once())
             ->method('translate')
-            ->with("This is the default content for a new hypertext block");
+            ->with("hypertext_block");
         
         $blockManager = new BlockManagerInlineTextTester(null, null, null, $this->translator);
         $blockManager->getDefaultValue();

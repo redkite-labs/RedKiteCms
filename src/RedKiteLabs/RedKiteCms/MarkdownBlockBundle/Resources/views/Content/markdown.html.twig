@@ -1,0 +1,7 @@
+{% extends "RedKiteCmsBundle:Block:Editor/_editor.html.twig" %}
+
+{% block body %}
+
+<div id="markdown-{{ block_id }}" {{ editor|raw }}>{{ block_content|markdown }}</div>
+
+{% endblock %}

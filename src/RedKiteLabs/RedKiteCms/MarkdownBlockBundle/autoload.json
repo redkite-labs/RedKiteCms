@@ -1,0 +1,10 @@
+{
+    "bundles" : {
+        "RedKiteLabs\\RedKiteCms\\MarkdownBlockBundle\\MarkdownBlockBundle" : {
+            "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
+        },
+        "Knp\\Bundle\\MarkdownBundle\\KnpMarkdownBundle" : {
+            "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
+        }
+    }
+}

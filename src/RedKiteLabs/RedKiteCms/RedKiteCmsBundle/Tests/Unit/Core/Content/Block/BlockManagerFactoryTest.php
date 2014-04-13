@@ -56,7 +56,8 @@ class BlockManagerFactoryTest extends TestCase
         $this->initBlockManager();
         $blocks = $this->blockManagerFactory->getBlocks();
         $this->assertCount(2, $blocks);
-        $this->assertTrue(array_key_exists('Default', $blocks));        
+        $this->assertTrue(array_key_exists('Base', $blocks));
+        $this->assertTrue(array_key_exists('Ungrouped', $blocks));
         $this->assertTrue(array_key_exists('Text', $blocks["Ungrouped"]));
     }
     
@@ -147,7 +148,7 @@ class BlockManagerFactoryTest extends TestCase
                 false,
                 array
                 (
-                    "Default" => array(                        
+                    "Base" => array(
                         "Script" => array(
                             "description" => "Script block",
                             "filter" => "none",
@@ -165,7 +166,7 @@ class BlockManagerFactoryTest extends TestCase
                 false,
                 array
                 (
-                    "Default" => array(                        
+                    "Base" => array(
                         "Script" => array(
                             "description" => "Script block",
                             "filter" => "none",
@@ -189,7 +190,7 @@ class BlockManagerFactoryTest extends TestCase
                 true,
                 array
                 (
-                    "Default" => array(),
+                    "Base" => array(),
                     "Ungrouped" => array( 
                         "Text" => array(
                             "description" => "Fake block",

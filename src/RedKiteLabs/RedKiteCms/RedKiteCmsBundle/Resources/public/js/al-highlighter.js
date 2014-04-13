@@ -27,7 +27,7 @@
         activate: function() 
         {
             hide();
-            
+
             render($(this));
             
             return this;
@@ -42,9 +42,7 @@
 
     function hide()
     {
-        $(settings.elements).each(function(){
-            $(this).hide();
-        });
+        $('.al_block_menu').hide();
     }
     
     function render(target)

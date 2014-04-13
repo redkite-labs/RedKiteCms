@@ -508,7 +508,7 @@
         </trans-unit>
         <trans-unit id="cms-controller-19">
             <source>cms_controller_edit_page</source>
-            <target>Modifica la pagina corrente</target>
+            <target>Inizia a modificare i contenuti della pagina corrente</target>
         </trans-unit>
         <trans-unit id="cms-controller-20">
             <source>cms_controller_label_edit</source>
@@ -516,7 +516,7 @@
         </trans-unit>
         <trans-unit id="cms-controller-21">
             <source>cms_controller_stop_edit_page</source>
-            <target>Interrompe la modifica della pagina</target>
+            <target>Interrompe la modifica dei contenuti della pagina</target>
         </trans-unit>
         <trans-unit id="cms-controller-23">
             <source>cms_controller_open_nav_panel</source>
@@ -535,9 +535,19 @@
             <target>Scegli la tua lingua</target>
         </trans-unit>
         <trans-unit id="cms-controller-27">
-            <source>cms_controller_minimize</source>
+            <source>cms_controller_label_minimize</source>
             <target>Minimizza</target>
         </trans-unit>
+        <trans-unit id="cms-controller-28">
+            <source>cms_controller_minimize</source>
+            <target>Minimizza il pannello di controllo</target>
+        </trans-unit>
+        <trans-unit id="cms-controller-29">
+            <source>cms_controller_maximize</source>
+            <target>Massimizza il pannello di controllo</target>
+        </trans-unit>
+
+
 
         <!-- CONFIGURATION CONTROLLER -->
         
@@ -998,6 +1008,13 @@
         <trans-unit id="images-list-1">
             <source>images_list_empty_image</source>
             <target>Immagine non inserita</target>
+        </trans-unit>
+
+        <!-- BLOCKS -->
+
+        <trans-unit id="block-1">
+            <source>hypertext_block</source>
+            <target>Questo è il contenuto standard di un blocco di ipertesto</target>
         </trans-unit>
     </body>
     </file>

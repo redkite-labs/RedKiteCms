@@ -38,7 +38,7 @@ class ParametersValidator implements ParametersValidatorInterface
     {
         if (empty($values)) {
             if (null === $message) {
-                $message = 'Any parameter has been given';
+                $message = 'No parameters have been given';
             }
 
             throw new General\EmptyArgumentsException($message);

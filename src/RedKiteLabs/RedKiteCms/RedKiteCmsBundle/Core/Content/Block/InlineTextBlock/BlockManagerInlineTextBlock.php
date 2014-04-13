@@ -56,9 +56,9 @@ abstract class BlockManagerInlineTextBlock extends BlockManager
      */
     public function getDefaultValue()
     {
-        $message = "This is the default content for a new hypertext block";
+        $message = "hypertext_block";
         if (null !== $this->translator) {
-            $message = $this->translator->translate($message);
+            $message = $this->translator->translate($message, array(), 'RedKiteCmsBundle');
         }
 
         return array(
