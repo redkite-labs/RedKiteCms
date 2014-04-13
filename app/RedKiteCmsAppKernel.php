@@ -13,6 +13,8 @@ class RedKiteCmsAppKernel extends AppKernel
         $bundles[] = new RedKiteLabs\RedKiteCms\BootstrapBundle\RedKiteLabsBootstrapBundle();
 
         $searchFolders = $this->searchFolders = array(
+            __DIR__ . '/../src/RedKiteCms/Block',
+            __DIR__ . '/../src/RedKiteCms/Theme',
             __DIR__ . '/../src/RedKiteLabs',
             __DIR__ . '/../src/RedKiteLabs/RedKiteCms',
         );
