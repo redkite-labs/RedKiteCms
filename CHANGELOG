@@ -1,3 +1,24 @@
+RedKite CMS 1.1.4 (2014/04/13)
+d1bde3d moved BootbusinessThemeBundle under RedKiteLabs namespace
+a7be520 moved ModernBusinessThemeBundle under RedKiteLabs namespace
+436d762 moved BootbusinessBlockBundle under RedKiteLabs namespace
+115b310 moved RedKiteCmsBaseBlocksBundle under RedKiteLabs namespace
+09ede50 moved TwitterBootstrapBundle under RedKiteLabs namespace
+ee539e9 moved MarkdownBlockBundle under RedKiteLabs namespace
+c267dda moved TinyMceBlockBundle under RedKiteLabs namespace
+6430b9e fixed some commands captions in the control panel
+ac9f55f translated BlockManagerInlineTextBlock default value
+e86124e Implemented missing class tag on Link items (dantleech)
+f0c7b74 Grammar fixes (dantleech)
+92f9c75 updated accordion title to use the tinyMce simple configuration
+177f553 rewritten tinyMce jquery plugin; added a new configuration to force tinyMce to avoid use paragraphs (simple mode)
+72a8964 renamed Default group to Base in blocks adder interface
+38eff5e moved TinyMceBlockBundle under the Inline Editor group
+16e88ff added new MarkdownBlockBundle to handle markdown content using EpicEditor
+f8fd5f6 updated Accordion and Slider blocks to add more than one accordion and slider on the same page
+e736855 updates the ElFinder JS to be a build based on the current elfinder repo (boekkooi)
+1086e02 added vagrant configuration (boekkooi)
+
 RedKite CMS 1.1.3.2 (2014/04/01)
 152c2da updated RedKiteCmsBundle composer.json to stable release
 b75be0f fixed paths in app-themes and app-blocks generators
