@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the MIT License. To use this bundle you must leave
  * intact this copyright notice.
  *
@@ -83,12 +83,12 @@ abstract class BasePageRenderingListener
     protected function renderSlot(Response $response, SlotContent $slotContent)
     {
         if (null === $slotContent->getSlotName()) {
-           throw new \RuntimeException('Any slot defined for the event ' . get_class($this));
+           throw new \RuntimeException('No slot has been defined for the event ' . get_class($this));
         }
 
         $isReplacing = $slotContent->isReplacing();
         if (null === $isReplacing) {
-           throw new \RuntimeException('Any action has been specified for the event ' . get_class($this));
+           throw new \RuntimeException('No action has been specified for the event ' . get_class($this));
         }
 
         if (null === $slotContent->getContent()) {

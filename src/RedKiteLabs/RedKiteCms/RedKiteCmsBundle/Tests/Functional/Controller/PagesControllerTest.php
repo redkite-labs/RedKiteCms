@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the RedKiteCmsBunde Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the MIT License. To use this application you must leave
  * intact this copyright notice.
  *
@@ -397,7 +397,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                     'pageId' => 'none',
                     'languageId' => 2,
                 ),
-                '/pages_controller_any_page_selected|Any page has been selected for removing/si',
+                '/pages_controller_any_page_selected|No page has been selected for removing/si',
             ),
             array(
                 array(
@@ -406,7 +406,7 @@ class PagesControllerTest extends WebTestCaseFunctional
                     'pageId' => 999,
                     'languageId' => 2,
                 ),
-                '/pages_controller_any_page_selected|Any page has been selected for removing/si',
+                '/pages_controller_any_page_selected|No page has been selected for removing/si',
             ),
             array(
                 array(

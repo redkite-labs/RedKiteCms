@@ -16,8 +16,8 @@ Remove the src/RedKiteCms/Block/TwitterBootstrapBundle folder
 Remove the src/RedKiteCms/Theme/BootbusinessThemeBundle folder
 Remove the src/RedKiteCms/Theme/ModernBusinessThemeBundle folder
 
-Download the [PACKAGE] and unzip it into the src folder. This will recreate the entire
-RedKiteLabs namespace.
+Download the http://redkite-labs.com/download/cms/redkite-cms-1-1-4-upgrade.zip and unzip it into 
+the src folder. This will recreate the entire RedKiteLabs namespace.
 
 If you are using the ModernBusinessThemeBundle you need to update the bundle namespace, so open
 your app/AppKernel.php file and change its declaration as follows:

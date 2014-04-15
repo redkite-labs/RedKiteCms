@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the RedKiteCmsBunde Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the MIT License. To use this application you must leave
  * intact this copyright notice.
  *

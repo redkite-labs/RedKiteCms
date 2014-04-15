@@ -12,7 +12,7 @@
         </trans-unit>
         <trans-unit id="exceptions-3">
             <source>exception_no_blocks_set_delete_skipped</source>
-            <target>Any valid block has been set. Nothing to delete</target>
+            <target>No valid block has been set. Nothing to delete</target>
         </trans-unit>
         <trans-unit id="exceptions-4">
             <source>exception_method_returns_invalid_value</source>
@@ -56,7 +56,7 @@
         </trans-unit>
         <trans-unit id="exceptions-14">
             <source>exception_no_languages_selected_delete_skipped</source>
-            <target>Any language has been selected: delete operation aborted</target>
+            <target>No language has been selected: delete operation aborted</target>
         </trans-unit>
         <trans-unit id="exceptions-15">
             <source>exception_website_main_languages_cannot_be_delete</source>
@@ -88,7 +88,7 @@
         </trans-unit>
         <trans-unit id="exceptions-22">
             <source>exception_no_pages_selected_delete_skipped</source>
-            <target>Any page has been selected: delete operation aborted</target>
+            <target>No page has been selected: delete operation aborted</target>
         </trans-unit>
         <trans-unit id="exceptions-23">
             <source>exception_invalid_page_name</source>
@@ -116,7 +116,7 @@
         </trans-unit>
         <trans-unit id="exceptions-29">
             <source>exception_website_has_no_languages</source>
-            <target>The web site has any language inserted. Please add a new language before adding a page</target>
+            <target>The web site does not have any languages. Please add a new language before adding a page</target>
         </trans-unit>
         <trans-unit id="exceptions-30">
             <source>exception_page_editing_aborted</source>
@@ -232,7 +232,7 @@
         </trans-unit>
         <trans-unit id="exceptions-59">
             <source>exception_no_events</source>
-            <target>Any event has been found to be dispatched</target>
+            <target>No event has been found to be dispatched</target>
         </trans-unit>
         <trans-unit id="exceptions-60">
             <source>exception_invalid_value_array_required</source>
@@ -422,7 +422,7 @@
         </trans-unit>
         <trans-unit id="blocks-controller-10">
             <source>blocks_controller_nothing_changed_with_these_values</source>
-            <target>It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made</target>
+            <target>It seems that you have not changed anything, or the block you tried to edit does not exist anymore: no changes have been made</target>
         </trans-unit>
         <trans-unit id="blocks-controller-11">
             <source>blocks_controller_block_does_not_exists</source>
@@ -601,7 +601,7 @@
         </trans-unit>
         <trans-unit id="languages-controller-9">
             <source>languages_controller_any_language_selected_for_removing</source>
-            <target>Any language has been choosen for removing</target>
+            <target>No language has been choosen for removing</target>
         </trans-unit>
         <trans-unit id="languages-controller-10">
             <source>languages_controller_intl_extension_not_enabled</source>
@@ -732,7 +732,7 @@
         </trans-unit>
         <trans-unit id="pages-controller-30">
             <source>pages_controller_any_page_selected</source>
-            <target>Any page has been selected for removing</target>
+            <target>No page has been selected for removing</target>
         </trans-unit>
         <trans-unit id="pages-controller-31">
             <source>pages_controller_nothing_to_delete</source>

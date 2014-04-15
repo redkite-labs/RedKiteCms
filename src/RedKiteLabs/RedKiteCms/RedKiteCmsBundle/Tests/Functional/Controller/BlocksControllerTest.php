@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the RedKiteCmsBunde Application and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the MIT License. To use this application you must leave
  * intact this copyright notice.
  *
@@ -167,7 +167,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         $response = $this->client->getResponse();
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertRegExp(
-            '/blocks_controller_nothing_changed_with_these_values|It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made/si',
+            '/blocks_controller_nothing_changed_with_these_values|It seems that you have not changed anything, or the block you tried to edit does not exist anymore: no changes have been made/si',
             $this->client->getResponse()->getContent()
         );
     }
@@ -192,7 +192,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
         }
         $this->assertEquals(404, $response->getStatusCode());
         $this->assertRegExp(
-            '/blocks_controller_nothing_changed_with_these_values|It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made/si',
+            '/blocks_controller_nothing_changed_with_these_values|It seems that you have not changed anything, or the block you tried to edit does not exist anymore: no changes have been made/si',
             $this->client->getResponse()->getContent()
         );
     }
@@ -534,7 +534,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
                     'language' => 'en',
                     'slotName' => 'content_title_1', 
                 ),
-                '/blocks_controller_nothing_changed_with_these_values|It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made/si',
+                '/blocks_controller_nothing_changed_with_these_values|It seems that you have not changed anything, or the block you tried to edit does not exist anymore: no changes have been made/si',
             ),
             array(
                 array(
@@ -545,7 +545,7 @@ class BlocksControllerTest extends WebTestCaseFunctional
                     'slotName' => 'content_title_1', 
                     'blockId' => 99999,
                 ),
-                '/blocks_controller_nothing_changed_with_these_values|It seems that anything has changed with the values you entered or the block you tried to edit does not exist anymore: nothing has been made/si',
+                '/blocks_controller_nothing_changed_with_these_values|It seems that you have not changed anything, or the block you tried to edit does not exist anymore: no changes have been made/si',
             ),
         ));
     }

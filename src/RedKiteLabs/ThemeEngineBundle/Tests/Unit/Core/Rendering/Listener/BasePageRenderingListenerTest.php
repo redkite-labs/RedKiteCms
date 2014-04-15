@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the RedKiteLabsThemeEngineBundle and it is distributed
+ * This file is part of the RedKite CMS Application and it is distributed
  * under the MIT License. To use this application you must leave
  * intact this copyright notice.
  *
@@ -73,7 +73,7 @@ class BasePageRenderingListenerTest extends TestCase
     
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Any slot defined for the event RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Rendering\Listener\PageRenderingListenerTester
+     * @expectedExceptionMessage No slot has been defined for the event RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Rendering\Listener\PageRenderingListenerTester
      */
     public function testAnExceptionIsThrownWhenRenderSlotContentsNotDefinesTheSlotName()
     {
@@ -85,7 +85,7 @@ class BasePageRenderingListenerTest extends TestCase
     
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage Any action has been specified for the event RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Rendering\Listener\PageRenderingListenerTester
+     * @expectedExceptionMessage No action has been specified for the event RedKiteLabs\ThemeEngineBundle\Tests\Unit\Core\Rendering\Listener\PageRenderingListenerTester
      */
     public function testAnExceptionIsThrownWhenRenderSlotContentsNotDefinesTheAction()
     {
