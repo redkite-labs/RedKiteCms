@@ -133,9 +133,9 @@ lives at github.
 
 Support
 -------
-If you require support you can ask for help at [RedKite CSM users forum](https://groups.google.com/forum/?hl=it#!forum/redkitecms-users).
+If you require support you can ask for help at [RedKite CMS users forum](https://groups.google.com/forum/#!forum/redkitecms-users).
 
-If you want to collaborate, just introduce yourself at [RedKite CSM developers forum](https://groups.google.com/forum/?hl=it#!forum/redkitecms-dev).
+If you want to collaborate, just introduce yourself at [RedKite CMS developers forum](https://groups.google.com/forum/#!forum/redkitecms-dev).
 
 
 Stay in touch
