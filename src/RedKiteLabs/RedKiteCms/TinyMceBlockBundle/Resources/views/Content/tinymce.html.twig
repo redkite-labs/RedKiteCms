@@ -2,7 +2,7 @@
 
 {% block body %} 
 {% if block_manager.getEditorDisabled == false %}
-<div id="block_{{ id }}" {{ editor|raw }}>
+<div id="block_{{ id }}" {{ editor|raw }}{% if 'data-texteditor-cfg' not in editor %} data-texteditor-cfg="standard"{% endif %}>
 {{ content|raw }}
 </div>
 {% else %}
