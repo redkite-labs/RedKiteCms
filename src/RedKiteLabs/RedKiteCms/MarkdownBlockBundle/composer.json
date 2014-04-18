@@ -15,6 +15,10 @@
         "php": ">=5.3.3",
         "knplabs/knp-markdown-bundle": "1.2.*@dev"
     },
+    "require-dev": {
+        "redkite-cms/redkite-cms-bundle": "dev-master",
+        "willdurand/propel-typehintable-behavior": "dev-master"
+    },
     "autoload": {
         "psr-0": { "RedKiteLabs\\RedKiteCms\\MarkdownBlockBundle": ""
         }
