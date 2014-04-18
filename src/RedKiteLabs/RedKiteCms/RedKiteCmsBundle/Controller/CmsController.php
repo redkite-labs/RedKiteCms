@@ -17,6 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller;
 
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\BlocksAdderMenu\BlocksAdderMenu;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Form\ModelChoiceValues\ChoiceValues;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Rendering\Controller\BaseFrontendController;
@@ -86,6 +87,7 @@ class CmsController extends BaseFrontendController
                 $languageName = $language->getLanguageName();
             }
 
+            $blocksAddedMenu = $this->container->get('red_kite_cms.blocks_adder_menu');
             $template = $this->findTemplate($pageTree);
             $params = array_merge($params, array(
                     'metatitle' => $pageTree->getMetaTitle(),
@@ -104,7 +106,7 @@ class CmsController extends BaseFrontendController
                     'base_template' => $this->container->getParameter('red_kite_labs_theme_engine.base_template'),
                     'templateStylesheets' => $pageTree->getExternalStylesheets(),
                     'templateJavascripts' => $this->fixAssets($pageTree->getExternalJavascripts()),
-                    'available_blocks' => $this->container->get('red_kite_cms.block_manager_factory')->getBlocks(),
+                    'available_blocks' => $blocksAddedMenu->build($this->container->get('red_kite_cms.block_manager_factory')->getBlocks()),
                 )
             );
         } else {

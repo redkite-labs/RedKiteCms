@@ -47,6 +47,7 @@
         <parameter key="red_kite_cms.data_manager.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager</parameter>
         <parameter key="red_kite_cms.template_assets_manager.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManager</parameter>
         <parameter key="red_kite_cms.template_assets_manager_deploy.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\TemplateAssetsManager\TemplateAssetsManagerDeploy</parameter>
+        <parameter key="red_kite_cms.blocks_adder_menu.class">RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\BlocksAdderMenu\BlocksAdderMenu</parameter>
     </parameters>
 
     <services>
@@ -292,6 +293,9 @@
         
         <service id="red_kite_cms.active_theme" class="%red_kite_cms.active_theme.class%">
             <argument type="service" id="service_container"></argument>
+        </service>
+
+        <service id="red_kite_cms.blocks_adder_menu" class="%red_kite_cms.blocks_adder_menu.class%">
         </service>
     </services>
 </container>

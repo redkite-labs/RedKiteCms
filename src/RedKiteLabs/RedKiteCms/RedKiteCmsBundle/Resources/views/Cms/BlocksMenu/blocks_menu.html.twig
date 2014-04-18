@@ -1,39 +1,19 @@
 <div class="al-blocks-menu al_blocks_list al_floating_panel">
+    {% for items in blocks %}
     <div class="column pull-left">
-    {% set number_of_items = 11 %}
-    {% set counter = 0 %}
-    {% for block_name, block_value in blocks %}
+    {% for item in items %}
         <ul class="blocks-list">
-        {% if block_value|keys  %} 
-            {% if counter == number_of_items - 1 %}
-                </ul>
-                </div>
-                <div class="column pull-left">
-                <ul>
-                {% set counter = 0 %}
+            {%  if item.isHeader %}
+            <li class="al_block_header">{{ item.getLabel }}</li>
+            {% else %}
+            <li><a href="#" rel="{{ item.getBlockType }}" class="al_block_adder" data-filter="{{ item.getFilter }}">{{ item.getLabel }}</a></li>
             {% endif %}
-            <li class="al_block_header">{{ block_name }}</li>
-
-            {% set counter = counter + 1 %}
-            {% for block_type, value in block_value %}
-
-            {% if counter == number_of_items %} 
-                </ul>
-                </div>
-                <div class="column pull-left">
-                <ul>
-                {% set counter = 0 %}
-            {% endif %}
-
-            <li><a href="#" rel="{{ block_type }}" class="al_block_adder" data-filter="{{ value.filter }}">{{ value.description }}</a></li>
-            {% set counter = counter + 1 %}
-            {% endfor %}
-        {% endif %}
         </ul>
     {% endfor %}
     </div>
+    {% endfor %}
     <div class="clearfix"></div>
     <div>
         <a class="al_close_block_menu btn btn-default pull-right">{{ 'common_label_close'|trans({}, 'RedKiteCmsBundle', cms_language) }}</a>
-    </div>    
+    </div>
 </div>
