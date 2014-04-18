@@ -14,8 +14,8 @@
 }
 
 .rk-cp-row {
-  padding: 6px 0 0 6px;
-  line-height: 28px;
+  height: 36px;
+  padding: 6px;
 }
 
 .elfinder-button, .elfinder-button:before, .elfinder-button:after {

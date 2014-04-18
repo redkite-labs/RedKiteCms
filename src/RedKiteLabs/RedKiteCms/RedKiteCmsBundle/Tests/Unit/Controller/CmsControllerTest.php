@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Controller\CmsController;
 
 
 /**
- * DeployControllerTest
+ * CmsControllerTest
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */
@@ -218,8 +218,21 @@ class CmsControllerTest extends TestCase
             ->method('read')
             ->with('language')
         ;
-        
+
         $at = 7;
+        $adderMenu = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\BlocksAdderMenu\BlocksAdderMenu');
+        $adderMenu
+            ->expects($this->once())
+            ->method('build')
+        ;
+        $this->container->expects($this->at($at))
+            ->method('get')
+            ->with('red_kite_cms.blocks_adder_menu')
+            ->will($this->returnValue($adderMenu))
+        ;
+        $at++;
+        
+
         $this->container->expects($this->at($at))
             ->method('get')
             ->with('red_kite_cms.configuration')
@@ -240,7 +253,7 @@ class CmsControllerTest extends TestCase
             ->will($this->returnValue($session))
         ;
         $at += 2;
-        
+
         $this->container->expects($this->at($at))
             ->method('get')
             ->with('red_kite_cms.block_manager_factory')
