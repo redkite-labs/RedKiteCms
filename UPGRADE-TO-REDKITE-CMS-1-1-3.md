@@ -19,13 +19,14 @@ Upgrading from composer
 
 Follows these steps to upgrade from composer:
 
-1. Upgrade your application fetching RedKite CMS packages from master branch:
+1. Be sure you composer.json requires the right RedKite CMS packages version:
 
 
     "require": {
         [...]
         "redkite-cms/redkite-cms-bundle": "1.1.*",
         "redkite-cms/installer-bundle": "1.1.*",
+        "redkite-labs/modern-business-theme-bundle": "1.1.*",
         "redkite-labs/bootbusiness-theme-bundle": "1.1.*",
         "redkite-cms/redkite-cms-base-blocks": "1.1.*",
         "redkite-cms/tinymce-block-bundle": "1.1.*"
