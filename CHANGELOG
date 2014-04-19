@@ -1,3 +1,10 @@
+RedKite CMS 1.1.4.2 (2014/04/19)
+a10ca66 updated MarkownBlockBundle dependencies; added phpunit configuration file; added bootstrap file to run tests
+1b1f7e5 markdown editor options moved to default
+b3a9a41 rewritten the menu to add blocks. Sometimes it could have happen the menu to add blocks was not correctly
+rendered. For that reason the responsibility to build the groups of blocks for each list in that menu, has been
+delegated to the new BlocksAdderMenu object
+
 RedKite CMS 1.1.4 (2014/04/13)
 d1bde3d moved BootbusinessThemeBundle under RedKiteLabs namespace
 a7be520 moved ModernBusinessThemeBundle under RedKiteLabs namespace
