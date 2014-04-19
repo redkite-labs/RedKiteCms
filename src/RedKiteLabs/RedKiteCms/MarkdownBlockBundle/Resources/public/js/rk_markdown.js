@@ -19,14 +19,50 @@
 
     var MarkdownEditor = function(element, options) {
         this.$element    = $(element);
+        this.options     = $.extend({}, MarkdownEditor.DEFAULTS, options);
         this.savedContent = this.$element.html();
+    };
+
+    MarkdownEditor.DEFAULTS = {
+        markdown_init: {
+            textarea: null,
+            basePath: '/bundles/markdownblock/js/vendor/EpicEditor',
+            clientSideStorage: true,
+            useNativeFullscreen: true,
+            parser: 'marked',
+            file: {
+                autoSave: 100
+            },
+            theme: {
+                base: '/themes/base/epiceditor.css',
+                preview: '/themes/preview/preview-dark.css',
+                editor: '/themes/editor/epic-dark.css'
+            },
+            button: {
+                preview: true,
+                fullscreen: true,
+                bar: "auto"
+            },
+            focusOnLoad: false,
+            shortcut: {
+                modifier: 18,
+                fullscreen: 70,
+                preview: 80
+            },
+            string: {
+                togglePreview: 'Toggle Preview Mode',
+                toggleEdit: 'Toggle Edit Mode',
+                toggleFullscreen: 'Enter Fullscreen'
+            },
+            autogrow: false
+        }
     };
 
     function _renderToolbar(mardownEditor, element)
     {
-        var toolbar = document.createElement("DIV");
-        var saveButton = document.createElement("BUTTON");
-        var closeButton = document.createElement("BUTTON");
+        var toolbar = $('<div />');
+        var saveButton = $('<button />');
+        var closeButton = $('<button />');
 
         $(toolbar)
             .addClass('markdown-toolbar')
@@ -62,42 +98,14 @@
         }
         var editor    = this.$element.data('rk.markdown_editor.editor');
         if (!editor) {
-            var opts = {
+            var opts = $.extend({}, this.options.markdown_init, {
                 container: _element,
-                textarea: null,
-                basePath: '/bundles/markdownblock/js/vendor/EpicEditor',
-                clientSideStorage: true,
                 localStorageName: _element,
-                useNativeFullscreen: true,
-                parser: marked,
                 file: {
                     name: _element,
-                    defaultContent: defaultContentSource.html(),
-                    autoSave: 100
-                },
-                theme: {
-                    base: '/themes/base/epiceditor.css',
-                    preview: '/themes/preview/preview-dark.css',
-                    editor: '/themes/editor/epic-dark.css'
-                },
-                button: {
-                    preview: true,
-                    fullscreen: true,
-                    bar: "auto"
-                },
-                focusOnLoad: false,
-                shortcut: {
-                    modifier: 18,
-                    fullscreen: 70,
-                    preview: 80
-                },
-                string: {
-                    togglePreview: 'Toggle Preview Mode',
-                    toggleEdit: 'Toggle Edit Mode',
-                    toggleFullscreen: 'Enter Fullscreen'
-                },
-                autogrow: false
-            };
+                    defaultContent: defaultContentSource.html()
+                }
+            });
 
             this.$element.data('rk.markdown_editor.editor', (this.editor = new EpicEditor(opts)));
         }
@@ -123,7 +131,7 @@
     MarkdownEditor.prototype.hide = function () {
         var content = this.editor.exportFile();
         if (content != this.initialContent) {
-            if (!confirm('Are you sure you really want to close the editor without saving those changes to database? Anyway contents are saved in memory.'))
+            if (!confirm('Are you sure you really want to close the editor without saving those changes to database?'))
             {
                 this.editor.save();
 
