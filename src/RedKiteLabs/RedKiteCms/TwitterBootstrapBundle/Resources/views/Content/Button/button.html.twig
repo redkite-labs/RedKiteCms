@@ -4,6 +4,6 @@
 {% if button_href == "" %} 
 <button class="btn{{ button_type }}{{ button_attribute }}{{ button_block }}{{ button_enabled }}{% if(data.class is defined and data.class != "") %} {{ data.class }}{% endif %}" {{ editor|raw }}>{{ button_text }}</button>
 {% else %}
-<a href="{{ button_href }}" class="btn{{ button_type }}{{ button_attribute }}{{ button_block }}{{ button_enabled }}" {{ editor|raw }}>{{ button_text }}</a>
+<a href="{{ button_href }}" class="btn{{ button_type }}{{ button_attribute }}{{ button_block }}{{ button_enabled }}{% if(data.class is defined and data.class != "") %} {{ data.class }}{% endif %}" {{ editor|raw }}>{{ button_text }}</a>
 {% endif %}
 {% endblock %}
