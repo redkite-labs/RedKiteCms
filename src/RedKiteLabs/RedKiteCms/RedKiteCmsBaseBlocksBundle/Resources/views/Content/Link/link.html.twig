@@ -7,10 +7,10 @@
 {% if no_link_when_active is defined and active_page is defined and no_link_when_active and link.href == active_page %}
 <span>{{ link.value }}</span>
 {% else %}
-<a href="{{ link.href }}">{{ link.value }}</a>
+<a href="{{ link.href }}" {% if link.class is defined %}class="{{ link.class }}"{% endif %}>{{ link.value }}</a>
 {% endif %}
 </{{ wrapper_tag }}>
 {% else %}
-<a href="{{ link.href }}" {{ editor|raw }}>{{ link.value }}</a>
+<a href="{{ link.href }}" {% if link.class is defined %}class="{{ link.class }}"{% endif %} {{ editor|raw }}>{{ link.value }}</a>
 {% endif %}
 {% endblock %}
