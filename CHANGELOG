@@ -1,3 +1,6 @@
+RedKite CMS 1.1.4.3 (2014/04/25)
+d2f3022 added missing class attribute to properly render link and button blocks
+
 RedKite CMS 1.1.4.2 (2014/04/19)
 a10ca66 updated MarkownBlockBundle dependencies; added phpunit configuration file; added bootstrap file to run tests
 1b1f7e5 markdown editor options moved to default
