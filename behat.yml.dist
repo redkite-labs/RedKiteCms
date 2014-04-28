@@ -1,0 +1,24 @@
+default:
+    formatter:
+        name: pretty
+        parameters:
+            verbose: true
+            paths: false
+            snippets: false
+    context:
+        class: RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Behat\FeatureContext
+    extensions:
+        Behat\MinkExtension\Extension:
+            base_url: http://rkcms/rkcms.php/backend
+            default_session: symfony2
+            goutte: ~
+            selenium2: ~
+            browser_name: firefox
+        Behat\Symfony2Extension\Extension:
+            mink_driver: true
+            #bundle: RedKiteCmsBundle
+            kernel:
+                path: app/RedKiteCmsAppKernel.php
+                class: RedKiteCmsAppKernel
+                env: rkcms_test
+                debug: false
