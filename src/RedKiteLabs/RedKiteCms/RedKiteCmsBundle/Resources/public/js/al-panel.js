@@ -256,8 +256,8 @@
                 panelContents.id = "al_panel_contents";
                 panelBody.appendChild(panelContents);
                 $(panelContents).html(html);
-                
-                $(panel).show("slide", { direction: "left" }, 500, callback);
+                $(panel).show();
+                callback();
             }
             else {
                 $('#al_panel_contents').html(html);
@@ -266,7 +266,8 @@
             
             $('#al_panel_closer').unbind().click(function()
             {
-                $(panel).hide("slide", { direction: "left" }, 500, function(){ $(this).empty(); });
+                $(panel).hide();
+                callback();
             });
         });
     };
