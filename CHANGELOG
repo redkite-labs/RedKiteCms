@@ -1,3 +1,6 @@
+RedKite CMS 1.1.4.4 (2014/04/28)
+6122218 fixed web installer to run redkitecms:configure command using the Symfony2 console instead of the RedKite CMS console
+
 RedKite CMS 1.1.4.3 (2014/04/25)
 d2f3022 added missing class attribute to properly render link and button blocks
 
