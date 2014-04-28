@@ -58,13 +58,17 @@ class InstallerController extends Controller
                     $cleanCache = true;
                     $writeInstalledFile = false;
                 }
-                
-                $commands = array(
-                    'redkitecms:configure --no-interaction ' . implode(" ", $options) => null,
-                    'redkitecms:install --env=rkcms --skip-cache-clean=' . $cleanCache => null,
-                );
 
                 ob_start();
+                $commands = array(
+                    'redkitecms:configure --no-interaction ' . implode(" ", $options) => null,
+                );
+                $commandsProcessor = new CommandsProcessor($kernelRootDir);
+                $result = $commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });  
+
+                $commands = array(
+                    'redkitecms:install --env=rkcms --skip-cache-clean=' . $cleanCache => null,
+                );
                 $commandsProcessor = new CommandsProcessor($kernelRootDir, 'rkconsole');
                 $result = $commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });                
                 $log = ob_get_contents();
