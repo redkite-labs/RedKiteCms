@@ -95,7 +95,12 @@ to start using RedKite CMS.
 
 Installing using the web interface
 ----------------------------------
-To install RedKite CMS using the web interface, just point your browser at:
+To install RedKite CMS using the web interface, you need to install the web assets,
+so run the following command from your console:
+
+    php app/console assets:install web
+
+then open a broswer and point it at:
 
     http://localhost/app_dev.php/install
 
