@@ -89,7 +89,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
         );
 
         $activeThemeManager = $this->client->getContainer()->get('red_kite_cms.active_theme');
-        $activeThemeManager->writeActiveTheme('BootbusinessThemeBundle'); //BusinessWebsiteThemeBundle        
+        $activeThemeManager->writeActiveTheme('BootbusinessThemeBundle');
     }
 
     protected static function populateDb()
