@@ -17,6 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\InstallerBundle\Controller;
 
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\Configurator\Configurator;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Form\RedKiteCmsParametersType;
 use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\Installer;
@@ -64,16 +65,18 @@ class InstallerController extends Controller
                     'redkitecms:configure --no-interaction ' . implode(" ", $options) => null,
                 );
                 $commandsProcessor = new CommandsProcessor($kernelRootDir);
-                $result = $commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });  
+                $result = $commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });
+                if ($result) {
+                    $commands = array(
+                        'redkitecms:install --env=rkcms --skip-cache-clean=' . $cleanCache => null,
+                    );
+                    $commandsProcessor = new CommandsProcessor($kernelRootDir, 'rkconsole');
+                    $result = $commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });
+                }
 
-                $commands = array(
-                    'redkitecms:install --env=rkcms --skip-cache-clean=' . $cleanCache => null,
-                );
-                $commandsProcessor = new CommandsProcessor($kernelRootDir, 'rkconsole');
-                $result = $commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });                
                 $log = ob_get_contents();
                 ob_end_clean();
-                
+
                 $template = 'RedKiteCmsInstallerBundle:Installer:install_failed.html.twig';
                 if ($result) {
                     $template = 'RedKiteCmsInstallerBundle:Installer:install_success.html.twig';

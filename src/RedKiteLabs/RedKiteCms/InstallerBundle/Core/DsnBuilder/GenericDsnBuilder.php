@@ -63,8 +63,13 @@ class GenericDsnBuilder extends Base\BaseDsnBuilder
     {
         $user = $this->options["user"];
         $password = $this->options["password"];
-        $mysqli = new \mysqli($this->options["host"], $user, $password);
-        
+        $mysqli = new \mysqli($this->options["host"], $user, $password, null, $this->options["port"]);
+
+        $error = $mysqli->connect_error;
+        if (null !== $error) {
+            throw new \RuntimeException($error);
+        }
+
         if (empty($password)) {
             $query = sprintf('SELECT * FROM mysql.user WHERE User = "%s"', $user);
             $result = $mysqli->query($query);
