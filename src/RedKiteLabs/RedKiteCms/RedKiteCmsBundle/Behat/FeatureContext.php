@@ -196,6 +196,27 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
         $this->getSession()->getDriver()->getWebDriverSession()->postAlert_text($message);
     }
 
+    /**
+     * @AfterScenario
+     */
+    public function printLastResponseOnError($scenarioEvent)
+    {
+        // reads print_error_debug from behat.yml
+        if (!$this->printOnDebug) {
+            return;
+        }
+
+        if ($scenarioEvent->getResult() != 0) {
+            // try to prevent it from dying if we error out before we have a request
+            $driver = $this->getSession()->getDriver();
+            $hasLastResponse = (!$driver instanceof GoutteDriver || $driver->getClient()->getRequest());
+
+            if ($hasLastResponse) {
+                $this->printLastResponse();
+            }
+        }
+    }
+
 
     private function findElement($selector)
     {
