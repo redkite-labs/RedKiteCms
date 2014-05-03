@@ -10,6 +10,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Behat;
 
 
 use Behat\Behat\Context\Step\When;
+use Behat\Mink\Driver\GoutteDriver;
 use Behat\Mink\Exception\ElementNotFoundException;
 use Behat\Mink\Exception\ExpectationException;
 use Behat\MinkExtension\Context\MinkContext;
@@ -201,11 +202,6 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
      */
     public function printLastResponseOnError($scenarioEvent)
     {
-        // reads print_error_debug from behat.yml
-        if (!$this->printOnDebug) {
-            return;
-        }
-
         if ($scenarioEvent->getResult() != 0) {
             // try to prevent it from dying if we error out before we have a request
             $driver = $this->getSession()->getDriver();
