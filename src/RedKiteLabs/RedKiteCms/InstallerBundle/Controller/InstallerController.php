@@ -68,7 +68,7 @@ class InstallerController extends Controller
                 $result = $commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });
                 if ($result) {
                     $commands = array(
-                        'redkitecms:install --env=rkcms --skip-cache-clean=' . $cleanCache => null,
+                        'redkitecms:install --env=rkcms' => null,
                     );
                     $commandsProcessor = new CommandsProcessor($kernelRootDir, 'rkconsole');
                     $result = $commandsProcessor->executeCommands($commands, function($type, $buffer){ echo $buffer; });
