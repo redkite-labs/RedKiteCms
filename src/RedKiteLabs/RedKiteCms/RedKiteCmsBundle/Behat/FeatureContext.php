@@ -15,9 +15,10 @@ use Behat\Mink\Exception\ExpectationException;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Symfony\Component\BrowserKit\Cookie;
+use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use WebDriver\Exception\ElementNotVisible;
 
 class FeatureContext extends MinkContext implements KernelAwareInterface
 {
@@ -27,6 +28,16 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
      * @var KernelInterface
      */
     protected $kernel;
+
+    /**
+     * @When /^I run "([^"]*)" command$/
+     */
+    public function iRunCommand($name)
+    {
+        $command = $this->getApplication()->find($name);
+        $this->tester = new CommandTester($command);
+        $this->tester->execute(array('command' => $command->getName()));
+    }
 
     /**
      * {@inheritdoc}
