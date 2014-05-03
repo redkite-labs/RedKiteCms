@@ -1,4 +1,6 @@
 default:
+    paths:
+        features: features/cms
     formatter:
         name: pretty
         parameters:
@@ -9,7 +11,6 @@ default:
         class: RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Behat\FeatureContext
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://rkcms/rkcms.php/backend
             default_session: symfony2
             goutte: ~
             selenium2: ~
@@ -22,27 +23,30 @@ default:
                 class: RedKiteCmsAppKernel
                 env: rkcms_test
                 debug: false
-frontend:
-    formatter:
-        name: pretty
-        parameters:
-            verbose: true
-            paths: false
-            snippets: false
-    context:
-        class: RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Behat\FeatureContext
+mysql:
+    paths:
+        features: features/install/mysql
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://rkcms/app.php
-            default_session: symfony2
-            goutte: ~
-            selenium2: ~
-            browser_name: firefox
-        Behat\Symfony2Extension\Extension:
-            mink_driver: true
-            #bundle: RedKiteCmsBundle
-            kernel:
-                path: app/AppKernel.php
-                class: AppKernel
-                env: test
-                debug: false
+            base_url: http://localhost/app.php
+
+postgres:
+    paths:
+        features: features/install/postgres
+    extensions:
+        Behat\MinkExtension\Extension:
+            base_url: http://localhost/app.php
+
+sqlite:
+    paths:
+        features: features/install/sqlite
+    extensions:
+        Behat\MinkExtension\Extension:
+            base_url: http://localhost/app.php
+
+cms:
+    paths:
+        features: features/cms
+    extensions:
+        Behat\MinkExtension\Extension:
+            base_url: http://localhost/rkcms.php/backend

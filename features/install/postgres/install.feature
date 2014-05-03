@@ -1,5 +1,5 @@
 Feature: Installer
-  In order to work with RedKite CMS
+  In order to work with RedKite CMS using the postgres database
   As a website administrator
   I must install the application according with my system configuration
 
@@ -40,8 +40,8 @@ Feature: Installer
     And I fill in "installer_parameters_bundle" with "<value>"
     And I fill in "installer_parameters_website-url" with "http://example.com/"
     When I press "Install"
-    Then should see "Ops, something went wrong"
-    And should see "<message>"
+    Then I should see "Ops, something went wrong"
+    And I should see "<message>"
 
   Examples:
     | value      | message                                               |
@@ -53,18 +53,18 @@ Feature: Installer
     And I should see the element "#installer_parameters_bundle"
     And I fill in "installer_parameters_website-url" with "<value>"
     When I press "Install"
-    Then should see "Ops, something went wrong"
+    Then I should see "Ops, something went wrong"
     And I should see "Website url must start with \"http://\" or \"https://\" and must end with \"/\""
 
-    Examples:
-        | value                |
-        | something.wrong      |
-        | http://example.com   |
+  Examples:
+    | value                |
+    | something.wrong      |
+    | http://example.com   |
 
   @javascript
   Scenario Outline: An invalid user is provided
     And I should see the element "#installer_parameters_bundle"
-    And I select "<driver>" from "installer_parameters_driver"
+    And I select "pgsql" from "installer_parameters_driver"
     And I fill in "installer_parameters_host" with "<host>"
     And I fill in "installer_parameters_port" with "<port>"
     And I fill in "installer_parameters_user" with "<user>"
@@ -72,36 +72,28 @@ Feature: Installer
     And I fill in "installer_parameters_password_password_again" with "<password_again>"
     And I fill in "installer_parameters_website-url" with "http://example.com/"
     When I press "Install"
-    Then should see "Ops, something went wrong"
+    Then I should see "Ops, something went wrong"
     Then I should see "<message>" in the ".code" element
   Examples:
-    | driver | user | host      | port | password | password_again | message |
-    | mysql  | fake | localhost | 3306 |          |                | It seems that user fake with blank password is not configured on this mysql server |
-    | mysql  | root | ocalhost  | 3306 |          |                | Unknown MySQL server host 'ocalhost' |
-    | mysql  | root | 127.0.0.1 | 5000 |          |                | Can't connect to MySQL server on '127.0.0.1' |
-    | mysql  | root | localhost | 3306 | fake     | fake           | Access denied for user 'root'@'localhost' (using password: YES) |
+    | user     | host      | port | password | password_again | message |
+    | fake     | localhost | 3306 |          |                | pg_connect(): Unable to connect to PostgreSQL server: received invalid response to SSL negotiation |
+    | postgres | ocalhost  | 3306 |          |                | pg_connect(): Unable to connect to PostgreSQL server: could not translate host name \"ocalhost\" to address |
+    | root     | 127.0.0.1 | 5000 |          |                | pg_connect(): Unable to connect to PostgreSQL server: could not connect to server: Connection refused  Is the server running on host \"127.0.0.1\" and accepting  TCP/IP connections on port 5000 |
+    | root     | localhost | 3306 | fake     | fake           | pg_connect(): Unable to connect to PostgreSQL server: received invalid response to SSL negotiation |
 
   @javascript
-  Scenario Outline: RedKite CMS has been installed
+  Scenario: RedKite CMS has been installed
     And I should see the element "#installer_parameters_bundle"
-    And I select "<driver>" from "installer_parameters_driver"
-    And I fill in "installer_parameters_host" with "<host>"
-    And I fill in "installer_parameters_port" with "<port>"
-    And I fill in "installer_parameters_user" with "<user>"
-    And I fill in "installer_parameters_password_password" with "<password>"
-    And I fill in "installer_parameters_password_password_again" with "<password_again>"
+    And I select "pgsql" from "installer_parameters_driver"
+    And I fill in "installer_parameters_database" with "redkite_test"
     And I fill in "installer_parameters_website-url" with "http://example.com/"
     When I press "Install"
-    Then should see "RedKite CMS has been installed!"
-    Then should see "http://rkcms/rkcms.php/backend/en/index"
-    Then should see "http://rkcms/rkcms_dev.php/backend/en/index"
-    Then should see "The configuration has been written"
-    Then should see "Database has been created"
-    Then should see "Generated model classes from schema.xml"
-    Then should see "1 SQL file has been generated"
-    Then should see "All SQL statements have been inserted"
-    Then should see "Dumping all rkcms assets"
-
-  Examples:
-      | driver | user | host      | port | password | password_again |
-      | mysql  | root | localhost | 3306 |          |                |
+    Then I should see "RedKite CMS has been installed!"
+    And I should see "http://localhost/rkcms.php/backend/en/index"
+    And I should see "http://localhost/rkcms_dev.php/backend/en/index"
+    And I should see "The configuration has been written"
+    And I should see "Database has been created"
+    And I should see "Generated model classes from schema.xml"
+    And I should see "1 SQL file has been generated"
+    And I should see "All SQL statements have been inserted"
+    And I should see "Dumping all rkcms assets"
