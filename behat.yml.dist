@@ -28,7 +28,7 @@ mysql:
         features: features/install/mysql
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/app.php
+            base_url: http://127.0.0.1/app.php
 
 postgres:
     paths:
