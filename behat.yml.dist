@@ -28,25 +28,25 @@ mysql:
         features: features/install/mysql
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://127.0.0.1/app.php
+            base_url: http://rkcms/app.php
 
 postgres:
     paths:
         features: features/install/postgres
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/app.php
+            base_url: http://rkcms/app.php
 
 sqlite:
     paths:
         features: features/install/sqlite
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/app.php
+            base_url: http://rkcms/app.php
 
 cms:
     paths:
         features: features/cms
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/rkcms.php/backend
+            base_url: http://rkcms/rkcms.php/backend
