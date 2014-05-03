@@ -29,8 +29,8 @@ before_script:
   - php app/rkconsole redkitecms:install --env=rkcms_test
 
 script:
-  - bin/behat --profile=$DB
-  - bin/behat --profile=cms
+  - bin/behat --profile=mysql
+  #- bin/behat --profile=cms
   - phpunit -c app --coverage-clover=coverage.clover
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
