@@ -5,8 +5,8 @@ php:
   - 5.4
 
 env:
- - DB=mysql
- - DB=pgsql
+ #- DB=mysql
+ #- DB=pgsql
  - DB=sqlite
 
 before_script:
