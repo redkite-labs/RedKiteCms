@@ -24,9 +24,11 @@ before_script:
   - java -jar selenium-server-standalone-2.41.0.jar > /dev/null &
   - sleep 5
   - composer install --dev
-  - HTTPDUSER=`ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1`
-  - sudo chmod +a "$HTTPDUSER allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
-  - sudo chmod +a "`whoami` allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
+  #- HTTPDUSER=`ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1`
+  #- sudo chmod +a "$HTTPDUSER allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
+  #- sudo chmod +a "`whoami` allow delete,write,append,file_inherit,directory_inherit" app/cache app/logs
+  - sudo setfacl -R -m u:www-data:rwX -m u:whoami:rwX app/cache app/logs
+  - sudo setfacl -dR -m u:www-data:rwX -m u:whoami:rwX app/cache app/logs
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database redkite_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'create database redkite_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'sqlite' ]; then php app/console redkitecms:configure --driver=sqlite --host=localhost --database=redkite --website-url=http://example.com/ --no-interaction; fi"
