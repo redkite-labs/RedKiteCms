@@ -13,7 +13,7 @@ before_script:
   - sudo apt-get update > /dev/null
   - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
   - sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
-  - export MINK_EXTENSION_PARAMS='base_url=http://localhost/app.php'
+
   #- sudo sed -i -e "/DocumentRoot/i\ServerName rkcms" /etc/apache2/sites-available/default
   #- echo "127.0.0.1 rkcms" | sudo tee -a /etc/hosts
   - sudo /etc/init.d/apache2 restart
@@ -24,6 +24,9 @@ before_script:
   - java -jar selenium-server-standalone-2.41.0.jar > /dev/null &
   - sleep 5
   - composer install --dev
+  - HTTPDUSER=`ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1`
+  - sudo setfacl -Rn -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX app/cache app/logs
+  - sudo setfacl -dRn -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX app/cache app/logs
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database redkite_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'create database redkite_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'sqlite' ]; then php app/console redkitecms:configure --driver=sqlite --host=localhost --database=redkite --website-url=http://example.com/ --no-interaction; fi"
