@@ -27,32 +27,32 @@ mysql:
         features: features/install/mysql
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/app_dev.php
+            base_url: http://localhost/app.php
 
 pgsql:
     paths:
         features: features/install/postgres
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/app_dev.php
+            base_url: http://localhost/app.php
 
 sqlite:
     paths:
         features: features/install/sqlite
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/app_dev.php
+            base_url: http://localhost/app.php
 
 cms:
     paths:
         features: features/cms
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/rkcms_dev.php/backend
+            base_url: http://localhost/rkcms.php/backend
         
         Behat\Symfony2Extension\Extension:
             kernel:
                 path: app/RedKiteCmsAppKernel.php
                 class: RedKiteCmsAppKernel
                 env: rkcms_test
-                debug: true
+                debug: false
