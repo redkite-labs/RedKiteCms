@@ -17,11 +17,10 @@ default:
             browser_name: firefox
         Behat\Symfony2Extension\Extension:
             mink_driver: true
-            #bundle: RedKiteCmsBundle
             kernel:
-                path: app/RedKiteCmsAppKernel.php
-                class: RedKiteCmsAppKernel
-                env: rkcms_test
+                path: app/AppKernel.php
+                class: AppKernel
+                env: test
                 debug: true
 mysql:
     paths:
@@ -49,4 +48,11 @@ cms:
         features: features/cms
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/rkcms_dev.php/backend
+            base_url: http://localhost/rkcms_dev.php/backendmink_driver: true
+        
+        Behat\Symfony2Extension\Extension:
+            kernel:
+                path: app/RedKiteCmsAppKernel.php
+                class: RedKiteCmsAppKernel
+                env: rkcms_test
+                debug: true
