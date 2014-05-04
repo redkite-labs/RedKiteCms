@@ -22,31 +22,31 @@ default:
                 path: app/RedKiteCmsAppKernel.php
                 class: RedKiteCmsAppKernel
                 env: rkcms_test
-                debug: false
+                debug: true
 mysql:
     paths:
         features: features/install/mysql
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/app.php
+            base_url: http://localhost/app_dev.php
 
 postgres:
     paths:
         features: features/install/postgres
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/app.php
+            base_url: http://localhost/app_dev.php
 
 sqlite:
     paths:
         features: features/install/sqlite
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/app.php
+            base_url: http://localhost/app_dev.php
 
 cms:
     paths:
         features: features/cms
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/rkcms.php/backend
+            base_url: http://localhost/rkcms_dev.php/backend
