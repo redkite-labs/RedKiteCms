@@ -13,12 +13,12 @@ Scenario: Open navigation menu
     When I click "#rk-navigation-minimized"
     Then I should see the hidden element "#rk-cp-nav-button"
 
-@javascript
-Scenario: Open navigation menu 1
-    Given I am on "/en/index"
+#@javascript
+#Scenario: Open navigation menu 1
+#    Given I am on "/en/index"
     #And I should not see the element "#rk-cp-nav-button"
-    When I click "#rk-start-editor"
-    Then I should see the hidden element "#rk-cp-nav-button"
+#    When I click "#rk-start-editor"
+#    Then I should see the hidden element "#rk-cp-nav-button"
 
 #@javascript
 #Scenario: Searching for "behat"
