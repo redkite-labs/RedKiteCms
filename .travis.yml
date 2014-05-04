@@ -13,7 +13,7 @@ before_script:
   - sudo apt-get update > /dev/null
   - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
   - sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
-  - export MINK_EXTENSION_PARAMS='base_url=http://localhost:8000/app_test.php'
+  - export MINK_EXTENSION_PARAMS='base_url=http://localhost/app.php'
   #- sudo sed -i -e "/DocumentRoot/i\ServerName rkcms" /etc/apache2/sites-available/default
   #- echo "127.0.0.1 rkcms" | sudo tee -a /etc/hosts
   - sudo /etc/init.d/apache2 restart
