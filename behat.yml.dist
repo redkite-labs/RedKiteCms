@@ -48,7 +48,7 @@ cms:
         features: features/cms
     extensions:
         Behat\MinkExtension\Extension:
-            base_url: http://localhost/rkcms_dev.php/backendmink_driver: true
+            base_url: http://localhost/rkcms_dev.php/backend
         
         Behat\Symfony2Extension\Extension:
             kernel:
