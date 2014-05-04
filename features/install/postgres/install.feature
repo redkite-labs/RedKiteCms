@@ -76,10 +76,10 @@ Feature: Installer
     Then I should see "<message>" in the ".code" element
   Examples:
     | user     | host      | port | password | password_again | message |
-    | fake     | localhost | 5432 |          |                | pg_connect(): Unable to connect to PostgreSQL server: received invalid response to SSL negotiation |
+    | fake     | localhost | 5432 |          |                | pg_connect(): Unable to connect to PostgreSQL server |
     | postgres | ocalhost  | 5432 |          |                | pg_connect(): Unable to connect to PostgreSQL server: could not translate host name \"ocalhost\" to address |
     | root     | 127.0.0.1 | 5000 |          |                | pg_connect(): Unable to connect to PostgreSQL server: could not connect to server: Connection refused  Is the server running on host \"127.0.0.1\" and accepting  TCP/IP connections on port 5000 |
-    | root     | localhost | 5432 | fake     | fake           | pg_connect(): Unable to connect to PostgreSQL server: received invalid response to SSL negotiation |
+    | root     | localhost | 5432 | fake     | fake           | pg_connect(): Unable to connect to PostgreSQL server |
 
   @javascript
   Scenario: RedKite CMS has been installed
