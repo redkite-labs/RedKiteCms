@@ -97,7 +97,6 @@ Feature: Installer
     And I should see "http://localhost/rkcms.php/backend/en/index"
     And I should see "http://localhost/rkcms_dev.php/backend/en/index"
     And I should see "The configuration has been written"
-    And I should see "Database has been created"
     And I should see "Generated model classes from schema.xml"
     And I should see "1 SQL file has been generated"
     And I should see "All SQL statements have been inserted"
