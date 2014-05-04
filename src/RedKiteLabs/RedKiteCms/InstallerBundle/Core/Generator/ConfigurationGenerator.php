@@ -38,6 +38,14 @@ class ConfigurationGenerator extends Generator
         $this->options = $options;
     }
     
+    public function generateApplication()
+    {
+        $this->setSkeletonDirs($this->skeletonDir);
+        
+        $this->renderFile('RedKiteCmsAppKernel.php', $this->kernelDir.'/RedKiteCmsAppKernel.php', $this->options);
+        $this->renderFile('rkconsole', $this->kernelDir.'/rkconsole', array());
+    }
+    
     public function generateConfigurations()
     {
         $this->setSkeletonDirs($this->skeletonDir);

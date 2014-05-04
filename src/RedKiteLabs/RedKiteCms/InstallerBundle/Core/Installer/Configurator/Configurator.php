@@ -101,6 +101,8 @@ class Configurator extends BaseOptions
         if ($updateFile) {
             $this->filesystem->dumpFile($kernelFile, $contents);
         }
+        
+        $this->generator->generateApplication();
 
         return;
     }

@@ -21,6 +21,10 @@ class RedKiteCmsAppKernel extends AppKernel
         $bootstrapper = new \RedKiteLabs\RedKiteCms\BootstrapBundle\Core\Autoloader\BundlesAutoloader(__DIR__, $this->getEnvironment(), $bundles, $searchFolders);
         $bundles = $bootstrapper->getBundles();
 
+        if ('test' === $this->getEnvironment()) {
+            $bundles[] = new Behat\MinkBundle\MinkBundle();
+        }
+
         return $bundles;
     }
 
