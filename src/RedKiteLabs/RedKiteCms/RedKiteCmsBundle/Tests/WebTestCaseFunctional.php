@@ -100,7 +100,7 @@ abstract class WebTestCaseFunctional extends WebTestCase
         ));
 
         $connection = \Propel::getConnection();
-        $configuration = $connection->getConfiguration();print_R($configuration);exit;
+        $configuration = $connection->getConfiguration();
         $adapter = $configuration->getParameter('datasources.default.adapter');
         switch ($adapter)
         {
