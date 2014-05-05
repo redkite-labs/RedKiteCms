@@ -144,4 +144,13 @@ abstract class ContentManagerBase
 
         return $values;
     }
+
+    protected function checkCreatedAt($values)
+    {
+        if ( ! array_key_exists('CreatedAt', $values)) {
+            $values['CreatedAt'] = date("Y-m-d H:i:s");
+        }
+
+        return $values;
+    }
 }

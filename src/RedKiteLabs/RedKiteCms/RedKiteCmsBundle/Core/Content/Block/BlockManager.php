@@ -499,6 +499,7 @@ abstract class BlockManager extends ContentManagerBase implements ContentManager
                 $this->alBlock = new $className();
             }
 
+            $values = $this->checkCreatedAt($values);
             $result = $this->blockRepository
                     ->setRepositoryObject($this->alBlock)
                     ->save($values);

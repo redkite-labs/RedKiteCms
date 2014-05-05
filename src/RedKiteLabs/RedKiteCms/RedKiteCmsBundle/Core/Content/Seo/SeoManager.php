@@ -269,6 +269,7 @@ class SeoManager extends ContentManagerBase implements ContentManagerInterface
                 $this->alSeo = new $className();
             }
 
+            $values = $this->checkCreatedAt($values);
             $result = $this->seoRepository
                     ->setRepositoryObject($this->alSeo)
                     ->save($values);
