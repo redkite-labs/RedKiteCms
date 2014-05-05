@@ -22,12 +22,12 @@
     </php>
 
     <testsuites>
-        <testsuite name="RedKite Sandbox Test Suite">
+        <testsuite name="RedKite CMS Test Suite">
             <!--<directory>../src/RedKiteCms/Block/*/Tests/</directory>
-            <directory>../src/RedKiteCms/Theme/*/Tests/</directory>
+            <directory>../src/RedKiteCms/Theme/*/Tests/</directory>-->
             <directory>../src/RedKiteLabs/ThemeEngineBundle/Tests/</directory>
-            <directory>../src/RedKiteLabs/RedKiteCms/BootstrapBundle/Tests/</directory>-->
-            <directory>../src/RedKiteLabs/RedKiteCms/RedKiteCmsBundle/Tests/Unit</directory>
+            <directory>../src/RedKiteLabs/RedKiteCms/BootstrapBundle/Tests/</directory>
+            <directory>../src/RedKiteLabs/RedKiteCms/RedKiteCmsBundle/Tests</directory>
             <!-- TODO: Enable InstallerBundle tests -->
             <!--<directory>../src/RedKiteLabs/RedKiteCms/InstallerBundle/Tests/</directory>-->
         </testsuite>
