@@ -73,6 +73,11 @@
     <unique name="I_PAGE">
       <unique-column name="id" />
     </unique>
+
+    <unique name="U_PAGE_NAME">
+      <unique-column name="page_name" />
+      <unique-column name="created_at" />
+    </unique>
     
     <index name="I_PAGE_NAME">
       <index-column name="page_name" />
