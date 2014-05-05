@@ -32,7 +32,7 @@ before_script:
   - php app/rkconsole redkitecms:install --env=rkcms
 
 script:
-  - phpunit -c app src/RedKiteLabs/RedKiteCms/RedKiteCmsBundle/Tests/Unit/Core/PageTree/PageTreeTest.php
+  - phpunit -c app phpunit -c app src/RedKiteLabs/RedKiteCms/RedKiteCmsBundle/Tests/Functional/Controller/BlocksControllerTest.php
   #- phpunit -c app --coverage-clover=coverage.clover
   #- wget https://scrutinizer-ci.com/ocular.phar
   #- php ocular.phar code-coverage:upload --format=php-clover coverage.clover
