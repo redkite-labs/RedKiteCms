@@ -13,38 +13,39 @@ addons:
    postgresql: "9.3"
 
 before_script:
-  - sudo apt-get update > /dev/null
-  - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-sqlite php5-pgsql php5-intl
-  - sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
-  - sudo /etc/init.d/apache2 restart
-  - composer self-update
-  - "sh -e /etc/init.d/xvfb start"
-  - "export DISPLAY=:99.0"
-  - wget http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar
-  - java -jar selenium-server-standalone-2.41.0.jar > /dev/null &
-  - sleep 5
+  #- sudo apt-get update > /dev/null
+  #- sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-sqlite php5-pgsql php5-intl
+  #- sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
+  #- sudo /etc/init.d/apache2 restart
+  #- composer self-update
+  #- "sh -e /etc/init.d/xvfb start"
+  #- "export DISPLAY=:99.0"
+  #- wget http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar
+  #- java -jar selenium-server-standalone-2.41.0.jar > /dev/null &
+  #- sleep 5
   - composer install --dev
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database redkite_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'create database redkite_test;' -U postgres; fi"
   - sh -c "if [ '$DB' = 'sqlite' ]; then php app/console redkitecms:configure --driver=sqlite --host=localhost --database=redkite_test --website-url=http://example.com/ --no-interaction; fi"
   - sh -c "if [ '$DB' = 'mysql' ]; then php app/console redkitecms:configure --driver=mysql --host=localhost --port=3306 --database=redkite_test --user=root --password= --website-url=http://example.com/ --no-interaction; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then php app/console redkitecms:configure --driver=pgsql --host=localhost --port=5432 --database=redkite_test --user=postgres --password= --website-url=http://example.com/ --no-interaction; fi"
-  - php app/rkconsole redkitecms:install --env=rkcms
+  - php app/rkconsole redkitecms:install --env=rkcms_test
   #- sudo chmod 0777 ./../RedKiteCms
   #- sudo chmod -R 0777 *
 
 script:
   - phpunit -c app --coverage-clover=coverage.clover
-  - sudo chmod 0777 ./../RedKiteCms
-  - sudo chmod -R 0777 *
-  - bin/behat --profile=$DB
-  - sudo chmod 0777 ./../RedKiteCms
-  - sudo chmod -R 0777 *
-  - bin/behat --profile=cms
-  - sudo chmod 0777 ./../RedKiteCms
-  - sudo chmod -R 0777 *
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+  #- sudo chmod 0777 ./../RedKiteCms
+  #- sudo chmod -R 0777 *
+  #- bin/behat --profile=$DB
+  #- sudo chmod 0777 ./../RedKiteCms
+  #- sudo chmod -R 0777 *
+  #- bin/behat --profile=cms
+  #- sudo chmod 0777 ./../RedKiteCms
+  #- sudo chmod -R 0777 *
+
 
 notifications:
   email:
