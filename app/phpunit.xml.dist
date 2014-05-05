@@ -2,34 +2,32 @@
 
 <!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
 <phpunit
-    backupGlobals               = "false"
-    backupStaticAttributes      = "false"
-    colors                      = "true"
-    convertErrorsToExceptions   = "true"
-    convertNoticesToExceptions  = "true"
-    convertWarningsToExceptions = "true"
-    processIsolation            = "false"
-    stopOnFailure               = "true"
-    syntaxCheck                 = "false"
-    bootstrap                   = "bootstrap.php.cache" >
+        backupGlobals = "false"
+        backupStaticAttributes = "false"
+        colors = "true"
+        convertErrorsToExceptions = "true"
+        convertNoticesToExceptions = "true"
+        convertWarningsToExceptions = "true"
+        processIsolation = "false"
+        stopOnFailure = "true"
+        syntaxCheck = "false"
+        bootstrap = "bootstrap.php.cache" >
 
     <php>
         <ini name="intl.default_locale" value="en"/>
         <ini name="intl.error_level" value="0"/>
         <ini name="memory_limit" value="-1"/>
-        <ini name="error_reporting" value="E_ALL"/>
-        <ini name="display_errors" value="On"/>
 
         <env name="BOOTSTRAP_CLEAR_CACHE_ENV" value="test"/>
     </php>
 
     <testsuites>
-        <testsuite name="RedKite CMS Test Suite">
-            <!--<directory>../src/RedKiteCms/Block/*/Tests/</directory>
-            <directory>../src/RedKiteCms/Theme/*/Tests/</directory>-->
+        <testsuite name="RedKite Sandbox Test Suite">
+            <directory>../src/RedKiteCms/Block/*/Tests/</directory>
+            <directory>../src/RedKiteCms/Theme/*/Tests/</directory>
             <directory>../src/RedKiteLabs/ThemeEngineBundle/Tests/</directory>
             <directory>../src/RedKiteLabs/RedKiteCms/BootstrapBundle/Tests/</directory>
-            <directory>../src/RedKiteLabs/RedKiteCms/RedKiteCmsBundle/Tests</directory>
+            <directory>../src/RedKiteLabs/RedKiteCms/RedKiteCmsBundle/Tests/</directory>
             <!-- TODO: Enable InstallerBundle tests -->
             <!--<directory>../src/RedKiteLabs/RedKiteCms/InstallerBundle/Tests/</directory>-->
         </testsuite>
