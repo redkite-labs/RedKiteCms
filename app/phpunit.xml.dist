@@ -17,6 +17,7 @@
         <ini name="intl.default_locale" value="en"/>
         <ini name="intl.error_level" value="0"/>
         <ini name="memory_limit" value="-1"/>
+        <ini name="error_reporting" value="E_ALL"/>
         <ini name="display_errors" value="On"/>
 
         <env name="BOOTSTRAP_CLEAR_CACHE_ENV" value="test"/>
