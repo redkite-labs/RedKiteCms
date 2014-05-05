@@ -9,8 +9,8 @@ env:
  - DB=pgsql
  - DB=sqlite
 
-addons:
-   postgresql: "9.3"
+#addons:
+#   postgresql: "9.3"
 
 before_script:
   #- sudo apt-get update > /dev/null
