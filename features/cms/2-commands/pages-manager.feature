@@ -4,7 +4,7 @@ Feature: Pages management
   I must be able to add, edit and delete website pages
 
   Background:
-    Given I want to authenticate as "admin" with my password "admin"
+    Given I am authenticate as "admin" with my password "admin"
     And I resize the browser window
     And The control panel is minimized
     And I am on "/en/index"

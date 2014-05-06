@@ -49,7 +49,7 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     }
 
     /**
-     * @Given /^I want to authenticate as "([^"]*)" with my password "([^"]*)"$/
+     * @Given /^I am authenticate as "([^"]*)" with my password "([^"]*)"$/
      */
     public function iWantToAuthenticateAs($username, $password)
     {

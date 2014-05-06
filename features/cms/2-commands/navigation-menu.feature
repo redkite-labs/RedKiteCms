@@ -4,7 +4,7 @@ Feature: User sessions
   I need to be able to log into the website
 
   Background:
-    Given I want to authenticate as "admin" with my password "admin"
+    Given I am authenticate as "admin" with my password "admin"
 
 @javascript
 Scenario: Open navigation menu
@@ -23,7 +23,7 @@ Scenario: Open navigation menu
 #@javascript
 #Scenario: Searching for "behat"
     #Given I am on "/en/index"
-#    Given I want to authenticate as "admin" with my password "admin"
+#    Given I am authenticate as "admin" with my password "admin"
 #    And I should not see the element "#al_panel"
 #    When I click "#al_open_pages_panel"
 #    Then I should see the hidden element "#al_panel"
