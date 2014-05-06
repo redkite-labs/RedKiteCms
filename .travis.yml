@@ -25,9 +25,9 @@ before_script:
   - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-sqlite php5-pgsql php5-intl
   - sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
   - sudo /etc/init.d/apache2 restart
-  - composer self-update
   #- "sh -e /etc/init.d/xvfb start"
   #- "export DISPLAY=:99.0"
+  - composer self-update
   - composer install --dev
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database redkite_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'create database redkite_test;' -U postgres; fi"
@@ -38,9 +38,9 @@ before_script:
   - phpunit --version
 
 script:
-  - phpunit -c app --coverage-clover=coverage.clover
-  - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+  #- phpunit -c app --coverage-clover=coverage.clover
+  #- wget https://scrutinizer-ci.com/ocular.phar
+  #- php ocular.phar code-coverage:upload --format=php-clover coverage.clover
   - sudo chmod -R 0777 ./../RedKiteCms
   - bin/behat --profile=$DB
   - sudo chmod -R 0777 ./../RedKiteCms
