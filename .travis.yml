@@ -39,14 +39,13 @@ before_script:
   - phpunit --version
 
 script:
+  - phpunit -c app --coverage-clover=coverage.clover
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
   - sudo chmod -R 0777 ./../RedKiteCms
   - bin/behat --profile=$DB
   - sudo chmod -R 0777 ./../RedKiteCms
   - bin/behat --profile=cms
-  - sudo chmod -R 0777 ./../RedKiteCms
-  - phpunit -c app --coverage-clover=coverage.clover
 
 notifications:
   email:
