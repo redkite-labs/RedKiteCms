@@ -258,12 +258,15 @@ class SeoManagerTest extends ContentManagerBase
                 ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
-        $params = array('PageId'      => '2',
-                        'LanguageId'  => '2',
-                        'Permalink'     => 'this is a website fake page',
-                        'Title'         => 'page title',
-                        'Description'   => 'page description',
-                        'Keywords'      => '');
+        $params = array(
+            'PageId'      => '2',
+            'LanguageId'  => '2',
+            'Permalink'     => 'this is a website fake page',
+            'Title'         => 'page title',
+            'Description'   => 'page description',
+            'Keywords'      => '',
+            'CreatedAt' => date("Y-m-d H:i:s"),
+        );
         $expectedParams = $params;
         $expectedParams['Permalink'] = 'this-is-a-website-fake-page';
         $this->seoRepository->expects($this->once())
@@ -318,7 +321,8 @@ class SeoManagerTest extends ContentManagerBase
             'Permalink'     => 'permalink is changed by event',
             'Title'         => 'page title',
             'Description'   => 'page description',
-            'Keywords'      => ''
+            'Keywords'      => '',
+            'CreatedAt' => date("Y-m-d H:i:s"),
         );
 
         $event1 = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Seo\BeforeSeoAddingEvent');
