@@ -10,7 +10,7 @@ env:
  - DB=sqlite
 
 addons:
-   postgresql: "9.3"
+  postgresql: "9.3"
   firefox: "28.0"
 
 before_install:
