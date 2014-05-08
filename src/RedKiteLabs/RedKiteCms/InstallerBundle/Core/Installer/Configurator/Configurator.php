@@ -17,7 +17,6 @@
 
 namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\Configurator;
 
-use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Generator\EnvironmentsGenerator;
 use Symfony\Component\Yaml\Yaml;
 use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\Base\BaseOptions;
 use RedKiteLabs\RedKiteCms\InstallerBundle\Core\Generator\ConfigurationGenerator;
@@ -109,8 +108,7 @@ class Configurator extends BaseOptions
 
     private function setUpEnvironments()
     {
-        $environmentsGenerator = new EnvironmentsGenerator($this->kernelDir);
-        $environmentsGenerator->generateFrontcontrollers();
+        $this->generator->generateFrontcontrollers();
 
         $this->filesystem->mkdir($this->vendorDir . '/../web/uploads/assets');
         $this->filesystem->mkdir($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/public/uploads/assets/media');
