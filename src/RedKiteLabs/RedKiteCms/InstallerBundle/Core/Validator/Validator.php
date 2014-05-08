@@ -112,7 +112,7 @@ class Validator
     {
         $regex = '/^(?:[a-zA-Z_\-$\&\x7f-\xff][a-zA-Z0-9_\-$\&\x7f-\xff]*\\\?)+$/';
         if (!preg_match($regex, $input)) {
-            throw new \InvalidArgumentException('The given database name contains invalid characters: allowed characters are letters, numbers and one of the following _ - $ £');
+            throw new \InvalidArgumentException('The given database name contains invalid characters: allowed characters are letters, numbers and the characters inside the square brackets [_-$£]');
         }
 
         return $input;
@@ -126,8 +126,7 @@ class Validator
      */
     public static function validatePort($input)
     {
-        $regex = '/[0-9]+/';
-        if (!preg_match($regex, $input, $matches)) {
+        if (!is_numeric($input)) {
             throw new \InvalidArgumentException('The port value contains invalid characters');
         }
 
