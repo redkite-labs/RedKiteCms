@@ -44,6 +44,11 @@ abstract class BaseType extends TestCase
         $builder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')
                     ->disableOriginalConstructor()
                     ->getMock();
+        $builder
+            ->expects($this->any())
+            ->method('add')
+            ->will($this->returnSelf())
+        ;
         
         $i = 0;
         $fields = $this->configureFields();        
