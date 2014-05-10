@@ -52,7 +52,7 @@ class Validator
         $contents = file_get_contents($kernelDir . '/AppKernel.php');
         if( ! preg_match("/" . $bundleName . "/s", $contents))
         {
-            $message = "\nRedKite CMS requires an existing bundle to work with. You enter as working bundle the following: $bundleName but, the bundle is not enable in AppKernel.php file. Please add the bundle or enable it ther run the script again.\n";
+            $message = "\nRedKite CMS requires an existing bundle to work with. You enter as working bundle the following: $bundleName but, the bundle is not enable in AppKernel.php file. Please add the bundle or enable it then run the script again.\n";
 
             throw new \RuntimeException($message);
         }

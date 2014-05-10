@@ -55,7 +55,7 @@ class ValidatorTest extends TestCase
 
     /**
      * @expectedException \RuntimeException
-     * @expectedExceptionMessage RedKite CMS requires an existing bundle to work with. You enter as working bundle the following: FooBundle but, the bundle is not enable in AppKernel.php file. Please add the bundle or enable it ther run the script again.
+     * @expectedExceptionMessage RedKite CMS requires an existing bundle to work with. You enter as working bundle the following: FooBundle but, the bundle is not enable in AppKernel.php file. Please add the bundle or enable it then run the script again.
      */
     public function testDeployBundleIsNotRegistered()
     {

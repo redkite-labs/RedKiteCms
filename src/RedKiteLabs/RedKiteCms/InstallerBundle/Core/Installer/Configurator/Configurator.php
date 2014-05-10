@@ -60,7 +60,7 @@ class Configurator extends BaseOptions
     private function backUpFile($fileName)
     {
         $backupFile = $fileName . '.bak';
-        
+
         // Have I already installed?
         if (file_exists($backupFile)) {
             
@@ -80,10 +80,6 @@ class Configurator extends BaseOptions
         $kernelFile = $this->kernelDir . '/AppKernel.php';
         $this->backUpFile($kernelFile);
         $contents = file_get_contents($kernelFile);
-        
-        if (empty($contents)) {
-            throw new \RuntimeException(sprintf('Looks like the %s file is empty', $kernelFile));
-        }
 
         if( ! preg_match('/\/\/ RedKiteCms Active Theme(.*?)\/\/ End RedKiteCms Active Theme/is', $contents))
         {
@@ -94,11 +90,12 @@ class Configurator extends BaseOptions
             $cmsBundles .= PHP_EOL . PHP_EOL . '        return $bundles;';
 
             $contents = preg_replace('/[\s]+return \$bundles;/s', $cmsBundles, $contents);
+
             $updateFile = true;
         }
 
         if ($updateFile) {
-            $this->filesystem->dumpFile($kernelFile, $contents);
+            file_put_contents($kernelFile, $contents);
         }
         
         $this->generator->generateApplication();
@@ -139,7 +136,7 @@ class Configurator extends BaseOptions
         );
         
         $contents = $yaml->dump(array_merge_recursive($params, $redKiteCmsParams));
-        $this->filesystem->dumpFile($parametersFile, $contents);
+        file_put_contents($parametersFile, $contents);
     }
 
     private function writeConfigurationFiles()
@@ -147,7 +144,7 @@ class Configurator extends BaseOptions
         $configFile = $this->kernelDir . '/config/config.yml';
         $this->checkFile($configFile);
         $this->backUpFile($configFile);
-        
+
         // Writes the config.yml file
         $contents = file_get_contents($configFile);
         $deployBundle = $this->deployBundle;
@@ -170,7 +167,7 @@ class Configurator extends BaseOptions
             $contents .= "\nred_kite_labs_theme_engine:\n";
             $contents .= "    deploy_bundle: $this->deployBundle\n\n";
         }
-        $this->filesystem->dumpFile($configFile, $contents);
+        file_put_contents($configFile, $contents);
 
         $this->generator->generateConfigurations();
     }
@@ -189,10 +186,10 @@ class Configurator extends BaseOptions
             $config = "_$this->deployBundle:\n";
             $config .= "    resource: \"@$this->deployBundle/Resources/config/site_routing.yml\"\n\n";
 
-            $this->filesystem->dumpFile($configFile, $config . $contents);
+            file_put_contents($configFile, $config . $contents);
 
             $siteRoutingFile = $this->kernel->locateResource("@" . $this->deployBundle) . '/Resources/config/site_routing.yml' ;
-            $this->filesystem->dumpFile($siteRoutingFile, "");
+            file_put_contents($siteRoutingFile, "");
         }
 
         $this->generator->generateRoutes();

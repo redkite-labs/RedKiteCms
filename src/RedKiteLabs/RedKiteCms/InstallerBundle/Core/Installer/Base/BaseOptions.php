@@ -112,7 +112,7 @@ abstract class BaseOptions
                 $this->log[] = '<comment>' . realpath($filename) . '</comment> cannot be written. Please fix permissions on this ' . $type;
             }
         }
-        
+
         return empty($this->log);
     }
     
@@ -130,7 +130,7 @@ abstract class BaseOptions
         $this->checkClass('propel', '\Propel');
         $this->checkFolder($this->vendorDir . '/phing');
         $this->checkClass('PropelBundle', 'Propel\PropelBundle\PropelBundle');
-        
+
         Validator::validateDeployBundle($this->kernelDir, $this->bundleName);
         
         $this->prerequisitesVerified = true;
@@ -170,7 +170,7 @@ abstract class BaseOptions
     {
         if(!class_exists($className))
         {
-            $message = "\nAn error occoured. RedKite CMS requires the " . $libraryName . " library. Please install that library then run the script again.\n";
+            $message = "\nAn error occurred. RedKite CMS requires the " . $libraryName . " library. Please install that library then run the script again.\n";
 
             throw new \RuntimeException($message);
         }
@@ -180,7 +180,7 @@ abstract class BaseOptions
     {
         if(!is_dir($dirName))
         {
-            $message = "\nAn error occoured. RedKite CMS requires " . basename($dirName) . " installed into " . dirname($dirName) . " folder. Please install the required library then run the script again.\n";
+            $message = "\nAn error occurred. RedKite CMS requires " . basename($dirName) . " installed into " . dirname($dirName) . " folder. Please install the required library then run the script again.\n";
 
             throw new \RuntimeException($message);
         }
