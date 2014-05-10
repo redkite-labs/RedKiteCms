@@ -35,6 +35,10 @@ class ConfiguratorTest extends TestCase
     {
         parent::setUp();
 
+        $parametersFile = "parameters:\n";
+        $parametersFile .= "  database_driver: pdo_mysql\n";
+        $parametersFile .= "  database_host: 127.0.0.1\n";
+
         $this->root = vfsStream::setup('root', null, array(
             'app' => array(
                 'cache' => array(),
@@ -43,24 +47,22 @@ class ConfiguratorTest extends TestCase
                     'bundles' => array(),
                     'config.yml' => '',
                     'routing.yml' => '',
-                    'parameters.yml' => '
-parameters:
-    database_driver: pdo_mysql
-    database_host: 127.0.0.1',
+                    'parameters.yml' => $parametersFile,
                 ),
                 'AppKernel.php' => '
-                <?php
-                    class AppKernel extends Kernel
-                    {
-                        public function registerBundles()
+                    <?php
+                        class AppKernel extends Kernel
                         {
-                            $bundles = array(
-                                new Acme\WebSiteBundle\AcmeWebSiteBundle(),
-                            );
+                            public function registerBundles()
+                            {
+                                $bundles = array(
+                                    new Acme\WebSiteBundle\AcmeWebSiteBundle(),
+                                );
 
-                            return $bundles;
-                        );
-                    }',
+                                return $bundles;
+                            );
+                        }
+                ',
             ),
             'src' => array(
                 'InstallerBundle' => array(
@@ -91,9 +93,7 @@ parameters:
             ->will($this->returnValue(vfsStream::url('root/src/InstallerBundle')));
 
         $this->initConfigurator();
-
         $this->configurator->configure();
-        //print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());exit;
 
         $this->assertRegExp("/RedKiteLabsThemeEngineBundle/s", file_get_contents(vfsStream::url('root/app/AppKernel.php')));
         $this->assertRegExp("/ModernBusinessThemeBundle/s", file_get_contents(vfsStream::url('root/app/AppKernel.php')));
@@ -109,6 +109,10 @@ parameters:
         $this->assertFileExists(vfsStream::url('root/web/rkcms_dev.php'));
         $this->assertFileExists(vfsStream::url('root/web/stage.php'));
         $this->assertFileExists(vfsStream::url('root/web/stage_dev.php'));
+        $this->assertFileExists(vfsStream::url('root/web/uploads/assets/media'));
+        $this->assertFileExists(vfsStream::url('root/web/uploads/assets/js'));
+        $this->assertFileExists(vfsStream::url('root/web/uploads/assets/css'));
+        $this->assertFileExists(vfsStream::url('root/web/uploads/assets/files'));
     }
 
     public function testAtLeastOneFileIsNotWritable()

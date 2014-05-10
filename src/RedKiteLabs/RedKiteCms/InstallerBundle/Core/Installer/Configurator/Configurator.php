@@ -107,10 +107,10 @@ class Configurator extends BaseOptions
     {
         $this->generator->generateFrontcontrollers();
 
-        $this->filesystem->mkdir($this->vendorDir . '/../web/uploads/assets');
-        $this->filesystem->mkdir($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/public/uploads/assets/media');
-        $this->filesystem->mkdir($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/public/uploads/assets/js');
-        $this->filesystem->mkdir($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/public/uploads/assets/css');
+        $this->filesystem->mkdir($this->vendorDir . '/../web/uploads/assets/media');
+        $this->filesystem->mkdir($this->vendorDir . '/../web/uploads/assets/js');
+        $this->filesystem->mkdir($this->vendorDir . '/../web/uploads/assets/css');
+        $this->filesystem->mkdir($this->vendorDir . '/../web/uploads/assets/files');
         $this->filesystem->mkdir($this->kernelDir . '/propel/sql');
     }
     
