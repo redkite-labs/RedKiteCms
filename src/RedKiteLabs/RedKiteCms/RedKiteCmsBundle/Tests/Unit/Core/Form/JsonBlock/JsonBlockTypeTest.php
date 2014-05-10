@@ -34,8 +34,7 @@ class JsonBlockTypeTest extends BaseType
 {
     protected function configureFields()
     {
-        return array(
-        );
+        return array();
     }
     
     protected function getForm()

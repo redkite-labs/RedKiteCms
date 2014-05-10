@@ -17,6 +17,9 @@
 
 namespace RedKiteLabs\RedKiteCms\InstallerBundle\Core\Installer\DbBootstrapper\Base;
 
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Configuration;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Propel\Base\PropelOrm;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Language\LanguageManager;
@@ -81,18 +84,27 @@ abstract class BaseDbBootstrapper
         $this->siteBootstrap = $this->container->get('red_kite_cms.site_bootstrap');
         $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
         
-        $language = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language();
+        $language = new Language();
         $language->setLanguageName('-');
-        $language->save();
+        if ( ! $language->save())
+        {
+            throw new \RuntimeException("An error occurred when adding the repeated language placeholder");
+        }
                 
-        $language = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page();
-        $language->setPageName('-');
-        $language->save();
+        $page = new Page();
+        $page->setPageName('-');
+        if ( ! $page->save())
+        {
+            throw new \RuntimeException("An error occurred when adding the repeated page placeholder");
+        }
         
-        $language = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Configuration();
-        $language->setParameter('language');        
-        $language->setValue('en');
-        $language->save();
+        $configuration = new Configuration();
+        $configuration->setParameter('language');
+        $configuration->setValue('en');
+        if ( ! $configuration->save())
+        {
+            throw new \RuntimeException("An error occurred when adding the default configuration language");
+        }
         
         $adminRoleId = 0;
         $roles = array('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN');
@@ -101,7 +113,9 @@ abstract class BaseDbBootstrapper
             $alRole->setRole($role);
             $alRole->save();
 
-            if($role =='ROLE_ADMIN') $adminRoleId = $alRole->getId();
+            if ($role =='ROLE_ADMIN') {
+                $adminRoleId = $alRole->getId();
+            }
         }
 
         $user = new User();
@@ -114,11 +128,14 @@ abstract class BaseDbBootstrapper
         $user->setRoleId($adminRoleId);
         $user->setUsername('admin');
         $user->setEmail('user@aserver.com');
-        $user->save();
+        if ( ! $user->save())
+        {
+            throw new \RuntimeException("An error occurred when adding the base user");
+        }
         
         $bundles = $this->container->getParameter('kernel.bundles');
         $themeName = $this->container->getParameter('red_kite_cms_installer.default_theme');
-        if (!array_key_exists($themeName, $bundles)) {
+        if ( ! array_key_exists($themeName, $bundles)) {
             throw new \RuntimeException(sprintf("It seems the %s theme is not registered as valid bundle. Please check your configuration.", $themeName));
         }
         
@@ -140,22 +157,23 @@ abstract class BaseDbBootstrapper
                     ->bootstrap();
         
         if ( ! $result) {
-            return $siteBootstrap->getErrorMessage();
+            throw new \RuntimeException($siteBootstrap->getErrorMessage());
         }
         
         $this->activeTheme->writeActiveTheme($themeName);
-        
+
+        /*
         try
         {
             $twigTemplateWrites = $this->container->get('red_kite_cms.twig_template_writer');
             $routingGenerator = $this->container->get('red_kite_cms.routing_generator_production');
             $deployer = new TwigDeployer($twigTemplateWrites, $routingGenerator);
-            $deployer->deploy();
+            $deployer->deploy($this->container->get('red_kite_cms.page_tree_collaction'));
         }
         catch(\Exception $ex)
         {
             echo $ex->getMessage();
-        }
+        }*/
         
         return true;
     }

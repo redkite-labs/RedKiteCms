@@ -44,33 +44,74 @@ class Configurator extends BaseOptions
      */
     public function configure()
     {
-        $messages = $this->checkWritePermissions();
-        if ( ! empty($messages)) {
-            return $messages;
+        if ( ! $this->checkWritePermissions()) {
+            return -1;
         }
-        
+
         $this->checkPrerequisites();        
         $this->dsnBuilder->testConnection();
+        $this->manipulateAppKernel();
         $this->writeConfigurationParameters();
         $this->writeConfigurationFiles();
         $this->writeRoutes();
+        $this->setUpEnvironments();
     }
     
     private function backUpFile($fileName)
     {
         $backupFile = $fileName . '.bak';
-        
+
         // Have I already installed?
         if (file_exists($backupFile)) {
             
             // Restore original file
             unlink($fileName);
-            $this->filesystem ->copy($backupFile, $fileName);
+            $this->filesystem->copy($backupFile, $fileName);
             
             return;
         }
         
-        $this->filesystem ->copy($fileName, $backupFile);
+        $this->filesystem->copy($fileName, $backupFile);
+    }
+
+    private function manipulateAppKernel()
+    {
+        $updateFile = false;
+        $kernelFile = $this->kernelDir . '/AppKernel.php';
+        $this->backUpFile($kernelFile);
+        $contents = file_get_contents($kernelFile);
+
+        if( ! preg_match('/\/\/ RedKiteCms Active Theme(.*?)\/\/ End RedKiteCms Active Theme/is', $contents))
+        {
+            $cmsBundles = PHP_EOL . PHP_EOL . '        // RedKiteCms Active Theme';
+            $cmsBundles .= PHP_EOL . '        $bundles[] = new RedKiteLabs\ThemeEngineBundle\RedKiteLabsThemeEngineBundle();';
+            $cmsBundles .= PHP_EOL . '        $bundles[] = new RedKiteLabs\ModernBusinessThemeBundle\ModernBusinessThemeBundle();';
+            $cmsBundles .= PHP_EOL . '        // End RedKiteCms Active Theme';
+            $cmsBundles .= PHP_EOL . PHP_EOL . '        return $bundles;';
+
+            $contents = preg_replace('/[\s]+return \$bundles;/s', $cmsBundles, $contents);
+
+            $updateFile = true;
+        }
+
+        if ($updateFile) {
+            file_put_contents($kernelFile, $contents);
+        }
+        
+        $this->generator->generateApplication();
+
+        return;
+    }
+
+    private function setUpEnvironments()
+    {
+        $this->generator->generateFrontcontrollers();
+
+        $this->filesystem->mkdir($this->vendorDir . '/../web/uploads/assets');
+        $this->filesystem->mkdir($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/public/uploads/assets/media');
+        $this->filesystem->mkdir($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/public/uploads/assets/js');
+        $this->filesystem->mkdir($this->vendorDir . '/redkite-cms/redkite-cms-bundle/RedKiteLabs/RedKiteCmsBundle/Resources/public/uploads/assets/css');
+        $this->filesystem->mkdir($this->kernelDir . '/propel/sql');
     }
     
     private function writeConfigurationParameters()
@@ -103,7 +144,7 @@ class Configurator extends BaseOptions
         $configFile = $this->kernelDir . '/config/config.yml';
         $this->checkFile($configFile);
         $this->backUpFile($configFile);
-        
+
         // Writes the config.yml file
         $contents = file_get_contents($configFile);
         $deployBundle = $this->deployBundle;

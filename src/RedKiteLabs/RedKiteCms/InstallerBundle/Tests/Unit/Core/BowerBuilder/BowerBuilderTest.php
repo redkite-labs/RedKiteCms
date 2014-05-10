@@ -15,9 +15,10 @@
  *
  */
 
-namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\PageTree;
+namespace RedKiteLabs\RedKiteCms\InstallerBundle\Tests\Unit\Core\BowerBuilder;
 
-use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Core\BowerBuilder\BowerBuilder;
+use RedKiteLabs\RedKiteCms\InstallerBundle\Tests\TestCase;
 use org\bovigo\vfs\vfsStream;
 
 /**
@@ -33,7 +34,7 @@ class BowerBuilderTest extends TestCase
 
         $this->kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
         
-        $this->bower = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\BowerBuilder\BowerBuilder($this->kernel);
+        $this->bower = new BowerBuilder($this->kernel);
     }
     
     /**
@@ -44,7 +45,7 @@ class BowerBuilderTest extends TestCase
     {        
         $file1 = '{
             "dependencies": {
-                "jquery": "1.8.3",
+                "jquery": "1.9.0",
                 "jquery-ui": "1.9.2"
             }
         }';
@@ -59,8 +60,8 @@ class BowerBuilderTest extends TestCase
         $this->kernel->expects($this->once())
             ->method('getBundles')
             ->will($this->returnValue($this->getBundles()));
-        
-        $file = vfsStream::url('root/component.json');
+
+        $file = vfsStream::url('root/bower.json');
         $this->bower->build($file);
     }
     
@@ -73,13 +74,22 @@ class BowerBuilderTest extends TestCase
         
         $this->kernel->expects($this->once())
             ->method('getBundles')
-            ->will($this->returnValue($this->getBundles()));
-        
-        $file = vfsStream::url('root/component.json');
-        $this->assertFileNotExists($file);
-        $this->bower->build($file);
-        $this->assertFileExists($file);
-        $this->assertEquals($result, file_get_contents($file));
+            ->will($this->returnValue($this->getBundles()))
+        ;
+
+        $this->kernel->expects($this->once())
+            ->method('getRootDir')
+            ->will($this->returnValue(vfsStream::url('root/app')))
+        ;
+
+        $webPath = vfsStream::url('root/web');
+        $bower = vfsStream::url('root/bower.json');
+        $bowerrc = vfsStream::url('root/.bowerrc');
+        $this->assertFileNotExists($bower);
+        $this->bower->build($webPath);
+        $this->assertFileExists($bower);
+        $this->assertEquals($result, file_get_contents($bower));
+        $this->assertEquals('{"directory":"vfs:\/\/root\/web\/components"}', file_get_contents($bowerrc));
     }
     
     public function filesProvider()
@@ -88,46 +98,16 @@ class BowerBuilderTest extends TestCase
             array('
                     {
                         "dependencies": {
-                            "jquery": "1.8.3",
-                            "jquery-ui": "1.9.2"
-                        }
-                    }',
-                   '{
-                        "dependencies": {
-                            "bootstrap": "2.2.2"
-                        }
-                    }',
-                    '{"name":"RedKiteCms CMS","dependencies":{"jquery":"1.8.3","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
-            ),
-            array('
-                    {
-                        "dependencies": {
-                            "jquery": "1.8.3",
-                            "jquery-ui": "1.9.2"
-                        }
-                    }',
-                   '{
-                        "dependencies": {
-                            "jquery": "1.8.3",
-                            "bootstrap": "2.2.2"
-                        }
-                    }',
-                    '{"name":"RedKiteCms CMS","dependencies":{"jquery":"1.8.3","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
-            ),
-            array('
-                    {
-                        "dependencies": {
-                            "jquery": "1.8.3",
-                            "jquery-ui": "1.9.2"
-                        }
-                    }',
-                   '{
-                        "dependencies": {
                             "jquery": "1.9.0",
+                            "jquery-ui": "1.9.2"
+                        }
+                    }',
+                   '{
+                        "dependencies": {
                             "bootstrap": "2.2.2"
                         }
                     }',
-                    '{"name":"RedKiteCms CMS","dependencies":{"jquery":"1.9.0","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
+                    '{"name":"RedKite CMS","dependencies":{"jquery":"1.9.0","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
             ),
             array('
                     {
@@ -138,11 +118,41 @@ class BowerBuilderTest extends TestCase
                     }',
                    '{
                         "dependencies": {
-                            "jquery": "1.8.3",
+                            "jquery": "1.9.0",
                             "bootstrap": "2.2.2"
                         }
                     }',
-                    '{"name":"RedKiteCms CMS","dependencies":{"jquery":"1.8.3","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
+                    '{"name":"RedKite CMS","dependencies":{"jquery":"1.9.0","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
+            ),
+            array('
+                    {
+                        "dependencies": {
+                            "jquery": "1.9.0",
+                            "jquery-ui": "1.9.2"
+                        }
+                    }',
+                   '{
+                        "dependencies": {
+                            "jquery": "1.9.0",
+                            "bootstrap": "2.2.2"
+                        }
+                    }',
+                    '{"name":"RedKite CMS","dependencies":{"jquery":"1.9.0","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
+            ),
+            array('
+                    {
+                        "dependencies": {
+                            "jquery": "1.9.0",
+                            "jquery-ui": "1.9.2"
+                        }
+                    }',
+                   '{
+                        "dependencies": {
+                            "jquery": "1.9.0",
+                            "bootstrap": "2.2.2"
+                        }
+                    }',
+                    '{"name":"RedKite CMS","dependencies":{"jquery":"1.9.0","jquery-ui":"1.9.2","bootstrap":"2.2.2"}}',
             ),
         );
     }
@@ -152,6 +162,10 @@ class BowerBuilderTest extends TestCase
     {
         $structure =
             array(
+                'app' => array(),
+                'web' => array(
+                    'components' => array(),
+                ),
                 'FooBundle' => array('component.json' => $component1),
                 'RedKiteCmsBundle' => array('component.json' => $component2),
                 'BarBundle' => array(),                

@@ -53,7 +53,7 @@ class PgsqlDsnBuilder extends Base\BaseDsnBuilder
      */
     public function configureParametrizedDsnForTestEnv()
     {
-        return '%rkcms_database_driver%:host=%rkcms_database_host%;dbname=%rkcms_database_name%_test;user=%rkcms_database_user%;password=%rkcms_database_password%';
+        return $this->configureParametrizedDsn();
     }
     
     /**
@@ -61,7 +61,8 @@ class PgsqlDsnBuilder extends Base\BaseDsnBuilder
      */
     public function testConnection()
     {
-        if ( ! @pg_connect(sprintf("host=%s port=%s user=%s password=%s", $this->options["host"], $this->options["port"], $this->options["user"], $this->options["password"]))) {
+        $result = pg_connect(sprintf("host=%s port=%s user=%s password=%s", $this->options["host"], $this->options["port"], $this->options["user"], $this->options["password"]));
+        if ( ! $result) {
             throw new \RuntimeException("I cannot connect to the database using the given parameters");
         }
     }

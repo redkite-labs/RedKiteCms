@@ -98,10 +98,10 @@ abstract class WebTestCaseFunctional extends WebTestCase
             'environment' => 'rkcms_test',
             'debug'       => true,
         ));
-            
+
         $connection = \Propel::getConnection();
-        $connection->getConfiguration();
-        $adapter = $connection->getConfiguration()->getParameter('datasources.default.adapter');
+        $configuration = $connection->getConfiguration();
+        $adapter = $configuration->getParameter('datasources.default.adapter');
         switch ($adapter)
         {
             case "mysql":

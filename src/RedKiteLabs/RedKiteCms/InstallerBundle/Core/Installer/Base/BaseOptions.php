@@ -41,6 +41,7 @@ abstract class BaseOptions
     protected $password;
     protected $dsnBuilder;
     protected $prerequisitesVerified = null;
+    private $log = array();
     
     /**
      * Contructor
@@ -79,6 +80,16 @@ abstract class BaseOptions
         
         $this->filesystem = new Filesystem();
     }
+
+    public function getLogMessages()
+    {
+        return $this->log;
+    }
+
+    public function getLogMessagesRaw()
+    {
+        return array_map(function($message){ return strip_tags($message); }, $this->log());
+    }
     
     protected function checkWritePermissions()
     {
@@ -94,15 +105,15 @@ abstract class BaseOptions
             $this->kernelDir . '/config/routing.yml' => 'file',       
             $this->kernelDir . '/config/parameters.yml' => 'file',    
         );
-        
-        $messages = array();
+
+        $this->log = array();
         foreach($files as $filename => $type) {
             if (file_exists($filename) && ! is_writeable($filename)) {
-                $messages[] = '<comment>' . realpath($filename) . '</comment> is not writeable. Please fix permissions on this ' . $type;
+                $this->log[] = '<comment>' . realpath($filename) . '</comment> cannot be written. Please fix permissions on this ' . $type;
             }
         }
-        
-        return $messages;
+
+        return empty($this->log);
     }
     
     /**
@@ -115,11 +126,11 @@ abstract class BaseOptions
         if (null !== $this->prerequisitesVerified) {
             return;
         }
-        
+
         $this->checkClass('propel', '\Propel');
         $this->checkFolder($this->vendorDir . '/phing');
         $this->checkClass('PropelBundle', 'Propel\PropelBundle\PropelBundle');
-        
+
         Validator::validateDeployBundle($this->kernelDir, $this->bundleName);
         
         $this->prerequisitesVerified = true;
@@ -159,7 +170,7 @@ abstract class BaseOptions
     {
         if(!class_exists($className))
         {
-            $message = "\nAn error occoured. RedKite CMS requires the " . $libraryName . " library. Please install that library then run the script again.\n";
+            $message = "\nAn error occurred. RedKite CMS requires the " . $libraryName . " library. Please install that library then run the script again.\n";
 
             throw new \RuntimeException($message);
         }
@@ -169,7 +180,7 @@ abstract class BaseOptions
     {
         if(!is_dir($dirName))
         {
-            $message = "\nAn error occoured. RedKite CMS requires " . basename($dirName) . " installed into " . dirname($dirName) . " folder. Please install the required library then run the script again.\n";
+            $message = "\nAn error occurred. RedKite CMS requires " . basename($dirName) . " installed into " . dirname($dirName) . " folder. Please install the required library then run the script again.\n";
 
             throw new \RuntimeException($message);
         }

@@ -434,13 +434,16 @@ class PageManagerTest extends ContentManagerBase
             ->method('hasLanguages')
             ->will($this->returnValue(true));
 
-        $params = array('PageName'      => 'fake page',
-                        'TemplateName'  => 'home',
-                        'Permalink'     => 'this is a website fake page',
-                        'Title'         => 'page title',
-                        'Description'   => 'page description',
-                        'Keywords'      => 'some,keywords',
-                        'IsHome'        => '1');
+        $params = array(
+            'PageName'      => 'fake page',
+            'TemplateName'  => 'home',
+            'Permalink'     => 'this is a website fake page',
+            'Title'         => 'page title',
+            'Description'   => 'page description',
+            'Keywords'      => 'some,keywords',
+            'IsHome'        => '1',
+            'CreatedAt' => date("Y-m-d H:i:s"),
+        );
         $expectedParams = $params;
         $expectedParams['PageName'] = 'fake-page';
         $this->pageRepository->expects($this->once())
@@ -486,13 +489,16 @@ class PageManagerTest extends ContentManagerBase
             ->method('homePage')
             ->will($this->returnValue(null));
 
-        $params = array('PageName'      => 'fake page',
-                        'TemplateName'  => 'home',
-                        'Permalink'     => 'this is a website fake page',
-                        'Title'         => 'page title',
-                        'Description'   => 'page description',
-                        'Keywords'      => 'some,keywords',
-                        'IsHome'        => '1');
+        $params = array(
+            'PageName'      => 'fake page',
+            'TemplateName'  => 'home',
+            'Permalink'     => 'this is a website fake page',
+            'Title'         => 'page title',
+            'Description'   => 'page description',
+            'Keywords'      => 'some,keywords',
+            'IsHome'        => '1',
+            'CreatedAt' => date("Y-m-d H:i:s"),
+        );
         $expectedParams = $params;
         $expectedParams['PageName'] = 'fake-page';
         $this->pageRepository->expects($this->once())

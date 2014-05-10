@@ -463,7 +463,8 @@ class BlockManagerTest extends ContentManagerBase
             "LanguageId" => 2,
             "SlotName" => 'test',
             "Type" => "Text",
-            "Content" => "My new content"
+            "Content" => "My new content",
+            "CreatedAt" => date("Y-m-d H:i:s"),
         );
 
         $event = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Event\Content\Block\BeforeBlockAddingEvent');

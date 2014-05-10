@@ -1,9 +1,0 @@
-_assetic:
-    resource: .
-    type:     assetic
-    
-_redKiteCmsCmsBundle:
-    resource: "@RedKiteCmsBundle/Resources/config/routing_cms.yml"
-
-_main:
-    resource: routing.yml
