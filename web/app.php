@@ -1,7 +1,5 @@
 <?php
 
-umask(0002); // This will let the permissions be 0775
-
 use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 
