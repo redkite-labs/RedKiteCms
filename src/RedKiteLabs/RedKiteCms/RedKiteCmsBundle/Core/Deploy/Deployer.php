@@ -165,8 +165,7 @@ abstract class Deployer implements DeployerInterface
         $folders = $finder->directories()->depth(0)->in($options["uploadAssetsFullPath"]);
         foreach ($folders as $folder) {
             $targetFolder = $options["assetsDir"] . '/' . basename($folder->getFileName());
-            $this->fileSystem->remove($targetFolder);
-            $this->fileSystem->mirror($folder , $targetFolder, null, array('override' => true));
+            $this->fileSystem->mirror($folder , $targetFolder, null, array('delete' => true));
         }
     }
 
