@@ -99,9 +99,9 @@ class ConfiguratorTest extends TestCase
         $this->assertRegExp("/ModernBusinessThemeBundle/s", file_get_contents(vfsStream::url('root/app/AppKernel.php')));
         $this->assertFileExists(vfsStream::url('root/app/AppKernel.php.bak'));
 
-        $this->assertEquals("\nred_kite_labs_theme_engine:\n    deploy_bundle: AcmeWebSiteBundle\n\n",file_get_contents(vfsStream::url('root/app/config/config.yml')));
+        $this->assertEquals("red_kite_labs_theme_engine:\n    deploy_bundle: AcmeWebSiteBundle\nassetic:\n    bundles:\n        - ModernBusinessThemeBundle\n",file_get_contents(vfsStream::url('root/app/config/config.yml')));
         $this->assertFileExists(vfsStream::url('root/app/config/config.yml.bak'));
-        $this->assertEquals("_AcmeWebSiteBundle:\n    resource: \"@AcmeWebSiteBundle/Resources/config/site_routing.yml\"\n\n",file_get_contents(vfsStream::url('root/app/config/routing.yml')));
+        $this->assertEquals("_AcmeWebSiteBundle:\n    resource: '@AcmeWebSiteBundle/Resources/config/site_routing.yml'\n",file_get_contents(vfsStream::url('root/app/config/routing.yml')));
         $this->assertFileExists(vfsStream::url('root/app/config/routing.yml.bak'));
         $this->assertEquals("parameters:\n    database_driver: pdo_mysql\n    database_host: 127.0.0.1\n    rkcms_database_driver: mysql\n    rkcms_database_host: localhost\n    rkcms_database_port: 3306\n    rkcms_database_name: redkite\n    rkcms_database_user: root\n    rkcms_database_password: ''\n",file_get_contents(vfsStream::url('root/app/config/parameters.yml')));
         $this->assertFileExists(vfsStream::url('root/app/config/parameters.yml.bak'));

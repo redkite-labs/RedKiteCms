@@ -30,12 +30,14 @@ class Configurator extends BaseOptions
 {
     private $generator;
     private $kernel;
+    private $yaml;
     
     public function __construct(\Symfony\Component\HttpKernel\KernelInterface $kernel, array $options = array())
     {
         parent::__construct($kernel->getRootDir(), $options);
         
         $this->kernel = $kernel;
+        $this->yaml = new Yaml();
         $this->generator = new ConfigurationGenerator($this->kernelDir, $this->options);
     }
     
@@ -120,8 +122,7 @@ class Configurator extends BaseOptions
         $this->checkFile($parametersFile);
         $this->backUpFile($parametersFile);
         
-        $yaml = new Yaml();
-        $params = $yaml->parse($parametersFile);
+        $params = $this->yaml->parse($parametersFile);
         
         $redKiteCmsParams = array
         (
@@ -135,7 +136,7 @@ class Configurator extends BaseOptions
             ),
         );
         
-        $contents = $yaml->dump(array_merge_recursive($params, $redKiteCmsParams));
+        $contents = $this->yaml->dump(array_merge_recursive($params, $redKiteCmsParams), 4);
         file_put_contents($parametersFile, $contents);
     }
 
@@ -147,26 +148,26 @@ class Configurator extends BaseOptions
 
         // Writes the config.yml file
         $contents = file_get_contents($configFile);
-        $deployBundle = $this->deployBundle;
-        $contents = preg_replace_callback('/(bundles:[\s]+\[)([\w\s,]+)(\]+)/s', function ($matches) use ($deployBundle) {
-
-            $bundles = trim($matches[2]);
-            if (strpos($bundles, $deployBundle) !== false) {
-               return $matches[1] . " " . $bundles . " " . $matches[3];
-            }
-
-            $value = ($bundles == "") ? $deployBundle : ", " . $deployBundle;
-            $value =  $value . " ";
-
-            return $matches[1] . " " . $bundles . $value . $matches[3];
-        }, $contents);
-
-
-        preg_match('/deploy_bundle:[\s]+' . $this->deployBundle . '/s', $contents, $match);
-        if (empty($match)) {
-            $contents .= "\nred_kite_labs_theme_engine:\n";
-            $contents .= "    deploy_bundle: $this->deployBundle\n\n";
+        $params = $this->yaml->parse($contents);
+        if (null == $params || ! array_key_exists('red_kite_labs_theme_engine', $params)) {
+            $params['red_kite_labs_theme_engine'] = array(
+                'deploy_bundle' => $this->deployBundle,
+            );
         }
+
+        if (null == $params || ! array_key_exists('assetic', $params)) {
+            $params['assetic'] = array(
+                'bundles' => array(),
+            );
+        }
+
+        $asseticBundles = $params["assetic"]["bundles"];
+        if ( ! in_array('ModernBusinessThemeBundle', $asseticBundles)) {
+            $asseticBundles[] = 'ModernBusinessThemeBundle';
+            $params["assetic"]["bundles"] = $asseticBundles;
+        }
+
+        $contents = $this->yaml->dump($params, 4);
         file_put_contents($configFile, $contents);
 
         $this->generator->generateConfigurations();
@@ -179,14 +180,17 @@ class Configurator extends BaseOptions
         $this->backUpFile($configFile);
 
         $contents = file_get_contents($configFile);
-        preg_match("/_$this->deployBundle/", $contents, $match);
+        $params = $this->yaml->parse($contents);
 
-        if(empty($match))
-        {
-            $config = "_$this->deployBundle:\n";
-            $config .= "    resource: \"@$this->deployBundle/Resources/config/site_routing.yml\"\n\n";
-
-            file_put_contents($configFile, $config . $contents);
+        $contents = $this->yaml->dump($params, 4);
+        file_put_contents($configFile, $contents);
+        $key = "_" . $this->deployBundle;
+        if (null == $params || ! array_key_exists($key, $params)) {
+            $params[$key] = array(
+                'resource' => sprintf('@%s/Resources/config/site_routing.yml', $this->deployBundle),
+            );
+            $contents = $this->yaml->dump($params, 4);
+            file_put_contents($configFile, $contents);
 
             $siteRoutingFile = $this->kernel->locateResource("@" . $this->deployBundle) . '/Resources/config/site_routing.yml' ;
             file_put_contents($siteRoutingFile, "");
