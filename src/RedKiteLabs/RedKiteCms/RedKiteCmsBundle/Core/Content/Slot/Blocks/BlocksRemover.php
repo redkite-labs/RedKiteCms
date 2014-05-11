@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Slot\Blocks;
 
 /**
- * BlocksAdder is the object deputated to remove a block from a slot
+ * BlocksAdder is the object deputed to remove a block from a slot
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *

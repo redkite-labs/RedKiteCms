@@ -75,7 +75,7 @@
             $(this).click(function()
             {
                 var pageId = $('#al_pages_list .al_element_selected').attr('data-page-id');                
-                save(0, pageId)
+                save(0, pageId, 0)
 
                 return false;
             });
@@ -141,10 +141,14 @@
         }
     };
     
-    function save(languageId, pageId)
+    function save(languageId, pageId, forceIsHome)
     {
-        try{ 
+        try{
             var isHome = ($('#pages_isHome').is(':checked')) ? 1 : 0;
+            if (forceIsHome != null){
+                isHome = forceIsHome;
+            }
+
             var isPublished = ($('#pages_isPublished').is(':checked')) ? 1 : 0;
             $.ajax({
                 type: 'POST',

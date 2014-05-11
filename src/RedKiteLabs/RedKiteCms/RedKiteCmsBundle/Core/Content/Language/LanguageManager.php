@@ -241,7 +241,9 @@ class LanguageManager extends ContentManagerBase implements ContentManagerInterf
 
             $hasLanguages = $this->validator->hasLanguages();
             $values['MainLanguage'] = ($hasLanguages) ? (isset($values['MainLanguage'])) ? $values['MainLanguage'] : 0 : 1;
-            if ($values['MainLanguage'] == 1 && $hasLanguages) $result = $this->resetMain();
+            if ($values['MainLanguage'] == 1 && $hasLanguages) {
+                $result = $this->resetMain();
+            }
 
             if ($result) {
                 // Saves the language
@@ -250,6 +252,7 @@ class LanguageManager extends ContentManagerBase implements ContentManagerInterf
                     $this->alLanguage = new $className();
                 }
 
+                $values = $this->checkCreatedAt($values);
                 $result = $this->languageRepository
                             ->setRepositoryObject($this->alLanguage)
                             ->save($values);

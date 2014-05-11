@@ -149,21 +149,14 @@ class DeployControllerTest extends TestCase
 
     private function initContainer($deployerServiceName, $templatesFolder)
     {
-        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme')
-                            ->disableOriginalConstructor()
-                            ->getMock();
-        
-        $activeTheme = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface");
-        $activeTheme->expects($this->once())
-            ->method('getActiveTheme')
-            ->will($this->returnValue($theme));
+        $activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface');
         
         $at = 0;
         $this->container->expects($this->at($at))
             ->method('get')
             ->with('red_kite_cms.active_theme')
             ->will($this->returnValue($activeTheme));
-        
+
         $at++;
         $this->container->expects($this->at($at))
             ->method('get')
@@ -185,9 +178,9 @@ class DeployControllerTest extends TestCase
             ->with('red_kite_cms.page_tree_collection')
             ->will($this->returnValue($pageTreeCollection))
         ;
-        
+
         $at++;
-        $kernel = $this->getMock("Symfony\Component\HttpKernel\KernelInterface");
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
         $this->container->expects($this->at($at))
             ->method('get')
             ->with('kernel')

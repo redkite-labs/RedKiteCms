@@ -9,22 +9,39 @@ env:
  - DB=pgsql
  - DB=sqlite
 
+addons:
+  postgresql: "9.3"
+  firefox: "28.0"
+
+before_install:
+  - export DISPLAY=:99.0
+  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x24"
+  - wget http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar
+  - java -jar selenium-server-standalone-2.41.0.jar > /dev/null &
+
 before_script:
-  #- wget http://getcomposer.org/composer.phar
-  #- php composer.phar install --dev
+  - sudo apt-get update > /dev/null
+  - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-sqlite php5-pgsql php5-intl
+  - sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
+  - sudo /etc/init.d/apache2 restart
+  - composer self-update
   - composer install --dev
   - sh -c "if [ '$DB' = 'mysql' ]; then mysql -e 'create database redkite_test;'; fi"
   - sh -c "if [ '$DB' = 'pgsql' ]; then psql -c 'create database redkite_test;' -U postgres; fi"
-  - sh -c "if [ '$DB' = 'sqlite' ]; then php app/console redkitecms:configure --driver=sqlite --host=localhost --database=redkite --website-url=http://example.com/ --no-interaction; fi"
-  - sh -c "if [ '$DB' = 'mysql' ]; then php app/console redkitecms:configure --driver=mysql --host=localhost --port=3306 --database=redkite --user=root --password= --website-url=http://example.com/ --no-interaction; fi"
-  - sh -c "if [ '$DB' = 'pgsql' ]; then php app/console redkitecms:configure --driver=pgsql --host=localhost --port=5432 --database=redkite --user=postgres --password= --website-url=http://example.com/ --no-interaction; fi"
-  #- sh -c "php app/console propel:sql:insert --force --env=rkcms"
-  - php app/rkconsole redkitecms:install --env=rkcms_test
+  - sh -c "if [ '$DB' = 'sqlite' ]; then php app/console redkitecms:configure --driver=sqlite --host=localhost --database=redkite_test --website-url=http://example.com/ --no-interaction; fi"
+  - sh -c "if [ '$DB' = 'mysql' ]; then php app/console redkitecms:configure --driver=mysql --host=localhost --port=3306 --database=redkite_test --user=root --password= --website-url=http://example.com/ --no-interaction; fi"
+  - sh -c "if [ '$DB' = 'pgsql' ]; then php app/console redkitecms:configure --driver=pgsql --host=localhost --port=5432 --database=redkite_test --user=postgres --password= --website-url=http://example.com/ --no-interaction; fi"
+  - php app/rkconsole redkitecms:install --env=rkcms
+  - phpunit --version
 
 script:
   - phpunit -c app --coverage-clover=coverage.clover
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+  - sudo chmod -R 0777 ./../RedKiteCms
+  - bin/behat --profile=$DB
+  - sudo chmod -R 0777 ./../RedKiteCms
+  - bin/behat --profile=cms
 
 notifications:
   email:

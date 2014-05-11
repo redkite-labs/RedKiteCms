@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface;
 
 /**
- * ContentSection is the object deputated to generate the content sections of a twig template
+ * ContentSection is the object deputed to generate the content sections of a twig template
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *

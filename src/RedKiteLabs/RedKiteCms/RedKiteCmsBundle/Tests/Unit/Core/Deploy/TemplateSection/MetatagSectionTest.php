@@ -30,11 +30,11 @@ class MetatagsSectionTest extends TestCase
 {
     public function testMetatags()
     {
-        $urlManager = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerInterface");
-        $theme = $this->getMockBuilder("RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme")
+        $urlManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerInterface');
+        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme')
                         ->disableOriginalConstructor()
                         ->getMock();
-        $themeSlots = $this->getMock("RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface");
+        $themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface');
         
         $theme->expects($this->once())
             ->method('getThemeSlots')
@@ -65,6 +65,7 @@ class MetatagsSectionTest extends TestCase
         $options = array(
             "uploadAssetsFullPath" => "",
             "uploadAssetsAbsolutePath" => "",
+            "deployBundleAssetsPath" => "",
         );
         
         $expectedResult = PHP_EOL . "{#--------------  METATAGS SECTION  --------------#}" . PHP_EOL;

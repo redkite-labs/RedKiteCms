@@ -1,6 +1,6 @@
 # ThemeEngineBundle
 
-ThemeEngineBundle is the bundle deputated to render a website created by RedKite CMS,
+ThemeEngineBundle is the bundle deputed to render a website created by RedKite CMS,
 both during the developing and then in production.
 
 Although an application created by RedKite CMS does not require the CMS itself to

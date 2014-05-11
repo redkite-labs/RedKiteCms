@@ -31,11 +31,19 @@ class ConfigurationGenerator extends Generator
             $dsnBuilderClassName = $specificDsnBuilderClassName;
         }
         $this->dsnBuilder = new $dsnBuilderClassName($options);
-        $options['dsn'] = $this->dsnBuilder->configureParametrizedDsn();        
+        $options['dsn'] = $this->dsnBuilder->configureParametrizedDsn();
         $options['dsn_test'] = $this->dsnBuilder->configureParametrizedDsnForTestEnv();
         $options['website_url'] = $options['website-url'];
         
         $this->options = $options;
+    }
+    
+    public function generateApplication()
+    {
+        $this->setSkeletonDirs($this->skeletonDir);
+        
+        $this->renderFile('RedKiteCmsAppKernel.php', $this->kernelDir.'/RedKiteCmsAppKernel.php', $this->options);
+        $this->renderFile('rkconsole', $this->kernelDir.'/rkconsole', array());
     }
     
     public function generateConfigurations()
@@ -58,5 +66,15 @@ class ConfigurationGenerator extends Generator
         $this->renderFile('routing_rkcms_test.yml', $this->kernelDir.'/config/routing_rkcms_test.yml', array());
         $this->renderFile('routing_stage.yml', $this->kernelDir.'/config/routing_stage.yml', $this->options);
         $this->renderFile('routing_stage_dev.yml', $this->kernelDir.'/config/routing_stage_dev.yml', array());
+    }
+
+    public function generateFrontcontrollers()
+    {
+        $this->setSkeletonDirs($this->skeletonDir);
+
+        $this->renderFile('frontcontroller.php', $this->kernelDir.'/../web/rkcms.php', array('environment' => 'rkcms'));
+        $this->renderFile('frontcontroller_dev.php', $this->kernelDir.'/../web/rkcms_dev.php', array('environment' => 'rkcms_dev'));
+        $this->renderFile('frontcontroller.php', $this->kernelDir.'/../web/stage.php', array('environment' => 'stage'));
+        $this->renderFile('frontcontroller_dev.php', $this->kernelDir.'/../web/stage_dev.php', array('environment' => 'stage_dev'));
     }
 }

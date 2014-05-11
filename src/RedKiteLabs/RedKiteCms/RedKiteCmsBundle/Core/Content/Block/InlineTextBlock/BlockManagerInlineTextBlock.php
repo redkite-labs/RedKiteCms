@@ -24,7 +24,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepos
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Translator\TranslatorInterface;
 
 /**
- * BlockManagerInlineTextBlock is the base object deputated to handle an inline editor
+ * BlockManagerInlineTextBlock is the base object deputed to handle an inline editor
  * to manage an hypertext block
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

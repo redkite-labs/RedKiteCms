@@ -72,7 +72,7 @@ class PageTreeCollection
     {
         $this->assetsManager = $templateAssetsManager;
         $this->activeTheme = $activeTheme;
-        $this->theme = $activeTheme->getActiveTheme();
+        $this->theme = $activeTheme->getActiveThemeBackend();
         $this->templateManager = $templateManager;
         $this->pageBlocks = $pageBlocks;
         $this->factoryRepository = $factoryRepository;

@@ -83,7 +83,7 @@ class PageTreeCollectionTest extends TestCase
         
         $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface');
         $this->activeTheme->expects($this->once())
-            ->method('getActiveTheme')
+            ->method('getActiveThemeBackend')
             ->will($this->returnValue($this->theme))
         ;
     }
