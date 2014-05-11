@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 
 /**
- * BlockManagerJsonBlockCollection is the base object deputated to handle a json content
+ * BlockManagerJsonBlockCollection is the base object deputed to handle a json content
  * which defines a collection of objects
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

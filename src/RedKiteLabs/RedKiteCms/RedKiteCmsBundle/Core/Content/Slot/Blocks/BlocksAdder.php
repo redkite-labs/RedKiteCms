@@ -24,7 +24,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFacto
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerInterface;
 
 /**
- * BlocksAdder is the object deputated to add and edit a block on a slot
+ * BlocksAdder is the object deputed to add and edit a block on a slot
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *

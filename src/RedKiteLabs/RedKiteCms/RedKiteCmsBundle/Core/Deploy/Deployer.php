@@ -30,7 +30,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageT
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * Deployer is the base object deputated to deploy the website from development to
+ * Deployer is the base object deputed to deploy the website from development to
  * production.
  *
  * Website is deployed inside the deploy bundle.

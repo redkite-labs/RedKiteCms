@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\Content\General;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\InvalidArgumentException;
 
 /**
- * PageBlocks is the object deputated to load and handle the blocks for a website
+ * PageBlocks is the object deputed to load and handle the blocks for a website
  * page
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

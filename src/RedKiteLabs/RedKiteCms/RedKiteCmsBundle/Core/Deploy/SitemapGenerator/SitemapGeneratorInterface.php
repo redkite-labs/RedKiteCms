@@ -18,7 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator;
 
 /**
- * The object deputated to deploy the website from development, RedKiteCms, to production,
+ * The object deputed to deploy the website from development, RedKiteCms, to production,
  * the deploy bundle.
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

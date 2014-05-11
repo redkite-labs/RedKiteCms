@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Yaml\Yaml;
 
 /**
- * ActiveTheme is the object deputated to manage the website active theme
+ * ActiveTheme is the object deputed to manage the website active theme
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */

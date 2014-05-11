@@ -427,7 +427,7 @@ Changed the behavior of App-Block command generator, which works in strict mode 
 RC1 Release (2012-11-03)
 Added the interactive guide
 Fixed the command to generate App-Blocks
-Removed the AlHeventsHandler dependency from App-Blocks and deputated the AlBlockManagerFactory to inject that dependendy by setter 
+Removed the AlHeventsHandler dependency from App-Blocks and deputed the AlBlockManagerFactory to inject that dependendy by setter
 Fixed windows positioning order because z-index was too high and tinymce windows was not correctly positioned
 Web site pages are published by default when the site is bootstrapped
 Removed remember me from login form

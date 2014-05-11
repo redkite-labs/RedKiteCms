@@ -33,7 +33,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocks;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TwigDeployer;
 
 /**
- * Implements the object deputated to boostrap the database
+ * Implements the object deputed to boostrap the database
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */

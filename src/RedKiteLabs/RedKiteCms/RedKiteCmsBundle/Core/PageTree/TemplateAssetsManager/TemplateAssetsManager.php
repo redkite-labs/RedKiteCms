@@ -24,7 +24,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManagerFacto
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AssetCollection;
 
 /**
- * TemplateAssetsManager is the object deputated to collect assets parsing RedKite
+ * TemplateAssetsManager is the object deputed to collect assets parsing RedKite
  * CMS blocks and themes in use in the current website
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

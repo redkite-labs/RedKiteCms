@@ -21,7 +21,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocksIn
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\AssetCollection;
 
 /**
- * TemplateAssetsManagerDeploy is the object deputated to handle website assets when
+ * TemplateAssetsManagerDeploy is the object deputed to handle website assets when
  * deploying the site
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
