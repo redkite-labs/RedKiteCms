@@ -1,3 +1,30 @@
+RedKite CMS 1.1.5 (2014/05/12)
+870b799 improved to automatically update config.yml assetic section and App.Kernel.php with the active theme, each time the website is deployed.
+5fc7c04 configured config and routing configuration files parsing them with Synfony2 Yml component
+d0a6927 updated media folders copying process which now syncronizes the target folder with the source one instead of hard copying
+77eb8f5 fixed some typos in the messages returned back when installing;
+634adc4 renamed 'I want to authenticate as' to 'I am authenticate as'
+b29ba5f moved option resolver instantation from  BaseType constructor to setUp method
+c9c5567 updated unique index on page name
+09df214 updated created_at field when adding a new block, page, seo, language
+bd03533 SqliteDsnBuilder written dsn for test environment as for the prod
+4d88f7a updated InstallerBundle to generate the app/RedKiteCmsAppKernel.php and app/rkconsole; removed those files from the application
+92649d8 configured behat to work with AppKernel by default and to use RedKiteAppKernel only in the cms environment; updated travis configuration accord
+d2ba1de added behat/mink support
+2240db7 the dsn database option does not get the _test prefix in config_rkcms_test.yml database
+8587392 updated the command to install RedKite CMS, removing the skip-cache-clean option
+ca632a5 refactored behat features to work with mysql, postgres and sqlite datatabases
+eaca697 added installer feature
+3d31aae improved InstallerBundle
+207fabc started behat acceptance tests
+
+RedKite CMS 1.1.4.4 (2014/04/28)
+5364243 added an argument to force is home as the given value and fixed bug that copying from the home page will generate a new home page
+d6ebd2c removed not necessary comments, trailing spaces, carriage returns
+efb28cd updated web installer section
+6122218 fixed web installer to run redkitecms:configure command using the Symfony2 console instead of the RedKite CMS console
+
+
 RedKite CMS 1.1.4.3 (2014/04/25)
 d2f3022 added missing class attribute to properly render link and button blocks
 
