@@ -32,11 +32,18 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "propel/propel-bundle": "1.2.*",
         "propel/propel1": "1.7.0",
-        "knplabs/knp-markdown-bundle": "1.2.*@dev"
+        "knplabs/knp-markdown-bundle": "1.2.*@dev",
+        "redkite-cms/social-block-bundle": "dev-master"
     },
     "require-dev": {    
-      "willdurand/propel-typehintable-behavior": "dev-master",  
-      "mikey179/vfsStream": "1.1.0"
+        "willdurand/propel-typehintable-behavior": "dev-master",
+        "mikey179/vfsStream": "1.1.0",
+        "behat/behat": "2.4.*@stable",
+        "behat/mink": "1.5.*@stable",
+        "behat/mink-extension": "*",
+        "behat/mink-goutte-driver": "*",
+        "behat/mink-selenium2-driver": "*",
+        "behat/symfony2-extension": "*"
     },
     "scripts": {
         "post-install-cmd": [

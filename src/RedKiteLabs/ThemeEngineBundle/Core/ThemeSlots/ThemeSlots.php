@@ -17,7 +17,7 @@
 namespace RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots;
 
 /**
- * ThemeSlots is the object deputated to collect and manage the theme's slots
+ * ThemeSlots is the object deputed to collect and manage the theme's slots
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */

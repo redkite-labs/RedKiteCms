@@ -8,7 +8,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\AssetsPath\AssetsPath;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Exception\General\RuntimeException;
 
 /**
- * BlockManagerImages is the base object deputated to handle a content made by a list
+ * BlockManagerImages is the base object deputed to handle a content made by a list
  * of images, like a slider or an image gallery
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

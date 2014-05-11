@@ -49,14 +49,6 @@ class TemplateGeneratorTest extends Base\GeneratorBase
 
         $this->templateGenerator = new TemplateGenerator(vfsStream::url('root/app-theme'));
     }
-    /*
-    public function testTemplateIsNotGeneratedWhenAnySlotIsDefined()
-    {
-        file_put_contents(vfsStream::url('root/home.html.twig'), '');
-
-        $information = $this->parser->parse(vfsStream::url('root'), vfsStream::url('root/app'), 'MyThemeBundle');
-        $this->assertCount(0, $information);
-    }*/
     
     public function testTemplateConfigurationHasAnyAsset()
     {

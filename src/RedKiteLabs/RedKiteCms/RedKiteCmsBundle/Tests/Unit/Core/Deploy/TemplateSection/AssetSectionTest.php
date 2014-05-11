@@ -33,11 +33,11 @@ class AssetSectionTest extends TestCase
      */
     public function testAssets($expectedResult, $externalStylesheets, $internalStylesheets = "", $externalJavascripts = "", $internalJavascripts = "")
     {
-        $urlManager = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerInterface");
-        $theme = $this->getMockBuilder("RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme")
+        $urlManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerInterface');
+        $theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme')
                         ->disableOriginalConstructor()
                         ->getMock();
-        $themeSlots = $this->getMock("RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface");
+        $themeSlots = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemeSlots\ThemeSlotsInterface');
         
         $theme->expects($this->once())
             ->method('getThemeSlots')
@@ -72,7 +72,8 @@ class AssetSectionTest extends TestCase
         $metatagsSection = new AssetSection($urlManager);
         $options = array(
             "uploadAssetsFullPath" => "",
-            "uploadAssetsAbsolutePath" => ""
+            "uploadAssetsAbsolutePath" => "",
+            "deployBundleAssetsPath" => "",
         );
         
         $this->assertEquals($expectedResult, $metatagsSection->generateSection($pageTree, $theme, $options));

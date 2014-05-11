@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection;
 
 /**
- * RoutingGenerator is a base object deputated to generate the routes required
+ * RoutingGenerator is a base object deputed to generate the routes required
  * to handle the website routing
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

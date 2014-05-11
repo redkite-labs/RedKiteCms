@@ -17,7 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy;
 
-use RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme;
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection;
 
 /**
@@ -34,5 +34,5 @@ interface DeployerInterface
      *
      * @api
      */
-    public function deploy(PageTreeCollection $pageTreeCollection, Theme $theme, array $options);
+    public function deploy(PageTreeCollection $pageTreeCollection, ActiveThemeInterface $theme, array $options);
 }

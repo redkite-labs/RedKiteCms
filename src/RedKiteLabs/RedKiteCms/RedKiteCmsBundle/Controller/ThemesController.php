@@ -63,10 +63,10 @@ class ThemesController extends Base\BaseController
         }
 
         $themeName = $request->get('themeName');
-        $currentTheme = $this->getActiveTheme();
+        $currentTheme = $this->getActiveThemeBackend();
         $themeChanger = $this->container->get('red_kite_cms.theme_changer');
         $themes = $this->container->get('red_kite_labs_theme_engine.themes');
-        $previousTheme = $themes->getTheme($currentTheme->getActiveTheme()->getThemeName());
+        $previousTheme = $themes->getTheme($currentTheme->getActiveThemeBackend()->getThemeName());
         $theme = $themes->getTheme($themeName);
         $themeChanger->change($previousTheme, $theme, $this->container->getParameter('red_kite_cms.theme_structure_file'), $map);
         $currentTheme->writeActiveTheme($themeName);
@@ -95,7 +95,7 @@ class ThemesController extends Base\BaseController
         $message = $siteBootstrap->getErrorMessage();
         $statusCode = 404;
         if ($result) {
-            $currentTheme = $this->getActiveTheme();
+            $currentTheme = $this->getActiveThemeBackend();
             $currentTheme->writeActiveTheme($themeName);
 
             $message = $this->translate('themes_controller_site_bootstrapped');
@@ -143,7 +143,7 @@ class ThemesController extends Base\BaseController
     protected function renderThemesPanel()
     {
         $values = array();
-        $activeThemeName = $this->getActiveTheme()->getActiveTheme()->getThemeName();
+        $activeThemeName = $this->getActiveThemeBackend()->getActiveThemeBackend()->getThemeName();
         $themes = $this->container->get('red_kite_labs_theme_engine.themes');
         foreach ($themes as $theme) {
             if (null !== $activeThemeName && $activeThemeName == $theme->getThemeName()) {
@@ -170,7 +170,7 @@ class ThemesController extends Base\BaseController
         return '/' . $screenShotAsset->getAbsolutePath();
     }
 
-    protected function getActiveTheme()
+    protected function getActiveThemeBackend()
     {
         return $this->container->get('red_kite_cms.active_theme');
     }

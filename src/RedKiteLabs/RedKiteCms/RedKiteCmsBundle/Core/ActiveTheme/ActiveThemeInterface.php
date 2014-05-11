@@ -25,10 +25,28 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme;
 interface ActiveThemeInterface
 {
     /**
-     * Returns the active theme
+     * Returns the theme bundle name active in the backend
      * @return null|\RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme
      */
-    public function getActiveTheme();
+    public function getActiveThemeBackend();
+
+    /**
+     * Returns the theme bundle name active in the frontend
+     * @return null|\RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme
+     */
+    public function getActiveThemeFrontend();
+
+    /**
+     * Returns the theme bundle active in the backend
+     * @return null|\RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme
+     */
+    public function getActiveThemeBackendBundle();
+
+    /**
+     * Returns the theme bundle active in the frontend
+     * @return null|\RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme
+     */
+    public function getActiveThemeFrontendBundle();
 
     /**
      * Writes the active theme

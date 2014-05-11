@@ -31,14 +31,6 @@ abstract class BaseDsnBuilderTester extends TestCase
     protected abstract function setUpDsnBuilder(array $options);
 
     /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testAnExceptionIsThrownWhenOptionsArrayIsEmpty()
-    {
-        $this->setUpDsnBuilder(array());
-    }
-    
-    /**
      * @dataProvider dsnProvider
      */
     public function testDsnGeneration(array $options, $baseDsn, $dsn, $parametrizedDsn)
@@ -47,5 +39,6 @@ abstract class BaseDsnBuilderTester extends TestCase
         $this->assertEquals($baseDsn, $dsnBuilder->getBaseDsn());
         $this->assertEquals($dsn, $dsnBuilder->getDsn());
         $this->assertEquals($parametrizedDsn, $dsnBuilder->getParametrizedDsn());
+        $this->assertEquals($parametrizedDsn, $dsnBuilder->configureParametrizedDsnForTestEnv());
     }
 }

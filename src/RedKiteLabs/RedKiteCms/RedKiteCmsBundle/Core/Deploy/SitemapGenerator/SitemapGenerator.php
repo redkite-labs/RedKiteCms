@@ -21,7 +21,7 @@ use Symfony\Component\Templating\EngineInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection;
 
 /**
- * SitemapGenerator is the object deputated to generate and write the website sitemap
+ * SitemapGenerator is the object deputed to generate and write the website sitemap
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *

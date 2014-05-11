@@ -23,7 +23,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * DataManager is the objected deputated to handle the information related to a website
+ * DataManager is the objected deputed to handle the information related to a website
  * page, retrieved from a database
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

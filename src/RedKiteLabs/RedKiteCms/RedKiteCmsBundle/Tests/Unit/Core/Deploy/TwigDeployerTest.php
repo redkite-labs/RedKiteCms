@@ -53,6 +53,7 @@ class TwigDeployerTest extends DeployerTest
             "deployController" => "WebSite",
             "webFolderPath" => vfsStream::url('root\web'),
             "websiteUrl" => "http://example.com",
+            "kernelDir" => vfsStream::url('root\app'),
         );
         
         $sitemapGenerator = null;
@@ -77,7 +78,7 @@ class TwigDeployerTest extends DeployerTest
         $this->verifyFoldersBeforeDeploy();
         
         $this->deployer = new TwigDeployer($this->twigTemplateWriter, $this->routingGenerator, $sitemapGenerator, $dispatcher);
-        $this->assertEquals($result, $this->deployer->deploy($this->pageTreeCollection, $this->theme, $options));
+        $this->assertEquals($result, $this->deployer->deploy($this->pageTreeCollection, $this->activeTheme, $options));
         
         $this->verifyFoldersAfterDeploy('RedKiteCms');        
         $this->assertsHaveBeenCopied($result);
@@ -100,6 +101,7 @@ class TwigDeployerTest extends DeployerTest
             "deployController" => "WebSite",
             "webFolderPath" => vfsStream::url('root\web'),
             "websiteUrl" => "http://example.com",
+            "kernelDir" => vfsStream::url('root\app'),
         );
         
         $sitemapGenerator = null;
@@ -124,7 +126,7 @@ class TwigDeployerTest extends DeployerTest
         $this->verifyFoldersBeforeDeploy();
         
         $this->deployer = new \RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TwigDeployer($this->twigTemplateWriter, $this->routingGenerator, $sitemapGenerator, $dispatcher);
-        $this->assertEquals($result, $this->deployer->deploy($this->pageTreeCollection, $this->theme, $options));
+        $this->assertEquals($result, $this->deployer->deploy($this->pageTreeCollection, $this->activeTheme, $options));
         
         $this->verifyFoldersAfterDeploy('RedKiteCmsStage');        
         $this->assertsHaveBeenCopiedStage($result);

@@ -25,8 +25,7 @@ class DeployController extends Base\BaseController
     public function productionAction()
     {
         try {
-            $activeTheme = $this->getActiveTheme();
-
+            $activeTheme = $this->container->get('red_kite_cms.active_theme');
             $deployer = $this->container->get('red_kite_cms.production_deployer');
             $templatesFolder =  $this->container->getParameter('red_kite_labs_theme_engine.deploy.templates_folder');
             $pageTreeCollection = $this->container->get('red_kite_cms.page_tree_collection');
@@ -44,8 +43,7 @@ class DeployController extends Base\BaseController
     public function stageAction()
     {
         try {
-            $activeTheme = $this->getActiveTheme();
-
+            $activeTheme = $this->container->get('red_kite_cms.active_theme');
             $deployer = $this->container->get('red_kite_cms.stage_deployer');
             $templatesFolder =  $this->container->getParameter('red_kite_labs_theme_engine.deploy.stage_templates_folder');
             $pageTreeCollection = $this->container->get('red_kite_cms.page_tree_collection');
@@ -98,13 +96,14 @@ class DeployController extends Base\BaseController
             "webFolderPath" => $this->container->getParameter('red_kite_cms.web_folder_full_path'),
             "websiteUrl" => $this->container->getParameter('red_kite_cms.website_url'),
             "credits" => $this->container->getParameter('red_kite_cms.love'),
+            "kernelDir" => $kernel->getRootDir(),
         );
     }
 
-    private function getActiveTheme()
+    private function getActiveThemeBackend()
     {
         $activeTheme = $this->container->get('red_kite_cms.active_theme');
 
-        return $activeTheme->getActiveTheme();
+        return $activeTheme->getActiveThemeBackend();
     }
 }

@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepos
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface;
 
 /**
- * ThemeChanger is deputated to change the website template
+ * ThemeChanger is deputed to change the website template
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  */

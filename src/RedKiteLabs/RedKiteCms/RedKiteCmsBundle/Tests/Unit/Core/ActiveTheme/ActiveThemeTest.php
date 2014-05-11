@@ -20,6 +20,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\ActiveTheme;
 use RedKiteLabs\ThemeEngineBundle\Tests\TestCase;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveTheme;
 use org\bovigo\vfs\vfsStream;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * ActiveThemeTest
@@ -36,55 +37,98 @@ class ActiveThemeTest extends TestCase
         $this->root = vfsStream::setup('root');
         $this->activeThemePath = vfsStream::url('root/.active_theme');
 
-        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');        
+        $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+        $this->themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\ThemesCollection');
+        $this->container->expects($this->at(0))
+            ->method('get')
+            ->with('red_kite_labs_theme_engine.themes')
+            ->will($this->returnValue($this->themes));
     }
 
     public function testCurrentActiveThemeIsRetrieved()
     {
         $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface');
-        $this->initThemesCollection($theme);
-        
-        file_put_contents($this->activeThemePath, 'BusinessWebsiteThemeBundle');
+        $this->initThemesCollection($theme, 2);
+
+
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
+        $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
+
+        $this->container->expects($this->at(2))
+            ->method('get')
+            ->with('kernel')
+            ->will($this->returnValue($kernel))
+        ;
+
+        $kernel->expects($this->exactly(2))
+            ->method('getBundle')
+            ->with('BusinessWebsiteThemeBundle')
+            ->will($this->returnValue($bundle))
+        ;
+
+        file_put_contents($this->activeThemePath, $this->writeActiveThemeFile('BusinessWebsiteThemeBundle'));
         $this->setActiveThemeFile();
         $activeTheme = new ActiveTheme($this->container);
-        $this->assertSame($theme, $activeTheme->getActiveTheme());
-        
-        // from class' cache
-        $this->assertSame($theme, $activeTheme->getActiveTheme());
+        $this->assertSame($theme, $activeTheme->getActiveThemeBackend());
+        $this->assertSame($theme, $activeTheme->getActiveThemeFrontend());
+        $this->assertSame($bundle, $activeTheme->getActiveThemeBackendBundle());
+        $this->assertSame($bundle, $activeTheme->getActiveThemeFrontendBundle());
     }
 
-    public function testWhenActiveThemFileDoesNotExistTheFirstThemeIsChoosen()
+    public function testWhenActiveThemeFileDoesNotExistTheFirstThemeIsChosen()
     {
         $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface');
-        $themes = $this->initThemesCollection($theme, 0);
+        $theme->expects($this->once())
+            ->method('getThemeName')
+            ->will($this->returnValue('ModernBusinessThemeBundle'))
+        ;
+        $this->initThemesCollection($theme);
         
-        $themes->expects($this->at(1))
+        $this->themes->expects($this->at(1))
              ->method('valid')
              ->will($this->returnValue(true));
         
-        $themes->expects($this->at(2))
+        $this->themes->expects($this->at(2))
              ->method('current')
              ->will($this->returnValue($theme));
         
         $this->setActiveThemeFile(2);
 
         $activeTheme = new ActiveTheme($this->container);
-        $this->assertSame($theme, $activeTheme->getActiveTheme());
+        $this->assertSame($theme, $activeTheme->getActiveThemeBackend());
     }
 
-    public function testWriteActiveTheme()
+    public function testWriteActiveTheme(/*$backendThemeName, $frontendThemeName*/)
     {
+        $backendThemeName = "ModernBusinessThemeBundle";
+        $frontendThemeName = "ModernBusinessThemeBundle";
         $this->setActiveThemeFile(0);
         $activeTheme = new ActiveTheme($this->container);
-        $activeTheme->writeActiveTheme('FakeThemeBundle');
-        $bundle = file_get_contents(vfsStream::url('root/.active_theme'));
-        $this->assertEquals('FakeThemeBundle', $bundle);
+        $activeTheme->writeActiveTheme($backendThemeName, $frontendThemeName);
+        $activeThemesFileContents = file_get_contents(vfsStream::url('root/.active_theme'));
+        $this->assertEquals($this->writeActiveThemeFile($backendThemeName, $frontendThemeName), $activeThemesFileContents);
+
+        $backendThemeName = "ModernBusinessThemeBundle";
+        $frontendThemeName = "BootbusinessThemeBundle";
+        $activeTheme->writeActiveTheme($backendThemeName, $frontendThemeName);
+        $activeThemesFileContents = file_get_contents(vfsStream::url('root/.active_theme'));
+        $this->assertEquals($this->writeActiveThemeFile($backendThemeName, $frontendThemeName), $activeThemesFileContents);
+
+        $backendThemeName = "AwesomeThemeBundle";
+        $activeTheme->writeActiveTheme($backendThemeName, $frontendThemeName);
+        $activeThemesFileContents = file_get_contents(vfsStream::url('root/.active_theme'));
+        $this->assertEquals($this->writeActiveThemeFile($backendThemeName, "BootbusinessThemeBundle"), $activeThemesFileContents);
+
+        $frontendThemeName = "AwesomeThemeBundle";
+        $activeTheme->writeActiveTheme($backendThemeName, $frontendThemeName);
+        $activeThemesFileContents = file_get_contents(vfsStream::url('root/.active_theme'));
+        $this->assertEquals($this->writeActiveThemeFile("AwesomeThemeBundle", $frontendThemeName), $activeThemesFileContents);
     }
     
     /**
      * @dataProvider versionsProvider
      */
-    public function testgetBootstrapVersion($themeDeclaresVersion, $themes, $expectedVersion)
+    public function testGetBootstrapVersion($themeDeclaresVersion, $themes, $expectedVersion)
     {
         file_put_contents($this->activeThemePath, 'BusinessWebsiteThemeBundle');
         
@@ -121,6 +165,30 @@ class ActiveThemeTest extends TestCase
         $this->assertEquals($expectedVersion, $activeTheme->getThemeBootstrapVersion());
         $this->assertEquals($expectedVersion, $activeTheme->getThemeBootstrapVersion());
     }
+/*
+    public function testGetActiveThemeBackendBundle()
+    {
+        $theme = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface');
+        $this->initThemesCollection($theme, 2);
+
+        $kernel = $this->getMock('Symfony\Component\HttpKernel\KernelInterface');
+        $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\BundleInterface');
+
+        $this->container->expects($this->at(2))
+            ->method('get')
+            ->with('kernel')
+            ->will($this->returnValue($kernel))
+        ;
+
+        $kernel->expects($this->once())
+            ->method('getBundle')
+            ->with('BusinessWebsiteThemeBundle')
+            ->will($this->returnValue($bundle))
+        ;
+
+        $activeTheme = new ActiveTheme($this->container);
+        $this->assertSame($bundle, $activeTheme->getActiveThemeBackendBundle());
+    }*/
     
     public function versionsProvider()
     {
@@ -143,9 +211,9 @@ class ActiveThemeTest extends TestCase
         );
     }
     
-    private function setActiveThemeFile($at = 1)
+    private function setActiveThemeFile()
     {
-        $this->container->expects($this->at($at))
+        $this->container->expects($this->at(1))
             ->method('getParameter')
             ->with('red_kite_cms.active_theme_file')
             ->will($this->returnValue($this->activeThemePath));
@@ -153,18 +221,19 @@ class ActiveThemeTest extends TestCase
     
     private function initThemesCollection($theme, $getThemeCall = 1)
     {
-        $themes = $this->getMock('RedKiteLabs\ThemeEngineBundle\Core\ThemesCollection\ThemesCollection');
-        
-        $themes->expects($this->exactly($getThemeCall))
+        $this->themes->expects($this->exactly($getThemeCall))
              ->method('getTheme')
              ->will($this->returnValue($theme));
-        
-        $this->container->expects($this->at(0))
-            ->method('get')
-            ->with('red_kite_labs_theme_engine.themes')
-            ->will($this->returnValue($themes));
-        
-        
-        return $themes;
+    }
+
+    private function writeActiveThemeFile($backendTheme, $frontendTheme = null)
+    {
+        if (null === $frontendTheme) {
+            $frontendTheme = $backendTheme;
+        }
+        $activeThemeFileContents = sprintf("backend: %s\n", $backendTheme);
+        $activeThemeFileContents .= sprintf("frontend: %s\n", $frontendTheme);
+
+        return $activeThemeFileContents;
     }
 }

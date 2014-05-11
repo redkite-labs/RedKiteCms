@@ -53,7 +53,7 @@ class CmsBootstrapListener
         $this->kernel = $container->get('kernel');
         $this->pageTree = $this->container->get('red_kite_cms.page_tree');
         $this->activeTheme = $this->container->get('red_kite_cms.active_theme');
-        $this->theme = $this->activeTheme->getActiveTheme();
+        $this->theme = $this->activeTheme->getActiveThemeBackend();
     }
 
     /**

@@ -77,7 +77,7 @@ class CmsBootstrapListenerTest extends TestCase
             ->will($this->returnValue($themeSlots));
         
         $activeTheme->expects($this->once())
-            ->method('getActiveTheme')
+            ->method('getActiveThemeBackend')
             ->will($this->returnValue($theme));
         
         $this->container->expects($this->at(2))

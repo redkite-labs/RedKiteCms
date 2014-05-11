@@ -22,6 +22,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Filesystem\Filesystem;
+
 /**
  * Installs RedKite Cms
  *
@@ -102,13 +104,9 @@ class InstallCommand extends ContainerAwareCommand
         ));
         $buildCommand = $application->find('assetic:dump');
         $buildCommand->run($in, $output);
-        
         if ( ! $input->getOption('skip-cache-clean')) {
-            $in = new ArrayInput(array(
-                'command'        => 'ca:c',
-            ));
-            $buildCommand = $application->find('ca:c');
-            $buildCommand->run($in, $output);
+            $fs = new Filesystem();
+            $fs->remove($kernelRootDir . '/cache/rkcms');
         }
     }
 }

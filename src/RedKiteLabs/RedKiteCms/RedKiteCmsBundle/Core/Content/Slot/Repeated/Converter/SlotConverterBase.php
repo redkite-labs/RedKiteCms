@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocksIn
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface;
 
 /**
- * SlotConverterBase is the base object deputated to align the blocks placed on a slot
+ * SlotConverterBase is the base object deputed to align the blocks placed on a slot
  * when this last one is changing its repeated status
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

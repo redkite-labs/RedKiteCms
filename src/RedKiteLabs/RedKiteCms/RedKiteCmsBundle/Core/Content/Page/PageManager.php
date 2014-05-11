@@ -310,6 +310,7 @@ class PageManager extends ContentManagerBase implements ContentManagerInterface
 
             if (false !== $result) {
                 $values['PageName'] = $this->slugify($values['PageName']);
+                $values = $this->checkCreatedAt($values);
 
                 // Saves the page
                 $result = $this->pageRepository

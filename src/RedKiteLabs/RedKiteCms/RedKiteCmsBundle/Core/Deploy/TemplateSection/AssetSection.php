@@ -22,7 +22,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\PageTree;
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface;
 
 /**
- * AssetSection is the object deputated to generate the asset sections of a twig template
+ * AssetSection is the object deputed to generate the asset sections of a twig template
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *

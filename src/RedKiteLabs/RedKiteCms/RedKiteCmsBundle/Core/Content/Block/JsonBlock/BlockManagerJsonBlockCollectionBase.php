@@ -22,7 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Validator\ParametersValidatorInterface;
 
 /**
- * BlockManagerJsonBlockCollectionBase is the base object deputated to implement the
+ * BlockManagerJsonBlockCollectionBase is the base object deputed to implement the
  * very basic methods to handle a json content which defines a collection of objects
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

@@ -20,7 +20,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\JsonBlock;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Block\BlockManager;
 
 /**
- * BlockManagerJsonBase is the base object deputated to handle a json content
+ * BlockManagerJsonBase is the base object deputed to handle a json content
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>
  *

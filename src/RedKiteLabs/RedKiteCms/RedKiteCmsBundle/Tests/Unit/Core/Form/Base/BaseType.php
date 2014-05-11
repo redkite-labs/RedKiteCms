@@ -19,6 +19,7 @@ namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\Unit\Core\Form\Base;
 
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Tests\TestCase;
 
+
 /**
  * BaseType
  *
@@ -33,7 +34,7 @@ abstract class BaseType extends TestCase
     
     abstract protected function getForm();
 
-    public function __construct()
+    protected function setUp()
     {
         $this->resolver = $this->getMock('Symfony\Component\OptionsResolver\OptionsResolverInterface');
     }
@@ -43,6 +44,11 @@ abstract class BaseType extends TestCase
         $builder = $this->getMockBuilder('Symfony\Component\Form\FormBuilder')
                     ->disableOriginalConstructor()
                     ->getMock();
+        $builder
+            ->expects($this->any())
+            ->method('add')
+            ->will($this->returnSelf())
+        ;
         
         $i = 0;
         $fields = $this->configureFields();        

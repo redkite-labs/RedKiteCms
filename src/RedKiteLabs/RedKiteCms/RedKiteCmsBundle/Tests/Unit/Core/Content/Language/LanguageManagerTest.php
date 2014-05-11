@@ -230,7 +230,10 @@ class LanguageManagerTest extends ContentManagerBase
                 ->method('setRepositoryObject')
                 ->will($this->returnSelf());
 
-        $params = array('LanguageName'  => 'en');
+        $params = array(
+            'LanguageName'  => 'en',
+            "CreatedAt" => date("Y-m-d H:i:s"),
+        );
         $expectedParams = $params;
         $expectedParams["MainLanguage"] = 1;
         $this->languageRepository->expects($this->once())
@@ -271,7 +274,11 @@ class LanguageManagerTest extends ContentManagerBase
                 ->method('mainLanguage')
                 ->will($this->returnValue(null));
         
-        $params = array('LanguageName'  => 'en', 'MainLanguage' => 1);
+        $params = array(
+            'LanguageName'  => 'en',
+            'MainLanguage' => 1,
+            "CreatedAt" => date("Y-m-d H:i:s"),
+        );
         $expectedParams = $params;
         $expectedParams["MainLanguage"] = 1;
         $this->languageRepository->expects($this->once())

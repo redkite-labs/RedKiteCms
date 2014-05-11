@@ -25,7 +25,7 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\AssetSec
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\TemplateSection\ContentSection;
 
 /**
- * TwigTemplateWriter is the object deputated to generate and write a twig template
+ * TwigTemplateWriter is the object deputed to generate and write a twig template
  * from a PageTree object
  *
  * @author RedKite Labs <webmaster@redkite-labs.com>

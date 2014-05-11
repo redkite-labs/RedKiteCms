@@ -33,8 +33,8 @@ class ContentSectionTest extends TestCase
      */
     public function testGenerateContents($filter, $slots, $blocks, $credits, $expectedResult)
     {
-        $urlManager = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerInterface");
-        $viewRenderer = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\ViewRendererInterface");
+        $urlManager = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\UrlManager\UrlManagerInterface');
+        $viewRenderer = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ViewRenderer\ViewRendererInterface');
         
         $theme = $this->initTheme($slots, $filter);
         $pageBlocks = $this->initPageBlocks($blocks);
@@ -45,6 +45,7 @@ class ContentSectionTest extends TestCase
         $options = array(
             "uploadAssetsFullPath" => "",
             "uploadAssetsAbsolutePath" => "",
+            "deployBundleAssetsPath" => "",
             "filter" => $filter,
             "credits" => $credits,
         );

@@ -17,6 +17,7 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy;
 
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme;
@@ -26,9 +27,10 @@ use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\RoutingGenerator\Routing
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection;
+use Symfony\Component\Yaml\Yaml;
 
 /**
- * Deployer is the base object deputated to deploy the website from development to
+ * Deployer is the base object deputed to deploy the website from development to
  * production.
  *
  * Website is deployed inside the deploy bundle.
@@ -82,9 +84,11 @@ abstract class Deployer implements DeployerInterface
     /**
      * {@inheritdoc}
      */
-    public function deploy(PageTreeCollection $pageTreeCollection, Theme $theme, array $options)
+    public function deploy(PageTreeCollection $pageTreeCollection, ActiveThemeInterface $activeTheme, array $options)
     {
         $this->dispatch(Deploy\DeployEvents::BEFORE_DEPLOY, new Deploy\BeforeDeployEvent($this));
+
+        $theme = $activeTheme->getActiveThemeBackend();
 
         $this->pageTreeCollection = $pageTreeCollection;
         $deployFolder = $options["deployDir"];
@@ -106,13 +110,15 @@ abstract class Deployer implements DeployerInterface
             $this->sitemapGenerator->writeSiteMap($options["webFolderPath"], $options["websiteUrl"]);
         }
 
+        $this->updateActiveThemeReference($activeTheme, $options);
+
         $this->dispatch(Deploy\DeployEvents::AFTER_DEPLOY, new Deploy\AfterDeployEvent($this));
 
         return true;
     }
 
     /**
-     * Checks if the mandatory folders for the pubblication exist and creates them
+     * Checks if mandatory folders to publish websites exist and creates them
      * when required
      *
      * @param array $options An array of options
@@ -152,11 +158,6 @@ abstract class Deployer implements DeployerInterface
     /**
      * Copies the assets from the development environment to the production one
      *
-     * The source folder is the redkitecms's bundles web folder, to be sure to copy
-     * everything when user is working with assets folders hardlinked, while the
-     * target folder is the deploy bundle's Resources/public folder to be sure to
-     * copy the assets under the sorce assets folder.
-     *
      * @param array $options An array of options
      */
     protected function copyAssets(array $options)
@@ -165,8 +166,43 @@ abstract class Deployer implements DeployerInterface
         $folders = $finder->directories()->depth(0)->in($options["uploadAssetsFullPath"]);
         foreach ($folders as $folder) {
             $targetFolder = $options["assetsDir"] . '/' . basename($folder->getFileName());
-            $this->fileSystem->remove($targetFolder);
-            $this->fileSystem->mirror($folder , $targetFolder, null, array('override' => true));
+            $this->fileSystem->mirror($folder , $targetFolder, null, array('delete' => true));
+        }
+    }
+
+    /**
+     * Copies the assets from the development environment to the production one
+     *
+     * @param array $options An array of options
+     */
+    protected function updateActiveThemeReference(ActiveThemeInterface $activeTheme, array $options)
+    {
+        $configFile = $options["kernelDir"] . '/config/config.yml';
+        $contents = file_get_contents($configFile);
+
+        $backendThemeName = $activeTheme->getActiveThemeBackend()->getThemeName();
+        $frontendThemeName = $activeTheme->getActiveThemeFrontend()->getThemeName();
+        
+        if ($backendThemeName != $frontendThemeName) {
+            $yaml = new Yaml();
+            $params = $yaml->parse($contents);
+            $params["assetic"]["bundles"] = array_values(array_diff($params["assetic"]["bundles"], array($frontendThemeName)));
+            $params["assetic"]["bundles"][] = $backendThemeName;
+            $contents = $yaml->dump($params, 4);
+            file_put_contents($configFile, $contents);
+
+            $activeTheme->writeActiveTheme(null, $backendThemeName);
+
+            $appKernelFile = $options["kernelDir"] . '/AppKernel.php';
+            $contents = file_get_contents($appKernelFile);
+
+            $activeThemeSection = '// RedKiteCms Active Theme' . PHP_EOL;
+            $activeThemeSection .= '        $bundles[] = new RedKiteLabs\ThemeEngineBundle\RedKiteLabsThemeEngineBundle();' . PHP_EOL;
+            $activeThemeSection .= sprintf('        $bundles[] = new %s();' . PHP_EOL , get_class($activeTheme->getActiveThemeBackendBundle()));
+            $activeThemeSection .= '        // End RedKiteCms Active Theme' . PHP_EOL;
+
+            $contents = preg_replace('/\/\/ RedKiteCms Active Theme.*?\/\/ End RedKiteCms Active Theme/s', $activeThemeSection, $contents);
+            file_put_contents($appKernelFile, $contents);
         }
     }
 
