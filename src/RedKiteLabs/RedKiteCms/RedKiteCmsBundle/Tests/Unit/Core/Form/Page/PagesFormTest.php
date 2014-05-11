@@ -56,7 +56,7 @@ class PagesFormTest extends BaseType
         ;
         $activeTheme 
             ->expects($this->any())
-             ->method('getActiveTheme')
+             ->method('getActiveThemeBackend')
              ->will($this->returnValue($theme))
         ;
         $themesCollection = 

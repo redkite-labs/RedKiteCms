@@ -58,7 +58,7 @@ class ChoiceValues
 
     public static function getTemplates(ActiveThemeInterface $activeTheme, ThemesCollection $themes)
     {
-        $theme = $themes->getTheme($activeTheme->getActiveTheme()->getThemeName());
+        $theme = $themes->getTheme($activeTheme->getActiveThemeBackend()->getThemeName());
 
         $templates = array();
         foreach ($theme as $template) {

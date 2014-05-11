@@ -42,6 +42,8 @@ class DeployerTest extends TestCase
     protected $routingGenerator;
     protected $sitemapGenerator;
     protected $deployBundlePath;
+    protected $activeTheme;
+    protected $theme;
 
 
     protected function setUp()
@@ -53,28 +55,42 @@ class DeployerTest extends TestCase
         $this->pageTreeCollection = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\PageTreeCollection\PageTreeCollection')
                                         ->disableOriginalConstructor()
                                         ->getMock();
+
         $this->theme = $this->getMockBuilder('RedKiteLabs\ThemeEngineBundle\Core\Theme\Theme')
                                         ->disableOriginalConstructor()
                                         ->getMock();
+        $this->activeTheme = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme\ActiveThemeInterface');
+        $this->activeTheme->expects($this->any())
+            ->method('getActiveThemeBackend')
+            ->will($this->returnValue($this->theme))
+        ;
+
+        $this->activeTheme->expects($this->any())
+            ->method('getActiveThemeFrontend')
+            ->will($this->returnValue($this->theme))
+        ;
+
         $this->sitemapGenerator = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Deploy\SitemapGenerator\SitemapGeneratorInterface');
         $this->dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         
-        $folders = array('app' => array(),
-                         'web' => array('uploads'
-                                    => array('assets'
-                                        => array('media' => array('image1.png' => '', 'image2.png' => ''),
-                                                'js' => array('code.js' => ''),
-                                                'css' => array('style.css' => ''),
-                                                )
-                                            )
-                                        ),
-                         'AcmeWebSiteBundle' => array('Resources' => array()),
-                         'RedKiteCmsBundle' => array(),
+        $folders = array('app' => array(
+                            'config' => array(
+                                'config.yml' => '',
+                            ),
+                        ),
+                        'web' => array('uploads'
+                            => array('assets'
+                                => array('media' => array('image1.png' => '', 'image2.png' => ''),
+                                    'js' => array('code.js' => ''),
+                                    'css' => array('style.css' => ''),
+                                )
+                            )
+                        ),
+                        'AcmeWebSiteBundle' => array('Resources' => array()),
+                        'RedKiteCmsBundle' => array(),
                         );
         $this->root = vfsStream::setup('root', null, $folders);
         //print_r(vfsStream::inspect(new \org\bovigo\vfs\visitor\vfsStreamStructureVisitor())->getStructure());exit;
-        
-        
     }
     
     /**
@@ -94,6 +110,7 @@ class DeployerTest extends TestCase
             "deployController" => "WebSite",
             "webFolderPath" => vfsStream::url('root\web'),
             "websiteUrl" => "http://example.com",
+            "kernelDir" => vfsStream::url('root\app'),
         );
         
         $sitemapGenerator = null;
@@ -114,7 +131,7 @@ class DeployerTest extends TestCase
         $this->verifyFoldersBeforeDeploy();
         
         $this->deployer = new DeployerTester($this->routingGenerator, $sitemapGenerator, $dispatcher);
-        $this->assertEquals($result, $this->deployer->deploy($this->pageTreeCollection, $this->theme, $options));
+        $this->assertEquals($result, $this->deployer->deploy($this->pageTreeCollection, $this->activeTheme, $options));
         
         $this->verifyFoldersAfterDeploy('RedKiteCms');        
         $this->assertsHaveBeenCopied($result);

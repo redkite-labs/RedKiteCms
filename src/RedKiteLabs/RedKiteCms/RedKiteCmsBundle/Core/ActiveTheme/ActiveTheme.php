@@ -18,6 +18,7 @@
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\ActiveTheme;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * ActiveTheme is the object deputated to manage the website active theme
@@ -27,9 +28,12 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ActiveTheme implements ActiveThemeInterface
 {
     private $container = null;
-    /** @var null|\RedKiteLabs\ThemeEngineBundle\Core\Theme\ThemeInterface */
-    private $activeTheme = null;
+    private $activeThemes = array();
     private $bootstrapVersion = null;
+    private $themes;
+    private $yaml;
+    private $activeThemeFileName;
+    private $kernel = null;
 
     /**
      * Constructor
@@ -39,38 +43,66 @@ class ActiveTheme implements ActiveThemeInterface
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
+
+        $this->yaml = new Yaml();
+        $this->themes = $this->container->get('red_kite_labs_theme_engine.themes');
+        $this->activeThemeFileName = $this->container->getParameter('red_kite_cms.active_theme_file');
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getActiveTheme()
+    public function getActiveThemeBackend()
     {
-        if (null !== $this->activeTheme) {
-            return $this->activeTheme;
-        }
+        $this->parseThemesFile();
 
-        $themes = $this->container->get('red_kite_labs_theme_engine.themes');
-
-        $activeThemeFile = $this->getActiveThemeFile();
-        if (!file_exists($activeThemeFile)) {
-            $themes = is_array($themes) ? $themes : iterator_to_array($themes);
-            $this->activeTheme = end($themes);
-            $this->writeActiveTheme($this->activeTheme->getThemeName());
-        } else {
-            $themeName = trim(file_get_contents($activeThemeFile));
-            $this->activeTheme = $themes->getTheme($themeName);
-        }
-
-        return $this->activeTheme;
+        return $this->themes->getTheme($this->activeThemes["backend"]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function writeActiveTheme($themeName)
+    public function getActiveThemeFrontend()
     {
-        file_put_contents($this->getActiveThemeFile(), trim($themeName));
+        $this->parseThemesFile();
+
+        return $this->themes->getTheme($this->activeThemes["frontend"]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getActiveThemeBackendBundle()
+    {
+        $this->parseThemesFile();
+
+        return $this->getKernel()->getBundle($this->activeThemes["backend"]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getActiveThemeFrontendBundle()
+    {
+        $this->parseThemesFile();
+
+        return $this->getKernel()->getBundle($this->activeThemes["frontend"]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function writeActiveTheme($backendThemeName = null, $frontendThemeName = null)
+    {
+        if (null !== $backendThemeName) {
+            $this->activeThemes["backend"] = $backendThemeName;
+        }
+
+        if (null !== $frontendThemeName ) {
+            $this->activeThemes["frontend"] = $frontendThemeName;
+        }
+
+        file_put_contents($this->activeThemeFileName, $this->yaml->dump($this->activeThemes));
     }
 
     /**
@@ -85,7 +117,7 @@ class ActiveTheme implements ActiveThemeInterface
                 return $this->bootstrapVersion;
             }
 
-            $themeName = $this->getActiveTheme()->getThemeName();
+            $themeName = $this->getActiveThemeBackend()->getThemeName();
         }
 
         $this->bootstrapVersion = $this->container->getParameter('red_kite_cms.bootstrap_version');
@@ -102,13 +134,39 @@ class ActiveTheme implements ActiveThemeInterface
         return $this->bootstrapVersion;
     }
 
-    /**
-     * Returns the file where the active theme is saved
-     *
-     * @return string
-     */
-    protected function getActiveThemeFile()
+    private function getKernel()
     {
-        return $this->container->getParameter('red_kite_cms.active_theme_file');
+        if (null === $this->kernel) {
+            $this->kernel = $this->container->get('kernel');
+        }
+
+        return $this->kernel;
+    }
+
+    private function parseThemesFile()
+    {
+        if (!empty($this->activeThemes)) {
+            return;
+        }
+
+        if ( ! file_exists($this->activeThemeFileName)) {
+            $themes = is_array($this->themes) ? $this->themes : iterator_to_array($this->themes);
+            $activeTheme = end($themes);
+            $backendThemeName = $activeTheme->getThemeName();
+
+            $this->writeActiveTheme($backendThemeName, $backendThemeName);
+
+            return;
+        }
+
+        $contents = file_get_contents($this->activeThemeFileName);
+        $this->activeThemes = $this->yaml->parse($contents);
+
+        // Backward compatibility
+        if ( ! is_array($this->activeThemes)) {
+            $themeName = $this->activeThemes;
+            $this->activeThemes = array();
+            $this->writeActiveTheme($themeName, $themeName);
+        }
     }
 }

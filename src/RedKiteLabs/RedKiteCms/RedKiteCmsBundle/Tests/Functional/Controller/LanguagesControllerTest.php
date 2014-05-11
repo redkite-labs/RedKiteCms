@@ -345,7 +345,7 @@ class LanguagesControllerTest extends WebTestCaseFunctional
         $pageTree = $this->client->getContainer()->get('red_kite_cms.page_tree');
         $slots = $pageTree->getTemplateManager()->getTemplate()->getSlots();
         $activeThemeManager = $this->client->getContainer()->get('red_kite_cms.active_theme');
-        $activeTheme = $activeThemeManager->getActiveTheme();
+        $activeTheme = $activeThemeManager->getActiveThemeBackend();
         $themeSlots = $activeTheme->getThemeSlots();
         
         $pageSlots = array();
