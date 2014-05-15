@@ -56,8 +56,6 @@ abstract class BaseExtension extends Extension
                 $loader->load($file);
             }
         }
-        
-        //$this->loadConfigurationRecursive($container, $themeConfiguration);
     }
 
     /**
