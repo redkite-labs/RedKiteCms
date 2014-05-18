@@ -32,6 +32,7 @@ Feature: Pages management
 
   @javascript
   Scenario: Add new page
+    And I should not see the element ".rk-pages-navigator-box ul li[rel=contacts]"
     And I fill in "pages_pageName" with "contacts"
     And I select "contact" from "pages_template"
     And I check "pages_isPublished"
@@ -45,7 +46,9 @@ Feature: Pages management
     And I select "0.2" from "seo_attributes_sitemapPriority"
     And I click "#al_page_saver"
     And I wait until "#al_alert" is displayed
-    And should see "The page has been successfully saved" in the "#al_alert" element
+    And I should see "The page has been successfully saved" in the "#al_alert" element
+    # Pages navigation is refreshed
+    And I should see the element ".rk-pages-navigator-box ul li[rel=contacts]"
 
   @javascript
   Scenario: Load page attributes
@@ -83,10 +86,13 @@ Feature: Pages management
 
   @javascript
   Scenario: Delete a page
+    And I should see the element ".rk-pages-navigator-box ul li[rel=contacts]"
     And I click ".rk-page-remover:first-child"
     And I confirm the popup
     And I wait until "#al_alert" is displayed
-    And should see "The page has been successfully removed" in the "#al_alert" element
+    And I should see "The page has been successfully removed" in the "#al_alert" element
+    # Pages navigation is refreshed
+    And I should not see the element ".rk-pages-navigator-box ul li[rel=contacts]"
 
   @javascript
   Scenario: Save as new fails because the page name is the same
@@ -98,7 +104,7 @@ Feature: Pages management
     And should see "The web site already contains the page you are trying to add. Please use another name for that page" in the "#al_alert" element
 
   @javascript
-  Scenario: Save as new fails because the page name is the same
+  Scenario: Page is saved from previous one
     And I click ".al_element_selector:first-child"
     And I wait until "#pages_pageName" contains "index"
     And I fill in "pages_pageName" with "contacts"
