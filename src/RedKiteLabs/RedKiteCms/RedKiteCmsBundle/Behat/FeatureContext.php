@@ -140,6 +140,54 @@ class FeatureContext extends MinkContext implements KernelAwareInterface
     }
 
     /**
+     * @Then /^I move over the element "([^"]*)"/
+     */
+    public function iMoveOverTheElement($selector)
+    {
+        $session = $this->getSession();
+        $session->getDriver()->mouseOver($session->getSelectorsHandler()->selectorToXpath('css', $selector));
+    }
+
+    /**
+     * @Then /^element "([^"]*)" has the attributes "([^"]*)"/
+     */
+    public function elementHasTheAttributes($selector, $attributes)
+    {
+        $el = $this->findElement($selector);
+        $attributes = explode(',', $attributes);
+        foreach ($attributes as $attribute) {
+            if ( ! $el->hasAttribute($attribute))
+            {
+                throw new ExpectationException(sprintf("The %s element should contain the attributes %s", $selector, $attribute), $this->getSession());
+            }
+        }
+    }
+
+    /**
+     * @Then /^element "([^"]*)" has not the attribute "([^"]*)" with value "([^"]*)"/
+     */
+    public function elementHasNotTheAttributeWithValue($selector, $attribute, $value)
+    {
+        $el = $this->findElement($selector);
+        if ($el->hasAttribute($attribute) == $value)
+        {
+            throw new ExpectationException(sprintf("The %s element should not contain the attributes %s with value %s", $selector, $attribute, $value), $this->getSession());
+        }
+    }
+
+    /**
+     * @Then /^element "([^"]*)" has the attribute "([^"]*)" with value "([^"]*)"/
+     */
+    public function elementHasTheAttributeWithValue($selector, $attribute, $value)
+    {
+        $el = $this->findElement($selector);
+        if ($el->hasAttribute($attribute) != $value)
+        {
+            throw new ExpectationException(sprintf("The %s element should contain the attributes %s with value %s", $selector, $attribute, $value), $this->getSession());
+        }
+    }
+
+    /**
      * @Given /^The control panel is minimized$/
      */
     public function theControlPanelIsMinimized()
