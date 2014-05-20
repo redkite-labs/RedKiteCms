@@ -95,8 +95,7 @@ class LanguageRepositoryPropel extends Base\PropelRepository implements Language
         return LanguageQuery::create()
                 ->filterByToDelete(0)
                 ->where('id > 1')
-                ->orderBy( 'main_language', \Criteria::DESC )
-                ->orderBy( 'id' )
+                ->orderBy( 'languageName' )
                 ->find();
     }
 
