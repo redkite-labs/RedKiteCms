@@ -117,7 +117,7 @@
                     my: "center top",
                     at: settings.position,
                     of: $this,
-                    collision: 'fit fit'
+                    collision: 'none none'
                 })
                 .addClass('inline-list-commands-container')
                 .css('position', 'absolute')
