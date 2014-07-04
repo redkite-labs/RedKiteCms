@@ -96,9 +96,11 @@ class DataManager
     {
         $pageName = $request->get('page');
         $language = $request->get('_locale');
+        $permalink = $request->get('permalink');
         $options = array(
             "pageName" => $pageName,
             "languageName" => $language,
+            "permalink" => $permalink,
             "pageId" => (int) $request->get('pageId'),
             "languageId" => (int) $request->get('languageId'),
         );
@@ -152,6 +154,11 @@ class DataManager
         }
 
         $seo = $seoRepository->fromLanguageAndPageNames($options["languageName"], $options["pageName"]);
+        if (null !== $seo) {
+            return $seo;
+        }
+
+        $seo = $seoRepository->fromPermalink($options["permalink"]);
         if (null !== $seo) {
             return $seo;
         }

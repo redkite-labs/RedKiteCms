@@ -85,7 +85,7 @@ class LockedResourcesTest extends BaseSecured
     
     public function routesProvider()
     {
-        return array(
+        return array(/*
             array(
                 '/backend/en/index', 
                 '/backend/en/index', 
@@ -95,10 +95,10 @@ class LockedResourcesTest extends BaseSecured
                 '/backend/homepage', 
                 '/backend/homepage', 
                 array("pageId" => 2),
-            ),     
+            ),     */
             array(
-                '/backend', 
-                '/backend', 
+                '/backend',
+                '/backend',
                 array("pageId" => 2),
             ), 
             array(

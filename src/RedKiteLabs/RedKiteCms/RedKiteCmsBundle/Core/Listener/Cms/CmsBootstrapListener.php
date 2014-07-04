@@ -17,7 +17,9 @@
 
 namespace RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Listener\Cms;
 
+use RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\PageTree\DataManager\DataManager;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use RedKiteLabs\ThemeEngineBundle\Core\Asset\Asset;
@@ -100,8 +102,11 @@ class CmsBootstrapListener
 
     private function setUpPageTree()
     {
+        $request = $this->container->get('request');
         $dataManager = $this->container->get('red_kite_cms.data_manager');
-        $dataManager->fromRequest($this->container->get('request'));
+        $dataManager->fromRequest($request);
+
+        $this->normalizeCmsRequestAttributes($request, $dataManager);
 
         $this->pageTree
             ->setDataManager($dataManager)
@@ -111,6 +116,41 @@ class CmsBootstrapListener
                 $this->container->get('red_kite_cms.page_blocks')
             )
         ;
+    }
+
+    /**
+     * Normalizes the request attributes for page, language and permalink for a
+     * GET request
+     *
+     * This method normalizes RedKite CMS parameters, injecting all the attributes
+     * required to define a page.
+     *
+     * When a page is requested by the language and page name attributes, the permalink attribute is
+     * filled up, while a page is requested by permalink, the language and page name are filled up to.
+     *
+     * @param Request $request
+     * @param DataManager $dataManager
+     */
+    private function normalizeCmsRequestAttributes(Request $request, DataManager $dataManager)
+    {
+        if ($request->getMethod() == 'POST') {
+            return;
+        }
+
+        $page = $dataManager->getPage();
+        if (null !== $page) {
+            $request->attributes->set('page', $page->getPageName());
+        }
+
+        $language = $dataManager->getLanguage();
+        if (null !== $language) {
+            $request->attributes->set('_locale', $language->getLanguageName());
+        }
+
+        $seo = $dataManager->getSeo();
+        if (null !== $seo) {
+            $request->attributes->set('permalink', $seo->getPermalink());
+        }
     }
 
     private function checkTemplatesSlots()

@@ -36,4 +36,12 @@ red_kite_cms_elfinder:
 
 red_kite_cms_navigation:
   pattern:  /backend/{_locale}/{page}/{locked}
+  defaults: { _controller: RedKiteCmsBundle:Cms:show, locked: pageId }
+
+red_kite_cms_navigation_permalink:
+  pattern:  /backend/{permalink}/{locked}
+  defaults: { _controller: RedKiteCmsBundle:Cms:show, locked: pageId }
+
+red_kite_cms_navigation_default:
+  pattern:  /backend
   defaults: { _controller: RedKiteCmsBundle:Cms:show, _locale: en, page: index, locked: pageId }

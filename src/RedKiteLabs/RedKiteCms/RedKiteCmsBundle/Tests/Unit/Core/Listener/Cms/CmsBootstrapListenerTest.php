@@ -130,16 +130,18 @@ class CmsBootstrapListenerTest extends TestCase
             ->with('red_kite_cms.deploy_bundle.css_dir')
             ->will($this->returnValue('css'));
 
+
+
+        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
         $this->container->expects($this->at(12))
-            ->method('get')
-            ->with('red_kite_cms.data_manager')
-            ->will($this->returnValue($this->dataManager));
-        
-        $request = $this->getMock("Symfony\Component\HttpFoundation\Request");
-        $this->container->expects($this->at(13))
             ->method('get')
             ->with('request')
             ->will($this->returnValue($request));
+
+        $this->container->expects($this->at(13))
+            ->method('get')
+            ->with('red_kite_cms.data_manager')
+            ->will($this->returnValue($this->dataManager));
         
         $templateManager = $this->getMockBuilder('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\Template\TemplateManager')
                             ->disableOriginalConstructor()
@@ -150,7 +152,7 @@ class CmsBootstrapListenerTest extends TestCase
             ->will($this->returnValue($templateManager));
         
         
-        $pageBlocks = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocksInterface");
+        $pageBlocks = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Content\PageBlocks\PageBlocksInterface');
         $this->container->expects($this->at(15))
             ->method('get')
             ->with('red_kite_cms.page_blocks')

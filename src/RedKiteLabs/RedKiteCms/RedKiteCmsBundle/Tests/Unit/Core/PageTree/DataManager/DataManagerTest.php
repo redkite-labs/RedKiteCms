@@ -36,17 +36,17 @@ class DataManagerTest extends TestCase
     {
         parent::setUp();
         
-        $this->factoryRepository = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface");
+        $this->factoryRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Factory\FactoryRepositoryInterface');
         $this->dataManager = new DataManager($this->factoryRepository);
     }
-    
+
     /**
      * @dataProvider seoProvider
      */
     public function testFromSeo($options, $queryResults)
     {
         $this->fromSeo($options, $queryResults);
-        
+
         $this->dataManager->fromOptions($options);
         $this->doTest();
     }
@@ -119,27 +119,14 @@ class DataManagerTest extends TestCase
     
     public function seoProvider()
     {
-        return array(/*
-            array(
-                array(
-                    "pageId" => 0,            
-                    "languageId" => 2,
-                    "languageName" => "en",
-                    "pageName" => "page-removed",
-                ),
-                array(
-                    "fromPageAndLanguage" => null,
-                    "fromLanguageAndPageNames" => null,
-                    "fromPermalinkLanguage" => null,
-                    "fromPermalinkPage" => null,
-                ),
-            ),*/
+        return array(
             array(
                 array(
                     "pageId" => 2,            
                     "languageId" => 2,
                     "languageName" => "en",
                     "pageName" => "index",
+                    "permalink" => "",
                 ),
                 array(
                     "fromPageAndLanguage" => $this->createSeo(),
@@ -151,9 +138,23 @@ class DataManagerTest extends TestCase
                     "languageId" => 0,
                     "languageName" => "en",
                     "pageName" => "index",
+                    "permalink" => "",
                 ),
                 array(
                     "fromLanguageAndPageNames" => $this->createSeo(),
+                ),
+            ),
+            array(
+                array(
+                    "pageId" => 0,
+                    "languageId" => 0,
+                    "languageName" => "",
+                    "pageName" => "",
+                    "permalink" => "welcome-to-our-website",
+                ),
+                array(
+                    "fromLanguageAndPageNames" => null,
+                    "fromPermalink" => $this->createSeo(),
                 ),
             ),
             array(
@@ -162,9 +163,11 @@ class DataManagerTest extends TestCase
                     "languageId" => 0,
                     "languageName" => "welcome-to-our-website",
                     "pageName" => "index",
+                    "permalink" => "",
                 ),
                 array(
                     "fromLanguageAndPageNames" => null,
+                    "fromPermalink" => null,
                     "fromPermalinkLanguage" => $this->createSeo(),
                 ),
             ),
@@ -174,9 +177,11 @@ class DataManagerTest extends TestCase
                     "languageId" => 0,
                     "languageName" => "en",
                     "pageName" => "welcome-to-our-website",
+                    "permalink" => "",
                 ),
                 array(
                     "fromLanguageAndPageNames" => null,
+                    "fromPermalink" => null,
                     "fromPermalinkLanguage" => null,
                     "fromPermalinkPage" => $this->createSeo(),
                 ),
@@ -195,10 +200,12 @@ class DataManagerTest extends TestCase
                     "page" => "page-removed",
                     "languageName" => "en",
                     "pageName" => "page-removed",
+                    "permalink" => "",
                 ),
                 array(
                     "fromPageAndLanguage" => null,
                     "fromLanguageAndPageNames" => null,
+                    "fromPermalink" => null,
                     "fromPermalinkLanguage" => null,
                     "fromPermalinkPage" => null,
                 ),
@@ -211,6 +218,7 @@ class DataManagerTest extends TestCase
                     "page" => "index",
                     "languageName" => "en",
                     "pageName" => "index",
+                    "permalink" => "",
                 ),
                 array(
                     "fromPageAndLanguage" => $this->createSeo(),
@@ -224,9 +232,25 @@ class DataManagerTest extends TestCase
                     "page" => "index",
                     "languageName" => "en",
                     "pageName" => "index",
+                    "permalink" => "",
                 ),
                 array(
                     "fromLanguageAndPageNames" => $this->createSeo(),
+                ),
+            ),
+            array(
+                array(
+                    "pageId" => 0,
+                    "languageId" => 0,
+                    "_locale" => "",
+                    "page" => "",
+                    "languageName" => "",
+                    "pageName" => "",
+                    "permalink" => "welcome-to-our-website",
+                ),
+                array(
+                    "fromLanguageAndPageNames" => null,
+                    "fromPermalink" => $this->createSeo(),
                 ),
             ),
             array(
@@ -237,9 +261,11 @@ class DataManagerTest extends TestCase
                     "page" => "index",
                     "languageName" => "welcome-to-our-website",
                     "pageName" => "index",
+                    "permalink" => "",
                 ),
                 array(
                     "fromLanguageAndPageNames" => null,
+                    "fromPermalink" => null,
                     "fromPermalinkLanguage" => $this->createSeo(),
                 ),
             ),
@@ -251,9 +277,11 @@ class DataManagerTest extends TestCase
                     "page" => "welcome-to-our-website",
                     "languageName" => "en",
                     "pageName" => "welcome-to-our-website",
+                    "permalink" => "",
                 ),
                 array(
                     "fromLanguageAndPageNames" => null,
+                    "fromPermalink" => null,
                     "fromPermalinkLanguage" => null,
                     "fromPermalinkPage" => $this->createSeo(),
                 ),
@@ -268,7 +296,7 @@ class DataManagerTest extends TestCase
                 array(
                     "language" => $this->createLanguage(),            
                     "page" => $this->createPage(),       
-                    "seo" => $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo"),
+                    "seo" => $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo'),
                 ),
             ),
             array(
@@ -304,9 +332,19 @@ class DataManagerTest extends TestCase
         if (null !== $this->seo) {
             return;
         }
+
+        $this->seo = $queryResults["fromPermalink"];
+        $seoRepository->expects($this->at(1))
+            ->method('fromPermalink')
+            ->with($options["permalink"])
+            ->will($this->returnValue($this->seo))
+        ;
+        if (null !== $this->seo) {
+            return;
+        }
         
         $this->seo = $queryResults["fromPermalinkLanguage"];
-        $seoRepository->expects($this->at(1))
+        $seoRepository->expects($this->at(2))
             ->method('fromPermalink')
             ->with($options["languageName"])
             ->will($this->returnValue($this->seo))
@@ -316,7 +354,7 @@ class DataManagerTest extends TestCase
         }
         
         $this->seo = $queryResults["fromPermalinkPage"];
-        $seoRepository->expects($this->at(2))
+        $seoRepository->expects($this->at(3))
             ->method('fromPermalink')
             ->with($options["pageName"])
             ->will($this->returnValue($this->seo))
@@ -337,14 +375,20 @@ class DataManagerTest extends TestCase
            ->with('_locale')     
            ->will($this->returnValue($options["_locale"]))
         ;
-        
+
         $request->expects($this->at(2))
+            ->method('get')
+            ->with('permalink')
+            ->will($this->returnValue($options["permalink"]))
+        ;
+        
+        $request->expects($this->at(3))
            ->method('get')
            ->with('pageId')     
            ->will($this->returnValue($options["pageId"]))
         ;
         
-        $request->expects($this->at(3))
+        $request->expects($this->at(4))
            ->method('get')
            ->with('languageId')     
            ->will($this->returnValue($options["languageId"]))
@@ -362,7 +406,7 @@ class DataManagerTest extends TestCase
     
     private function initSeoRepository($at = null)
     {
-        $seoRepository = $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface");
+        $seoRepository = $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Core\Repository\Repository\SeoRepositoryInterface');
         
         $this->factoryRepository->expects($this->at($at))
             ->method('createRepository')
@@ -375,17 +419,17 @@ class DataManagerTest extends TestCase
     
     private function createLanguage()
     {
-        return $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language");
+        return $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Language');
     }
     
     private function createPage()
     {
-        return $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page");
+        return $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Page');
     }
     
     private function createSeo()
     {
-        return $this->getMock("RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo");
+        return $this->getMock('RedKiteLabs\RedKiteCms\RedKiteCmsBundle\Model\Seo');
         
         
         return $seo;
