@@ -49,6 +49,7 @@ class DeployController extends Base\BaseController
             $pageTreeCollection = $this->container->get('red_kite_cms.page_tree_collection');
             $options = $this->getOptions($templatesFolder);
             $options["assetsDir"] = $options["assetsDir"] . "/stage";
+            $options["deployBundleAssetsPath"] = $options["deployBundleAssetsPath"] . "/stage";
             $deployer->deploy($pageTreeCollection, $activeTheme, $options);
             $response = $this->render('RedKiteCmsBundle:Dialog:dialog.html.twig', array('message' => 'The staging site has been deployed'));
 
