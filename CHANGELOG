@@ -1,3 +1,14 @@
+RedKite CMS 1.1.6 (2014/07/06)
+6631d9e fixed bug which doen not show the page, language, theme, securyty panel when it was previously closed
+13080c2 fixed assets path for images, when deploying for the stage enviroment #71
+cac7d38 used the font-awesome stylesheet file that comes with RedKite CMS
+50c65cb improved RedKite CMS routing for pages navigation
+9ffb1c5 Fix collision issue in al-inline-list.js
+e67ce91 languages are ordered by name
+9072324 added a new test to verify blocks management behaviour
+503ff3b fixed typo in contact.html.twig; removed unused code in BaseExtension.php
+5c3386a added tests to check that page is added or removed from the pages navigation menu, when the page is added or removed to the website
+
 RedKite CMS 1.1.5 (2014/05/12)
 870b799 improved to automatically update config.yml assetic section and App.Kernel.php with the active theme, each time the website is deployed.
 5fc7c04 configured config and routing configuration files parsing them with Synfony2 Yml component
