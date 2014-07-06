@@ -261,6 +261,7 @@
             }
             else {
                 $('#al_panel_contents').html(html);
+                $(panel).show();
                 callback();
             }
             
