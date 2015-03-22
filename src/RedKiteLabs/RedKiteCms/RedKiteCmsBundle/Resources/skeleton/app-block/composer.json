@@ -1,8 +1,0 @@
-{
-    "autoload": {
-        "psr-0": { "{{ namespace_path }}": ""
-        }
-    },
-    "target-dir" : "{{ target_dir }}",
-    "minimum-stability": "dev"
-}

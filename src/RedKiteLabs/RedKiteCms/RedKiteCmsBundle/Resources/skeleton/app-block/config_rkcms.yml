@@ -1,2 +1,0 @@
-imports:
-- { resource: "@{{ bundle }}/Resources/config/app_block.xml" }

@@ -1,6 +1,0 @@
-_RedKiteLabsBootstrapBundle:
-    resource: .
-    type: bootstrap
-
-_main:
-    resource: routing.yml

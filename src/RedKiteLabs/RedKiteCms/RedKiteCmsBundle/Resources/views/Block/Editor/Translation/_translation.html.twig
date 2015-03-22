@@ -1,7 +1,0 @@
-{% set cms_language = app.request.get('_locale') %}
-{% if editor.configuration is defined %}
-{% set cms_language = editor.configuration.read('language') %}
-{% endif %}
-
-{% block content %}
-{% endblock %}

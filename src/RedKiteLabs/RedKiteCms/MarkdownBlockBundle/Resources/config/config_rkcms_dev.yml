@@ -1,2 +1,0 @@
-imports:
-- { resource: "@MarkdownBlockBundle/Resources/config/config_rkcms.yml" }

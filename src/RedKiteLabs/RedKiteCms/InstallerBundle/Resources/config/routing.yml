@@ -1,3 +1,0 @@
-_install:
-  pattern:  /install
-  defaults: { _controller: RedKiteCmsInstallerBundle:Installer:install }

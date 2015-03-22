@@ -1,7 +1,0 @@
-{
-    "bundles" : {
-        "{{ namespace_path }}\\{{ bundle }}" : {
-            "environments" : ["all"]
-        }
-    }
-}

@@ -1,7 +1,0 @@
-{
-    "bundles" : {
-        "RedKiteLabs\\RedKiteCms\\BootbusinessBlockBundle\\BootbusinessBlockBundle" : {
-            "environments" : ["rkcms", "rkcms_dev", "rkcms_test", "test"]
-        }
-    }
-}

@@ -1,5 +1,0 @@
-_stage_prod:
-    resource: routing_stage.yml
-
-_stage_dev:
-    resource: routing_dev.yml

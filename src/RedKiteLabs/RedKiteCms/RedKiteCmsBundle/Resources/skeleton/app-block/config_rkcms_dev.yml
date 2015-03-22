@@ -1,2 +1,0 @@
-imports:
-- { resource: "@{{ bundle }}/Resources/config/config_rkcms.yml" }

@@ -1,3 +1,0 @@
-imports:
-    - { resource: config_rkcms.yml }
-    - { resource: "@RedKiteCmsBundle/Resources/config/config_rkcms_dev.yml" }

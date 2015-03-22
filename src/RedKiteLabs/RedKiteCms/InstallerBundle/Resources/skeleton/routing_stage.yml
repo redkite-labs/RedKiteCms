@@ -1,3 +1,0 @@
-_{{ bundle }}Stage:
-    resource: "@AcmeWebSiteBundle/Resources/config/site_routing_stage.yml"
-

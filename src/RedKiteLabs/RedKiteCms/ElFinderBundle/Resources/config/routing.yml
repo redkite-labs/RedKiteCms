@@ -1,2 +1,0 @@
-_elfinder:
-    resource: "@RedKiteLabsElFinderBundle/Resources/config/routing.xml"

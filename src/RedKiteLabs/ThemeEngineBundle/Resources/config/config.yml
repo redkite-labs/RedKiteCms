@@ -1,4 +1,0 @@
-assetic:
-    bundles: [ RedKiteLabsThemeEngineBundle ]
-    filters:
-        cssrewrite: ~
