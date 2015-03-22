@@ -1,0 +1,20 @@
+<div id="rkcms-control-panel-body" class="container">
+{% set c = 0 %}
+{% for commandGroup in commands %}
+    {% if c == 0 %}
+    <div class="row">
+    {% endif %}
+        <div class="col-md-4">
+            {% for command in commandGroup %}
+            <a id="{{ command.id|default("") }}" {{ command.extra_attributes|default("") }}  class="btn {{ command.class|default("") }}" data-bind="{{ command.binding }}"><i class="fa fa-{{ command.icon }} fa-2x"></i>
+                <div>{{ command.label|trans({}, 'RedKiteCms', cms_language) }}</div>
+            </a>
+            {% endfor %}
+        </div>
+    {% set c = c + 1 %}
+    {% if c == 3 %}
+    </div>
+    {% set c = 0 %}
+    {% endif %}
+{% endfor %}
+</div>

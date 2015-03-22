@@ -1,0 +1,14 @@
+{
+    "author": "RedKite Labs",
+    "website": "http://redkite-labs.com",
+    "description": "This block handles the Ace9 Editor",
+    "group": "RedKiteCMS",
+    "external-javascripts": [
+      "js/rkcms-ace-editor.js"
+    ],
+    "external-stylesheets": [
+        "css/ace-editor.css"
+    ]
+
+
+}

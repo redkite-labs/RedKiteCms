@@ -1,0 +1,66 @@
+{
+  "prod" :
+  {
+    "getExternalStylesheets": [
+        "%web_dir%/components/redkitecms/twitter-bootstrap/css/bootstrap.min.css",
+      "%web_dir%/components/redkitecms/font-awesome/css/font-awesome.min.css",
+        "%web_dir%/components/highlight/styles/github.css"
+    ],
+    "getExternalJavascripts": [
+        "%web_dir%/components/jquery/jquery.min.js",
+        "%web_dir%/components/redkitecms/twitter-bootstrap/js/bootstrap.min.js",
+        "%web_dir%/components/highlight/highlight.pack.js"
+    ]
+  },
+  "cms" :
+  {
+    "getExternalStylesheets": [
+    "%web_dir%/components/redkitecms/twitter-bootstrap/css/bootstrap.min.css",
+    "%web_dir%/components/redkitecms/font-awesome/css/font-awesome.min.css",
+    "%web_dir%/plugins/redkitecms/css/skins/redkite/skin.css",
+    "%web_dir%/components/redkitecms/jquery-ui/themes/smoothness/*",
+    "%web_dir%/components/redkitecms/elfinder/vendor/jquery-ui.css",
+    "%web_dir%/components/redkitecms/elfinder/css/elfinder.min.css",
+    "%web_dir%/components/highlight/styles/github.css",
+    "%web_dir%/components/redkitecms/elfinder/css/theme.css"
+    ],
+    "getExternalJavascripts": [
+    "%web_dir%/components/jquery/jquery.min.js",
+    "%web_dir%/components/redkitecms/jquery-ui/jquery-ui.min.js",
+    "%web_dir%/components/redkitecms/twitter-bootstrap/js/bootstrap.min.js",
+    "%web_dir%/components/jquery-easing/jquery.easing.min.js",
+    "%web_dir%/components/holderjs/holder.js",
+    "%web_dir%/components/knockout/knockout.min.js",
+    "%web_dir%/components/bootbox/bootbox.js",    
+    "%web_dir%/components/js-yaml/dist/js-yaml.min.js",
+    "%web_dir%/components/js-yaml/demo/js/utils.js",
+    "%web_dir%/components/redkitecms/elfinder/js/elfinder.min.js",
+    "%web_dir%/components/highlight/highlight.pack.js",
+    "%web_dir%/components/markdown/markdown.js",
+    "%web_dir%/plugins/redkitecms/js/common/*",
+    "%web_dir%/plugins/redkitecms/js/cms/*"
+    ]
+  },
+  "dashboard" :
+  {
+    "getExternalStylesheets": [
+      "%web_dir%/components/redkitecms/twitter-bootstrap/css/bootstrap.min.css",
+      "%web_dir%/components/redkitecms/font-awesome/css/font-awesome.min.css",
+      "%web_dir%/sb-admin-2/css/plugins/metisMenu/metisMenu.min.css",
+      "%web_dir%/sb-admin-2/css/sb-admin-2.css",
+      "%web_dir%/plugins/redkitecms/css/skins/redkite/dashboard.css"
+    ],
+    "getExternalJavascripts": [
+      "%web_dir%/components/jquery/jquery.min.js",
+      "%web_dir%/components/redkitecms/jquery-ui/jquery-ui.min.js",
+      "%web_dir%/components/redkitecms/twitter-bootstrap/js/bootstrap.min.js",
+      "%web_dir%/components/knockout/knockout.min.js",
+      "%web_dir%/components/bootbox/bootbox.js",
+      "%web_dir%/sb-admin-2/js/plugins/metisMenu/metisMenu.min.js",
+      "%web_dir%/sb-admin-2/js/sb-admin-2.js",
+      "%web_dir%/plugins/redkitecms/js/cms/rkcms-page.js",
+      "%web_dir%/plugins/redkitecms/js/common/*",
+      "%web_dir%/plugins/redkitecms/js/dashboard/*"
+    ]
+  }
+}

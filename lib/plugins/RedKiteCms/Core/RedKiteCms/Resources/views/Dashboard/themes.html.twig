@@ -1,0 +1,33 @@
+{%  extends 'RedKiteCms/Resources/views/Dashboard/base.html.twig' %}
+
+{% block content %}
+    <div id="rkcms-themes-panel">
+        <div class="row">
+            <div class="col-md-6">
+                {% if themes.active_theme is defined %}
+                <div>
+                    {% include 'RedKiteCms/Resources/views/Dashboard/_theme_skeleton.html.twig' with { 'theme': themes.active_theme, 'available': false } %}
+                </div>
+                {% else %}
+                <p><b>{{ "themes_no_active_theme_choosen" | trans([], 'RedKiteCms', cms_language) }}</b></p>
+                <p>{{ "themes_choose_theme" | trans([], 'RedKiteCms', cms_language) }}</p>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                {% if themes.available_themes is defined and themes.available_themes|length > 0 %}
+                <div>
+                    <div>
+                        <table >
+                            {% for item in themes.available_themes %}
+                            <tr><td valign="top">{% include 'RedKiteCms/Resources/views/Dashboard/_theme_skeleton.html.twig' with { 'theme': item, 'available': true } %}</td></tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% else %}
+                    <p><b>{{ "themes_no_other_theme_installed" | trans([], 'RedKiteCms', cms_language) }}</b></p>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

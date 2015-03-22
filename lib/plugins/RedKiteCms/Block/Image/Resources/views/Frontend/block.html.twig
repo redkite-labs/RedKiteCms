@@ -1,0 +1,9 @@
+{% block body %}
+    {% if block.href == "" %}
+    <img  {{ include('RedKiteCms/Resources/views/Block/_block_tags.html.twig') }} />
+    {% else %}
+    <a href="{{ block.href }}">
+        <img  {{ include('RedKiteCms/Resources/views/Block/_block_tags.html.twig') }} />
+    </a>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'RedKiteCms/Resources/views/Block/base_block.html.twig' %}
+
+{% set editor_id = "rkcms-icon-linked-editor" %}
+
+{% block custom_element %}
+    <script type="text/html" id="rkcms-icon-linked">
+        <rkcms-icon-linked params='{ block: $data, parent: $parent }'></rkcms-icon-linked>
+    </script>
+{% endblock %}
+
+{% block block_element %}
+    <a class="rkcms-block" data-bind="element: target, dynamicAttr: tags, foreach: children, event: { mouseenter: highlight, mouseleave: hide }, attr: { 'data-type': type, 'data-name': name, 'data-slot-name': slotName}, click: startBlockEditing" >
+        <rkcms-icon params='{ block: $data, parent: $parent }'></rkcms-icon>
+    </a>
+{% endblock %}
+    
+{% block block_editor_title %}
+{{ 'linked_icon_editor_title'|trans({}, 'RedKiteCms', cms_language) }}
+{% endblock %}
+
+{% block block_editor_extra %}
+    {% include 'Link/Resources/views/Cms/_permalinks_selector.html.twig' %}
+{% endblock %}

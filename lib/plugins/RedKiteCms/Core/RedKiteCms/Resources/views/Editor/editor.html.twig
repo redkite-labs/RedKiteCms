@@ -1,0 +1,25 @@
+{% block body %}
+
+{{ include ('RedKiteCms/Resources/views/I18n/i18n.html.twig') }}
+<div style="display:none">
+    {{ cms_blocks|raw }}
+</div>
+
+{% block control_panel %}
+<div class="btn-group" id="rkcms-control-panel">
+    <button id="rkcms-control-panel-btn" type="button" class="btn btn-default" data-content='{{ include('RedKiteCms/Resources/views/Editor/commands.html.twig') }}' data-placement="bottom" data-toggle="popover" data-container="body" data-html="true" data-original-title="" title=""><i class="fa fa-bars"></i></button>
+</div>
+{% endblock %}
+
+{{ include('RedKiteCms/Resources/views/Editor/_blocks_menu.html.twig') }}
+{{ include('RedKiteCms/Resources/views/Editor/_seo_panel.html.twig') }}
+{{ include('RedKiteCms/Resources/views/Editor/_add_blocks_panel_slot.html.twig') }}
+{{ include('RedKiteCms/Resources/views/Partials/_saving_progress.html.twig') }}
+
+<div id="rkcms-blocks-editor-panel">
+    {{ include('RedKiteCms/Resources/views/Editor/_block_editor.html.twig') }}
+    {{ include('RedKiteCms/Resources/views/Editor/_blocks_toolbar.html.twig') }}
+    {{ include('RedKiteCms/Resources/views/Editor/_add_blocks_panel.html.twig') }}
+    {{ include('RedKiteCms/Resources/views/Editor/_history_panel.html.twig') }}
+</div>
+{% endblock %}

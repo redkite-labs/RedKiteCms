@@ -1,0 +1,1 @@
+RedKite CMS bower package 

@@ -1,0 +1,8 @@
+<div data-slotname="{{ slotname }}" class="rkcms-slot" data-slot="{{ data }}">
+    <div data-bind="element: target, if: empty, click: showPanel, attr: { 'data-slot-name': slotName, 'class': 'rkcms-sortable' }, event: { mouseenter: highlight, mouseleave: hide }">{{ 'block_editor_empty_slot'|trans({}, 'RedKiteCms', cms_language) }}</div>
+    <div data-bind="template: { name: function(item) { return item.custom_tag; }, foreach: blocks}, attr: { 'class': 'rkcms-sortable' }"></div>
+
+    <script id="emptySlot" type="text/html">
+        {{ 'block_editor_empty_slot'|trans({}, 'RedKiteCms', cms_language) }}
+    </script>
+</div>

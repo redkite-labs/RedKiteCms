@@ -1,0 +1,15 @@
+{% block blocks_toolbar %}
+<div class="rkcms-blocks-toolbar" data-bind="visible: showToolbar" >
+    <div class="btn-group-vertical">
+        <button class="btn btn-default" data-bind="click: openAddPanel">
+            <i class="fa fa-plus fa-lg"></i>
+        </button>
+        <button class="rkcms-remove-block btn btn-default" data-bind="click: remove">
+            <i class="fa fa-trash-o fa-lg" data-bind="css: { 'fa-spin fa-spinner': transactionRemove() }"></i>
+        </button>
+        <button class="btn btn-default" data-bind="click: openHistoryPanel">
+            <i class="fa fa-list-alt fa-lg"></i>
+        </button>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{#
+   This file is part of the RedKite CMS Application and it is distributed
+   under the MIT License. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    MIT License
+#}
+
+{% extends template %}
+
+{% block internal_header_javascripts %}
+{{ parent() }}
+<script>
+    function cmsStartInternalJavascripts(){
+        try
+        {
+            {{ template_assets_manager.getInternalJavascripts|raw }}
+        }
+        catch(e)
+        {
+            alert(e);
+        }
+    }
+
+    var frontcontroller = "{{ app.request.getBaseUrl }}";
+    var page = '{{ page }}';
+    var language = '{{ language }}';
+    var country = '{{ country }}';
+    var isTheme = '{{ is_theme }}';
+    var pagePublished = {{ page_published }};
+</script>
+{% endblock %}
+
+{% block internal_header_stylesheets %}
+    {{ parent() }}
+    <style>
+    {{ template_assets_manager.getInternalStylesheets|raw }}
+    </style>
+{% endblock %}
+
+{% block body %}
+{% block editor %}
+{% include 'RedKiteCms/Resources/views/Editor/editor.html.twig' %}
+{% endblock %}
+
+<div class="rkcms-body">
+    {{ parent() }}
+</div>
+{% endblock %}

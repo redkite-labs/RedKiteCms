@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="">
+    <body>
+        <trans-unit id="text_editor_title">
+            <source>text_editor_title</source>
+            <target>Text editor</target>
+        </trans-unit>
+        <trans-unit id="hypertext_block">
+            <source>hypertext_block</source>
+            <target>Click to edit the default text content</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>

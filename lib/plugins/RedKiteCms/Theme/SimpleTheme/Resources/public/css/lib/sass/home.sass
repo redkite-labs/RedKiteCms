@@ -1,0 +1,89 @@
+/**
+ * This file is part of the RedKite CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.redkite-labs.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+
+@import "compass/typography/lists/inline-list"
+
+html, body
+  height: 100%
+
+body
+  margin: 0
+  padding: 0
+  font-family: 'Open Sans', Arial, Verdana, Helvetica, sans-serif
+  color: #525252
+  line-height: 20px
+
+  h1, h2, h3
+    padding: 0
+    margin: 0
+    margin-bottom: 6px
+
+  h1
+    font-weight: bold
+    font-size: 36px
+
+  h2
+    font-weight: bold
+    font-size: 32px
+
+  h3
+    font-size: 28px
+
+  a
+    color: #d20000
+
+#header
+  min-height: 60px
+  text-align: center
+
+  h1
+    margin: 20px 0
+
+#menu
+  min-height: 40px
+  text-align: center
+
+  ul
+    +inline-list
+    font-size: 16px
+
+    li
+      padding: 0 10px
+
+    a
+      color: #c7254e
+
+
+#content
+  min-height: 400px
+
+#footer
+  width: 100%
+  min-height: 300px
+  background-color: #111
+  color: white
+  padding: 20px
+
+  a
+    color: #EEEE00
+
+#footer-contents
+  height: auto
+  margin-bottom: 100px
+
+#copyright
+  height: 20px
+  text-align: center

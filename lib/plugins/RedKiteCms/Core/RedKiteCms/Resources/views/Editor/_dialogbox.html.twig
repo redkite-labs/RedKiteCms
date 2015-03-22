@@ -1,0 +1,13 @@
+<div class="pull-right rkcms-dialogbox">
+    {% block dock_left_button %}
+    <a href="#" class="rkcms-dock-control-panel-right" data-bind="visible: dockStatus()=='left', click: dockRight"><i class="fa fa-caret-right"></i></a>
+    {% endblock %}
+
+    {% block dock_right_button %}
+    <a href="#" class="rkcms-dock-control-panel-left" data-bind="visible: dockStatus()=='right', click: dockLeft"><i class="fa fa-caret-left"></i></a>
+    {% endblock %}
+
+    {% block close_button %}
+    <a href="#" class="rkcms-control-panel-close" data-bind="click: closePanel"><i class="fa fa-times"></i></a>
+    {% endblock %}
+</div>

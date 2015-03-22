@@ -1,0 +1,15 @@
+{
+  "name": "knockout.mapping",
+  "homepage": "https://github.com/RayKwon/knockout.mapping",
+  "version": "2.0.1",
+  "_release": "2.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "2.0.1",
+    "commit": "9610db4d82e84b09ae05f0171eb6065fb113cd2c"
+  },
+  "_source": "git://github.com/RayKwon/knockout.mapping.git",
+  "_target": "~2.0.1",
+  "_originalSource": "knockout.mapping",
+  "_direct": true
+}

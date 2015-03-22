@@ -1,0 +1,45 @@
+{%  extends 'RedKiteCms/Resources/views/Dashboard/base.html.twig' %}
+
+{% block content %}
+<h1 class="page-header">Dashboard</h1>
+<div id="rkcms-control-panel-body" class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn btn-link col-md-3" href="{{ path('_rkcms_show_pages') }}">
+                <i class="fa fa-file-o fa-3x"></i>
+                <div>{{ "common_label_pages"|trans({}, 'RedKiteCms', cms_language) }}</div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-link col-md-3" href="#"><i class="fa fa-flag-o fa-3x"></i>
+                <div>{{ "common_label_languages"|trans({}, 'RedKiteCms', cms_language) }}</div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-link col-md-3" href="{{ path('_rkcms_show_themes') }}">
+                <i class="fa fa-picture-o fa-3x"></i>
+                <div>{{ "common_label_themes"|trans({}, 'RedKiteCms', cms_language) }}</div>
+            </a>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn btn-link col-md-3" href=""><i class="fa fa-plug fa-3x"></i>
+                <div>{{ "common_label_plugins"|trans({}, 'RedKiteCms', cms_language) }}</div>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a class="btn btn-link col-md-3" href="{{ path('_rkcms_show_users') }}"><i class="fa fa-users fa-3x"></i>
+                <div>{{ "common_label_users"|trans({}, 'RedKiteCms', cms_language) }}</div>
+            </a>
+        </div>
+            <div class="col-md-3">
+            <a class="btn btn-link col-md-3" href="{{ path( app.request.session.get('last_route')) }}">
+                <i class="fa fa-reply fa-3x"></i>
+                <div>{{ "common_label_back"|trans({}, 'RedKiteCms', cms_language) }}</div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

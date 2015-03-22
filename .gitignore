@@ -1,0 +1,10 @@
+
+/app/cache/*
+/app/logs/*
+/app/data/*
+/app/data/RedKiteCms/Block/*
+/app/data/RedKiteCms/Theme/*
+/vendor/
+/web/plugins
+/bin/
+/.idea/

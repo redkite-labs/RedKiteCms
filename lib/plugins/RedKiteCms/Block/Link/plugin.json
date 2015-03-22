@@ -1,0 +1,13 @@
+{
+    "author": "RedKite Labs",
+    "website": "http://redkite-labs.com",
+    "description": "This block handles a link",
+    "group": "RedKiteCMS",
+    "enabled": "true",
+    "external-javascripts": [
+        "js/rkcms-link.js"
+    ]
+}
+
+
+

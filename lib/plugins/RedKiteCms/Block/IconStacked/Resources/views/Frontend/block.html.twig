@@ -1,0 +1,6 @@
+{% block body %}
+<span {{ include('RedKiteCms/Resources/views/Block/_block_tags.html.twig') }}>
+    {{ include('RedKiteCms/Resources/views/Block/_block_children.html.twig') }}
+</span>
+{{ block.value }}
+{% endblock %}

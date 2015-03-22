@@ -1,0 +1,4 @@
+{
+  "skin": "RedKiteCms/public/css/skins/redkite",
+  "baseTemplate": "RedKiteCms/Resources/views/Frontend/base.html.twig"
+}

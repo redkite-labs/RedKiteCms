@@ -1,0 +1,22 @@
+{% block block_editor %}
+
+<div class="rkcms-blocks-editor" data-bind="visible: showEditor">
+    {% block block_editor_toolbar %}
+        <div data-bind="visible: toolbar().length > 0" class="rkcms-blocks-editor-toolbar">
+            {{ editor_toolbar|raw }}
+        </div>
+    {% endblock %}
+    <div class="rkcms-editor-body">
+        <pre class="rkcms-ace-editor" data-bind="text: source"></pre>
+    </div>
+    <div class="rkcms-ace-editor-error" data-bind="html: error()"></div>
+</div>
+
+<!-- ko if: $data.mode() == 'inplace' && !$data.isEditing() -->
+<div class="rkcms-preview-toolbar">
+    <div class="btn-group">
+        {% include 'RedKiteCms/Resources/views/Editor/Toolbar/_preview_button.html.twig' %}
+    </div>
+</div>
+<!-- /ko -->
+{% endblock %}

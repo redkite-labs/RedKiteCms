@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="">
+    <body>
+        <trans-unit id="text_editor_title">
+            <source>image_editor_title</source>
+            <target>Image editor</target>
+        </trans-unit>
+        <trans-unit id="image_block_src_attribute">
+            <source>image_block_src_attribute</source>
+            <target>Src attr.</target>
+        </trans-unit>
+        <trans-unit id="image_block_title_attribute">
+            <source>image_block_title_attribute</source>
+            <target>Title attr.</target>
+        </trans-unit>
+        <trans-unit id="image_block_title_value">
+            <source>image_block_title_placeholder</source>
+            <target>Enter a title for this image</target>
+        </trans-unit>
+        <trans-unit id="image_block_alt_attribute">
+            <source>image_block_alt_attribute</source>
+            <target>Alt attr.</target>
+        </trans-unit>
+        <trans-unit id="image_block_alt_value">
+            <source>image_block_alt_placeholder</source>
+            <target>Enter the alt attribute for this image</target>
+        </trans-unit>
+        <trans-unit id="image_block_href_attribute">
+            <source>image_block_href_attribute</source>
+            <target>Link to page</target>
+        </trans-unit>
+        <trans-unit id="image_block_href_placeholder">
+            <source>image_block_href_placeholder</source>
+            <target>Enter a link for this image</target>
+        </trans-unit>
+        <trans-unit id="image_block_file_attribute">
+            <source>image_block_file_attribute</source>
+            <target>Link to file</target>
+        </trans-unit>
+        <trans-unit id="image_block_file_placeholder">
+            <source>image_block_file_placeholder</source>
+            <target>Link this image to a file</target>
+        </trans-unit>
+        <trans-unit id="image_block_link_class_attribute">
+            <source>image_block_link_class_attribute</source>
+            <target>Link class</target>
+        </trans-unit>
+        <trans-unit id="image_block_link_class_placeholder">
+            <source>image_block_link_class_placeholder</source>
+            <target>Enter some classes for the image's link</target>
+        </trans-unit>
+        <trans-unit id="image_block_class_placeholder">
+            <source>image_block_class_placeholder</source>
+            <target>Enter some classes for the image</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>

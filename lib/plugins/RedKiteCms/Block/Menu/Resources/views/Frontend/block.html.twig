@@ -1,0 +1,7 @@
+{% block body %}
+<ul>
+{% for child in block.children %}
+<li>{% include child.type ~ '/Resources/views/Frontend/block.html.twig' with{"block": child} %}</li>
+{% endfor %} 
+</ul>
+{% endblock %}

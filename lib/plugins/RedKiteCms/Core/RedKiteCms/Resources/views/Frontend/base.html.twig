@@ -1,0 +1,62 @@
+{#
+   This file is part of the RedKite CMS Application and it is distributed
+   under the MIT License. In addiction, to use this bundle, you must leave
+   intact this copyright notice.
+ 
+    Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+ 
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+  
+   @license    MIT License
+#}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>{% block title %}{% if metatitle is defined %}{{ metatitle }}{% endif %}{% endblock %}</title>
+        <meta name="Description" content="{% block description %}{% if metadescription is defined %}{{ metadescription }}{% endif %}{% endblock %}" />
+        <meta name="Keywords" content="{% block keywords %}{% if metakeywords is defined %}{{ metakeywords }}{% endif %}{% endblock %}" />
+        <meta name="generator" content="RedKite CMS" />
+        {% block metatags %}        
+        {% endblock %}
+        
+        {% block assets %}
+            {% block pre_external_javascripts %}
+            {% endblock %}
+
+            {% block external_javascripts %}
+            {% endblock %}
+
+            {% block post_external_javascripts %}
+            {% endblock %}
+
+            {% block pre_external_stylesheets %}
+            {% endblock %}
+
+            {% block external_stylesheets %}
+            {% endblock %}
+
+            {% block post_external_stylesheets %}
+            {% endblock %}
+
+            {% block internal_header_stylesheets %}
+            {% endblock %}
+
+            {% block conditional_assets %}
+            {% endblock %}
+        {% endblock %}
+        <link rel="shortcut icon" href="{{ 'favicon.ico' }}" />
+    </head>
+    
+    {% block body_tag %}<body>{% endblock %}
+        {% block body %}{% endblock %}
+        {% block internal_header_javascripts %}{% endblock %}
+        {% block internal_body_javascripts %}
+            <script>hljs.initHighlightingOnLoad();</script>
+        {% endblock %}
+    </body>    
+</html>

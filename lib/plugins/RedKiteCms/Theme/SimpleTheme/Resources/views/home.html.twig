@@ -1,0 +1,16 @@
+{% extends 'SimpleTheme/Resources/views/base/base.html.twig' %}
+
+{% block post_external_stylesheets %}
+    {{ parent() }}
+    <link href="/plugins/simpletheme/css/home.css" rel="stylesheet" type="text/css" media="all" />
+{% endblock %}
+
+{% block content %}    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">{{ slots.left_column|default('')|raw }}</div>
+            <div class="col-md-6">{{ slots.content|default('')|raw }}</div>
+            <div class="col-md-3">{{ slots.right_column|default('')|raw }}</div>
+        </div>
+    </div>
+{% endblock %}

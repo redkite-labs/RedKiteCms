@@ -1,0 +1,48 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block form_label %}
+    {% spaceless %}
+        {% if label is not sameas(false) %}
+            {% if not compound %}
+                {% set label_attr = label_attr|merge({'for': id}) %}
+            {% endif %}
+            {% if required %}
+                {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+            {% endif %}
+            {% if label is empty %}
+                {% set label = name|humanize %}
+            {% endif %}
+
+            {#{% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' ' ~ label_attr. ~ ' control-label')|trim}) %}#}
+            {% set label_class = label_attr.class|default('') %}
+            {% if 'col-' not in label_class %}
+                {% set label_class = label_class ~ ' col-sm-2 control-label' %}
+            {% endif %}
+            {% set label_attr = label_attr|merge({'class': (label_class|trim ~ ' control-label')|trim}) %}
+            <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ label|trans({}, translation_domain) }}</label>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_label %}
+
+{% block button_label %}{% endblock %}
+
+{% block form_row %}
+    {% spaceless %}
+        {{ form_errors(form) }}
+        <div class="form-group form-group-sm">
+            {{ form_label(form) }}
+            <div class="col-sm-10">
+            {{ form_widget(form) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock form_row %}
+
+{% block widget_attributes %}
+    {% spaceless %}
+        id="{{ id }}" name="{{ full_name }}"{% if read_only %} readonly="readonly"{% endif %}{% if disabled %} disabled="disabled"{% endif %}{% if required %} required="required"{% endif %}{% if max_length %} maxlength="{{ max_length }}"{% endif %}{% if pattern %} pattern="{{ pattern }}"{% endif %}
+        {% set has_class = false %}
+        {% for attrname, attrvalue in attr %}{% if attrname in ['placeholder', 'title'] %}{{ attrname }}="{{ attrvalue|trans({}, translation_domain, cms_language) }}" {% else %}{% if attrname == 'class' %}{{ attrname }}="{{ attrvalue }} form-control"{% set has_class = true %}{% else %}{{ attrname }}="{{ attrvalue }}"{% endif %}{% endif %}{% endfor %}
+        {% if has_class == false %}class="form-control"{% endif %}
+    {% endspaceless %}
+{% endblock widget_attributes %}

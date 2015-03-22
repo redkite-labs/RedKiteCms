@@ -1,0 +1,49 @@
+{%  extends 'RedKiteCms/Resources/views/Dashboard/base.html.twig' %}
+
+{% block content %}
+<div id="rkcms-pages-editor-table" data-pages="{{ pages }}">
+    <div>
+        <h1 class="page-header">Pages</h1>
+        <table class="table table-condensed table-responsive">
+            <thead>
+                <tr>
+                    <th> </th>
+                    <th>Page</th>
+                    <th>Template</th>
+                </tr>
+            </thead>
+
+            <tbody data-bind="foreach: pages">
+                {# Assigning a rel attribute by data-bind to certain tags, is a workaround required for functional tests because it seems that mink does not recognize nt-child" #}
+                <tr class="form-group" data-bind="attr: {rel: 'rkcms-page-row-' + $index()}">
+                    <td data-bind="attr: {rel: 'rkcms-seo-panel-opener-' + $index()}" class="col-md-1">
+                        <button class="btn btn-link btn-sm" data-bind="click: $root.toggle"><i class="fa fa-plus"></i></button>
+                        <i class="fa fa-home" data-bind="visible: isHome"></i>
+                    </td>
+                    <td data-bind="attr: {rel: 'rkcms-page-name-input-' + $index()}">
+                        {{ form_widget(pageForm.pagename) }}
+                    </td>
+                    <td data-bind="attr: {rel: 'rkcms-template-name-select-' + $index()}">
+                        {{ form_widget(pageForm.templatename) }}
+                    </td>
+                    <td data-bind="attr: {rel: 'rkcms-page-remover-' + $index()}">
+                        <button class="btn btn-danger btn-sm" data-bind="click: $root.remove"><i class="fa fa-trash-o"></i></button>
+                    </td>
+                </tr>
+                <tr data-bind="visible: $data.showDetails, attr: {rel: 'rkcms-seo-row-' + $index()}">
+                    <!-- ko foreach: seo -->
+                    <td data-bind="text: language, attr: {rel: 'rkcms-seo-panel-language-' + $index()}"></td>
+                    <td data-bind="attr: {rel: 'rkcms-seo-panel-permalink-' + $index()}" colspan="2">{{ form_widget(seoForm.permalink) }}</td>
+                    <td data-bind="attr: {rel: 'rkcms-seo-panel-goto-page-' + $index()}">
+                        <button class="btn btn-default btn-sm" data-bind="click: $root.navigate"><i class="fa fa-location-arrow"></i></button>
+                    </td>
+                    <!-- /ko -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <button id="rkcms-add-page-button" class="btn btn-default btn-xs" data-bind="click: add"><i class="fa fa-plus"> Add new</i>
+    </div>
+</div>
+{% endblock %}

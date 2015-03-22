@@ -1,0 +1,42 @@
+ {#
+   This file is part of the RedKite CMS Application and it is distributed
+   under the MIT License. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    MIT License
+#}
+
+{% set login_route = route is defined ? route : "_login_check" %}  
+
+<form action="{{ path(login_route) }}" method="post" id="login" class="form-horizontal" role="form">
+    <div class="form-group">
+        <label class="col-lg-4 control-label" for="username">Username</label>
+        <div class="col-lg-6">
+            <input type="text" id="username" name="_username" value="{{ last_username }}" placeholder="Username" class="form-control" >
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-lg-4 control-label" for="password">Password</label>
+        <div class="col-lg-6">
+            <input type="password" id="password" name="_password" class="form-control"  placeholder="Password">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-lg-offset-4 col-lg-6">
+            <button type="submit" class="btn btn-default">Sign in</button>
+        </div>
+    </div>
+
+    {% if target is defined %}
+    <input type="hidden" name="_target_path" value="{{ target }}" />
+    {% endif %}
+</form>

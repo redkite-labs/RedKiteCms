@@ -1,0 +1,15 @@
+{% extends 'RedKiteCms/Resources/views/Block/base_block.html.twig' %}
+
+{% set editor_id = "rkcms-text-editor" %}
+
+{% block custom_element %}
+    <script type="text/html" id="rkcms-text">
+        <rkcms-text params='{ block: $data, parent: $parent }'></rkcms-text>
+    </script>
+{% endblock %}
+
+{% block block_element %}
+    <div class="rkcms-block rkcms-tinymce" data-bind="element: target, html: html, event: { mouseenter: highlight, mouseleave: hide }, attr: {  'data-type': type, 'data-name': name, 'data-slot-name': slotName}, click: startBlockEditing" ></div>
+{% endblock %}
+    
+{% block block_editor %}{% endblock %}

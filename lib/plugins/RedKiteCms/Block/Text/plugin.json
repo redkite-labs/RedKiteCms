@@ -1,0 +1,10 @@
+{
+    "author": "RedKite Labs",
+    "website": "http://redkite-labs.com",
+    "description": "This block handles an hypertextual content and handles it with TinyMCE",
+    "group": "RedKiteCMS",
+    "enabled": "true",
+    "external-javascripts": [
+        "js/rkcms-tinymce.js"
+    ]
+}

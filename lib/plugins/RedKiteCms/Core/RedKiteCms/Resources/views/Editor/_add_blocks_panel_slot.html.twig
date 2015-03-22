@@ -1,0 +1,32 @@
+{% block add_blocks_panel_slot %}
+<div id="rkcms-slots-editor-panel">
+    <div data-bind="visible: showSlotsPanel" class="rkcms-blocks-panel rkcms-dock rkcms-dock-left">
+        <div class="rkcms-block-attributes">
+            <div class="rkcms-block-panel-title">
+                <div class="pull-left">
+                    {{ 'available_blocks_title'|trans({}, 'RedKiteCms', cms_language) }}
+                </div>
+                {{ include('RedKiteCms/Resources/views/Editor/_slot_dialogbox.html.twig') }}
+            </div>
+
+            <div class="rkcms-block-panel-contents rkcms-available-blocks">
+                <ul>
+                    {% for blockType in available_blocks %}
+                        <li class="rkcms-available-block" data-type="{{ blockType }}" data-bind="click: selectBlock">{{ blockType }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="rkcms-block-commands">
+                <ul>
+                    <li>
+                        <button class="btn btn-primary" data-bind="click: addBlock">
+                            <i class="fa fa-plus fa-lg" data-bind="css: { 'fa-spin fa-spinner': transactionIcon() }"></i> {{ 'block_editor_add_block'|trans({}, 'RedKiteCms', cms_language) }}
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

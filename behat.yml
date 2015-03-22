@@ -1,0 +1,12 @@
+default:
+  suites:
+    redkitecms:
+      contexts:
+        - RedKiteCms\Behat\FeatureContext
+
+  extensions:
+    Behat\MinkExtension\ServiceContainer\MinkExtension:
+      base_url:  'http://localhost'
+      sessions:
+        default:
+          selenium2: ~

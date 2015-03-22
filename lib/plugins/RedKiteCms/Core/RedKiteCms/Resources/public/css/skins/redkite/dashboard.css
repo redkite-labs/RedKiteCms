@@ -1,0 +1,110 @@
+/*
+ * This file is part of the RedKite CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.redkite-labs.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+/*
+ * This file is part of the RedKite CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.redkite-labs.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+/*
+ * This file is part of the RedKite CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.redkite-labs.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+#rkcms-control-panel-body .btn-link {
+  color: #525252;
+}
+#rkcms-control-panel-body .btn-link:hover {
+  color: #428bca;
+}
+
+/*
+ * This file is part of the RedKite CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.redkite-labs.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+.rkcms-theme-screenshot .rkcms-no-screenshot {
+  border: 1px solid #dedede;
+  padding-top: 55px;
+  padding-left: 55px;
+  margin-bottom: 24px;
+}
+.rkcms-theme-screenshot .rkcms-no-screenshot i {
+  font-size: 140px;
+}
+.rkcms-theme-screenshot .thumbnail, .rkcms-theme-screenshot .rkcms-no-screenshot {
+  min-height: 260px;
+}
+
+.rkcms-theme-body {
+  overflow: auto;
+  margin-bottom: 10px;
+}
+.rkcms-theme-body table td, .rkcms-theme-body table th {
+  padding: 2px;
+}
+
+/*
+ * This file is part of the RedKite CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.redkite-labs.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+.rkcms-saving-progress {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  display: none;
+  z-index: 200000;
+}

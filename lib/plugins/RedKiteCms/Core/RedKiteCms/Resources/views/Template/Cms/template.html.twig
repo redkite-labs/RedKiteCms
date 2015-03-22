@@ -1,0 +1,30 @@
+ {#
+   This file is part of the RedKite CMS Application and it is distributed
+   under the MIT License. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    MIT License
+#}
+
+{% extends 'RedKiteCms/Resources/views/Template/base.html.twig' %}
+
+{% block external_stylesheets %}
+    {% for value in template_assets_manager.getExternalStylesheets(['cssrewrite']) %}
+    <link href="{{ value }}" rel="stylesheet" type="text/css" media="all" />
+    {% endfor %}
+{% endblock %}
+
+{% block external_javascripts %}
+    {% for value in template_assets_manager.getExternalJavascripts %}
+    <script src="{{ value }}"></script>
+    {% endfor %}
+    <script src="/components/tinymce/tinymce.min.js"></script>    
+    <script src="/components/ace/src-min-noconflict/ace.js"></script>
+{% endblock %}

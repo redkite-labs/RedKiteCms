@@ -1,0 +1,42 @@
+{#
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+#}
+
+{%  extends 'RedKiteCms/Resources/views/Theme/base.html.twig' %}
+
+{#
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Poses-404 Website Template | Home :: W3layouts</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>#}
+
+{% block post_external_stylesheets %}
+	<link href="/plugins/redkitecms/css/404/style.css" rel="stylesheet" type="text/css" media="all" />
+{% endblock %}
+
+{% block body %}
+<div class="wrap">
+	<div class="banner">
+		<img src="/plugins/redkitecms/css/404/images/banner.png" alt="" />
+	</div>
+	<div class="page">
+		<h2>{{ message|trans({}, 'RedKiteCms', cms_language)|default("Dude, we can't find that page!") }} </h2>
+	</div>
+	<div class="footer">
+		<p>Design by <a href="http://w3layouts.com">w3layouts</a></p>
+	</div>
+</div>
+{% endblock %}
+
+{#
+</body>
+</html>#}
+

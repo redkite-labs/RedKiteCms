@@ -1,0 +1,308 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="">
+    <body>
+        <!-- EXCEPTION -->
+        <trans-unit id="exception_page_exists">
+            <source>exception_page_exists</source>
+            <target>The page name "%page_name%" is not valid because another page with the same name already exists in your website</target>
+        </trans-unit>
+        <trans-unit id="exception_homepage_cannot_be_removed">
+            <source>exception_homepage_cannot_be_removed</source>
+            <target>You cannot remove the website homepage</target>
+        </trans-unit>
+        <trans-unit id="exception_contributor_not_defined">
+            <source>exception_contributor_not_defined</source>
+            <target>You must call the "PageCollectionManager contribute" method to complete the requested action.</target>
+        </trans-unit>
+        <trans-unit id="exception_cannot_create_folder">
+            <source>exception_cannot_create_folder</source>
+            <target>RedKite CMS cannot create the folder "%folder%": please check the user permissions for that path.</target>
+        </trans-unit>
+        <trans-unit id="exception_file_cannot_be_locked_for_reading">
+            <source>exception_file_cannot_be_locked_for_reading</source>
+            <target>The file %file% cannot be locked for reading. This happens when someone else is working on the same file. Please, try again later.</target>
+        </trans-unit>
+        <trans-unit id="exception_file_cannot_be_locked_for_writing">
+            <source>exception_file_cannot_be_locked_for_writing</source>
+            <target>The file %file% cannot be locked for writing. This happens when someone else is working on the same file. Please, try again later.</target>
+        </trans-unit>
+        <trans-unit id="exception_page_not_published">
+            <source>exception_page_not_published</source>
+            <target>The page you are trying to approve is not published yet. You must publish that page then you can approve it.</target>
+        </trans-unit>
+        <trans-unit id="exception_abort_message">
+            <source>exception_abort_message</source>
+            <target>The action requested has been aborted.</target>
+        </trans-unit>
+
+        <!-- COMMON -->
+        <trans-unit id="common_block_css_class">
+            <source>common_block_css_class</source>
+            <target>Css class</target>
+        </trans-unit>
+        <trans-unit id="common_label_load">
+            <source>common_label_load</source>
+            <target>Load</target>
+        </trans-unit>
+        <trans-unit id="common_label_properties">
+            <source>common_label_properties</source>
+            <target>Properties</target>
+        </trans-unit>
+        <trans-unit id="common_label_close">
+            <source>common_label_close</source>
+            <target>Close</target>
+        </trans-unit>
+        <trans-unit id="common_label_back">
+            <source>common_label_back</source>
+            <target>Back</target>
+        </trans-unit>
+        <trans-unit id="common_label_undo">
+            <source>common_label_undo</source>
+            <target>Undo</target>
+        </trans-unit>
+        <trans-unit id="common_label_confirm">
+            <source>common_label_confirm</source>
+            <target>Confirm</target>
+        </trans-unit>
+        <trans-unit id="common_label_dashboard">
+            <source>common_label_dashboard</source>
+            <target>Dashboard</target>
+        </trans-unit>
+        <trans-unit id="common_label_seo_panel">
+            <source>common_label_seo_panel</source>
+            <target>Seo Panel</target>
+        </trans-unit>
+        <trans-unit id="common_label_publish_page">
+            <source>common_label_publish_page</source>
+            <target>Published</target>
+        </trans-unit>
+        <trans-unit id="common_label_seo_panel_title">
+            <source>common_label_seo_panel_title</source>
+            <target>Search Engine Optimiziation</target>
+        </trans-unit>
+        <trans-unit id="common_label_site_map_title">
+            <source>common_label_site_map_title</source>
+            <target>Site Map</target>
+        </trans-unit>
+        <trans-unit id="common_label_pages">
+            <source>common_label_pages</source>
+            <target>Pages</target>
+        </trans-unit>
+        <trans-unit id="common_label_languages">
+            <source>common_label_languages</source>
+            <target>Languages</target>
+        </trans-unit>
+        <trans-unit id="common_label_themes">
+            <source>common_label_themes</source>
+            <target>Themes</target>
+        </trans-unit>
+        <trans-unit id="common_label_plugins">
+            <source>common_label_plugins</source>
+            <target>Plugins</target>
+        </trans-unit>
+        <trans-unit id="common_label_security">
+            <source>common_label_security</source>
+            <target>Security</target>
+        </trans-unit>
+        <trans-unit id="common_label_users">
+            <source>common_label_users</source>
+            <target>Users</target>
+        </trans-unit>
+        <trans-unit id="common_label_roles">
+            <source>common_label_roles</source>
+            <target>Roles</target>
+        </trans-unit>
+        <trans-unit id="common_label_approve">
+            <source>common_label_approve</source>
+            <target>Approve</target>
+        </trans-unit>
+
+        <!-- CONTROL PANEL -->
+        <trans-unit id="control_panel_edit_contents_button">
+            <source>control_panel_edit_contents_button</source>
+            <target>Edit blocks</target>
+        </trans-unit>
+        <trans-unit id="control_panel_stop_edit_contents_button">
+            <source>control_panel_stop_edit_contents_button</source>
+            <target>Stop edit</target>
+        </trans-unit>
+        <trans-unit id="control_panel_move_button">
+            <source>control_panel_move_button</source>
+            <target>Move blocks</target>
+        </trans-unit>
+        <trans-unit id="control_panel_stop_move_contents_button">
+            <source>control_panel_stop_move_contents_button</source>
+            <target>Stop move</target>
+        </trans-unit>
+        <trans-unit id="control_panel_save_page_button">
+            <source>control_panel_save_page_button</source>
+            <target>Save page</target>
+        </trans-unit>
+        <trans-unit id="control_panel_save_site_button">
+            <source>control_panel_save_site_button</source>
+            <target>Save site</target>
+        </trans-unit>
+        <trans-unit id="control_panel_save_as_theme_button">
+            <source>control_panel_save_as_theme_button</source>
+            <target>Save as theme</target>
+        </trans-unit>
+        <trans-unit id="control_panel_logout_button">
+            <source>control_panel_logout_button</source>
+            <target>Logout</target>
+        </trans-unit>
+
+        <!-- BLOCK EDITOR -->
+        <trans-unit id="block_editor_title">
+            <source>block_editor_title</source>
+            <target>Editor</target>
+        </trans-unit>
+        <trans-unit id="block_editor_add_block">
+            <source>block_editor_add_block</source>
+            <target>Add</target>
+        </trans-unit>
+        <trans-unit id="block_editor_block_history">
+            <source>block_editor_block_history</source>
+            <target>History</target>
+        </trans-unit>
+        <trans-unit id="history_blocks_title">
+            <source>history_blocks_title</source>
+            <target>Block's history</target>
+        </trans-unit>
+        <trans-unit id="history_empty">
+            <source>history_empty</source>
+            <target>The history is empty for this block</target>
+        </trans-unit>
+        <trans-unit id="block_editor_remove_block">
+            <source>block_editor_remove_block</source>
+            <target>Remove</target>
+        </trans-unit>
+        <trans-unit id="block_editor_dock_top">
+            <source>block_editor_dock_top</source>
+            <target>Dock top</target>
+        </trans-unit>
+        <trans-unit id="block_editor_dock_bottom">
+            <source>block_editor_dock_bottom</source>
+            <target>Dock bottom</target>
+        </trans-unit>
+        <trans-unit id="available_blocks_title">
+            <source>available_blocks_title</source>
+            <target>Available blocks</target>
+        </trans-unit>
+        <trans-unit id="block_editor_add_block_above">
+            <source>block_editor_add_block_above</source>
+            <target>Add above</target>
+        </trans-unit>
+        <trans-unit id="block_editor_add_block_under">
+            <source>block_editor_add_block_under</source>
+            <target>Add under</target>
+        </trans-unit>
+        <trans-unit id="block_editor_empty_slot">
+            <source>block_editor_empty_slot</source>
+            <target>This slot is empty: click to add a new block</target>
+        </trans-unit>
+
+        <!-- FRONTEND -->
+        <trans-unit id="frontend_confirm_block_remove">
+            <source>frontend_confirm_block_remove</source>
+            <target>Are you sure to remove the selected block?</target>
+        </trans-unit>
+        <trans-unit id="frontend_missing_block_to_json_method_implementation">
+            <source>frontend_missing_block_to_json_method_implementation</source>
+            <target>A derived object must implement the self.blockToJson method: RedKite CMS cannot save the block until you don't implement that method</target>
+        </trans-unit>
+        <trans-unit id="frontend_missing_remove_method_implementation">
+            <source>frontend_missing_remove_method_implementation</source>
+            <target>A derived object must implement the self.restore method: RedKite CMS cannot restore the block until you don't implement that method</target>
+        </trans-unit>
+        <trans-unit id="frontend_page_saved">
+            <source>frontend_page_saved</source>
+            <target>The page has been correctly published in production</target>
+        </trans-unit>
+        <trans-unit id="frontend_site_saved">
+            <source>frontend_site_saved</source>
+            <target>The site has been correctly published in production</target>
+        </trans-unit>
+        <trans-unit id="frontend_page_already_exists">
+            <source>frontend_page_already_exists</source>
+            <target>Warning: ths page already exists in your website, so it has not been saved</target>
+        </trans-unit>
+        <trans-unit id="frontend_confirm_save_page">
+            <source>frontend_confirm_save_page</source>
+            <target>Are you sure to confirm the publication of the current page in production?</target>
+        </trans-unit>
+        <trans-unit id="frontend_confirm_save_site">
+            <source>frontend_confirm_save_site</source>
+            <target>Are you sure to confirm the publication of the whole website in production?</target>
+        </trans-unit>
+        <trans-unit id="frontend_confirm_save_theme">
+            <source>frontend_confirm_save_theme</source>
+            <target>This operation will save the current website as a theme. The operation will override the current theme contents: are you sure to continue?</target>
+        </trans-unit>
+        <trans-unit id="frontend_confirm_logout">
+            <source>frontend_confirm_logout</source>
+            <target>Do you really want to leave?</target>
+        </trans-unit>
+        <trans-unit id="frontend_confirm_page_remove">
+            <source>frontend_confirm_page_remove</source>
+            <target>Are you sure to remove the page?</target>
+        </trans-unit>
+        <trans-unit id="frontend_theme_saved">
+            <source>frontend_theme_saved</source>
+            <target>The theme has been correctly saved</target>
+        </trans-unit>
+        <trans-unit id="frontend_save_page_disable_in_theme_mode">
+            <source>frontend_save_page_disable_in_theme_mode</source>
+            <target>It is not necessary saving the page when working in theme mode because block contents are immediately saved in production: just click the "Save as theme" button to transfer the page contents to the handled theme.</target>
+        </trans-unit>
+        <trans-unit id="frontend_save_site_disable_in_theme_mode">
+            <source>frontend_save_site_disable_in_theme_mode</source>
+            <target>It is not necessary saving the site when working in theme mode because block contents are immediately saved in production: just click the "Save as theme" button to transfer the page contents to the handled theme.</target>
+        </trans-unit>
+        <trans-unit id="frontend_confirm_publish_page">
+            <source>frontend_confirm_publish_page</source>
+            <target>Are you sure to publish this page in production?</target>
+        </trans-unit>
+        <trans-unit id="frontend_confirm_hide_page">
+            <source>frontend_confirm_hide_page</source>
+            <target>Are you sure to hide this page from production?</target>
+        </trans-unit>
+        <trans-unit id="frontend_confirm_seo_approved">
+            <source>frontend_confirm_seo_approved</source>
+            <target>Are you sure to approve the seo elements for this page in production?</target>
+        </trans-unit>
+
+        <!-- THEME -->
+        <trans-unit id="themes_no_active_theme_choosen">
+            <source>theme_no_active_theme_choosen</source>
+            <target>Any active theme has been defined"</target>
+        </trans-unit>
+        <trans-unit id="themes_choose_theme">
+            <source>theme_choose_theme</source>
+            <target>Choose the active theme from the right panel</target>
+        </trans-unit>
+        <trans-unit id="themes_no_other_theme_installed">
+            <source>themes_no_other_theme_installed</source>
+            <target>No other theme is installed at the moment</target>
+        </trans-unit>
+        <trans-unit id="themes_activate_theme">
+            <source>themes_activate_theme</source>
+            <target>Activate</target>
+        </trans-unit>
+        <trans-unit id="themes_handle_theme">
+            <source>themes_handle_theme</source>
+            <target>Handle this theme</target>
+        </trans-unit>
+        <trans-unit id="themes_start_from_theme">
+            <source>themes_start_from_theme</source>
+            <target>Start from this theme</target>
+        </trans-unit>
+
+        <!-- PRODUCTION -->
+        <trans-unit id="production_page_not_available">
+            <source>production_page_not_available</source>
+            <target>The page you are looking for is not available</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>

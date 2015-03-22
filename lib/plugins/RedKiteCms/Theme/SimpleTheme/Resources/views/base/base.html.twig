@@ -1,0 +1,72 @@
+{% extends base_template %}
+
+{% block metatags %}   
+    {{ parent() }}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% endblock %}  
+
+{% block post_external_stylesheets %}
+    {{ parent() }}
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+{% endblock %}
+
+{% block external_stylesheets %}
+    {% for value in template_assets_manager.getExternalStylesheets(['cssrewrite']) %}
+        <link href="{{ value }}" rel="stylesheet" type="text/css" media="all" />
+    {% endfor %}
+{% endblock %}
+
+{% block external_javascripts %}
+    {% for value in template_assets_manager.getExternalJavascripts %}
+        <script src="{{ value }}"></script>
+    {% endfor %}
+{% endblock %}
+
+{% block body %}
+{% block header %}
+<div id="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+            {# repeat: site #}{{ slots.logo|default('')|raw }}
+            </div>
+        </div>
+    </div>
+</div>
+<div id="menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+            {# repeat: language #}{{ slots.menu|default('')|raw }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+<div id="content">
+    {% block content %}
+    {% endblock %}
+</div>
+<div id="footer">
+    <div class="container">
+        <div id="footer-contents" class="row">
+            <div class="col-md-4">
+            {# repeat: language #}{{ slots.footer_box_1|default('')|raw }}
+            </div>
+            <div class="col-md-4">
+            {# repeat: language #}{{ slots.footer_box_2|default('')|raw }}
+            </div>
+            <div class="col-md-4">
+            {# repeat: language #}{{ slots.footer_box_3|default('')|raw }}
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="copyright" class="col-md-12">
+                {# repeat: language #}{{ slots.copyright|default('')|raw }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

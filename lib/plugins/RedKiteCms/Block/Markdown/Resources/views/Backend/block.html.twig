@@ -1,0 +1,17 @@
+{% extends 'RedKiteCms/Resources/views/Block/base_block.html.twig' %}
+
+{% set editor_id = "rkcms-markdown-editor" %}
+
+{% block custom_element %}
+    <script type="text/html" id="rkcms-markdown">
+        <rkcms-markdown params='{ block: $data, parent: $parent }'></rkcms-markdown>
+    </script>
+{% endblock %}
+
+{% block block_element %}
+    <div class="rkcms-block rkcms-markdown" data-bind="element: target, html: html, event: { mouseenter: highlight, mouseleave: hide }, attr: {  'data-type': type, 'data-name': name, 'data-slot-name': slotName}, click: startBlockEditing" ></div>
+{% endblock %}
+    
+{% block block_editor_title %}
+    {{ 'script_editor_title'|trans({}, 'RedKiteCms', cms_language) }}
+{% endblock %}

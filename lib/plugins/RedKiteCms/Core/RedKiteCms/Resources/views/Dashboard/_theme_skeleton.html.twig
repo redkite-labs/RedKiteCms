@@ -1,0 +1,46 @@
+{#
+   This file is part of the RedKite CMS Application and it is distributed
+   under the MIT License. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    MIT License
+#}
+
+
+<h2>{{ theme.getName }}</h2>
+<div>
+    <div class="rkcms-theme-screenshot">
+        {% if ( theme.hasScreenshot ) %}
+        <span href="#" class="thumbnail">
+            <img src="/plugins/{{ theme.getName|lower }}/screenshot.jpg"  />
+        </span>
+        {% else %}
+        <div class="rkcms-no-screenshot thumbnail">
+            <i class="fa fa-camera text-muted"></i>
+        </div>
+        {% endif %}
+    </div>
+    <div class="rkcms-theme-body">
+        <table>
+        {% for label, value in theme.getInformation %}
+            <tr>
+                <th>{{ label }}</td>
+                <td>{{ value }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    {% if available is defined and available == true %}
+    <div class="rkcms-theme-commands">
+        <a href="#" class="btn btn-default rkcms-activate-theme" data-theme-name="{{ theme.getName }}">{{ "themes_activate_theme" | trans([], 'RedKiteCms', cms_language) }}</a>
+        <a href="#" class="btn btn-danger rkcms-start-from-theme" data-theme-name="{{ theme.getName }}">{% if (isTheme) %}{{ "themes_handle_theme" | trans([], 'RedKiteCms', cms_language) }}{% else %}{{ "themes_start_from_theme" | trans([], 'RedKiteCms', cms_language) }}{% endif %}</a>
+    </div>
+    {% endif %}
+</div>

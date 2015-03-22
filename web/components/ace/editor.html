@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Editor</title>
+  <style type="text/css" media="screen">
+    body {
+        overflow: hidden;
+    }
+
+    #editor {
+        margin: 0;
+        position: absolute;
+        top: 30px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+  </style>
+</head>
+<body>
+
+<a href="#" id="aaa">Test</a>
+<a href="#" id="bbb">In</a>
+<pre id="editor">
+link1:
+    pippo: pluto
+</pre>
+
+<script src="src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="/components/jquery/jquery.js" type="text/javascript" charset="utf-8"></script>
+<script src="/yml/dist/js-yaml.js" type="text/javascript" charset="utf-8"></script>
+<script src="/yml/demo/js/utils.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var el = $("#editor");
+    var editor = ace.edit(el[0]);
+    editor.setTheme("ace/theme/twilight");
+    editor.getSession().setMode("ace/mode/yaml");
+    
+    $('#aaa').on("click", function(){
+        var yml = editor.getValue();
+        
+        var RkCmsYamlType = new jsyaml.Type('!rkcms', {
+            kind: 'sequence', // See node kinds in YAML spec: http://www.yaml.org/spec/1.2/spec.html#kind//
+            construct: function (data) {
+                return data.map(function (string) { return 'rkcms ' + string; });
+            }
+        });
+        var RKCMS_SCHEMA = jsyaml.Schema.create([ RkCmsYamlType ]);
+        try {
+            var str, obj;
+            obj = jsyaml.load(yml, { schema: RKCMS_SCHEMA });
+
+            inspect(obj, false, 10);
+            console.log(obj);
+        } catch (err) {
+            var msg = 'The yml code you entered is malformed:<br />' + err.message;
+            alert(msg);
+        }
+    });
+    
+    $('#bbb').on("click", function(){
+        editor.insert("Something cool");
+    });   
+    
+</script>
+
+
+</body>
+</html>

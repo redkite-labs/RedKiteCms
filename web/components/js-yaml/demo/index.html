@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>YAML parser for JavaScript - JS-YAML</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="description" content="Live example of YAML JavaScript parser right in your browser. Type your YAML code and see result.">
+    <meta name="keywords" content="yaml,parser,javascript">
+    <link rel="stylesheet" href="css/codemirror.css">
+    <link rel="stylesheet" href="css/codemirror.default.css">
+    <link rel="stylesheet" href="css/demo.css">
+    <script src="js/es5-shim.js"></script>
+    <script src="js/esprima.js"></script>
+    <script src="js/js-yaml.js"></script>
+    <script src="js/codemirror.js"></script>
+    <script src="js/codemirror/yaml.js"></script>
+    <script src="js/codemirror/javascript.js"></script>
+    <script src="js/hasher.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/base64.js"></script>
+    <script src="js/json3.js"></script>
+    <script src="js/demo.js"></script>
+
+
+  </head>
+  <body onLoad="runDemo();">
+
+<h1>JS-YAML demo. YAML JavaScript parser.</h1>
+<div class='src'>
+  <h5><a href="#" id="permalink">permalink</a> Edit source here (YAML):</h5>
+  <textarea id="source">
+menu:
+  link:
+    href: pippo
+    value: pluto
+    class: -
+  link:
+    href: minni
+    value: pluto
+    class: -
+</textarea>
+</div>
+<div class='dst'>
+  <h5>Result (JS object dump):</h5>
+  <textarea id="result"></textarea>
+</div>
+
+
+  </body>
+</html>

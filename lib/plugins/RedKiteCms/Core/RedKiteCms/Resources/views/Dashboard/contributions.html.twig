@@ -1,0 +1,21 @@
+{%  extends 'RedKiteCms/Resources/views/Dashboard/base.html.twig' %}
+
+{% block content %}
+<h1 class="page-header">Contributions</h1>
+{% for language, pages in contributions %}
+{% set locale = language|split('_') %}
+<h4>Language: {{ language }}</h4>
+<table class="table table-condensed">
+    <th>Page</th>
+    <th>Slot contributed</th>
+    <th></th>
+    {% for page, contributedSlotsCount in pages %}
+    <tr>
+        <td>{{ page }}</td>
+        <td>{{ contributedSlotsCount }}</td>
+        <td><a href="{{ path('red_kite_cms_navigation', {'_locale': locale[0], 'country': locale[1], 'page': page}) }}" class="btn btn-default btn-xs"><i class="fa fa-external-link"></i> Go to page</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endfor %}
+{% endblock %}

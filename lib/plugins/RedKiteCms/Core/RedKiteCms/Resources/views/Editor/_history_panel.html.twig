@@ -1,0 +1,30 @@
+{% block history_panel %}
+<div data-bind="visible: historyPanel" class="rkcms-blocks-panel rkcms-history-panel rkcms-dock rkcms-dock-left">
+    <div class="rkcms-block-panel-title">
+        <div class="pull-left">
+            {{ 'history_blocks_title'|trans({}, 'RedKiteCms', cms_language) }}
+        </div>
+        {{ include('RedKiteCms/Resources/views/Editor/_dialogbox.html.twig') }}
+    </div>
+    <div class="rkcms-block-history rkcms-block-panel-contents rkcms-history-list">
+        <div data-bind="if: isHistoryEmpty">{{ 'history_empty'|trans({}, 'RedKiteCms', cms_language) }}</div>
+        <ul data-bind="foreach: history">
+            <li data-bind="text: historyName, click: restore"></li>
+        </ul>
+    </div>
+    <div class="rkcms-block-commands">
+        <ul>
+            <li class="rkcms-undo-block-restoration">
+                <button class="btn btn-primary" data-bind="click: undoRestoration">
+                    <i class="fa fa-undo fa-lg"></i> {{ 'common_label_undo'|trans({}, 'RedKiteCms', cms_language) }}
+                </button>
+            </li>
+            <li class="rkcms-confirm-block-restoration">
+                <button class="btn btn-primary" data-bind="click: confirmRestoration">
+                    <i class="fa fa-check fa-lg"></i> {{ 'common_label_confirm'|trans({}, 'RedKiteCms', cms_language) }}
+                </button>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

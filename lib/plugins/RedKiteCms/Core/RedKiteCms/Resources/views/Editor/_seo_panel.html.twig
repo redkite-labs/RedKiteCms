@@ -1,0 +1,117 @@
+<div id="rkcms-seo" data-seo="{{ seo_data }}" class="rkcms-seo-panel rkcms-blocks-panel rkcms-dock rkcms-dock-left" data-bind="visible: toggleBlocksEditor">
+    <div>
+        <div class="rkcms-block-panel-title">
+            <div class="pull-left">
+                {{ 'common_label_seo_panel_title'|trans({}, 'RedKiteCms', cms_language) }}
+            </div>
+            {{ include('RedKiteCms/Resources/views/Editor/_seo_dialogbox.html.twig') }}
+
+        </div>
+        <div class="rkcms-block-panel-contents">
+            <form  class="form-horizontal" role="form" >
+                <div class="form-group">
+                    <div class="col-md-12">
+                        {{ form_label(seo_form.title) }}
+                        {{ form_errors(seo_form.title) }} {{ form_widget(seo_form.title) }}
+                    </div>
+                    <div class="col-md-12">
+                        {{ form_label(seo_form.description) }}
+                        {{ form_errors(seo_form.description) }} {{ form_widget(seo_form.description) }}
+                    </div>
+                    <div class="col-md-12">
+                        {{ form_label(seo_form.keywords) }}
+                        {{ form_errors(seo_form.keywords) }} {{ form_widget(seo_form.keywords) }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <div class="rkcms-block-panel-title">
+            {{ 'common_label_site_map_title'|trans({}, 'RedKiteCms', cms_language) }}
+        </div>
+        <div class="rkcms-block-panel-contents">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        {{ form_label(seo_form.sitemap_frequency) }}
+                        {{ form_errors(seo_form.sitemap_frequency) }} {{ form_widget(seo_form.sitemap_frequency) }}
+                    </div>
+                    <div class="col-md-12">
+                        {{ form_label(seo_form.sitemap_priority) }}
+                        {{ form_errors(seo_form.sitemap_priority) }} {{ form_widget(seo_form.sitemap_priority) }}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="rkcms-block-commands">
+        <ul>
+            <li class="rkcms-undo-block-restoration">
+                <a href="#" class="btn btn-primary" data-bind="click: approve">
+                    <i class="fa fa-check"></i> {{ 'common_label_approve'|trans({}, 'RedKiteCms', cms_language) }}
+                </a>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+{#
+<div id="rkcms-seo" data-seo="{{ seo_data }}" class="rkcms-seo-panel rkcms-blocks-panel" data-bind="visible: toggleBlocksEditor">
+    <div  class="rkcms-block-editor rkcms-dock rkcms-dock-left">
+        <div class="rkcms-block-attributes">
+            <div>
+                <div class="rkcms-block-attributes-title rkcms-block-panel-title">
+                    {{ 'common_label_seo_panel_title'|trans({}, 'RedKiteCms', cms_language) }}
+                </div>
+                <div class="rkcms-block-attributes-contents">
+                    <form  class="form-horizontal" role="form" >
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                {{ form_label(seo_form.title) }}
+                                {{ form_errors(seo_form.title) }} {{ form_widget(seo_form.title) }}
+                            </div>
+                            <div class="col-md-12">
+                                {{ form_label(seo_form.description) }}
+                                {{ form_errors(seo_form.description) }} {{ form_widget(seo_form.description) }}
+                            </div>
+                            <div class="col-md-12">
+                                {{ form_label(seo_form.keywords) }}
+                                {{ form_errors(seo_form.keywords) }} {{ form_widget(seo_form.keywords) }}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <div class="rkcms-block-attributes-title rkcms-block-panel-title">
+                    {{ 'common_label_site_map_title'|trans({}, 'RedKiteCms', cms_language) }}
+                </div>
+                <div class="rkcms-block-attributes-contents">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                {{ form_label(seo_form.sitemap_frequency) }}
+                                {{ form_errors(seo_form.sitemap_frequency) }} {{ form_widget(seo_form.sitemap_frequency) }}
+                            </div>
+                            <div class="col-md-12">
+                                {{ form_label(seo_form.sitemap_priority) }}
+                                {{ form_errors(seo_form.sitemap_priority) }} {{ form_widget(seo_form.sitemap_priority) }}
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div>
+                <a href="#" class="btn btn-default" data-bind="click: approve">
+                    <i class="fa fa-check"></i> Approve
+                </a>
+                <a href="#" class="btn btn-default" data-bind="click: toggle">
+                    <i class="fa fa-times"></i> Close
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+#}

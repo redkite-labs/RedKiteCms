@@ -1,0 +1,91 @@
+[
+  [
+    {
+      "id": "rkcms-button-edit",
+      "class": "rkcms-edit",
+      "label": "control_panel_edit_contents_button",
+      "icon": "pencil",
+      "binding": "visible: editorStatus()=='off', click: startEdit"
+    },
+    {
+      "id": "rkcms-button-stop",
+      "class": "rkcms-edit",
+      "label": "control_panel_stop_edit_contents_button",
+      "icon": "times",
+      "binding": "visible: editorStatus()=='on', click: stopEdit"
+    }
+  ],
+  [
+    {
+      "id": "rkcms-move",
+      "label": "control_panel_move_button",
+      "icon": "arrows",
+      "binding": "visible: moveMode()=='off', click: startMove"
+    },
+    {
+      "id": "rkcms-button-stop-move",
+      "class": "rkcms-edit",
+      "label": "control_panel_stop_move_contents_button",
+      "icon": "times",
+      "binding": "visible: moveMode()=='on', click: stopMove"
+    }
+  ],
+  [
+    {
+      "id": "rkcms-dashboard",
+      "label": "common_label_dashboard",
+      "icon": "dashboard",
+      "binding": "click: dashboard"
+    }
+  ],
+  [
+    {
+      "id": "rkcms-seo-panel",
+      "label": "common_label_seo_panel",
+      "icon": "search",
+      "binding": "click: seoPanel",
+      "extra_attributes": "data-toggle=button aria-pressed=false"
+    }
+  ],
+  [
+    {
+      "id": "rkcms-page-published",
+      "label": "common_label_publish_page",
+      "icon": "check",
+      "binding": "click: pagePublished",
+      "extra_attributes": "data-toggle=button aria-pressed=false"
+    }
+  ],
+  [
+    {
+      "id": "rkcms-save-as-theme",
+      "label": "control_panel_save_as_theme_button",
+      "icon": "suitcase",
+      "binding": "click: saveTheme"
+    }
+  ],
+  [
+    {
+      "id": "rkcms-save-page",
+      "label": "control_panel_save_page_button",
+      "icon": "save",
+      "binding": "click: savePage"
+    }
+  ],
+  [
+    {
+      "id": "rkcms-save-all-pages",
+      "label": "control_panel_save_site_button",
+      "icon": "download",
+      "binding": "click: saveAllPages"
+    }
+  ],
+  [
+    {
+      "id": "rkcms-logout",
+      "label": "control_panel_logout_button",
+      "icon": "power-off",
+      "binding": "click: logout"
+    }
+  ]
+]

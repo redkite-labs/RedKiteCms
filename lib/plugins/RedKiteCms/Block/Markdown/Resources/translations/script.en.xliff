@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="">
+    <body>
+        <trans-unit id="script_editor_title">
+            <source>script_editor_title</source>
+            <target>Script editor</target>
+        </trans-unit>
+        <trans-unit id="script_editor_placeholder">
+            <source>script_editor_placeholder</source>
+            <target>Enter here you script</target>
+        </trans-unit>
+        <trans-unit id="script_disabled">
+            <source>script_disabled</source>
+            <target>Script disabled</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>

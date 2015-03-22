@@ -1,0 +1,4 @@
+
+{% for child in block.children %}
+    {% include child.type ~ '/Resources/views/Frontend/block.html.twig' with{"block": child} %}
+{% endfor %}

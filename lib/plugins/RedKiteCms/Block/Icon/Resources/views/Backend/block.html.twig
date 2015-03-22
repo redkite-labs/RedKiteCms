@@ -1,0 +1,17 @@
+{% extends 'RedKiteCms/Resources/views/Block/base_block.html.twig' %}
+
+{% set editor_id = "rkcms-icon-editor" %}
+
+{% block custom_element %}
+    <script type="text/html" id="rkcms-icon">
+        <rkcms-icon params='{ block: $data, parent: $parent }'></rkcms-icon>
+    </script>
+{% endblock %}
+
+{% block block_element %}
+    <i class="rkcms-block" data-bind="element: target, dynamicAttr: tags, event: { mouseenter: highlight, mouseleave: hide }, attr: { 'data-type': type, 'data-name': name, 'data-slot-name': slotName}, click: startBlockEditing" ></i> <!-- ko text:value --><!-- /ko -->
+{% endblock %}
+    
+{% block block_editor_title %}
+{{ 'icon_editor_title'|trans({}, 'RedKiteCms', cms_language) }}
+{% endblock %}

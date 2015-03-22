@@ -1,0 +1,29 @@
+{#
+   This file is part of the RedKite CMS Application and it is distributed
+   under the MIT License. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    MIT License
+#}
+
+{% extends 'RedKiteCmsBundle:Bootstrap:base.html.twig' %}
+
+{% block body %}
+    {% stylesheets  filter='cssrewrite' 'components/redkitecms/twitter-bootstrap/css/bootstrap.min.css'
+                                                 'bundles/redkitecms/css/skins/bootstrap/skin.css' %}
+    <link href="{{ asset_url }}" rel="stylesheet" type="text/css" media="all" />
+    {% endstylesheets %}
+    
+    <div>
+        <h2>{{ 'security_controller_reauthentication_title'|trans({}, 'RedKiteCmsBundle', cms_language) }}</h2>
+        <p>{{ 'security_controller_reauthentication_body'|trans({}, 'RedKiteCmsBundle', cms_language) }}</p>
+    {% include('RedKiteCmsBundle:Bootstrap:Security/Login/login-form-base.html.twig') %}
+    </div>
+{% endblock %}

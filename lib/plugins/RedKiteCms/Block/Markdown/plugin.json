@@ -1,0 +1,10 @@
+{
+    "author": "RedKite Labs",
+    "website": "http://redkite-labs.com",
+    "description": "This block handles a markdown content",
+    "group": "RedKiteCMS",
+    "enabled": "true",
+    "external-javascripts": [
+        "js/rkcms-markdown.js"
+    ]
+}

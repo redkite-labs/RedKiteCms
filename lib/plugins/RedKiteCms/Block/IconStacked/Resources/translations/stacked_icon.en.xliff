@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="">
+    <body>
+        <trans-unit id="stacked_icon_editor_title">
+            <source>stacked_icon_editor_title</source>
+            <target>Stacked icon editor</target>
+        </trans-unit>
+        <trans-unit id="stacked_icon_default_value">
+            <source>stacked_icon_default_value</source>
+            <target>Stacked icon</target>
+        </trans-unit>
+    </body>
+    </file>
+</xliff>

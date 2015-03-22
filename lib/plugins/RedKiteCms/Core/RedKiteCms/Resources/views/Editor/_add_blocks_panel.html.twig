@@ -1,0 +1,32 @@
+{% block add_blocks_panel %}
+<div data-bind="visible: availableBlocksPanel" class="rkcms-blocks-panel rkcms-available-blocks-panel rkcms-dock rkcms-dock-left">
+    <div class="rkcms-block-panel-title">
+        <div class="pull-left">
+            {{ 'available_blocks_title'|trans({}, 'RedKiteCms', cms_language) }}
+        </div>
+        {{ include('RedKiteCms/Resources/views/Editor/_dialogbox.html.twig') }}
+    </div>
+    <div class="rkcms-block-panel-contents rkcms-available-blocks">
+        <ul>
+            {% for type, value in available_blocks %}
+                <li class="rkcms-available-block" data-type="{{ value }}" data-bind="click: selectBlock">{{ value }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="rkcms-block-commands">
+        <ul>
+            <li class="rkcms-add-block-top-button">
+                <button class="btn btn-primary" data-bind="click: addTop">
+                    <i class="fa fa-arrow-up fa-lg" data-bind="css: { 'fa-spin fa-spinner': transactionAddTop() }"></i> {{ 'block_editor_add_block_above'|trans({}, 'RedKiteCms', cms_language) }}
+                </button>
+            </li>
+            <li class="rkcms-add-block-bottom-button">
+                <button class="btn btn-primary" data-bind="click: addBottom">
+                    <i class="fa fa-arrow-down fa-lg" data-bind="css: { 'fa-spin fa-spinner': transactionAddBottom() }"></i> {{ 'block_editor_add_block_under'|trans({}, 'RedKiteCms', cms_language) }}
+                </button>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

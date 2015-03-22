@@ -1,0 +1,43 @@
+/**
+ * This file is part of the RedKite CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.redkite-labs.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+
+.rkcms-blocks-editor {
+    margin: 0;
+    position: absolute;
+    z-index: 100000;
+    text-align: left;
+}
+
+.rkcms-blocks-editor-toolbar {
+    width: 100%;
+    min-height: 30px;
+    background-color: #e9e9e9;
+}
+
+.rkcms-ace-editor {
+    width: 100%;
+}
+
+.rkcms-ace-editor-error {   
+    width: 100%;
+    background-color: #fff;
+    color: red;
+    font-size: 14px;
+}
+
+.rkcms-ace-editor-error p{   
+    padding: 6px;
+}

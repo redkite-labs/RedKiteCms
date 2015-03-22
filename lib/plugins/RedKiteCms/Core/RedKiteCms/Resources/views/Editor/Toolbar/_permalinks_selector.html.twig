@@ -1,0 +1,8 @@
+<div data-bind="visible: toolbar.indexOf('permalinks') != -1" class="pull-left">
+    <select class="form-control rkcms-pages-selector" data-bind="event: { change: insertPermalink }">
+        <option value=""> </option>
+        {% for permalink in app["red_kite_cms.pages_collection_parser"].permalinksByLanguage() %}
+            <option value="{{ permalink }}">{{ permalink }}</option>
+        {% endfor %}
+    </select>
+</div>

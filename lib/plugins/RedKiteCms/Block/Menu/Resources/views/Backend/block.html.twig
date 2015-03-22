@@ -1,0 +1,42 @@
+{% extends 'RedKiteCms/Resources/views/Block/base_block.html.twig' %}
+
+{% set editor_id = "rkcms-menu-editor" %}
+
+{% block custom_element %}
+    <script type="text/html" id="rkcms-menu">
+        <rkcms-menu params='{ block: $data, parent: $parent }'></rkcms-menu>
+    </script>
+{% endblock %}
+
+{% block block_element %}
+    <div data-bind="element: target, event: { mouseenter: highlight, mouseleave: hide }, click: startBlockEditing">
+        <ul data-bind="foreach: children">
+            <!-- ko if: type=='Link' -->
+            <li><rkcms-link params='{ block: $data, parent: $parent }'></rkcms-link></li>
+            <!-- /ko -->
+            <!-- ko if: type=='Icon' -->
+            <li><rkcms-icon params='{ block: $data, parent: $parent }'></rkcms-icon></li>
+            <!-- /ko -->
+            <!-- ko if: type=='IconLinked' -->
+            <li><rkcms-icon-linked params='{ block: $data, parent: $parent }'></rkcms-icon-linked></li>
+            <!-- /ko -->
+            <!-- ko if: type=='IconStacked' -->
+            <li><rkcms-icon-stacked params='{ block: $data, parent: $parent }'></rkcms-icon-stacked></li>
+            <!-- /ko -->
+        </ul>
+    </div>
+{% endblock %}
+    
+{% block block_editor_title %}
+    {{ 'menu_editor_title'|trans({}, 'RedKiteCms', cms_language) }}
+{% endblock %}
+
+{% block block_editor_toolbar_buttons %}
+    <div class="btn-group">
+        <a class="btn btn-default" data-bind="click: insertLink" href="#"><i class="fa fa-link"></i></a>
+        <a class="btn btn-default" data-bind="click: insertIcon" href="#"><i class="fa fa-cube"></i></a>
+        <a class="btn btn-default" data-bind="click: insertIconStacked" href="#"><i class="fa fa-cubes"></i></a>
+        <a class="btn btn-default" data-bind="click: insertIconLinked" href="#"><i class="fa fa-bolt"></i></a>
+    </div>
+    {% include 'Link/Resources/views/Cms/_permalinks_selector.html.twig' %}
+{% endblock %}

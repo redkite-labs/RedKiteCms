@@ -1,0 +1,88 @@
+{%  extends 'RedKiteCms/Resources/views/Theme/base.html.twig' %}
+
+{% block external_stylesheets %}
+    {% for value in template_assets_manager.getExternalStylesheets(['cssrewrite']) %}
+        <link href="{{ value }}" rel="stylesheet" type="text/css" media="all" />
+    {% endfor %}
+{% endblock %}
+        
+{% block external_javascripts %}
+    {% for value in template_assets_manager.getExternalJavascripts() %}
+        <script src="{{ value }}"></script>
+    {% endfor %}
+{% endblock %}
+
+{% block internal_header_javascripts %}
+    {{ parent() }}
+    <script>
+        var frontcontroller = "{{ app.request.getBaseUrl }}";
+    </script>
+{% endblock %}
+
+{% block body %}
+{{ include ('RedKiteCms/Resources/views/I18n/i18n.html.twig') }}
+{{ include ('RedKiteCms/Resources/views/Partials/_saving_progress.html.twig') }}
+    
+<div id="wrapper">
+
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="index.html">RedKite CMS {{ version }} Dashboard</a>
+</div>
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="sidebar-search">
+                <div class="input-group custom-search-form">
+                    <h4>Hello {{ app['security'].getToken.getUser.getUserName|capitalize }}!</h4>
+                </div>
+                <!-- /input-group -->
+            </li>
+            <li>
+                <a href="{{ path('_rkcms_show_pages') }}"><i class="fa fa-file-o fa-fw"></i> {{ "common_label_pages"|trans({}, 'RedKiteCms', cms_language) }}</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-flag-o fa-fw"></i> {{ "common_label_languages"|trans({}, 'RedKiteCms', cms_language) }}</a>
+            </li>
+            <li>
+                <a href="{{ path('_rkcms_show_themes') }}"><i class="fa fa-picture-o fa-fw"></i> {{ "common_label_themes"|trans({}, 'RedKiteCms', cms_language) }}</a>
+            </li>
+            <li>
+                <a href="#"><i class="fa fa-plug fa-fw"></i> {{ "common_label_plugins"|trans({}, 'RedKiteCms', cms_language) }}</a>
+            </li>
+            <li>
+                <a href="{{ path('_rkcms_show_users') }}"><i class="fa fa-users fa-fw"></i> {{ "common_label_users"|trans({}, 'RedKiteCms', cms_language) }}</a>
+            </li>
+            <li>
+                <a href="{{ path('_rkcms_dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> {{ "common_label_dashboard"|trans({}, 'RedKiteCms', cms_language) }}</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>
+<!-- /.navbar-static-side -->
+</nav>
+
+<!-- Page Content -->
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <!-- /.col-lg-12 -->
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /#page-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+{% endblock %}

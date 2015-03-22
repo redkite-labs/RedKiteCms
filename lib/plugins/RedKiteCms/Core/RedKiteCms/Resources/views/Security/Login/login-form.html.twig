@@ -1,0 +1,55 @@
+{#
+   This file is part of the RedKite CMS Application and it is distributed
+   under the MIT License. To use this application you must leave
+   intact this copyright notice.
+
+   Copyright (c) RedKite Labs <webmaster@redkite-labs.com>
+
+   For the full copyright and license information, please view the LICENSE
+   file that was distributed with this source code.
+
+   For extra documentation and help please visit http://www.redkite-labs.com
+
+   @license    MIT License
+#}
+
+{% extends 'RedKiteCms/Resources/views/Frontend/base.html.twig' %}
+
+{% block external_stylesheets %}
+    {% for value in template_assets_manager.getExternalStylesheets(['cssrewrite']) %}
+        <link href="{{ value }}" rel="stylesheet" type="text/css" media="all" />
+    {% endfor %}
+{% endblock %}
+
+{% block body %}
+{% set login_route = route|default("backend_login_check") %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">RedKite CMS</h3>
+                </div>
+                <div class="panel-body">
+                    <form action="{{ path(login_route) }}" method="post" id="login" role="form">
+                        <fieldset>
+                            <div class="form-group">
+                                <input class="form-control" id="username" name="_username" value="{{ last_username }}" autofocus>
+                            </div>
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Password" name="_password" type="password" value="">
+                            </div>
+                            <button type="submit" class="btn btn-default btn-block btn-success">Login</button>
+
+                            {% if target is defined %}
+                                <input type="hidden" name="_target_path" value="{{ target }}" />
+                            {% endif %}
+                        </fieldset>
+                    </form>
+                    <div>{{ error }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+default:
+    paths:
+        features: features/cms
+    formatter:
+        name: pretty
+        parameters:
+            verbose: true
+            paths: false
+            snippets: false
+    context:
+        class: RedKiteCms\Behat\FeatureContext
+    extensions:
+        Behat\MinkExtension\ServiceContainer\MinkExtension:
+            default_session: redkitecms
+            goutte: ~
+            selenium2: ~
+            browser_name: firefox
+
+cms:
+    paths:
+        features: features/cms
+    extensions:
+        Behat\MinkExtension\ServiceContainer\MinkExtension:
+            base_url: http://localhost/rkcms.php/backend

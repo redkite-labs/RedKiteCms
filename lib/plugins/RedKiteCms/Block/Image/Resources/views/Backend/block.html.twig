@@ -1,0 +1,31 @@
+{% extends 'RedKiteCms/Resources/views/Block/base_block.html.twig' %}
+
+{% set editor_id = "rkcms-image-editor" %}
+
+{% block custom_element %}
+    <script type="text/html" id="rkcms-image">
+        <rkcms-image params='{ block: $data, parent: $parent }'></rkcms-image>
+    </script>
+{% endblock %}
+
+{% block block_element %}
+    <!-- ko ifnot: isLinked -->
+    <img data-bind="element: target, dynamicAttr: tags,event: { mouseenter: highlight, mouseleave: hide },attr: { 'data-type': type, 'data-name': name, 'data-slot-name': slotName}, click: startBlockEditing" />
+    <!-- /ko -->
+    <!-- ko if: isLinked -->
+    <a data-bind="attr{ 'href': href }, event: { mouseenter: highlight, mouseleave: hide }">
+        <img data-bind="element: target, dynamicAttr: tags,attr: { 'data-type': type, 'data-name': name, 'data-slot-name': slotName}, click: startBlockEditing" />
+    </a>
+    <!-- /ko -->
+{% endblock %}
+
+{% block block_editor_title %}
+    {{ 'image_editor_title'|trans({}, 'RedKiteCms', cms_language) }}
+{% endblock %}
+
+{% block block_editor_toolbar_buttons %}
+    <div class="btn-group">
+        <a class="btn btn-default" data-bind="click: openImagesSelector" href="#"><i class="fa fa-image"></i></a>
+    </div>
+    {% include 'Link/Resources/views/Cms/_permalinks_selector.html.twig' %}
+{% endblock %}
