@@ -123,8 +123,15 @@ class FilesystemTools
             );
             throw new RuntimeException(json_encode($exception));
         }
-
-        file_put_contents($file, $content);
+        if (fwrite($handle, $content) === false) {
+            $exception = array(
+                "message" => 'The file %file% cannot be written',
+                "parameters" => array(
+                    "%file%" => basename($file),
+                )
+            );
+            throw new RuntimeException(json_encode($exception));
+        }
         self::unlockFile($handle);
     }
 
