@@ -12,7 +12,7 @@ then run this command to start a new RedKite CMS application:
 
     php composer.phar create-project redkite-labs/redkite-cms -s dev RedKiteCms
 
-When the project has been created, follow these [instructions]https://github.com/redkite-labs/RedKiteCms/docs/install-redkite-cms.md) to install the application.
+When the project has been created, follow these [instructions](https://github.com/redkite-labs/RedKiteCms/blob/master/docs/install-redkite-cms.md) to install the application.
 
 ## Documentation
 We are working on the documentation and it will be available as soon as possible.

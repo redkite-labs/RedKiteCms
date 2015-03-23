@@ -6,8 +6,14 @@ System built on top of Symfony2 components, jQuery, Knockout and Bootstrap frame
 1. A web-server like Apache or Nginx
 2. Php 5.3.3+
 
-## Download
-Download your free `RedKite CMS Application`_ copy now!
+## Get the application
+RedKite CMS 2 can be installed using composer:
+
+    curl -s http://getcomposer.org/installer | php
+
+then run this command to start a new RedKite CMS application:
+
+    php composer.phar create-project redkite-labs/redkite-cms -s dev RedKiteCms
 
 ## Set up RedKite CMS Application
 You need to unpack the RedKite CMS Application into your web server.
@@ -65,6 +71,6 @@ If you don't use **Xdebug** you can safety skip this step.
 
 ## Start RedKite CMS
 Start working with RedKite CMS is just opening the host you configured, so point the
-browser to **http://redkite** host and you should see the login page.
+browser to **http://redkite/login** host and you should see the login page.
 
 Enter **admin** as **user and password** and start enjoying RedKite CMS!
