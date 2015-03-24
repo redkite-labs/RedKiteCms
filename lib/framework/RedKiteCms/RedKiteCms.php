@@ -420,7 +420,8 @@ abstract class RedKiteCms
             $theme = $this->app["red_kite_cms.theme"];
             $this->app["red_kite_cms.page_collection_manager"]
                 ->setDefaultPageName('homepage')
-                ->add($theme, $theme->homepageTemplate());
+                ->add($theme, $theme->homepageTemplate()
+            );
 
             unlink($siteIncompleteFile);
         }

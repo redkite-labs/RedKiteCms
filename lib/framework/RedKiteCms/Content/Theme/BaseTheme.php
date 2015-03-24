@@ -117,7 +117,6 @@ abstract class BaseTheme
         $templates = $this->findTemplates(0);
 
         return array_keys($templates);
-
     }
 
     /**
@@ -142,9 +141,14 @@ abstract class BaseTheme
         $this->findSlotsInTemplates();
         $templates = $this->findTemplates(0);
         $templateSlots = array_intersect_key($this->templateSlots, $templates);
+        $homepageTemplate = $this->configurationHandler->homepageTemplate();
+        if (null === $homepageTemplate) {
+            $templateNames =  array_keys($templates);
+            $homepageTemplate = $templateNames[0];
+        }
 
         $themeDefinition = array(
-            "home_template" => $this->configurationHandler->homepageTemplate(),
+            "home_template" => $homepageTemplate,
             "templates" => $templateSlots,
         );
 
