@@ -1,1 +1,1 @@
-{"blocks":[{"slot_name":"logo","name":"block1","type":"Link","custom_tag":"rkcms-link","history_name":"","history":[],"revision":0,"value":"Displayed value","tags":{"href":"#"},"source":"value: 'Displayed value'\ntags:\n  href: '#'\n"}],"repeat":"site"}
+{"blocks":[{"slot_name":"logo","name":"block1","type":"Text","custom_tag":"rkcms-text","history_name":"","history":[],"revision":0,"editor_configuration":"standard","html":"<h1>Simple Theme<\/h1>","is_new":true}],"repeat":"site"}
