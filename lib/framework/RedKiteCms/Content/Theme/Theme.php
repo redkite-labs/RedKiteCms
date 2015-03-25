@@ -40,6 +40,18 @@ class Theme extends BaseTheme
      * @type string
      */
     private $homepageTemplate;
+    /**
+     * @var \RedKiteCms\Plugin\Plugin
+     */
+    private $plugin;
+
+    /**
+     * @return \RedKiteCms\Plugin\Plugin
+     */
+    public function getPlugin()
+    {
+        return $this->plugin;
+    }
 
     /**
      * Boots the theme from the given theme plugin
@@ -50,6 +62,7 @@ class Theme extends BaseTheme
      */
     public function boot(Plugin $theme)
     {
+        $this->plugin = $theme;
         parent::boot($theme);
 
         $themeFile = $this->themeDir . '/theme.json';

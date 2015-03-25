@@ -55,6 +55,8 @@ use RedKiteCms\EventSystem\Listener\PageCollection\PageRemovedListener;
 use RedKiteCms\EventSystem\Listener\PageCollection\PageSavedListener;
 use RedKiteCms\EventSystem\Listener\PageCollection\TemplateChangedListener;
 use RedKiteCms\EventSystem\Listener\Page\PermalinkChangedListener;
+use RedKiteCms\EventSystem\Listener\Request\SlotsAlignerListener;
+use RedKiteCms\EventSystem\Listener\Request\SlotsAlignment;
 use RedKiteCms\FilesystemEntity\Page;
 use RedKiteCms\FilesystemEntity\SlotParser;
 use RedKiteCms\Plugin\PluginManager;
@@ -308,8 +310,7 @@ abstract class RedKiteCms
         );
         $this->app["red_kite_cms.theme_slot_manager"] = new ThemeSlotsManager(
             $this->app["red_kite_cms.configuration_handler"],
-            $this->app["red_kite_cms.slots_manager_factory"],
-            $this->app["red_kite_cms.block_manager"]
+            $this->app["red_kite_cms.slots_manager_factory"]
         );
         $this->app["red_kite_cms.page_collection_manager"] = new PageCollectionManager(
             $this->app["red_kite_cms.configuration_handler"],
@@ -349,6 +350,11 @@ abstract class RedKiteCms
         $this->app["dispatcher"]->addListener(
             'kernel.exception',
             array($this->app["red_kite_cms.listener.exception"], 'onKernelException')
+        );
+
+        $this->app["dispatcher"]->addListener(
+            'kernel.request',
+            array(new SlotsAlignerListener($this->app["red_kite_cms.configuration_handler"], $this->app["red_kite_cms.pages_collection_parser"], $this->app["security"], $this->app["red_kite_cms.theme_slot_manager"]), 'onKernelRequest')
         );
         $this->app["red_kite_cms.listener.cms_booting"] = new CmsBootingListener(
             $this->app["red_kite_cms.plugin_manager"]
@@ -403,12 +409,8 @@ abstract class RedKiteCms
         $this->app["red_kite_cms.plugin_manager"]->boot();
         $theme = $this->app["red_kite_cms.plugin_manager"]->getActiveTheme();
         $this->app["red_kite_cms.theme"]->boot($theme);
-        $this->app["red_kite_cms.theme_slot_manager"]->boot($theme);
-        if ($theme->getName() === $this->app["red_kite_cms.configuration_handler"]->handledTheme()) {
-            $this->app["red_kite_cms.theme_slot_manager"]->synchronizeThemeSlots();
-        }
-        $this->app["red_kite_cms.theme_slot_manager"]->createSlots();
 
+        $this->app["red_kite_cms.theme_slot_manager"]->boot($theme);
         $siteIncompleteFile = $this->app["red_kite_cms.root_dir"] . '/app/data/' . $this->siteName . '/incomplete.json';
         if (file_exists($siteIncompleteFile)) {
             $user = null;

@@ -50,7 +50,8 @@ abstract class StartFromThemeController extends BaseController
 
         $siteBuilder
             ->theme($themeName)
-            ->build();
+            ->build()
+        ;
 
         return $this->buildJSonResponse(array());
     }

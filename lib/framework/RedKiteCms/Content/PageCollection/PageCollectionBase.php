@@ -81,6 +81,8 @@ abstract class PageCollectionBase
     public function contributor($username)
     {
         $this->username = $username;
+        $this->pageFile = 'page.json';
+        $this->seoFile = 'seo.json';
         if (null !== $this->username) {
             $this->pageFile = $this->seoFile = $this->username . '.json';
         }

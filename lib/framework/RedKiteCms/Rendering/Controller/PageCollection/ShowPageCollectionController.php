@@ -45,7 +45,8 @@ abstract class ShowPageCollectionController extends BasePageCollectionController
         $pages = $pagesParser
             ->contributor($this->options["username"])
             ->parse()
-            ->pages();
+            ->pages()
+        ;
 
         $theme = $options["plugin_manager"]->getActiveTheme();
         $this->options["theme_manager"]->boot($theme);

@@ -78,6 +78,26 @@ abstract class BaseTheme
     }
 
     /**
+     * @return string
+     */
+    public function getThemeDir()
+    {
+        return $this->themeDir;
+    }
+
+    /**
+     * @param string $themeDir
+     *
+     * @return $this
+     */
+    public function setThemeDir($themeDir)
+    {
+        $this->themeDir = $themeDir;
+
+        return $this;
+    }
+
+    /**
      * Boots the theme
      * @param \RedKiteCms\Plugin\Plugin $theme
      *
@@ -138,7 +158,7 @@ abstract class BaseTheme
      */
     protected function writeTheme()
     {
-        $this->findSlotsInTemplates();
+        $slots =$this->findSlotsInTemplates();
         $templates = $this->findTemplates(0);
         $templateSlots = array_intersect_key($this->templateSlots, $templates);
         $homepageTemplate = $this->configurationHandler->homepageTemplate();
@@ -150,6 +170,7 @@ abstract class BaseTheme
         $themeDefinition = array(
             "home_template" => $homepageTemplate,
             "templates" => $templateSlots,
+            "slots" => $slots,
         );
 
         FilesystemTools::writeFile($this->themeDir . '/theme.json', json_encode($themeDefinition));
@@ -209,7 +230,7 @@ abstract class BaseTheme
     {
         // find repeated slots
         preg_match_all(
-            '/\{# repeat: (site|language)[^\}]+[^\{]+\{\{[\s]+?slots.([^|]+)?/is',
+            '/\{#[\s]?repeat:[\s]?(site|language)[^\}]+[^\{]+\{\{[\s]+?slots.([^|]+)?/is',
             $templateContents,
             $matches,
             PREG_SET_ORDER

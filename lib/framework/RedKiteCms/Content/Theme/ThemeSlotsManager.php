@@ -19,6 +19,7 @@ namespace RedKiteCms\Content\Theme;
 
 use RedKiteCms\Configuration\ConfigurationHandler;
 use RedKiteCms\Content\BlockManager\BlockManager;
+use RedKiteCms\Content\PageCollection\PagesCollectionParser;
 use RedKiteCms\Content\SlotsManager\SlotsManagerFactoryInterface;
 use RedKiteCms\Tools\FilesystemTools;
 use Symfony\Component\Filesystem\Filesystem;
@@ -32,22 +33,11 @@ use Symfony\Component\Finder\Finder;
  */
 class ThemeSlotsManager extends BaseTheme
 {
-    private $blockManager;
-    private $slots = array();
 
     /**
-     * Constructor
-     *
-     * @param \RedKiteCms\Configuration\ConfigurationHandler $configurationHandler
-     * @param \RedKiteCms\Content\SlotsManager\SlotsManagerFactoryInterface $slotsManagerFactory
-     * @param \RedKiteCms\Content\BlockManager\BlockManager $blockManager
+     * @type array
      */
-    public function __construct(ConfigurationHandler $configurationHandler, SlotsManagerFactoryInterface $slotsManagerFactory, BlockManager $blockManager )
-    {
-        parent::__construct($configurationHandler, $slotsManagerFactory);
-
-        $this->blockManager = $blockManager;
-    }
+    private $slots = array();
 
     /**
      * Returns the found slots
@@ -60,11 +50,38 @@ class ThemeSlotsManager extends BaseTheme
     }
 
     /**
+     * Aligns the site slots according with the changes made with the theme in use
+     *
+     * @param \RedKiteCms\Content\PageCollection\PagesCollectionParser $pagesCollectionParser
+     */
+    public function align(PagesCollectionParser $pagesCollectionParser)
+    {
+        if ($this->configurationHandler->isTheme()) {
+            $this->alignThemeSite($pagesCollectionParser);
+
+            return;
+        }
+
+        $this->alignSite($pagesCollectionParser);
+    }
+
+    /**
+     * Saves the theme
+     *
+     * @param array $pages
+     */
+    public function save(array $pages)
+    {
+        $this->writeTheme();
+        $this->saveBlocks($pages);
+    }
+
+    /**
      * Creates the slots into the website used to define the theme blocks contents
      *
      * @return $this
      */
-    public function createSlots()
+    private function createSlots()
     {
         $this->isBooted();
 
@@ -88,12 +105,42 @@ class ThemeSlotsManager extends BaseTheme
         return $this;
     }
 
+    private function parseSlots(array $slots, $repeat)
+    {
+        $changedSlots = array();
+        foreach ($slots as $slotName) {
+            $fileName = sprintf('%s/%s.json', $this->slotsDir, $slotName);
+            $value = array(
+                "blocks" => array(),
+            );
+            if (file_exists($fileName)) {
+                $slot = json_decode(FilesystemTools::readFile($fileName), true);
+                if ($slot["repeat"] == $repeat) {
+                    continue;
+                }
+
+                $slotName = basename($fileName, '.json');
+                $changedSlots[$slotName] = array(
+                    "old" => $slot["repeat"],
+                    "new" => $repeat,
+                );
+                $value["blocks"] = $slot["blocks"];
+            }
+
+            $value["repeat"] = $repeat;
+
+            FilesystemTools::writeFile($fileName, json_encode($value));
+        }
+
+        return $changedSlots;
+    }
+
     /**
      * Synchronizes the base slots to define the default theme's blocks contents
      *
      * @return $this
      */
-    public function synchronizeThemeSlots()
+    private function synchronizeThemeSlots()
     {
         $foundSlots = array();
         $changedSlots = array();
@@ -103,16 +150,6 @@ class ThemeSlotsManager extends BaseTheme
             $foundSlots = array_merge($foundSlots, $slots);
         }
 
-        /* TODO: Save the changed_slots.json, add revision and update the site according with that revision
-        $savedChangedSlots = array();
-        $changedSlotsFile = $this->themeDir . '/changed_slots.json';
-        if (file_exists($changedSlotsFile)) {
-            $savedChangedSlots = json_decode(FilesystemTools::readFile($changedSlotsFile), true);
-        }
-
-        FilesystemTools::writeFile($this->themeDir . '/changed_slots.json', json_encode($changedSlots));
-
-        */
         $removedSlots = array();
         $finder = new Finder();
         $files = $finder->files()->in($this->slotsDir);
@@ -127,45 +164,6 @@ class ThemeSlotsManager extends BaseTheme
         $fs->remove($removedSlots);
 
         return $this;
-    }
-
-    /**
-     * Saves the theme
-     *
-     * @param array $pages
-     */
-    public function save(array $pages)
-    {
-        $this->writeTheme();
-        $this->saveBlocks($pages);
-    }
-
-    private function parseSlots(array $slots, $repeat)
-    {
-        $changedSlots = array();
-        foreach ($slots as $slotName) {
-            $fileName = sprintf('%s/%s.json', $this->slotsDir, $slotName);
-            if (file_exists($fileName)) {
-                $slot = json_decode(FilesystemTools::readFile($fileName), true);
-                if ($slot["repeat"] == $repeat) {
-                    continue;
-                }
-
-                $slotName = basename($fileName, '.json');
-                $changedSlots[$slotName] = array(
-                    "old" => $slot["repeat"],
-                    "new" => $repeat,
-                );
-            }
-
-            $value = array(
-                "repeat" => $repeat,
-                "blocks" => array(),
-            );
-            FilesystemTools::writeFile($fileName, json_encode($value));
-        }
-
-        return $changedSlots;
     }
 
     private function saveBlocks(array $pages)
@@ -258,6 +256,132 @@ class ThemeSlotsManager extends BaseTheme
             $slotContents = json_decode($slotFileContents, true);
             $slotContents["blocks"] = $blocks;
             FilesystemTools::writeFile($slotFile, json_encode($slotContents));
+        }
+    }
+
+    private function alignSite(PagesCollectionParser $pagesCollectionParser)
+    {
+        $changedSlotsFile = $this->themeDir . '/theme.json';
+        $themeInformation = json_decode(FilesystemTools::readFile($changedSlotsFile), true);
+        if (!array_key_exists("slots", $themeInformation)) {
+            return null;
+        }
+        $changedSlots = $themeInformation["slots"];
+
+        $siteInformation = $this->configurationHandler->siteInfo();
+        if (!array_key_exists("slots", $siteInformation)) {
+            $siteInformation["slots"] = $changedSlots;
+            FilesystemTools::writeFile($this->configurationHandler->siteDir() . '/site.json', json_encode($siteInformation));
+
+            return;
+        }
+
+        $currentSlots = $siteInformation["slots"];
+        $this->doAlign($currentSlots, $changedSlots, $pagesCollectionParser);
+
+        $siteInformation["slots"] = $changedSlots;
+        FilesystemTools::writeFile($this->configurationHandler->siteDir() . '/site.json', json_encode($siteInformation));
+    }
+
+    private function alignThemeSite(PagesCollectionParser $pagesCollectionParser)
+    {
+        $changedSlotsFile = $this->themeDir . '/theme.json';
+        $changedSlots =$this->findSlotsInTemplates();
+        $themeInformation = json_decode(FilesystemTools::readFile($changedSlotsFile), true);//print_R($themeInformation);
+        if (!array_key_exists("slots_dev", $themeInformation)) {
+            $themeInformation["slots_dev"] = $changedSlots;
+            if (array_key_exists("slots", $themeInformation)){
+                $themeInformation["slots_dev"] = $themeInformation["slots"];
+            }
+            FilesystemTools::writeFile($this->themeDir . '/theme.json', json_encode($themeInformation));
+        }
+        $currentSlots = $themeInformation["slots_dev"];
+
+        $this->synchronizeThemeSlots();
+        $this->doAlign($currentSlots, $changedSlots, $pagesCollectionParser);
+
+        $themeInformation["slots_dev"] = $changedSlots;
+        FilesystemTools::writeFile($this->themeDir . '/theme.json', json_encode($themeInformation));
+    }
+
+    private function doAlign($currentSlots, $changedSlots, PagesCollectionParser $pagesCollectionParser = null)
+    {
+        $differences = $this->findDifferences($currentSlots, $changedSlots);
+        if (null === $differences) {
+            return;
+        }
+
+        $this->alignOldStatus($differences["old"], $pagesCollectionParser);
+        $this->createSlots();
+    }
+
+    private function findDifferences($currentSlots, $changedSlots)
+    {
+        $oldStatus = array_diff_key($currentSlots, $changedSlots);
+        $newStatus = array();
+        foreach ($changedSlots as $repeat => $s) {
+            if (!array_key_exists($repeat, $currentSlots)) {
+                continue;
+            }
+            $savedSlots = $currentSlots[$repeat];
+            $oldDiff = array_diff($savedSlots, $s);
+            if (!empty($oldDiff)) {
+                $oldStatus[$repeat] = $oldDiff;
+            }
+
+            $newDiff = array_diff($s, $savedSlots);
+            if (!empty($newDiff)) {
+                $newStatus[$repeat] = $newDiff;
+            }
+        }
+
+        return array(
+            "old" => $oldStatus,
+            "new" => $newStatus,
+        );
+    }
+
+    private function alignOldStatus(array $slots, PagesCollectionParser $pagesCollectionParser = null)
+    {
+        $fileSystem = new Filesystem();
+        $baseDir = $this->configurationHandler->siteDir();
+        foreach($slots as $repeat => $repeatedSlots) {
+            $options = array(
+                "page" => "",
+                "language" => "",
+                "country" => "",
+                "slot" => "",
+            );
+            foreach($repeatedSlots as $slot) {
+                $dirs = array();
+                $options["slot"] = $slot;
+                switch ($repeat) {
+                    case "page":
+                        $pages = $pagesCollectionParser->pages();
+                        $languages = $this->configurationHandler->languages();
+                        foreach($pages as $page) {
+                            foreach($languages as $language) {
+                                $tokens = explode("_", $language);
+                                $dirs[] = FilesystemTools::slotDir(
+                                    $baseDir,
+                                    array(
+                                        "page" => $page["name"],
+                                        "language" => $tokens[0],
+                                        "country" => $tokens[1],
+                                        "slot" => $slot,
+                                    )
+                                );
+                            }
+                        }
+
+                        break;
+                    default:
+                        $dirs = array(FilesystemTools::slotDir($baseDir, $options));
+
+                        break;
+                }
+                $fileSystem->remove($dirs);
+            }
         }
     }
 } 
