@@ -1,1 +1,1 @@
-{"home_template":"home","templates":{"home":["left_column","content","right_column"],"internal":["internal"]}}
+{"home_template":"home","templates":{"home":["left_column","content","right_column"],"internal":["internal"]},"slots":{"page":["left_column","content","right_column","menu","internal"],"site":["logo"],"language":["footer_box_1","footer_box_2","footer_box_3","copyright"]}}

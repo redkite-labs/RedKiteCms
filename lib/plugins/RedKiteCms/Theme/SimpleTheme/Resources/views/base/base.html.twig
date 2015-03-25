@@ -8,6 +8,7 @@
 {% block post_external_stylesheets %}
     {{ parent() }}
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <link href="/plugins/simpletheme/css/style.css" rel="stylesheet" type="text/css" media="all" />
 {% endblock %}
 
 {% block external_stylesheets %}
@@ -28,7 +29,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-            {# repeat: site #}{{ slots.logo|default('')|raw }}
+                {# repeat: site #}{{ slots.logo|default('')|raw }}
             </div>
         </div>
     </div>
@@ -37,7 +38,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-            {# repeat: language #}{{ slots.menu|default('')|raw }}
+            {# repeat: langugae #}{{ slots.menu|default('')|raw }}
             </div>
         </div>
     </div>
