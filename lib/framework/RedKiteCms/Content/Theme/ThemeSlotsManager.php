@@ -81,7 +81,7 @@ class ThemeSlotsManager extends BaseTheme
      *
      * @return $this
      */
-    private function createSlots()
+    public function createSlots()
     {
         $this->isBooted();
 

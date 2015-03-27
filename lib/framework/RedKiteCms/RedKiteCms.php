@@ -38,6 +38,7 @@ use RedKiteCms\Configuration\ConfigurationHandler;
 use RedKiteCms\Configuration\SiteBuilder;
 use RedKiteCms\Content\Block\BlockFactory;
 use RedKiteCms\Content\BlockManager\BlockManager;
+use RedKiteCms\Content\BlockManager\BlockManagerApprover;
 use RedKiteCms\Content\PageCollection\PageCollectionManager;
 use RedKiteCms\Content\PageCollection\PagesCollectionParser;
 use RedKiteCms\Content\PageCollection\PermalinkManager;
@@ -86,6 +87,7 @@ abstract class RedKiteCms
     private $app;
     private $siteName;
     private $siteBuilder = null;
+    protected $routingServiceProvider;
 
     /**
      * Returns an array of options to change RedKite CMS configuration
@@ -108,6 +110,7 @@ abstract class RedKiteCms
     public function __construct(Application $app)
     {
         $this->app = $app;
+        $this->routingServiceProvider = new RoutingProvider();
     }
 
     /**
@@ -411,6 +414,7 @@ abstract class RedKiteCms
         $this->app["red_kite_cms.theme"]->boot($theme);
 
         $this->app["red_kite_cms.theme_slot_manager"]->boot($theme);
+        $this->app["red_kite_cms.theme_slot_manager"]->createSlots();
         $siteIncompleteFile = $this->app["red_kite_cms.root_dir"] . '/app/data/' . $this->siteName . '/incomplete.json';
         if (file_exists($siteIncompleteFile)) {
             $user = null;
@@ -424,6 +428,14 @@ abstract class RedKiteCms
                 ->setDefaultPageName('homepage')
                 ->add($theme, $theme->homepageTemplate()
             );
+
+            $saveOptions = array(
+                'page' => 'homepage',
+                'language' => 'en',
+                'country' => 'GB',
+            );
+            $blockManager = new BlockManagerApprover($this->app["jms.serializer"], $this->app["red_kite_cms.block_factory"], new OptionsResolver());
+            $this->app["red_kite_cms.page_collection_manager"]->save($blockManager, $saveOptions);
 
             unlink($siteIncompleteFile);
         }
@@ -621,14 +633,14 @@ abstract class RedKiteCms
             $user = 'admin';
         }
 
-        $routingServiceProvider = new RoutingProvider();
-        $routingServiceProvider->addRoutes($this->app, $blockRoutes);
-        $routingServiceProvider->addRoutes($this->app, $pageRoutes);
-        $routingServiceProvider->addRoutes($this->app, $seoRoutes);
-        $routingServiceProvider->addRoutes($this->app, $themeRoutes);
-        $routingServiceProvider->addRoutes($this->app, $elFinder);
-        $routingServiceProvider->addRoutes($this->app, $security);
-        $routingServiceProvider->addRoutes($this->app, $backendRoutes);
+
+        $this->routingServiceProvider->addRoutes($this->app, $blockRoutes);
+        $this->routingServiceProvider->addRoutes($this->app, $pageRoutes);
+        $this->routingServiceProvider->addRoutes($this->app, $seoRoutes);
+        $this->routingServiceProvider->addRoutes($this->app, $themeRoutes);
+        $this->routingServiceProvider->addRoutes($this->app, $elFinder);
+        $this->routingServiceProvider->addRoutes($this->app, $security);
+        $this->routingServiceProvider->addRoutes($this->app, $backendRoutes);
 
         $routingGenerator = new RoutingGenerator($this->app["red_kite_cms.configuration_handler"]);
         $websitePageRoutes = $this->app["red_kite_cms.configuration_handler"]->isProduction() ?
@@ -644,6 +656,6 @@ abstract class RedKiteCms
                 ->explicitHomepageRoute(true)
                 ->contributor($user)
                 ->generate();
-        $routingServiceProvider->addRoutes($this->app, $websitePageRoutes);
+        $this->routingServiceProvider->addRoutes($this->app, $websitePageRoutes);
     }
 }

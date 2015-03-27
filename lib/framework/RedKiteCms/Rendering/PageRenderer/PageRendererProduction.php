@@ -130,7 +130,11 @@ class PageRendererProduction extends PageRendererBackend
      */
     public function renderBlock($encodedBlock)
     {
-        $values = json_decode($encodedBlock, true);
+        $values = json_decode($encodedBlock, true);//print_r($values);exit;
+        if (null === $values["type"]) {
+            return "";
+        }
+
         $block = $this->serializer->deserialize($encodedBlock, Utils::blockClassFromType($values["type"]), 'json');
         $content = $this->templating->render($block->getType() . '/Resources/views/Frontend/block.html.twig', array('block' => $block));
 

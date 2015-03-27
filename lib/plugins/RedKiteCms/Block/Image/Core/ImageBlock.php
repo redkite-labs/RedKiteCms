@@ -51,6 +51,14 @@ class ImageBlock extends ExtendableBlock
     protected $customTag = "rkcms-image";
 
     /**
+     * @return string
+     */
+    public function getHref()
+    {
+        return $this->href;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function updateSource()
