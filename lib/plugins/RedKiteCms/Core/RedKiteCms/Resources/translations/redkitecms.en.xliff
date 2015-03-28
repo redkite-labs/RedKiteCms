@@ -27,6 +27,10 @@
             <source>exception_file_cannot_be_locked_for_writing</source>
             <target>The file %file% cannot be locked for writing. This happens when someone else is working on the same file. Please, try again later.</target>
         </trans-unit>
+        <trans-unit id="exception_file_cannot_be_written">
+            <source>exception_file_cannot_be_locked_for_writing</source>
+            <target>The file %file% cannot be written. Error: %error%. Check logs for more information.</target>
+        </trans-unit>
         <trans-unit id="exception_page_not_published">
             <source>exception_page_not_published</source>
             <target>The page you are trying to approve is not published yet. You must publish that page then you can approve it.</target>
