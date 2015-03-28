@@ -38,6 +38,5 @@
             "RedKiteCms": ["lib/framework", "lib/plugins", "lib/tests/functional", "src"],
             "Controller": "lib/controllers"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
