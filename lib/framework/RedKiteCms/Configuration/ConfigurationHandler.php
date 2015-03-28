@@ -171,6 +171,10 @@ class ConfigurationHandler
      * @type null|string
      */
     private $homepageTemplate = null;
+    /**
+     * @type null|\Symfony\Component\Filesystem\Filesystem
+     */
+    private $filesystem = null;
 
     /**
      * Constructor
@@ -182,6 +186,7 @@ class ConfigurationHandler
     {
         $this->rootDir = $rootDir;
         $this->siteName = $siteName;
+        $this->filesystem = new Filesystem();
         $this->checkWhenInProduction();
         $this->checkWhenIsTheme();
     }
@@ -233,13 +238,16 @@ class ConfigurationHandler
         $this->corePluginsDir = $this->rootDir . '/lib/plugins/RedKiteCms';
         $this->customPluginsDir = $this->appDir . '/plugins/RedKiteCms';
         $this->coreConfigDir = $this->rootDir . '/lib/config';
-        $this->customConfigDir = $this->appDir . '/config';
+        $this->customConfigDir = $this->siteDir . '/config';
         $this->pagesRootDir = $this->siteDir . '/pages';
         $this->pagesDir = $this->pagesRootDir . '/pages';
         $this->pagesRemovedDir = $this->pagesRootDir . '/removed';
 
         $this->createImagesDir($this->uploadAssetsDir);
         $this->createImagesDir($this->uploadAssetsDirProduction);
+        if ( ! is_dir($this->customConfigDir)) {
+            $this->filesystem->mkdir($this->customConfigDir);
+        }
     }
 
     private function createImagesDir($imagesDir)
@@ -254,8 +262,7 @@ class ConfigurationHandler
             $imagesDir . '/files',
         );
 
-        $fs = new Filesystem();
-        $fs->mkdir($folders);
+        $this->filesystem->mkdir($folders);
     }
 
     private function readConfiguration()
@@ -324,7 +331,7 @@ class ConfigurationHandler
     public function setConfigurationOptions(array $options = array())
     {
         $resolver = new OptionsResolver();
-        $resolver->setOptional(
+        $resolver->setDefined(
             array(
                 'web_dir',
                 'uploads_dir',

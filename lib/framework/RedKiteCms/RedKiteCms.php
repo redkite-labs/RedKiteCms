@@ -128,9 +128,9 @@ abstract class RedKiteCms
         $this->registerProviders();
         $this->registerServices();
         $this->registerListeners();
+        $this->registerRoutes();
         $this->register($this->app);
         $this->boot();
-        $this->registerRoutes();
     }
 
     private function initCmsRequiredServices()
