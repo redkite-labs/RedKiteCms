@@ -256,6 +256,7 @@ class ConfigurationHandler
         $this->filesystem->mkdir($folders);
     }
 
+    /*
     private function readConfiguration()
     {
         $globalCustomConfigDir = $this->appDir . '/config';
@@ -291,9 +292,56 @@ class ConfigurationHandler
             return $configuration;
         }
 
-        if (array_key_exists("assets", $configuration) && array_key_exists("prod", $configuration["assets"])) {
+        if (array_key_exists("assets", $coreConfiguration) && array_key_exists("prod", $coreConfiguration["assets"])) {
             $coreConfiguration["assets"]["prod"] = $configuration["assets"]["prod"];
             unset($configuration["assets"]["prod"]);
+        }
+
+        return $configuration;
+    }*/
+
+    private function readConfiguration()
+    {
+
+        $globalCustomConfigDir = $this->appDir . '/config';
+        $siteCustomConfigDir = $this->siteDir . '/config';
+        if ( ! is_dir($siteCustomConfigDir)) {
+            $this->filesystem->mkdir($siteCustomConfigDir);
+        }
+
+        $coreConfiguration = $this->parse($this->coreConfigDir);
+        $globalCustomConfiguration = $this->parse($globalCustomConfigDir);
+        if (array_key_exists("assets", $globalCustomConfiguration) && array_key_exists("prod", $globalCustomConfiguration["assets"])) {
+            $coreConfiguration["assets"]["prod"] = $globalCustomConfiguration["assets"]["prod"];
+            unset($globalCustomConfiguration["assets"]["prod"]);
+        }
+
+        $siteCustomConfiguration = $this->parse($siteCustomConfigDir);
+        if (array_key_exists("assets", $siteCustomConfiguration) && array_key_exists("prod", $siteCustomConfiguration["assets"])) {
+            $coreConfiguration["assets"]["prod"] = $siteCustomConfiguration["assets"]["prod"];
+            unset($siteCustomConfiguration["assets"]["prod"]);
+        }
+
+
+
+
+        $this->configuration = array_merge_recursive($coreConfiguration, $globalCustomConfiguration, $siteCustomConfiguration);
+    }
+
+    private function parse($dir)
+    {
+        $configuration = array();
+        $finder = new Finder();
+        $files = $finder->files()->name('*.json')->in($dir);
+        foreach ($files as $file) {
+            $file = (string)$file;
+            $fileName = basename($file, '.json');
+            $jsonAssets = str_replace('%web_dir%', $this->webDir, file_get_contents($file));
+            $assets = json_decode($jsonAssets, true);
+            if (null === $assets) {
+                $assets = array();
+            }
+            $configuration[$fileName] = $assets;
         }
 
         return $configuration;

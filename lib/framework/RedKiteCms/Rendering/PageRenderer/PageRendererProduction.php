@@ -131,7 +131,7 @@ class PageRendererProduction extends PageRendererBackend
     public function renderBlock($encodedBlock)
     {
         $values = json_decode($encodedBlock, true);//print_r($values);exit;
-        if (null === $values["type"]) {
+        if (!array_key_exists("type", $values) || null === $values["type"]) {
             return "";
         }
 
