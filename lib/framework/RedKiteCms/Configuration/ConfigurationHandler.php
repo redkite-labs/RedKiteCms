@@ -268,7 +268,7 @@ class ConfigurationHandler
         $globalCustomConfiguration = $this->parse($globalCustomConfigDir);
         $siteCustomConfiguration = $this->parse($siteCustomConfigDir);
 
-        $this->configuration = array_merge_recursive($coreConfiguration, $globalCustomConfiguration, $siteCustomConfiguration);print_r($this->configuration);exit;
+        $this->configuration = array_merge_recursive($coreConfiguration, $globalCustomConfiguration, $siteCustomConfiguration);
     }
 
     private function parse($dir)
