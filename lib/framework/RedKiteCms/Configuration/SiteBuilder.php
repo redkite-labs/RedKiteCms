@@ -86,12 +86,14 @@ class SiteBuilder
     {
         $this->appDir = $this->rootDir . '/app';
         $siteDir = $this->appDir . '/data/' . $this->siteName;
+        $siteConfigDir = $siteDir . '/config';
         $pagesDir = $siteDir . '/pages/pages';
         $rolesDir = $siteDir . '/roles';
         $slotsDir = $siteDir . '/slots';
         $usersDir = $siteDir . '/users';
 
         $folders = array(
+            $siteConfigDir,
             $pagesDir,
             $rolesDir,
             $slotsDir,

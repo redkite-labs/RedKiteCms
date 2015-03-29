@@ -46,7 +46,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @method ConfigurationHandler uploadAssetsDirProduction() Returns the production uploads dir
  * @method ConfigurationHandler absoluteUploadAssetsDir() Returns the assets absolute dir
  * @method ConfigurationHandler coreConfigDir() Returns the core configuration dir
- * @method ConfigurationHandler customConfigDir() Returns the custom configuration dir
  * @method ConfigurationHandler webDirname() Returns the web folder name
  * @method ConfigurationHandler siteName() Returns the current site name
  * @method ConfigurationHandler isProduction() Returns when the CMS is used in production
@@ -134,10 +133,6 @@ class ConfigurationHandler
      * @type string
      */
     private $coreConfigDir;
-    /**
-     * @type string
-     */
-    private $customConfigDir;
     /**
      * @type array
      */
@@ -238,16 +233,12 @@ class ConfigurationHandler
         $this->corePluginsDir = $this->rootDir . '/lib/plugins/RedKiteCms';
         $this->customPluginsDir = $this->appDir . '/plugins/RedKiteCms';
         $this->coreConfigDir = $this->rootDir . '/lib/config';
-        $this->customConfigDir = $this->siteDir . '/config';
         $this->pagesRootDir = $this->siteDir . '/pages';
         $this->pagesDir = $this->pagesRootDir . '/pages';
         $this->pagesRemovedDir = $this->pagesRootDir . '/removed';
 
         $this->createImagesDir($this->uploadAssetsDir);
         $this->createImagesDir($this->uploadAssetsDirProduction);
-        if ( ! is_dir($this->customConfigDir)) {
-            $this->filesystem->mkdir($this->customConfigDir);
-        }
     }
 
     private function createImagesDir($imagesDir)
@@ -267,10 +258,17 @@ class ConfigurationHandler
 
     private function readConfiguration()
     {
-        $coreConfiguration = $this->parse($this->coreConfigDir);
-        $customConfiguration = $this->parse($this->customConfigDir);
+        $globalCustomConfigDir = $this->appDir . '/config';
+        $siteCustomConfigDir = $this->siteDir . '/config';
+        if ( ! is_dir($siteCustomConfigDir)) {
+            $this->filesystem->mkdir($siteCustomConfigDir);
+        }
 
-        $this->configuration = array_merge_recursive($coreConfiguration, $customConfiguration);
+        $coreConfiguration = $this->parse($this->coreConfigDir);
+        $globalCustomConfiguration = $this->parse($globalCustomConfigDir);
+        $siteCustomConfiguration = $this->parse($siteCustomConfigDir);
+
+        $this->configuration = array_merge_recursive($coreConfiguration, $globalCustomConfiguration, $siteCustomConfiguration);print_r($this->configuration);exit;
     }
 
     private function parse($dir)
@@ -287,6 +285,15 @@ class ConfigurationHandler
                 $assets = array();
             }
             $configuration[$fileName] = $assets;
+        }
+
+        if (empty($configuration)) {
+            return $configuration;
+        }
+
+        if (array_key_exists("assets", $configuration) && array_key_exists("prod", $configuration["assets"])) {
+            $coreConfiguration["assets"]["prod"] = $configuration["assets"]["prod"];
+            unset($configuration["assets"]["prod"]);
         }
 
         return $configuration;
