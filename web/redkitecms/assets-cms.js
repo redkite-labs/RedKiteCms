@@ -6430,11 +6430,9 @@ var Link = function (params)
         self.editor.insert($('.rkcms-pages-selector:visible option:selected').val());
     };
 
-    self.setActive = function(){
-        return 'active';
+    self.setActive = function() {
+        return self.block.tags.href == pathInfo ? 'active' : '';
     }.bind(self);
-
-
 
     self.toolbar.push("permalinks");
 };
@@ -6564,6 +6562,12 @@ var IconLinked = function (params)
 {
     var self = this;
     ExtendableCollection.call(self, params);
+
+    self.toolbar.push("permalinks");
+
+    self.setActive = function() {
+        return self.block.tags.href == pathInfo ? 'active' : '';
+    }.bind(self);
 };
 
 IconLinked.prototype = Object.create(ExtendableCollection.prototype);

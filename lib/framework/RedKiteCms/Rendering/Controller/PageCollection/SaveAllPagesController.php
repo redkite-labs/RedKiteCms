@@ -17,6 +17,7 @@
 
 namespace RedKiteCms\Rendering\Controller\PageCollection;
 
+use Controller\Page\SavePageController;
 use RedKiteCms\Content\BlockManager\BlockManagerApprover;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

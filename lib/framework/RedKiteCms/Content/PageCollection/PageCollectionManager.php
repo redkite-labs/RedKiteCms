@@ -251,10 +251,14 @@ class PageCollectionManager extends PageCollectionBase
     {
         $this->contributorDefined();
 
-        $pageDir = $this->pagesDir . '/' . $options["page"] . '/' . $options["language"] . '_' . $options["country"];
+        $filesystem = new Filesystem();
+        $pageDir = $this->pagesDir . '/' . $options["page"];
+        $filesystem->copy($pageDir . '/' . $this->pageFile, $pageDir . '/page.json', true);
+
+        $pageDir .= '/' . $options["language"] . '_' . $options["country"];
         if ($this->seoFile != "seo.json") {
-            $filesystem = new Filesystem();
-            $filesystem->copy($pageDir . '/' . $this->seoFile, $pageDir . '/seo.json');
+
+            $filesystem->copy($pageDir . '/' . $this->seoFile, $pageDir . '/seo.json', true);
         }
         $approvedBlocks = $this->saveBlocks($approver, $pageDir, $options);
 
