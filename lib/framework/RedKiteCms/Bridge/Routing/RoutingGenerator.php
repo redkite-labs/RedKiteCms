@@ -194,10 +194,6 @@ class RoutingGenerator
                     $routes = array_merge($routes, $changedPermalinkRoutes);
                 };
 
-                if (!$this->explicitHomepageRoute && $homepageValues == $values) {
-                    continue;
-                }
-
                 $routes[] = array(
                     'pattern' => $pattern . $pageValues["permalink"],
                     'controller' => $this->frontController,
