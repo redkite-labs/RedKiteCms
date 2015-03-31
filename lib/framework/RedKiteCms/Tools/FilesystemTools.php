@@ -113,7 +113,7 @@ class FilesystemTools
      */
     public static function writeFile($file, $content)
     {
-        $handle = fopen($file, 'a');
+        $handle = fopen($file, 'w');
         if (!self::lockFile($handle, LOCK_EX | LOCK_NB)) {
             $exception = array(
                 "message" => 'exception_file_cannot_be_locked_for_writing',
@@ -123,8 +123,16 @@ class FilesystemTools
             );
             throw new RuntimeException(json_encode($exception));
         }
-
-        file_put_contents($file, $content);
+        if (fwrite($handle, $content) === false) {
+            $exception = array(
+                "message" => 'exception_file_cannot_be_written',
+                "parameters" => array(
+                    "%file%" => basename($file),
+                    "%error%" => error_get_last()['message'],
+                )
+            );
+            throw new RuntimeException(json_encode($exception));
+        }
         self::unlockFile($handle);
     }
 
