@@ -71,6 +71,9 @@ body a {
 #menu ul a {
   color: #c7254e;
 }
+#menu ul a.active {
+  color: #525252;
+}
 
 #content {
   min-height: 400px;

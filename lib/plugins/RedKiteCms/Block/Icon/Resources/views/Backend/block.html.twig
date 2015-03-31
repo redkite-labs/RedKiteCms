@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block block_element %}
-    <i class="rkcms-block" data-bind="element: target, dynamicAttr: tags, event: { mouseenter: highlight, mouseleave: hide }, attr: { 'data-type': type, 'data-name': name, 'data-slot-name': slotName}, click: startBlockEditing" ></i> <!-- ko text:value --><!-- /ko -->
+    <i data-bind="element: target, dynamicAttr: tags, event: { mouseenter: highlight, mouseleave: hide }, attr: { 'data-type': type, 'data-name': name, 'data-slot-name': slotName }, click: startBlockEditing" ></i> <!-- ko text:value --><!-- /ko -->
 {% endblock %}
     
 {% block block_editor_title %}

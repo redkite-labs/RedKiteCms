@@ -12,13 +12,13 @@
     <div data-bind="element: target, event: { mouseenter: highlight, mouseleave: hide }, click: startBlockEditing">
         <ul data-bind="foreach: children">
             <!-- ko if: type=='Link' -->
-            <li><rkcms-link params='{ block: $data, parent: $parent }'></rkcms-link></li>
+            <li data-bind=" attr:{ class: $data.tags.href==pathInfo ? 'active' : '' } "><rkcms-link params='{ block: $data, parent: $parent }'></rkcms-link></li>
             <!-- /ko -->
             <!-- ko if: type=='Icon' -->
             <li><rkcms-icon params='{ block: $data, parent: $parent }'></rkcms-icon></li>
             <!-- /ko -->
             <!-- ko if: type=='IconLinked' -->
-            <li><rkcms-icon-linked params='{ block: $data, parent: $parent }'></rkcms-icon-linked></li>
+            <li data-bind=" attr:{ class: $data.tags.href==pathInfo ? 'active' : '' } "><rkcms-icon-linked params='{ block: $data, parent: $parent }'></rkcms-icon-linked></li>
             <!-- /ko -->
             <!-- ko if: type=='IconStacked' -->
             <li><rkcms-icon-stacked params='{ block: $data, parent: $parent }'></rkcms-icon-stacked></li>

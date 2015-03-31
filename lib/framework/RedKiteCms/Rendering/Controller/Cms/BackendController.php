@@ -54,6 +54,7 @@ abstract class BackendController extends FrontendController
         $seoForm = $formFactory->create(new SeoType());
         $params["seo_form"] = $seoForm->createView();
         $params["editor_toolbar"] = $this->options["toolbar_manager"]->render();
+        $params["path_info"] = basename($request->getPathInfo());
 
         return $options["twig"]->render('RedKiteCms/Resources/views/Template/Cms/template.html.twig', $params);
     }

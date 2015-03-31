@@ -6430,6 +6430,12 @@ var Link = function (params)
         self.editor.insert($('.rkcms-pages-selector:visible option:selected').val());
     };
 
+    self.setActive = function(){
+        return 'active';
+    }.bind(self);
+
+
+
     self.toolbar.push("permalinks");
 };
 
