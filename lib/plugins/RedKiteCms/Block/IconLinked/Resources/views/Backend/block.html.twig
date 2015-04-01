@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block block_element %}
-    <a data-bind="element: target, dynamicAttr: tags, foreach: children, event: { mouseenter: highlight, mouseleave: hide }, attr: { 'data-type': type, 'data-name': name, 'data-slot-name': slotName, 'class': setActive() }, click: startBlockEditing" >
+    <a data-bind="element: target, dynamicAttr: tags, foreach: children, event: { mouseenter: highlight, mouseleave: hide }, 'css': setActive(), attr: { 'data-type': type, 'data-name': name, 'data-slot-name': slotName }, click: startBlockEditing" >
         <rkcms-icon params='{ block: $data, parent: $parent }'></rkcms-icon>
     </a>
 {% endblock %}

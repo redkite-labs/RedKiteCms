@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block block_element %}
-    <a data-bind="element: target, dynamicAttr: tags, text: value, event: { mouseenter: highlight, mouseleave: hide }, attr: { 'data-type': type, 'data-name': name, 'data-slot-name': slotName, 'class': setActive() }, click: startBlockEditing" ></a>
+    <a data-bind="element: target, dynamicAttr: tags, text: value, event: { mouseenter: highlight, mouseleave: hide }, 'css': setActive(), attr: { 'data-type': type, 'data-name': name, 'data-slot-name': slotName }, click: startBlockEditing" ></a>
 {% endblock %}
     
 {% block block_editor_title %}
