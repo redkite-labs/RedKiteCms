@@ -1,5 +1,8 @@
 {%  extends 'RedKiteCms/Resources/views/Theme/base.html.twig' %}
 
+{% block internal_body_javascripts %}
+{% endblock %}
+
 {% block external_stylesheets %}
     {% for value in template_assets_manager.getExternalStylesheets(['cssrewrite']) %}
         <link href="{{ value }}" rel="stylesheet" type="text/css" media="all" />

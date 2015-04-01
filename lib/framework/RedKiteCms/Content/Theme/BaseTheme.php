@@ -112,15 +112,16 @@ abstract class BaseTheme
         $this->theme = $theme;
         $pluginDir = $this->theme->getPluginDir();
         $this->themeDir = $pluginDir . '/Resources/theme';
-        $this->slotsDir = $this->themeDir . '/slots';
+        //$this->slotsDir = $this->themeDir . '/slots';
         $this->templatesDir = $pluginDir . '/Resources/views';
         if (!is_dir($this->themeDir)) {
             mkdir($this->themeDir);
         }
 
+        /*
         if (!is_dir($this->slotsDir)) {
             mkdir($this->slotsDir);
-        }
+        }*/
         $this->booted = true;
 
         return $this;
@@ -159,7 +160,7 @@ abstract class BaseTheme
     protected function writeTheme()
     {
         $slots =$this->findSlotsInTemplates();
-        $templates = $this->findTemplates(0);
+        $templates = $this->findTemplates();
         $templateSlots = array_intersect_key($this->templateSlots, $templates);
         $homepageTemplate = $this->configurationHandler->homepageTemplate();
         if (null === $homepageTemplate) {
@@ -186,14 +187,21 @@ abstract class BaseTheme
     {
         $templates = array();
         $finder = new Finder();
+        /*
         if (null !== $depth) {
             $finder->depth($depth);
-        }
+        }*/
         $files = $finder->files()->in($this->templatesDir);
         foreach ($files as $file) {
             $file = (string)$file;
             $templateName = basename($file, '.html.twig');
-            $templates[$templateName] = $file;
+            /*$templates[$templateName] = $file;*/
+
+            $key = 'template';
+            if (str_replace($this->templatesDir . '/', '', $file) != $templateName . '.html.twig') {
+                $key = 'base';
+            }
+            $templates[$key][$templateName] = $file;
         }
 
         return $templates;
@@ -208,15 +216,42 @@ abstract class BaseTheme
      */
     protected function findSlotsInTemplates()
     {
-        $slots = array();
+        /*
+                $slots = array();
+                $templates = $this->findTemplates();
+                foreach ($templates as $templateName => $templateFile) {
+                    $templateContents = FilesystemTools::readFile($templateFile);
+                    $slotsFound = $this->findSlots($templateName, $templateContents);
+                    $slots = array_merge_recursive($slots, $slotsFound);
+                }
+        print_r($slots);exit;
+                return $slots;*/
+
+
         $templates = $this->findTemplates();
-        foreach ($templates as $templateName => $templateFile) {
+        $baseSlots = array();
+        foreach ($templates["base"] as $templateName => $templateFile) {
             $templateContents = FilesystemTools::readFile($templateFile);
-            $slotsFound = $this->findSlots($templateName, $templateContents);
-            $slots = array_merge_recursive($slots, $slotsFound);
+            $baseSlots['base'] = array_merge_recursive($baseSlots, $this->findSlots($templateName, $templateContents));
+            //$baseSlots[] = $this->findSlots($templateName, $templateContents);
         }
 
-        return $slots;
+        $slots = array();
+        foreach ($templates["template"] as $templateName => $templateFile) {
+            $templateContents = FilesystemTools::readFile($templateFile);
+            //$slots[$templateName] = array_merge_recursive($baseSlots, $this->findSlots($templateName, $templateContents));
+            $slots[$templateName] = $this->findSlots($templateName, $templateContents);
+        }
+
+        /*
+        print_r($baseSlots);
+        print_r($slots);exit;
+        */
+
+        return array(
+            'base' => $baseSlots,
+            'templates' => $slots,
+        );
     }
 
     /**

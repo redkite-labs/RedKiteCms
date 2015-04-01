@@ -21,6 +21,7 @@ use RedKiteCms\Configuration\ConfigurationHandler;
 use RedKiteCms\Content\BlockManager\BlockManager;
 use RedKiteCms\Content\PageCollection\PagesCollectionParser;
 use RedKiteCms\Content\SlotsManager\SlotsManagerFactoryInterface;
+use RedKiteCms\FilesystemEntity\Page;
 use RedKiteCms\Tools\FilesystemTools;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -70,10 +71,10 @@ class ThemeSlotsManager extends BaseTheme
      *
      * @param array $pages
      */
-    public function save(array $pages)
+    public function save(Page $pagee, array $pages)
     {
         $this->writeTheme();
-        $this->saveBlocks($pages);
+        $this->saveBlocks($pagee, $pages);
     }
 
     /**
@@ -83,6 +84,7 @@ class ThemeSlotsManager extends BaseTheme
      */
     public function createSlots()
     {
+        return;
         $this->isBooted();
 
         $finder = new Finder();
@@ -105,14 +107,15 @@ class ThemeSlotsManager extends BaseTheme
         return $this;
     }
 
-    private function parseSlots(array $slots, $repeat)
+    private function parseSlots($template, array $slots, $repeat)
     {
         $changedSlots = array();
         foreach ($slots as $slotName) {
-            $fileName = sprintf('%s/%s.json', $this->slotsDir, $slotName);
+            $fileName = sprintf('%s/%s/%s.json', $this->themeDir, $template, $slotName);
             $value = array(
                 "blocks" => array(),
             );
+
             if (file_exists($fileName)) {
                 $slot = json_decode(FilesystemTools::readFile($fileName), true);
                 if ($slot["repeat"] == $repeat) {
@@ -142,13 +145,17 @@ class ThemeSlotsManager extends BaseTheme
      */
     private function synchronizeThemeSlots()
     {
-        $foundSlots = array();
-        $changedSlots = array();
+        //$foundSlots = array();
+        //$changedSlots = array();
         $templateSlots = $this->findSlotsInTemplates();
-        foreach ($templateSlots as $repeat => $slots) {
-            $changedSlots = array_merge($changedSlots, $this->parseSlots($slots, $repeat));
-            $foundSlots = array_merge($foundSlots, $slots);
-        }
+
+        $this->writeTemplatesFolder($templateSlots["base"]);
+        $this->writeTemplatesFolder($templateSlots["templates"]);
+
+        /* FIXME
+        $foundSlots = $this->writeTemplatesFolder($templateSlots["base"]);
+        $foundSlots = array_merge($foundSlots, $this->writeTemplatesFolder($templateSlots["templates"]));
+
 
         $removedSlots = array();
         $finder = new Finder();
@@ -161,23 +168,88 @@ class ThemeSlotsManager extends BaseTheme
             }
         }
         $fs = new Filesystem();
-        $fs->remove($removedSlots);
+        $fs->remove($removedSlots);*/
 
         return $this;
     }
 
-    private function saveBlocks(array $pages)
+    private function writeTemplatesFolder(array $templates)
+    {
+        //$foundSlots = array();
+        foreach ($templates as $template => $templateSlots) {
+            if ( ! is_dir($this->themeDir . '/' . $template)) {
+                mkdir($this->themeDir . '/' . $template);
+            }
+            foreach ($templateSlots as $repeat => $slots) {
+                $this->parseSlots($template, $slots, $repeat);
+                //$foundSlots = array_merge($foundSlots, $slots);
+            }
+        }
+
+        //return $foundSlots;
+    }
+
+    private function saveBlocks(Page $pagee, array $pages)
     {
         $this->isBooted();
 
+        //$themeTemplates = $this->findTemplates();
+        foreach ($pages as $page) {
+//if ($page["name"] != 'homepage') continue;
+            $tokens = explode("_", $page["seo"][0]["language"]);
+            $pageOptions = array(
+                'page' => $page["name"],
+                'language' => $tokens[0],
+                'country' => $tokens[1],
+            );
+            $pagee->render($this->configurationHandler->siteDir(), $pageOptions);
+            foreach($pagee->getPageSlots() as $slot) {
+                $slotName = $slot->getSlotName();
+                $templateSlotFile = sprintf('%s/%s/%s.json', $this->themeDir, $page["template"], $slotName);
+                if (!file_exists($templateSlotFile)) {
+                    continue;
+                }
+                $templateSlotContent = json_decode(file_get_contents($templateSlotFile), true);
+
+                $blocks = array();
+                foreach($slot->getProductionEntities() as $block) {
+                    $blocks[] = json_decode($block, true);
+                }
+                $templateSlotContent["blocks"] = $blocks;
+
+                FilesystemTools::writeFile($templateSlotFile, json_encode($templateSlotContent));
+            }
+            //exit;
+
+                /*
+            $pagePath = sprintf('%s/%s/%s', $this->configurationHandler->pagesDir(), $page["name"], $page["seo"][0]["language"]);
+            $template = $page["template"];
+            $finder = new Finder();
+            $slots = $finder->directories()->depth(0)->in($pagePath);
+            foreach ($slots as $slot) {
+                $slotName = basename($slot);
+
+            }
+            exit;
+            $templates[$template] = array(
+                'page' => $page["name"],/*
+                'slots' => (array_key_exists(
+                    $template,
+                    $slotsForTemplates["templates"]
+                )) ? $slotsForTemplates["templates"][$template] : array(),*
+            );*/
+        }
+        exit;
+
+        /*
         $themeFile = $this->themeDir . '/theme.json';
         if (!file_exists($themeFile)) {
             $templates = array();
-            $themeTemplates = $this->findTemplates(0);
-            foreach ($themeTemplates as $templateName => $templateFile) {
+            $themeTemplates = $this->findTemplates();
+            foreach ($themeTemplates["templates"] as $templateName => $templateFile) {
                 $templateContents = FilesystemTools::readFile($templateFile);
                 $slotsFound = $this->findSlots($templateName, $templateContents);
-
+print_R($slotsFound);Exit;
                 $pageSlots = array();
                 if (array_key_exists("page", $slotsFound)) {
                     $pageSlots = $slotsFound["page"];
@@ -190,6 +262,7 @@ class ThemeSlotsManager extends BaseTheme
             }
         } else {
             $slotsForTemplates = json_decode(FilesystemTools::readFile($this->themeDir . '/theme.json'), true);
+            print_r($slotsForTemplates);exit;
             $templates = array();
             foreach ($pages as $page) {
                 $template = $page["template"];
@@ -203,7 +276,7 @@ class ThemeSlotsManager extends BaseTheme
                     );
                 }
             }
-        }
+        }//exit;
 
         $slots = array();
         $templateSlots = $this->findSlotsInTemplates();
@@ -223,7 +296,7 @@ class ThemeSlotsManager extends BaseTheme
         foreach ($templates as $templateDefinition) {
             $page = $templateDefinition["page"];
             $this->writeBlocks($page, $templateDefinition["slots"]);
-        }
+        }*/
     }
 
     private function writeBlocks($page, $slots)
@@ -306,6 +379,9 @@ class ThemeSlotsManager extends BaseTheme
 
     private function doAlign($currentSlots, $changedSlots, PagesCollectionParser $pagesCollectionParser = null)
     {
+        // FIXME
+        return;
+
         $differences = $this->findDifferences($currentSlots, $changedSlots);
         if (null === $differences) {
             return;

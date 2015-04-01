@@ -422,12 +422,15 @@ abstract class RedKiteCms
                 $user = 'admin';
             }
 
+            $pages = array("homepage", "about", "blog", "contacts");
             $this->app["red_kite_cms.page_collection_manager"]->contributor($user);
             $theme = $this->app["red_kite_cms.theme"];
-            $this->app["red_kite_cms.page_collection_manager"]
-                ->setDefaultPageName('homepage')
-                ->add($theme, $theme->homepageTemplate()
-            );
+            foreach($pages as $page) {
+                $this->app["red_kite_cms.page_collection_manager"]
+                    ->setDefaultPageName($page)
+                    ->add($theme, 'home')
+                ;
+            }
 
             $saveOptions = array(
                 'page' => 'homepage',
