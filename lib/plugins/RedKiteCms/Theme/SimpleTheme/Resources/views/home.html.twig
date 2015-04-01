@@ -3,8 +3,7 @@
 {% block content %}    
     <div class="container">
         <div class="row">
-            <div class="col-md-3">{{ slots.left_column|default('')|raw }}</div>
-            <div class="col-md-6">{{ slots.content|default('')|raw }}</div>
+            <div class="col-md-9">{{ slots.content|default('')|raw }}</div>
             <div class="col-md-3">{{ slots.right_column|default('')|raw }}</div>
         </div>
     </div>
