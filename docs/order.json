@@ -1,6 +1,7 @@
 {
   "book": [
     "install-redkite-cms",
-    "redkite-cms-configuration"
+    "redkite-cms-configuration",
+    "redkite-cms-application-structure"
   ]
 }
