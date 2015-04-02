@@ -43,13 +43,15 @@ abstract class SaveThemeController extends BaseController
         $pagesParser = $options["pages_collection_parser"];
         $pages = $pagesParser
             ->parse()
-            ->pages();
+            ->pages()
+        ;
 
         $pluginManager = $options["plugin_manager"];
         $themeSlotsManager = $options["theme_slot_manager"];
         $themeSlotsManager
             ->boot($pluginManager->getActiveTheme())
-            ->save($pages);
+            ->save($this->options["page"], $pages)
+        ;
 
         return $this->buildJSonResponse(array());
     }
@@ -66,6 +68,7 @@ abstract class SaveThemeController extends BaseController
                 'plugin_manager',
                 'theme_slot_manager',
                 'pages_collection_parser',
+                'page',
             )
         );
 
@@ -75,6 +78,7 @@ abstract class SaveThemeController extends BaseController
                 'plugin_manager' => '\RedKiteCms\Plugin\PluginManager',
                 'theme_slot_manager' => '\RedKiteCms\Content\Theme\ThemeSlotsManager',
                 'pages_collection_parser' => '\RedKiteCms\Content\PageCollection\PagesCollectionParser',
+                'page' => '\RedKiteCms\FilesystemEntity\Page',
             )
         );
     }

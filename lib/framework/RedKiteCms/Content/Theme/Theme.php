@@ -19,6 +19,7 @@ namespace RedKiteCms\Content\Theme;
 
 use RedKiteCms\Plugin\Plugin;
 use RedKiteCms\Tools\FilesystemTools;
+use Symfony\Component\Finder\Finder;
 
 /**
  * Class Theme is the object deputed to handle a theme
@@ -70,7 +71,7 @@ class Theme extends BaseTheme
             $this->writeTheme();
         }
 
-        $this->findTemplatesWithBlocks();
+        $this->initTemplates();
         $this->initHomepageTemplate();
 
         return $this;
@@ -102,8 +103,25 @@ class Theme extends BaseTheme
         $this->addSlots($blocks, $username);
     }
 
-    private function findTemplatesWithBlocks()
+    private function initTemplates()
     {
+        $templates = $this->findTemplates();
+        $templateNames = array_keys($templates["template"]);
+        foreach ($templateNames as $templateName) {
+            $blocks = array();
+            $finder = new Finder();
+            $slotFiles = $finder->files()->in($this->themeDir . '/' . $templateName);
+            foreach ($slotFiles as $slotFile) {
+                $slotName = basename($slotFile, '.json');
+                $slot = json_decode(FilesystemTools::readFile((string)$slotFile), true);
+                $blocks[$slotName] = $slot["blocks"];
+            }
+
+            $this->templates[$templateName] = $blocks;
+        }
+
+        //foreach($templates["template"] as )
+        /*
         $this->themeDefinition = json_decode(FilesystemTools::readFile($this->themeDir . '/theme.json'), true);
         $this->homepageTemplate = $this->themeDefinition["home_template"];
         $templateSlots = $this->themeDefinition["templates"];
@@ -120,7 +138,7 @@ class Theme extends BaseTheme
             }
 
             $this->templates[$templateName] = $blocks;
-        }
+        }*/
     }
 
     private function initHomepageTemplate()

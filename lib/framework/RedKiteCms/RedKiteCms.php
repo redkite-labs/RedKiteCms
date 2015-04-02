@@ -422,20 +422,26 @@ abstract class RedKiteCms
                 $user = 'admin';
             }
 
+            $pages = array("homepage" => "home", "about" => "two_columns", "contacts" => "internal");
             $this->app["red_kite_cms.page_collection_manager"]->contributor($user);
             $theme = $this->app["red_kite_cms.theme"];
-            $this->app["red_kite_cms.page_collection_manager"]
-                ->setDefaultPageName('homepage')
-                ->add($theme, $theme->homepageTemplate()
-            );
+            foreach($pages as $page => $template) {
+                $this->app["red_kite_cms.page_collection_manager"]
+                    ->setDefaultPageName($page)
+                    ->add($theme, $template)
+                ;
+            }
 
             $saveOptions = array(
                 'page' => 'homepage',
                 'language' => 'en',
                 'country' => 'GB',
             );
-            $blockManager = new BlockManagerApprover($this->app["jms.serializer"], $this->app["red_kite_cms.block_factory"], new OptionsResolver());
-            $this->app["red_kite_cms.page_collection_manager"]->save($blockManager, $saveOptions);
+
+
+            // FIXME
+            // $blockManager = new BlockManagerApprover($this->app["jms.serializer"], $this->app["red_kite_cms.block_factory"], new OptionsResolver());
+            //$this->app["red_kite_cms.page_collection_manager"]->save($blockManager, $saveOptions);
 
             unlink($siteIncompleteFile);
         }

@@ -67,4 +67,33 @@ class Utils
     {
         return sprintf('RedKiteCms\Block\%1$s\Core\%1$sBlock', $type);
     }
+
+    /**
+     * Finds recursively differences in two arrays
+     *
+     * @param $aArray1
+     * @param $aArray2
+     *
+     * @return array
+     */
+    public static function arrayRecursiveDiff($aArray1, $aArray2) {
+        $aReturn = array();
+
+        foreach ($aArray1 as $mKey => $mValue) {
+            if (array_key_exists($mKey, $aArray2)) {
+                if (is_array($mValue)) {
+                    $aRecursiveDiff = self::arrayRecursiveDiff($mValue, $aArray2[$mKey]);
+                    if (count($aRecursiveDiff)) { $aReturn[$mKey] = $aRecursiveDiff; }
+                } else {
+                    if ($mValue != $aArray2[$mKey]) {
+                        $aReturn[$mKey] = $mValue;
+                    }
+                }
+            } else {
+                $aReturn[$mKey] = $mValue;
+            }
+        }
+
+        return $aReturn;
+    }
 }
