@@ -130,7 +130,7 @@ class PageRendererProduction extends PageRendererBackend
      */
     public function renderBlock($encodedBlock)
     {
-        $values = json_decode($encodedBlock, true);//print_r($values);exit;
+        $values = json_decode($encodedBlock, true);
         if (!array_key_exists("type", $values) || null === $values["type"]) {
             return "";
         }

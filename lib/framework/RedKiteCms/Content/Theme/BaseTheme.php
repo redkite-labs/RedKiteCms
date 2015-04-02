@@ -135,9 +135,9 @@ abstract class BaseTheme
     public function templates()
     {
         $this->isBooted();
-        $templates = $this->findTemplates(0);
+        $templates = $this->findTemplates();
 
-        return array_keys($templates);
+        return array_keys($templates["template"]);
     }
 
     /**

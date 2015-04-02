@@ -48,6 +48,10 @@ class Page extends Entity implements RenderableInterface
      */
     private $pageSlots = array();
     /**
+     * @type array
+     */
+    private $commonSlots = array();
+    /**
      * @type string
      */
     private $pageName = null;
@@ -113,6 +117,16 @@ class Page extends Entity implements RenderableInterface
     public function getPageSlots()
     {
         return $this->pageSlots;
+    }
+
+    /**
+     * Returns the common slots
+     *
+     * @return array
+     */
+    public function getCommonSlots()
+    {
+        return $this->commonSlots;
     }
 
     /**
@@ -186,14 +200,17 @@ class Page extends Entity implements RenderableInterface
     private function fetchPageBlocks($sourceDir, array $options)
     {
         $slotsFolder = sprintf('%s/pages/pages/%s/%s', $sourceDir, $this->pageName, $this->currentLanguage);
-        $this->renderSlots($sourceDir, $slotsFolder, $options);
+        $this->pageSlots = $this->renderSlots($sourceDir, $slotsFolder, $options);
+
 
         $slotsFolder = sprintf('%s/slots', $sourceDir, $this->pageName);
-        $this->renderSlots($sourceDir, $slotsFolder, $options);
+        $this->commonSlots = $this->renderSlots($sourceDir, $slotsFolder, $options);
+        $this->pageSlots = array_merge($this->pageSlots, $this->commonSlots);
     }
 
     private function renderSlots($sourceDir, $slotsFolder, array $options)
     {
+        $slots = array();
         $finder = new Finder();
         $folders = $finder->directories()->depth(0)->in($slotsFolder);
         foreach ($folders as $folder) {
@@ -202,7 +219,9 @@ class Page extends Entity implements RenderableInterface
             $options["slot"] = $slotName;
             $slot = new Slot($this->serializer, $this->optionsResolver, $this->slotParser);
             $slot->render($sourceDir, $options, $this->username);
-            $this->pageSlots[$slotName] = $slot;
+            $slots[$slotName] = $slot;
         }
+
+        return $slots;
     }
 }

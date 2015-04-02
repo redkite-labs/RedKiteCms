@@ -105,8 +105,6 @@ class Theme extends BaseTheme
 
     private function initTemplates()
     {
-
-
         $templates = $this->findTemplates();
         $templateNames = array_keys($templates["template"]);
         foreach ($templateNames as $templateName) {
