@@ -50,4 +50,9 @@ class MenuBlock extends ExtendableCollectionBlock
 
         parent::__construct();
     }
+
+    public function uri()
+    {
+        return $_SERVER["REQUEST_URI"];
+    }
 } 

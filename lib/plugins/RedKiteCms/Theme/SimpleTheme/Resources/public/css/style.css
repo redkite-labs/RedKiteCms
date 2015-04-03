@@ -78,6 +78,14 @@ body a {
 #content {
   min-height: 400px;
 }
+#content ul {
+  list-style: none;
+}
+#content ul li {
+  list-style-image: none;
+  list-style-type: none;
+  margin-left: 0;
+}
 
 #footer {
   width: 100%;
@@ -85,14 +93,26 @@ body a {
   background-color: #111111;
   color: white;
   padding: 20px;
+  margin-top: 50px;
 }
 #footer a {
   color: #eeee00;
+}
+#footer ul {
+  list-style-type: none;
+}
+#footer ul, #footer ul li {
+  margin: 0px;
+  padding: 0px;
+  display: inline;
 }
 
 #footer-contents {
   height: auto;
   margin-bottom: 100px;
+}
+#footer-contents .fa, #footer-contents .btn {
+  color: white;
 }
 
 #copyright {

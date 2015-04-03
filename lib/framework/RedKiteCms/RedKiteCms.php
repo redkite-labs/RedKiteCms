@@ -422,26 +422,42 @@ abstract class RedKiteCms
                 $user = 'admin';
             }
 
-            $pages = array("homepage" => "home", "about" => "two_columns", "contacts" => "internal");
+            $pages = array(
+                "homepage" => array(
+                    "template" => "home",
+                    "options" => array(
+                        'page' => 'homepage',
+                        'language' => 'en',
+                        'country' => 'GB',
+                    ),
+                ),
+                "about" => array(
+                    "template" => "two_columns",
+                    "options" => array(
+                        'page' => 'about',
+                        'language' => 'en',
+                        'country' => 'GB',
+                    ),
+                ),
+                "contacts" => array(
+                    "template" => "internal",
+                    "options" => array(
+                        'page' => 'contacts',
+                        'language' => 'en',
+                        'country' => 'GB',
+                    ),
+                ),
+            );
+            $blockManager = new BlockManagerApprover($this->app["jms.serializer"], $this->app["red_kite_cms.block_factory"], new OptionsResolver());
             $this->app["red_kite_cms.page_collection_manager"]->contributor($user);
             $theme = $this->app["red_kite_cms.theme"];
-            foreach($pages as $page => $template) {
+            foreach($pages as $page => $options) {
                 $this->app["red_kite_cms.page_collection_manager"]
                     ->setDefaultPageName($page)
-                    ->add($theme, $template)
+                    ->add($theme, $options["template"])
                 ;
+                $this->app["red_kite_cms.page_collection_manager"]->save($blockManager, $options["options"]);
             }
-
-            $saveOptions = array(
-                'page' => 'homepage',
-                'language' => 'en',
-                'country' => 'GB',
-            );
-
-
-            // FIXME
-            // $blockManager = new BlockManagerApprover($this->app["jms.serializer"], $this->app["red_kite_cms.block_factory"], new OptionsResolver());
-            //$this->app["red_kite_cms.page_collection_manager"]->save($blockManager, $saveOptions);
 
             unlink($siteIncompleteFile);
         }

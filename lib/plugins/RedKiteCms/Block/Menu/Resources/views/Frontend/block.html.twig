@@ -1,8 +1,8 @@
 {% block body %}
 <ul>
 {% for child in block.children %}
-{% set is_active = app.request.pathinfo == '/' ~ child.tags.href|default('n-a') %}
-<li {% if (is_active) %}class="active"{% endif %}>{% include child.type ~ '/Resources/views/Frontend/block.html.twig' with{"block": child} %}</li>
+{% set is_active = block.uri == '/' ~ child.tags.href|default('n-a') %}
+<li {% if (is_active) %}class="active"{% endif %}>{{ block.aaa }}{% include child.type ~ '/Resources/views/Frontend/block.html.twig' with{"block": child} %}</li>
 {% endfor %} 
 </ul>
 {% endblock %}
