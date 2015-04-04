@@ -1,0 +1,101 @@
+{% extends "RedKiteCms/Resources/views/Frontend/base.html.twig" %}
+
+{% block external_stylesheets %}
+    <link href="/components/redkitecms/twitter-bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/components/redkitecms/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="/components/highlight/styles/ir_black.css" rel="stylesheet" type="text/css" media="all" />
+{% endblock %}
+
+{% block external_javascripts %}
+<script src="/components/highlight/highlight.pack.js"></script>
+{% endblock %}
+
+{% block internal_header_stylesheets %}
+<style media="screen" type="text/css">
+pre{
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+}
+
+.directory{
+    font-size: 16px;
+    font-weight: bold;
+}
+</style>
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            <h1>Stop! Wrong configuration detected</h1>
+            <p>Ops. Looks like these folders, RedKite CMS requires as writeble, cannot be written by the application:</p>
+            <p>
+            </div>
+            <div class="col-md-offset-3 col-md-4">
+            <table>
+                {% for directory in permissions %}
+                <tr>
+                    <td>
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-square-o fa-stack-2x text-danger"></i>
+                          <i class="fa fa-times fa-stack-1x text-danger"></i>
+                        </span>
+                        <span class="directory">{{ directory }}</span>
+                </tr>
+                {% endfor %}
+            </table>
+            </div>
+            <div class="col-md-offset-2 col-md-8">
+            </p>
+            <p>You can try one of the following solutions to solve this issue, as weel explained in the <a href="http://symfony.com/doc/current/book/installation.html#checking-symfony-application-configuration-and-setup">Symfony2 documentation</a>.</p>
+
+            <p><strong>1. Using ACL on a system that supports chmod +a</strong></p>
+
+            <p>Many systems allow you to use the <code>chmod +a</code> command. Try this first, and if you get an error - try the next method. This uses a command to try to determine your web server user and set it as
+
+    <code>HTTPDUSER</code>:</p>
+
+    <pre>
+        <code>
+$ rm -rf app/cache/*
+$ rm -rf app/logs/*
+$ HTTPDUSER=`ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1`
+$ sudo chmod +a "$HTTPDUSER allow delete,write,append,file_inherit,directory_inherit" app web
+$ sudo chmod +a "`whoami` allow delete,write,append,file_inherit,directory_inherit" app web
+        </code>
+    </pre>
+
+            <p><strong>2. Using ACL on a system that does not support chmod +a</strong></p>
+
+            <p>Some systems don't support <code>chmod +a</code>, but do support another utility called <code>setfacl</code>. You may need to <code>enable ACL support</code>_ on your partition and install setfacl before using it (as is the case with Ubuntu). This uses a command to try to determine your web server user and set it as <code>HTTPDUSER</code>:</p>
+
+<pre><code>
+$ HTTPDUSER=`ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1`
+$ sudo setfacl -R -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX app web
+$ sudo setfacl -dR -m u:"$HTTPDUSER":rwX -m u:`whoami`:rwX app web
+</code></pre>
+
+            <p>If this doesn't work, try adding <code>-n</code> option.</p>
+
+            <p><strong>3. Without using ACL</strong></p>
+
+            <p>If none of the previous methods work for you, change the umask so that the cache and log directories will be group-writable or world-writable (depending if the web server user and the command line user are in the same group or not). To achieve this, put the following line at the beginning of the , <strong>web/index.php</strong> and <strong>web/index_dev.php</strong> files::</p>
+
+<pre><code>
+umask(0002); // This will let the permissions be 0775
+
+// or
+
+umask(0000); // This will let the permissions be 0777
+</code></pre>
+
+            <p>Note that using the ACL is recommended when you have access to them on your server because changing the umask is not thread-safe.</p>
+
+        </div>
+    </div>
+</div>
+{%  endblock %}

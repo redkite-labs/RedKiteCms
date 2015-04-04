@@ -59,11 +59,13 @@ class ThemeSlotsManager extends BaseTheme
     {
         if ($this->configurationHandler->isTheme()) {
             $this->alignThemeSite($pagesCollectionParser);
+            $this->createSlots();
 
             return;
         }
 
         $this->alignSite($pagesCollectionParser);
+        $this->createSlots();
     }
 
     /**
@@ -79,10 +81,8 @@ class ThemeSlotsManager extends BaseTheme
 
     /**
      * Creates the slots into the website used to define the theme blocks contents
-     *
-     * @return $this
      */
-    public function createSlots()
+    private function createSlots()
     {
         $this->isBooted();
 
@@ -106,8 +106,6 @@ class ThemeSlotsManager extends BaseTheme
                 $slotManager->addSlot($slotName, $blocks);
             }
         }
-
-        return $this;
     }
 
     private function parseSlots($template, array $slots, $repeat)

@@ -124,6 +124,7 @@ abstract class RedKiteCms
         $this->app["red_kite_cms.root_dir"] = $rootDir;
         $this->siteName = $siteName;
 
+        $this->checkPermissions($rootDir);
         $this->initCmsRequiredServices();
         $this->registerProviders();
         $this->registerServices();
@@ -148,6 +149,34 @@ abstract class RedKiteCms
         }
 
         $this->app["red_kite_cms.configuration_handler"]->boot();
+    }
+
+    private function registerTwig()
+    {
+        $this->app->register(
+            new TwigServiceProvider(),
+            array(
+                'twig.path' => array(
+                    $this->app["red_kite_cms.root_dir"] . '/lib/plugins/RedKiteCms/Core',
+                    $this->app["red_kite_cms.root_dir"] . '/lib/plugins/RedKiteCms/Block',
+                    $this->app["red_kite_cms.root_dir"] . '/lib/plugins/RedKiteCms/Theme',
+                    $this->app["red_kite_cms.root_dir"] . '/app/plugins/RedKiteCms/Block',
+                    $this->app["red_kite_cms.root_dir"] . '/app/plugins/RedKiteCms/Theme',
+                    $this->app["red_kite_cms.root_dir"] . '/src',
+                ),
+            )
+        );
+
+        $this->app['twig'] = $this->app->share(
+            $this->app->extend(
+                'twig',
+                function ($twig, $app) {
+                    $twig->addGlobal('cms_language', 'en');
+
+                    return $twig;
+                }
+            )
+        );
     }
 
     private function registerProviders()
@@ -196,19 +225,8 @@ abstract class RedKiteCms
             )
         );
         $this->app->register(new FormServiceProvider());
-        $this->app->register(
-            new TwigServiceProvider(),
-            array(
-                'twig.path' => array(
-                    $this->app["red_kite_cms.root_dir"] . '/lib/plugins/RedKiteCms/Core',
-                    $this->app["red_kite_cms.root_dir"] . '/lib/plugins/RedKiteCms/Block',
-                    $this->app["red_kite_cms.root_dir"] . '/lib/plugins/RedKiteCms/Theme',
-                    $this->app["red_kite_cms.root_dir"] . '/app/plugins/RedKiteCms/Block',
-                    $this->app["red_kite_cms.root_dir"] . '/app/plugins/RedKiteCms/Theme',
-                    $this->app["red_kite_cms.root_dir"] . '/src',
-                ),
-            )
-        );
+
+        $this->registerTwig();
 
         $this->app['translator'] = $this->app->share(
             $this->app->extend(
@@ -244,16 +262,7 @@ abstract class RedKiteCms
             )
         );
 
-        $this->app['twig'] = $this->app->share(
-            $this->app->extend(
-                'twig',
-                function ($twig, $app) {
-                    $twig->addGlobal('cms_language', 'en');
 
-                    return $twig;
-                }
-            )
-        );
 
         $logFileName = $this->siteName;
         if ($this->app["debug"]){
@@ -343,6 +352,27 @@ abstract class RedKiteCms
         );
     }
 
+    private function checkPermissions($rootDir)
+    {
+        $permissions = array();
+        if (!is_writable($rootDir . '/app')) {
+            $permissions[] = $this->appDir;
+        }
+        if (!is_writable($rootDir . '/app/data')) {
+            $permissions[] = $this->dataDir;
+        }
+        $webDir = str_replace('/..', '', $rootDir);
+        if (!is_writable($webDir)) {
+            $permissions[] = $webDir;
+        }
+
+        if (!empty($permissions)) {
+            $this->registerTwig();
+            echo $this->app["twig"]->render('RedKiteCms/Resources/views/Permissions/permissions.html.twig', array("permissions" => $permissions));
+            exit;
+        }
+    }
+
     private function registerListeners()
     {
         $this->app["red_kite_cms.listener.exception"] = new ExceptionListener(
@@ -414,7 +444,6 @@ abstract class RedKiteCms
         $this->app["red_kite_cms.theme"]->boot($theme);
 
         $this->app["red_kite_cms.theme_slot_manager"]->boot($theme);
-        $this->app["red_kite_cms.theme_slot_manager"]->createSlots();
         $siteIncompleteFile = $this->app["red_kite_cms.root_dir"] . '/app/data/' . $this->siteName . '/incomplete.json';
         if (file_exists($siteIncompleteFile)) {
             $user = null;
