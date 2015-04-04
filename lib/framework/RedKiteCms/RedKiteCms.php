@@ -451,42 +451,23 @@ abstract class RedKiteCms
                 $user = 'admin';
             }
 
+            $this->app["red_kite_cms.theme_slot_manager"]->align($this->app["red_kite_cms.pages_collection_parser"]);
             $pages = array(
-                "homepage" => array(
-                    "template" => "home",
-                    "options" => array(
-                        'page' => 'homepage',
-                        'language' => 'en',
-                        'country' => 'GB',
-                    ),
-                ),
-                "about" => array(
-                    "template" => "two_columns",
-                    "options" => array(
-                        'page' => 'about',
-                        'language' => 'en',
-                        'country' => 'GB',
-                    ),
-                ),
-                "contacts" => array(
-                    "template" => "internal",
-                    "options" => array(
-                        'page' => 'contacts',
-                        'language' => 'en',
-                        'country' => 'GB',
-                    ),
-                ),
+                "homepage" => "home",
+                "about" => "two_columns",
+                "contacts" => "internal",
             );
             $blockManager = new BlockManagerApprover($this->app["jms.serializer"], $this->app["red_kite_cms.block_factory"], new OptionsResolver());
             $this->app["red_kite_cms.page_collection_manager"]->contributor($user);
             $theme = $this->app["red_kite_cms.theme"];
-            foreach($pages as $page => $options) {
+            foreach($pages as $page => $template) {
                 $this->app["red_kite_cms.page_collection_manager"]
                     ->setDefaultPageName($page)
-                    ->add($theme, $options["template"])
+                    ->add($theme, $template)
                 ;
-                $this->app["red_kite_cms.page_collection_manager"]->save($blockManager, $options["options"]);
             }
+
+            $this->app["red_kite_cms.page_collection_manager"]->saveAllPages($blockManager, array('en_GB'));
 
             unlink($siteIncompleteFile);
         }

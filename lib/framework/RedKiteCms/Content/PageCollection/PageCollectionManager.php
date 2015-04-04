@@ -231,7 +231,7 @@ class PageCollectionManager extends PageCollectionBase
                     'language' => $tokens[0],
                     'country' => $tokens[1],
                 );
-                $this->save($approver, $options, $this->username, $saveCommonSlots);
+                $this->save($approver, $options, $saveCommonSlots);
             }
             $saveCommonSlots = false;
         }
