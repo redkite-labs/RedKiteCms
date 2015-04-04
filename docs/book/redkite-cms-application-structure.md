@@ -1,26 +1,28 @@
 # RedKite CMS application structure
-RedKite CMS application is structured as follows:
+RedKite CMS application comes with several folders you should know, to understand how to configure it to get the best benefits to implement your website based on this cms.
 
 ## The app folder
 The folder **app** contains the data related to the application and contains the following folders:
 
-**cache** Cache folder
-**config** Place here you custom configuration files to override the standard configuration for the whole sites handled by the application
+**cache** The cache folder
+**config** An empty folder where you can add your custom configuration files to override the standard configuration for the whole sites handled by the application
 **data** Here are saved the handled sites data
-**logs** Application logs per site
-**plugins** Plache here your custom plugins
+**logs** Application logs. Each site has its own log
+**plugins** The folder reserved for custom plugins. It comes with the **Block** folder where you can add your custom blocks and with the **Theme** folder where you can add your custom themes.
 
 ## The docs folder
-Here you will find the RedKite CMS documentation
+The directory where lives the RedKite CMS documentation.
 
 ## The lib folder
-This folder contains RedKite CMS library and contains the following folders:
+This folder contains the RedKite CMS library and it is structured as follows:
 
 **config** Contains the standard RedKite CMS configuration files
-**controllers** Contains the controller implementation for Silex microframework
+**controllers** Contains the controller implemented for the Silex microframework
 **frameword** Contains the RedKite CMS framework
 **plugins** Contains the plugins distributed with RedKite CMS
 
+### The plugins folder
+The plugin folder contains the bundled blocks and themes that come with RedKite CMS itself. Those plugins are saved respectively under the **Block** and **Theme** folders. In addiction there is the **Core** folder where are saved the **RedKiteCms plugin** deputed to handle the application frontend and the **AceEditor** plugin deputed to handle the blocks editor based on the **Ace9** web editor.
 
 ## The src folder
 This folder is deputed to add your custom application logic to handle your websites. For example, if you need to implement a listener to replace a content at runtime, you must put it here.
