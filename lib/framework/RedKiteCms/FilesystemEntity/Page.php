@@ -202,7 +202,6 @@ class Page extends Entity implements RenderableInterface
         $slotsFolder = sprintf('%s/pages/pages/%s/%s', $sourceDir, $this->pageName, $this->currentLanguage);
         $this->pageSlots = $this->renderSlots($sourceDir, $slotsFolder, $options);
 
-
         $slotsFolder = sprintf('%s/slots', $sourceDir, $this->pageName);
         $this->commonSlots = $this->renderSlots($sourceDir, $slotsFolder, $options);
         $this->pageSlots = array_merge($this->pageSlots, $this->commonSlots);

@@ -216,37 +216,19 @@ abstract class BaseTheme
      */
     protected function findSlotsInTemplates()
     {
-        /*
-                $slots = array();
-                $templates = $this->findTemplates();
-                foreach ($templates as $templateName => $templateFile) {
-                    $templateContents = FilesystemTools::readFile($templateFile);
-                    $slotsFound = $this->findSlots($templateName, $templateContents);
-                    $slots = array_merge_recursive($slots, $slotsFound);
-                }
-        print_r($slots);exit;
-                return $slots;*/
-
-
         $templates = $this->findTemplates();
-        $baseSlots = array();
+        $slots = array();
         foreach ($templates["base"] as $templateName => $templateFile) {
             $templateContents = FilesystemTools::readFile($templateFile);
-            $baseSlots['base'] = array_merge_recursive($baseSlots, $this->findSlots($templateName, $templateContents));
-            //$baseSlots[] = $this->findSlots($templateName, $templateContents);
+            $slots = array_merge_recursive($slots, $this->findSlots($templateName, $templateContents));
         }
+        $baseSlots["base"] = $slots;
 
         $slots = array();
         foreach ($templates["template"] as $templateName => $templateFile) {
             $templateContents = FilesystemTools::readFile($templateFile);
-            //$slots[$templateName] = array_merge_recursive($baseSlots, $this->findSlots($templateName, $templateContents));
             $slots[$templateName] = $this->findSlots($templateName, $templateContents);
         }
-
-        /*
-        print_r($baseSlots);
-        print_r($slots);exit;
-        */
 
         return array(
             'base' => $baseSlots,

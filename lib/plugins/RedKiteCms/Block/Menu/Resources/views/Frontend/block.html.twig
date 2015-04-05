@@ -2,7 +2,7 @@
 <ul>
 {% for child in block.children %}
 {% set is_active = block.uri == '/' ~ child.tags.href|default('n-a') %}
-<li {% if (is_active) %}class="active"{% endif %}>{{ block.aaa }}{% include child.type ~ '/Resources/views/Frontend/block.html.twig' with{"block": child} %}</li>
+<li {% if (is_active) %}class="active"{% endif %}>{{ block.uri }}{% include child.type ~ '/Resources/views/Frontend/block.html.twig' with{"block": child} %}</li>
 {% endfor %} 
 </ul>
 {% endblock %}
