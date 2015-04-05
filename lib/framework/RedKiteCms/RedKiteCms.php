@@ -356,10 +356,10 @@ abstract class RedKiteCms
     {
         $permissions = array();
         if (!is_writable($rootDir . '/app')) {
-            $permissions[] = $this->appDir;
+            $permissions[] = $rootDir . '/app';
         }
         if (!is_writable($rootDir . '/app/data')) {
-            $permissions[] = $this->dataDir;
+            $permissions[] = $rootDir . '/app/data';
         }
         $webDir = str_replace('/..', '', $rootDir);
         if (!is_writable($webDir)) {
