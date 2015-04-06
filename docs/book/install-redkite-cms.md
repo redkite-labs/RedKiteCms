@@ -74,3 +74,5 @@ Start working with RedKite CMS is just opening the host you configured, so point
 browser to **http://redkite/login** host and you should see the login page.
 
 Enter **admin** as **user and password** and start enjoying RedKite CMS!
+
+Found a typo ? Something is wrong in this documentation ? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/book/install-redkite-cms.md)

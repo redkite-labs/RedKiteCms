@@ -200,3 +200,5 @@ Similarly we can add a new route for the frontend and the backend to show an hyp
     }
 
 Here we defined the **awesome-report** route and registered using the **routingServiceProvider** object.
+
+Found a typo ? Something is wrong in this documentation ? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/book/redkite-cms-configuration.md)

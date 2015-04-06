@@ -19,4 +19,4 @@ When you have finished your changes, just send us a **pull request** to let us r
 ## Code standards
 RedKite CMS ecosystem php code is written following the [Symfony2 code standards](http://symfony.com/doc/current/contributing/code/standards.html).
 
-Found a typo ? Something is wrong in this documentation? [Just fork and edit it !]().
+Found a typo ? Something is wrong in this documentation ? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/contribute/source-code.md)

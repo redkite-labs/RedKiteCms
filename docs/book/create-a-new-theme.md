@@ -312,3 +312,5 @@ and restart your webserver
 Now open the **http://redkite/login** website and sig in. Open the **Dashboard** and go to **Themes** section, the click the **Start from this theme** button placed under the **MyCustomTheme** then confirm.
 
 The page reloads and you will get the website using your custom theme!
+
+Found a typo ? Something is wrong in this documentation ? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/book/create-a-new-theme.md)

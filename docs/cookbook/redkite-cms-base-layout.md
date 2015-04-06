@@ -1,5 +1,5 @@
 #RedKite CMS base layout
-RedKite CMS has implemented a very flexible layout as base template used to render the whole pages of the website:
+RedKite CMS implements a very flexible layout as base template used to render the whole pages of the website:
 
     <!DOCTYPE html>
     <html>
@@ -50,7 +50,7 @@ RedKite CMS has implemented a very flexible layout as base template used to rend
 Let's analyse it in detail.
 	
 ## Metatags
-In addiction to standard meta-tags entries, title, description and keywords, there is a twig block called **metatags** where RedKite CMS places additional meta-tags that could come from App-Blocks.
+In addiction to standard meta-tags entries, title, description and keywords, there is a twig block called **metatags** where RedKite CMS places additional meta-tags that could come from a custom block.
 
 When your template needs to add extra meta-tags, just override this block and add your own.
 
@@ -143,3 +143,5 @@ The contents that must live inside the **body** tag must be added to the block *
 Sometimes websites adds classes to the **body** tag, so the **body_tag** block can be overriden to change the body declaration:
 
     {% block body_tag %}<body>{% endblock %}
+    
+Found a typo ? Something is wrong in this documentation ? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/contribute/redkite-cms-base-layout.md)

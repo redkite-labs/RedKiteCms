@@ -32,3 +32,5 @@ Contains the required vendor components required by RedKite CMS application
 
 ## The web folder
 Contains the application public files. Here there live the front controller that load RedKite CMS, the application assets, your assets, the frontend frameworks
+
+Found a typo ? Something is wrong in this documentation ? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/book/redkite-cms-application-structure.md)

@@ -3,5 +3,12 @@
     "install-redkite-cms",
     "redkite-cms-configuration",
     "redkite-cms-application-structure"
+  ],
+  "contribute": [
+    "getting-started-contributing",
+    "source-code",
+    "run-the-tests",
+    "contribute",
+    "translate-redkite-cms"
   ]
 }
