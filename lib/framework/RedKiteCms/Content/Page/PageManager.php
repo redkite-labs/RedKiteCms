@@ -141,12 +141,16 @@ class PageManager extends PageCollectionBase
     {
         $this->contributorDefined();
 
-        $baseDir = $this->pagesDir . '/' . $pageName . '/' . $languageName;
-        $sourceFile = $baseDir . '/' . $this->username . '.json';
-        $targetFile = $baseDir . '/seo.json';
+        $baseDir = $this->pagesDir . '/' . $pageName;
+        $pageCollectionSourceFile = $baseDir . '/' . $this->username . '.json';
+        $pageCollectionTargetFile = $baseDir . '/page.json';
+        $pageDir = $baseDir . '/' . $languageName;
+        $pageSourceFile = $pageDir . '/' . $this->username . '.json';
+        $pageTargetFile = $pageDir . '/seo.json';
 
         Dispatcher::dispatch(PageEvents::PAGE_PUBLISHING, new PagePublishingEvent());
-        copy($sourceFile, $targetFile);
+        copy($pageCollectionSourceFile, $pageCollectionTargetFile);
+        copy($pageSourceFile, $pageTargetFile);
 
         Dispatcher::dispatch(PageEvents::PAGE_PUBLISHED, new PagePublishedEvent());
         DataLogger::log(sprintf('Page "%s" for language "%s" was published in production', $pageName, $languageName));
