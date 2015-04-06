@@ -35,7 +35,7 @@
     },
     "autoload": {
         "psr-0": {
-            "RedKiteCms": ["lib/framework", "lib/plugins", "lib/tests/functional", "src"],
+            "RedKiteCms": ["lib/framework", "lib/plugins", "app/plugins", "lib/tests/functional", "src"],
             "Controller": "lib/controllers"
         }
     }
