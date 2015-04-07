@@ -110,7 +110,7 @@ class Theme extends BaseTheme
         foreach ($templateNames as $templateName) {
             $blocks = array();
             $templateFileName = $this->themeDir . '/' . $templateName;
-            if (!is_file($templateFileName)) {
+            if (!is_dir($templateFileName)) {
                 $this->templates[$templateName] = $blocks;
 
                 continue;
