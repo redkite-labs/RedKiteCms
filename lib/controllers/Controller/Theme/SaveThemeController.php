@@ -41,8 +41,7 @@ class SaveThemeController extends BaseSaveThemeController
         $options = array(
             "configuration_handler" => $app["red_kite_cms.configuration_handler"],
             "plugin_manager" => $app["red_kite_cms.plugin_manager"],
-            "theme_slot_manager" => $app["red_kite_cms.theme_slot_manager"],
-            "pages_collection_parser" => $app["red_kite_cms.pages_collection_parser"],
+            "theme_deployer" => $app["red_kite_cms.theme_deployer"],
             "page" => clone($app["red_kite_cms.page"]),
         );
 

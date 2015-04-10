@@ -95,7 +95,7 @@ abstract class PageCollectionBase
      */
     protected function contributorDefined()
     {
-        if (null === $this->username) {
+        if (null === $this->username && !$this->configurationHandler->isTheme()) {
             $exception = array(
                 "message" => 'exception_contributor_not_defined',
                 "show_exception" => true,

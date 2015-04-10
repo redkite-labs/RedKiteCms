@@ -277,9 +277,17 @@
         </trans-unit>
 
         <!-- THEME -->
+        <trans-unit id="themes_author">
+            <source>themes_author</source>
+            <target>Author</target>
+        </trans-unit>
+        <trans-unit id="themes_website">
+            <source>themes_website</source>
+            <target>Web Site</target>
+        </trans-unit>
         <trans-unit id="themes_no_active_theme_choosen">
             <source>theme_no_active_theme_choosen</source>
-            <target>Any active theme has been defined"</target>
+            <target>Any active theme has been defined</target>
         </trans-unit>
         <trans-unit id="themes_choose_theme">
             <source>theme_choose_theme</source>

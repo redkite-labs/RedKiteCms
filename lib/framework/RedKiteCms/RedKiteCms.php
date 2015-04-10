@@ -44,8 +44,11 @@ use RedKiteCms\Content\PageCollection\PagesCollectionParser;
 use RedKiteCms\Content\PageCollection\PermalinkManager;
 use RedKiteCms\Content\Page\PageManager;
 use RedKiteCms\Content\SlotsManager\SlotsManagerFactory;
+use RedKiteCms\Content\Theme\ThemeSlotsGenerator;
 use RedKiteCms\Content\Theme\Theme;
-use RedKiteCms\Content\Theme\ThemeSlotsManager;
+use RedKiteCms\Content\Theme\ThemeAligner;
+use RedKiteCms\Content\Theme\ThemeDeployer;
+use RedKiteCms\Content\Theme\ThemeGenerator;
 use RedKiteCms\EventSystem\CmsEvents;
 use RedKiteCms\EventSystem\Event\Cms\CmsBootedEvent;
 use RedKiteCms\EventSystem\Event\Cms\CmsBootingEvent;
@@ -56,7 +59,7 @@ use RedKiteCms\EventSystem\Listener\PageCollection\PageRemovedListener;
 use RedKiteCms\EventSystem\Listener\PageCollection\PageSavedListener;
 use RedKiteCms\EventSystem\Listener\PageCollection\TemplateChangedListener;
 use RedKiteCms\EventSystem\Listener\Page\PermalinkChangedListener;
-use RedKiteCms\EventSystem\Listener\Request\SlotsAlignerListener;
+use RedKiteCms\EventSystem\Listener\Request\ThemeAlignerListener;
 use RedKiteCms\EventSystem\Listener\Request\SlotsAlignment;
 use RedKiteCms\FilesystemEntity\Page;
 use RedKiteCms\FilesystemEntity\SlotParser;
@@ -129,9 +132,9 @@ abstract class RedKiteCms
         $this->registerProviders();
         $this->registerServices();
         $this->registerListeners();
-        $this->registerRoutes();
         $this->register($this->app);
         $this->boot();
+        $this->registerRoutes();
     }
 
     private function initCmsRequiredServices()
@@ -320,10 +323,6 @@ abstract class RedKiteCms
         $this->app["red_kite_cms.slots_manager_factory"] = new SlotsManagerFactory(
             $this->app["red_kite_cms.configuration_handler"]
         );
-        $this->app["red_kite_cms.theme_slot_manager"] = new ThemeSlotsManager(
-            $this->app["red_kite_cms.configuration_handler"],
-            $this->app["red_kite_cms.slots_manager_factory"]
-        );
         $this->app["red_kite_cms.page_collection_manager"] = new PageCollectionManager(
             $this->app["red_kite_cms.configuration_handler"],
             $this->app["red_kite_cms.slots_manager_factory"],
@@ -350,6 +349,10 @@ abstract class RedKiteCms
             $this->app["red_kite_cms.plugin_manager"],
             $this->app["twig"]
         );
+        $this->app["red_kite_cms.theme_generator"] = new ThemeGenerator($this->app["red_kite_cms.configuration_handler"]);
+        $this->app["red_kite_cms.slots_generator"] = new ThemeSlotsGenerator($this->app["red_kite_cms.configuration_handler"], $this->app["red_kite_cms.slots_manager_factory"]);
+        $this->app["red_kite_cms.theme_aligner"] = new ThemeAligner($this->app["red_kite_cms.configuration_handler"]);
+        $this->app["red_kite_cms.theme_deployer"] = new ThemeDeployer($this->app["red_kite_cms.configuration_handler"]);
     }
 
     private function checkPermissions($rootDir)
@@ -387,7 +390,7 @@ abstract class RedKiteCms
 
         $this->app["dispatcher"]->addListener(
             'kernel.request',
-            array(new SlotsAlignerListener($this->app["red_kite_cms.configuration_handler"], $this->app["red_kite_cms.pages_collection_parser"], $this->app["security"], $this->app["red_kite_cms.theme_slot_manager"]), 'onKernelRequest')
+            array(new ThemeAlignerListener($this->app["red_kite_cms.configuration_handler"], $this->app["red_kite_cms.pages_collection_parser"], $this->app["security"], $this->app["red_kite_cms.theme_generator"], $this->app["red_kite_cms.slots_generator"], $this->app["red_kite_cms.theme_aligner"], clone($this->app["red_kite_cms.page"])), 'onKernelRequest')
         );
         $this->app["red_kite_cms.listener.cms_booting"] = new CmsBootingListener(
             $this->app["red_kite_cms.plugin_manager"]
@@ -443,21 +446,19 @@ abstract class RedKiteCms
         $theme = $this->app["red_kite_cms.plugin_manager"]->getActiveTheme();
         $this->app["red_kite_cms.theme"]->boot($theme);
 
-        $this->app["red_kite_cms.theme_slot_manager"]->boot($theme);
+        $this->app["red_kite_cms.theme_generator"]->boot($theme);
+        $this->app["red_kite_cms.slots_generator"]->boot($theme);
+        $this->app["red_kite_cms.theme_aligner"]->boot($theme);
+
         $siteIncompleteFile = $this->app["red_kite_cms.root_dir"] . '/app/data/' . $this->siteName . '/incomplete.json';
         if (file_exists($siteIncompleteFile)) {
+            $isTheme = $this->app["red_kite_cms.configuration_handler"]->isTheme();
             $user = null;
-            if (!$this->app["red_kite_cms.configuration_handler"]->isTheme()) {
+            if (!$isTheme) {
                 $user = 'admin';
             }
 
-            $this->app["red_kite_cms.theme_slot_manager"]->align($this->app["red_kite_cms.pages_collection_parser"]);
-            $pages = array(
-                "homepage" => "home",
-                "about" => "two_columns",
-                "contacts" => "internal",
-            );
-            $blockManager = new BlockManagerApprover($this->app["jms.serializer"], $this->app["red_kite_cms.block_factory"], new OptionsResolver());
+            $pages = $theme->getPages();
             $this->app["red_kite_cms.page_collection_manager"]->contributor($user);
             $theme = $this->app["red_kite_cms.theme"];
             foreach($pages as $page => $template) {
@@ -466,8 +467,16 @@ abstract class RedKiteCms
                     ->add($theme, $template)
                 ;
             }
+            $this->app["red_kite_cms.slots_generator"]->generate();
 
-            $this->app["red_kite_cms.page_collection_manager"]->saveAllPages($blockManager, array('en_GB'));
+            if (!$isTheme) {
+                $blockManager = new BlockManagerApprover(
+                    $this->app["jms.serializer"],
+                    $this->app["red_kite_cms.block_factory"],
+                    new OptionsResolver()
+                );
+                $this->app["red_kite_cms.page_collection_manager"]->saveAllPages($blockManager, array('en_GB'));
+            }
 
             unlink($siteIncompleteFile);
         }

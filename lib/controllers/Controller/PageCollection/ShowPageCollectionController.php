@@ -45,8 +45,7 @@ class ShowPageCollectionController extends BaseShowPageCollectionController
             'form_factory' => $app["form.factory"],
             "pages_collection_parser" => $app["red_kite_cms.pages_collection_parser"],
             "username" => $this->fetchUsername($app["security"], $app["red_kite_cms.configuration_handler"]),
-            'plugin_manager' => $app["red_kite_cms.plugin_manager"],
-            'theme_manager' => $app["red_kite_cms.theme_slot_manager"],
+            'theme' => $app["red_kite_cms.theme"],
             'template_assets' => $app["red_kite_cms.template_assets"],
             'twig' => $app["twig"],
         );

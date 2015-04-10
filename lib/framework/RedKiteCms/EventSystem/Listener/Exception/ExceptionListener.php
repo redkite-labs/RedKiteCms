@@ -85,7 +85,7 @@ class ExceptionListener
             DataLogger::log($message, DataLogger::CRITICAL);
 
             if ($this->debug) {
-                throw $exception;
+                return $event;
             }
             $this->setUpResponse($event, $message);
 

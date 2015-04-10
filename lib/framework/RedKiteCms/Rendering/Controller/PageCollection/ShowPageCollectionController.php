@@ -48,11 +48,8 @@ abstract class ShowPageCollectionController extends BasePageCollectionController
             ->pages()
         ;
 
-        $theme = $options["plugin_manager"]->getActiveTheme();
-        $this->options["theme_manager"]->boot($theme);
         $this->options["template_assets"]->boot('dashboard');
-
-        $templates = $this->options["theme_manager"]->templates();
+        $templates = $this->options["theme"]->templates();
         $formFactory = $this->options['form_factory'];
         $form = $formFactory->create(new PageType(array_combine($templates, $templates)));
         $pageForm = $form->createView();
@@ -84,8 +81,7 @@ abstract class ShowPageCollectionController extends BasePageCollectionController
         $resolver->setRequired(
             array(
                 'pages_collection_parser',
-                'plugin_manager',
-                'theme_manager',
+                'theme',
                 'template_assets',
                 'form_factory',
                 'twig',
@@ -95,9 +91,8 @@ abstract class ShowPageCollectionController extends BasePageCollectionController
         $resolver->setAllowedTypes(
             array(
                 'pages_collection_parser' => '\RedKiteCms\Content\PageCollection\PagesCollectionParser',
-                'plugin_manager' => '\RedKiteCms\Plugin\PluginManager',
+                'theme' => '\RedKiteCms\Content\Theme\Theme',
                 'template_assets' => '\RedKiteCms\Rendering\TemplateAssetsManager\TemplateAssetsManager',
-                'theme_manager' => '\RedKiteCms\Content\Theme\ThemeSlotsManager',
                 'form_factory' => '\Symfony\Component\Form\FormFactory',
                 'twig' => '\Twig_Environment',
             )

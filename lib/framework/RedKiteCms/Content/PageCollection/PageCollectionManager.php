@@ -374,8 +374,12 @@ class PageCollectionManager extends PageCollectionBase
         $contributorSlotDefinition = json_decode(FilesystemTools::readFile($slotPath . '/slot.json'), true);
 
         $removedBlocks = array();
+        $contributorSlotDefinitionBlocks = $contributorSlotDefinition["blocks"];
+        if (null === $contributorSlotDefinitionBlocks) {
+            $contributorSlotDefinitionBlocks = array();
+        }
         if (null !== $activeSlotDefinition) {
-            $removedBlocks = array_diff_key($activeSlotDefinition["blocks"], $contributorSlotDefinition["blocks"]);
+            $removedBlocks = array_diff_key($activeSlotDefinition["blocks"], $contributorSlotDefinitionBlocks);
         }
 
         foreach ($removedBlocks as $blockName) {
@@ -384,7 +388,7 @@ class PageCollectionManager extends PageCollectionBase
         }
 
         $approvedBlocks = array();
-        $blocks = array_diff_key($contributorSlotDefinition["blocks"], $removedBlocks);
+        $blocks = array_diff_key($contributorSlotDefinitionBlocks, $removedBlocks);
         foreach ($blocks as $blockName) {
             $options["blockname"] = $blockName;
             $approved = $approver->approve($this->baseDir, $options, $this->username);

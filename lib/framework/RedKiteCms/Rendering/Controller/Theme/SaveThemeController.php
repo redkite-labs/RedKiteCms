@@ -17,6 +17,7 @@
 
 namespace RedKiteCms\Rendering\Controller\Theme;
 
+use RedKiteCms\Content\Theme\ThemeDeployer;
 use RedKiteCms\Rendering\Controller\BaseController;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -40,17 +41,10 @@ abstract class SaveThemeController extends BaseController
         $this->configureOptions($resolver);
         $this->options = $resolver->resolve($options);
 
-        $pagesParser = $options["pages_collection_parser"];
-        $pages = $pagesParser
-            ->parse()
-            ->pages()
-        ;
-
         $pluginManager = $options["plugin_manager"];
-        $themeSlotsManager = $options["theme_slot_manager"];
-        $themeSlotsManager
+        $options["theme_deployer"]
             ->boot($pluginManager->getActiveTheme())
-            ->save($this->options["page"], $pages)
+            ->deploy()
         ;
 
         return $this->buildJSonResponse(array());
@@ -66,8 +60,7 @@ abstract class SaveThemeController extends BaseController
             array(
                 'configuration_handler',
                 'plugin_manager',
-                'theme_slot_manager',
-                'pages_collection_parser',
+                'theme_deployer',
                 'page',
             )
         );
@@ -76,8 +69,7 @@ abstract class SaveThemeController extends BaseController
             array(
                 'configuration_handler' => '\RedKiteCms\Configuration\ConfigurationHandler',
                 'plugin_manager' => '\RedKiteCms\Plugin\PluginManager',
-                'theme_slot_manager' => '\RedKiteCms\Content\Theme\ThemeSlotsManager',
-                'pages_collection_parser' => '\RedKiteCms\Content\PageCollection\PagesCollectionParser',
+                'theme_deployer' => '\RedKiteCms\Content\Theme\ThemeDeployer',
                 'page' => '\RedKiteCms\FilesystemEntity\Page',
             )
         );

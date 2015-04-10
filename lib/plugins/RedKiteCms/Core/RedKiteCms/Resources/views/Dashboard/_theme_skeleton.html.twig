@@ -29,12 +29,14 @@
     </div>
     <div class="rkcms-theme-body">
         <table>
-        {% for label, value in theme.getInformation %}
             <tr>
-                <th>{{ label }}</td>
-                <td>{{ value }}</td>
+                <th>{{ "themes_author" | trans([], 'RedKiteCms', cms_language) }}</td>
+                <td>{{ theme.getAuthor }}</td>
             </tr>
-        {% endfor %}
+            <tr>
+                <th>{{ "themes_website" | trans([], 'RedKiteCms', cms_language) }}</td>
+                <td>{{ theme.getWebsite }}</td>
+            </tr>
         </table>
     </div>
     {% if available is defined and available == true %}

@@ -1,4 +1,9 @@
 {
     "author": "RedKite Labs",
-    "website": "http://redkite-labs.com"
+    "website": "http://redkite-labs.com",
+    "pages": {
+        "homepage": "home",
+        "about": "two_columns",
+        "contacts": "internal"
+    }
 }

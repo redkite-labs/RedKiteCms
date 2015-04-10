@@ -17,6 +17,8 @@
 
 namespace RedKiteCms\Content\Theme;
 
+use RedKiteCms\Configuration\ConfigurationHandler;
+use RedKiteCms\Content\SlotsManager\SlotsManagerFactoryInterface;
 use RedKiteCms\Plugin\Plugin;
 use RedKiteCms\Tools\FilesystemTools;
 use Symfony\Component\Finder\Finder;
@@ -27,12 +29,12 @@ use Symfony\Component\Finder\Finder;
  * @author  RedKite Labs <webmaster@redkite-labs.com>
  * @package RedKiteCms\Content\Theme
  */
-class Theme extends BaseTheme
+class Theme extends ThemeBase
 {
     /**
      * @type array
      */
-    private $templates;
+    private $templateBlocks;
     /**
      * @type string
      */
@@ -45,6 +47,23 @@ class Theme extends BaseTheme
      * @var \RedKiteCms\Plugin\Plugin
      */
     private $plugin;
+    /**
+     * @type \RedKiteCms\Content\SlotsManager\SlotsManagerFactoryInterface
+     */
+    private $slotsManagerFactory;
+
+    /**
+     * Constructor
+     *
+     * @param \RedKiteCms\Configuration\ConfigurationHandler $configurationHandler
+     * @param \RedKiteCms\Content\SlotsManager\SlotsManagerFactoryInterface $slotsManagerFactory
+     */
+    public function __construct(ConfigurationHandler $configurationHandler, SlotsManagerFactoryInterface $slotsManagerFactory)
+    {
+        parent::__construct($configurationHandler);
+
+        $this->slotsManagerFactory = $slotsManagerFactory;
+    }
 
     /**
      * @return \RedKiteCms\Plugin\Plugin
@@ -64,12 +83,8 @@ class Theme extends BaseTheme
     public function boot(Plugin $theme)
     {
         $this->plugin = $theme;
-        parent::boot($theme);
 
-        $themeFile = $this->themeDir . '/theme.json';
-        if (!is_file($themeFile)) {
-            $this->writeTheme();
-        }
+        parent::boot($theme);
 
         $this->initTemplates();
         $this->initHomepageTemplate();
@@ -95,23 +110,22 @@ class Theme extends BaseTheme
      */
     public function addTemplateSlots($templateName, $username)
     {
-        if (!array_key_exists($templateName, $this->templates)) {
+        if (!array_key_exists($templateName, $this->templateBlocks)) {
             return null;
         }
 
-        $blocks = $this->templates[$templateName];
+        $blocks = $this->templateBlocks[$templateName];
         $this->addSlots($blocks, $username);
     }
 
     private function initTemplates()
     {
-        $templates = $this->findTemplates();
-        $templateNames = array_keys($templates["template"]);
+        $templateNames = array_keys($this->templates["template"]);
         foreach ($templateNames as $templateName) {
             $blocks = array();
             $templateFileName = $this->themeDir . '/' . $templateName;
             if (!is_dir($templateFileName)) {
-                $this->templates[$templateName] = $blocks;
+                $this->templateBlocks[$templateName] = $blocks;
 
                 continue;
             }
@@ -123,7 +137,7 @@ class Theme extends BaseTheme
                 $blocks[$slotName] = $slot["blocks"];
             }
 
-            $this->templates[$templateName] = $blocks;
+            $this->templateBlocks[$templateName] = $blocks;
         }
     }
 

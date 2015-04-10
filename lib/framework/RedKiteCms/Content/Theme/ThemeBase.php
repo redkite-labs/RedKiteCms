@@ -17,33 +17,30 @@
 
 namespace RedKiteCms\Content\Theme;
 
+
 use RedKiteCms\Configuration\ConfigurationHandler;
-use RedKiteCms\Content\SlotsManager\SlotsManagerFactoryInterface;
-use RedKiteCms\Exception\General\RuntimeException;
 use RedKiteCms\Plugin\Plugin;
 use RedKiteCms\Tools\FilesystemTools;
+use RedKiteCms\Tools\Utils;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 /**
- * Class BaseTheme is the object deputed to define the base methods to handle a theme
+ * Class ThemeBase is the object deputed to handle Theme base methods and properties
  *
  * @author  RedKite Labs <webmaster@redkite-labs.com>
  * @package RedKiteCms\Content\Theme
  */
-abstract class BaseTheme
+abstract class ThemeBase
 {
-    /**
-     * @type \RedKiteCms\Configuration\ConfigurationHandler
-     */
-    protected $configurationHandler;
-    /**
-     * @type \RedKiteCms\Content\SlotsManager\SlotsManagerFactoryInterface
-     */
-    protected $slotsManagerFactory;
     /**
      * @type \RedKiteCms\Plugin\Plugin
      */
     protected $theme;
+    /**
+     * @type string
+     */
+    protected $baseThemeDir;
     /**
      * @type string
      */
@@ -53,48 +50,31 @@ abstract class BaseTheme
      */
     protected $templatesDir;
     /**
-     * @type string
-     */
-    protected $slotsDir;
-    /**
      * @type array
      */
-    protected $templateSlots;
+    //protected $templateSlots;
     /**
      * @type bool
      */
     protected $booted = false;
 
     /**
+     * @type \RedKiteCms\Configuration\ConfigurationHandler
+     */
+    protected $configurationHandler;
+    /**
+     * @type array
+     */
+    protected $templates;
+
+    /**
      * Constructor
      *
      * @param \RedKiteCms\Configuration\ConfigurationHandler $configurationHandler
-     * @param \RedKiteCms\Content\SlotsManager\SlotsManagerFactoryInterface $slotsManagerFactory
      */
-    public function __construct(ConfigurationHandler $configurationHandler, SlotsManagerFactoryInterface $slotsManagerFactory)
+    public function __construct(ConfigurationHandler $configurationHandler)
     {
         $this->configurationHandler = $configurationHandler;
-        $this->slotsManagerFactory = $slotsManagerFactory;
-    }
-
-    /**
-     * @return string
-     */
-    public function getThemeDir()
-    {
-        return $this->themeDir;
-    }
-
-    /**
-     * @param string $themeDir
-     *
-     * @return $this
-     */
-    public function setThemeDir($themeDir)
-    {
-        $this->themeDir = $themeDir;
-
-        return $this;
     }
 
     /**
@@ -111,70 +91,24 @@ abstract class BaseTheme
 
         $this->theme = $theme;
         $pluginDir = $this->theme->getPluginDir();
-        $this->themeDir = $pluginDir . '/Resources/theme';
-        //$this->slotsDir = $this->themeDir . '/slots';
+        $this->baseThemeDir = $this->themeDir = $pluginDir . '/Resources/theme';
+        if ($this->configurationHandler->isTheme()) {
+            $this->themeDir .= '_dev';
+        }
         $this->templatesDir = $pluginDir . '/Resources/views';
         if (!is_dir($this->themeDir)) {
             mkdir($this->themeDir);
         }
 
-        /*
-        if (!is_dir($this->slotsDir)) {
-            mkdir($this->slotsDir);
-        }*/
+        $this->templates = $this->findTemplates();
         $this->booted = true;
 
         return $this;
     }
 
-    /**
-     * Returns the theme's templates
-     *
-     * @return array
-     */
     public function templates()
     {
-        $this->isBooted();
-        $templates = $this->findTemplates();
-
-        return array_keys($templates["template"]);
-    }
-
-    /**
-     * Checks is the theme is booted
-     *
-     * @throws \RedKiteCms\Exception\General\RuntimeException
-     */
-    protected function isBooted()
-    {
-        if (!$this->booted) {
-            throw new RuntimeException(
-                '"ThemeSlotsManager" object has not been booted: please run the "boot" method to fix this issue'
-            );
-        }
-    }
-
-    /**
-     * writes the theme definition
-     */
-    protected function writeTheme()
-    {
-        $slots =$this->findSlotsInTemplates();
-        $templates = $this->findTemplates();
-        $templateSlots = array_intersect_key($this->templateSlots, $templates);
-        $homepageTemplate = $this->configurationHandler->homepageTemplate();
-        if (null === $homepageTemplate) {
-            $templateNames =  array_keys($templates);
-            $homepageTemplate = $templateNames[0];
-        }
-
-        $themeDefinition = array(
-            "home_template" => $homepageTemplate,
-            "templates" => $templateSlots,
-            "slots" => $slots,
-        );
-
-        FilesystemTools::writeFile($this->themeDir . '/theme.json', json_encode($themeDefinition));
+        return array_keys($this->templates["template"]);
     }
 
     /**
@@ -183,19 +117,17 @@ abstract class BaseTheme
      *
      * @return array
      */
-    protected function findTemplates($depth = null)
+    private function findTemplates()
     {
-        $templates = array();
+        $templates = array(
+            "base" => array(),
+            "template" => array(),
+        );
         $finder = new Finder();
-        /*
-        if (null !== $depth) {
-            $finder->depth($depth);
-        }*/
         $files = $finder->files()->in($this->templatesDir);
         foreach ($files as $file) {
             $file = (string)$file;
             $templateName = basename($file, '.html.twig');
-            /*$templates[$templateName] = $file;*/
 
             $key = 'template';
             if (str_replace($this->templatesDir . '/', '', $file) != $templateName . '.html.twig') {
@@ -206,8 +138,6 @@ abstract class BaseTheme
 
         return $templates;
     }
-
-
 
     /**
      * Find the slots parsing the theme's templates
@@ -264,7 +194,7 @@ abstract class BaseTheme
         // find all slots
         preg_match_all('/\{\{[\s]+?slots.([^|]+)?/is', $templateContents, $matches);
         $pageSlots = array_diff($matches[1], $rawSlots);
-        $this->templateSlots[$templateName] = $pageSlots;
+        //$this->templateSlots[$templateName] = $pageSlots;
         if (empty($pageSlots)) {
             return $slots;
         }
@@ -272,5 +202,15 @@ abstract class BaseTheme
         $slots["page"] = $pageSlots;
 
         return $slots;
+    }
+
+    protected function mergeSlots($templateSlots)
+    {
+        $allSlots = array();
+        foreach($templateSlots as $slot) {
+            $allSlots = array_merge($allSlots, $slot);
+        }
+
+        return $allSlots;
     }
 } 
