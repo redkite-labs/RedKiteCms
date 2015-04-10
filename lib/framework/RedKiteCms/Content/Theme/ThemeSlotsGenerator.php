@@ -83,8 +83,12 @@ class ThemeSlotsGenerator extends ThemeBase
     {
         $templates = array_merge(array_keys($this->templates["base"]), array_keys($this->templates["template"]));
         foreach($templates as $template) {
+            $templateDir = $this->themeDir . '/' . $template;
+            if (!is_dir($templateDir)) {
+                continue;
+            }
             $finder = new Finder();
-            $files = $finder->files()->depth(0)->in($this->themeDir . '/' . $template);
+            $files = $finder->files()->depth(0)->in($templateDir);
             foreach ($files as $file) {
                 $file = (string)$file;
                 $slotName = basename($file, '.json');
