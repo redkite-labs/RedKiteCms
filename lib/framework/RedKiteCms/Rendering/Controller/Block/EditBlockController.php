@@ -19,6 +19,7 @@ namespace RedKiteCms\Rendering\Controller\Block;
 
 use RedKiteCms\Content\BlockManager\BlockManagerEdit;
 use RedKiteCms\FilesystemEntity\SlotParser;
+use RedKiteCms\Tools\FilesystemTools;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -38,6 +39,11 @@ abstract class EditBlockController extends BaseBlockController
      */
     public function edit(array $options)
     {
+        $request = $options["request"];
+        $queue = $request->get('queue');
+        FilesystemTools::writeFile($options["red_kite_cms_config"]->siteDir() . '/queue/queue_' . date("Y-m-d-H.i.s") . '.json', json_encode($queue));
+        exit;
+
         $request = $options["request"];
         $serializer = $options["serializer"];
         $configurationHandler = $options["red_kite_cms_config"];

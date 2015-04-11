@@ -39,6 +39,7 @@ use RedKiteCms\Configuration\SiteBuilder;
 use RedKiteCms\Content\Block\BlockFactory;
 use RedKiteCms\Content\BlockManager\BlockManager;
 use RedKiteCms\Content\BlockManager\BlockManagerApprover;
+use RedKiteCms\Content\BlockManager\BlockManagerEdit;
 use RedKiteCms\Content\PageCollection\PageCollectionManager;
 use RedKiteCms\Content\PageCollection\PagesCollectionParser;
 use RedKiteCms\Content\PageCollection\PermalinkManager;
@@ -59,6 +60,7 @@ use RedKiteCms\EventSystem\Listener\PageCollection\PageRemovedListener;
 use RedKiteCms\EventSystem\Listener\PageCollection\PageSavedListener;
 use RedKiteCms\EventSystem\Listener\PageCollection\TemplateChangedListener;
 use RedKiteCms\EventSystem\Listener\Page\PermalinkChangedListener;
+use RedKiteCms\EventSystem\Listener\Request\QueueListener;
 use RedKiteCms\EventSystem\Listener\Request\ThemeAlignerListener;
 use RedKiteCms\EventSystem\Listener\Request\SlotsAlignment;
 use RedKiteCms\FilesystemEntity\Page;
@@ -390,8 +392,14 @@ abstract class RedKiteCms
 
         $this->app["dispatcher"]->addListener(
             'kernel.request',
+            array(new QueueListener($this->app["red_kite_cms.configuration_handler"], $this->app["jms.serializer"], $this->app["red_kite_cms.block_factory"]), 'onKernelRequest')
+        );
+
+        $this->app["dispatcher"]->addListener(
+            'kernel.request',
             array(new ThemeAlignerListener($this->app["red_kite_cms.configuration_handler"], $this->app["red_kite_cms.pages_collection_parser"], $this->app["security"], $this->app["red_kite_cms.theme_generator"], $this->app["red_kite_cms.slots_generator"], $this->app["red_kite_cms.theme_aligner"], clone($this->app["red_kite_cms.page"])), 'onKernelRequest')
         );
+
         $this->app["red_kite_cms.listener.cms_booting"] = new CmsBootingListener(
             $this->app["red_kite_cms.plugin_manager"]
         );

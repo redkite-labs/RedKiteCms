@@ -87,5 +87,13 @@
       "icon": "power-off",
       "binding": "click: logout"
     }
+  ],
+  [
+      {
+          "id": "rkcms-temp",
+          "label": "SAVE",
+          "icon": "dashboard",
+          "binding": "click: temp"
+      }
   ]
 ]

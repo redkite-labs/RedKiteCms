@@ -46,6 +46,16 @@ class Slot extends Entity implements RenderableInterface
      */
     private $slotParser;
 
+    private $next = 1;
+
+    /**
+     * @return int
+     */
+    public function getNext()
+    {
+        return $this->next;
+    }
+
     /**
      * Constructor
      *
@@ -96,15 +106,19 @@ class Slot extends Entity implements RenderableInterface
         $this->slotName = $options["slot"];
         $this->init($sourceDir, $options, $username);
 
-        $this->productionEntities = $this->slotParser->fetchBlocks(
+        $slot = $this->slotParser->fetchBlocks(
             $this->productionDir,
             $this->productionDir,
             $this->slotName
         );
-        $this->contributorEntities = $this->slotParser->fetchBlocks(
+        $this->next = $slot["next"];
+        $this->productionEntities = $slot["blocks"];
+
+        $slot = $this->slotParser->fetchBlocks(
             $this->productionDir,
             $this->contributorDir,
             $this->slotName
         );
+        $this->contributorEntities = $slot["blocks"];
     }
 }

@@ -45,12 +45,15 @@ class SlotParser
             $filesystem->mirror($productionDir, $slotDir);
         }
 
-        $found = array();
         $file = $slotDir . '/slot.json';
         if (!file_exists($file)) {
-            return $found;
+            return array(
+                'next' => '1',
+                'blocks' => array(),
+            );
         }
 
+        $found = array();
         $blocks = json_decode(FilesystemTools::readFile($file), true);
         foreach ($blocks["blocks"] as $blockName) {
             $block = $this->fetchBlock($slotDir, $slotName, $blockName);
@@ -60,7 +63,10 @@ class SlotParser
             $found[] = $block;
         }
 
-        return $found;
+        return array(
+            'next' => $blocks["next"],
+            'blocks' => $found,
+        );
     }
 
     public function fetchBlock($slotDir, $slotName, $blockName)

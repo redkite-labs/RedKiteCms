@@ -151,6 +151,7 @@ class PageRendererBackend
                     'options' => $options,
                     'slotname' => $slotName,
                     'data' => rawurlencode("[" . implode(",", $blocks)) . "]",
+                    'next' => $slot->getNext(),
                 )
             );
         }

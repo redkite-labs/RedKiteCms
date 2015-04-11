@@ -31,6 +31,7 @@
         "%web_dir%/components/jquery-easing/jquery.easing.min.js",
         "%web_dir%/components/holderjs/holder.js",
         "%web_dir%/components/knockout/knockout.min.js",
+        "%web_dir%/components/knockout.mapping/knockout.mapping.js",
         "%web_dir%/components/bootbox/bootbox.js",
         "%web_dir%/components/js-yaml/dist/js-yaml.min.js",
         "%web_dir%/components/js-yaml/demo/js/utils.js",
