@@ -76,7 +76,7 @@ However, if you don't use **Xdebug** you can safety skip this step.
 
 ## Start RedKite CMS
 Starting work with RedKite CMS is then just a case of opening the host you configured, so point the
-browser to **http://redkite/login** host and you should see the login page.
+browser to **http://redkitecms/login** host and you should see the login page.
 
 Enter **admin** as **user and password** and start enjoying RedKite CMS!
 
