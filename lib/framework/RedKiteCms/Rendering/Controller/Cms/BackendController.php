@@ -21,6 +21,7 @@ use Controller\Cms\FrontendController;
 use RedKiteCms\Core\RedKiteCms\Core\Form\PageCollection\SeoType;
 use RedKiteCms\FilesystemEntity\Page;
 use RedKiteCms\Rendering\TemplateAssetsManager\TemplateAssetsManager;
+use RedKiteCms\Tools\JsonTools;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -143,11 +144,20 @@ abstract class BackendController extends FrontendController
     {
         $blockFactory = $this->options["block_factory"];
         $templateRenderer = $this->options['page_renderer'];
-        $availableBlocks = $blockFactory->getAvailableBlocks();
-
+        //$availableBlocks = $blockFactory->getAvailableBlocks();
+        /*
+        foreach($availableBlocks as $blockClass) {
+            print_r($this->options["serializer"]->deserialize)
+        }
+print_R($availableBlocks);exit;*/
         // We need to render all blocks to avoid problems when a kind ok block is
         // not present on a page
+        $availableBlocks = array();
         $blocks = $blockFactory->createAllBlocks();
+        foreach($blocks as $block) {
+            $availableBlocks[$block->getType()] = JsonTools::toJson($this->options["serializer"], $block);
+        }
+
         $slots = $templateRenderer->renderSlotsFromPage(
             $page,
             array(

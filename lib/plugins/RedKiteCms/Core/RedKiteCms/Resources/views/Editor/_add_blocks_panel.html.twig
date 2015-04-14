@@ -9,7 +9,7 @@
     <div class="rkcms-block-panel-contents rkcms-available-blocks">
         <ul>
             {% for type, value in available_blocks %}
-                <li class="rkcms-available-block" data-type="{{ value }}" data-bind="click: selectBlock">{{ value }}</li>
+                <li class="rkcms-available-block" data-type="{{ type }}" data-block="{{ value }}" data-bind="click: selectBlock">{{ type }}</li>
             {% endfor %}
         </ul>
     </div>

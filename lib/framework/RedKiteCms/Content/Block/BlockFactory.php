@@ -67,7 +67,8 @@ class BlockFactory implements BlockFactoryInterface
      */
     public function getAvailableBlocks()
     {
-        return array_keys($this->blocks);
+        return $this->blocks;
+        //return array_keys($this->blocks);
     }
 
     /**

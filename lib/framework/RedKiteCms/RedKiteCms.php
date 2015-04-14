@@ -23,6 +23,7 @@ use Assetic\Filter\CssRewriteFilter;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use JMS\Serializer\SerializerBuilder;
 use Monolog\Logger;
+use RedKiteCms\Action\FactoryAction;
 use RedKiteCms\Bridge\Assetic\AsseticFactoryBuilder;
 use RedKiteCms\Bridge\Dispatcher\Dispatcher;
 use RedKiteCms\Bridge\ElFinder\ElFinderFilesConnector;
@@ -39,7 +40,6 @@ use RedKiteCms\Configuration\SiteBuilder;
 use RedKiteCms\Content\Block\BlockFactory;
 use RedKiteCms\Content\BlockManager\BlockManager;
 use RedKiteCms\Content\BlockManager\BlockManagerApprover;
-use RedKiteCms\Content\BlockManager\BlockManagerEdit;
 use RedKiteCms\Content\PageCollection\PageCollectionManager;
 use RedKiteCms\Content\PageCollection\PagesCollectionParser;
 use RedKiteCms\Content\PageCollection\PermalinkManager;
@@ -355,6 +355,7 @@ abstract class RedKiteCms
         $this->app["red_kite_cms.slots_generator"] = new ThemeSlotsGenerator($this->app["red_kite_cms.configuration_handler"], $this->app["red_kite_cms.slots_manager_factory"]);
         $this->app["red_kite_cms.theme_aligner"] = new ThemeAligner($this->app["red_kite_cms.configuration_handler"]);
         $this->app["red_kite_cms.theme_deployer"] = new ThemeDeployer($this->app["red_kite_cms.configuration_handler"]);
+        $this->app["red_kite_cms.factory_action"] = new FactoryAction($this->app);
     }
 
     private function checkPermissions($rootDir)
@@ -392,7 +393,7 @@ abstract class RedKiteCms
 
         $this->app["dispatcher"]->addListener(
             'kernel.request',
-            array(new QueueListener($this->app["red_kite_cms.configuration_handler"], $this->app["jms.serializer"], $this->app["red_kite_cms.block_factory"]), 'onKernelRequest')
+            array(new QueueListener($this->app["red_kite_cms.configuration_handler"], $this->app["red_kite_cms.factory_action"], $this->app["security"]), 'onKernelRequest')
         );
 
         $this->app["dispatcher"]->addListener(
@@ -676,12 +677,20 @@ abstract class RedKiteCms
             ),
         );
 
+        $queue = array(
+            array(
+                'pattern' => "/backend/queue/save",
+                'controller' => 'Controller\Queue\SaveQueueController::saveAction',
+                'method' => array('post'),
+                'bind' => '_rkcms_save_queue',
+            ),
+        );
+
         // FIXME This information comes from security and it is not available at this level
         $user = null;
         if (!$this->app["red_kite_cms.configuration_handler"]->isTheme()) {
             $user = 'admin';
         }
-
 
         $this->routingServiceProvider->addRoutes($this->app, $blockRoutes);
         $this->routingServiceProvider->addRoutes($this->app, $pageRoutes);
@@ -689,6 +698,7 @@ abstract class RedKiteCms
         $this->routingServiceProvider->addRoutes($this->app, $themeRoutes);
         $this->routingServiceProvider->addRoutes($this->app, $elFinder);
         $this->routingServiceProvider->addRoutes($this->app, $security);
+        $this->routingServiceProvider->addRoutes($this->app, $queue);
         $this->routingServiceProvider->addRoutes($this->app, $backendRoutes);
 
         $routingGenerator = new RoutingGenerator($this->app["red_kite_cms.configuration_handler"]);

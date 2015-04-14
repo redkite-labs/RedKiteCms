@@ -67,6 +67,10 @@ class BlockManager extends FilesystemEntity
     {
         $targetDir = $sourceDir . '/removed';
         $targetFilename = sprintf('%s/%s/%s.json', $targetDir, $options['blockname'], date("Y-m-d-H.i.s"));
+        if (!file_exists($targetFilename)) {
+            return;
+        }
+
         $this->removeArchivedFiles($sourceDir, $targetDir, $options['blockname']);
         $this->filesystem->copy($removedFile, $targetFilename, true);
     }
@@ -143,14 +147,26 @@ class BlockManager extends FilesystemEntity
     protected function addBlockToSlot($dir, array $options)
     {
         $slot = $this->getSlotDefinition($dir);
-        $next = $slot["next"];
         $blocks = $slot["blocks"];
-        $position = $options["position"];
-        $blockName = sprintf('block%s', $next);
-        array_splice($blocks, $position, 0, $blockName);
-        $next++;
-        $slot["next"] = $next;
-        $slot["blocks"] = $blocks;
+        if (array_key_exists('blockname', $options)) {
+            $blockName = $options["blockname"];
+            $position = $options["position"];
+            array_splice($blocks, $position, 0, $blockName);
+
+            $slot["next"] = str_replace('block', '', $blockName) + 1;
+            $slot["blocks"] = $blocks;
+        }
+        else{
+            // FIXME
+            $next = $slot["next"];
+            $position = $options["position"];
+            $blockName = sprintf('block%s', $next);
+            array_splice($blocks, $position, 0, $blockName);
+            $next++;
+            $slot["next"] = $next;
+            $slot["blocks"] = $blocks;
+        }
+
         $this->saveSlotDefinition($dir, $slot);
 
         return $blockName;

@@ -103,8 +103,6 @@ class ThemeAlignerListener
             ->parse()
         ;
 
-
-
         $this->themeGenerator->generate();
         $this->slotsGenerator->synchronize($this->page, $this->pagesCollectionParser->pages());
         $this->themeAligner->align($this->pagesCollectionParser);
