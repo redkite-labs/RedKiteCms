@@ -18,7 +18,7 @@ If you're submitting a change to RedKite CMS core, update or add to the units te
 If you are submitting a new Block, be sure to have properly added unit tests to cover the code and functional tests.
 
 ## Write new tests
-While the most part of code is covered by automated tests, these may always be improved by new tests.
+While most of the code is covered by automated tests, these can always be improved by new tests.
 
 ## Submit your Theme or Block bundles
 If you want to share your awesome Theme or Block bundles with the community, you need to maintain them on a repository at github.
@@ -32,4 +32,4 @@ Contribute with the documentation
 ---------------------------------
 RedKite CMS has its official documentation saved into the [application docs](https://github.com/redkite-labs/RedKiteCms/tree/master/docs) folder. If you want to contribute by fixing typos on the current documentation or add new entries, just fork RedKite CMS and send us a pull request.
 
-Found a typo ? Something is wrong in this documentation ? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/contribute/contribute.md)
+Found a typo? Found something wrong in this documentation? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/contribute/contribute.md)

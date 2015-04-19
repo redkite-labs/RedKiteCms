@@ -3,7 +3,7 @@
 
 Instructions for installing and setting up Git can be found at [http://help.github.com/set-up-git-redirect](http://help.github.com/set-up-git-redirect).
 
-Before moving forward, be sure to read the [RedKite CMS application structure](redkite-cms-application-structure) where is is explained the folders structure you must know.
+Before continuing, please make sure you read the [RedKite CMS application structure](redkite-cms-application-structure) where there is an explanation of the folders structure you will be using.
 
 ## Work with the code
 If you want to create a local copy of the source to play with, you can clone the main repository using this command:
@@ -12,11 +12,11 @@ If you want to create a local copy of the source to play with, you can clone the
 
     git clone https://github.com/redkite-labs/RedKiteCms.git
 
-while if you're planning on contributing to RedKite CMS, you should fork the repository. You can find instructions for forking a repository at http://help.github.com/fork-a-repo/.
+and if you're planning on contributing to RedKite CMS, you will need to fork the repository. You can find instructions for forking a repository at http://help.github.com/fork-a-repo/.
 
-When you have finished your changes, just send us a **pull request** to let us revisit your code and hopefully to merge in into the RedKite CMS repository.
+When you have finished your changes, just send us a **pull request** to let us check your code and hopefully merge in into the RedKite CMS repository.
 
 ## Code standards
 RedKite CMS ecosystem php code is written following the [Symfony2 code standards](http://symfony.com/doc/current/contributing/code/standards.html).
 
-Found a typo ? Something is wrong in this documentation ? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/contribute/source-code.md)
+Found a typo? Found something wrong in this documentation? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/contribute/source-code.md)

@@ -1,20 +1,22 @@
-# Translate RedKite CMS in your language
+# Translate RedKite CMS into your language
 
-This document will explain in detail how to translate RedKite CMS within your language.
+This document will explain in detail how to translate RedKite CMS into another language.
 
-RedKite CMS uses Symfony2's Translation component to manage the interface translation. Catalogues always live into a Block plugin's **Resources/translations** folder, so, for example, the RedKite CMS application translations live under the [RedKite CMS Core plugin translations folder](https://github.com/redkite-labs/RedKiteCms/tree/master/lib/plugins/RedKiteCms/Core/RedKiteCms/Resources/translations), while the Link Block translation live under the [Link Block plugin translations folder](https://github.com/redkite-labs/RedKiteCms/tree/master/lib/plugins/RedKiteCms/Block/Link/Resources/translations).
+RedKite CMS uses Symfony2's Translation component to manage the interface translation. Catalogues always live into a Block plugin's **Resources/translations** folder. 
+
+So for example, the RedKite CMS application translations live under the [RedKite CMS Core plugin translations folder](https://github.com/redkite-labs/RedKiteCms/tree/master/lib/plugins/RedKiteCms/Core/RedKiteCms/Resources/translations), while the Link Block translation live under the [Link Block plugin translations folder](https://github.com/redkite-labs/RedKiteCms/tree/master/lib/plugins/RedKiteCms/Block/Link/Resources/translations).
 
 Each catalogue is written as **xliff** file and its name follows the Symfony2 notation:
 
     RedKiteCmsBundle.[locale].xliff
 
-## Translate RedKite CMS in your language
+## Translate RedKite CMS into your language
 
-To start translating RedKite CMS, simply copy the **translation xliff catalogue** and rename it with the locale you want to translate, so, if you want to translate RedKite CMS in Italian, you need to know the i18n Italian notation, which is **"it"** and rename the file as **[file name].it.xliff**.
+To start translating for RedKite CMS, simply copy the **translation xliff catalogue** and rename it with the locale you want to translate to. So if you want to translate RedKite CMS into Italian, you need to know the i18n Italian notation, which is **"it"** and rename the file as **[file name].it.xliff**.
 
-Keep in mind, RedKite CMS default language is English and, while it is not mandatory, you shouldstart a new translation from this one.
+Please bear in mind, the RedKite CMS default language is English and, while it is not mandatory, you should start a new translation from English.
     
-Catalogues are written using xliff markup, which a derivation of xml mark-up language. They are structured as follows:
+Catalogues are written using xliff markup, which is a derivative of xml mark-up language. They are structured as follows:
 
 .. code:: xml
 
@@ -42,9 +44,9 @@ Catalogues are written using xliff markup, which a derivation of xml mark-up lan
         </file>
     </xliff>
 
-Each text is encapsulated into a **trans-unit** tag and this one has two attributes: **source** and **target**.
+Each section of text is encapsulated into a **trans-unit** tag and this has two attributes: **source** and **target**.
 
-The **source** attribute is a label that describes the real text and must not be translated, while you have to replace each target section with the translation of the message in your language. See the sample below:
+The **source** attribute is a label that describes the real text and must not be translated. Yyou have to replace each target section with the translation of the message in the new language. See the sample below:
 
 .. code:: xml
 
@@ -72,4 +74,4 @@ The **source** attribute is a label that describes the real text and must not be
         </file>
     </xliff>
 
-Found a typo ? Something is wrong in this documentation ? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/contribute/translate-redkite-cms.md)
+Found a typo? Found something wrong in this documentation? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/contribute/translate-redkite-cms.md)
