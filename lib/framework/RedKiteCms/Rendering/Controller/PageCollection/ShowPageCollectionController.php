@@ -57,6 +57,7 @@ abstract class ShowPageCollectionController extends BasePageCollectionController
         $seoForm = $form->createView();
 
         $template = 'RedKiteCms/Resources/views/Dashboard/pages.html.twig';
+        $languages = $this->options["configuration_handler"]->languages();
 
         return $options["twig"]->render(
             $template,
@@ -66,6 +67,8 @@ abstract class ShowPageCollectionController extends BasePageCollectionController
                 "pageForm" => $pageForm,
                 "seoForm" => $seoForm,
                 "version" => ConfigurationHandler::getVersion(),
+                "home_template" => $this->options["theme"]->homepageTemplate(),
+                "languages" => $languages,
             )
         );
     }
@@ -80,6 +83,7 @@ abstract class ShowPageCollectionController extends BasePageCollectionController
 
         $resolver->setRequired(
             array(
+                'configuration_handler',
                 'pages_collection_parser',
                 'theme',
                 'template_assets',
@@ -90,6 +94,7 @@ abstract class ShowPageCollectionController extends BasePageCollectionController
 
         $resolver->setAllowedTypes(
             array(
+                'configuration_handler' => '\RedKiteCms\Configuration\ConfigurationHandler',
                 'pages_collection_parser' => '\RedKiteCms\Content\PageCollection\PagesCollectionParser',
                 'theme' => '\RedKiteCms\Content\Theme\Theme',
                 'template_assets' => '\RedKiteCms\Rendering\TemplateAssetsManager\TemplateAssetsManager',

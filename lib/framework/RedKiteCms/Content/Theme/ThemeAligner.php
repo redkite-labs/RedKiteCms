@@ -96,6 +96,7 @@ class ThemeAligner extends ThemeBase
         foreach ($pages as $page) {
             foreach ($languages as $language) {
                 $pageDir = sprintf('%s/%s/%s', $pagesDir, $page["name"], $language);
+
                 $finder = new Finder();
                 $slotFolders = $finder->directories()->depth(0)->in($pageDir);
                 foreach ($slotFolders as $slotFolder) {

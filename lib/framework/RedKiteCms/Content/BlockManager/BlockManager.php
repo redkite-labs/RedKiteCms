@@ -236,6 +236,7 @@ class BlockManager extends FilesystemEntity
     }
 
     /**
+     * TODO: CAN BE REMOVED?
      * Archives the given block
      *
      * @param string $blockName

@@ -47,7 +47,6 @@ class BlockManagerEdit extends BlockManager
         $this->resolveOptions($options);
         $this->init($sourceDir, $options, $username);
         $this->createContributorDir($sourceDir, $options, $username);
-        $this->archiveBlock($options["blockname"]);
 
         $filename = sprintf('%s/blocks/%s.json', $this->getDirInUse(), $options["blockname"]);
         $currentBlock = $options["baseBlock"] = JsonTools::jsonDecode(FilesystemTools::readFile($filename));

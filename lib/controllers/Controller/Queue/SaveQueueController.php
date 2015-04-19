@@ -20,11 +20,18 @@ namespace Controller\Queue;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use RedKiteCms\Rendering\Controller\Queue\SaveQueueController as BaseSaveQueueController;
+use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * This object implements the Silex controller to save the frontend operations queue to the backend
+ *
+ * @author  RedKite Labs <webmaster@redkite-labs.com>
+ * @package Controller\Page
+ */
 class SaveQueueController extends BaseSaveQueueController
 {
     /**
-     * Add page collection action
+     * Saves the queue action
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \Silex\Application                        $app
@@ -35,8 +42,16 @@ class SaveQueueController extends BaseSaveQueueController
         $options = array(
             "request" => $request,
             "configuration_handler" => $app["red_kite_cms.configuration_handler"],
+            'security' => $app["security"],
+            "queue_manager" => $app["red_kite_cms.queue_manager"],
         );
 
-        return parent::save($options);
+        $response = parent::save($options);
+        if ($app["red_kite_cms.queue_manager"]->hasQueue() && $response->getContent() == "Queue saved") {
+            $lastRoute = $request->getSession()->get('last_uri');
+            return $app->redirect($lastRoute);
+        }
+
+        return $response;
     }
 }

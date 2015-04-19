@@ -11,8 +11,12 @@
 
             <div class="rkcms-block-panel-contents rkcms-available-blocks">
                 <ul>
+                    {#
                     {% for blockType in available_blocks %}
                         <li class="rkcms-available-block" data-type="{{ blockType }}" data-bind="click: selectBlock">{{ blockType }}</li>
+                    {% endfor %}#}
+                    {% for type, value in available_blocks %}
+                        <li class="rkcms-available-block" data-type="{{ type }}" data-block="{{ value }}" data-bind="click: selectBlock">{{ type }}</li>
                     {% endfor %}
                 </ul>
             </div>

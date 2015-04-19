@@ -1,6 +1,7 @@
 {%  extends 'RedKiteCms/Resources/views/Dashboard/base.html.twig' %}
 
 {% block content %}
+
 <h1 class="page-header">Dashboard</h1>
 <div id="rkcms-control-panel-body" class="container">
     <div class="row">
@@ -35,7 +36,7 @@
             </a>
         </div>
             <div class="col-md-3">
-            <a class="btn btn-link col-md-3" href="{{ path( app.request.session.get('last_route')) }}">
+            <a class="btn btn-link col-md-3" href="{{ path( back_route ) }}">
                 <i class="fa fa-reply fa-3x"></i>
                 <div>{{ "common_label_back"|trans({}, 'RedKiteCms', cms_language) }}</div>
             </a>

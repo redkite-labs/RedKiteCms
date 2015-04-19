@@ -4408,12 +4408,17 @@ return l.length?(l.elfinderdialog("toTop"),o.resolve()):t.read&&t.write?(n.reque
  *
  */
 
-function executeAjax(url, data, successCallback, failureCallback, completeCallback)
+function executeAjax(url, data, successCallback, failureCallback, completeCallback, async)
 {
+    if (async == undefined) {
+        async = true;
+    }
+
     $.ajax({
         type: 'POST',
         url: url,
         data: data,
+        async: async,
         beforeSend: function() {
             $('.rkcms-saving-progress').show();
         },
@@ -4664,17 +4669,140 @@ HighlightableModel.prototype.activate = function(value)
  *
  */
 
+var SeoModel = function (seo)
+{
+    var self = this;
+    DockableModel.call(self);
+
+    var seoData = ko.utils.parseJson(seo);
+    self.permalink = seoData.permalink;
+    self.title = ko.observable(seoData.title);
+    self.description = ko.observable(seoData.description);
+    self.keywords = ko.observable(seoData.keywords);
+    self.sitemapFrequency = ko.observable(seoData.sitemap_frequency);
+    self.sitemapPriority = ko.observable(seoData.sitemap_priority);
+    self.currentPermalink = seoData.current_permalink;
+    self.changedPermalinks = seoData.changed_permalinks;
+    self.toggleBlocksEditor = ko.observable(false);
+
+    _prepareSeoData = function()
+    {
+        return {
+            "permalink": self.permalink,
+            "title": self.title,
+            "description": self.description,
+            "keywords": self.keywords,
+            "sitemap_frequency": self.sitemapFrequency,
+            "sitemap_priority": self.sitemapPriority,
+            "language": language + '_' + country,
+            "current_permalink": self.currentPermalink,
+            "changed_permalinks": self.changedPermalinks
+        }
+    }
+};
+
+SeoModel.prototype = Object.create(DockableModel.prototype);
+SeoModel.prototype.constructor = SeoModel;
+
+SeoModel.prototype.toggle = function()
+{
+    this.toggleBlocksEditor(!this.toggleBlocksEditor());
+};
+
+SeoModel.prototype.editSeo = function()
+{
+    queue['rkcms-edit-seo'] = {
+        'entity' : 'seo',
+        'action' : 'edit',
+        'data' :  {
+            'pageName': page,
+            'seoData': _prepareSeoData()
+        }
+    };
+
+    /*
+    var url = frontcontroller + '/backend/page/edit';
+    var data = {
+        'page-name': page,
+        'seo-data': _prepareSeoData()
+    };
+
+    executeAjax(url, data);*/
+};
+
+SeoModel.prototype.approve = function()
+{
+    var url = frontcontroller + '/backend/page/approve';
+    var data = {
+        'pageName': page,
+        'seo-data': _prepareSeoData()
+    };
+
+    var message = redkitecmsDomain.frontend_confirm_seo_approved;
+    confirmDialog(message, function(){
+        saveQueue();
+        executeAjax(url, data);
+    });
+
+
+};
+/**
+ * This file is part of the RedKite CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.redkite-labs.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+
+var queue = {};
+
+window.onbeforeunload = function (e) {
+    saveQueue();
+};
+
+saveQueue = function(){
+    if (Object.keys(queue).length === 0) {
+        return;
+    }
+
+    var url = frontcontroller + '/backend/queue/save';
+    executeAjax(url,
+        {"queue": queue},
+        null,
+        null,
+        null,
+        false
+    );
+};
+/**
+ * This file is part of the RedKite CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.redkite-labs.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+
 var slotEditorModel;
 var blockEditorModel;
-var queue = {};
 
 $(document).ready(function()
 {
-    /*
-    var slotEditorModel = localStorage.getItem('rkcms-slot-model');
-    if(savedMode == null) {
-        slotEditorModel = new SlotEditorModel();
-    }*/
     slotEditorModel = new SlotEditorModel();
     ko.applyBindings(slotEditorModel, document.getElementById('rkcms-slots-editor-panel'));
 
@@ -4688,7 +4816,6 @@ $(document).ready(function()
         var slot = new SlotModel(blocks, slotName, element.attr("data-next"));
         ko.applyBindings(slot, this);
     });
-
 
     $('.rkcms-warning-btn').popover();
     $('#rkcms-control-panel-btn')
@@ -4712,40 +4839,6 @@ $(document).ready(function()
     RunHolder();
     Highlight();
 });
-
-
-window.onbeforeunload = function (e) {
-    var a = JSON.parse(localStorage.getItem('queue'));
-    var url = frontcontroller + '/backend/block/edit';
-    executeAjax(url, {"queue": queue},
-        function(response)
-        {
-        }
-    );
-/*
-    var e = e || window.event;
-
-    //IE & Firefox
-    if (e) {
-        e.returnValue = 'Are you sure?';
-    }
-
-    // For Safari
-    return 'Are you sure?';*/
-};
-
-/*
-window.onbeforeunload = function()
-{
-    alert('a');
-};
-
-
-$(window).on('unload', function()
-{
-    alert('a');
-});*/
-
 
 function RunHolder()
 {
@@ -4911,7 +5004,7 @@ var BlockEditorModel = function ()
         var model = self.activeModel;
         $(document).trigger("rkcms.event.adding_block", [ model ]);
 
-        transactionIcon(true);
+        //transactionIcon(true);
         var block = model.block;
         var blocks = model.parent.blocks;
 
@@ -4947,6 +5040,7 @@ var BlockEditorModel = function ()
         //localStorage.setItem('queue', JSON.stringify(queue));
 
         blocks.splice(position, 0, objBlock);
+        $(document).trigger("rkcms.event.block_added", [ model ]);
 /*
         executeAjax(url, data,
             function(response)
@@ -4981,7 +5075,7 @@ var BlockEditorModel = function ()
             }
         };
 
-        localStorage.setItem('queue', JSON.stringify(queue));
+        //localStorage.setItem('queue', JSON.stringify(queue));
         model.parent.blocks.remove(model.block);
         self.closeEditor();
 
@@ -5038,10 +5132,14 @@ var BlockEditorModel = function ()
         return language + "-" + country  + "-" + page + "-" + self.activeModel.slotName + "-" + self.activeModel.name;
     };
 
-    _changeEditorMode = function()
+    _addToHistory = function(block)
     {
+        var activeModel = blockEditorModel.activeModel;
+        var date = new Date();
+        block.history_name = date.getFullYear() + '-' + (date.getMonth() + 1).padLeft(2) + '-' + date.getDate().padLeft(2) + '-' + date.getHours().padLeft(2) + '.' + date.getMinutes().padLeft(2) + '.' + date.getSeconds().padLeft(2);
+        activeModel.history.splice(0, 0, new ArchiveBlock(activeModel, block));
 
-
+        self.history(activeModel.history());
     };
 };
 
@@ -5127,6 +5225,10 @@ BlockEditorModel.prototype.addBottom = function(view, event)
     _add('bottom', this.transactionAddBottom);
 };
 
+Number.prototype.padLeft = function (n,str){
+    return Array(n-String(this).length+1).join(str||'0')+this;
+};
+
 BlockEditorModel.prototype.edit = function()
 {
     var model = this.activeModel;
@@ -5144,7 +5246,26 @@ BlockEditorModel.prototype.edit = function()
         }
     };
 
-    localStorage.setItem('queue', JSON.stringify(queue));
+    var archiveBlockKey = 'rkcms-block-archive-' + model.slotName + '-' + model.name;
+    if (queue[archiveBlockKey] == null) {
+        var archiveBlock = model.archiveBlock;
+        _addToHistory(archiveBlock);
+        queue[archiveBlockKey] = {
+            'entity' : 'block',
+            'action' : 'archive',
+            'data' :  {
+                'name': model.name,
+                'type': model.type,
+                'slot': model.slotName,
+                'page':  page,
+                'language': language,
+                'country': country,
+                'data': ko.toJSON(archiveBlock)
+            }
+        };
+    }
+
+    //localStorage.setItem('queue', JSON.stringify(queue));
 
     /*
     var a = JSON.parse(localStorage.getItem('queue'));
@@ -5209,9 +5330,70 @@ BlockEditorModel.prototype.undoRestoration = function ()
     this.activeModel.activeListItemBlock.isDirty = false;
 };
 
+/*
+BlockEditorModel.prototype.addToHistory = function(block)
+{
+    var self = this;
+    var activeModel = blockEditorModel.activeModel;
+    var date = new Date();
+    block.history_name = date.getFullYear() + '-' + (date.getMonth() + 1).padLeft(2) + '-' + date.getDate().padLeft(2) + '-' + date.getHours().padLeft(2) + '.' + date.getMinutes().padLeft(2) + '.' + date.getSeconds().padLeft(2);
+    activeModel.history.splice(0, 0, new ArchiveBlock(activeModel, block));
+
+    self.history(activeModel.history());
+};*/
+
 BlockEditorModel.prototype.confirmRestoration = function ()
 {
-    this.activeModel.restoreBlock();
+    var self = this;
+    var activeModel = blockEditorModel.activeModel;
+    if (activeModel.activeListItemBlock == null) {
+        return;
+    }
+
+    var historyIndex = activeModel.history.indexOf(activeModel.activeListItemBlock);
+    if (historyIndex > -1) {
+        var archivedBlock = self.history.splice(historyIndex, 1)[0];
+        _addToHistory(activeModel.block);
+        activeModel.block = archivedBlock.block;
+
+        queue['rkcms-block-restore-' + activeModel.slotName + '-' + activeModel.name] = {
+             'entity' : 'block',
+             'action' : 'restore',
+             'data' :  {
+             'name': activeModel.name,
+             'type': activeModel.type,
+             'slot': activeModel.slotName,
+             'archiveFile': activeModel.activeListItemBlock.historyName,
+             'page':  page,
+             'language': language,
+             'country': country,
+             'data': activeModel.blockToJson()
+             }
+         };
+    }
+
+    //self.history.slice
+    /*
+     var url = frontcontroller + '/backend/block/restore';
+     var data = {
+     'name': self.name,
+     'type': self.type,
+     'slot': self.slotName,
+     'archiveFile': self.activeListItemBlock.historyName,
+     'page':  page,
+     'language': language,
+     'country': country,
+     'data': self.blockToJson()
+     };
+     executeAjax(url, data,
+     function(response)
+     {
+     self.history().length = 0;
+     self.initHistory(response, self);
+     blockEditorModel.history(self.history());
+     $(document).trigger("rkcms.event.block_restored", [ self ]);
+     }
+     );*/
 };
 
 BlockEditorModel.prototype.changeMode = function()
@@ -5385,6 +5567,7 @@ var Block = function (params)
 
     self.parent = params.parent;
     self.block = params.block;
+    self.archiveBlock = $.extend(true, {}, params.block);
     self.target = ko.observable(null);
     self.type = self.block.type;
     self.name = self.block.name;
@@ -5473,37 +5656,6 @@ Block.prototype.resize  = function()
     }
 
     return true;
-};
-
-Block.prototype.restoreBlock = function()
-{
-    self = this;
-    if (self.activeListItemBlock == null) {
-        return;
-    }
-
-    $(document).trigger("rkcms.event.restoring_block", [ self ]);
-
-    var url = frontcontroller + '/backend/block/restore';
-    var data = {
-        'name': self.name,
-        'type': self.type,
-        'slot': self.slotName,
-        'archiveFile': self.activeListItemBlock.historyName,
-        'page':  page,
-        'language': language,
-        'country': country,
-        'data': self.blockToJson()
-    };
-    executeAjax(url, data,
-        function(response)
-        {
-            self.history().length = 0;
-            self.initHistory(response, self);
-            blockEditorModel.history(self.history());
-            $(document).trigger("rkcms.event.block_restored", [ self ]);
-        }
-    );
 };
 /**
  * This file is part of the RedKite CMS Application and it is distributed
@@ -5597,17 +5749,6 @@ var ControlPanelModel = function (status, moveMode) {
     _toggleButtonPressed($('#rkcms-page-published'), !pagePublished);
 };
 
-ControlPanelModel.prototype.temp = function()
-{
-    var a = JSON.parse(localStorage.getItem('queue'));
-    var url = frontcontroller + '/backend/block/edit';
-    executeAjax(url, {"queue": queue},
-        function(response)
-        {
-        }
-    );
-};
-
 ControlPanelModel.prototype.startEdit = function (view, event)
 {
     var self = this;
@@ -5639,7 +5780,7 @@ ControlPanelModel.prototype.dashboard = function()
 };
 
 ControlPanelModel.prototype.seoPanel = function (view, event)
-{
+{saveQueue();return;
     var seoModel = ko.dataFor(document.getElementById('rkcms-seo'));
     var element = $(event.target).parent();
     _toggleButtonPressed(element, seoModel.toggleBlocksEditor());
@@ -5678,6 +5819,7 @@ ControlPanelModel.prototype.savePage = function (view, event)
     confirmDialog(message, function(){
         $(document).trigger("rkcms.event.saving_page", [ self, event ]);
 
+        saveQueue();
         var url = frontcontroller + '/backend/page/save';
         var data = {
             'page':  page,
@@ -5701,6 +5843,8 @@ ControlPanelModel.prototype.saveAllPages = function ()
 
     var message = redkitecmsDomain.frontend_confirm_save_site;
     confirmDialog(message, function(){
+        saveQueue();
+
         var url = frontcontroller + '/backend/page/collection/save-all';
         var data = {
             'page':  page,
@@ -5717,6 +5861,8 @@ ControlPanelModel.prototype.saveTheme = function ()
 {
     var message = redkitecmsDomain.frontend_confirm_save_theme;
     confirmDialog(message, function(){
+        saveQueue();
+
         var url = frontcontroller + '/backend/theme/save';
         var data = {
             'page':  page,
@@ -5740,6 +5886,8 @@ ControlPanelModel.prototype.pagePublished = function (view, event)
 
     var element = $(event.target).parent();
     confirmDialog(message, function(){
+        saveQueue();
+
         var data = {
             'page':  page,
             'language': language,
@@ -6213,7 +6361,7 @@ ExtendableCollection.prototype.restore = function(archivedBlock)
             'entity' : 'block',
             'action' : 'move',
             'data' :  {
-                'slot': data["slot_name"],
+                'sourceSlot': data["slot_name"],
                 'name': data["name"],
                 'position': index,
                 'page':  page,
@@ -6267,7 +6415,22 @@ ExtendableCollection.prototype.restore = function(archivedBlock)
         // Removes the block from source slot
         var sourceSlot = ko.dataFor(ui.sender[0]);
         sourceSlot.blocks.remove(block);
-        
+
+        queue['rkcms-block-move-'  + sourceSlot.slotName + '-' +  targetSlotName] = {
+            'entity' : 'block',
+            'action' : 'move',
+            'data' :  {
+                'sourceSlot': sourceSlot.slotName,
+                'targetSlot': targetSlotName,
+                'name': block.name,
+                'position': index,
+                'page':  page,
+                'language': language,
+                'country': country
+            }
+        };
+
+        /*
         var url = frontcontroller + '/backend/block/move';
         var ajaxData = {
             'sourceSlot': sourceSlot.slotName,
@@ -6289,7 +6452,7 @@ ExtendableCollection.prototype.restore = function(archivedBlock)
                 block.name = response.name;
                 $(element).attr('data-name', block.name);
             }
-        );
+        );*/
     }
 
     function _getIndex(element, name)
@@ -6382,88 +6545,6 @@ ExtendableCollection.prototype.restore = function(archivedBlock)
  *
  */
 
-var SeoModel = function (seo)
-{
-    var self = this;
-    DockableModel.call(self);
-
-    var seoData = ko.utils.parseJson(seo);
-    self.permalink = seoData.permalink;
-    self.title = ko.observable(seoData.title);
-    self.description = ko.observable(seoData.description);
-    self.keywords = ko.observable(seoData.keywords);
-    self.sitemapFrequency = ko.observable(seoData.sitemap_frequency);
-    self.sitemapPriority = ko.observable(seoData.sitemap_priority);
-    self.currentPermalink = seoData.current_permalink;
-    self.changedPermalinks = seoData.changed_permalinks;
-    self.toggleBlocksEditor = ko.observable(false);
-
-    _prepareSeoData = function()
-    {
-        return {
-            "permalink": self.permalink,
-            "title": self.title,
-            "description": self.description,
-            "keywords": self.keywords,
-            "sitemap_frequency": self.sitemapFrequency,
-            "sitemap_priority": self.sitemapPriority,
-            "language": language + '_' + country,
-            "current_permalink": self.currentPermalink,
-            "changed_permalinks": self.changedPermalinks
-        }
-    }
-};
-
-SeoModel.prototype = Object.create(DockableModel.prototype);
-SeoModel.prototype.constructor = SeoModel;
-
-SeoModel.prototype.toggle = function()
-{
-    this.toggleBlocksEditor(!this.toggleBlocksEditor());
-};
-
-SeoModel.prototype.editSeo = function()
-{
-    var url = frontcontroller + '/backend/page/edit';
-    var data = {
-        'page-name': page,
-        'seo-data': _prepareSeoData()
-    };
-
-    executeAjax(url, data);
-};
-
-SeoModel.prototype.approve = function()
-{
-    var url = frontcontroller + '/backend/page/approve';
-    var data = {
-        'pageName': page,
-        'seo-data': _prepareSeoData()
-    };
-
-    var message = redkitecmsDomain.frontend_confirm_seo_approved;
-    confirmDialog(message, function(){
-        executeAjax(url, data);
-    });
-
-
-};
-/**
- * This file is part of the RedKite CMS Application and it is distributed
- * under the GPL LICENSE Version 2.0. To use this application you must leave
- * intact this copyright notice.
- *
- * Copyright (c) RedKite Labs <info@redkite-labs.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * For extra documentation and help please visit http://www.redkite-labs.com
- *
- * @license    GPL LICENSE Version 2.0
- *
- */
-
 var PagesSelector = function (params)
 {
     var self = this;
@@ -6524,7 +6605,6 @@ SlotEditorModel.prototype.openEditor = function()
 SlotEditorModel.prototype.addBlock = function ()
 {
     var self = this;
-    self.transactionIcon(true);
     var blocks = self.activeModel.blocks;
     var type = $('.rkcms-available-blocks .rkcms-selected-block').attr('data-type');
     if (null == type) {
@@ -6533,6 +6613,32 @@ SlotEditorModel.prototype.addBlock = function ()
     var position = 1;
 
     var slotName = self.activeModel.slotName;
+
+    var next = parseInt(self.activeModel.next()) + 1;
+    self.activeModel.next(next);
+    var objBlock = JSON.parse($('.rkcms-available-blocks .rkcms-selected-block').attr('data-block'));
+    objBlock.name = 'block' + next;
+    objBlock.slot_name = slotName;
+
+    //var url = frontcontroller + '/backend/block/add';
+
+    queue['rkcms-block-add-'  + slotName + '-' +  objBlock.name] = {
+        'entity' : 'block',
+        'action' : 'add',
+        'data' :  {
+            'type': type,
+            'slot': slotName,
+            'name': objBlock.name,
+            'position': position,
+            'page':  page,
+            'language': language,
+            'country': country,
+            'direction': "top"
+        }
+    };
+    blocks.splice(position, 0, objBlock);
+
+    /*
     var url = frontcontroller + '/backend/block/add';
     var data = {
         'type': type,
@@ -6560,7 +6666,7 @@ SlotEditorModel.prototype.addBlock = function ()
             self.transactionIcon(false);
             self.closeEditor();
         }
-    );
+    );*/
 };
 /**
  * This file is part of the RedKite CMS Application and it is distributed

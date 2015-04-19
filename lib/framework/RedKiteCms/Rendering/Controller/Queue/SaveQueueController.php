@@ -17,23 +17,20 @@
 
 namespace RedKiteCms\Rendering\Controller\Queue;
 
-use RedKiteCms\Content\BlockManager\BlockManagerEdit;
-use RedKiteCms\FilesystemEntity\SlotParser;
-use RedKiteCms\Tools\FilesystemTools;
+use RedKiteCms\Rendering\Controller\BaseController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class EditBlockController is the object deputed to implement the action to edit a
- * block on a page
+ * Class SaveQueueController is the object deputed to save the operations from the frontend to the backend
  *
  * @author  RedKite Labs <webmaster@redkite-labs.com>
  * @package RedKiteCms\Rendering\Controller\Block
  */
-abstract class SaveQueueController
+abstract class SaveQueueController extends BaseController
 {
     /**
-     * Implements the action to edit a block
+     * Implements the action to save the queue
      * @param array $options
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -46,7 +43,17 @@ abstract class SaveQueueController
 
         $request = $options["request"];
         $queue = $request->get('queue');
-        FilesystemTools::writeFile($options["configuration_handler"]->siteDir() . '/queue/queue_' . date("Y-m-d-H.i.s") . '.json', json_encode($queue));
+        if (null !== $queue) {
+            $this->options["queue_manager"]->queue($queue);
+        }
+        $username = $this->fetchUserName($options["security"], $options["configuration_handler"]);
+
+        $result = $this->options["queue_manager"]->execute($username);
+        if ( ! $result) {
+            $content = $this->options["queue_manager"]->renderQueue();
+
+            return new Response($content);
+        }
 
         return new Response("Queue saved");
     }
@@ -60,7 +67,9 @@ abstract class SaveQueueController
         $resolver->setRequired(
             array(
                 'request',
+                'security',
                 'configuration_handler',
+                'queue_manager'
             )
         );
 
@@ -68,6 +77,8 @@ abstract class SaveQueueController
             array(
                 'request' => '\Symfony\Component\HttpFoundation\Request',
                 'configuration_handler' => '\RedKiteCms\Configuration\ConfigurationHandler',
+                'security' => '\Symfony\Component\Security\Core\SecurityContext',
+                'queue_manager' => '\RedKiteCms\Rendering\Queue\QueueManager',
             )
         );
     }

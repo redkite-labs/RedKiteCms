@@ -18,25 +18,13 @@
 namespace RedKiteCms\EventSystem\Listener\Request;
 
 
-use JMS\Serializer\Serializer;
-use RedKiteCms\Action\FactoryAction;
-use RedKiteCms\Configuration\ConfigurationHandler;
-use RedKiteCms\Content\Block\BlockFactory;
-use RedKiteCms\Content\BlockManager\BlockManagerAdd;
-use RedKiteCms\Content\BlockManager\BlockManagerEdit;
-use RedKiteCms\Content\PageCollection\PagesCollectionParser;
-use RedKiteCms\Content\Theme\ThemeSlotsGenerator;
-use RedKiteCms\Content\Theme\ThemeAligner;
-use RedKiteCms\Content\Theme\ThemeGenerator;
-use RedKiteCms\FilesystemEntity\Page;
-use RedKiteCms\Tools\FilesystemTools;
-use Symfony\Component\Finder\Finder;
+use RedKiteCms\Rendering\Queue\QueueManager;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\SecurityContext;
 
 /**
- * Class QueueListener listens to Kernel Request to execute the queue actions to align the backend with the frontend
+ * Class QueueListener listens to Kernel Request and renders the not executed queue flow when it exists
  *
  * @author  RedKite Labs <webmaster@redkite-labs.com>
  * @package RedKiteCms\EventSystem\Listener\Request
@@ -44,23 +32,23 @@ use Symfony\Component\Security\Core\SecurityContext;
 class QueueListener
 {
     /**
-     * @type \RedKiteCms\Configuration\ConfigurationHandler
+     * @var \RedKiteCms\Rendering\Queue\QueueManager
      */
-    private $configurationHandler;
-    /**
-     * @var \RedKiteCms\Action\FactoryAction
-     */
-    private $factoryAction;
+    private $queueManager;
     /**
      * @type \Symfony\Component\Security\Core\SecurityContext
      */
     private $securityContext;
 
-
-    public function __construct(ConfigurationHandler $configurationHandler, FactoryAction $factoryAction, SecurityContext $securityContext)
+    /**
+     * Constructor
+     *
+     * @param \RedKiteCms\Rendering\Queue\QueueManager $queueManager
+     * @param \Symfony\Component\Security\Core\SecurityContext $securityContext
+     */
+    public function __construct(QueueManager $queueManager, SecurityContext $securityContext)
     {
-        $this->configurationHandler = $configurationHandler;
-        $this->factoryAction = $factoryAction;
+        $this->queueManager = $queueManager;
         $this->securityContext = $securityContext;
     }
 
@@ -71,27 +59,24 @@ class QueueListener
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
+        $request = $event->getRequest();
+        if ($request->getMethod() == "POST") {
+            return $event;
+        }
+
         $token = $this->securityContext->getToken();
         if (null === $token) {
-            return;
+            return $event;
         }
 
-        $username = null;
-        if ( ! $this->configurationHandler->isTheme()) {
-            $username = $token->getUser()->getUsername();
-        }
+        $data = $request->get("data");
+        if (null === $data) {
+            if ($this->queueManager->hasQueue()) {
+                $content = $this->queueManager->renderQueue();
+                $event->setResponse(new Response($content));
 
-        $queueFile = $this->configurationHandler->siteDir() . '/queue';
-        $finder = new Finder();
-        $files = $finder->files()->depth(0)->name('*.json')->in($queueFile);
-        foreach($files  as $file) {
-            $queue = json_decode(FilesystemTools::readFile($file), true);
-            foreach($queue as $operation) {
-                $action = $this->factoryAction->create($operation["entity"], $operation["action"]);
-                $action->execute($operation, $username);
+                return $event;
             }
-
-            unlink($file);
         }
     }
 } 

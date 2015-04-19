@@ -41,6 +41,7 @@ class ShowPageCollectionController extends BaseShowPageCollectionController
     {
         $options = array(
             "request" => $request,
+            "configuration_handler" => $app["red_kite_cms.configuration_handler"],
             "page_collection_manager" => $app["red_kite_cms.page_collection_manager"],
             'form_factory' => $app["form.factory"],
             "pages_collection_parser" => $app["red_kite_cms.pages_collection_parser"],

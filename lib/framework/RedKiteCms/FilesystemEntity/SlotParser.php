@@ -35,8 +35,12 @@ class SlotParser
 
     public function fetchBlocks($productionDir, $slotDir, $slotName)
     {
+        $slot = array(
+            'next' => '1',
+            'blocks' => array(),
+        );
         if (null === $slotDir) {
-            return array();
+            return $slot;
         }
 
         // Copies the active slot for a new contributor
@@ -47,10 +51,7 @@ class SlotParser
 
         $file = $slotDir . '/slot.json';
         if (!file_exists($file)) {
-            return array(
-                'next' => '1',
-                'blocks' => array(),
-            );
+            return $slot;
         }
 
         $found = array();

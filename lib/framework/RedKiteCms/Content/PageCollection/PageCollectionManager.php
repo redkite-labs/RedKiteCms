@@ -55,10 +55,6 @@ class PageCollectionManager extends PageCollectionBase
      * @type \RedKiteCms\Content\SlotsManager\SlotsManagerFactory
      */
     private $slotsManagerFactory;
-    /**
-     * @type string
-     */
-    private $defaultPageName = "new-page";
 
     /**
      * Constructor
@@ -75,28 +71,6 @@ class PageCollectionManager extends PageCollectionBase
     }
 
     /**
-     * Returns the current page name
-     *
-     * @return string
-     */
-    public function getDefaultPageName()
-    {
-        return $this->defaultPageName;
-    }
-
-    /**
-     * Sets the default page name
-     *
-     * @param string $defaultPageName
-     */
-    public function setDefaultPageName($defaultPageName)
-    {
-        $this->defaultPageName = $defaultPageName;
-
-        return $this;
-    }
-
-    /**
      * Adds a new page to the website using the given template from the given theme
      *
      * @param \RedKiteCms\Content\Theme\Theme $theme
@@ -104,9 +78,8 @@ class PageCollectionManager extends PageCollectionBase
      *
      * @return array Tha added page
      */
-    public function add(Theme $theme, $templateName)
+    public function add(Theme $theme, $page)
     {
-        $page = $this->defaultPage($templateName);
         $pageName = $page["name"];
         $pageDir = $this->pagesDir . '/' . $pageName;
         $this->pageExists($pageDir);
@@ -124,18 +97,15 @@ class PageCollectionManager extends PageCollectionBase
             FilesystemTools::writeFile($pageDir . '/page.json', $encodedPage);
         }
 
-        $seo = $this->defaultSeo();
-        foreach ($seo as $seoValue) {
+        foreach ($page["seo"] as $seoValue) {
             $languageName = $seoValue["language"];
             unset($seoValue["language"]);
 
             $languageDir = $pageDir . '/' . $languageName;
             @mkdir($languageDir);
             FilesystemTools::writeFile($languageDir . '/' . $this->seoFile, json_encode($seoValue));
-            $theme->addTemplateSlots($templateName, $this->username);
+            $theme->addTemplateSlots($page["template"], $this->username);
         }
-
-        $page["seo"] = $seo;
 
         Dispatcher::dispatch(PageCollectionEvents::PAGE_COLLECTION_ADDED, new PageCollectionAddedEvent($pageFile, $encodedPage));
         DataLogger::log(sprintf('Page "%s" was successfully added to the website', $pageName));
@@ -154,7 +124,11 @@ class PageCollectionManager extends PageCollectionBase
         $currentName = $values["currentName"];
         unset($values["currentName"]);
 
-        $pageDir = $this->pagesDir . '/' . $currentName;
+        $pageDir = $this->pagesDir . '/' . $values["name"];
+        if (!is_dir($pageDir)) {
+            $pageDir = $this->pagesDir . '/' . $currentName;
+        }
+
         $pageFile = $pageDir . '/' . $this->pageFile;
         $currentValues = json_decode(FilesystemTools::readFile($pageFile), true);
         if ($currentValues["template"] != $values["template"]) {
@@ -272,14 +246,6 @@ class PageCollectionManager extends PageCollectionBase
         DataLogger::log(sprintf('Page "%s" was successfully saved in production', $options["page"]));
     }
 
-    private function defaultPage($templateName)
-    {
-        return array(
-            "name" => $this->defaultPageName,
-            "template" => $templateName,
-        );
-    }
-
     private function pageExists($pageFolder, array $currentValues = null)
     {
         // Skips the control when the page name has not been changed
@@ -308,27 +274,6 @@ class PageCollectionManager extends PageCollectionBase
             )
         );
         throw new RuntimeException(json_encode($exception));
-    }
-
-    private function defaultSeo()
-    {
-        $languages = $this->configurationHandler->languages();
-
-        $seo = array();
-        foreach ($languages as $language) {
-            $seo[] = array(
-                "permalink" => str_replace('_', '-', strtolower($language)) . "-" . $this->defaultPageName,
-                "changed_permalinks" => array(),
-                "title" => $this->defaultPageName . '-title',
-                "description" => $this->defaultPageName . '-description',
-                "keywords" => $this->defaultPageName . '-keywords',
-                "sitemap_frequency" => 'monthly',
-                "sitemap_priority" => '0.5',
-                "language" => $language,
-            );
-        }
-
-        return $seo;
     }
 
     private function slugifyPageName(array $values)

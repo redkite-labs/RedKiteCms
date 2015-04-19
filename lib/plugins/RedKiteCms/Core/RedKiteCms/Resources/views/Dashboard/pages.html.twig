@@ -1,6 +1,14 @@
 {%  extends 'RedKiteCms/Resources/views/Dashboard/base.html.twig' %}
 
 {% block content %}
+
+{% block internal_header_javascripts %}
+    {{ parent() }}
+    <script>
+        var template = '{{ home_template }}';
+        var languages = ["{{ languages | join('","') | raw }}"];
+    </script>
+{% endblock %}
 <div id="rkcms-pages-editor-table" data-pages="{{ pages }}">
     <div>
         <h1 class="page-header">Pages</h1>

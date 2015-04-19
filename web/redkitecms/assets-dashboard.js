@@ -1029,6 +1029,720 @@ b,e);e.appendTo(v.createElement("div"));w.fragments={};return e};this.createJava
   return exports;
 }));
 
+/**
+ * Credits for this gist to demoive
+ * https://gist.github.com/demoive/4249710
+ */
+
+/**
+ * Converts a string to a "URL-safe" slug.
+ * Allows for some customization with two optional parameters:
+ *
+ * @param {string} Delimiter used. If not specified, defaults to a dash "-"
+ * @param {array} Adds to the list of non-alphanumeric characters which
+ *   will be converted to the delimiter. The default list includes:
+ *   ['â€“', 'â€”', 'â€•', '~', '\\', '/', '|', '+', '\'', 'â€˜', 'â€™', ' ']
+ */
+if (!String.prototype.slugify) {
+    String.prototype.slugify = function (delimiter, separators) {
+        var i = separators && separators.length,
+            slug = this,
+            delimiter = delimiter || '-',
+            regexEscape = new RegExp(/[[\/\\^$*+?.()|{}\]]/g),
+            regexDelimiter = delimiter.replace(regexEscape, "\\$&"),
+            prohibited = new RegExp("([^a-z0-9" + regexDelimiter + "])", "g"),
+            consecutive = new RegExp("(" + regexDelimiter + "+)", "g"),
+            trim = new RegExp("^" + regexDelimiter + "*(.*?)" + regexDelimiter + "*$"),
+            sanitizer = {
+                // common latin
+                'Ã¡': 'a',
+                'Ã ': 'a',
+                'Ã¢': 'a',
+                'Ã¤': 'a',
+                'Ã£': 'a',
+                'Ã¦': 'ae',
+                'Ã§': 'c',
+                'Ã©': 'e',
+                'Ã¨': 'e',
+                'Ãª': 'e',
+                'Ã«': 'e',
+                'áº½': 'e',
+                'Ã­': 'i',
+                'Ã¬': 'i',
+                'Ã®': 'i',
+                'Ã¯': 'i',
+                'Ä©': 'i',
+                'Ã³': 'o',
+                'Ã²': 'o',
+                'Ã´': 'o',
+                'Ã¶': 'o',
+                'Ãµ': 'o',
+                'Å“': 'oe',
+                'ÃŸ': 'ss',
+                'Ãº': 'u',
+                'Ã¹': 'u',
+                'Ã»': 'u',
+                'Ã¼': 'u',
+                'Å©': 'u',
+
+                // other diacritics
+                'Äƒ': 'a',
+                'áº¯': 'a',
+                'áº±': 'a',
+                'áºµ': 'a',
+                'áº³': 'a',
+                'áº¥': 'a',
+                'áº§': 'a',
+                'áº«': 'a',
+                'áº©': 'a',
+                'ÇŽ': 'a',
+                'Ã¥': 'a',
+                'Ç»': 'a',
+                'ÇŸ': 'a',
+                'È§': 'a',
+                'Ç¡': 'a',
+                'Ä…': 'a',
+                'Ä': 'a',
+                'áº£': 'a',
+                'È': 'a',
+                'Èƒ': 'a',
+                'áº¡': 'a',
+                'áº·': 'a',
+                'áº­': 'a',
+                'á¸': 'a',
+                'â±¥': 'a',
+                'á¶': 'a',
+                'É': 'a',
+                'É‘': 'a',
+
+                'á¸ƒ': 'b',
+                'á¸…': 'b',
+                'á¸‡': 'b',
+                'Æ€': 'b',
+                'É“': 'b',
+                'Æƒ': 'b',
+                'áµ¬': 'b',
+                'á¶€': 'b',
+                'Ã¾': 'b',
+
+                'Ä‡': 'c',
+                'Ä‰': 'c',
+                'Ä': 'c',
+                'Ä‹': 'c',
+                'á¸‰': 'c',
+                'È¼': 'c',
+                'Æˆ': 'c',
+                'É•': 'c',
+
+                'Ä': 'd',
+                'á¸‹': 'd',
+                'á¸‘': 'd',
+                'á¸': 'd',
+                'á¸“': 'd',
+                'á¸': 'd',
+                'Ä‘': 'd',
+                'É–': 'd',
+                'É—': 'd',
+                'ÆŒ': 'd',
+                'áµ­': 'd',
+                'á¶': 'd',
+                'á¶‘': 'd',
+                'È¡': 'd',
+                'âˆ‚': 'd',
+
+                'Ä•': 'e',
+                'áº¿': 'e',
+                'á»': 'e',
+                'á»…': 'e',
+                'á»ƒ': 'e',
+                'Ä›': 'e',
+                'Ä—': 'e',
+                'È©': 'e',
+                'á¸': 'e',
+                'Ä™': 'e',
+                'Ä“': 'e',
+                'á¸—': 'e',
+                'á¸•': 'e',
+                'áº»': 'e',
+                'È…': 'e',
+                'È‡': 'e',
+                'áº¹': 'e',
+                'á»‡': 'e',
+                'á¸™': 'e',
+                'á¸›': 'e',
+                'É‡': 'e',
+                'á¶’': 'e',
+
+                'á¸Ÿ': 'f',
+                'Æ’': 'f',
+                'áµ®': 'f',
+                'á¶‚': 'f',
+
+                'Çµ': 'g',
+                'ÄŸ': 'g',
+                'Ä': 'g',
+                'Ç§': 'g',
+                'Ä¡': 'g',
+                'Ä£': 'g',
+                'á¸¡': 'g',
+                'Ç¥': 'g',
+                'É ': 'g',
+                'á¶ƒ': 'g',
+
+                'Ä¥': 'h',
+                'ÈŸ': 'h',
+                'á¸§': 'h',
+                'á¸£': 'h',
+                'á¸©': 'h',
+                'á¸¥': 'h',
+                'á¸«': 'h',
+                'áº–': 'h',
+                'Ä§': 'h',
+                'â±¨': 'h',
+
+                'Ä­': 'i',
+                'Ç': 'i',
+                'á¸¯': 'i',
+                'Ä¯': 'i',
+                'Ä«': 'i',
+                'á»‰': 'i',
+                'È‰': 'i',
+                'È‹': 'i',
+                'á»‹': 'i',
+                'á¸­': 'i',
+                'É¨': 'i',
+                'áµ»': 'i',
+                'á¶–': 'i',
+                'i': 'i',
+                'Ä±': 'i',
+
+                'Äµ': 'j',
+                'É‰': 'j',
+                'Ç°': 'j',
+                'È·': 'j',
+                'Ê': 'j',
+                'ÉŸ': 'j',
+                'Ê„': 'j',
+
+                'á¸±': 'k',
+                'Ç©': 'k',
+                'Ä·': 'k',
+                'á¸³': 'k',
+                'á¸µ': 'k',
+                'Æ™': 'k',
+                'â±ª': 'k',
+                'á¶„': 'k',
+
+                'Äº': 'l',
+                'Ä¾': 'l',
+                'Ä¼': 'l',
+                'á¸·': 'l',
+                'á¸¹': 'l',
+                'á¸½': 'l',
+                'á¸»': 'l',
+                'Å‚': 'l',
+                'Å€': 'l',
+                'Æš': 'l',
+                'â±¡': 'l',
+                'É«': 'l',
+                'É¬': 'l',
+                'á¶…': 'l',
+                'É­': 'l',
+                'È´': 'l',
+
+                'á¸¿': 'm',
+                'á¹': 'm',
+                'á¹ƒ': 'm',
+                'áµ¯': 'm',
+                'á¶†': 'm',
+                'É±': 'm',
+
+                'Å„': 'n',
+                'Ç¹': 'n',
+                'Åˆ': 'n',
+                'Ã±': 'n',
+                'á¹…': 'n',
+                'Å†': 'n',
+                'á¹‡': 'n',
+                'á¹‹': 'n',
+                'á¹‰': 'n',
+                'nÌˆ': 'n',
+                'É²': 'n',
+                'Æž': 'n',
+                'Å‹': 'n',
+                'áµ°': 'n',
+                'á¶‡': 'n',
+                'É³': 'n',
+                'Èµ': 'n',
+
+                'Å': 'o',
+                'á»‘': 'o',
+                'á»“': 'o',
+                'á»—': 'o',
+                'á»•': 'o',
+                'Ç’': 'o',
+                'È«': 'o',
+                'Å‘': 'o',
+                'á¹': 'o',
+                'á¹': 'o',
+                'È­': 'o',
+                'È¯': 'o',
+                'Í˜oÍ˜': 'o',
+                'È±': 'o',
+                'Ã¸': 'o',
+                'Ç¿': 'o',
+                'Ç«': 'o',
+                'Ç­': 'o',
+                'Å': 'o',
+                'á¹“': 'o',
+                'á¹‘': 'o',
+                'á»': 'o',
+                'È': 'o',
+                'È': 'o',
+                'Æ¡': 'o',
+                'á»›': 'o',
+                'á»': 'o',
+                'á»¡': 'o',
+                'á»Ÿ': 'o',
+                'á»£': 'o',
+                'á»': 'o',
+                'á»™': 'o',
+                'Éµ': 'o',
+                'É”': 'o',
+
+                'á¹•': 'p',
+                'á¹—': 'p',
+                'áµ½': 'p',
+                'Æ¥': 'p',
+                'pÌƒ': 'p',
+                'áµ±': 'p',
+                'á¶ˆ': 'p',
+
+                'É‹': 'q',
+                'Æ£': 'q',
+                'Ê ': 'q',
+
+                'Å•': 'r',
+                'Å™': 'r',
+                'á¹™': 'r',
+                'Å—': 'r',
+                'È‘': 'r',
+                'È“': 'r',
+                'á¹›': 'r',
+                'á¹': 'r',
+                'á¹Ÿ': 'r',
+                'É': 'r',
+                'É½': 'r',
+                'áµ²': 'r',
+                'á¶‰': 'r',
+                'É¼': 'r',
+                'É¾': 'r',
+                'áµ³': 'r',
+
+                'Å›': 's',
+                'á¹¥': 's',
+                'Å': 's',
+                'Å¡': 's',
+                'á¹§': 's',
+                'á¹¡áº›': 's',
+                'ÅŸ': 's',
+                'á¹£': 's',
+                'á¹©': 's',
+                'È™': 's',
+                'sÌ©': 's',
+                'áµ´': 's',
+                'á¶Š': 's',
+                'Ê‚': 's',
+                'È¿': 's',
+                'Ð³': 's',
+
+                'Å¥': 't',
+                'á¹«': 't',
+                'Å£': 't',
+                'á¹­': 't',
+                'È›': 't',
+                'á¹±': 't',
+                'á¹¯': 't',
+                'Å§': 't',
+                'â±¦': 't',
+                'Æ­': 't',
+                'Êˆ': 't',
+                'Ìˆáº—': 't',
+                'áµµ': 't',
+                'Æ«': 't',
+                'È¶': 't',
+
+                'Å­': 'u',
+                'Ç”': 'u',
+                'Å¯': 'u',
+                'Ç˜': 'u',
+                'Çœ': 'u',
+                'Çš': 'u',
+                'Ç–': 'u',
+                'Å±': 'u',
+                'á¹¹': 'u',
+                'Å³': 'u',
+                'Å«': 'u',
+                'á¹»': 'u',
+                'á»§': 'u',
+                'È•': 'u',
+                'È—': 'u',
+                'Æ°': 'u',
+                'á»©': 'u',
+                'á»«': 'u',
+                'á»¯': 'u',
+                'á»­': 'u',
+                'á»±': 'u',
+                'á»¥': 'u',
+                'á¹³': 'u',
+                'á¹·': 'u',
+                'á¹µ': 'u',
+                'Ê‰': 'u',
+                'áµ¾': 'u',
+                'á¶™': 'u',
+
+                'á¹½': 'v',
+                'á¹¿': 'v',
+                'Ê‹': 'v',
+                'á¶Œ': 'v',
+                'â±´': 'v',
+
+                'áºƒ': 'w',
+                'áº': 'w',
+                'Åµ': 'w',
+                'áº…': 'w',
+                'áº‡': 'w',
+                'áº‰': 'w',
+                'áº˜': 'w',
+
+                'áº': 'x',
+                'áº‹': 'x',
+                'á¶': 'x',
+
+                'Ã½': 'y',
+                'á»³': 'y',
+                'Å·': 'y',
+                'áº™': 'y',
+                'Ã¿': 'y',
+                'á»¹': 'y',
+                'áº': 'y',
+                'È³': 'y',
+                'á»·': 'y',
+                'á»µ': 'y',
+                'É': 'y',
+                'Æ´': 'y',
+                'Ê': 'y',
+
+                'Åº': 'z',
+                'áº‘': 'z',
+                'Å¾': 'z',
+                'Å¼': 'z',
+                'áº“': 'z',
+                'áº•': 'z',
+                'Æ¶': 'z',
+                'È¥': 'z',
+                'â±¬': 'z',
+                'áµ¶': 'z',
+                'á¶Ž': 'z',
+                'Ê': 'z',
+                'Ê‘': 'z',
+                'É€': 'z',
+
+                // greek
+                'Î±': 'a',
+                'Î²': 'b',
+                'Î³': 'g',
+                'É£': 'g',
+                'Î´': 'd',
+                'Ã°': 'd',
+                'Îµ': 'e',
+                'Î¶': 'z',
+                'Î·': 'i',
+                'Î¸': 'th',
+                'Î¹': 'i',
+                'Îº': 'k',
+                'Î»': 'l',
+                'Î¼': 'm',
+                'Âµ': 'm',
+                'Î½': 'n',
+                'Î¾': 'x',
+                'Î¿': 'o',
+                'Ï€': 'p',
+                'Ï': 'r',
+                'Ïƒ': 's',
+                'Ï‚': 's',
+                'Ï„': 't',
+                'Ï…': 'u', // official rule: if preceeded by 'Î±' OR 'Îµ' => 'v', by 'Î¿' => 'u', else => 'i'
+                'Ï†': 'f',
+                'Ï‡': 'ch',
+                'Ïˆ': 'ps',
+                'Ï‰': 'o',
+
+                // greek diacritics
+                'á¾³': 'a',
+                'Î¬': 'a',
+                'á½°': 'a',
+                'á¾´': 'a',
+                'á¾²': 'a',
+                'á¾¶': 'a',
+                'á¾·': 'a',
+                'á¼€': 'a',
+                'á¾€': 'a',
+                'á¼„': 'a',
+                'á¾„': 'a',
+                'á¼‚': 'a',
+                'á¾‚': 'a',
+                'á¼†': 'a',
+                'á¾†': 'a',
+                'á¼': 'a',
+                'á¾': 'a',
+                'á¼…': 'a',
+                'á¾…': 'a',
+                'á¼ƒ': 'a',
+                'á¾ƒ': 'a',
+                'á¼‡': 'a',
+                'á¾‡': 'a',
+                'á¾±': 'a',
+                'á¾°': 'a',
+
+                'Î­': 'e',
+                'á½²': 'e',
+                'á¼': 'e',
+                'á¼”': 'e',
+                'á¼’': 'e',
+                'á¼‘': 'e',
+                'á¼•': 'e',
+                'á¼“': 'e',
+
+                'á¿ƒ': 'i',
+                'Î®': 'i',
+                'á½´': 'i',
+                'á¿„': 'i',
+                'á¿‚': 'i',
+                'á¿†': 'i',
+                'á¿‡': 'i',
+                'á¼ ': 'i',
+                'á¾': 'i',
+                'á¼¤': 'i',
+                'á¾”': 'i',
+                'á¼¢': 'i',
+                'á¾’': 'i',
+                'á¼¦': 'i',
+                'á¾–': 'i',
+                'á¼¡': 'i',
+                'á¾‘': 'i',
+                'á¼¥': 'i',
+                'á¾•': 'i',
+                'á¼£': 'i',
+                'á¾“': 'i',
+                'á¼§': 'i',
+                'á¾—': 'i',
+
+                'Î¯': 'i',
+                'á½¶': 'i',
+                'á¿–': 'i',
+                'á¼°': 'i',
+                'á¼´': 'i',
+                'á¼²': 'i',
+                'á¼¶': 'i',
+                'á¼±': 'i',
+                'á¼µ': 'i',
+                'á¼³': 'i',
+                'á¼·': 'i',
+                'ÏŠ': 'i',
+                'Î': 'i',
+                'á¿’': 'i',
+                'á¿—': 'i',
+                'á¿‘': 'i',
+                'á¿': 'i',
+
+                'ÏŒ': 'o',
+                'á½¸': 'o',
+                'á½€': 'o',
+                'á½„': 'o',
+                'á½‚': 'o',
+                'á½': 'o',
+                'á½…': 'o',
+                'á½ƒ': 'o',
+
+                'Ï': 'u',
+                'á½º': 'u',
+                'á¿¦': 'u',
+                'á½': 'u',
+                'á½”': 'u',
+                'á½’': 'u',
+                'á½–': 'u',
+                'á½‘': 'u',
+                'á½•': 'u',
+                'á½“': 'u',
+                'á½—': 'u',
+                'Ï‹': 'u',
+                'Î°': 'u',
+                'á¿¢': 'u',
+                'á¿§': 'u',
+                'á¿¡': 'u',
+                'á¿ ': 'u',
+
+                'á¿³': 'o',
+                'ÏŽ': 'o',
+                'á¿´': 'o',
+                'á½¼': 'o',
+                'á¿²': 'o',
+                'á¿¶': 'o',
+                'á¿·': 'o',
+                'á½ ': 'o',
+                'á¾ ': 'o',
+                'á½¤': 'o',
+                'á¾¤': 'o',
+                'á½¢': 'o',
+                'á¾¢': 'o',
+                'á½¦': 'o',
+                'á¾¦': 'o',
+                'á½¡': 'o',
+                'á¾¡': 'o',
+                'á½¥': 'o',
+                'á¾¥': 'o',
+                'á½£': 'o',
+                'á¾£': 'o',
+                'á½§': 'o',
+                'á¾§': 'o',
+
+                'á¿¤': 'r',
+                'á¿¥': 'r',
+
+                // cyrillic (russian)
+                'Ð°': 'a',
+                'Ð±': 'b',
+                'Ð²': 'v',
+                'Ð³': 'g',
+                'Ð´': 'd',
+                'Ðµ': 'e',
+                'Ñ‘': 'e',
+                'Ð¶': 'zh',
+                'Ð·': 'z',
+                'Ð¸': 'i',
+                'Ð¹': 'j',
+                'Ðº': 'k',
+                'Ð»': 'l',
+                'Ð¼': 'm',
+                'Ð½': 'n',
+                'Ð¾': 'o',
+                'Ð¿': 'p',
+                'Ñ€': 'r',
+                'Ñ': 's',
+                'Ñ‚': 't',
+                'Ñƒ': 'u',
+                'Ñ„': 'f',
+                'Ñ…': 'h',
+                'Ñ†': 'ts',
+                'Ñ‡': 'ch',
+                'Ñˆ': 'sh',
+                'Ñ‰': 'sh',
+                'ÑŠ': '',
+                'Ñ‹': 'i',
+                'ÑŒ': '',
+                'Ñ': 'e',
+                'ÑŽ': 'yu',
+                'Ñ': 'ya',
+                // ---
+                'Ñ–': 'j',
+                'Ñ³': 'f',
+                'Ñ£': 'e',
+                'Ñµ': 'i',
+                'Ñ•': 'z',
+                'Ñ¯': 'ks',
+                'Ñ±': 'ps',
+                'Ñ¡': 'o',
+                'Ñ«': 'yu',
+                'Ñ§': 'ya',
+                'Ñ­': 'yu',
+                'Ñ©': 'ya',
+
+                // currency
+                /*
+                 'â‚³': 'ARA',
+                 'à¸¿': 'THB',
+                 'â‚µ': 'GHS',
+                 'Â¢': 'c',
+                 'â‚¡': 'CRC',
+                 'â‚¢': 'Cr',
+                 'â‚ ': 'XEU',
+                 '$': 'USD',
+                 'â‚«': 'VND',
+                 'à§³': 'BDT',
+                 'â‚¯': 'GRD',
+                 'â‚¬': 'EUR',
+                 'â‚£': 'FRF',
+                 'â‚²': 'PYG',
+                 'â‚´': 'HRN',
+                 'â‚­': 'LAK',
+                 'â‚¦': 'NGN',
+                 'â‚§': 'ESP',
+                 'â‚±': 'PhP',
+                 'Â£': 'GBP',
+                 'â‚¤': 'GBP',
+                 'â‚¨': 'Rs',
+                 'â‚ª': 'NS',
+                 'â‚®': 'MNT',
+                 'â‚©': 'WON',
+                 'Â¥': 'YEN',
+                 'áŸ›': 'KHR',
+                 //*/
+
+                // fractions
+                /*
+                 'â…›': '',
+                 'â…™': '',
+                 'â…•': '',
+                 'Â¼': '',
+                 'â…“': '',
+                 'â…œ': '',
+                 'â…–': '',
+                 'Â½': '',
+                 'â…—': '',
+                 'â…': '',
+                 'â…”': '',
+                 'Â¾': '',
+                 'â…˜': '',
+                 'â…š': '',
+                 'â…ž': '',
+                 //*/
+
+                // separators
+                'â€“': delimiter,
+                'â€”': delimiter,
+                'â€•': delimiter,
+                '~': delimiter,
+                '/': delimiter,
+                '\\': delimiter,
+                '|': delimiter,
+                '+': delimiter,
+                'â€˜': delimiter,
+                'â€™': delimiter,
+                '\'': delimiter,
+                ' ': delimiter,
+
+                // permitted by default but can be overridden
+                '-': '-',
+                '_': '_'
+            };
+
+        // add any user-defined separator elements
+        if (separators) {
+            for (i; i >= 0; --i) {
+                sanitizer[separators[i]] = delimiter;
+            }
+        }
+
+        // do all the replacements
+        slug = slug.toLowerCase(); // if we don't do this, add the uppercase versions to the sanitizer plus inlcude A-Z in the prohibited filter
+        slug = slug.replace(prohibited, function (match) { return sanitizer[match] || ''; });
+        slug = slug.replace(consecutive, delimiter);
+        slug = slug.replace(trim, "$1");
+
+        return slug;
+    }
+}
 /*
  * metismenu - v1.0.3
  * Easy menu jQuery plugin for Twitter Bootstrap 3
@@ -1083,94 +1797,17 @@ $(function() {
  *
  */
 
-var SeoModel = function (seo)
+function executeAjax(url, data, successCallback, failureCallback, completeCallback, async)
 {
-    var self = this;
-    DockableModel.call(self);
-
-    var seoData = ko.utils.parseJson(seo);
-    self.permalink = seoData.permalink;
-    self.title = ko.observable(seoData.title);
-    self.description = ko.observable(seoData.description);
-    self.keywords = ko.observable(seoData.keywords);
-    self.sitemapFrequency = ko.observable(seoData.sitemap_frequency);
-    self.sitemapPriority = ko.observable(seoData.sitemap_priority);
-    self.currentPermalink = seoData.current_permalink;
-    self.changedPermalinks = seoData.changed_permalinks;
-    self.toggleBlocksEditor = ko.observable(false);
-
-    _prepareSeoData = function()
-    {
-        return {
-            "permalink": self.permalink,
-            "title": self.title,
-            "description": self.description,
-            "keywords": self.keywords,
-            "sitemap_frequency": self.sitemapFrequency,
-            "sitemap_priority": self.sitemapPriority,
-            "language": language + '_' + country,
-            "current_permalink": self.currentPermalink,
-            "changed_permalinks": self.changedPermalinks
-        }
+    if (async == undefined) {
+        async = true;
     }
-};
 
-SeoModel.prototype = Object.create(DockableModel.prototype);
-SeoModel.prototype.constructor = SeoModel;
-
-SeoModel.prototype.toggle = function()
-{
-    this.toggleBlocksEditor(!this.toggleBlocksEditor());
-};
-
-SeoModel.prototype.editSeo = function()
-{
-    var url = frontcontroller + '/backend/page/edit';
-    var data = {
-        'page-name': page,
-        'seo-data': _prepareSeoData()
-    };
-
-    executeAjax(url, data);
-};
-
-SeoModel.prototype.approve = function()
-{
-    var url = frontcontroller + '/backend/page/approve';
-    var data = {
-        'pageName': page,
-        'seo-data': _prepareSeoData()
-    };
-
-    var message = redkitecmsDomain.frontend_confirm_seo_approved;
-    confirmDialog(message, function(){
-        executeAjax(url, data);
-    });
-
-
-};
-/**
- * This file is part of the RedKite CMS Application and it is distributed
- * under the GPL LICENSE Version 2.0. To use this application you must leave
- * intact this copyright notice.
- *
- * Copyright (c) RedKite Labs <info@redkite-labs.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
- * For extra documentation and help please visit http://www.redkite-labs.com
- *
- * @license    GPL LICENSE Version 2.0
- *
- */
-
-function executeAjax(url, data, successCallback, failureCallback, completeCallback)
-{
     $.ajax({
         type: 'POST',
         url: url,
         data: data,
+        async: async,
         beforeSend: function() {
             $('.rkcms-saving-progress').show();
         },
@@ -1421,6 +2058,135 @@ HighlightableModel.prototype.activate = function(value)
  *
  */
 
+var SeoModel = function (seo)
+{
+    var self = this;
+    DockableModel.call(self);
+
+    var seoData = ko.utils.parseJson(seo);
+    self.permalink = seoData.permalink;
+    self.title = ko.observable(seoData.title);
+    self.description = ko.observable(seoData.description);
+    self.keywords = ko.observable(seoData.keywords);
+    self.sitemapFrequency = ko.observable(seoData.sitemap_frequency);
+    self.sitemapPriority = ko.observable(seoData.sitemap_priority);
+    self.currentPermalink = seoData.current_permalink;
+    self.changedPermalinks = seoData.changed_permalinks;
+    self.toggleBlocksEditor = ko.observable(false);
+
+    _prepareSeoData = function()
+    {
+        return {
+            "permalink": self.permalink,
+            "title": self.title,
+            "description": self.description,
+            "keywords": self.keywords,
+            "sitemap_frequency": self.sitemapFrequency,
+            "sitemap_priority": self.sitemapPriority,
+            "language": language + '_' + country,
+            "current_permalink": self.currentPermalink,
+            "changed_permalinks": self.changedPermalinks
+        }
+    }
+};
+
+SeoModel.prototype = Object.create(DockableModel.prototype);
+SeoModel.prototype.constructor = SeoModel;
+
+SeoModel.prototype.toggle = function()
+{
+    this.toggleBlocksEditor(!this.toggleBlocksEditor());
+};
+
+SeoModel.prototype.editSeo = function()
+{
+    queue['rkcms-edit-seo'] = {
+        'entity' : 'seo',
+        'action' : 'edit',
+        'data' :  {
+            'pageName': page,
+            'seoData': _prepareSeoData()
+        }
+    };
+
+    /*
+    var url = frontcontroller + '/backend/page/edit';
+    var data = {
+        'page-name': page,
+        'seo-data': _prepareSeoData()
+    };
+
+    executeAjax(url, data);*/
+};
+
+SeoModel.prototype.approve = function()
+{
+    var url = frontcontroller + '/backend/page/approve';
+    var data = {
+        'pageName': page,
+        'seo-data': _prepareSeoData()
+    };
+
+    var message = redkitecmsDomain.frontend_confirm_seo_approved;
+    confirmDialog(message, function(){
+        saveQueue();
+        executeAjax(url, data);
+    });
+
+
+};
+/**
+ * This file is part of the RedKite CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.redkite-labs.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+
+var queue = {};
+
+window.onbeforeunload = function (e) {
+    saveQueue();
+};
+
+saveQueue = function(){
+    if (Object.keys(queue).length === 0) {
+        return;
+    }
+
+    var url = frontcontroller + '/backend/queue/save';
+    executeAjax(url,
+        {"queue": queue},
+        null,
+        null,
+        null,
+        false
+    );
+};
+/**
+ * This file is part of the RedKite CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.redkite-labs.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+
 $(document).ready(function()
 {
     $('#rkcms-pages-editor-table').each(function(){
@@ -1471,38 +2237,54 @@ var PageCollectionModel = function (pages)
 
     self.add = function(view, event)
     {
+        var index = 1;
+        ko.utils.arrayForEach(self.pages(), function(page){
+            var n = page.currentName;
+            if(/new-page/g.exec(n)) {
+                index++;
+            }
+        });
+
+        var seo = [];
+        var pageName = 'new-page-' + index;
+        ko.utils.arrayForEach(languages, function(language){
+            var permalink = language.toLowerCase().replace(/_/g, '-') + '-' + pageName;
+            seo.push(
+                {
+                    'permalink': permalink,
+                    'title': pageName + '-title',
+                    'description': pageName + '-description',
+                    'keywords': pageName + '-keywords',
+                    'language': language,
+                    'sitemap_frequency': 'monthly',
+                    'sitemap_priority': '0.5'
+                }
+            );
+        });
+        var page = {
+            'name': pageName,
+            'currentName': pageName,
+            'template': template,
+            'isHome': false,
+            'seo': seo
+        };
+        initPage(page);
+        self.pages.push(page);
+
+        queue['rkcms-add-page-' + pageName] = {
+            'entity' : 'page',
+            'action' : 'add',
+            'data' :  page
+        };
+        /*
         var url = frontcontroller + '/backend/page/collection/add';
         executeAjax(url, {},
             function(response) {
                 initPage(response);
                 self.pages.push(response);
             }
-        );
+        );*/
 
-    };
-
-    self.editSeo = function(seo, event)
-    {
-        var url = frontcontroller + '/backend/page/edit';
-        var seoData = $.extend({}, seo);
-        seoData.permalink = seo.permalink();
-        var data = {
-            'page-name': self.activePage.name(),
-            'seo-data': seoData
-        };
-
-        executeAjax(url, data,
-            function(response) {
-                if(seo.permalink != response.permalink){
-                    seo.permalink(response.permalink);
-                }
-            }
-        );
-    };
-
-    self.navigate = function(seo, event)
-    {
-        location.href = frontcontroller + "/backend/" + seo.permalink();
     };
 
     self.editPage = function(page)
@@ -1515,9 +2297,26 @@ var PageCollectionModel = function (pages)
             return;
         }
 
-        var pageClone = $.extend({}, page);
-        delete pageClone.seo;
-        delete pageClone.showDetails;
+        var pageName = page.name().slugify();
+        if (pageName != page.name()) {
+            page.name(pageName);
+        }
+        var data = {
+            'name': pageName,
+            'template': page.template,
+            'isHome': page.isHome(),
+            'currentName': page.currentName
+        };
+        queue['rkcms-edit-page-' + page.currentName] = {
+            'entity' : 'page',
+            'action' : 'edit',
+            'data' :  data
+        };
+
+        /*
+         var pageClone = $.extend({}, page);
+         delete pageClone.seo;
+         delete pageClone.showDetails;
 
         var url = frontcontroller + '/backend/page/collection/edit';
         var data = {
@@ -1536,15 +2335,33 @@ var PageCollectionModel = function (pages)
                 page.name(page.currentName);
                 alertDialog(error.responseText, null, 'danger');
             }
-        );
+        );*/
     };
 
     self.remove = function(page)
     {
+        if (page.isHome()) {
+            alertDialog(redkitecmsDomain.frontend_homepage_cannot_be_removed, null, 'danger');
+
+            return;
+        }
         var message = redkitecmsDomain.frontend_confirm_page_remove;
         confirmDialog(message, function(){
             var pageIndex = self.pages.indexOf(page);
-            self.pages.remove(page);
+            self.pages.splice(pageIndex, 1);
+            var pageName = page.name();
+            var data = {
+                'name': pageName
+            };
+            queue['rkcms-remove-page-' + page.currentName] = {
+                'entity' : 'page',
+                'action' : 'remove',
+                'data' :  data
+            };
+
+            //self.pages.remove(page);
+
+            /*
             var url = frontcontroller + '/backend/page/collection/remove';
             var data = {
                 'page-data': page
@@ -1559,8 +2376,52 @@ var PageCollectionModel = function (pages)
 
                     alertDialog(response.responseText, null, 'error');
                 }
-            );
+            );*/
         });
+    };
+
+    self.editSeo = function(seo, event)
+    {
+        var permalink = seo.permalink().slugify();
+        if (permalink != seo.permalink()) {
+            seo.permalink(permalink);
+        }
+
+        var seoData = $.extend({}, seo);
+        seoData.permalink = permalink;
+        var pageName = self.activePage.name();
+        var data = {
+            'pageName': pageName,
+            'seoData': seoData
+        };
+
+        queue['rkcms-edit-permalink-' + pageName] = {
+            'entity' : 'seo',
+            'action' : 'edit',
+            'data' :  data
+        };
+
+        /*
+         var url = frontcontroller + '/backend/page/edit';
+         var seoData = $.extend({}, seo);
+         seoData.permalink = seo.permalink();
+         var data = {
+         'page-name': self.activePage.name(),
+         'seo-data': seoData
+         };
+
+         executeAjax(url, data,
+         function(response) {
+         if(seo.permalink != response.permalink){
+         seo.permalink(response.permalink);
+         }
+         }
+         );*/
+    };
+
+    self.navigate = function(seo, event)
+    {
+        location.href = frontcontroller + "/backend/" + seo.permalink();
     };
 
     function pageExists(page, pages)

@@ -41,6 +41,8 @@ class DashboardController extends BaseDashboardController
         $options = array(
             'template_assets' => $app["red_kite_cms.template_assets"],
             'twig' => $app["twig"],
+            'request' => $app["request"],
+            'routes' => $app["red_kite_cms.website_routes"],
         );
 
         return parent::show($options);

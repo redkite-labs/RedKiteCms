@@ -111,7 +111,6 @@ class Slot extends Entity implements RenderableInterface
             $this->productionDir,
             $this->slotName
         );
-        $this->next = $slot["next"];
         $this->productionEntities = $slot["blocks"];
 
         $slot = $this->slotParser->fetchBlocks(
@@ -119,6 +118,8 @@ class Slot extends Entity implements RenderableInterface
             $this->contributorDir,
             $this->slotName
         );
+
+        $this->next = $slot["next"];
         $this->contributorEntities = $slot["blocks"];
     }
 }

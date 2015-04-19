@@ -9,7 +9,7 @@
         </trans-unit>
         <trans-unit id="exception_homepage_cannot_be_removed">
             <source>exception_homepage_cannot_be_removed</source>
-            <target>You cannot remove the website homepage</target>
+            <target>The website homepage cannot be removed</target>
         </trans-unit>
         <trans-unit id="exception_contributor_not_defined">
             <source>exception_contributor_not_defined</source>

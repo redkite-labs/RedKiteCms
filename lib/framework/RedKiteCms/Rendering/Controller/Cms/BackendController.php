@@ -44,10 +44,11 @@ abstract class BackendController extends FrontendController
         $this->configureOptions($resolver);
         $this->options = $resolver->resolve($options);
 
+        $this->configuration = $this->options['red_kite_cms_config'];
         $request = $this->options["request"];
         $request->getSession()->set('last_route', $request->get('_route'));
+        $request->getSession()->set('last_uri', $request->getUri());
 
-        $this->configuration = $this->options["red_kite_cms_config"];
         $page = $this->renderPage();
         $params = $this->configureRendererOptions($page);
 

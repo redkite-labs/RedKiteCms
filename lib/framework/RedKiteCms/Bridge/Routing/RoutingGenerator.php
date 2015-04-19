@@ -53,6 +53,13 @@ class RoutingGenerator
      * @type string
      */
     private $explicitHomepageRoute = false;
+    /**
+     * @type array
+     */
+    private $routes = array(
+        "homepage" => "",
+        "pages" => array(),
+    );
 
     /**
      * Constructor
@@ -63,6 +70,15 @@ class RoutingGenerator
     {
         $this->configurationHandler = $configurationHandler;
     }
+
+    /**
+     * @return array
+     */
+    public function getRoutes()
+    {
+        return $this->routes;
+    }
+
 
     /**
      * Sets the route pattern
@@ -145,15 +161,16 @@ class RoutingGenerator
         );
 
         if (!$this->explicitHomepageRoute) {
-            $routeName = '_' . $homepageValues["_locale"] . '_' . $homepageValues["country"] . '_' . $homepageValues["page"];
+            $hpRouteName = '_' . $homepageValues["_locale"] . '_' . $homepageValues["country"] . '_' . $homepageValues["page"];
             $routes[] = array(
                 'pattern' => $this->pattern,
                 'controller' => $this->frontController,
                 'method' => array('get'),
                 'value' => $homepageValues,
-                'bind' => $this->bindPrefix . $routeName,
+                'bind' => $hpRouteName,
             );
         }
+
 
         $finder = new Finder();
         $seoFileName = 'seo.json';
@@ -201,6 +218,12 @@ class RoutingGenerator
                     'value' => $values,
                     'bind' => $this->bindPrefix . $routeName,
                 );
+
+                $route = 'GET_backend_' . str_replace("-", "_", $pageValues["permalink"]);
+                $this->routes["pages"][] = $route;
+                if ($homepageValues == $values){
+                    $this->routes["homepage"] = $route;
+                }
             }
         }
 

@@ -42,13 +42,18 @@ abstract class DashboardController extends BaseFrontendController
         $this->options = $resolver->resolve($options);
         $this->options["template_assets"]->boot('dashboard');
 
-        $template = 'RedKiteCms/Resources/views/Dashboard/home.html.twig';
+        $backRoute = $this->options["request"]->getSession()->get('last_route');
+        if (!in_array($backRoute, $this->options["routes"]["pages"])) {
+            $backRoute = $this->options["routes"]["homepage"];
+        }
 
+        $template = 'RedKiteCms/Resources/views/Dashboard/home.html.twig';
         return $options["twig"]->render(
             $template,
             array(
                 "template_assets_manager" => $this->options["template_assets"],
                 "version" => ConfigurationHandler::getVersion(),
+                "back_route" => $backRoute,
             )
         );
     }
@@ -63,6 +68,8 @@ abstract class DashboardController extends BaseFrontendController
             array(
                 'template_assets',
                 'twig',
+                'request',
+                'routes'
             )
         );
 
@@ -70,6 +77,8 @@ abstract class DashboardController extends BaseFrontendController
             array(
                 'template_assets' => '\RedKiteCms\Rendering\TemplateAssetsManager\TemplateAssetsManager',
                 'twig' => '\Twig_Environment',
+                'request' => '\Symfony\Component\HttpFoundation\Request',
+                'routes' => 'array',
             )
         );
     }

@@ -68,6 +68,7 @@ use RedKiteCms\FilesystemEntity\SlotParser;
 use RedKiteCms\Plugin\PluginManager;
 use RedKiteCms\Rendering\PageRenderer\PageRendererBackend;
 use RedKiteCms\Rendering\PageRenderer\PageRendererProduction;
+use RedKiteCms\Rendering\Queue\QueueManager;
 use RedKiteCms\Rendering\TemplateAssetsManager\TemplateAssetsManager;
 use RedKiteCms\Rendering\Toolbar\ToolbarManager;
 use Silex\Application;
@@ -356,6 +357,7 @@ abstract class RedKiteCms
         $this->app["red_kite_cms.theme_aligner"] = new ThemeAligner($this->app["red_kite_cms.configuration_handler"]);
         $this->app["red_kite_cms.theme_deployer"] = new ThemeDeployer($this->app["red_kite_cms.configuration_handler"]);
         $this->app["red_kite_cms.factory_action"] = new FactoryAction($this->app);
+        $this->app["red_kite_cms.queue_manager"] = new QueueManager($this->app["red_kite_cms.configuration_handler"], $this->app["red_kite_cms.factory_action"], $this->app["twig"]);
     }
 
     private function checkPermissions($rootDir)
@@ -393,7 +395,7 @@ abstract class RedKiteCms
 
         $this->app["dispatcher"]->addListener(
             'kernel.request',
-            array(new QueueListener($this->app["red_kite_cms.configuration_handler"], $this->app["red_kite_cms.factory_action"], $this->app["security"]), 'onKernelRequest')
+            array(new QueueListener($this->app["red_kite_cms.queue_manager"], $this->app["security"]), 'onKernelRequest')
         );
 
         $this->app["dispatcher"]->addListener(
@@ -467,13 +469,28 @@ abstract class RedKiteCms
                 $user = 'admin';
             }
 
+            $language = "en_GB";
             $pages = $theme->getPages();
             $this->app["red_kite_cms.page_collection_manager"]->contributor($user);
             $theme = $this->app["red_kite_cms.theme"];
-            foreach($pages as $page => $template) {
+            foreach($pages as $pageName => $templateName) {
+                $page = array(
+                    "name" => $pageName,
+                    "template" => $templateName,
+                    "seo" => array(
+                        array(
+                        "permalink" => str_replace('_', '-', strtolower($language)) . "-" . $pageName,
+                        "changed_permalinks" => array(),
+                        "title" => $pageName . '-title',
+                        "description" => $pageName . '-description',
+                        "keywords" => $pageName . '-keywords',
+                        "sitemap_frequency" => 'monthly',
+                        "sitemap_priority" => '0.5',
+                        "language" => $language,
+                    ),)
+                );
                 $this->app["red_kite_cms.page_collection_manager"]
-                    ->setDefaultPageName($page)
-                    ->add($theme, $template)
+                    ->add($theme, $page)
                 ;
             }
             $this->app["red_kite_cms.slots_generator"]->generate();
@@ -716,5 +733,7 @@ abstract class RedKiteCms
                 ->contributor($user)
                 ->generate();
         $this->routingServiceProvider->addRoutes($this->app, $websitePageRoutes);
+
+        $this->app["red_kite_cms.website_routes"] = $routingGenerator->getRoutes();
     }
 }
