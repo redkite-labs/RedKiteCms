@@ -4999,12 +4999,11 @@ var BlockEditorModel = function ()
         return self.history().length == 0;
     });
 
-    _add = function(direction, transactionIcon)
+    _add = function(direction)
     {
         var model = self.activeModel;
         $(document).trigger("rkcms.event.adding_block", [ model ]);
 
-        //transactionIcon(true);
         var block = model.block;
         var blocks = model.parent.blocks;
 
@@ -5020,8 +5019,6 @@ var BlockEditorModel = function ()
         objBlock.name = 'block' + next;
         objBlock.slot_name = block.slot_name;
 
-        //var url = frontcontroller + '/backend/block/add';
-
         queue['rkcms-block-add-'  + model.slotName + '-' +  objBlock.name] = {
             'entity' : 'block',
             'action' : 'add',
@@ -5036,31 +5033,12 @@ var BlockEditorModel = function ()
                 'direction': direction
             }
         };
-        //localStorage.clear();console.log(queue['rkcms-block-'  + model.slotName + '-' +  objBlock.name]);
-        //localStorage.setItem('queue', JSON.stringify(queue));
 
         blocks.splice(position, 0, objBlock);
         $(document).trigger("rkcms.event.block_added", [ model ]);
-/*
-        executeAjax(url, data,
-            function(response)
-            {
-                response.slot_name = block.slot_name;
-                response.is_new = true;
-                blocks.splice(position, 0, response);
-                model.resize();
-
-                $(document).trigger("rkcms.event.block_added", [ model, response ]);
-            },
-            null,
-            function()
-            {
-                transactionIcon(false);
-            }
-        );*/
     }.bind(self);
 
-    _remove = function(event, transactionRemove)
+    _remove = function(event)
     {
         var model = this.activeModel;
         queue['rkcms-block-'  + model.slotName + '-' +  model.name] = {
@@ -5075,38 +5053,8 @@ var BlockEditorModel = function ()
             }
         };
 
-        //localStorage.setItem('queue', JSON.stringify(queue));
         model.parent.blocks.remove(model.block);
         self.closeEditor();
-
-
-        /*
-        var model = self.activeModel;
-        $(document).trigger("rkcms.event.removing_block", [ model, event ]);
-
-        transactionRemove(true);
-        model.parent.blocks.remove(model.block);
-
-        var url = frontcontroller + '/backend/block/remove';
-        var data = {
-            'name': model.name,
-            'slot': model.slotName,
-            'page':  page,
-            'language': language,
-            'country': country
-        };
-        executeAjax(url, data,
-            function(response)
-            {
-                self.closeEditor();
-                $(document).trigger("rkcms.event.block_removed", [ model, event ]);
-            },
-            null,
-            function()
-            {
-                transactionRemove(false);
-            }
-        );*/
     }.bind(self);
 
     _closeAvailableBlocksPanel = function()
@@ -5217,12 +5165,12 @@ BlockEditorModel.prototype.closePanel = function()
 
 BlockEditorModel.prototype.addTop = function()
 {
-    _add('top', this.transactionAddTop);
+    _add('top');
 };
 
 BlockEditorModel.prototype.addBottom = function(view, event)
 {
-    _add('bottom', this.transactionAddBottom);
+    _add('bottom');
 };
 
 Number.prototype.padLeft = function (n,str){
@@ -5264,44 +5212,6 @@ BlockEditorModel.prototype.edit = function()
             }
         };
     }
-
-    //localStorage.setItem('queue', JSON.stringify(queue));
-
-    /*
-    var a = JSON.parse(localStorage.getItem('queue'));
-    var url = frontcontroller + '/backend/block/edit';
-    executeAjax(url, {"queue": a},
-        function(response)
-        {
-        }
-    );*/
-
-    //console.log(localStorage.getItem('rkcms-block-' + model.name));
-    /*
-    var self = this;
-    var model = this.activeModel;
-    $(document).trigger("rkcms.event.editing_block", [ model ]);
-
-    var url = frontcontroller + '/backend/block/edit';
-    var data = {
-        'name': model.name,
-        'type': model.type,
-        'slot': model.slotName,
-        'page':  page,
-        'language': language,
-        'country': country,
-        'data': model.blockToJson()
-    };
-    executeAjax(url, data,
-        function(response)
-        {
-            model.initHistory(response.history, model);
-
-            self.history(model.history());
-
-            $(document).trigger("rkcms.event.block_edited", [ model, response ]);
-        }
-    );*/
 };
 
 BlockEditorModel.prototype.remove = function(view, event)
@@ -5329,18 +5239,6 @@ BlockEditorModel.prototype.undoRestoration = function ()
     $('.rkcms-selected-block').removeClass('rkcms-selected-block');
     this.activeModel.activeListItemBlock.isDirty = false;
 };
-
-/*
-BlockEditorModel.prototype.addToHistory = function(block)
-{
-    var self = this;
-    var activeModel = blockEditorModel.activeModel;
-    var date = new Date();
-    block.history_name = date.getFullYear() + '-' + (date.getMonth() + 1).padLeft(2) + '-' + date.getDate().padLeft(2) + '-' + date.getHours().padLeft(2) + '.' + date.getMinutes().padLeft(2) + '.' + date.getSeconds().padLeft(2);
-    activeModel.history.splice(0, 0, new ArchiveBlock(activeModel, block));
-
-    self.history(activeModel.history());
-};*/
 
 BlockEditorModel.prototype.confirmRestoration = function ()
 {
@@ -5371,29 +5269,6 @@ BlockEditorModel.prototype.confirmRestoration = function ()
              }
          };
     }
-
-    //self.history.slice
-    /*
-     var url = frontcontroller + '/backend/block/restore';
-     var data = {
-     'name': self.name,
-     'type': self.type,
-     'slot': self.slotName,
-     'archiveFile': self.activeListItemBlock.historyName,
-     'page':  page,
-     'language': language,
-     'country': country,
-     'data': self.blockToJson()
-     };
-     executeAjax(url, data,
-     function(response)
-     {
-     self.history().length = 0;
-     self.initHistory(response, self);
-     blockEditorModel.history(self.history());
-     $(document).trigger("rkcms.event.block_restored", [ self ]);
-     }
-     );*/
 };
 
 BlockEditorModel.prototype.changeMode = function()
@@ -5780,7 +5655,7 @@ ControlPanelModel.prototype.dashboard = function()
 };
 
 ControlPanelModel.prototype.seoPanel = function (view, event)
-{saveQueue();return;
+{
     var seoModel = ko.dataFor(document.getElementById('rkcms-seo'));
     var element = $(event.target).parent();
     _toggleButtonPressed(element, seoModel.toggleBlocksEditor());
@@ -6620,8 +6495,6 @@ SlotEditorModel.prototype.addBlock = function ()
     objBlock.name = 'block' + next;
     objBlock.slot_name = slotName;
 
-    //var url = frontcontroller + '/backend/block/add';
-
     queue['rkcms-block-add-'  + slotName + '-' +  objBlock.name] = {
         'entity' : 'block',
         'action' : 'add',
@@ -6637,36 +6510,6 @@ SlotEditorModel.prototype.addBlock = function ()
         }
     };
     blocks.splice(position, 0, objBlock);
-
-    /*
-    var url = frontcontroller + '/backend/block/add';
-    var data = {
-        'type': type,
-        'slot': slotName,
-        'position': position,
-        'page':  page,
-        'language': language,
-        'country': country,
-        'direction': "top"
-    };
-
-    executeAjax(url, data,
-        function(response)
-        {
-            response.slot_name = slotName;
-            response.is_new = true;
-            blocks.splice(position, 0, response);
-            self.closeEditor();
-
-            $(document).trigger("rkcms.event.block_added", [ self, response ]);
-        },
-        null,
-        function()
-        {
-            self.transactionIcon(false);
-            self.closeEditor();
-        }
-    );*/
 };
 /**
  * This file is part of the RedKite CMS Application and it is distributed
@@ -6698,27 +6541,6 @@ var SlotModel = function (blocks, slotName, next)
     self.empty = ko.computed(function() {
         return self.blocks() == 0
     });
-
-    /*
-    self.save = function () {
-        try{
-            var savedData = ko.toJSON(self);
-        }catch(ex)
-        {
-            console.log(ex);
-        }
-        localStorage.setItem('rkcms-' + self.slotName, savedData);
-    };
-
-    //localStorage.clear();
-    if (localStorage && localStorage.getItem('rkcms-' + slotName)) {console.log('p');
-        var retrievedData = JSON.parse(localStorage.getItem('savedData'));
-        ko.mapping.fromJS(retrievedData, self);
-    } else {
-
-        console.log('a');
-        self.save();
-    }*/
 };
 
 SlotModel.prototype = Object.create(HighlightableModel.prototype);

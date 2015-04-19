@@ -2276,15 +2276,6 @@ var PageCollectionModel = function (pages)
             'action' : 'add',
             'data' :  page
         };
-        /*
-        var url = frontcontroller + '/backend/page/collection/add';
-        executeAjax(url, {},
-            function(response) {
-                initPage(response);
-                self.pages.push(response);
-            }
-        );*/
-
     };
 
     self.editPage = function(page)
@@ -2312,30 +2303,6 @@ var PageCollectionModel = function (pages)
             'action' : 'edit',
             'data' :  data
         };
-
-        /*
-         var pageClone = $.extend({}, page);
-         delete pageClone.seo;
-         delete pageClone.showDetails;
-
-        var url = frontcontroller + '/backend/page/collection/edit';
-        var data = {
-            'data': pageClone
-        };
-
-        executeAjax(url, data,
-            function(response) {
-                if(page.name() != response.name){
-                    page.name(response.name);
-                }
-
-                page.currentName = page.name();
-            },
-            function(error) {
-                page.name(page.currentName);
-                alertDialog(error.responseText, null, 'danger');
-            }
-        );*/
     };
 
     self.remove = function(page)
@@ -2358,25 +2325,6 @@ var PageCollectionModel = function (pages)
                 'action' : 'remove',
                 'data' :  data
             };
-
-            //self.pages.remove(page);
-
-            /*
-            var url = frontcontroller + '/backend/page/collection/remove';
-            var data = {
-                'page-data': page
-            };
-
-            executeAjax(url, data,
-                function(response) {
-                    page.currentName = page.name;
-                },
-                function(response) {
-                    self.pages.splice(pageIndex, 0, page);
-
-                    alertDialog(response.responseText, null, 'error');
-                }
-            );*/
         });
     };
 
@@ -2400,23 +2348,6 @@ var PageCollectionModel = function (pages)
             'action' : 'edit',
             'data' :  data
         };
-
-        /*
-         var url = frontcontroller + '/backend/page/edit';
-         var seoData = $.extend({}, seo);
-         seoData.permalink = seo.permalink();
-         var data = {
-         'page-name': self.activePage.name(),
-         'seo-data': seoData
-         };
-
-         executeAjax(url, data,
-         function(response) {
-         if(seo.permalink != response.permalink){
-         seo.permalink(response.permalink);
-         }
-         }
-         );*/
     };
 
     self.navigate = function(seo, event)

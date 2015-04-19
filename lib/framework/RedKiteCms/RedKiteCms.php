@@ -548,55 +548,12 @@ abstract class RedKiteCms
             ),
         );
 
-        $blockRoutes = array(
-            array(
-                'pattern' => "/backend/block/add",
-                'controller' => 'Controller\Block\AddBlockController::addAction',
-                'method' => array('post'),
-            ),
-            array(
-                'pattern' => "/backend/block/edit",
-                'controller' => 'Controller\Block\EditBlockController::editAction',
-                'method' => array('post'),
-            ),
-            array(
-                'pattern' => "/backend/block/move",
-                'controller' => 'Controller\Block\MoveBlockController::moveAction',
-                'method' => array('post'),
-            ),
-            array(
-                'pattern' => "/backend/block/remove",
-                'controller' => 'Controller\Block\RemoveBlockController::removeAction',
-                'method' => array('post'),
-            ),
-            array(
-                'pattern' => "/backend/block/restore",
-                'controller' => 'Controller\Block\RestoreBlockController::restoreAction',
-                'method' => array('post'),
-            ),
-        );
-
         $pageRoutes = array(
             array(
                 'pattern' => "/backend/page/collection/show",
                 'controller' => 'Controller\PageCollection\ShowPageCollectionController::showAction',
                 'method' => array('get'),
                 'bind' => '_rkcms_show_pages',
-            ),
-            array(
-                'pattern' => "/backend/page/collection/add",
-                'controller' => 'Controller\PageCollection\AddPageCollectionController::addAction',
-                'method' => array('post'),
-            ),
-            array(
-                'pattern' => "/backend/page/collection/edit",
-                'controller' => 'Controller\PageCollection\EditPageCollectionController::editAction',
-                'method' => array('post'),
-            ),
-            array(
-                'pattern' => "/backend/page/collection/remove",
-                'controller' => 'Controller\PageCollection\RemovePageCollectionController::removeAction',
-                'method' => array('post'),
             ),
             array(
                 'pattern' => "/backend/page/collection/approve",
@@ -616,11 +573,6 @@ abstract class RedKiteCms
         );
 
         $seoRoutes = array(
-            array(
-                'pattern' => "/backend/page/edit",
-                'controller' => 'Controller\Page\EditPageController::editAction',
-                'method' => array('post', 'get'),
-            ),
             array(
                 'pattern' => "/backend/page/approve",
                 'controller' => 'Controller\Page\ApprovePageController::approveAction',
@@ -709,7 +661,6 @@ abstract class RedKiteCms
             $user = 'admin';
         }
 
-        $this->routingServiceProvider->addRoutes($this->app, $blockRoutes);
         $this->routingServiceProvider->addRoutes($this->app, $pageRoutes);
         $this->routingServiceProvider->addRoutes($this->app, $seoRoutes);
         $this->routingServiceProvider->addRoutes($this->app, $themeRoutes);
