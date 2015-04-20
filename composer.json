@@ -1,4 +1,16 @@
 {
+    "name": "redkite-labs/redkite-cms",
+    "description": "RedKiteCms is an Open Source Content Management System Application, built on top of Symfony2 components and TwitterBootstrap frameworks, providing an easy an intuitive user-interface, to improve the website's content management experience",
+    "keywords": ["redkite", "redkite labs", "redkite cms", "cms"],
+    "homepage": "http://redkite-labs.com",
+    "type": "library",
+    "license": "GPL-2.0",
+    "authors": [
+      {
+        "name": "RedKite Labs",
+        "email": "info@redkite-labs.com"
+      }
+    ],
     "require": {
         "php": ">=5.3.3",
         "silex/silex": "~1.2",
