@@ -1,2 +1,0 @@
-{% set active = is_active|default(false) %}
-{% for key, value in block.tags %} {{ key }}="{{ value }}{% if(key=="class" and active ) %} active{% endif %}" {% endfor %}{% if "class" in block.tags|keys == false and active %}class="active"{% endif %}

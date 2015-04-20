@@ -21,7 +21,8 @@
         "symfony/process": "~2.6",
         "kriswallsmith/assetic": "~1.2",
         "marcojanssen/silex-routing-service-provider": "~1.2",
-        "gregwar/rst": "~1.0"
+        "gregwar/rst": "~1.0",
+        "redkite-labs/redkitecms-framework": "@dev"
     },
     "require-dev": {
         "behat/behat": "~3.0",
@@ -35,8 +36,8 @@
     },
     "autoload": {
         "psr-0": {
-            "RedKiteCms": ["lib/framework", "lib/plugins", "app/plugins", "lib/tests/functional", "src"],
-            "Controller": "lib/controllers"
+            "RedKiteCms": ["app/plugins", "tests/functional", "src"],
+            "Controller": "controllers"
         }
     }
 }

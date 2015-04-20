@@ -15,7 +15,7 @@ then run this command to start a new RedKite CMS application:
 When the project has been created, follow these [instructions](https://github.com/redkite-labs/RedKiteCms/blob/master/docs/book/install-redkite-cms.md) to install the application.
 
 ## Documentation
-We are working on the documentation and it will be available as soon as possible.
+The official RedKite CMS documentation is available at [https://github.com/redkite-labs/RedKiteCms/tree/master/docs](https://github.com/redkite-labs/RedKiteCms/tree/master/docs). If you want to help with the documentation you can start [here](https://github.com/redkite-labs/RedKiteCms/blob/master/docs/contribute/getting-started-contributing.md).
 
 ## Support
 If you require support you can ask for help at [RedKite CMS users forum](https://groups.google.com/forum/#!forum/redkitecms-users).
