@@ -32,7 +32,7 @@
         "symfony/monolog-bridge": "~2.6",
         "symfony/process": "~2.6",
         "kriswallsmith/assetic": "~1.2",
-        "marcojanssen/silex-routing-service-provider": "~1.2",
+        "marcojanssen/silex-routing-service-provider": "1.2.1",
         "gregwar/rst": "~1.0",
         "redkite-labs/redkitecms-framework": "@dev"
     },
