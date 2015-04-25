@@ -2,7 +2,24 @@
   "book": [
     "install-redkite-cms",
     "redkite-cms-configuration",
-    "redkite-cms-application-structure"
+    "redkite-cms-application-structure",
+    "create-a-new-theme",
+    "redkite-cms-website-navigation",
+    "redkite-cms-user-interface-design",
+    "redkite-cms-external-files-management",
+    "redkite-cms-inline-contents-editor",
+    "redkite-cms-pages-management",
+    "redkite-cms-languages-management",
+    "redkite-cms-themes-management",
+    "how-to-secure-redkite-cms",
+    "redkite-cms-website-deploy",
+    "how-to-change-the-website-theme-with-redkite-cms"
+  ],
+  "cookbook": [
+    "redkite-cms-base-layout",
+    "how-to-change-a-content-at-runtime",
+    "add-a-custom-route-outside-redkitecms",
+    "how-to-manage-redkite-cms-with-composer"
   ],
   "contribute": [
     "getting-started-contributing",
