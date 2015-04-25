@@ -5,7 +5,8 @@
 /app/data/RedKiteCms/Block/*
 /app/data/RedKiteCms/Theme/*
 /vendor/
-/web/plugins
+/web/plugins/
+/web/redkitecms/
 /bin/
 /.idea/
 /lib/plugins/RedKiteCms/Theme/SimpleTheme/Resources/public/css/lib/.sass-cache/
