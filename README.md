@@ -10,7 +10,7 @@ RedKite CMS 2 can be installed using composer:
 
 then run this command to start a new RedKite CMS application:
 
-    php composer.phar create-project redkite-labs/redkite-cms -s dev RedKiteCms
+    php composer.phar create-project redkite-labs/redkite-cms -s alpha RedKiteCms
 
 When the project has been created, follow these [instructions](https://github.com/redkite-labs/RedKiteCms/blob/master/docs/book/install-redkite-cms.md) to install the application.
 
