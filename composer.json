@@ -34,7 +34,7 @@
         "kriswallsmith/assetic": "~1.2",
         "marcojanssen/silex-routing-service-provider": "1.2.1",
         "gregwar/rst": "~1.0",
-        "redkite-labs/redkitecms-framework": "@dev"
+        "redkite-labs/redkitecms-framework": "v2.0.0-alpha"
     },
     "require-dev": {
         "behat/behat": "~3.0",
