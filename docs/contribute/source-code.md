@@ -5,11 +5,11 @@ Instructions for installing and setting up Git can be found at [http://help.gith
 
 ## Obtain the code
 
-RedKite CMS project is made by the RedKiteCms main application and the RedKite CMS framework library.
+RedKite CMS project uses the RedKiteCms main application and the RedKite CMS framework library.
 
-The best way to contribute to RedKite CMS project is to fork both of those repositories: login to Github with your user, open the RedKite Cms repository at [https://github.com/redkite-labs/RedKiteCms](https://github.com/redkite-labs/RedKiteCms) and click the **fork** button. 
+The best way to contribute to RedKite CMS project is to fork both of these repositories: login to Github with your username and pasword, and open the RedKite Cms repository at [https://github.com/redkite-labs/RedKiteCms](https://github.com/redkite-labs/RedKiteCms) then click the **fork** button. 
 
-When it is done, repeat the same steps with [RedKite CMS framework repository](https://github.com/redkite-labs/redkitecms-framework). 
+After this, repeat the same steps with [RedKite CMS framework repository](https://github.com/redkite-labs/redkitecms-framework). 
 
 You can find instructions for forking a repository at [http://help.github.com/fork-a-repo]( http://help.github.com/fork-a-repo).
 
@@ -31,7 +31,7 @@ when it is done, open the RedKiteCms's composer.json file and add your repositor
         [...]
      
     
-then you need to install vendor folders:
+then you need to install vendor folders by running:
  
     composer install
 
@@ -48,16 +48,16 @@ and you should receive a response like this one:
     origin	git@github.com:[GITHUBUSERNAME]/redkitecms-framework.git (push)
 
 ## Code standards
-RedKite CMS project is written in php code and follow the [Symfony2 code standards](http://symfony.com/doc/current/contributing/code/standards.html).
+RedKite CMS project is written in php code and follows the [Symfony2 code standards](http://symfony.com/doc/current/contributing/code/standards.html).
     
 ## The RedKite CMS framework structure
-The main application structure is explained in detail [here](redkite-cms-application-structure), so, before continuing, please make sure you read that document.
+The main application structure is explained in detail [here](redkite-cms-application-structure), so before continuing please make sure you read this. Your understanding is crucial to the next sections.
 
 **config** Contains the standard RedKite CMS configuration files
 **controllers** Contains the controller implemented for the Silex microframework
 **framework** Contains the RedKite CMS framework
 **plugins** Contains the plugins distributed with RedKite CMS
 
-Now you are ready to contribute to RedKite CMS project. When you have finished your changes, just send us a [pull request](https://help.github.com/articles/using-pull-requests/) to let us check your code and hopefully merge in into the RedKite CMS repository.
+Now you are ready to contribute to the RedKite CMS project. Once you have finished any changes, just send us a [pull request](https://help.github.com/articles/using-pull-requests/) to let us check your code and hopefully merge it into the RedKite CMS repository.
 
 Found a typo? Found something wrong in this documentation? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/contribute/source-code.md)
