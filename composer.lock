@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "04b3eb0bf1f265511cd6d68a1ca320c1",
+    "hash": "233de54bf8f4da415c3fe1d784243702",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -127,50 +127,6 @@
                 "parser"
             ],
             "time": "2014-09-09 13:34:57"
-        },
-        {
-            "name": "gregwar/rst",
-            "version": "v1.0.0",
-            "target-dir": "Gregwar/RST",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Gregwar/RST.git",
-                "reference": "c60f56f50d7d06b5933125b4f4cb7195d3c21915"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Gregwar/RST/zipball/c60f56f50d7d06b5933125b4f4cb7195d3c21915",
-                "reference": "c60f56f50d7d06b5933125b4f4cb7195d3c21915",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Gregwar\\RST": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Grégoire Passault",
-                    "email": "g.passault@gmail.com",
-                    "homepage": "http://www.gregwar.com/"
-                }
-            ],
-            "description": "PHP library to parse reStructuredText documents",
-            "homepage": "https://github.com/Gregwar/RST",
-            "keywords": [
-                "markup",
-                "parser",
-                "rst"
-            ],
-            "time": "2014-09-05 06:26:17"
         },
         {
             "name": "jms/metadata",
@@ -402,54 +358,6 @@
                 "minification"
             ],
             "time": "2014-12-12 05:04:05"
-        },
-        {
-            "name": "marcojanssen/silex-routing-service-provider",
-            "version": "1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/marcojanssen/silex-routing-service-provider.git",
-                "reference": "c84bcadf6c4eeda7cd915b4ce9189a3fad45cbf4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/marcojanssen/silex-routing-service-provider/zipball/c84bcadf6c4eeda7cd915b4ce9189a3fad45cbf4",
-                "reference": "c84bcadf6c4eeda7cd915b4ce9189a3fad45cbf4",
-                "shasum": ""
-            },
-            "require": {
-                "silex/silex": "1.*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "3.7.*"
-            },
-            "suggest": {
-                "igorw/config-service-provider": "Allows registering providers with configuration"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "MJanssen\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Janssen",
-                    "email": "dev@marcojanssen.net"
-                }
-            ],
-            "description": "Silex provider for adding routes",
-            "keywords": [
-                "provider",
-                "route",
-                "routing",
-                "silex"
-            ],
-            "time": "2013-12-30 14:39:42"
         },
         {
             "name": "monolog/monolog",
@@ -709,16 +617,16 @@
         },
         {
             "name": "redkite-labs/redkitecms-framework",
-            "version": "v2.0.0-ALPHA",
+            "version": "v2.0.0-alpha",
             "source": {
                 "type": "git",
                 "url": "https://github.com/redkite-labs/redkitecms-framework.git",
-                "reference": "bb3c6919244fc3997648ab115f33f17e9a121811"
+                "reference": "dd84dffa42b08605770f71df1b2de382e7847d45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/redkite-labs/redkitecms-framework/zipball/bb3c6919244fc3997648ab115f33f17e9a121811",
-                "reference": "bb3c6919244fc3997648ab115f33f17e9a121811",
+                "url": "https://api.github.com/repos/redkite-labs/redkitecms-framework/zipball/dd84dffa42b08605770f71df1b2de382e7847d45",
+                "reference": "dd84dffa42b08605770f71df1b2de382e7847d45",
                 "shasum": ""
             },
             "require": {
@@ -752,7 +660,7 @@
                 "redkite cms",
                 "redkite labs"
             ],
-            "time": "2015-04-26 09:27:22"
+            "time": "2015-05-02 04:57:04"
         },
         {
             "name": "silex/silex",
@@ -2798,16 +2706,16 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.4.0",
+            "version": "v1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "8724cd239f8ef4c046f55a3b18b4d91cc7f3e4c5"
+                "reference": "3132b1f44c7bf2ec4c7eb2d3cb78fdeca760d373"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/8724cd239f8ef4c046f55a3b18b4d91cc7f3e4c5",
-                "reference": "8724cd239f8ef4c046f55a3b18b4d91cc7f3e4c5",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/3132b1f44c7bf2ec4c7eb2d3cb78fdeca760d373",
+                "reference": "3132b1f44c7bf2ec4c7eb2d3cb78fdeca760d373",
                 "shasum": ""
             },
             "require": {
@@ -2854,7 +2762,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2015-03-27 19:31:25"
+            "time": "2015-04-27 22:15:08"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -3104,16 +3012,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.6.4",
+            "version": "4.6.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "163232991e652e6efed2f8470326fffa61e848e2"
+                "reference": "3afe303d873a4d64c62ef84de491b97b006fbdac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/163232991e652e6efed2f8470326fffa61e848e2",
-                "reference": "163232991e652e6efed2f8470326fffa61e848e2",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3afe303d873a4d64c62ef84de491b97b006fbdac",
+                "reference": "3afe303d873a4d64c62ef84de491b97b006fbdac",
                 "shasum": ""
             },
             "require": {
@@ -3172,7 +3080,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-04-11 05:23:21"
+            "time": "2015-04-29 15:18:52"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
