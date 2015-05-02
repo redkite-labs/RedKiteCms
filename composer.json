@@ -1,4 +1,4 @@
-{
+ {
     "name": "redkite-labs/redkite-cms",
     "description": "RedKiteCms is an Open Source Content Management System Application, built on top of Symfony2 components and TwitterBootstrap frameworks, providing an easy an intuitive user-interface, to improve the website's content management experience",
     "keywords": ["redkite", "redkite labs", "redkite cms", "cms"],
@@ -32,8 +32,6 @@
         "symfony/monolog-bridge": "~2.6",
         "symfony/process": "~2.6",
         "kriswallsmith/assetic": "~1.2",
-        "marcojanssen/silex-routing-service-provider": "1.2.1",
-        "gregwar/rst": "~1.0",
         "redkite-labs/redkitecms-framework": "v2.0.0-alpha"
     },
     "require-dev": {
