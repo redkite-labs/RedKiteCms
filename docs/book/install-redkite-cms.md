@@ -36,13 +36,13 @@ virtual host for each domain.
 Add a new **virtualHost** to the web-server to handle the application, and configure
 its **DocumentRoot** to point to the RedKite CMS **web folder**.
 
-Please refer [this guide](http://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html) 
-if you are not comfortable with seting up a web-server.
+Please refer to [this guide](http://symfony.com/doc/current/cookbook/configuration/web_server_configuration.html) 
+if you are not comfortable with setting up a web-server.
 
 We will now assume that you have
 configured the **redkitecms** virtualhost.
 
-Before starting the application you also need to do some adjustments to your
+Before starting the application you will also need to make some adjustments to your
 configuration.
 
 ### Advanced configuration
@@ -55,11 +55,11 @@ you need to suffix the server name with the **.local** token, so the host will b
 **http://example.com.local**.
 
 RedKite CMS will handle a data folder called **http://example.com**, ignoring the suffix.
-When you will deploy your site from your computer to the remote server, you just need
+When you  deploy your site from your computer to the remote server, you just need
 to transfer the folder which matches the remote site name host you are working on.
 
 ### Permissions 
-RedKite CMS requires that the **app** and **web/upload** folders must be writable by the web server.
+RedKite CMS requires that the **app** and **web/upload** folders be writable by the web server.
 At [Symfony website](http://symfony.com/doc/current/book/installation.html#checking-symfony-application-configuration-and-setup) 
 you will find a comprehensive section explaining this part of the configuration in detail.
 
@@ -75,8 +75,8 @@ displaying anything on the screen.
 However, if you don't use **Xdebug** you can safety skip this step.
 
 ## Start RedKite CMS
-Starting work with RedKite CMS is then just a case of opening the host you configured, so point the
-browser to **http://redkitecms/login** host and you should see the login page.
+Starting work with RedKite CMS is then just a case of opening the host you configured. Point the
+browser to **http://redkitecms/login**  and you should see the login page.
 
 Enter **admin** as **user and password** and start enjoying RedKite CMS!
 
