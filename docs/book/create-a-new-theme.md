@@ -2,10 +2,10 @@
 
 This document covers the process of creating a new theme for RedKite CMS.
 
-Put simply, a theme is a just a collection of templates and assets to define a website design.
+Put simply, a theme is a just a collection of templates and assets to define the design of your website, how the elements are set out and how the site looks. 
 
 ## The theme structure
-When you build a custom theme it will be saved in the **app/plugins/RedKiteCms/Theme** folder, so to start creating a new theme, add a **MyCustomTheme** directory under that folder. A theme is a plugin in RedKite CMS and requires a **plugin.json** file placed in the root of the theme itself, so add that file and paste this code inside:
+When you build a custom theme it will be saved in the **app/plugins/RedKiteCms/Theme** folder. To start creating a new theme, add a **MyCustomTheme** directory under this folder. A theme is a plugin in RedKite CMS and requires a **plugin.json** file placed in the root of the theme itself. To continue, add this file and paste the following code inside:
 
     // app/plugins/RedKiteCms/Theme/MyCustomTheme/plugin.json
     {
@@ -13,11 +13,11 @@ When you build a custom theme it will be saved in the **app/plugins/RedKiteCms/T
         "website": "[ YOUR WEBSITE ]"
     }
 
-Obviously change the [ YOUR NAME ] and [ YOUR WEBSITE ] information to reflect yur own details.
+Obviously change the [ YOUR NAME ] and [ YOUR WEBSITE ] information to reflect your own details.
 
-The themes templates and assets lives under the **Resources** folder placed inside the themes root folder, so add that directory under the **MyCustomTheme** folder.
+The themes templates and assets live under the **Resources** folder, placed inside the themes root folder. Add this directory under the **MyCustomTheme** folder.
 
-Here you need a **views** folder to handle the theme templates and a **public** folder to handle assets. This last folder should contain a **css** folder for stylesheets and a **js** folder for javascripts. RedKite CMS will symlink or copy everything placed under the **public** folder into the **/web/plugins/mycustomtheme** folder, the theme name has to be lowercase in order to make assets available on the web site. Create these folders as well.
+The theme will follow the standard Symfony Bundle layout and so you need a **views** folder to handle the theme templates and a **public** folder to handle the assets within the **Resources** directory. The  **public** folder should also contain a **css** folder for stylesheets and a **js** folder for javascripts. RedKite CMS will symlink or copy everything placed under the **public** folder into the **/web/plugins/mycustomtheme** folder. The theme name has to be lowercase in order to make assets available on the web site. Create these folders as well.
 
 To add a template just create a twig file under the **views** folder. Each file inside this directory is its own theme template.
 
@@ -40,14 +40,14 @@ Add a new **home.html.twig** file into the views folder and paste this code insi
         </div>
     {% endblock %}
 
-A template must always extend the template defined by the **base_template** variable, always available in theme's templates.
+Your template must always extend the template defined by the **base_template** variable, always available in the template of your theme.
 
-This template lives under the **lib/plugins/RedKiteCms/Core/RedKiteCms/Resources/views/Frontend** directory and it is named **base.html.twig**. The [redkite-cms-base-layout.md](https://github.com/redkite-labs/RedKiteCms/blob/master/docs/cookbook/redkite-cms-base-layout.md) explains that file in detail.
+This template lives under the **lib/plugins/RedKiteCms/Core/RedKiteCms/Resources/views/Frontend** directory and it is named **base.html.twig**. The [redkite-cms-base-layout.md](https://github.com/redkite-labs/RedKiteCms/blob/master/docs/cookbook/redkite-cms-base-layout.md) explains that file in more detail.
 
 ## Template slots
-The code we pasted to the home template added four divs to the template itself, one to handle the website header, one to handle the website navigation menu, one for the main contents and one for the footer. At this stage the template does nothing, so we must add one or more **slots** to it.
+The code we pasted to the home template added four divs to the template itself. One is to handle the website header, one to handle the website navigation menu, one for the main contents and one for the footer. At this stage the template does nothing, so we must add one or more **slots** to it.
 
-A slot is just a virtual container for blocks and each block handles a content displayed on the page. Change the header div code as follows:
+A slot is just a virtual container for blocks, and each block handles a content displayed on the page. Amend the header div code as follows:
 
     {# app/plugins/RedKiteCms/Theme/MyCustomTheme/Resources/view/home.html.twig #}
     <div id="header">
@@ -69,7 +69,7 @@ This is a simple declaration to understand. All it does is print the slot name v
 The **slots** variable is always passed to the template and contains the rendered slots for that page.
 
 ### Repeat slots through website pages
-The slot, as it is configured, will show different content on each page, which means that each page shows a different logo. In other words, you would have to add the logo on each page but this is not how you would expect a log to behave. It is usually the same one, repeated on all the pages of the website. Obviously this can be easily fixed, adding an extra instruction on the declaration.
+The slot as it is configured by default will show different content on each page, meaning that each page shows a different logo. In other words, to have the same logo on every page you would have to add the logo to each. This is not how you  expect software to behave, but it is easily fixed by adding an extra instruction onto the declaration:
 
 Simply add a comment just before the slot declaration with the **repeat** instruction to make this work as it should.
 
@@ -84,12 +84,12 @@ Simply add a comment just before the slot declaration with the **repeat** instru
         </div>
     </div>
 
-In this case we want to repeat our logo on each page for each language, so we configured the site to repeat the slot at **site** level.
+In this case we want to repeat our logo on each page for each language, so we configure the site to repeat the slot at **site** level.
 
-Behind the scenes, a slot is defined by an array, so when you print the logo slot, RedKite CMS prints all the blocks added to that slot.
+Behind the scenes, a slot is defined by an array so that, when you print the logo slot, RedKite CMS prints all the blocks added to that slot.
 
 ## Define the pages created by RedKite CMS when a web site is started from a theme
-When a user uses the theme for the first time they would expect to have at least a page defined, so you must configure the theme to achieve this first page. This is pretty straightforward because you just need to add a **pages** key to your **plugin.json** file. Go back to that file and add the following pages key:
+When a user uses the theme for the first time they would expect to have at least one page defined, so you must configure the theme to achieve your first page. This is pretty straightforward, you just need to add a **pages** key to your **plugin.json** file. Go back to that file and add the following pages key:
 
     // app/plugins/RedKiteCms/Theme/MyCustomTheme/plugin.json
     {
@@ -102,7 +102,7 @@ When a user uses the theme for the first time they would expect to have at least
 This tells RedKite CMS to create a page called **homepage** based on the **home** template.
 
 ### Add a virtual host to handle the theme
-When you use this theme, you will probably want to have some default content added to the slot.To add some blocks to slots you must configure a special virtual host to handle the theme as if it were a regular website. This means you handle the theme contents using the RedKite CMS interface. A virtual host could look like the following:
+When you use this theme, you will probably want to have some default content added to the slot.To add some blocks to slots you must configure a special virtual host to handle the theme as if it were a regular website. This means you handle the theme contents using the RedKite CMS interface. A typical virtual host could look like this:
 
     # /etc/apache2/sites-available/000-default.conf
     <VirtualHost *>
@@ -115,26 +115,26 @@ When you use this theme, you will probably want to have some default content add
       </Directory>
     </VirtualHost>
 
-To define a valid virtual host to handle a theme, you must suffix it using the **.theme** token. This obviously supposes you are building your theme on a local computer. You still need to declare the **mycustom.theme** host in your **hosts** file, as follows:
+To define a valid virtual host to handle your theme you must suffix it using the **.theme** token. Obviously this assumes you are building your theme on a local computer. You still need to declare the **mycustom.theme** host in your **hosts** file, as follows:
 
     # /etch/hosts
     127.0.0.1	mycustom.theme
 
-Open the http://mycustom.theme/login host in your browser and, if everything worked, you will see the login page. Sign in using the default credentials and open the **Control Panel**, click the **Dashboard** button and then go to **Themes** panel.
+Open the http://mycustom.theme/login host in your browser and, if everything is configured correctly, you will see the login page. Sign in using the default credentials and open the **Control Panel**. Click the **Dashboard** button and then go to the **Themes** panel.
 
-You should see the **MyCustomTheme** theme available in the right column: click the **Handle this theme** button and confirm the popup to start the website from scratch, using your custom theme.
+You should now see the **MyCustomTheme** theme available in the right-hand column: Click the **Handle this theme** button and confirm the popup to start the website from scratch using your custom theme.
 
 ### Add blocks to custom theme
-What you should see is an empty page with an empty slot on the top. Now you must add a new block to that slot. Just click the **Control Panel** and enter in **Edit mode** then click over the slot and add a **Text** block from the panel just opened.
+You should now see an empty page with an empty slot at the top. Now you must add a new block to that slot. Just click the **Control Panel** and enter in **Edit mode** then click over the slot and add a **Text** block from the panel you just opened.
 
-Now you can edit that block by clicking into it, change the default content to **My company** and format it as Heading 2.
+You can edit this block by clicking into it. Change the default content to **My company** and format it as Heading 2.
 
-Awesome! Now close the block by double clicking on the blocks area, click over the **Save as theme** button and confirm the popup when it opens.
+Awesome! Now close the block by double clicking on the blocks area. Click over the **Save as theme** button and confirm the popup when it opens.
 
-Now every time you use this theme for a website the logo will be filled with the content you just added!
+From now on, every time you use this theme for a website the logo will be filled with the content you just added!
 
 ### Add external stylesheets
-Let's give the logo some style. Add a new **style.css** file under the **public/css** folder, open it and paste this code inside:
+Let's give the logo some style. Add a new **style.css** file inside the **public/css** folder. Open it and paste this code inside:
 
     {# app/plugins/RedKiteCms/Theme/MyCustomTheme/Resources/public/css/style.css #}
     #header {
@@ -145,7 +145,7 @@ Let's give the logo some style. Add a new **style.css** file under the **public/
       margin: 20px 0;
     }
 
-To add the stylesheet to your template add this code under the **extends** instruction to the **home.html.twig**:
+To add the stylesheet to your template, add this code under the **extends** instruction to the **home.html.twig**:
 
     {# app/plugins/RedKiteCms/Theme/MyCustomTheme/Resources/view/home.html.twig #}
     {% block post_external_stylesheets %}
@@ -153,9 +153,9 @@ To add the stylesheet to your template add this code under the **extends** instr
         <link href="/plugins/mycustomtheme/css/style.css" rel="stylesheet" type="text/css" media="all" />
     {% endblock %}
 
-As you can see the css link refers to the **/plugins/mycustomtheme/css/style.css** stylesheet. Reload the page and you should see the logo block aligned at the center of the page.
+As you will see, the css link refers to the **/plugins/mycustomtheme/css/style.css** stylesheet. Reload the page and you should see the logo block aligned at the center of the page.
 
-### More on repeating slots through website pages
+### Other options for repeating slots through multiple web pages
 Return back to the **home** template and change the menu div as follows:
 
     {# app/plugins/RedKiteCms/Theme/MyCustomTheme/Resources/view/home.html.twig #}
@@ -184,7 +184,7 @@ Now change the content div as follows:
         </div>
     </div>
 
-Here there are three columns declared and each of them contains a slot. Every slot has a **repeat** switch specified, this tells RedKite CMS to repeat the slot at page level, so blocks change on each page of the site.
+Here there are three columns declared and each of them contains a slot. Every slot has a **repeat** switch specified, this tells RedKite CMS to repeat the slot at page level, so that blocks will change on each page of the site.
 
 Lets try adding some styles to our **style.css** file:
 
@@ -215,10 +215,10 @@ Lets try adding some styles to our **style.css** file:
 
 Now reload the page to display the slots.
 
-Add a **Menu** block to the **menu** slot and three **Text** blocks on other slots then fill them with any content you like.
+Add a **Menu** block to the **menu** slot and three **Text** blocks to other slots, then you can fill them with your own content.
 
 ## Add a new template
-Next we want to add a new template, so you need to create another twig file under the Theme's views folder: add the **internal.html.twig** file under the **views** folder. This template must share the header, the menu and the footer divs with the home template, so we have to do some refactoring on templates. Add a folder called **base** under the views folder and add a **base.html.twig** file under that folder.
+Next we want to add a new template, so you need to create another twig file under the Theme's views folder: add the **internal.html.twig** file under the **views** folder. This template must share the header, the menu, and the footer divs with the home template, so we have to do some refactoring on templates. Add a folder called **base** under the views folder and add a **base.html.twig** file under that folder.
 
 Move the following code from the **home** template to the **base** template:
 
@@ -289,13 +289,13 @@ Now open the **internal.html.twig** template and paste this code inside:
         </div>
     {% endblock %}
 
-The **internal** template simply defines a slot name **internal**. To use this template you must add a new page, so open the **Control Panel**, click the **Dashboard** button and then go to the pages section.
+The **internal** template simply defines a slot named **internal**. To use this template you must add a new page, so open the **Control Panel**, click the **Dashboard** button and then go to the pages section.
 
-Here click the **Add new** button, rename the page **internal** and choose the **internal** template from the **templates** combo box.
+Here, click the **Add new** button, rename the page **internal** and choose the **internal** template from the **templates** combo box.
 
-Please notice that the **base** theme is not listed with the available templates because it does not live under the views folder but inside a nested folder.
+Please notice that the **base** theme is not listed with the available templates because it does not live under the views folder, but is inside a nested folder.
 
-This means that RedKite CMS will only see available templates as being those inside the views folder root and skips over the ones placed inside the nested directories.
+This means that RedKite CMS will only see available templates as being those inside the views folder root, and it skips over the ones placed inside the nested directories.
 
 Click the **Plus icon**  to the left of the **internal** template name, change the permalink name to **en-gb-internal**, and then click the **Navigate to** button at the right of the **permalink** text field.
 
@@ -315,12 +315,12 @@ Edit the menu as follows:
           href: 'en-gb-internal'
         type: Link
 
-We just linked the two pages in the menu. Just to try, open the **Control panel** click the **Stop editor** button then click the **Home** link to navigate to the homepage.
+We just linked the two pages in the menu. Just to confirm this, open the **Control panel**, click the **Stop editor** button, then click the **Home** link to navigate to the homepage.
 
-Just save again the theme by clicking the **Save as theme** button from the **Control panel**.
+Save the theme again by clicking the **Save as theme** button from the **Control panel**.
 
 ### Add a new page when the theme is used
-Open the **plugin.json** file and add the new page as follows:
+Open the **plugin.json** file and add a new page as follows:
 
     // app/plugins/RedKiteCms/Theme/MyCustomTheme/plugin.json
     {
@@ -346,7 +346,7 @@ Now your theme is ready, so let's use it on a real website. Add a new redkite vi
       </Directory>
     </VirtualHost>
 
-then add the host to available hosts:
+then add the host to the  available hosts:
 
     # /etch/hosts
     127.0.0.1	redkite
@@ -355,8 +355,8 @@ and restart your webserver
 
     sudo service apache2 restart
 
-Now open the **http://redkite/login** website and sign in. Open the **Dashboard** and go to the **Themes** section, then click the **Start from this theme** button placed under the **MyCustomTheme** then confirm.
+Now open the **http://redkite/login** website and sign in. Open the **Dashboard** and go to the **Themes** section, then click the **Start from this theme** button placed under the **MyCustomTheme**, and confirm.
 
-The page reloads and you will get the website using your custom theme!
+The page reloads and you will see your new website using your custom theme!
 
 Found a typo? Found something wrong in this documentation? [Just fork and edit it !](https://github.com/redkite-labs/RedKiteCms/edit/master/docs/book/redkite-cms-configuration.md)
