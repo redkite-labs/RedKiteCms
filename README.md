@@ -1,7 +1,7 @@
 # RedKite CMS 2
 Welcome to RedKite CMS 2 a Content Management System built on top of the Symfony2 componens, Jquery, Knockout and Twitter Bootstrap frameworks.
 
-RedKite CMS 2 is actually in Alpha.
+RedKite CMS 2 is currently in Alpha.
 
 [![Join the chat at https://gitter.im/redkite-labs/RedKiteCms](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/redkite-labs/RedKiteCms?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
