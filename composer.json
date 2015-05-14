@@ -32,7 +32,7 @@
         "symfony/monolog-bridge": "~2.6",
         "symfony/process": "~2.6",
         "kriswallsmith/assetic": "~1.2",
-        "redkite-labs/redkitecms-framework": "v2.0.0-alpha1"
+        "redkite-labs/redkitecms-framework": "v2.0.0-alpha2"
     },
     "require-dev": {
         "behat/behat": "~3.0",

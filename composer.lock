@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4c319861e2948fe071dae1b63b69a132",
+    "hash": "20f0538b1fa164df5c8b59c0ed188d02",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -617,16 +617,16 @@
         },
         {
             "name": "redkite-labs/redkitecms-framework",
-            "version": "v2.0.0-alpha1",
+            "version": "v2.0.0-alpha2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/redkite-labs/redkitecms-framework.git",
-                "reference": "6bb4bbf1b14f4bf4ec3c04a6aaef50e7ed5f490e"
+                "reference": "edba02f2fb84aea985d172040d07a0173d222633"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/redkite-labs/redkitecms-framework/zipball/6bb4bbf1b14f4bf4ec3c04a6aaef50e7ed5f490e",
-                "reference": "6bb4bbf1b14f4bf4ec3c04a6aaef50e7ed5f490e",
+                "url": "https://api.github.com/repos/redkite-labs/redkitecms-framework/zipball/edba02f2fb84aea985d172040d07a0173d222633",
+                "reference": "edba02f2fb84aea985d172040d07a0173d222633",
                 "shasum": ""
             },
             "require": {
@@ -685,7 +685,7 @@
                 "redkite cms",
                 "redkite labs"
             ],
-            "time": "2015-05-10 09:32:35"
+            "time": "2015-05-14 03:27:12"
         },
         {
             "name": "silex/silex",
