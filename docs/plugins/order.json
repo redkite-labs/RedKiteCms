@@ -1,0 +1,11 @@
+{
+  "themes": [
+    "startbootstrap-agency-theme"
+  ],
+  "blocks": [
+    "agency-service",
+    "team",
+    "timeline",
+    "portfolio"
+  ]
+}

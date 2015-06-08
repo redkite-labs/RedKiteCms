@@ -20,14 +20,6 @@ If you are submitting a new Block, be sure to have properly added unit tests to 
 ## Write new tests
 While most of the code is covered by automated tests, these can always be improved by new tests.
 
-## Submit your Theme or Block bundles
-If you want to share your awesome Theme or Block bundles with the community, you need to maintain them on a repository at github.
-
-To have your bundle distributed on the RedKite CMS website, open an issue at [RedKite Apps repository](https://github.com/redkite-labs/RedKiteApps) and post the link to your repository in the issue body.
-
-Your Theme or Block bundle will be evaluated and then it will be published.
-
-
 Contribute with the documentation
 ---------------------------------
 RedKite CMS has its official documentation saved into the [application docs](https://github.com/redkite-labs/RedKiteCms/tree/master/docs) folder. If you want to contribute by fixing typos on the current documentation or add new entries, just fork RedKite CMS and send us a pull request.

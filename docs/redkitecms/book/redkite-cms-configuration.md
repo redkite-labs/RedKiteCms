@@ -159,7 +159,7 @@ To register the **Doctrine** service, which is not included with RedKite CMS, yo
         ));
     }
 
-Obviously do not forget to require **Doctrine** in your composer file
+Obviously do not forget to require **Doctrine** with your composer file
 
 ### Add a listener
 To add a new listener just add a code like this:
@@ -171,7 +171,7 @@ To add a new listener just add a code like this:
         $app["dispatcher"]->addListener('slots.rendering.download', array($app["red_kite_cms.listener.slot_rendering_download"], 'onSlotsRendering'));
     }
 
-Here we registered the custom **DownloadRenderingListener** which listens to the **slots.rendering.download** event. The purpose
+Here we registered the custom **DownloadRenderingListener** which listens to **slots.rendering.download** event. The purpose
 of this listener is to replace the main content of the download page with a custom one rendered in the listener itself.
 
 
