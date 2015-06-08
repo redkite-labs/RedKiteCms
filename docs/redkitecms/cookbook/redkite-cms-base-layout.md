@@ -109,7 +109,7 @@ When you design your theme, you must be aware that RedKite CMS completely overri
 
 It is very important to avoid declaring an asset twice on the same page, because it can produce undesired effects that could compromise the CMS functionalities.
 
-This is the reason why both main sections have to be overridden. They are the sections you must use when your website requires one or more of the assets already required by 
+This is the reason why both main sections are overriden and these are the section you must use when your website requires one or more of the assets already required by 
 RedKite CMS.
 
 
