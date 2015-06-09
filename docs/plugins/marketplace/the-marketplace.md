@@ -6,4 +6,4 @@ The most of those plugins live [in this github repository](https://github.com/re
 
 Explore the documentation, using the menu on the left and learn how to use and improve them.
 
-If you would like to share your plugins with the community, just follow [the instructions on this document]().
+If you would like to share your plugins with the community, just follow [the instructions on this document](share-a-plugin).
