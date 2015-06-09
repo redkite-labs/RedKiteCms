@@ -3,6 +3,18 @@ This theme is an awesome single page theme designed by [Startbootstrap](http://s
 
 ![Agency theme handled by RedKite CMS](/upload/assets/redkite-labs.com/production/media/agency-1.jpg)
 
+## Get the theme
+This theme is included into the **redkitecms-plugins** library which is already bundled with RedKite CMS 2 since alpha 3 release. It is installed using composer, so add the library to your **composer.json** as follows:
+    
+    "require": {
+       [...]
+       "redkite-labs/redkitecms-plugins": "@dev",
+    }
+    
+To get the library just run:
+
+    php composer.phar update
+    
 ## Usage
 - Open the Control Panel
 - Click on the "Dashboard" button and then go to "Themes" section

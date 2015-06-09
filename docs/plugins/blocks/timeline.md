@@ -12,13 +12,17 @@ The **TimeLineEmptyItem** renders an empty timeline item used to nicely close th
 Please note that the only block you can add is the first one, while others are internal, which means they are used by the parent block, TimeLine, but they cannot be added singularly to the page. 
 
 ## Get the block
-This block is included into the **redkitecms-plugins** library which is already bundled with RedKite CMS 2 since alpha 3 release. It is installed using composer as follows:
+This block is included into the **redkitecms-plugins** library which is already bundled with RedKite CMS 2 since alpha 3 release. It is installed using composer, so add the library to your **composer.json** as follows:
     
     "require": {
        [...]
        "redkite-labs/redkitecms-plugins": "@dev",
-    } 
- 
+    }
+    
+To get the library just run:
+
+    php composer.phar update
+    
 ## TimeLineItem Definition
 Here it is the timeline item definition:
 

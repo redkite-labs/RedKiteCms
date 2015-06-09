@@ -8,12 +8,16 @@ The **MemberTeam** represents the single member of the team.
 The **MemberTeamCollection** collects **MemberTeam** blocks. 
 
 ## Get the block
-This block is included into the **redkitecms-plugins** library which is already bundled with RedKite CMS 2 since alpha 3 release. It is installed using composer as follows:
+This block is included into the **redkitecms-plugins** library which is already bundled with RedKite CMS 2 since alpha 3 release. It is installed using composer, so add the library to your **composer.json** as follows:
     
     "require": {
        [...]
        "redkite-labs/redkitecms-plugins": "@dev",
     }
+    
+To get the library just run:
+
+    php composer.phar update
 
 ## MemberTeam Definition
 Here it is the timeline definition:
