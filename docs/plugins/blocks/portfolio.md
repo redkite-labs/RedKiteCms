@@ -8,13 +8,17 @@ The **PortfolioItem** represents a job and cannot be used singularly.
 The **Portfolio** collects **PortfolioItem** blocks.
 
 ## Get the block
-This block is included into the **redkitecms-plugins** library which is already bundled with RedKite CMS 2 since alpha 3 release. It is installed using composer as follows:
+This block is included into the **redkitecms-plugins** library which is already bundled with RedKite CMS 2 since alpha 3 release. It is installed using composer, so add the library to your **composer.json** as follows:
     
     "require": {
        [...]
        "redkite-labs/redkitecms-plugins": "@dev",
     }
+    
+To get the library just run:
 
+    php composer.phar update
+    
 ## PortfolioItem Definition
 Here it is the PortfolioItem definition:
 

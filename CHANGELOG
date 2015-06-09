@@ -1,6 +1,9 @@
 Note: The most of the changes are made to redkitecms-framework library: please refer that repository to have a
 comprehensive read on all of those changes. https://github.com/redkite-labs/redkitecms-framework/blob/master/CHANGELOG
 
+RedKite CMS Framework Alpha 4 (2015/06/09)
+cea1493 rearranged docs folder; added contribute/share-a-plugin.md file; added plugins section
+
 RedKite CMS Framework Alpha 3 (2015/06/06)
 Removed holder.js component
 Added redkitecms-plugins repository which contains addictional themes and blocks for RedKite CMS
