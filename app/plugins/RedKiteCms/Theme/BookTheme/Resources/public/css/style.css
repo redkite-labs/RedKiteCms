@@ -1,0 +1,72 @@
+/*
+ * This file is part of the RedKite CMS Application and it is distributed
+ * under the GPL LICENSE Version 2.0. To use this application you must leave
+ * intact this copyright notice.
+ *
+ * Copyright (c) RedKite Labs <info@redkite-labs.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * For extra documentation and help please visit http://www.redkite-labs.com
+ *
+ * @license    GPL LICENSE Version 2.0
+ *
+ */
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Raleway", Arial, Verdana, Helvetica, sans-serif;
+  color: #525252;
+  background: url("../images/bg.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+body h1, body h2, body h3 {
+  padding: 0;
+  margin: 0;
+  margin-bottom: 6px;
+}
+body h1 {
+  font-weight: bold;
+  font-size: 36px;
+}
+body h2 {
+  font-weight: bold;
+  font-size: 32px;
+}
+body h3 {
+  font-size: 28px;
+}
+body a {
+  color: #d20000;
+}
+
+#logo {
+  margin-bottom: 20px;
+}
+
+#contents {
+  margin-bottom: 40px;
+  font-size: 32px;
+  line-height: 30px;
+}
+#contents .enphasis {
+  color: #990000;
+}
+
+#main-content {
+  font-weight: bold;
+  font-family: "Poiret One", Arial, Verdana, Helvetica, sans-serif;
+}
+
+#content {
+  font-size: 22px;
+  line-height: 20px;
+}
